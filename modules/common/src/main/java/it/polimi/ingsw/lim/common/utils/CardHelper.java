@@ -1,16 +1,13 @@
 package it.polimi.ingsw.lim.common.utils;
 
-import it.polimi.ingsw.lim.common.enums.EnumCard;
+import it.polimi.ingsw.lim.common.enums.*;
 
 public class CardHelper
 {
-	private final Period firstPeriod = new Period();
-	private final Period secondPeriod = new Period();
-	private final Period thirdPeriod = new Period();
-	private final EnumCard[] blueOrder = new EnumCard[4];
-	private final EnumCard[] greenOrder = new EnumCard[4];
-	private final EnumCard[] purpleOrder = new EnumCard[4];
-	private final EnumCard[] yellowOrder = new EnumCard[4];
+	private final CardBlue[] blueOrder = new CardBlue[4];
+	private final CardGreen[] greenOrder = new CardGreen[4];
+	private final CardPurple[] purpleOrder = new CardPurple[4];
+	private final CardYellow[] yellowOrder = new CardYellow[4];
 
 	public CardHelper()
 	{
@@ -19,102 +16,72 @@ public class CardHelper
 
 	private void intializeCards()
 	{
-		for (EnumCard card : EnumCard.values()) {
-			switch (card.getPeriod()) {
+		for (CardBlue cardBlue : CardBlue.values()) {
+			switch (cardBlue.getPeriod()) {
 				case FIRST:
-					initializeInFirstPeriod(card);
+					Period.FIRST.getBlueCards().put(cardBlue, true);
 					break;
 				case SECOND:
-					initializeInSecondPeriod(card);
+					Period.SECOND.getBlueCards().put(cardBlue, true);
 					break;
 				default:
-					initializeInThirdPeriod(card);
+					Period.THIRD.getBlueCards().put(cardBlue, true);
+			}
+		}
+		for (CardGreen cardGreen : CardGreen.values()) {
+			switch (cardGreen.getPeriod()) {
+				case FIRST:
+					Period.FIRST.getGreenCards().put(cardGreen, true);
+					break;
+				case SECOND:
+					Period.SECOND.getGreenCards().put(cardGreen, true);
+					break;
+				default:
+					Period.THIRD.getGreenCards().put(cardGreen, true);
+			}
+		}
+		for (CardPurple cardPurple : CardPurple.values()) {
+			switch (cardPurple.getPeriod()) {
+				case FIRST:
+					Period.FIRST.getPurpleCards().put(cardPurple, true);
+					break;
+				case SECOND:
+					Period.SECOND.getPurpleCards().put(cardPurple, true);
+					break;
+				default:
+					Period.THIRD.getPurpleCards().put(cardPurple, true);
+			}
+		}
+		for (CardYellow cardYellow : CardYellow.values()) {
+			switch (cardYellow.getPeriod()) {
+				case FIRST:
+					Period.FIRST.getYellowCards().put(cardYellow, true);
+					break;
+				case SECOND:
+					Period.SECOND.getYellowCards().put(cardYellow, true);
+					break;
+				default:
+					Period.THIRD.getYellowCards().put(cardYellow, true);
 			}
 		}
 	}
 
-	private void initializeInFirstPeriod(EnumCard card)
-	{
-		switch (card.getType()) {
-			case BLUE:
-				firstPeriod.getBlueCards().put(card, true);
-				break;
-			case GREEN:
-				firstPeriod.getGreenCards().put(card, true);
-				break;
-			case PURPLE:
-				firstPeriod.getPurpleCards().put(card, true);
-				break;
-			default:
-				firstPeriod.getYellowCards().put(card, true);
-		}
-	}
-
-	private void initializeInSecondPeriod(EnumCard card)
-	{
-		switch (card.getType()) {
-			case BLUE:
-				secondPeriod.getBlueCards().put(card, true);
-				break;
-			case GREEN:
-				secondPeriod.getGreenCards().put(card, true);
-				break;
-			case PURPLE:
-				secondPeriod.getPurpleCards().put(card, true);
-				break;
-			default:
-				secondPeriod.getYellowCards().put(card, true);
-		}
-	}
-
-	private void initializeInThirdPeriod(EnumCard card)
-	{
-		switch (card.getType()) {
-			case BLUE:
-				thirdPeriod.getBlueCards().put(card, true);
-				break;
-			case GREEN:
-				thirdPeriod.getGreenCards().put(card, true);
-				break;
-			case PURPLE:
-				thirdPeriod.getPurpleCards().put(card, true);
-				break;
-			default:
-				thirdPeriod.getYellowCards().put(card, true);
-		}
-	}
-
-	Period getFirstPeriod()
-	{
-		return firstPeriod;
-	}
-
-	Period getSecondPeriod()
-	{
-		return secondPeriod;
-	}
-
-	Period getThirdPeriod()
-	{
-		return thirdPeriod;
-	}
-
-	public EnumCard[] getBlueOrder()
+	public CardBlue[] getBlueOrder()
 	{
 		return blueOrder;
 	}
 
-	public EnumCard[] getGreenOrder()
+	public CardGreen[] getGreenOrder()
 	{
 		return greenOrder;
 	}
 
-	public EnumCard[] getPurpleOrder()
+	public CardPurple[] getPurpleOrder()
 	{
 		return purpleOrder;
 	}
 
-	public EnumCard[] getYellowOrder()
+	public CardYellow[] getYellowOrder()
 	{
 		return yellowOrder;
 	}

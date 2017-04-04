@@ -1,21 +1,21 @@
 package it.polimi.ingsw.lim.common.utils;
 
-import it.polimi.ingsw.lim.common.enums.EnumResource;
+import it.polimi.ingsw.lim.common.enums.Resource;
 
 public class ResourceAmount
 {
-	private EnumResource resourceType;
+	private Resource resource;
 	private int amount;
 
-	public ResourceAmount(EnumResource resourceType, int amount)
+	public ResourceAmount(Resource resource, int amount)
 	{
-		this.resourceType = resourceType;
+		this.resource = resource;
 		this.amount = amount;
 	}
 
-	public EnumResource getResourceType()
+	public Resource getResource()
 	{
-		return resourceType;
+		return resource;
 	}
 
 	public int getAmount()
