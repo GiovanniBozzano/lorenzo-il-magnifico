@@ -2,13 +2,13 @@ package it.polimi.ingsw.lim.common.enums;
 
 public enum CardYellow
 {
-	YELLOW_CARD_1_1("YELLOW_CARD_1_1", Period.FIRST, new Object[] {}),
-	YELLOW_CARD_1_2("YELLOW_CARD_1_2", Period.FIRST, new Object[] {}),
-	YELLOW_CARD_1_3("YELLOW_CARD_1_3", Period.FIRST, new Object[] {}),
-	YELLOW_CARD_1_4("YELLOW_CARD_1_4", Period.FIRST, new Object[] {}),
-	YELLOW_CARD_1_5("YELLOW_CARD_1_5", Period.FIRST, new Object[] {}),
-	YELLOW_CARD_1_6("YELLOW_CARD_1_6", Period.FIRST, new Object[] {}),
-	YELLOW_CARD_1_7("YELLOW_CARD_1_7", Period.FIRST, new Object[] {}),
+	ZECCA("YELLOW_CARD_1_1", Period.FIRST, new Object[] {}),
+	ESATTORIA("YELLOW_CARD_1_2", Period.FIRST, new Object[] {}),
+	AROO_DI_TRIONFO("YELLOW_CARD_1_3", Period.FIRST, new Object[] {}),
+	TEATRO("YELLOW_CARD_1_4", Period.FIRST, new Object[] {}),
+	FALEGNAMERIA("YELLOW_CARD_1_5", Period.FIRST, new Object[] {}),
+	TAGLIAPIETRE("YELLOW_CARD_1_6", Period.FIRST, new Object[] {}),
+	CAPPELLA("YELLOW_CARD_1_7", Period.FIRST, new Object[] {}),
 	YELLOW_CARD_1_8("YELLOW_CARD_1_8", Period.FIRST, new Object[] {}),
 	YELLOW_CARD_2_1("YELLOW_CARD_2_1", Period.SECOND, new Object[] {}),
 	YELLOW_CARD_2_2("YELLOW_CARD_2_2", Period.SECOND, new Object[] {}),
