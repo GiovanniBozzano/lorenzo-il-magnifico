@@ -2,7 +2,12 @@ package it.polimi.ingsw.lim.common.enums;
 
 public enum Resource
 {
-	GOLD,
+	COIN,
 	WOOD,
-	STONE;
+	STONE,
+	SERVANT,
+	MILITARY_POINT,
+	FAITH_POINT,
+	COUNCIL_PRIVILEGE,
+	VICTORY_POINT;
 }

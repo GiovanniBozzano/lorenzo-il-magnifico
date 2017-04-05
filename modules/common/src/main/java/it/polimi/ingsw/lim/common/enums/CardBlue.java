@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.common.utils.ResourceAmount;
 
 public enum CardBlue
 {
-	BLUE_CARD_1_1("BLUE_CARD_1_1", Period.FIRST, new Object[] { new ResourceAmount[] { new ResourceAmount(Resource.WOOD, 10), new ResourceAmount(Resource.STONE, 5) } }),
+	CONDOTTIERO("BLUE_CARD_1_1", Period.FIRST, new Object[] { new ResourceAmount[] { new ResourceAmount(Resource.WOOD, 10), new ResourceAmount(Resource.STONE, 5) } }),
 	BLUE_CARD_1_2("BLUE_CARD_1_2", Period.FIRST, new Object[] {}),
 	BLUE_CARD_1_3("BLUE_CARD_1_3", Period.FIRST, new Object[] {}),
 	BLUE_CARD_1_4("BLUE_CARD_1_4", Period.FIRST, new Object[] {}),
