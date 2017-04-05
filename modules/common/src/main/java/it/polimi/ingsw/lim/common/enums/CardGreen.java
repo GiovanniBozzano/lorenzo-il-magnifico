@@ -30,11 +30,11 @@ public enum CardGreen
 	CITTA_FORTIFICATA("GREEN_CARD_3_8", Period.THIRD, 2, new ResourceAmount[] { new ResourceAmount(Resource.MILITARY_POINT, 2), new ResourceAmount(Resource.SERVANT, 1) }, new ResourceAmount[] { new ResourceAmount(Resource.MILITARY_POINT, 1), new ResourceAmount(Resource.SERVANT, 2) }),;
 	private String displayName;
 	private Period period;
-	private ResourceAmount[] instantResources;
-	private int activationCost;
+	private int instantResources;
+	private ResourceAmount[] activationCost;
 	private ResourceAmount[] harvestResources;
 
-	CardGreen(String displayName, Period period, ResourceAmount[] instantResources, int activationCost, ResourceAmount[] harvestResources)
+	CardGreen(String displayName, Period period, int instantResources, ResourceAmount[] activationCost, ResourceAmount[] harvestResources)
 	{
 		this.displayName = displayName;
 		this.period = period;
@@ -53,12 +53,12 @@ public enum CardGreen
 		return period;
 	}
 
-	public int getActivationCost()
+	public ResourceAmount[] getActivationCost()
 	{
 		return activationCost;
 	}
 
-	public ResourceAmount[] getInstantResources()
+	public int getInstantResources()
 	{
 		return instantResources;
 	}
