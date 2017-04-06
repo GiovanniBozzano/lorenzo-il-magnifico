@@ -1,10 +1,10 @@
-package it.polimi.ingsw.lim.common.utils;
+package it.polimi.ingsw.lim.common.bonus;
 
 import it.polimi.ingsw.lim.common.enums.Row;
 
 public class Malus
 {
-	Row[] rows;
+	private final Row[] rows;
 
 	public Malus(Row[] rows)
 	{

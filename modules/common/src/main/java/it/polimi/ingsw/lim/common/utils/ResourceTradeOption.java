@@ -2,8 +2,8 @@ package it.polimi.ingsw.lim.common.utils;
 
 public class ResourceTradeOption
 {
-	private ResourceAmount[] firstResources;
-	private ResourceAmount[] secondResources;
+	private final ResourceAmount[] firstResources;
+	private final ResourceAmount[] secondResources;
 
 	public ResourceTradeOption(ResourceAmount[] firstResources, ResourceAmount[] secondResources)
 	{

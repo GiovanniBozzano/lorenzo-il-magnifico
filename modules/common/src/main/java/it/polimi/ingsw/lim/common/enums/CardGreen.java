@@ -28,11 +28,11 @@ public enum CardGreen
 	SANTUARIO("GREEN_CARD_3_6", Period.THIRD, 1, new ResourceAmount[] { new ResourceAmount(Resource.FAITH_POINT, 1) }, new ResourceAmount[] { new ResourceAmount(Resource.COIN, 1), new ResourceAmount(Resource.FAITH_POINT, 1) }),
 	CASTELLO("GREEN_CARD_3_7", Period.THIRD, 4, new ResourceAmount[] { new ResourceAmount(Resource.VICTORY_POINT, 2), new ResourceAmount(Resource.COIN, 2) }, new ResourceAmount[] { new ResourceAmount(Resource.MILITARY_POINT, 3), new ResourceAmount(Resource.SERVANT, 1) }),
 	CITTA_FORTIFICATA("GREEN_CARD_3_8", Period.THIRD, 2, new ResourceAmount[] { new ResourceAmount(Resource.MILITARY_POINT, 2), new ResourceAmount(Resource.SERVANT, 1) }, new ResourceAmount[] { new ResourceAmount(Resource.MILITARY_POINT, 1), new ResourceAmount(Resource.SERVANT, 2) }),;
-	private String displayName;
-	private Period period;
-	private int instantResources;
-	private ResourceAmount[] activationCost;
-	private ResourceAmount[] harvestResources;
+	private final String displayName;
+	private final Period period;
+	private final int instantResources;
+	private final ResourceAmount[] activationCost;
+	private final ResourceAmount[] harvestResources;
 
 	CardGreen(String displayName, Period period, int instantResources, ResourceAmount[] activationCost, ResourceAmount[] harvestResources)
 	{

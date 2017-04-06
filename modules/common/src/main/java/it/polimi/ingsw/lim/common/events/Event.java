@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.common.events;
 
 public abstract class Event
 {
-	protected int value;
+	int value;
 
 	public int getValue()
 	{

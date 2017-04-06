@@ -1,10 +1,10 @@
-package it.polimi.ingsw.lim.common.utils;
+package it.polimi.ingsw.lim.common.bonus;
 
 import it.polimi.ingsw.lim.common.enums.Work;
 
 public class BonusAdditionWork extends BonusAddition
 {
-	private Work workType;
+	private final Work workType;
 
 	public BonusAdditionWork(int value, Work workType)
 	{

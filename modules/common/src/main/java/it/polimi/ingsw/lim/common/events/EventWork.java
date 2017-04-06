@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.common.enums.Work;
 
 public class EventWork extends Event
 {
-	private Work workType;
+	private final Work workType;
 
 	public EventWork(int value, Work workType)
 	{

@@ -5,16 +5,19 @@ import it.polimi.ingsw.lim.common.enums.Resource;
 
 public class ResourceAmount
 {
-	private Resource resourceType;
-	private int amount;
-	private CardType cardTypeMultiplier;
-	private Resource resourceTypeMultiplier;
-	private int resourceAmountMultiplier;
+	private final Resource resourceType;
+	private final int amount;
+	private final CardType cardTypeMultiplier;
+	private final Resource resourceTypeMultiplier;
+	private final int resourceAmountMultiplier;
 
 	public ResourceAmount(Resource resourceType, int amount)
 	{
 		this.resourceType = resourceType;
 		this.amount = amount;
+		this.cardTypeMultiplier = null;
+		this.resourceTypeMultiplier = null;
+		this.resourceAmountMultiplier = 0;
 	}
 
 	public ResourceAmount(Resource resourceType, int amount, CardType cardTypeMultiplier)
@@ -22,12 +25,15 @@ public class ResourceAmount
 		this.resourceType = resourceType;
 		this.amount = amount;
 		this.cardTypeMultiplier = cardTypeMultiplier;
+		this.resourceTypeMultiplier = null;
+		this.resourceAmountMultiplier = 0;
 	}
 
 	public ResourceAmount(Resource resourceType, int amount, Resource resourceTypeMultiplier, int resourceAmountMultiplier)
 	{
 		this.resourceType = resourceType;
 		this.amount = amount;
+		this.cardTypeMultiplier = null;
 		this.resourceTypeMultiplier = resourceTypeMultiplier;
 		this.resourceAmountMultiplier = resourceAmountMultiplier;
 	}

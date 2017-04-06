@@ -29,12 +29,12 @@ public enum CardYellow
 	BASILICA("YELLOW_CARD_3_6", Period.THIRD, new ResourceAmount[] { new ResourceAmount(Resource.WOOD, 1), new ResourceAmount(Resource.STONE, 4) }, new ResourceAmount[] { new ResourceAmount(Resource.VICTORY_POINT, 5), new ResourceAmount(Resource.FAITH_POINT, 1) }, 1, new ResourceTradeOption[] { new ResourceTradeOption(new ResourceAmount[] { new ResourceAmount(Resource.WOOD, 1) }, new ResourceAmount[] { new ResourceAmount(Resource.FAITH_POINT, 2) }), new ResourceTradeOption(new ResourceAmount[] { new ResourceAmount(Resource.STONE, 1) }, new ResourceAmount[] { new ResourceAmount(Resource.FAITH_POINT, 2) }) }),
 	ACCADEMIA_MILITARE("YELLOW_CARD_3_7", Period.THIRD, new ResourceAmount[] { new ResourceAmount(Resource.SERVANT, 1), new ResourceAmount(Resource.WOOD, 2), new ResourceAmount(Resource.STONE, 2) }, new ResourceAmount[] { new ResourceAmount(Resource.VICTORY_POINT, 7) }, 3, new ResourceTradeOption[] { new ResourceTradeOption(new ResourceAmount[] { new ResourceAmount(Resource.SERVANT, 1) }, new ResourceAmount[] { new ResourceAmount(Resource.MILITARY_POINT, 3), new ResourceAmount(Resource.VICTORY_POINT, 1) }) }),
 	CATTEDRALE("YELLOW_CARD_3_8", Period.THIRD, new ResourceAmount[] { new ResourceAmount(Resource.WOOD, 4), new ResourceAmount(Resource.STONE, 4) }, new ResourceAmount[] { new ResourceAmount(Resource.VICTORY_POINT, 7), new ResourceAmount(Resource.FAITH_POINT, 3) }, 2, new ResourceTradeOption[] { new ResourceTradeOption(new ResourceAmount[] {}, new ResourceAmount[] { new ResourceAmount(Resource.VICTORY_POINT, 1) }) });
-	private String displayName;
-	private Period period;
-	private ResourceAmount[] buildResources;
-	private ResourceAmount[] instantResources;
-	private int activationCost;
-	private ResourceTradeOption[] tradeOptions;
+	private final String displayName;
+	private final Period period;
+	private final ResourceAmount[] buildResources;
+	private final ResourceAmount[] instantResources;
+	private final int activationCost;
+	private final ResourceTradeOption[] tradeOptions;
 
 	CardYellow(String displayName, Period period, ResourceAmount[] buildResources, ResourceAmount[] instantResources, int activationCost, ResourceTradeOption[] tradeOptions)
 	{

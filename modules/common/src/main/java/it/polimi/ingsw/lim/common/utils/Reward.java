@@ -4,8 +4,8 @@ import it.polimi.ingsw.lim.common.events.Event;
 
 public class Reward
 {
-	private Event[] events;
-	private ResourceAmount[] resources;
+	private final Event[] events;
+	private final ResourceAmount[] resources;
 
 	public Reward(Event[] events, ResourceAmount[] resources)
 	{

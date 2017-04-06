@@ -6,7 +6,7 @@ public enum Row
 	SECOND(3),
 	THIRD(5),
 	FOURTH(7);
-	private int value;
+	private final int value;
 
 	Row(int value)
 	{
