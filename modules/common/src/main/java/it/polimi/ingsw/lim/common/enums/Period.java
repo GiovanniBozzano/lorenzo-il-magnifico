@@ -1,34 +1,31 @@
 package it.polimi.ingsw.lim.common.enums;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public enum Period
 {
 	FIRST,
 	SECOND,
 	THIRD;
-	private final Map<CardBlue, Boolean> blueCards = new HashMap<>();
-	private final Map<CardGreen, Boolean> greenCards = new HashMap<>();
-	private final Map<CardPurple, Boolean> purpleCards = new HashMap<>();
-	private final Map<CardYellow, Boolean> yellowCards = new HashMap<>();
+	private final CardBlue[] blueCards = new CardBlue[8];
+	private final CardGreen[] greenCards = new CardGreen[8];
+	private final CardPurple[] purpleCards = new CardPurple[8];
+	private final CardYellow[] yellowCards = new CardYellow[8];
 
-	public Map<CardBlue, Boolean> getBlueCards()
+	public CardBlue[] getBlueCards()
 	{
 		return blueCards;
 	}
 
-	public Map<CardGreen, Boolean> getGreenCards()
+	public CardGreen[] getGreenCards()
 	{
 		return greenCards;
 	}
 
-	public Map<CardPurple, Boolean> getPurpleCards()
+	public CardPurple[] getPurpleCards()
 	{
 		return purpleCards;
 	}
 
-	public Map<CardYellow, Boolean> getYellowCards()
+	public CardYellow[] getYellowCards()
 	{
 		return yellowCards;
 	}

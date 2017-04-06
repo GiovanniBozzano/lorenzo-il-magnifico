@@ -16,52 +16,56 @@ public class CardHelper
 
 	private void intializeCards()
 	{
-		for (CardBlue cardBlue : CardBlue.values()) {
+		for (int counter = 0; counter < CardBlue.values().length; counter++) {
+			CardBlue cardBlue = CardBlue.values()[counter];
 			switch (cardBlue.getPeriod()) {
 				case FIRST:
-					Period.FIRST.getBlueCards().put(cardBlue, true);
+					Period.FIRST.getBlueCards()[counter] = cardBlue;
 					break;
 				case SECOND:
-					Period.SECOND.getBlueCards().put(cardBlue, true);
+					Period.SECOND.getBlueCards()[counter] = cardBlue;
 					break;
 				default:
-					Period.THIRD.getBlueCards().put(cardBlue, true);
+					Period.THIRD.getBlueCards()[counter] = cardBlue;
 			}
 		}
-		for (CardGreen cardGreen : CardGreen.values()) {
+		for (int counter = 0; counter < CardGreen.values().length; counter++) {
+			CardGreen cardGreen = CardGreen.values()[counter];
 			switch (cardGreen.getPeriod()) {
 				case FIRST:
-					Period.FIRST.getGreenCards().put(cardGreen, true);
+					Period.FIRST.getGreenCards()[counter] = cardGreen;
 					break;
 				case SECOND:
-					Period.SECOND.getGreenCards().put(cardGreen, true);
+					Period.SECOND.getGreenCards()[counter] = cardGreen;
 					break;
 				default:
-					Period.THIRD.getGreenCards().put(cardGreen, true);
+					Period.THIRD.getGreenCards()[counter] = cardGreen;
 			}
 		}
-		for (CardPurple cardPurple : CardPurple.values()) {
+		for (int counter = 0; counter < CardPurple.values().length; counter++) {
+			CardPurple cardPurple = CardPurple.values()[counter];
 			switch (cardPurple.getPeriod()) {
 				case FIRST:
-					Period.FIRST.getPurpleCards().put(cardPurple, true);
+					Period.FIRST.getPurpleCards()[counter] = cardPurple;
 					break;
 				case SECOND:
-					Period.SECOND.getPurpleCards().put(cardPurple, true);
+					Period.SECOND.getPurpleCards()[counter] = cardPurple;
 					break;
 				default:
-					Period.THIRD.getPurpleCards().put(cardPurple, true);
+					Period.THIRD.getPurpleCards()[counter] = cardPurple;
 			}
 		}
-		for (CardYellow cardYellow : CardYellow.values()) {
+		for (int counter = 0; counter < CardYellow.values().length; counter++) {
+			CardYellow cardYellow = CardYellow.values()[counter];
 			switch (cardYellow.getPeriod()) {
 				case FIRST:
-					Period.FIRST.getYellowCards().put(cardYellow, true);
+					Period.FIRST.getYellowCards()[counter] = cardYellow;
 					break;
 				case SECOND:
-					Period.SECOND.getYellowCards().put(cardYellow, true);
+					Period.SECOND.getYellowCards()[counter] = cardYellow;
 					break;
 				default:
-					Period.THIRD.getYellowCards().put(cardYellow, true);
+					Period.THIRD.getYellowCards()[counter] = cardYellow;
 			}
 		}
 	}
