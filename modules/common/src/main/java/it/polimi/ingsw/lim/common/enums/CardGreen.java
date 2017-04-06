@@ -45,27 +45,27 @@ public enum CardGreen
 
 	public String getDisplayName()
 	{
-		return displayName;
+		return this.displayName;
 	}
 
 	public Period getPeriod()
 	{
-		return period;
+		return this.period;
 	}
 
 	public ResourceAmount[] getActivationCost()
 	{
-		return activationCost;
+		return this.activationCost;
 	}
 
 	public int getInstantResources()
 	{
-		return instantResources;
+		return this.instantResources;
 	}
 
 	public ResourceAmount[] getHarvestResources()
 	{
-		return harvestResources;
+		return this.harvestResources;
 	}
 }
 

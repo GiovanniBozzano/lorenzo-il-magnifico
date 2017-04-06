@@ -14,6 +14,6 @@ public class BonusAdditionWork extends BonusAddition
 
 	public Work getWorkType()
 	{
-		return workType;
+		return this.workType;
 	}
 }

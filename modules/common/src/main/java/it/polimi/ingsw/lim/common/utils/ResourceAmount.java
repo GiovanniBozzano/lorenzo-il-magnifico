@@ -40,26 +40,26 @@ public class ResourceAmount
 
 	public Resource getResourceType()
 	{
-		return resourceType;
+		return this.resourceType;
 	}
 
 	public int getAmount()
 	{
-		return amount;
+		return this.amount;
 	}
 
 	public CardType getCardTypeMultiplier()
 	{
-		return cardTypeMultiplier;
+		return this.cardTypeMultiplier;
 	}
 
 	public Resource getResourceTypeMultiplier()
 	{
-		return resourceTypeMultiplier;
+		return this.resourceTypeMultiplier;
 	}
 
 	public int getResourceAmountMultiplier()
 	{
-		return resourceAmountMultiplier;
+		return this.resourceAmountMultiplier;
 	}
 }

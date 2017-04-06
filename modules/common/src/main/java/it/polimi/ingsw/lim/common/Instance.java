@@ -5,17 +5,16 @@ import it.polimi.ingsw.lim.common.utils.CardHelper;
 
 public abstract class Instance
 {
-	protected static Instance instance;
 	protected Side side;
 	protected CardHelper cardHelper;
 
 	public Side getSide()
 	{
-		return side;
+		return this.side;
 	}
 
 	public CardHelper getCardHelper()
 	{
-		return cardHelper;
+		return this.cardHelper;
 	}
 }

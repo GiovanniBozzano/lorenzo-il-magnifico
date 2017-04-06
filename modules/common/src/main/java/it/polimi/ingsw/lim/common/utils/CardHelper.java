@@ -16,77 +16,97 @@ public class CardHelper
 
 	private void intializeCards()
 	{
-		for (int counter = 0; counter < CardBlue.values().length; counter++) {
-			CardBlue cardBlue = CardBlue.values()[counter];
+		int firstPeriodIndex = 0;
+		int secondPeriodIndex = 0;
+		int thirdPeriodIndex = 0;
+		for (CardBlue cardBlue : CardBlue.values()) {
 			switch (cardBlue.getPeriod()) {
 				case FIRST:
-					Period.FIRST.getBlueCards()[counter] = cardBlue;
+					Period.FIRST.getBlueCards()[firstPeriodIndex] = cardBlue;
+					firstPeriodIndex++;
 					break;
 				case SECOND:
-					Period.SECOND.getBlueCards()[counter] = cardBlue;
+					Period.SECOND.getBlueCards()[secondPeriodIndex] = cardBlue;
+					secondPeriodIndex++;
 					break;
 				default:
-					Period.THIRD.getBlueCards()[counter] = cardBlue;
+					Period.THIRD.getBlueCards()[thirdPeriodIndex] = cardBlue;
+					thirdPeriodIndex++;
 			}
 		}
-		for (int counter = 0; counter < CardGreen.values().length; counter++) {
-			CardGreen cardGreen = CardGreen.values()[counter];
+		firstPeriodIndex = 0;
+		secondPeriodIndex = 0;
+		thirdPeriodIndex = 0;
+		for (CardGreen cardGreen : CardGreen.values()) {
 			switch (cardGreen.getPeriod()) {
 				case FIRST:
-					Period.FIRST.getGreenCards()[counter] = cardGreen;
+					Period.FIRST.getGreenCards()[firstPeriodIndex] = cardGreen;
+					firstPeriodIndex++;
 					break;
 				case SECOND:
-					Period.SECOND.getGreenCards()[counter] = cardGreen;
+					Period.SECOND.getGreenCards()[secondPeriodIndex] = cardGreen;
+					secondPeriodIndex++;
 					break;
 				default:
-					Period.THIRD.getGreenCards()[counter] = cardGreen;
+					Period.THIRD.getGreenCards()[thirdPeriodIndex] = cardGreen;
+					thirdPeriodIndex++;
 			}
 		}
-		for (int counter = 0; counter < CardPurple.values().length; counter++) {
-			CardPurple cardPurple = CardPurple.values()[counter];
+		firstPeriodIndex = 0;
+		secondPeriodIndex = 0;
+		thirdPeriodIndex = 0;
+		for (CardPurple cardPurple : CardPurple.values()) {
 			switch (cardPurple.getPeriod()) {
 				case FIRST:
-					Period.FIRST.getPurpleCards()[counter] = cardPurple;
+					Period.FIRST.getPurpleCards()[firstPeriodIndex] = cardPurple;
+					firstPeriodIndex++;
 					break;
 				case SECOND:
-					Period.SECOND.getPurpleCards()[counter] = cardPurple;
+					Period.SECOND.getPurpleCards()[secondPeriodIndex] = cardPurple;
+					secondPeriodIndex++;
 					break;
 				default:
-					Period.THIRD.getPurpleCards()[counter] = cardPurple;
+					Period.THIRD.getPurpleCards()[thirdPeriodIndex] = cardPurple;
+					thirdPeriodIndex++;
 			}
 		}
-		for (int counter = 0; counter < CardYellow.values().length; counter++) {
-			CardYellow cardYellow = CardYellow.values()[counter];
+		firstPeriodIndex = 0;
+		secondPeriodIndex = 0;
+		thirdPeriodIndex = 0;
+		for (CardYellow cardYellow : CardYellow.values()) {
 			switch (cardYellow.getPeriod()) {
 				case FIRST:
-					Period.FIRST.getYellowCards()[counter] = cardYellow;
+					Period.FIRST.getYellowCards()[firstPeriodIndex] = cardYellow;
+					firstPeriodIndex++;
 					break;
 				case SECOND:
-					Period.SECOND.getYellowCards()[counter] = cardYellow;
+					Period.SECOND.getYellowCards()[secondPeriodIndex] = cardYellow;
+					secondPeriodIndex++;
 					break;
 				default:
-					Period.THIRD.getYellowCards()[counter] = cardYellow;
+					Period.THIRD.getYellowCards()[thirdPeriodIndex] = cardYellow;
+					thirdPeriodIndex++;
 			}
 		}
 	}
 
 	public CardBlue[] getBlueOrder()
 	{
-		return blueOrder;
+		return this.blueOrder;
 	}
 
 	public CardGreen[] getGreenOrder()
 	{
-		return greenOrder;
+		return this.greenOrder;
 	}
 
 	public CardPurple[] getPurpleOrder()
 	{
-		return purpleOrder;
+		return this.purpleOrder;
 	}
 
 	public CardYellow[] getYellowOrder()
 	{
-		return yellowOrder;
+		return this.yellowOrder;
 	}
 }

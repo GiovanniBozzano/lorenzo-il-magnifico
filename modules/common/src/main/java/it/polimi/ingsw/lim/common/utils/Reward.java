@@ -15,11 +15,11 @@ public class Reward
 
 	public Event[] getEvents()
 	{
-		return events;
+		return this.events;
 	}
 
 	public ResourceAmount[] getResources()
 	{
-		return resources;
+		return this.resources;
 	}
 }
