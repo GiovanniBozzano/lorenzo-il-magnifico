@@ -6,6 +6,6 @@ public abstract class Event
 
 	public int getValue()
 	{
-		return value;
+		return this.value;
 	}
 }

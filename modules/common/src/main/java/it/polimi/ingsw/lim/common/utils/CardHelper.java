@@ -92,21 +92,21 @@ public class CardHelper
 
 	public CardBlue[] getBlueOrder()
 	{
-		return blueOrder;
+		return this.blueOrder;
 	}
 
 	public CardGreen[] getGreenOrder()
 	{
-		return greenOrder;
+		return this.greenOrder;
 	}
 
 	public CardPurple[] getPurpleOrder()
 	{
-		return purpleOrder;
+		return this.purpleOrder;
 	}
 
 	public CardYellow[] getYellowOrder()
 	{
-		return yellowOrder;
+		return this.yellowOrder;
 	}
 }

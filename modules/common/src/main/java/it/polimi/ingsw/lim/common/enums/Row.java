@@ -15,6 +15,6 @@ public enum Row
 
 	public int getValue()
 	{
-		return value;
+		return this.value;
 	}
 }

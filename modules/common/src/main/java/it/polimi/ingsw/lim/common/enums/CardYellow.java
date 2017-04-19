@@ -48,31 +48,31 @@ public enum CardYellow
 
 	public String getDisplayName()
 	{
-		return displayName;
+		return this.displayName;
 	}
 
 	public Period getPeriod()
 	{
-		return period;
+		return this.period;
 	}
 
 	public ResourceAmount[] getBuildResources()
 	{
-		return buildResources;
+		return this.buildResources;
 	}
 
 	public ResourceAmount[] getInstantResources()
 	{
-		return instantResources;
+		return this.instantResources;
 	}
 
 	public int getActivationCost()
 	{
-		return activationCost;
+		return this.activationCost;
 	}
 
 	public ResourceTradeOption[] getTradeOptions()
 	{
-		return tradeOptions;
+		return this.tradeOptions;
 	}
 }

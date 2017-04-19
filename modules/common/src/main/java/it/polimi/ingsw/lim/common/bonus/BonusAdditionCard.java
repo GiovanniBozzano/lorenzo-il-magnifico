@@ -17,11 +17,11 @@ public class BonusAdditionCard extends BonusAddition
 
 	public CardType getCardType()
 	{
-		return cardType;
+		return this.cardType;
 	}
 
 	public ResourceAmount[][] getDiscoutChoices()
 	{
-		return discoutChoices;
+		return this.discoutChoices;
 	}
 }

@@ -12,21 +12,21 @@ public enum Period
 
 	public CardBlue[] getBlueCards()
 	{
-		return blueCards;
+		return this.blueCards;
 	}
 
 	public CardGreen[] getGreenCards()
 	{
-		return greenCards;
+		return this.greenCards;
 	}
 
 	public CardPurple[] getPurpleCards()
 	{
-		return purpleCards;
+		return this.purpleCards;
 	}
 
 	public CardYellow[] getYellowCards()
 	{
-		return yellowCards;
+		return this.yellowCards;
 	}
 }

@@ -13,6 +13,6 @@ public class Malus
 
 	public Row[] getRows()
 	{
-		return rows;
+		return this.rows;
 	}
 }

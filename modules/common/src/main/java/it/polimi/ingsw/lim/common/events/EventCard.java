@@ -17,11 +17,11 @@ public class EventCard extends Event
 
 	public CardType[] getCardTypes()
 	{
-		return cardTypes;
+		return this.cardTypes;
 	}
 
 	public ResourceAmount[][] getDiscountChoices()
 	{
-		return discountChoices;
+		return this.discountChoices;
 	}
 }

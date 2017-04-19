@@ -50,26 +50,26 @@ public enum CardPurple
 
 	public String getDisplayName()
 	{
-		return displayName;
+		return this.displayName;
 	}
 
 	public Period getPeriod()
 	{
-		return period;
+		return this.period;
 	}
 
 	public ResourceTradeOption[] getResourceTradeOptions()
 	{
-		return resourceTradeOptions;
+		return this.resourceTradeOptions;
 	}
 
 	public Reward getInstantReward()
 	{
-		return instantReward;
+		return this.instantReward;
 	}
 
 	public int getVictoryValue()
 	{
-		return victoryValue;
+		return this.victoryValue;
 	}
 }

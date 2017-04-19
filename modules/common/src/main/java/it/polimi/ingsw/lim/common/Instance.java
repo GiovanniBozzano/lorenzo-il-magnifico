@@ -10,11 +10,11 @@ public abstract class Instance
 
 	public Side getSide()
 	{
-		return side;
+		return this.side;
 	}
 
 	public CardHelper getCardHelper()
 	{
-		return cardHelper;
+		return this.cardHelper;
 	}
 }

@@ -14,6 +14,6 @@ public class EventWork extends Event
 
 	public Work getWorkType()
 	{
-		return workType;
+		return this.workType;
 	}
 }

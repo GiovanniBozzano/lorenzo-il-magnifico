@@ -8,13 +8,14 @@ import java.util.logging.LogRecord;
 
 public class LogFormatter extends Formatter
 {
-	private static final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
+	public static final String EXCEPTION_MESSAGE = "an exception was thrown";
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
 
 	@Override
 	public String format(LogRecord logRecord)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(dateFormat.format(new Date(logRecord.getMillis())));
+		stringBuilder.append(DATE_FORMAT.format(new Date(logRecord.getMillis())));
 		stringBuilder.append(" - ");
 		stringBuilder.append("[");
 		stringBuilder.append(logRecord.getLoggerName());

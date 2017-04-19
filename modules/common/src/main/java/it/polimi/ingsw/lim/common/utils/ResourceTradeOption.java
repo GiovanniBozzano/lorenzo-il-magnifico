@@ -13,11 +13,11 @@ public class ResourceTradeOption
 
 	public ResourceAmount[] getFirstResources()
 	{
-		return firstResources;
+		return this.firstResources;
 	}
 
 	public ResourceAmount[] getSecondResources()
 	{
-		return secondResources;
+		return this.secondResources;
 	}
 }

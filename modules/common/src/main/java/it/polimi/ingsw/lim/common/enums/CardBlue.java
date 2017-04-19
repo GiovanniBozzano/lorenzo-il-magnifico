@@ -52,26 +52,26 @@ public enum CardBlue
 
 	public String getDisplayName()
 	{
-		return displayName;
+		return this.displayName;
 	}
 
 	public Period getPeriod()
 	{
-		return period;
+		return this.period;
 	}
 
 	public int getPrice()
 	{
-		return price;
+		return this.price;
 	}
 
 	public Reward getInstantReward()
 	{
-		return instantReward;
+		return this.instantReward;
 	}
 
 	public Object getPermanentBonus()
 	{
-		return permanentBonus;
+		return this.permanentBonus;
 	}
 }
