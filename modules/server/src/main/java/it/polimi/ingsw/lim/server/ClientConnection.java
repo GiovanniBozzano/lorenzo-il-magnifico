@@ -23,12 +23,12 @@ public class ClientConnection
 	{
 		this.socket = socket;
 		this.id = id;
-		Server.getInstance().getClientConnections().add(this);
 		try {
 			this.in = new ObjectInputStream(socket.getInputStream());
 			this.out = new ObjectOutputStream(socket.getOutputStream());
+			this.out.flush();
 			new PacketListener(this).start();
-		} catch (Exception exception) {
+		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			disconnect();
 		}
@@ -38,9 +38,12 @@ public class ClientConnection
 	{
 		Server.getInstance().getClientConnections().remove(this);
 		try {
-			this.out.flush();
-			this.out.close();
-			this.in.close();
+			if (this.out != null) {
+				this.out.close();
+			}
+			if (this.in != null) {
+				this.in.close();
+			}
 			this.socket.close();
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);

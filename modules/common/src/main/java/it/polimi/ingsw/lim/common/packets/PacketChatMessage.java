@@ -3,13 +3,10 @@ package it.polimi.ingsw.lim.common.packets;
 import it.polimi.ingsw.lim.common.enums.FontType;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 
-import java.io.Serializable;
-
-public class PacketChatMessage extends Packet implements Serializable
+public class PacketChatMessage extends Packet
 {
-	private static final long serialVersionUID = 1L;
-	private final transient String text;
-	private final transient FontType fontType;
+	private final String text;
+	private final FontType fontType;
 
 	public PacketChatMessage(String text, FontType fontType)
 	{

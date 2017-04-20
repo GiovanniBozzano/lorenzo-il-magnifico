@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Formatter;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 public class LogFormatter extends Formatter
@@ -23,7 +24,28 @@ public class LogFormatter extends Formatter
 		stringBuilder.append(logRecord.getLevel());
 		stringBuilder.append("] - ");
 		stringBuilder.append(formatMessage(logRecord));
+		if (logRecord.getLevel().intValue() >= Level.WARNING.intValue() && logRecord.getThrown() != null) {
+			stringBuilder.append("\n");
+			stringBuilder.append(logRecord.getThrown());
+			stringBuilder.append("\n");
+			stringBuilder.append(LogFormatter.stackTraceToString(logRecord.getThrown()));
+		}
 		stringBuilder.append("\n");
+		return stringBuilder.toString();
+	}
+
+	private static String stackTraceToString(Throwable throwable)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		boolean isFirstLine = true;
+		for (StackTraceElement element : throwable.getStackTrace()) {
+			if (!isFirstLine) {
+				stringBuilder.append("\n");
+			} else {
+				isFirstLine = false;
+			}
+			stringBuilder.append(element.toString());
+		}
 		return stringBuilder.toString();
 	}
 }

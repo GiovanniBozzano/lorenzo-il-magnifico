@@ -2,9 +2,11 @@ package it.polimi.ingsw.lim.common.packets;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
 
-public class Packet
+import java.io.Serializable;
+
+public class Packet implements Serializable
 {
-	private PacketType packetType;
+	private final PacketType packetType;
 
 	Packet(PacketType packetType)
 	{

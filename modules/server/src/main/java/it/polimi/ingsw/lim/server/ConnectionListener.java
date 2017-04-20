@@ -17,13 +17,13 @@ class ConnectionListener extends Thread
 	{
 		while (keepGoing) {
 			try {
-				Socket client = Server.getInstance().getServerSocket().accept();
+				Socket socket = Server.getInstance().getServerSocket().accept();
 				if (!keepGoing) {
 					Server.getInstance().disconnectAll();
 					Server.getInstance().getServerSocket().close();
 				} else {
-					Server.getInstance().displayToLog("Connessione accettata da: " + client.getInetAddress() + " - " + ++id, FontType.BOLD);
-					Server.getInstance().getClientConnections().add(new ClientConnection(client, id));
+					Server.getInstance().displayToLog("Connessione accettata da: " + socket.getInetAddress() + " - " + ++id, FontType.BOLD);
+					Server.getInstance().getClientConnections().add(new ClientConnection(socket, id));
 				}
 			} catch (IOException exception) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
@@ -35,6 +35,5 @@ class ConnectionListener extends Thread
 	public synchronized void close()
 	{
 		this.keepGoing = false;
-		notifyAll();
 	}
 }

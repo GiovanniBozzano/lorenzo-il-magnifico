@@ -1,15 +1,27 @@
 package it.polimi.ingsw.lim.common.packets;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
+import it.polimi.ingsw.lim.common.utils.Constants;
 
-import java.io.Serializable;
-
-public class PacketHandshake extends Packet implements Serializable
+public class PacketHandshake extends Packet
 {
-	private static final long serialVersionUID = 1L;
+	private final String version;
+	private final String name;
 
-	public PacketHandshake()
+	public PacketHandshake(String name)
 	{
 		super(PacketType.HANDSHAKE);
+		this.version = Constants.VERSION;
+		this.name = name;
+	}
+
+	public String getVersion()
+	{
+		return this.version;
+	}
+
+	public String getName()
+	{
+		return this.name;
 	}
 }

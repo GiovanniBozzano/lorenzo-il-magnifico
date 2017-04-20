@@ -4,6 +4,8 @@ import it.polimi.ingsw.lim.common.enums.FontType;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.packets.Packet;
 import it.polimi.ingsw.lim.common.packets.PacketChatMessage;
+import it.polimi.ingsw.lim.common.packets.PacketHandshake;
+import it.polimi.ingsw.lim.common.utils.Constants;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 
 import java.io.IOException;
@@ -39,7 +41,8 @@ class PacketListener extends Thread
 						break;
 				}
 			} catch (ClassNotFoundException | IOException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Server.getLogger().log(Level.INFO, "Client " + this.clientConnection.getId() + ":" + this.clientConnection.getName() + " disconnected.", exception);
+				this.close();
 				this.clientConnection.disconnect();
 			}
 		}
@@ -48,14 +51,13 @@ class PacketListener extends Thread
 	public synchronized void close()
 	{
 		this.keepGoing = false;
-		notifyAll();
 	}
 
 	private boolean handleHandshake()
 	{
 		try {
 			Packet packet = (Packet) this.clientConnection.getIn().readObject();
-			if (packet.getPacketType() == PacketType.HANDSHAKE) {
+			if (packet.getPacketType() == PacketType.HANDSHAKE && ((PacketHandshake) packet).getVersion().equals(Constants.VERSION)) {
 				this.clientConnection.sendChatMessage("Connesso al Server.", FontType.BOLD);
 				return true;
 			} else {

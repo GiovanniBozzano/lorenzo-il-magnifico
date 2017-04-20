@@ -1,20 +1,18 @@
 package it.polimi.ingsw.lim.common;
 
 import it.polimi.ingsw.lim.common.enums.Side;
-import it.polimi.ingsw.lim.common.utils.CardHelper;
 
 public abstract class Instance
 {
 	protected Side side;
-	protected CardHelper cardHelper;
+
+	public Instance(Side side)
+	{
+		this.side = side;
+	}
 
 	public Side getSide()
 	{
 		return this.side;
-	}
-
-	public CardHelper getCardHelper()
-	{
-		return this.cardHelper;
 	}
 }
