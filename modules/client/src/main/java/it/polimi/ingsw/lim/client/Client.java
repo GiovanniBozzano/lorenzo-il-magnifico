@@ -2,8 +2,9 @@ package it.polimi.ingsw.lim.client;
 
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.Side;
-import it.polimi.ingsw.lim.common.packets.PacketHandshake;
+import it.polimi.ingsw.lim.common.packets.client.PacketHandshake;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -52,8 +53,8 @@ public class Client extends Instance
 		this.stage.getScene().getRoot().setDisable(true);
 		try {
 			this.socket = new Socket(ip, port);
-			this.out = new ObjectOutputStream(socket.getOutputStream());
-			this.in = new ObjectInputStream(socket.getInputStream());
+			this.out = new ObjectOutputStream(this.socket.getOutputStream());
+			this.in = new ObjectInputStream(this.socket.getInputStream());
 			this.packetListener = new PacketListener();
 			this.packetListener.start();
 			this.stage.getScene().getRoot().setDisable(false);
@@ -90,16 +91,18 @@ public class Client extends Instance
 			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
 		Client.setInstance(null);
-		ObservableList<Node> children = this.stage.getScene().getRoot().getChildrenUnmodifiable();
-		children.get(0).setDisable(false);
-		((Button) ((HBox) children.get(1)).getChildren().get(0)).setText("CONNECT");
-		((Button) ((HBox) children.get(1)).getChildren().get(0)).setOnAction((ActionEvent event) -> new Client(this.stage, ((TextField) ((GridPane) children.get(0)).getChildren().get(1)).getText(), Integer.parseInt(((TextField) ((GridPane) children.get(0)).getChildren().get(3)).getText()), ((TextField) ((GridPane) children.get(0)).getChildren().get(5)).getText()));
+		Platform.runLater(() -> {
+			ObservableList<Node> children = stage.getScene().getRoot().getChildrenUnmodifiable();
+			children.get(0).setDisable(false);
+			((Button) ((HBox) children.get(1)).getChildren().get(0)).setText("CONNECT");
+			((Button) ((HBox) children.get(1)).getChildren().get(0)).setOnAction((ActionEvent event) -> new Client(stage, ((TextField) ((GridPane) children.get(0)).getChildren().get(1)).getText(), Integer.parseInt(((TextField) ((GridPane) children.get(0)).getChildren().get(3)).getText()), ((TextField) ((GridPane) children.get(0)).getChildren().get(5)).getText()));
+		});
 	}
 
 	public void sendHandshake()
 	{
 		try {
-			this.out.writeObject(new PacketHandshake(name));
+			this.out.writeObject(new PacketHandshake(this.name));
 		} catch (IOException exception) {
 			Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}

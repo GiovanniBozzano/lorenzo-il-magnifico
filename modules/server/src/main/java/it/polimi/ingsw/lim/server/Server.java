@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -43,33 +44,27 @@ public class Server extends Instance
 		Server.LOGGER.addHandler(consoleHandler);
 		try {
 			this.serverSocket = new ServerSocket(this.port);
-			this.displayToLog("Server in attesa sulla porta " + this.port + ".", FontType.BOLD);
+			this.displayToLog("Server waiting on port: " + this.port, FontType.BOLD);
 			URL myIP = new URL("http://checkip.amazonaws.com");
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(myIP.openStream()));
-			this.displayToLog("Il tuo IP esterno: " + bufferedReader.readLine(), FontType.BOLD);
+			this.displayToLog("Your external IP address is: " + bufferedReader.readLine(), FontType.BOLD);
 			this.connectionListener = new ConnectionListener();
 			this.connectionListener.start();
 		} catch (IOException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getLogger().log(Level.INFO, "Cannot retrieve IP address...", exception);
 		}
 	}
 
 	public void stop()
 	{
-		this.broadcastChatMessage("Spegnimento Server...", FontType.BOLD);
-		this.disconnectAll();
+		this.broadcastChatMessage("Server shutting down...");
 		if (this.connectionListener != null) {
 			this.connectionListener.close();
-			try (Socket socket = new Socket("localhost", port)) {
+			try (Socket socket = new Socket("localhost", this.port)) {
 				socket.close();
 			} catch (IOException exception) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
-		}
-		try {
-			this.serverSocket.close();
-		} catch (IOException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 
@@ -81,8 +76,11 @@ public class Server extends Instance
 		this.clientConnections.clear();
 	}
 
-	public void broadcastChatMessage(String text, FontType fontType)
+	public void broadcastChatMessage(String text)
 	{
+		for (ClientConnection clientConnection : this.clientConnections) {
+			clientConnection.sendLogMessage(text);
+		}
 	}
 
 	public void displayToLog(String text, FontType fontType)
@@ -125,7 +123,7 @@ public class Server extends Instance
 		return this.connectionListener;
 	}
 
-	public ConcurrentLinkedQueue<ClientConnection> getClientConnections()
+	public Queue<ClientConnection> getClientConnections()
 	{
 		return this.clientConnections;
 	}

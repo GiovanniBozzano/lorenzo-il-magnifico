@@ -15,15 +15,15 @@ class ConnectionListener extends Thread
 	@Override
 	public void run()
 	{
-		while (keepGoing) {
+		while (this.keepGoing) {
 			try {
 				Socket socket = Server.getInstance().getServerSocket().accept();
-				if (!keepGoing) {
+				if (!this.keepGoing) {
 					Server.getInstance().disconnectAll();
 					Server.getInstance().getServerSocket().close();
 				} else {
-					Server.getInstance().displayToLog("Connessione accettata da: " + socket.getInetAddress() + " - " + ++id, FontType.BOLD);
-					Server.getInstance().getClientConnections().add(new ClientConnection(socket, id));
+					Server.getInstance().displayToLog("Connessione accettata da: " + socket.getInetAddress() + " - " + ++this.id, FontType.BOLD);
+					Server.getInstance().getClientConnections().add(new ClientConnection(socket, this.id));
 				}
 			} catch (IOException exception) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);

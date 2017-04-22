@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.client;
 
 import it.polimi.ingsw.lim.common.packets.Packet;
 import it.polimi.ingsw.lim.common.packets.PacketChatMessage;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.packets.server.PacketLogMessage;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -14,7 +14,7 @@ public class PacketListener extends Thread
 	@Override
 	public void run()
 	{
-		while (keepGoing) {
+		while (this.keepGoing) {
 			try {
 				Packet packet = (Packet) Client.getInstance().getIn().readObject();
 				if (packet == null) {
@@ -22,15 +22,16 @@ public class PacketListener extends Thread
 					return;
 				}
 				switch (packet.getPacketType()) {
+					case LOG_MESSAGE:
+						PacketListener.handleLogMessage((PacketLogMessage) packet);
+						break;
 					case CHAT_MESSAGE:
 						PacketListener.handleChatMessage((PacketChatMessage) packet);
 						break;
+					default:
 				}
 			} catch (ClassNotFoundException | IOException exception) {
-				if (!keepGoing) {
-					return;
-				}
-				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Client.getLogger().log(Level.INFO, "The Server has been closed.", exception);
 				Client.getInstance().disconnect();
 			}
 		}
@@ -42,6 +43,11 @@ public class PacketListener extends Thread
 	}
 
 	private static void handleChatMessage(PacketChatMessage packet)
+	{
+		Client.getLogger().log(Level.INFO, packet.getText());
+	}
+
+	private static void handleLogMessage(PacketLogMessage packet)
 	{
 		Client.getLogger().log(Level.INFO, packet.getText());
 	}

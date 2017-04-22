@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server;
 
-import it.polimi.ingsw.lim.common.enums.FontType;
 import it.polimi.ingsw.lim.common.packets.PacketChatMessage;
+import it.polimi.ingsw.lim.common.packets.server.PacketLogMessage;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 
 import java.io.IOException;
@@ -50,10 +50,19 @@ public class ClientConnection
 		}
 	}
 
-	public void sendChatMessage(String text, FontType fontType)
+	public void sendLogMessage(String text)
 	{
 		try {
-			this.out.writeObject(new PacketChatMessage(text, fontType));
+			this.out.writeObject(new PacketLogMessage(text));
+		} catch (IOException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	public void sendChatMessage(String text)
+	{
+		try {
+			this.out.writeObject(new PacketChatMessage(text));
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
