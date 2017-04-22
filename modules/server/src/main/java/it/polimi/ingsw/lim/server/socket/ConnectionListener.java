@@ -1,13 +1,14 @@
-package it.polimi.ingsw.lim.server;
+package it.polimi.ingsw.lim.server.socket;
 
 import it.polimi.ingsw.lim.common.enums.FontType;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.server.Server;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
 
-class ConnectionListener extends Thread
+public class ConnectionListener extends Thread
 {
 	private int id = 0;
 	private boolean keepGoing = true;
@@ -22,8 +23,8 @@ class ConnectionListener extends Thread
 					Server.getInstance().disconnectAll();
 					Server.getInstance().getServerSocket().close();
 				} else {
-					Server.getInstance().displayToLog("Connessione accettata da: " + socket.getInetAddress() + " - " + ++this.id, FontType.BOLD);
-					Server.getInstance().getClientConnections().add(new ClientConnection(socket, this.id));
+					Server.getInstance().displayToLog("Connection accepted from: " + socket.getInetAddress() + " - " + ++this.id, FontType.NORMAL);
+					Server.getInstance().getConnections().add(new SocketConnection(socket, this.id));
 				}
 			} catch (IOException exception) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);

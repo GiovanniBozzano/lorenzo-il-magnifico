@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.common.enums;
 
-public enum FontType
+public enum ConnectionType
 {
-	NORMAL,
-	BOLD
+	RMI,
+	SOCKET
 }

@@ -1,8 +1,10 @@
-package it.polimi.ingsw.lim.server;
+package it.polimi.ingsw.lim.server.socket;
 
 import it.polimi.ingsw.lim.common.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.packets.server.PacketLogMessage;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.server.IConnection;
+import it.polimi.ingsw.lim.server.Server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,16 +12,15 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 
-public class ClientConnection
+public class SocketConnection implements IConnection
 {
 	private final Socket socket;
 	private final Integer id;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
-	private boolean isConnected = false;
 	private String name;
 
-	ClientConnection(Socket socket, int id)
+	SocketConnection(Socket socket, int id)
 	{
 		this.socket = socket;
 		this.id = id;
@@ -34,9 +35,10 @@ public class ClientConnection
 		}
 	}
 
+	@Override
 	public void disconnect()
 	{
-		Server.getInstance().getClientConnections().remove(this);
+		Server.getInstance().getConnections().remove(this);
 		try {
 			if (this.out != null) {
 				this.out.close();
@@ -50,6 +52,7 @@ public class ClientConnection
 		}
 	}
 
+	@Override
 	public void sendLogMessage(String text)
 	{
 		try {
@@ -59,12 +62,23 @@ public class ClientConnection
 		}
 	}
 
+	@Override
 	public void sendChatMessage(String text)
 	{
 		try {
 			this.out.writeObject(new PacketChatMessage(text));
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	@Override
+	public void handleChatMessage(String text)
+	{
+		for (IConnection otherConnection : Server.getInstance().getConnections()) {
+			if (otherConnection != this) {
+				otherConnection.sendChatMessage(this.name + ": " + text);
+			}
 		}
 	}
 
@@ -81,16 +95,6 @@ public class ClientConnection
 	public ObjectOutputStream getOut()
 	{
 		return this.out;
-	}
-
-	public boolean getIsConnected()
-	{
-		return this.isConnected;
-	}
-
-	public void setIsConnected(boolean isConnected)
-	{
-		this.isConnected = isConnected;
 	}
 
 	public String getName()

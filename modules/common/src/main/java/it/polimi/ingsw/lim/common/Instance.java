@@ -6,7 +6,7 @@ public abstract class Instance
 {
 	protected Side side;
 
-	public Instance(Side side)
+	protected Instance(Side side)
 	{
 		this.side = side;
 	}

@@ -4,6 +4,8 @@ import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.FontType;
 import it.polimi.ingsw.lim.common.enums.Side;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.server.rmi.Handshake;
+import it.polimi.ingsw.lim.server.socket.ConnectionListener;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -12,6 +14,8 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.ConsoleHandler;
@@ -26,7 +30,7 @@ public class Server extends Instance
 	private final int port;
 	private ServerSocket serverSocket;
 	private ConnectionListener connectionListener;
-	private final ConcurrentLinkedQueue<ClientConnection> clientConnections = new ConcurrentLinkedQueue<>();
+	private final ConcurrentLinkedQueue<IConnection> connections = new ConcurrentLinkedQueue<>();
 
 	Server(Stage stage, int port)
 	{
@@ -43,15 +47,21 @@ public class Server extends Instance
 		consoleHandler.setFormatter(new LogFormatter());
 		Server.LOGGER.addHandler(consoleHandler);
 		try {
-			this.serverSocket = new ServerSocket(this.port);
-			this.displayToLog("Server waiting on port: " + this.port, FontType.BOLD);
+			Registry registry = LocateRegistry.createRegistry(port + 1);
+			registry.rebind("lorenzo-il-magnifico", new Handshake());
+			this.serverSocket = new ServerSocket(port);
+			this.displayToLog("Server waiting on port: " + port, FontType.BOLD);
 			URL myIP = new URL("http://checkip.amazonaws.com");
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(myIP.openStream()));
-			this.displayToLog("Your external IP address is: " + bufferedReader.readLine(), FontType.BOLD);
+			try {
+				this.displayToLog("Your external IP address is: " + bufferedReader.readLine(), FontType.BOLD);
+			} catch (IOException exception) {
+				Server.getLogger().log(Level.INFO, "Cannot retrieve IP address...", exception);
+			}
 			this.connectionListener = new ConnectionListener();
 			this.connectionListener.start();
 		} catch (IOException exception) {
-			Server.getLogger().log(Level.INFO, "Cannot retrieve IP address...", exception);
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 
@@ -70,16 +80,16 @@ public class Server extends Instance
 
 	public void disconnectAll()
 	{
-		for (ClientConnection clientConnection : this.clientConnections) {
-			clientConnection.disconnect();
+		for (IConnection connection : this.connections) {
+			connection.disconnect();
 		}
-		this.clientConnections.clear();
+		this.connections.clear();
 	}
 
-	public void broadcastChatMessage(String text)
+	private void broadcastChatMessage(String text)
 	{
-		for (ClientConnection clientConnection : this.clientConnections) {
-			clientConnection.sendLogMessage(text);
+		for (IConnection connection : this.connections) {
+			connection.sendLogMessage(text);
 		}
 	}
 
@@ -123,8 +133,8 @@ public class Server extends Instance
 		return this.connectionListener;
 	}
 
-	public Queue<ClientConnection> getClientConnections()
+	public Queue<IConnection> getConnections()
 	{
-		return this.clientConnections;
+		return this.connections;
 	}
 }

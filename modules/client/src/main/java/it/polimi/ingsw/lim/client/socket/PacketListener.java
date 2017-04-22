@@ -1,5 +1,6 @@
-package it.polimi.ingsw.lim.client;
+package it.polimi.ingsw.lim.client.socket;
 
+import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.common.packets.Packet;
 import it.polimi.ingsw.lim.common.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.packets.server.PacketLogMessage;
@@ -31,8 +32,10 @@ public class PacketListener extends Thread
 					default:
 				}
 			} catch (ClassNotFoundException | IOException exception) {
-				Client.getLogger().log(Level.INFO, "The Server has been closed.", exception);
-				Client.getInstance().disconnect();
+				Client.getLogger().log(Level.INFO, "The connection has been closed.", exception);
+				if (Client.getInstance() != null) {
+					Client.getInstance().disconnect();
+				}
 			}
 		}
 	}

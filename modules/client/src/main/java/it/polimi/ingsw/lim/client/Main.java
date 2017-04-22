@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.client;
 
+import it.polimi.ingsw.lim.common.enums.ConnectionType;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -48,7 +49,7 @@ public class Main extends Application
 		grid.add(nameTextField, 1, 2);
 		HBox hBox = new HBox();
 		Button startButton = new Button("CONNECT");
-		startButton.setOnAction((ActionEvent event) -> new Client(stage, ipTextField.getText(), Integer.parseInt(portTextField.getText()), nameTextField.getText()));
+		startButton.setOnAction((ActionEvent event) -> new Client(stage, ConnectionType.RMI, ipTextField.getText(), Integer.parseInt(portTextField.getText()), nameTextField.getText()));
 		startButton.setMaxWidth(Double.MAX_VALUE);
 		hBox.getChildren().add(startButton);
 		HBox.setHgrow(startButton, Priority.ALWAYS);
