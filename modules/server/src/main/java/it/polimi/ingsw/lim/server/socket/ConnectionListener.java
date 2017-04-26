@@ -10,7 +10,6 @@ import java.util.logging.Level;
 
 public class ConnectionListener extends Thread
 {
-	private int id = 0;
 	private boolean keepGoing = true;
 
 	@Override
@@ -23,8 +22,9 @@ public class ConnectionListener extends Thread
 					Server.getInstance().disconnectAll();
 					Server.getInstance().getServerSocket().close();
 				} else {
-					Server.getInstance().displayToLog("Connection accepted from: " + socket.getInetAddress() + " - " + ++this.id, FontType.NORMAL);
-					Server.getInstance().getConnections().add(new SocketConnection(socket, this.id));
+					int connectionId = Server.getInstance().getConnectionId();
+					Server.getInstance().displayToLog("Socket Connection accepted from: " + socket.getInetAddress().getHostAddress() + " - " + connectionId, FontType.NORMAL);
+					Server.getInstance().getConnections().add(new SocketConnection(socket, connectionId));
 				}
 			} catch (IOException exception) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);

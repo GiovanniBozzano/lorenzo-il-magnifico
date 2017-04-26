@@ -1,9 +1,9 @@
 package it.polimi.ingsw.lim.client.socket;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.common.packets.Packet;
-import it.polimi.ingsw.lim.common.packets.PacketChatMessage;
-import it.polimi.ingsw.lim.common.packets.server.PacketLogMessage;
+import it.polimi.ingsw.lim.common.socket.packets.Packet;
+import it.polimi.ingsw.lim.common.socket.packets.PacketChatMessage;
+import it.polimi.ingsw.lim.common.socket.packets.server.PacketLogMessage;
 
 import java.io.IOException;
 import java.util.logging.Level;

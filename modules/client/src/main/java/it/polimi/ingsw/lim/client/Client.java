@@ -5,19 +5,15 @@ import it.polimi.ingsw.lim.client.socket.PacketListener;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
 import it.polimi.ingsw.lim.common.enums.Side;
-import it.polimi.ingsw.lim.common.packets.client.PacketHandshake;
+import it.polimi.ingsw.lim.common.socket.packets.client.PacketHandshake;
 import it.polimi.ingsw.lim.common.rmi.IClientSession;
 import it.polimi.ingsw.lim.common.rmi.IHandshake;
 import it.polimi.ingsw.lim.common.utils.Constants;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -35,67 +31,84 @@ import java.util.logging.Logger;
 public class Client extends Instance
 {
 	private static final Logger LOGGER = Logger.getLogger(Client.class.getSimpleName().toUpperCase());
-	private static Client instance;
-	private final Stage stage;
-	private final ConnectionType connectionType;
-	private final String ip;
-	private final int port;
-	private final String name;
+	private static final Client INSTANCE = new Client();
+	private Stage stage;
+	private ConnectionType connectionType;
+	private String ip;
+	private int port;
+	private String name;
 	private IClientSession clientSession;
 	private Socket socket;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private PacketListener packetListener;
+	private boolean isStopping;
 
-	public Client(Stage stage, ConnectionType connectionType, String ip, int port, String name)
+	static {
+		Client.LOGGER.setUseParentHandlers(false);
+		ConsoleHandler consoleHandler = new ConsoleHandler();
+		consoleHandler.setFormatter(new LogFormatter());
+		Client.LOGGER.addHandler(consoleHandler);
+	}
+
+	private Client()
 	{
 		super(Side.CLIENT);
+	}
+
+	public void start(Stage stage, ConnectionType connectionType, String ip, int port, String name)
+	{
 		this.stage = stage;
 		this.connectionType = connectionType;
 		this.ip = ip;
 		this.port = port;
 		this.name = name;
-		if (Client.instance != null) {
-			return;
-		}
-		Client.setInstance(this);
-		Client.LOGGER.setUseParentHandlers(false);
-		ConsoleHandler consoleHandler = new ConsoleHandler();
-		consoleHandler.setFormatter(new LogFormatter());
-		Client.LOGGER.addHandler(consoleHandler);
-		this.stage.getScene().getRoot().setDisable(true);
 		if (connectionType == ConnectionType.RMI) {
 			try {
-				IHandshake handshake = (IHandshake) Naming.lookup("rmi://" + ip + ":" + (port + 1) + "/lorenzo-il-magnifico");
-				this.clientSession = handshake.send(this.name, Constants.VERSION, new ServerSession());
+				IHandshake handshake = (IHandshake) Naming.lookup("rmi://" + ip + ":" + port + "/lorenzo-il-magnifico");
+				this.clientSession = handshake.send(name, Constants.VERSION, new ServerSession());
 				if (this.clientSession != null) {
-					this.clientSession.getMyName();
+					Client.LOGGER.log(Level.INFO, "Connected to Server.");
+				} else {
+					this.stage.getScene().getRoot().setDisable(false);
+					Client.LOGGER.log(Level.INFO, "Client version not compatible with the Server.");
+					return;
 				}
 			} catch (NotBoundException | MalformedURLException | RemoteException exception) {
-				Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				this.stage.getScene().getRoot().setDisable(false);
+				Client.LOGGER.log(Level.INFO, "Could not connect to host", exception);
+				return;
+			}
+		} else {
+			try {
+				this.socket = new Socket(ip, port);
+				this.out = new ObjectOutputStream(this.socket.getOutputStream());
+				this.in = new ObjectInputStream(this.socket.getInputStream());
+				this.packetListener = new PacketListener();
+				this.packetListener.start();
+				this.sendHandshake();
+			} catch (IOException exception) {
+				this.stage.getScene().getRoot().setDisable(false);
+				Client.LOGGER.log(Level.INFO, "Could not connect to host.", exception);
+				return;
 			}
 		}
 		try {
-			this.socket = new Socket(ip, port);
-			this.out = new ObjectOutputStream(this.socket.getOutputStream());
-			this.in = new ObjectInputStream(this.socket.getInputStream());
-			this.packetListener = new PacketListener();
-			this.packetListener.start();
-			this.stage.getScene().getRoot().setDisable(false);
-			ObservableList<Node> children = this.stage.getScene().getRoot().getChildrenUnmodifiable();
-			children.get(0).setDisable(true);
-			((Button) ((HBox) children.get(1)).getChildren().get(0)).setText("DISCONNECT");
-			((Button) ((HBox) children.get(1)).getChildren().get(0)).setOnAction((ActionEvent event) -> disconnect());
-			this.sendHandshake();
+			Parent root = FXMLLoader.load(getClass().getResource("/fxml/SceneLobby.fxml"));
+			this.stage.close();
+			this.stage = new Stage();
+			this.stage.setScene(new Scene(root));
+			this.stage.sizeToScene();
+			this.stage.setResizable(false);
+			this.stage.show();
 		} catch (IOException exception) {
-			Client.LOGGER.log(Level.INFO, "Could not connect to host", exception);
-			this.stage.getScene().getRoot().setDisable(false);
-			Client.setInstance(null);
+			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 
 	public void stop()
 	{
+		this.isStopping = true;
 		this.disconnect();
 		this.stage.close();
 	}
@@ -112,27 +125,37 @@ public class Client extends Instance
 	public void disconnect()
 	{
 		if (connectionType == ConnectionType.RMI) {
+			Client.getLogger().log(Level.INFO, "The connection has been closed.");
 			this.clientSession = null;
-		}
-		this.packetListener.close();
-		try {
-			if (this.out != null) {
-				this.out.close();
+		} else {
+			this.packetListener.close();
+			try {
+				if (this.out != null) {
+					this.out.close();
+				}
+				if (this.in != null) {
+					this.in.close();
+				}
+				this.socket.close();
+			} catch (IOException exception) {
+				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
-			if (this.in != null) {
-				this.in.close();
-			}
-			this.socket.close();
-		} catch (IOException exception) {
-			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
-		Client.setInstance(null);
-		Platform.runLater(() -> {
-			ObservableList<Node> children = stage.getScene().getRoot().getChildrenUnmodifiable();
-			children.get(0).setDisable(false);
-			((Button) ((HBox) children.get(1)).getChildren().get(0)).setText("CONNECT");
-			((Button) ((HBox) children.get(1)).getChildren().get(0)).setOnAction((ActionEvent event) -> new Client(stage, ConnectionType.RMI, ((TextField) ((GridPane) children.get(0)).getChildren().get(1)).getText(), Integer.parseInt(((TextField) ((GridPane) children.get(0)).getChildren().get(3)).getText()), ((TextField) ((GridPane) children.get(0)).getChildren().get(5)).getText()));
-		});
+		if (!isStopping) {
+			Platform.runLater(() -> {
+				try {
+					Parent root = FXMLLoader.load(getClass().getResource("/fxml/SceneConnection.fxml"));
+					this.stage.close();
+					Stage newStage = new Stage();
+					newStage.setScene(new Scene(root));
+					newStage.sizeToScene();
+					newStage.setResizable(false);
+					newStage.show();
+				} catch (IOException exception) {
+					Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				}
+			});
+		}
 	}
 
 	public static Logger getLogger()
@@ -142,12 +165,7 @@ public class Client extends Instance
 
 	public static Client getInstance()
 	{
-		return Client.instance;
-	}
-
-	public static void setInstance(Client instance)
-	{
-		Client.instance = instance;
+		return Client.INSTANCE;
 	}
 
 	public Stage getStage()

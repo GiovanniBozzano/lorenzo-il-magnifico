@@ -21,13 +21,8 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	@Override
 	public void unreferenced()
 	{
+		Server.getInstance().getConnections().remove(this.rmiConnection);
 		Server.getInstance().displayToLog("RMI Client: " + this.rmiConnection.getId() + ":" + this.rmiConnection.getName() + " disconnected.", FontType.NORMAL);
-	}
-
-	@Override
-	public void getMyName() throws RemoteException
-	{
-		this.rmiConnection.sendLogMessage("YOU NAME IS: " + this.rmiConnection.getName());
 	}
 
 	@Override
@@ -39,7 +34,7 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	@Override
 	public boolean equals(Object object)
 	{
-		return object instanceof ClientSession && this.rmiConnection == ((ClientSession) object).getRmiConnection();
+		return object instanceof ClientSession && this.rmiConnection == ((ClientSession) object).rmiConnection;
 	}
 
 	@Override

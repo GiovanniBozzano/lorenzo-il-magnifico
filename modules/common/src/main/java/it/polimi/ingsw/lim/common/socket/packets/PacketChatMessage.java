@@ -1,4 +1,4 @@
-package it.polimi.ingsw.lim.common.packets;
+package it.polimi.ingsw.lim.common.socket.packets;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
 

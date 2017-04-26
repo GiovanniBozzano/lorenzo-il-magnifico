@@ -1,7 +1,7 @@
-package it.polimi.ingsw.lim.common.packets.server;
+package it.polimi.ingsw.lim.common.socket.packets.server;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
-import it.polimi.ingsw.lim.common.packets.Packet;
+import it.polimi.ingsw.lim.common.socket.packets.Packet;
 
 public class PacketLogMessage extends Packet
 {

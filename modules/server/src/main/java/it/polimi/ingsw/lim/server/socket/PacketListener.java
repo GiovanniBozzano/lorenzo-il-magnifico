@@ -2,9 +2,9 @@ package it.polimi.ingsw.lim.server.socket;
 
 import it.polimi.ingsw.lim.common.enums.FontType;
 import it.polimi.ingsw.lim.common.enums.PacketType;
-import it.polimi.ingsw.lim.common.packets.Packet;
-import it.polimi.ingsw.lim.common.packets.PacketChatMessage;
-import it.polimi.ingsw.lim.common.packets.client.PacketHandshake;
+import it.polimi.ingsw.lim.common.socket.packets.Packet;
+import it.polimi.ingsw.lim.common.socket.packets.PacketChatMessage;
+import it.polimi.ingsw.lim.common.socket.packets.client.PacketHandshake;
 import it.polimi.ingsw.lim.common.utils.Constants;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.IConnection;
@@ -57,6 +57,7 @@ class PacketListener extends Thread
 		try {
 			Packet packet = (Packet) this.socketConnection.getIn().readObject();
 			if (packet.getPacketType() == PacketType.HANDSHAKE && ((PacketHandshake) packet).getVersion().equals(Constants.VERSION)) {
+				this.socketConnection.setName(((PacketHandshake) packet).getName());
 				this.socketConnection.sendLogMessage("Connected to server.");
 				return true;
 			} else {

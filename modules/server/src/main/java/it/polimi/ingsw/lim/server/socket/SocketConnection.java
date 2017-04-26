@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.socket;
 
-import it.polimi.ingsw.lim.common.packets.PacketChatMessage;
-import it.polimi.ingsw.lim.common.packets.server.PacketLogMessage;
+import it.polimi.ingsw.lim.common.socket.packets.PacketChatMessage;
+import it.polimi.ingsw.lim.common.socket.packets.server.PacketLogMessage;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.IConnection;
 import it.polimi.ingsw.lim.server.Server;
@@ -100,5 +100,10 @@ public class SocketConnection implements IConnection
 	public String getName()
 	{
 		return this.name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 }
