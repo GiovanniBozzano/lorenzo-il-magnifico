@@ -4,12 +4,15 @@ import it.polimi.ingsw.lim.client.rmi.ServerSession;
 import it.polimi.ingsw.lim.client.socket.PacketListener;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
+import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.Side;
-import it.polimi.ingsw.lim.common.socket.packets.client.PacketHandshake;
 import it.polimi.ingsw.lim.common.rmi.IClientSession;
 import it.polimi.ingsw.lim.common.rmi.IHandshake;
+import it.polimi.ingsw.lim.common.socket.packets.Packet;
+import it.polimi.ingsw.lim.common.socket.packets.client.PacketHandshake;
 import it.polimi.ingsw.lim.common.utils.Constants;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.WindowInformations;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,7 +35,7 @@ public class Client extends Instance
 {
 	private static final Logger LOGGER = Logger.getLogger(Client.class.getSimpleName().toUpperCase());
 	private static final Client INSTANCE = new Client();
-	private Stage stage;
+	private WindowInformations windowInformations;
 	private ConnectionType connectionType;
 	private String ip;
 	private int port;
@@ -56,28 +59,27 @@ public class Client extends Instance
 		super(Side.CLIENT);
 	}
 
-	public void start(Stage stage, ConnectionType connectionType, String ip, int port, String name)
+	public void connect(ConnectionType connectionType, String ip, int port, String name)
 	{
-		this.stage = stage;
 		this.connectionType = connectionType;
 		this.ip = ip;
 		this.port = port;
 		this.name = name;
+		this.windowInformations.getStage().getScene().getRoot().setDisable(true);
 		if (connectionType == ConnectionType.RMI) {
 			try {
 				IHandshake handshake = (IHandshake) Naming.lookup("rmi://" + ip + ":" + port + "/lorenzo-il-magnifico");
 				this.clientSession = handshake.send(name, Constants.VERSION, new ServerSession());
 				if (this.clientSession != null) {
+					this.setNewWindow("/fxml/SceneLobby.fxml", new Thread(() -> Client.getInstance().sendRequestRoomList()));
 					Client.LOGGER.log(Level.INFO, "Connected to Server.");
 				} else {
-					this.stage.getScene().getRoot().setDisable(false);
+					this.windowInformations.getStage().getScene().getRoot().setDisable(false);
 					Client.LOGGER.log(Level.INFO, "Client version not compatible with the Server.");
-					return;
 				}
 			} catch (NotBoundException | MalformedURLException | RemoteException exception) {
-				this.stage.getScene().getRoot().setDisable(false);
+				this.windowInformations.getStage().getScene().getRoot().setDisable(false);
 				Client.LOGGER.log(Level.INFO, "Could not connect to host", exception);
-				return;
 			}
 		} else {
 			try {
@@ -88,21 +90,9 @@ public class Client extends Instance
 				this.packetListener.start();
 				this.sendHandshake();
 			} catch (IOException exception) {
-				this.stage.getScene().getRoot().setDisable(false);
+				this.windowInformations.getStage().getScene().getRoot().setDisable(false);
 				Client.LOGGER.log(Level.INFO, "Could not connect to host.", exception);
-				return;
 			}
-		}
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/fxml/SceneLobby.fxml"));
-			this.stage.close();
-			this.stage = new Stage();
-			this.stage.setScene(new Scene(root));
-			this.stage.sizeToScene();
-			this.stage.setResizable(false);
-			this.stage.show();
-		} catch (IOException exception) {
-			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 
@@ -110,16 +100,35 @@ public class Client extends Instance
 	{
 		this.isStopping = true;
 		this.disconnect();
-		this.stage.close();
 	}
 
-	private void sendHandshake()
+	public void setNewWindow(String fxmlFileLocation)
 	{
-		try {
-			this.out.writeObject(new PacketHandshake(this.name));
-		} catch (IOException exception) {
-			Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-		}
+		this.setNewWindow(fxmlFileLocation, null);
+	}
+
+	public void setNewWindow(String fxmlFileLocation, Runnable runnable)
+	{
+		Platform.runLater(() -> {
+			try {
+				FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(fxmlFileLocation));
+				Parent parent = fxmlLoader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(parent));
+				stage.sizeToScene();
+				stage.setResizable(false);
+				if (this.windowInformations != null) {
+					this.windowInformations.getStage().close();
+				}
+				this.windowInformations = new WindowInformations(fxmlLoader.getController(), stage);
+				stage.show();
+				if (runnable != null) {
+					runnable.run();
+				}
+			} catch (IOException exception) {
+				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			}
+		});
 	}
 
 	public void disconnect()
@@ -142,19 +151,37 @@ public class Client extends Instance
 			}
 		}
 		if (!isStopping) {
-			Platform.runLater(() -> {
-				try {
-					Parent root = FXMLLoader.load(getClass().getResource("/fxml/SceneConnection.fxml"));
-					this.stage.close();
-					Stage newStage = new Stage();
-					newStage.setScene(new Scene(root));
-					newStage.sizeToScene();
-					newStage.setResizable(false);
-					newStage.show();
-				} catch (IOException exception) {
-					Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-				}
-			});
+			this.setNewWindow("/fxml/SceneConnection.fxml");
+		} else {
+			Platform.runLater(() -> this.windowInformations.getStage().close());
+		}
+	}
+
+	private void sendHandshake()
+	{
+		if (this.connectionType == ConnectionType.SOCKET) {
+			try {
+				this.out.writeObject(new PacketHandshake(this.name));
+			} catch (IOException exception) {
+				Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			}
+		}
+	}
+
+	public void sendRequestRoomList()
+	{
+		if (this.connectionType == ConnectionType.RMI) {
+			try {
+				this.clientSession.requestRoomList();
+			} catch (RemoteException exception) {
+				Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			}
+		} else {
+			try {
+				this.out.writeObject(new Packet(PacketType.REQUEST_ROOM_LIST));
+			} catch (IOException exception) {
+				Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			}
 		}
 	}
 
@@ -168,9 +195,9 @@ public class Client extends Instance
 		return Client.INSTANCE;
 	}
 
-	public Stage getStage()
+	public WindowInformations getWindowInformations()
 	{
-		return this.stage;
+		return this.windowInformations;
 	}
 
 	public ConnectionType getConnectionType()
@@ -186,6 +213,11 @@ public class Client extends Instance
 	public int getPort()
 	{
 		return this.port;
+	}
+
+	public String getName()
+	{
+		return this.name;
 	}
 
 	public IClientSession getClientSession()

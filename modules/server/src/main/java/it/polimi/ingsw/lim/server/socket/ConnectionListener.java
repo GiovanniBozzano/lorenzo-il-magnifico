@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.server.socket;
 
-import it.polimi.ingsw.lim.common.enums.FontType;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.Server;
 
@@ -23,8 +22,8 @@ public class ConnectionListener extends Thread
 					Server.getInstance().getServerSocket().close();
 				} else {
 					int connectionId = Server.getInstance().getConnectionId();
-					Server.getInstance().displayToLog("Socket Connection accepted from: " + socket.getInetAddress().getHostAddress() + " - " + connectionId, FontType.NORMAL);
-					Server.getInstance().getConnections().add(new SocketConnection(socket, connectionId));
+					Server.getInstance().displayToLog("Socket Connection accepted from: " + socket.getInetAddress().getHostAddress() + " - " + connectionId);
+					Server.getInstance().getConnections().add(new ConnectionSocket(connectionId, socket));
 				}
 			} catch (IOException exception) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);

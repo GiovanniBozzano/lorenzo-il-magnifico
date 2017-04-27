@@ -7,7 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,7 +23,7 @@ public class ControllerConnection implements Initializable
 	private void handleConnectionButtonAction()
 	{
 		this.connectionButton.getScene().getRoot().setDisable(true);
-		Client.getInstance().start((Stage) this.connectionButton.getScene().getWindow(), this.rmiRadioButton.isSelected() ? ConnectionType.RMI : ConnectionType.SOCKET, this.ipTextField.getText(), Integer.parseInt(this.portTextField.getText()), this.nameTextField.getText());
+		Client.getInstance().connect(this.rmiRadioButton.isSelected() ? ConnectionType.RMI : ConnectionType.SOCKET, this.ipTextField.getText(), Integer.parseInt(this.portTextField.getText()), this.nameTextField.getText());
 	}
 
 	@FXML

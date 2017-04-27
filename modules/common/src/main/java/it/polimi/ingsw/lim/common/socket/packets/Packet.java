@@ -8,7 +8,7 @@ public class Packet implements Serializable
 {
 	private final PacketType packetType;
 
-	protected Packet(PacketType packetType)
+	public Packet(PacketType packetType)
 	{
 		this.packetType = packetType;
 	}

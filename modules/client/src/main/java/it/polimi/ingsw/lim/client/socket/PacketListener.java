@@ -1,9 +1,12 @@
 package it.polimi.ingsw.lim.client.socket;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.gui.ControllerLobby;
 import it.polimi.ingsw.lim.common.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.socket.packets.server.PacketLogMessage;
+import it.polimi.ingsw.lim.common.socket.packets.server.PacketRoomList;
+import it.polimi.ingsw.lim.common.utils.RoomInformations;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -23,6 +26,12 @@ public class PacketListener extends Thread
 					return;
 				}
 				switch (packet.getPacketType()) {
+					case HANDSHAKE_CORRECT:
+						PacketListener.handleHandshakeCorrect();
+						break;
+					case ROOM_LIST:
+						PacketListener.handleRoomList((PacketRoomList) packet);
+						break;
 					case LOG_MESSAGE:
 						PacketListener.handleLogMessage((PacketLogMessage) packet);
 						break;
@@ -43,6 +52,21 @@ public class PacketListener extends Thread
 	public synchronized void close()
 	{
 		this.keepGoing = false;
+	}
+
+	private static void handleHandshakeCorrect()
+	{
+		Client.getInstance().setNewWindow("/fxml/SceneLobby.fxml", () -> Client.getInstance().sendRequestRoomList());
+	}
+
+	private static void handleRoomList(PacketRoomList packet)
+	{
+		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerLobby)) {
+			return;
+		}
+		for (RoomInformations roomInformations : packet.getRooms()) {
+			((ControllerLobby) Client.getInstance().getWindowInformations().getController()).getRoomsListView().getItems().add(roomInformations);
+		}
 	}
 
 	private static void handleChatMessage(PacketChatMessage packet)

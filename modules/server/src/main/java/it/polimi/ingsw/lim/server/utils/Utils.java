@@ -10,6 +10,10 @@ import java.util.logging.Level;
 
 public class Utils
 {
+	private Utils()
+	{
+	}
+
 	public static String getExternalIpAddress()
 	{
 		try {

@@ -3,7 +3,13 @@ package it.polimi.ingsw.lim.common.rmi;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-@FunctionalInterface public interface IClientSession extends Remote
+public interface IClientSession extends Remote
 {
+	void requestRoomList() throws RemoteException;
+
+	void enterRoom(int id) throws RemoteException;
+
+	void exitRoom(int id) throws RemoteException;
+
 	void sendChatMessage(String text) throws RemoteException;
 }

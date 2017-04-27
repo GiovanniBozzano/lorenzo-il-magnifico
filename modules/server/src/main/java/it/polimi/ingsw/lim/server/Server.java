@@ -1,12 +1,13 @@
 package it.polimi.ingsw.lim.server;
 
 import it.polimi.ingsw.lim.common.Instance;
-import it.polimi.ingsw.lim.common.enums.FontType;
 import it.polimi.ingsw.lim.common.enums.Side;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.WindowInformations;
 import it.polimi.ingsw.lim.server.rmi.Handshake;
 import it.polimi.ingsw.lim.server.socket.ConnectionListener;
 import it.polimi.ingsw.lim.server.utils.Utils;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,8 +21,12 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentMap;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +35,7 @@ public class Server extends Instance
 {
 	private static final Logger LOGGER = Logger.getLogger(Server.class.getSimpleName().toUpperCase());
 	private static final Server INSTANCE = new Server();
-	private Stage stage;
+	private WindowInformations windowInformations;
 	private int rmiPort;
 	private int socketPort;
 	private Registry registry;
@@ -38,6 +43,8 @@ public class Server extends Instance
 	private ConnectionListener connectionListener;
 	private final ConcurrentLinkedQueue<IConnection> connections = new ConcurrentLinkedQueue<>();
 	private int connectionId;
+	private final ConcurrentMap<Integer, Room> rooms = new ConcurrentHashMap<>();
+	private int roomId;
 
 	static {
 		Server.LOGGER.setUseParentHandlers(false);
@@ -51,35 +58,26 @@ public class Server extends Instance
 		super(Side.SERVER);
 	}
 
-	public void start(Stage stage, int rmiPort, int socketPort)
+	public void setupConnections(int rmiPort, int socketPort)
 	{
 		this.side = Side.SERVER;
-		this.stage = stage;
 		this.rmiPort = rmiPort;
 		this.socketPort = socketPort;
+		this.connectionId = 0;
+		this.roomId = 0;
+		this.windowInformations.getStage().getScene().getRoot().setDisable(true);
 		try {
 			this.registry = LocateRegistry.createRegistry(rmiPort);
 			this.registry.rebind("lorenzo-il-magnifico", new Handshake());
 			this.serverSocket = new ServerSocket(socketPort);
-			this.displayToLog("Server waiting on RMI port " + rmiPort + " and Socket port " + socketPort, FontType.BOLD);
-			this.displayToLog("Your external IP address is: " + Utils.getExternalIpAddress(), FontType.BOLD);
+			this.displayToLog("Server waiting on RMI port " + rmiPort + " and Socket port " + socketPort);
+			this.displayToLog("Your external IP address is: " + Utils.getExternalIpAddress());
 			this.connectionListener = new ConnectionListener();
 			this.connectionListener.start();
+			this.setNewWindow("/fxml/SceneMain.fxml");
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			this.stage.getScene().getRoot().setDisable(false);
-			return;
-		}
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/fxml/SceneMain.fxml"));
-			this.stage.close();
-			this.stage = new Stage();
-			this.stage.setScene(new Scene(root));
-			this.stage.sizeToScene();
-			this.stage.setResizable(false);
-			this.stage.show();
-		} catch (IOException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			this.windowInformations.getStage().getScene().getRoot().setDisable(false);
 		}
 	}
 
@@ -104,6 +102,35 @@ public class Server extends Instance
 		}
 	}
 
+	public void setNewWindow(String fxmlFileLocation)
+	{
+		this.setNewWindow(fxmlFileLocation, null);
+	}
+
+	public void setNewWindow(String fxmlFileLocation, Runnable runnable)
+	{
+		Platform.runLater(() -> {
+			try {
+				FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(fxmlFileLocation));
+				Parent parent = fxmlLoader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(parent));
+				stage.sizeToScene();
+				stage.setResizable(false);
+				if (this.windowInformations != null) {
+					this.windowInformations.getStage().close();
+				}
+				this.windowInformations = new WindowInformations(fxmlLoader.getController(), stage);
+				stage.show();
+				if (runnable != null) {
+					runnable.run();
+				}
+			} catch (IOException exception) {
+				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			}
+		});
+	}
+
 	public void disconnectAll()
 	{
 		for (IConnection connection : this.connections) {
@@ -112,16 +139,41 @@ public class Server extends Instance
 		this.connections.clear();
 	}
 
-	private void broadcastChatMessage(String text)
+	public void broadcastRoomsUpdate()
+	{
+		for (IConnection connection : this.getPlayersInLobby()) {
+			connection.sendRoomList();
+		}
+	}
+
+	public void broadcastChatMessage(String text)
 	{
 		for (IConnection connection : this.connections) {
 			connection.sendLogMessage(text);
 		}
 	}
 
-	public void displayToLog(String text, FontType fontType)
+	public void displayToLog(String text)
 	{
 		Server.LOGGER.log(Level.INFO, text);
+	}
+
+	private List<IConnection> getPlayersInLobby()
+	{
+		List<IConnection> playersInLobby = new ArrayList<>();
+		for (IConnection connection : this.connections) {
+			boolean isInLobby = true;
+			for (Room room : this.rooms.values()) {
+				if (room.getPlayers().contains(connection)) {
+					isInLobby = false;
+					break;
+				}
+			}
+			if (isInLobby) {
+				playersInLobby.add(connection);
+			}
+		}
+		return playersInLobby;
 	}
 
 	public static Logger getLogger()
@@ -134,9 +186,9 @@ public class Server extends Instance
 		return Server.INSTANCE;
 	}
 
-	public Stage getStage()
+	public WindowInformations getWindowInformations()
 	{
-		return this.stage;
+		return this.windowInformations;
 	}
 
 	public int getRmiPort()
@@ -167,5 +219,15 @@ public class Server extends Instance
 	public int getConnectionId()
 	{
 		return this.connectionId++;
+	}
+
+	public ConcurrentMap<Integer, Room> getRooms()
+	{
+		return this.rooms;
+	}
+
+	public int getRoomId()
+	{
+		return this.roomId++;
 	}
 }

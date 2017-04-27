@@ -4,9 +4,21 @@ public interface IConnection
 {
 	void disconnect();
 
+	void sendRoomList();
+
 	void sendLogMessage(String text);
 
 	void sendChatMessage(String text);
 
+	void handleRequestRoomList();
+
+	void handleRoomEntry(int id);
+
+	void handleRoomExit(int id);
+
 	void handleChatMessage(String text);
+
+	int getId();
+
+	String getName();
 }

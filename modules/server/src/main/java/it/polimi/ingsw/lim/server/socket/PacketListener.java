@@ -1,13 +1,9 @@
 package it.polimi.ingsw.lim.server.socket;
 
-import it.polimi.ingsw.lim.common.enums.FontType;
-import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.socket.packets.PacketChatMessage;
-import it.polimi.ingsw.lim.common.socket.packets.client.PacketHandshake;
-import it.polimi.ingsw.lim.common.utils.Constants;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
-import it.polimi.ingsw.lim.server.IConnection;
+import it.polimi.ingsw.lim.common.socket.packets.client.PacketRoomEntry;
+import it.polimi.ingsw.lim.common.socket.packets.client.PacketRoomExit;
 import it.polimi.ingsw.lim.server.Server;
 
 import java.io.IOException;
@@ -16,68 +12,54 @@ import java.util.logging.Level;
 class PacketListener extends Thread
 {
 	private boolean keepGoing = true;
-	private final SocketConnection socketConnection;
+	private final ConnectionSocket connectionSocket;
 
-	PacketListener(SocketConnection socketConnection)
+	PacketListener(ConnectionSocket connectionSocket)
 	{
-		this.socketConnection = socketConnection;
+		this.connectionSocket = connectionSocket;
 	}
 
 	@Override
 	public void run()
 	{
-		if (!this.keepGoing || !this.handleHandshake()) {
-			this.socketConnection.disconnect();
+		if (!this.keepGoing || !this.connectionSocket.handleHandshake()) {
+			this.connectionSocket.disconnect();
 			return;
 		}
+		this.connectionSocket.sendHandshakeCorrect();
 		while (this.keepGoing) {
 			try {
-				Packet packet = (Packet) this.socketConnection.getIn().readObject();
+				Packet packet = (Packet) this.connectionSocket.getIn().readObject();
 				if (packet == null) {
-					this.socketConnection.disconnect();
+					this.connectionSocket.disconnect();
 					return;
 				}
 				switch (packet.getPacketType()) {
+					case REQUEST_ROOM_LIST:
+						this.connectionSocket.handleRequestRoomList();
+						break;
+					case ROOM_ENTRY:
+						this.connectionSocket.handleRoomEntry(((PacketRoomEntry) packet).getId());
+						break;
+					case ROOM_EXIT:
+						this.connectionSocket.handleRoomExit(((PacketRoomExit) packet).getId());
+						break;
 					case CHAT_MESSAGE:
-						this.socketConnection.handleChatMessage(((PacketChatMessage) packet).getText());
+						this.connectionSocket.handleChatMessage(((PacketChatMessage) packet).getText());
 						break;
 					default:
 				}
 			} catch (ClassNotFoundException | IOException exception) {
-				Server.getLogger().log(Level.INFO, "Socket Client " + this.socketConnection.getId() + ":" + this.socketConnection.getName() + " disconnected.", exception);
-				Server.getInstance().displayToLog("Socket Client " + this.socketConnection.getId() + ":" + this.socketConnection.getName() + " disconnected.", FontType.NORMAL);
+				Server.getLogger().log(Level.INFO, "Socket Client " + this.connectionSocket.getId() + ":" + this.connectionSocket.getName() + " disconnected.", exception);
+				Server.getInstance().displayToLog("Socket Client " + this.connectionSocket.getId() + ":" + this.connectionSocket.getName() + " disconnected.");
 				this.close();
-				this.socketConnection.disconnect();
+				this.connectionSocket.disconnect();
 			}
-		}
-	}
-
-	private boolean handleHandshake()
-	{
-		try {
-			Packet packet = (Packet) this.socketConnection.getIn().readObject();
-			if (packet.getPacketType() == PacketType.HANDSHAKE && ((PacketHandshake) packet).getVersion().equals(Constants.VERSION)) {
-				this.socketConnection.setName(((PacketHandshake) packet).getName());
-				this.socketConnection.sendLogMessage("Connected to server.");
-				return true;
-			} else {
-				this.socketConnection.sendLogMessage("Client version not compatible with the Server.");
-				return false;
-			}
-		} catch (ClassNotFoundException | IOException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			this.socketConnection.sendLogMessage("Client version not compatible with the Server.");
-			return false;
 		}
 	}
 
 	private synchronized void close()
 	{
 		this.keepGoing = false;
-	}
-
-	public IConnection getSocketConnection()
-	{
-		return this.socketConnection;
 	}
 }
