@@ -40,7 +40,7 @@ public class ConnectionRMI implements IConnection
 	public void sendRoomList()
 	{
 		List<RoomInformations> rooms = new ArrayList<>();
-		for (Room room : Server.getInstance().getRooms().values()) {
+		for (Room room : Server.getInstance().getRooms()) {
 			List<String> playerNames = new ArrayList<>();
 			for (IConnection player : room.getPlayers()) {
 				playerNames.add(player.getName());
@@ -83,30 +83,26 @@ public class ConnectionRMI implements IConnection
 	@Override
 	public void handleRoomEntry(int id)
 	{
-		if (Server.getInstance().getRooms().get(id) == null || Server.getInstance().getRooms().get(id).getPlayers().contains(this) || Server.getInstance().getRooms().get(id).getPlayers().size() >= 4) {
-			try {
-				this.serverSession.disconnect();
-			} catch (RemoteException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		Room targetRoom = null;
+		for (Room room : Server.getInstance().getRooms()) {
+			if (room.getId() == id) {
+				targetRoom = room;
+				break;
 			}
 		}
-		Server.getInstance().getRooms().get(id).getPlayers().add(this);
+		if (targetRoom == null || targetRoom.getPlayers().contains(this) || targetRoom.getPlayers().size() > 4) {
+			this.disconnect();
+			return;
+		}
+		targetRoom.getPlayers().add(this);
 		Server.getInstance().broadcastRoomsUpdate();
 	}
 
 	@Override
-	public void handleRoomExit(int id)
+	public void handleRoomExit()
 	{
-		if (Server.getInstance().getRooms().get(id) == null || !Server.getInstance().getRooms().get(id).getPlayers().contains(this)) {
-			try {
-				this.serverSession.disconnect();
-			} catch (RemoteException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			}
-		}
-		Server.getInstance().getRooms().get(id).getPlayers().remove(this);
-		if (Server.getInstance().getRooms().get(id).getPlayers().isEmpty()) {
-			Server.getInstance().getRooms().remove(id);
+		for (Room room : Server.getInstance().getRooms()) {
+			room.getPlayers().remove(this);
 		}
 		Server.getInstance().broadcastRoomsUpdate();
 	}

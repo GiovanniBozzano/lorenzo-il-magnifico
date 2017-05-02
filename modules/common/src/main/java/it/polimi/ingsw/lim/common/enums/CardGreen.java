@@ -67,5 +67,6 @@ public enum CardGreen
 	{
 		return this.harvestResources;
 	}
+
 }
 

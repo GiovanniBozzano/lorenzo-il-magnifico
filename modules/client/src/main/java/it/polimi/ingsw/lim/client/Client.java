@@ -72,10 +72,8 @@ public class Client extends Instance
 				this.clientSession = handshake.send(name, Constants.VERSION, new ServerSession());
 				if (this.clientSession != null) {
 					this.setNewWindow("/fxml/SceneLobby.fxml", new Thread(() -> Client.getInstance().sendRequestRoomList()));
-					Client.LOGGER.log(Level.INFO, "Connected to Server.");
 				} else {
 					this.windowInformations.getStage().getScene().getRoot().setDisable(false);
-					Client.LOGGER.log(Level.INFO, "Client version not compatible with the Server.");
 				}
 			} catch (NotBoundException | MalformedURLException | RemoteException exception) {
 				this.windowInformations.getStage().getScene().getRoot().setDisable(false);
@@ -107,7 +105,7 @@ public class Client extends Instance
 		this.setNewWindow(fxmlFileLocation, null);
 	}
 
-	public void setNewWindow(String fxmlFileLocation, Runnable runnable)
+	public void setNewWindow(String fxmlFileLocation, Thread thread)
 	{
 		Platform.runLater(() -> {
 			try {
@@ -122,8 +120,8 @@ public class Client extends Instance
 				}
 				this.windowInformations = new WindowInformations(fxmlLoader.getController(), stage);
 				stage.show();
-				if (runnable != null) {
-					runnable.run();
+				if (thread != null) {
+					thread.start();
 				}
 			} catch (IOException exception) {
 				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
@@ -137,7 +135,9 @@ public class Client extends Instance
 			Client.getLogger().log(Level.INFO, "The connection has been closed.");
 			this.clientSession = null;
 		} else {
-			this.packetListener.close();
+			if (this.packetListener != null) {
+				this.packetListener.close();
+			}
 			try {
 				if (this.out != null) {
 					this.out.close();

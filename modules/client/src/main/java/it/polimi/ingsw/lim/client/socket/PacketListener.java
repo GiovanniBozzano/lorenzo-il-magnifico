@@ -27,7 +27,7 @@ public class PacketListener extends Thread
 				}
 				switch (packet.getPacketType()) {
 					case HANDSHAKE_CORRECT:
-						PacketListener.handleHandshakeCorrect();
+						PacketListener.handleHandshakeConfirmation();
 						break;
 					case ROOM_LIST:
 						PacketListener.handleRoomList((PacketRoomList) packet);
@@ -49,17 +49,12 @@ public class PacketListener extends Thread
 		}
 	}
 
-	public synchronized void close()
+	public static void handleHandshakeConfirmation()
 	{
-		this.keepGoing = false;
+		Client.getInstance().setNewWindow("/fxml/SceneLobby.fxml", new Thread(() -> Client.getInstance().sendRequestRoomList()));
 	}
 
-	private static void handleHandshakeCorrect()
-	{
-		Client.getInstance().setNewWindow("/fxml/SceneLobby.fxml", () -> Client.getInstance().sendRequestRoomList());
-	}
-
-	private static void handleRoomList(PacketRoomList packet)
+	public static void handleRoomList(PacketRoomList packet)
 	{
 		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerLobby)) {
 			return;
@@ -69,13 +64,26 @@ public class PacketListener extends Thread
 		}
 	}
 
-	private static void handleChatMessage(PacketChatMessage packet)
+	public void handleRoomEnterConfirmation(RoomInformations roomInformations)
+	{
+	}
+
+	public void handleRoomExitConfirmation()
+	{
+	}
+
+	public static void handleChatMessage(PacketChatMessage packet)
 	{
 		Client.getLogger().log(Level.INFO, packet.getText());
 	}
 
-	private static void handleLogMessage(PacketLogMessage packet)
+	public static void handleLogMessage(PacketLogMessage packet)
 	{
 		Client.getLogger().log(Level.INFO, packet.getText());
+	}
+
+	public synchronized void close()
+	{
+		this.keepGoing = false;
 	}
 }

@@ -14,7 +14,7 @@ public interface IConnection
 
 	void handleRoomEntry(int id);
 
-	void handleRoomExit(int id);
+	void handleRoomExit();
 
 	void handleChatMessage(String text);
 

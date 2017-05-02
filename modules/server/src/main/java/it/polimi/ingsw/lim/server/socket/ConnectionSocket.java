@@ -61,7 +61,7 @@ public class ConnectionSocket implements IConnection
 		}
 	}
 
-	void sendHandshakeCorrect()
+	void sendHandshakeConfirmation()
 	{
 		try {
 			this.out.writeObject(new Packet(PacketType.HANDSHAKE_CORRECT));
@@ -74,7 +74,7 @@ public class ConnectionSocket implements IConnection
 	public void sendRoomList()
 	{
 		List<RoomInformations> rooms = new ArrayList<>();
-		for (Room room : Server.getInstance().getRooms().values()) {
+		for (Room room : Server.getInstance().getRooms()) {
 			List<String> playerNames = new ArrayList<>();
 			for (IConnection player : room.getPlayers()) {
 				playerNames.add(player.getName());
@@ -88,6 +88,14 @@ public class ConnectionSocket implements IConnection
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
+	}
+
+	public void sendRoomEnterConfirmation(RoomInformations roomInformations)
+	{
+	}
+
+	public void sendRoomExitConfirmation()
+	{
 	}
 
 	@Override
@@ -114,17 +122,25 @@ public class ConnectionSocket implements IConnection
 	{
 		try {
 			Packet packet = (Packet) this.in.readObject();
-			if (packet.getPacketType() == PacketType.HANDSHAKE && ((PacketHandshake) packet).getVersion().equals(Constants.VERSION)) {
-				this.name = ((PacketHandshake) packet).getName();
-				this.sendLogMessage("Connected to server.");
-				return true;
-			} else {
+			if (packet.getPacketType() != PacketType.HANDSHAKE || !((PacketHandshake) packet).getVersion().equals(Constants.VERSION)) {
 				this.sendLogMessage("Client version not compatible with the Server.");
 				return false;
 			}
+			if (((PacketHandshake) packet).getName().length() == 0) {
+				this.sendLogMessage("Client name is empty.");
+				return false;
+			}
+			for (IConnection connection : Server.getInstance().getConnections()) {
+				if (connection.getName() != null && connection.getName().equals(((PacketHandshake) packet).getName())) {
+					this.sendLogMessage("Client name is already taken.");
+					return false;
+				}
+			}
+			this.name = ((PacketHandshake) packet).getName();
+			this.sendLogMessage("Connected to server.");
+			return true;
 		} catch (ClassNotFoundException | IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			this.sendLogMessage("Client version not compatible with the Server.");
 			return false;
 		}
 	}
@@ -138,22 +154,26 @@ public class ConnectionSocket implements IConnection
 	@Override
 	public void handleRoomEntry(int id)
 	{
-		if (Server.getInstance().getRooms().get(id) == null || Server.getInstance().getRooms().get(id).getPlayers().contains(this) || Server.getInstance().getRooms().get(id).getPlayers().size() >= 4) {
-			this.disconnect();
+		Room targetRoom = null;
+		for (Room room : Server.getInstance().getRooms()) {
+			if (room.getId() == id) {
+				targetRoom = room;
+				break;
+			}
 		}
-		Server.getInstance().getRooms().get(id).getPlayers().add(this);
+		if (targetRoom == null || targetRoom.getPlayers().contains(this) || targetRoom.getPlayers().size() > 4) {
+			this.disconnect();
+			return;
+		}
+		targetRoom.getPlayers().add(this);
 		Server.getInstance().broadcastRoomsUpdate();
 	}
 
 	@Override
-	public void handleRoomExit(int id)
+	public void handleRoomExit()
 	{
-		if (Server.getInstance().getRooms().get(id) == null || !Server.getInstance().getRooms().get(id).getPlayers().contains(this)) {
-			this.disconnect();
-		}
-		Server.getInstance().getRooms().get(id).getPlayers().remove(this);
-		if (Server.getInstance().getRooms().get(id).getPlayers().isEmpty()) {
-			Server.getInstance().getRooms().remove(id);
+		for (Room room : Server.getInstance().getRooms()) {
+			room.getPlayers().remove(this);
 		}
 		Server.getInstance().broadcastRoomsUpdate();
 	}

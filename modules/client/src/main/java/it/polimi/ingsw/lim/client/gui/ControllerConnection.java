@@ -17,12 +17,19 @@ public class ControllerConnection implements Initializable
 	@FXML private TextField portTextField;
 	@FXML private TextField nameTextField;
 	@FXML private RadioButton rmiRadioButton;
+	@FXML private RadioButton socketRadioButton;
 	@FXML private Button connectionButton;
 
 	@FXML
 	private void handleConnectionButtonAction()
 	{
-		this.connectionButton.getScene().getRoot().setDisable(true);
+		if (this.nameTextField.getText().length() == 0) {
+			this.nameTextField.setPromptText("Insert a name");
+			return;
+		}
+		if (this.rmiRadioButton.isSelected() && this.socketRadioButton.isSelected()) {
+			return;
+		}
 		Client.getInstance().connect(this.rmiRadioButton.isSelected() ? ConnectionType.RMI : ConnectionType.SOCKET, this.ipTextField.getText(), Integer.parseInt(this.portTextField.getText()), this.nameTextField.getText());
 	}
 
@@ -30,12 +37,14 @@ public class ControllerConnection implements Initializable
 	private void handleRmiRadioButtonAction()
 	{
 		this.portTextField.setText("8080");
+		this.connectionButton.setDisable(false);
 	}
 
 	@FXML
 	private void handleSocketRadioButtonAction()
 	{
 		this.portTextField.setText("8081");
+		this.connectionButton.setDisable(false);
 	}
 
 	@Override

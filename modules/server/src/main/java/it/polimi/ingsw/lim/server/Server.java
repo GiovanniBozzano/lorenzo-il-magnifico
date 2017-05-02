@@ -24,9 +24,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ConcurrentMap;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +41,7 @@ public class Server extends Instance
 	private ConnectionListener connectionListener;
 	private final ConcurrentLinkedQueue<IConnection> connections = new ConcurrentLinkedQueue<>();
 	private int connectionId;
-	private final ConcurrentMap<Integer, Room> rooms = new ConcurrentHashMap<>();
+	private final ConcurrentLinkedQueue<Room> rooms = new ConcurrentLinkedQueue<>();
 	private int roomId;
 
 	static {
@@ -107,7 +105,7 @@ public class Server extends Instance
 		this.setNewWindow(fxmlFileLocation, null);
 	}
 
-	public void setNewWindow(String fxmlFileLocation, Runnable runnable)
+	public void setNewWindow(String fxmlFileLocation, Thread thread)
 	{
 		Platform.runLater(() -> {
 			try {
@@ -122,8 +120,8 @@ public class Server extends Instance
 				}
 				this.windowInformations = new WindowInformations(fxmlLoader.getController(), stage);
 				stage.show();
-				if (runnable != null) {
-					runnable.run();
+				if (thread != null) {
+					thread.start();
 				}
 			} catch (IOException exception) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
@@ -163,7 +161,7 @@ public class Server extends Instance
 		List<IConnection> playersInLobby = new ArrayList<>();
 		for (IConnection connection : this.connections) {
 			boolean isInLobby = true;
-			for (Room room : this.rooms.values()) {
+			for (Room room : this.rooms) {
 				if (room.getPlayers().contains(connection)) {
 					isInLobby = false;
 					break;
@@ -221,7 +219,7 @@ public class Server extends Instance
 		return this.connectionId++;
 	}
 
-	public ConcurrentMap<Integer, Room> getRooms()
+	public Queue<Room> getRooms()
 	{
 		return this.rooms;
 	}
