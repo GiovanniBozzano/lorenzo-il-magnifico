@@ -9,7 +9,7 @@ public interface IClientSession extends Remote
 
 	void enterRoom(int id) throws RemoteException;
 
-	void exitRoom(int id) throws RemoteException;
+	void exitRoom() throws RemoteException;
 
 	void sendChatMessage(String text) throws RemoteException;
 }

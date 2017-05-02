@@ -37,9 +37,9 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	}
 
 	@Override
-	public void exitRoom(int id) throws RemoteException
+	public void exitRoom() throws RemoteException
 	{
-		this.connectionRmi.handleRoomExit(id);
+		this.connectionRmi.handleRoomExit();
 	}
 
 	@Override

@@ -45,7 +45,6 @@
 								   text="localhost"
 								   GridPane.columnIndex="1"/>
 						<TextField fx:id="portTextField"
-								   text="8080"
 								   GridPane.columnIndex="1"
 								   GridPane.rowIndex="1"/>
 						<TextField fx:id="nameTextField"
@@ -76,7 +75,6 @@
 						<RadioButton fx:id="rmiRadioButton"
 									 mnemonicParsing="false"
 									 onAction="#handleRmiRadioButtonAction"
-									 selected="true"
 									 text="RMI">
 							<GridPane.margin>
 								<Insets/>
@@ -85,7 +83,8 @@
 								<ToggleGroup fx:id="connectionType"/>
 							</toggleGroup>
 						</RadioButton>
-						<RadioButton mnemonicParsing="false"
+						<RadioButton fx:id="socketRadioButton"
+									 mnemonicParsing="false"
 									 onAction="#handleSocketRadioButtonAction"
 									 text="Socket"
 									 toggleGroup="$connectionType"
@@ -97,6 +96,7 @@
 					</VBox.margin>
 				</GridPane>
 				<Button fx:id="connectionButton"
+						disable="true"
 						mnemonicParsing="false"
 						onAction="#handleConnectionButtonAction"
 						prefWidth="170.0"

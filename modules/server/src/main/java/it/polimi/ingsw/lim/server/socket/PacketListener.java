@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.server.socket;
 import it.polimi.ingsw.lim.common.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.socket.packets.client.PacketRoomEntry;
-import it.polimi.ingsw.lim.common.socket.packets.client.PacketRoomExit;
 import it.polimi.ingsw.lim.server.Server;
 
 import java.io.IOException;
@@ -26,7 +25,7 @@ class PacketListener extends Thread
 			this.connectionSocket.disconnect();
 			return;
 		}
-		this.connectionSocket.sendHandshakeCorrect();
+		this.connectionSocket.sendHandshakeConfirmation();
 		while (this.keepGoing) {
 			try {
 				Packet packet = (Packet) this.connectionSocket.getIn().readObject();
@@ -42,7 +41,7 @@ class PacketListener extends Thread
 						this.connectionSocket.handleRoomEntry(((PacketRoomEntry) packet).getId());
 						break;
 					case ROOM_EXIT:
-						this.connectionSocket.handleRoomExit(((PacketRoomExit) packet).getId());
+						this.connectionSocket.handleRoomExit();
 						break;
 					case CHAT_MESSAGE:
 						this.connectionSocket.handleChatMessage(((PacketChatMessage) packet).getText());
