@@ -12,6 +12,10 @@ public interface IServerSession extends Remote
 
 	void sendRoomList(List<RoomInformations> rooms) throws RemoteException;
 
+	void sendRoomEntryConfirmation(RoomInformations roomInformations) throws RemoteException;
+
+	void sendRoomCreationConfirmation(RoomInformations roomInformations) throws RemoteException;
+
 	void sendLogMessage(String text) throws RemoteException;
 
 	void sendChatMessage(String text) throws RemoteException;

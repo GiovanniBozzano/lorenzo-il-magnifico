@@ -41,6 +41,16 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
+	public void sendRoomEntryConfirmation(RoomInformations roomInformations) throws RemoteException
+	{
+	}
+
+	@Override
+	public void sendRoomCreationConfirmation(RoomInformations roomInformations) throws RemoteException
+	{
+	}
+
+	@Override
 	public void sendLogMessage(String text) throws RemoteException
 	{
 		Client.getLogger().log(Level.INFO, text);

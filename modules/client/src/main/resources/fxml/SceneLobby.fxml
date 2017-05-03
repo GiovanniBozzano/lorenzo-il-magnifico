@@ -58,10 +58,12 @@
 								prefWidth="126.0"
 								text="Enter Room"/>
 						<Button mnemonicParsing="false"
+								onAction="#buttonCreateRoomAction"
 								prefHeight="25.0"
 								prefWidth="126.0"
 								text="Create Room"/>
 						<Button mnemonicParsing="false"
+								onAction="#buttonDisconnectAction"
 								prefHeight="25.0"
 								prefWidth="126.0"
 								text="Disconnect"/>

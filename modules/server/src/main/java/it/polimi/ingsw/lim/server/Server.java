@@ -74,7 +74,7 @@ public class Server extends Instance
 			this.connectionListener.start();
 			this.setNewWindow("/fxml/SceneMain.fxml");
 		} catch (IOException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Server.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			this.windowInformations.getStage().getScene().getRoot().setDisable(false);
 		}
 	}
@@ -87,7 +87,7 @@ public class Server extends Instance
 				this.registry.unbind("lorenzo-il-magnifico");
 				UnicastRemoteObject.unexportObject(this.registry, true);
 			} catch (RemoteException | NotBoundException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Server.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		}
 		if (this.connectionListener != null) {
@@ -95,7 +95,7 @@ public class Server extends Instance
 			try (Socket socket = new Socket("localhost", this.socketPort)) {
 				socket.close();
 			} catch (IOException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Server.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		}
 	}
@@ -108,23 +108,27 @@ public class Server extends Instance
 	public void setNewWindow(String fxmlFileLocation, Thread thread)
 	{
 		Platform.runLater(() -> {
+			FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(fxmlFileLocation));
 			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(fxmlFileLocation));
 				Parent parent = fxmlLoader.load();
-				Stage stage = new Stage();
+				Stage stage;
+				if (this.windowInformations != null) {
+					stage = this.windowInformations.getStage();
+				} else {
+					stage = new Stage();
+				}
 				stage.setScene(new Scene(parent));
 				stage.sizeToScene();
 				stage.setResizable(false);
-				if (this.windowInformations != null) {
-					this.windowInformations.getStage().close();
+				if (this.windowInformations == null) {
+					stage.show();
 				}
 				this.windowInformations = new WindowInformations(fxmlLoader.getController(), stage);
-				stage.show();
 				if (thread != null) {
 					thread.start();
 				}
 			} catch (IOException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Server.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		});
 	}
@@ -140,14 +144,23 @@ public class Server extends Instance
 	public void broadcastRoomsUpdate()
 	{
 		for (IConnection connection : this.getPlayersInLobby()) {
-			connection.sendRoomList();
+			boolean inLobby = true;
+			for (Room room : this.rooms) {
+				if (room.getPlayers().contains(connection)) {
+					inLobby = false;
+					break;
+				}
+			}
+			if (inLobby) {
+				connection.sendRoomList();
+			}
 		}
 	}
 
 	public void broadcastChatMessage(String text)
 	{
-		for (IConnection connection : this.connections) {
-			connection.sendLogMessage(text);
+		for (IConnection connection : this.getPlayersInRooms()) {
+			connection.sendChatMessage(text);
 		}
 	}
 
@@ -156,22 +169,29 @@ public class Server extends Instance
 		Server.LOGGER.log(Level.INFO, text);
 	}
 
-	private List<IConnection> getPlayersInLobby()
+	public List<IConnection> getPlayersInLobby()
 	{
-		List<IConnection> playersInLobby = new ArrayList<>();
+		List<IConnection> playersInLobby = new ArrayList<>(this.connections);
+		playersInLobby.removeAll(this.getPlayersInRooms());
+		return playersInLobby;
+	}
+
+	public List<IConnection> getPlayersInRooms()
+	{
+		List<IConnection> playersInRooms = new ArrayList<>();
 		for (IConnection connection : this.connections) {
-			boolean isInLobby = true;
+			boolean isInRoom = false;
 			for (Room room : this.rooms) {
 				if (room.getPlayers().contains(connection)) {
-					isInLobby = false;
+					isInRoom = true;
 					break;
 				}
 			}
-			if (isInLobby) {
-				playersInLobby.add(connection);
+			if (isInRoom) {
+				playersInRooms.add(connection);
 			}
 		}
-		return playersInLobby;
+		return playersInRooms;
 	}
 
 	public static Logger getLogger()

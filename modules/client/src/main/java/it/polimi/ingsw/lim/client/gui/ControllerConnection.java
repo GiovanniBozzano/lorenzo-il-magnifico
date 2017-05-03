@@ -23,7 +23,7 @@ public class ControllerConnection implements Initializable
 	@FXML
 	private void handleConnectionButtonAction()
 	{
-		if (this.nameTextField.getText().length() == 0) {
+		if (this.nameTextField.getText().length() < 0) {
 			this.nameTextField.setPromptText("Insert a name");
 			return;
 		}

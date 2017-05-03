@@ -20,7 +20,7 @@ public class Handshake extends UnicastRemoteObject implements IHandshake
 	}
 
 	@Override
-	public IClientSession send(String name, String version, IServerSession serverSession) throws RemoteException
+	public IClientSession sendLogin(String name, String version, IServerSession serverSession) throws RemoteException
 	{
 		int connectionId = Server.getInstance().getConnectionId();
 		if (!version.equals(Constants.VERSION)) {
@@ -32,7 +32,7 @@ public class Handshake extends UnicastRemoteObject implements IHandshake
 			}
 			return null;
 		}
-		if (name.length() == 0) {
+		if (name.length() < 1) {
 			serverSession.sendLogMessage("Client name is empty.");
 			try {
 				Server.getInstance().displayToLog("RMI Connection refused from: " + getClientHost() + " - " + connectionId);

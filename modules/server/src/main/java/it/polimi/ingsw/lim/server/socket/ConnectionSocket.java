@@ -5,6 +5,8 @@ import it.polimi.ingsw.lim.common.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.socket.packets.client.PacketHandshake;
 import it.polimi.ingsw.lim.common.socket.packets.server.PacketLogMessage;
+import it.polimi.ingsw.lim.common.socket.packets.server.PacketRoomCreationConfirmation;
+import it.polimi.ingsw.lim.common.socket.packets.server.PacketRoomEntryConfirmation;
 import it.polimi.ingsw.lim.common.socket.packets.server.PacketRoomList;
 import it.polimi.ingsw.lim.common.utils.Constants;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
@@ -64,7 +66,7 @@ public class ConnectionSocket implements IConnection
 	void sendHandshakeConfirmation()
 	{
 		try {
-			this.out.writeObject(new Packet(PacketType.HANDSHAKE_CORRECT));
+			this.out.writeObject(new Packet(PacketType.HANDSHAKE_CONFIRMATION));
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
@@ -82,20 +84,30 @@ public class ConnectionSocket implements IConnection
 			rooms.add(new RoomInformations(room.getId(), room.getName(), playerNames));
 		}
 		try {
-			PacketRoomList packetRoomList = new PacketRoomList();
-			packetRoomList.setRooms(rooms);
-			this.out.writeObject(packetRoomList);
+			this.out.writeObject(new PacketRoomList(rooms));
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 
-	public void sendRoomEnterConfirmation(RoomInformations roomInformations)
+	@Override
+	public void sendRoomEntryConfirmation(RoomInformations roomInformations)
 	{
+		try {
+			this.out.writeObject(new PacketRoomEntryConfirmation(roomInformations));
+		} catch (IOException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
 	}
 
-	public void sendRoomExitConfirmation()
+	@Override
+	public void sendRoomCreationConfirmation(RoomInformations roomInformations)
 	{
+		try {
+			this.out.writeObject(new PacketRoomCreationConfirmation(roomInformations));
+		} catch (IOException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
 	}
 
 	@Override
@@ -126,7 +138,7 @@ public class ConnectionSocket implements IConnection
 				this.sendLogMessage("Client version not compatible with the Server.");
 				return false;
 			}
-			if (((PacketHandshake) packet).getName().length() == 0) {
+			if (((PacketHandshake) packet).getName().length() < 1) {
 				this.sendLogMessage("Client name is empty.");
 				return false;
 			}
@@ -149,6 +161,21 @@ public class ConnectionSocket implements IConnection
 	public void handleRequestRoomList()
 	{
 		this.sendRoomList();
+	}
+
+	@Override
+	public void handleRoomCreation(String name)
+	{
+		if (name.length() < 1) {
+			this.disconnect();
+			return;
+		}
+		int roomId = Server.getInstance().getRoomId();
+		Server.getInstance().getRooms().add(new Room(roomId, name));
+		List<String> playerNames = new ArrayList<>();
+		playerNames.add(this.name);
+		this.sendRoomCreationConfirmation(new RoomInformations(roomId, name, playerNames));
+		Server.getInstance().broadcastRoomsUpdate();
 	}
 
 	@Override

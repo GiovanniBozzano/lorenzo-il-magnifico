@@ -9,20 +9,16 @@ import java.util.List;
 
 public class PacketRoomList extends Packet
 {
-	private ArrayList<RoomInformations> rooms;
+	private final List<RoomInformations> rooms;
 
-	public PacketRoomList()
+	public PacketRoomList(List<RoomInformations> rooms)
 	{
 		super(PacketType.ROOM_LIST);
+		this.rooms = new ArrayList<>(rooms);
 	}
 
 	public List<RoomInformations> getRooms()
 	{
 		return this.rooms;
-	}
-
-	public void setRooms(List<RoomInformations> rooms)
-	{
-		this.rooms = new ArrayList<>(rooms);
 	}
 }

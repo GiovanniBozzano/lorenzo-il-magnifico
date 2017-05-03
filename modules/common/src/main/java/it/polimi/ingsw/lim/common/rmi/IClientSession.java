@@ -5,11 +5,13 @@ import java.rmi.RemoteException;
 
 public interface IClientSession extends Remote
 {
-	void requestRoomList() throws RemoteException;
+	void sendRequestRoomList() throws RemoteException;
 
-	void enterRoom(int id) throws RemoteException;
+	void sendRoomEntry(int id) throws RemoteException;
 
-	void exitRoom() throws RemoteException;
+	void sendRoomExit() throws RemoteException;
+
+	void sendRoomCreation(String name) throws RemoteException;
 
 	void sendChatMessage(String text) throws RemoteException;
 }

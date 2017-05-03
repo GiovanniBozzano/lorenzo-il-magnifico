@@ -5,11 +5,12 @@ import it.polimi.ingsw.lim.common.socket.packets.Packet;
 
 public class PacketRoomEntry extends Packet
 {
-	private int id;
+	private final int id;
 
-	public PacketRoomEntry()
+	public PacketRoomEntry(int id)
 	{
 		super(PacketType.ROOM_ENTRY);
+		this.id = id;
 	}
 
 	public int getId()

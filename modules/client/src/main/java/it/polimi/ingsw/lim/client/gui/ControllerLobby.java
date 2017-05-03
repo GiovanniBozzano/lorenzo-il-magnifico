@@ -1,15 +1,24 @@
 package it.polimi.ingsw.lim.client.gui;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
+import it.polimi.ingsw.lim.common.utils.WindowInformations;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
 public class ControllerLobby implements Initializable
 {
@@ -22,6 +31,31 @@ public class ControllerLobby implements Initializable
 	private void handleRoomsListViewMouseClicked()
 	{
 		this.playersListView.getItems().setAll(this.roomsListView.getSelectionModel().getSelectedItem().getPlayerNames());
+	}
+
+	@FXML
+	private void buttonCreateRoomAction()
+	{
+		FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/fxml/SceneRoomCreation.fxml"));
+		try {
+			Parent parent = fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.initOwner(Client.getInstance().getWindowInformations().getStage().getScene().getWindow());
+			stage.setScene(new Scene(parent));
+			stage.sizeToScene();
+			stage.show();
+			((ControllerRoomCreation) fxmlLoader.getController()).setPreviousWindowInformations(Client.getInstance().getWindowInformations());
+			Client.getInstance().setWindowInformations(new WindowInformations(fxmlLoader.getController(), stage));
+		} catch (IOException exception) {
+			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	@FXML
+	private void buttonDisconnectAction()
+	{
+		Client.getInstance().disconnect();
 	}
 
 	@Override

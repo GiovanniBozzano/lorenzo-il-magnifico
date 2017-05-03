@@ -16,7 +16,7 @@ public class ConnectionRMI implements IConnection
 {
 	private final int id;
 	private final String name;
-	private final IServerSession serverSession;
+	private IServerSession serverSession;
 
 	ConnectionRMI(int id, String name, IServerSession serverSession)
 	{
@@ -31,6 +31,9 @@ public class ConnectionRMI implements IConnection
 		Server.getInstance().getConnections().remove(this);
 		try {
 			this.serverSession.disconnect();
+			this.serverSession = null;
+			System.gc();
+			System.runFinalization();
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
@@ -49,6 +52,26 @@ public class ConnectionRMI implements IConnection
 		}
 		try {
 			this.serverSession.sendRoomList(rooms);
+		} catch (RemoteException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	@Override
+	public void sendRoomEntryConfirmation(RoomInformations roomInformations)
+	{
+		try {
+			this.serverSession.sendRoomEntryConfirmation(roomInformations);
+		} catch (RemoteException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	@Override
+	public void sendRoomCreationConfirmation(RoomInformations roomInformations)
+	{
+		try {
+			this.serverSession.sendRoomCreationConfirmation(roomInformations);
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
@@ -81,12 +104,26 @@ public class ConnectionRMI implements IConnection
 	}
 
 	@Override
+	public void handleRoomCreation(String name)
+	{
+		if (name.length() < 1) {
+			this.disconnect();
+			return;
+		}
+		int roomId = Server.getInstance().getRoomId();
+		Server.getInstance().getRooms().add(new Room(roomId, name));
+		List<String> playerNames = new ArrayList<>();
+		playerNames.add(this.name);
+		this.sendRoomCreationConfirmation(new RoomInformations(roomId, name, playerNames));
+		Server.getInstance().broadcastRoomsUpdate();
+	}
+
+	@Override
 	public void handleRoomEntry(int id)
 	{
-		for (Room room : Server.getInstance().getRooms()) {
-			if (room.getPlayers().contains(this)) {
-				return;
-			}
+		if (Server.getInstance().getPlayersInRooms().contains(this)) {
+			this.disconnect();
+			return;
 		}
 		Room targetRoom = null;
 		for (Room room : Server.getInstance().getRooms()) {
@@ -100,6 +137,11 @@ public class ConnectionRMI implements IConnection
 			return;
 		}
 		targetRoom.getPlayers().add(this);
+		List<String> playerNames = new ArrayList<>();
+		for (IConnection connection : targetRoom.getPlayers()) {
+			playerNames.add(connection.getName());
+		}
+		this.sendRoomEntryConfirmation(new RoomInformations(targetRoom.getId(), targetRoom.getName(), playerNames));
 		Server.getInstance().broadcastRoomsUpdate();
 	}
 

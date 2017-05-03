@@ -5,6 +5,8 @@ import it.polimi.ingsw.lim.client.gui.ControllerLobby;
 import it.polimi.ingsw.lim.common.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.socket.packets.server.PacketLogMessage;
+import it.polimi.ingsw.lim.common.socket.packets.server.PacketRoomCreationConfirmation;
+import it.polimi.ingsw.lim.common.socket.packets.server.PacketRoomEntryConfirmation;
 import it.polimi.ingsw.lim.common.socket.packets.server.PacketRoomList;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 
@@ -26,11 +28,17 @@ public class PacketListener extends Thread
 					return;
 				}
 				switch (packet.getPacketType()) {
-					case HANDSHAKE_CORRECT:
+					case HANDSHAKE_CONFIRMATION:
 						PacketListener.handleHandshakeConfirmation();
 						break;
 					case ROOM_LIST:
 						PacketListener.handleRoomList((PacketRoomList) packet);
+						break;
+					case ROOM_CREATION_CONFIRMATION:
+						PacketListener.handleRoomCreationConfirmation(((PacketRoomCreationConfirmation) packet).getRoomInformations());
+						break;
+					case ROOM_ENTRY_CONFIRMATION:
+						PacketListener.handleRoomEntryConfirmation(((PacketRoomEntryConfirmation) packet).getRoomInformations());
 						break;
 					case LOG_MESSAGE:
 						PacketListener.handleLogMessage((PacketLogMessage) packet);
@@ -64,11 +72,11 @@ public class PacketListener extends Thread
 		}
 	}
 
-	public void handleRoomEnterConfirmation(RoomInformations roomInformations)
+	public static void handleRoomCreationConfirmation(RoomInformations roomInformations)
 	{
 	}
 
-	public void handleRoomExitConfirmation()
+	public static void handleRoomEntryConfirmation(RoomInformations roomInformation)
 	{
 	}
 

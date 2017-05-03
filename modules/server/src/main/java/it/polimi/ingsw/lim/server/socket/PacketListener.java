@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.server.socket;
 
 import it.polimi.ingsw.lim.common.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.socket.packets.PacketChatMessage;
+import it.polimi.ingsw.lim.common.socket.packets.client.PacketRoomCreation;
 import it.polimi.ingsw.lim.common.socket.packets.client.PacketRoomEntry;
 import it.polimi.ingsw.lim.server.Server;
 
@@ -34,8 +35,11 @@ class PacketListener extends Thread
 					return;
 				}
 				switch (packet.getPacketType()) {
-					case REQUEST_ROOM_LIST:
+					case ROOM_LIST_REQUEST:
 						this.connectionSocket.handleRequestRoomList();
+						break;
+					case ROOM_CREATION:
+						this.connectionSocket.handleRoomCreation(((PacketRoomCreation) packet).getName());
 						break;
 					case ROOM_ENTRY:
 						this.connectionSocket.handleRoomEntry(((PacketRoomEntry) packet).getId());
