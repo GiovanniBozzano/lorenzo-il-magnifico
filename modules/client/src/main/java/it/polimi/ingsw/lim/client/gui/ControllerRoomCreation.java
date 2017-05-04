@@ -1,45 +1,68 @@
 package it.polimi.ingsw.lim.client.gui;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.common.utils.WindowInformations;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControllerRoomCreation implements Initializable
 {
-	private WindowInformations previousWindowInformations;
+	private static WindowInformations previousWindowInformations;
 	@FXML private TextField nameTextField;
 
 	@FXML
-	private void buttonCreateAction()
+	private void handleCreateButtonAction()
 	{
-		if (this.nameTextField.getText().length() < 1) {
+		String name = this.nameTextField.getText().replaceAll("^\\s+|\\s+$", "");
+		if (name.length() < 1) {
+			this.nameTextField.clear();
 			this.nameTextField.setPromptText("Insert a name");
 			return;
 		}
-		Client.getInstance().sendRoomCreation(this.nameTextField.getText());
+		if (!name.matches("^[\\w\\-\\s]{4,16}$")) {
+			this.nameTextField.clear();
+			this.nameTextField.setPromptText("Insert a valid name");
+			return;
+		}
+		Connection.sendRoomCreation(name);
 	}
 
 	@FXML
-	private void buttonCancelAction()
+	private void handleCancelButtonAction()
 	{
-		((Stage) this.nameTextField.getScene().getWindow()).close();
-		Client.getInstance().setWindowInformations(this.previousWindowInformations);
+		Client.getInstance().getWindowInformations().getStage().close();
+		Client.getInstance().setWindowInformations(ControllerRoomCreation.previousWindowInformations);
+		Connection.sendRequestRoomList();
 	}
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{
-		Client.getInstance().getWindowInformations().getStage().setOnCloseRequest(event -> Client.getInstance().setWindowInformations(this.previousWindowInformations));
 	}
 
-	void setPreviousWindowInformations(WindowInformations windowInformations)
+	public void close()
 	{
-		this.previousWindowInformations = windowInformations;
+		Client.getInstance().getWindowInformations().getStage().close();
+		Client.getInstance().setWindowInformations(ControllerRoomCreation.getPreviousWindowInformations());
+	}
+
+	static WindowInformations getPreviousWindowInformations()
+	{
+		return ControllerRoomCreation.previousWindowInformations;
+	}
+
+	static void setPreviousWindowInformations(WindowInformations windowInformations)
+	{
+		ControllerRoomCreation.previousWindowInformations = new WindowInformations(windowInformations.getController(), windowInformations.getStage());
+	}
+
+	public TextField getNameTextField()
+	{
+		return this.nameTextField;
 	}
 }

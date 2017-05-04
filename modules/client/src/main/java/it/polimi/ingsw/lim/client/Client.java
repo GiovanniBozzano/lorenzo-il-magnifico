@@ -1,17 +1,13 @@
 package it.polimi.ingsw.lim.client;
 
-import it.polimi.ingsw.lim.client.rmi.ServerSession;
-import it.polimi.ingsw.lim.client.socket.PacketListener;
+import it.polimi.ingsw.lim.client.network.Connection;
+import it.polimi.ingsw.lim.client.network.rmi.ServerSession;
+import it.polimi.ingsw.lim.client.network.socket.PacketListener;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
-import it.polimi.ingsw.lim.common.enums.PacketType;
-import it.polimi.ingsw.lim.common.enums.Side;
 import it.polimi.ingsw.lim.common.rmi.IClientSession;
 import it.polimi.ingsw.lim.common.rmi.IHandshake;
-import it.polimi.ingsw.lim.common.socket.packets.Packet;
-import it.polimi.ingsw.lim.common.socket.packets.client.PacketHandshake;
-import it.polimi.ingsw.lim.common.socket.packets.client.PacketRoomCreation;
-import it.polimi.ingsw.lim.common.utils.Constants;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowInformations;
 import javafx.application.Platform;
@@ -21,151 +17,103 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
-import java.net.Socket;
 import java.rmi.Naming;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.logging.ConsoleHandler;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Client extends Instance
 {
-	private static final Logger LOGGER = Logger.getLogger(Client.class.getSimpleName().toUpperCase());
-	private static final Client INSTANCE = new Client();
-	private WindowInformations windowInformations;
 	private ConnectionType connectionType;
 	private String ip;
 	private int port;
 	private String name;
 	private IClientSession clientSession;
-	private Socket socket;
-	private ObjectInputStream in;
-	private ObjectOutputStream out;
+	private ServerSession serverSession;
 	private PacketListener packetListener;
-	private boolean isStopping;
+	private boolean isConnected;
 
-	static {
-		Client.LOGGER.setUseParentHandlers(false);
-		ConsoleHandler consoleHandler = new ConsoleHandler();
-		consoleHandler.setFormatter(new LogFormatter());
-		Client.LOGGER.addHandler(consoleHandler);
-	}
-
-	private Client()
-	{
-		super(Side.CLIENT);
-	}
-
-	public void connect(ConnectionType connectionType, String ip, int port, String name)
+	/**
+	 * Tries to connect to an RMI or Socket Server and, if successful, opens the lobby screen.
+	 * @param connectionType the type of connection used.
+	 * @param ip the IP address of the Server.
+	 * @param port the port of the Server.
+	 * @param name the name of the Player.
+	 */
+	public void setup(ConnectionType connectionType, String ip, int port, String name)
 	{
 		this.connectionType = connectionType;
 		this.ip = ip;
 		this.port = port;
 		this.name = name;
-		this.windowInformations.getStage().getScene().getRoot().setDisable(true);
+		this.isConnected = false;
+		this.getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (connectionType == ConnectionType.RMI) {
-			try {
-				IHandshake handshake = (IHandshake) Naming.lookup("rmi://" + ip + ":" + port + "/lorenzo-il-magnifico");
-				this.clientSession = handshake.sendLogin(name, Constants.VERSION, new ServerSession());
-				if (this.clientSession != null) {
-					this.setNewWindow("/fxml/SceneLobby.fxml", new Thread(() -> Client.getInstance().sendRequestRoomList()));
-				} else {
-					this.windowInformations.getStage().getScene().getRoot().setDisable(false);
+			new Thread(() -> {
+				try {
+					IHandshake handshake = (IHandshake) Naming.lookup("rmi://" + ip + ":" + port + "/lorenzo-il-magnifico");
+					this.serverSession = new ServerSession();
+					this.clientSession = handshake.sendLogin(name, CommonUtils.VERSION, this.serverSession);
+				} catch (NotBoundException | MalformedURLException | RemoteException exception) {
+					this.getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+					Client.getLogger().log(Level.INFO, "Could not connect to host", exception);
+					return;
 				}
-			} catch (NotBoundException | MalformedURLException | RemoteException exception) {
-				this.windowInformations.getStage().getScene().getRoot().setDisable(false);
-				Client.LOGGER.log(Level.INFO, "Could not connect to host", exception);
-			}
+				if (this.clientSession == null) {
+					this.getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+					return;
+				}
+				this.isConnected = true;
+				CommonUtils.setNewWindow("/fxml/SceneLobby.fxml", null, null, new Thread(Connection::sendRequestRoomList));
+			}).start();
 		} else {
-			try {
-				this.socket = new Socket(ip, port);
-				this.out = new ObjectOutputStream(this.socket.getOutputStream());
-				this.in = new ObjectInputStream(this.socket.getInputStream());
-				this.packetListener = new PacketListener();
-				this.packetListener.start();
-				this.sendHandshake();
-			} catch (IOException exception) {
-				this.windowInformations.getStage().getScene().getRoot().setDisable(false);
-				Client.LOGGER.log(Level.INFO, "Could not connect to host.", exception);
-			}
+			this.packetListener = new PacketListener(ip, port);
+			this.packetListener.start();
 		}
 	}
 
+	/**
+	 * Disconnects from the Server and closes all windows.
+	 */
+	@Override
 	public void stop()
 	{
-		this.isStopping = true;
-		this.disconnect();
+		this.disconnect(true);
 	}
 
-	public void setNewWindow(String fxmlFileLocation)
+	/**
+	 * Disconnects from the Server.
+	 * If the Client is stopping, it closes all the windows, otherwise it closes all the current windows and opens the connection window.
+	 * @param isStopping the flag to check whether the Client has to be closed or not.
+	 */
+	public void disconnect(boolean isStopping)
 	{
-		this.setNewWindow(fxmlFileLocation, null);
-	}
-
-	public void setNewWindow(String fxmlFileLocation, Thread thread)
-	{
-		Platform.runLater(() -> {
-			FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(fxmlFileLocation));
-			try {
-				Parent parent = fxmlLoader.load();
-				Stage stage;
-				if (this.windowInformations != null) {
-					stage = this.windowInformations.getStage();
-				} else {
-					stage = new Stage();
+		if (this.isConnected) {
+			this.isConnected = false;
+			if (this.connectionType == ConnectionType.RMI) {
+				if (this.serverSession != null) {
+					try {
+						UnicastRemoteObject.unexportObject(this.serverSession, true);
+					} catch (NoSuchObjectException exception) {
+						Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					}
 				}
-				stage.setScene(new Scene(parent));
-				stage.sizeToScene();
-				stage.setResizable(false);
-				if (this.windowInformations == null) {
-					stage.show();
+				this.clientSession = null;
+				System.gc();
+				System.runFinalization();
+			} else {
+				if (this.packetListener != null) {
+					this.packetListener.close();
 				}
-				this.windowInformations = new WindowInformations(fxmlLoader.getController(), stage);
-				if (thread != null) {
-					thread.start();
-				}
-			} catch (IOException exception) {
-				Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
-		});
-	}
-
-	public void closeAllWindows(Stage stage)
-	{
-		stage.close();
-		if (stage.getOwner() != null) {
-			this.closeAllWindows((Stage) stage.getOwner());
+			Client.getLogger().log(Level.INFO, "Connection closed.");
 		}
-	}
-
-	public void disconnect()
-	{
-		if (connectionType == ConnectionType.RMI) {
-			Client.LOGGER.log(Level.INFO, "The connection has been closed.");
-			this.clientSession = null;
-			System.gc();
-			System.runFinalization();
+		if (isStopping) {
+			Platform.runLater(() -> CommonUtils.closeAllWindows(this.getWindowInformations().getStage()));
 		} else {
-			if (this.packetListener != null) {
-				this.packetListener.close();
-			}
-			try {
-				if (this.out != null) {
-					this.out.close();
-				}
-				if (this.in != null) {
-					this.in.close();
-				}
-				this.socket.close();
-			} catch (IOException exception) {
-				Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			}
-		}
-		if (!isStopping) {
 			Platform.runLater(() -> {
 				FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/fxml/SceneConnection.fxml"));
 				try {
@@ -174,82 +122,19 @@ public class Client extends Instance
 					stage.setScene(new Scene(parent));
 					stage.sizeToScene();
 					stage.setResizable(false);
+					CommonUtils.closeAllWindows(this.getWindowInformations().getStage());
+					this.setWindowInformations(new WindowInformations(fxmlLoader.getController(), stage));
 					stage.show();
-					this.closeAllWindows(this.windowInformations.getStage());
-					this.windowInformations = new WindowInformations(fxmlLoader.getController(), stage);
 				} catch (IOException exception) {
-					Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 				}
 			});
-		} else {
-			Platform.runLater(() -> this.closeAllWindows(this.windowInformations.getStage()));
 		}
-	}
-
-	private void sendHandshake()
-	{
-		if (this.connectionType == ConnectionType.SOCKET) {
-			try {
-				this.out.writeObject(new PacketHandshake(this.name));
-			} catch (IOException exception) {
-				Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			}
-		}
-	}
-
-	public void sendRequestRoomList()
-	{
-		if (this.connectionType == ConnectionType.RMI) {
-			try {
-				this.clientSession.sendRequestRoomList();
-			} catch (RemoteException exception) {
-				Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			}
-		} else {
-			try {
-				this.out.writeObject(new Packet(PacketType.ROOM_LIST_REQUEST));
-			} catch (IOException exception) {
-				Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			}
-		}
-	}
-
-	public void sendRoomCreation(String name)
-	{
-		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
-		if (this.connectionType == ConnectionType.RMI) {
-			try {
-				this.clientSession.sendRoomCreation(name);
-			} catch (RemoteException exception) {
-				Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			}
-		} else {
-			try {
-				this.out.writeObject(new PacketRoomCreation(name));
-			} catch (IOException exception) {
-				Client.LOGGER.log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			}
-		}
-	}
-
-	public static Logger getLogger()
-	{
-		return Client.LOGGER;
 	}
 
 	public static Client getInstance()
 	{
-		return Client.INSTANCE;
-	}
-
-	public WindowInformations getWindowInformations()
-	{
-		return this.windowInformations;
-	}
-
-	public void setWindowInformations(WindowInformations windowInformations)
-	{
-		this.windowInformations = windowInformations;
+		return (Client) Instance.getInstance();
 	}
 
 	public ConnectionType getConnectionType()
@@ -274,16 +159,21 @@ public class Client extends Instance
 
 	public IClientSession getClientSession()
 	{
-		return clientSession;
+		return this.clientSession;
 	}
 
-	public ObjectInputStream getIn()
+	public PacketListener getPacketListener()
 	{
-		return this.in;
+		return this.packetListener;
 	}
 
-	public ObjectOutputStream getOut()
+	public boolean isConnected()
 	{
-		return this.out;
+		return this.isConnected;
+	}
+
+	public void setConnected(boolean isConnected)
+	{
+		this.isConnected = isConnected;
 	}
 }

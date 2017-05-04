@@ -1,16 +1,22 @@
-package it.polimi.ingsw.lim.server;
+package it.polimi.ingsw.lim.server.network;
 
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 
+import java.util.List;
+
 public interface IConnection
 {
-	void disconnect();
+	void disconnect(boolean kick);
 
-	void sendRoomList();
+	void sendRoomList(List<RoomInformations> rooms);
+
+	void sendRoomCreationFailure();
 
 	void sendRoomEntryConfirmation(RoomInformations roomInformations);
 
-	void sendRoomCreationConfirmation(RoomInformations roomInformations);
+	void sendRoomEntryOther(String name);
+
+	void sendRoomExitOther(String name);
 
 	void sendLogMessage(String text);
 
@@ -29,4 +35,6 @@ public interface IConnection
 	int getId();
 
 	String getName();
+
+	void setName(String name);
 }

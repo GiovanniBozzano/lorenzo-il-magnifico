@@ -1,7 +1,7 @@
-package it.polimi.ingsw.lim.client.rmi;
+package it.polimi.ingsw.lim.client.network.rmi;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.gui.ControllerLobby;
+import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.common.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 
@@ -9,7 +9,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.server.Unreferenced;
 import java.util.List;
-import java.util.logging.Level;
 
 public class ServerSession extends UnicastRemoteObject implements IServerSession, Unreferenced
 {
@@ -20,45 +19,50 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	@Override
 	public void unreferenced()
 	{
-		Client.getInstance().disconnect();
-	}
-
-	@Override
-	public void disconnect() throws RemoteException
-	{
-		Client.getInstance().disconnect();
+		if (Client.getInstance().isConnected()) {
+			Client.getInstance().disconnect(false);
+		}
 	}
 
 	@Override
 	public void sendRoomList(List<RoomInformations> rooms) throws RemoteException
 	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerLobby)) {
-			return;
-		}
-		for (RoomInformations roomInformations : rooms) {
-			((ControllerLobby) Client.getInstance().getWindowInformations().getController()).getRoomsListView().getItems().add(roomInformations);
-		}
+		Connection.handleRoomList(rooms);
+	}
+
+	@Override
+	public void sendRoomCreationFailure()
+	{
+		Connection.handleRoomCreationFailure();
 	}
 
 	@Override
 	public void sendRoomEntryConfirmation(RoomInformations roomInformations) throws RemoteException
 	{
+		Connection.handleRoomEntryConfirmation(roomInformations);
 	}
 
 	@Override
-	public void sendRoomCreationConfirmation(RoomInformations roomInformations) throws RemoteException
+	public void sendRoomEntryOther(String name) throws RemoteException
 	{
+		Connection.handleRoomEntryOther(name);
+	}
+
+	@Override
+	public void sendRoomExitOther(String name) throws RemoteException
+	{
+		Connection.handleRoomExitOther(name);
 	}
 
 	@Override
 	public void sendLogMessage(String text) throws RemoteException
 	{
-		Client.getLogger().log(Level.INFO, text);
+		Connection.handleLogMessage(text);
 	}
 
 	@Override
 	public void sendChatMessage(String text) throws RemoteException
 	{
-		Client.getLogger().log(Level.INFO, text);
+		Connection.handleChatMessage(text);
 	}
 }

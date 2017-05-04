@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.client.gui;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.common.utils.WindowInformations;
@@ -30,32 +31,49 @@ public class ControllerLobby implements Initializable
 	@FXML
 	private void handleRoomsListViewMouseClicked()
 	{
+		if (this.roomsListView.getSelectionModel().getSelectedItem() == null) {
+			return;
+		}
+		this.playersListView.getItems().clear();
 		this.playersListView.getItems().setAll(this.roomsListView.getSelectionModel().getSelectedItem().getPlayerNames());
 	}
 
 	@FXML
-	private void buttonCreateRoomAction()
+	private void handleEnterRoomButtonAction()
+	{
+		if (this.roomsListView.getSelectionModel().getSelectedItem() == null) {
+			return;
+		}
+		Connection.sendRoomEntry(this.roomsListView.getSelectionModel().getSelectedItem().getId());
+	}
+
+	@FXML
+	private void handleCreateRoomButtonAction()
 	{
 		FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/fxml/SceneRoomCreation.fxml"));
 		try {
 			Parent parent = fxmlLoader.load();
+			ControllerRoomCreation.setPreviousWindowInformations(Client.getInstance().getWindowInformations());
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.initOwner(Client.getInstance().getWindowInformations().getStage().getScene().getWindow());
 			stage.setScene(new Scene(parent));
 			stage.sizeToScene();
-			stage.show();
-			((ControllerRoomCreation) fxmlLoader.getController()).setPreviousWindowInformations(Client.getInstance().getWindowInformations());
+			stage.setOnCloseRequest(event -> {
+				Client.getInstance().setWindowInformations(ControllerRoomCreation.getPreviousWindowInformations());
+				Connection.sendRequestRoomList();
+			});
 			Client.getInstance().setWindowInformations(new WindowInformations(fxmlLoader.getController(), stage));
+			stage.show();
 		} catch (IOException exception) {
 			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 
 	@FXML
-	private void buttonDisconnectAction()
+	private void handleDisconnectButtonAction()
 	{
-		Client.getInstance().disconnect();
+		Client.getInstance().disconnect(false);
 	}
 
 	@Override

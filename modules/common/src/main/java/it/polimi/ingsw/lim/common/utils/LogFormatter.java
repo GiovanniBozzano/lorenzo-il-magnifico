@@ -23,7 +23,7 @@ public class LogFormatter extends Formatter
 		stringBuilder.append("/");
 		stringBuilder.append(logRecord.getLevel());
 		stringBuilder.append("] - ");
-		stringBuilder.append(formatMessage(logRecord));
+		stringBuilder.append(this.formatMessage(logRecord));
 		if (logRecord.getLevel().intValue() >= Level.WARNING.intValue() && logRecord.getThrown() != null) {
 			stringBuilder.append("\n");
 			stringBuilder.append(logRecord.getThrown());

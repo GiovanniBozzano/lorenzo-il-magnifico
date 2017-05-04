@@ -8,13 +8,15 @@ import java.util.List;
 
 public interface IServerSession extends Remote
 {
-	void disconnect() throws RemoteException;
-
 	void sendRoomList(List<RoomInformations> rooms) throws RemoteException;
+
+	void sendRoomCreationFailure() throws RemoteException;
 
 	void sendRoomEntryConfirmation(RoomInformations roomInformations) throws RemoteException;
 
-	void sendRoomCreationConfirmation(RoomInformations roomInformations) throws RemoteException;
+	void sendRoomEntryOther(String name) throws RemoteException;
+
+	void sendRoomExitOther(String name) throws RemoteException;
 
 	void sendLogMessage(String text) throws RemoteException;
 

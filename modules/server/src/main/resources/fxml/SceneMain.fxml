@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane prefHeight="400.0"
-			prefWidth="600.0"
-			xmlns="http://javafx.com/javafx/8.0.111"
-			xmlns:fx="http://javafx.com/fxml/1"
-			fx:controller="it.polimi.ingsw.lim.server.gui.ControllerMain">
-
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<AnchorPane prefHeight="350.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.server.gui.ControllerMain">
+	<children>
+		<VBox layoutX="200.0" layoutY="100.0" prefHeight="350.0" prefWidth="550.0" spacing="5.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+			<children>
+				<Label />
+				<TextArea fx:id="logTextArea" editable="false" prefHeight="269.0" />
+				<TextField onAction="#handleCommandTextFieldAction" promptText="Enter command..." />
+			</children>
+		</VBox>
+	</children>
 </AnchorPane>

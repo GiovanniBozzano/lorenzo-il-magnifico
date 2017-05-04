@@ -1,7 +1,6 @@
-package it.polimi.ingsw.lim.server.rmi;
+package it.polimi.ingsw.lim.server.network.rmi;
 
 import it.polimi.ingsw.lim.common.rmi.IClientSession;
-import it.polimi.ingsw.lim.server.Server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -20,8 +19,7 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	@Override
 	public void unreferenced()
 	{
-		Server.getInstance().getConnections().remove(this.connectionRmi);
-		Server.getInstance().displayToLog("RMI Client: " + this.connectionRmi.getId() + ":" + this.connectionRmi.getName() + " disconnected.");
+		this.connectionRmi.disconnect(false);
 	}
 
 	@Override

@@ -40,6 +40,6 @@ public enum CardLeader
 
 	public ResourceAmount[] getNeededResources()
 	{
-		return neededResources;
+		return this.neededResources;
 	}
 }

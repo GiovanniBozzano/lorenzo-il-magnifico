@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.common.socket.packets.client;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.socket.packets.Packet;
-import it.polimi.ingsw.lim.common.utils.Constants;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 public class PacketHandshake extends Packet
 {
@@ -12,7 +12,7 @@ public class PacketHandshake extends Packet
 	public PacketHandshake(String name)
 	{
 		super(PacketType.HANDSHAKE);
-		this.version = Constants.VERSION;
+		this.version = CommonUtils.VERSION;
 		this.name = name;
 	}
 
