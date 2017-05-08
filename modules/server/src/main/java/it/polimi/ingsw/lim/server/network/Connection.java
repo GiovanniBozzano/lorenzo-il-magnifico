@@ -41,9 +41,8 @@ public abstract class Connection implements IConnection
 
 	public static void broadcastChatMessage(String text)
 	{
-		String trimmedText = text.replaceAll("^\\s+|\\s+$", "");
 		for (Connection connection : Utils.getPlayersInRooms()) {
-			connection.sendChatMessage(trimmedText);
+			connection.sendChatMessage(text);
 		}
 	}
 
@@ -74,7 +73,7 @@ public abstract class Connection implements IConnection
 	public void handleRoomCreation(String name)
 	{
 		String trimmedName = name.replaceAll("^\\s+|\\s+$", "");
-		if (!trimmedName.matches("^[\\w\\-\\s]{4,16}$")) {
+		if (!trimmedName.matches("^[\\w\\-\\s]{1,16}$")) {
 			this.disconnect(true);
 			return;
 		}

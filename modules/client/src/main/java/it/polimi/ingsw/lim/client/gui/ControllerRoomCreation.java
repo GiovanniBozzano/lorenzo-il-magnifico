@@ -24,7 +24,7 @@ public class ControllerRoomCreation implements Initializable
 			this.nameTextField.setPromptText("Insert a name");
 			return;
 		}
-		if (!name.matches("^[\\w\\-\\s]{4,16}$")) {
+		if (!name.matches("^[\\w\\-\\s]{1,16}$")) {
 			this.nameTextField.clear();
 			this.nameTextField.setPromptText("Insert a valid name");
 			return;

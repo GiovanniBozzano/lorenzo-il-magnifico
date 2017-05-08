@@ -19,9 +19,7 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	@Override
 	public void unreferenced()
 	{
-		if (Client.getInstance().isConnected()) {
-			Client.getInstance().disconnect(false);
-		}
+		Client.getInstance().disconnect(false);
 	}
 
 	@Override

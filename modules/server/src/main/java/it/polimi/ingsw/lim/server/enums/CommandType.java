@@ -11,8 +11,8 @@ public enum CommandType
 
 	public static void handleSayCommand(String text)
 	{
-		if (text != null) {
-			Connection.broadcastChatMessage("[SERVER]: " + text);
+		if (text != null && !text.replaceAll("^\\s+|\\s+$", "").isEmpty()) {
+			Connection.broadcastChatMessage("[SERVER]: " + text.replaceAll("^\\s+|\\s+$", ""));
 		} else {
 			Utils.displayToLog("Missing command arguments.");
 		}
@@ -21,11 +21,16 @@ public enum CommandType
 	public static void handleKickCommand(String text)
 	{
 		if (text != null) {
+			boolean found = false;
 			for (Connection connection : Server.getInstance().getConnections()) {
 				if (connection.getName().equals(text)) {
+					found = true;
 					connection.disconnect(true);
 					break;
 				}
+			}
+			if (!found) {
+				Utils.displayToLog("Player does not exist.");
 			}
 		} else {
 			Utils.displayToLog("Missing command arguments.");

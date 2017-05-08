@@ -41,7 +41,7 @@ public class Server extends Instance
 	}
 
 	/**
-	 * Disconnects all Clients, waiting for every thraed to terminate properly.
+	 * Disconnects all Clients, waiting for every thread to terminate properly.
 	 */
 	@Override
 	public void stop()

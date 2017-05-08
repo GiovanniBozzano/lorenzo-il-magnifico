@@ -109,9 +109,8 @@ public class ConnectionRMI extends Connection
 	@Override
 	public void sendChatMessage(String text)
 	{
-		String trimmedText = text.replaceAll("^\\s+|\\s+$", "");
 		try {
-			this.serverSession.sendChatMessage(trimmedText);
+			this.serverSession.sendChatMessage(text);
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}

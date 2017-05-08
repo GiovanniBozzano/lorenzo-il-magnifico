@@ -65,16 +65,21 @@ public class Utils
 		String commandArguments = null;
 		if (command.contains(" ")) {
 			commandType = commandType.substring(0, commandType.indexOf(' '));
-			commandArguments = command.replace(commandType + " ", "");
+			commandArguments = command.replaceAll(commandType + " ", "");
 		}
-		switch (CommandType.valueOf(commandType.toUpperCase(Locale.ENGLISH))) {
-			case SAY:
-				CommandType.handleSayCommand(commandArguments);
-				break;
-			case KICK:
-				CommandType.handleKickCommand(commandArguments);
-				break;
-			default:
+		try {
+			switch (CommandType.valueOf(commandType.toUpperCase(Locale.ENGLISH))) {
+				case SAY:
+					CommandType.handleSayCommand(commandArguments);
+					break;
+				case KICK:
+					CommandType.handleKickCommand(commandArguments);
+					break;
+				default:
+			}
+		} catch (IllegalArgumentException exception) {
+			Server.getLogger().log(Level.INFO, "Command does not exist.", exception);
+			Utils.displayToLog("Command does not exist.");
 		}
 	}
 
