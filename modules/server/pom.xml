@@ -56,7 +56,7 @@
 							</transformers>
 							<filters>
 								<filter>
-									<artifact>it.polimi.ingsw:lim-common</artifact>
+									<artifact>it.polimi.ingsw:LM13-common</artifact>
 									<includes>
 										<include>**</include>
 									</includes>
