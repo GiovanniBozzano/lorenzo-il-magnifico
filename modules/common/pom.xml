@@ -6,12 +6,12 @@
 
 	<parent>
 		<groupId>it.polimi.ingsw</groupId>
-		<artifactId>lim-parent</artifactId>
+		<artifactId>LM13-parent</artifactId>
 		<version>1.0-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>lim-common</artifactId>
+	<artifactId>LM13-common</artifactId>
 	<packaging>jar</packaging>
 
 	<properties>
