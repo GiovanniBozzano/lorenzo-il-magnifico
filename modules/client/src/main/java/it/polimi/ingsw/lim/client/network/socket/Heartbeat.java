@@ -22,12 +22,14 @@ public class Heartbeat extends Thread
 	public void run()
 	{
 		while (this.keepGoing) {
-			new Packet(PacketType.HEARTBEAT).send(this.out);
-			try {
-				this.wait(1000L);
-			} catch (InterruptedException exception) {
-				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-				Thread.currentThread().interrupt();
+			synchronized (this) {
+				new Packet(PacketType.HEARTBEAT).send(this.out);
+				try {
+					this.wait(1000L);
+				} catch (InterruptedException exception) {
+					Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					Thread.currentThread().interrupt();
+				}
 			}
 		}
 	}
