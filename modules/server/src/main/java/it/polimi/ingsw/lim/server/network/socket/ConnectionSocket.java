@@ -30,7 +30,7 @@ public class ConnectionSocket extends Connection
 		super(id);
 		this.socket = socket;
 		try {
-			this.socket.setSoTimeout(3000);
+			this.socket.setSoTimeout(12000);
 			this.in = new ObjectInputStream(socket.getInputStream());
 			this.out = new ObjectOutputStream(socket.getOutputStream());
 			this.out.flush();
@@ -43,26 +43,20 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void disconnect(boolean kick)
+	public void disconnect(boolean isBeingKicked)
 	{
-		super.disconnect(kick);
-		if (kick && this.packetListener != null) {
+		super.disconnect(isBeingKicked);
+		if (isBeingKicked) {
 			this.packetListener.close();
 		}
 		try {
-			if (this.in != null) {
-				this.in.close();
-			}
-			if (this.out != null) {
-				this.out.close();
-			}
-			if (this.socket != null) {
-				this.socket.close();
-			}
+			this.in.close();
+			this.out.close();
+			this.socket.close();
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
-		if (kick && this.packetListener != null) {
+		if (isBeingKicked) {
 			try {
 				this.packetListener.join();
 			} catch (InterruptedException exception) {

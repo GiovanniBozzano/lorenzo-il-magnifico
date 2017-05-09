@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.client.gui.ControllerLobby">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.client.gui.ControllerLobby">
 	<children>
 		<GridPane hgap="5.0" layoutX="166.0" layoutY="110.0" vgap="5.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
 			<columnConstraints>
@@ -10,20 +10,20 @@
 				<ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="40.0" />
 			</columnConstraints>
 			<rowConstraints>
-				<RowConstraints maxHeight="17.0" minHeight="17.0" prefHeight="17.0" vgrow="SOMETIMES" />
 				<RowConstraints vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="85.0" minHeight="85.0" prefHeight="85.0" vgrow="SOMETIMES" />
+				<RowConstraints vgrow="SOMETIMES" />
+				<RowConstraints vgrow="SOMETIMES" />
 			</rowConstraints>
 			<children>
-				<Label fx:id="connectionLabel" />
-				<Label fx:id="nameLabel" GridPane.columnIndex="1" />
-				<ListView fx:id="roomsListView" focusTraversable="false" onMouseClicked="#handleRoomsListViewMouseClicked" GridPane.rowIndex="1" GridPane.rowSpan="2" />
-				<ListView fx:id="playersListView" focusTraversable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+				<Label fx:id="connectionLabel" minWidth="-Infinity" />
+				<Label fx:id="nameLabel" minWidth="-Infinity" GridPane.columnIndex="1" />
+				<ListView fx:id="roomsListView" focusTraversable="false" onMouseClicked="#handleRoomsListViewMouseClicked" prefHeight="211.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+				<ListView fx:id="playersListView" focusTraversable="false" prefHeight="121.0" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 				<VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
 					<children>
-						<Button mnemonicParsing="false" onAction="#handleEnterRoomButtonAction" prefWidth="126.0" text="Enter Room" />
-						<Button mnemonicParsing="false" onAction="#handleCreateRoomButtonAction" prefWidth="126.0" text="Create Room" />
-						<Button mnemonicParsing="false" onAction="#handleDisconnectButtonAction" prefWidth="126.0" text="Disconnect" />
+						<Button mnemonicParsing="false" onAction="#handleEnterRoomButtonAction" text="Enter Room" />
+						<Button mnemonicParsing="false" onAction="#handleCreateRoomButtonAction" text="Create Room" />
+						<Button mnemonicParsing="false" onAction="#handleDisconnectButtonAction" text="Disconnect" />
 					</children>
 				</VBox>
 			</children>

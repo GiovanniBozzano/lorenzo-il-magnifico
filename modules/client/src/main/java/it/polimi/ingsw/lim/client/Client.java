@@ -1,12 +1,9 @@
 package it.polimi.ingsw.lim.client;
 
-import it.polimi.ingsw.lim.client.network.Connection;
-import it.polimi.ingsw.lim.client.network.rmi.ServerSession;
-import it.polimi.ingsw.lim.client.network.socket.PacketListener;
+import it.polimi.ingsw.lim.client.network.rmi.ConnectionHandlerRMI;
+import it.polimi.ingsw.lim.client.network.socket.ConnectionHandlerSocket;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
-import it.polimi.ingsw.lim.common.rmi.IClientSession;
-import it.polimi.ingsw.lim.common.rmi.IHandshake;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowInformations;
@@ -17,12 +14,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NoSuchObjectException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 
 public class Client extends Instance
@@ -31,9 +22,8 @@ public class Client extends Instance
 	private String ip;
 	private int port;
 	private String name;
-	private IClientSession clientSession;
-	private ServerSession serverSession;
-	private PacketListener packetListener;
+	private ConnectionHandlerRMI connectionHandlerRMI;
+	private ConnectionHandlerSocket connectionHandlerSocket;
 	private boolean isConnected;
 
 	/**
@@ -52,26 +42,11 @@ public class Client extends Instance
 		this.isConnected = false;
 		this.getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (connectionType == ConnectionType.RMI) {
-			new Thread(() -> {
-				try {
-					IHandshake handshake = (IHandshake) Naming.lookup("rmi://" + ip + ":" + port + "/lorenzo-il-magnifico");
-					this.serverSession = new ServerSession();
-					this.clientSession = handshake.sendLogin(name, CommonUtils.VERSION, this.serverSession);
-				} catch (NotBoundException | MalformedURLException | RemoteException exception) {
-					this.getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-					Client.getLogger().log(Level.INFO, "Could not connect to host", exception);
-					return;
-				}
-				if (this.clientSession == null) {
-					this.getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-					return;
-				}
-				this.isConnected = true;
-				CommonUtils.setNewWindow("/fxml/SceneLobby.fxml", null, null, new Thread(Connection::sendRequestRoomList));
-			}).start();
+			this.connectionHandlerRMI = new ConnectionHandlerRMI();
+			this.connectionHandlerRMI.start();
 		} else {
-			this.packetListener = new PacketListener(ip, port);
-			this.packetListener.start();
+			this.connectionHandlerSocket = new ConnectionHandlerSocket();
+			this.connectionHandlerSocket.start();
 		}
 	}
 
@@ -81,7 +56,7 @@ public class Client extends Instance
 	@Override
 	public void stop()
 	{
-		this.disconnect(true);
+		this.disconnect(true, false);
 	}
 
 	/**
@@ -89,31 +64,17 @@ public class Client extends Instance
 	 * If the Client is stopping, it closes all the windows, otherwise it closes all the current windows and opens the connection window.
 	 * @param isStopping the flag to check whether the Client has to be closed or not.
 	 */
-	public void disconnect(boolean isStopping)
+	public void disconnect(boolean isStopping, boolean isBeingKicked)
 	{
 		if (this.isConnected) {
 			this.isConnected = false;
-			if (this.connectionType == ConnectionType.RMI) {
-				if (this.serverSession != null) {
-					try {
-						UnicastRemoteObject.unexportObject(this.serverSession, true);
-					} catch (NoSuchObjectException exception) {
-						Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-					}
-				}
-				this.clientSession = null;
-				System.gc();
-				System.runFinalization();
-			} else {
-				if (this.packetListener != null) {
-					this.packetListener.close();
-					try {
-						this.packetListener.join();
-					} catch (InterruptedException exception) {
-						Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-						Thread.currentThread().interrupt();
-					}
-				}
+			if (isBeingKicked) {
+				Client.getLogger().log(Level.INFO, "The Server closed the connection.");
+			}
+			if (this.connectionHandlerRMI != null) {
+				this.connectionHandlerRMI.disconnect(isBeingKicked);
+			} else if (this.connectionHandlerSocket != null) {
+				this.connectionHandlerSocket.disconnect(isBeingKicked);
 			}
 			Client.getLogger().log(Level.INFO, "Connection closed.");
 		}
@@ -163,19 +124,14 @@ public class Client extends Instance
 		return this.name;
 	}
 
-	public IClientSession getClientSession()
+	public ConnectionHandlerRMI getConnectionHandlerRMI()
 	{
-		return this.clientSession;
+		return this.connectionHandlerRMI;
 	}
 
-	public PacketListener getPacketListener()
+	public ConnectionHandlerSocket getConnectionHandlerSocket()
 	{
-		return this.packetListener;
-	}
-
-	public boolean isConnected()
-	{
-		return this.isConnected;
+		return this.connectionHandlerSocket;
 	}
 
 	public void setConnected(boolean isConnected)

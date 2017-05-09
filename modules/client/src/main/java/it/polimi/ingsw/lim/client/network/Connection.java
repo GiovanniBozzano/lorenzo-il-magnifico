@@ -32,7 +32,21 @@ public class Connection
 	public static void sendHandshake()
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.SOCKET) {
-			new PacketHandshake(Client.getInstance().getName()).send(Client.getInstance().getPacketListener().getOut());
+			new PacketHandshake(Client.getInstance().getName()).send(Client.getInstance().getConnectionHandlerSocket().getOut());
+		}
+	}
+
+	public static void sendHeartbeat()
+	{
+		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
+			try {
+				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendHeartbeat();
+			} catch (RemoteException exception) {
+				Client.getLogger().log(Level.INFO, "RMI Heartbeat timed out.", exception);
+				Client.getInstance().disconnect(false, true);
+			}
+		} else {
+			new Packet(PacketType.HEARTBEAT).send(Client.getInstance().getConnectionHandlerSocket().getOut());
 		}
 	}
 
@@ -43,12 +57,12 @@ public class Connection
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getClientSession().sendRequestRoomList();
+				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendRequestRoomList();
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		} else {
-			new Packet(PacketType.ROOM_LIST_REQUEST).send(Client.getInstance().getPacketListener().getOut());
+			new Packet(PacketType.ROOM_LIST_REQUEST).send(Client.getInstance().getConnectionHandlerSocket().getOut());
 		}
 	}
 
@@ -61,12 +75,12 @@ public class Connection
 		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getClientSession().sendRoomCreation(name);
+				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendRoomCreation(name);
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		} else {
-			new PacketRoomCreation(name).send(Client.getInstance().getPacketListener().getOut());
+			new PacketRoomCreation(name).send(Client.getInstance().getConnectionHandlerSocket().getOut());
 		}
 	}
 
@@ -75,12 +89,12 @@ public class Connection
 		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getClientSession().sendRoomEntry(id);
+				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendRoomEntry(id);
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		} else {
-			new PacketRoomEntry(id).send(Client.getInstance().getPacketListener().getOut());
+			new PacketRoomEntry(id).send(Client.getInstance().getConnectionHandlerSocket().getOut());
 		}
 	}
 
@@ -88,12 +102,12 @@ public class Connection
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getClientSession().sendRoomExit();
+				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendRoomExit();
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		} else {
-			new Packet(PacketType.ROOM_EXIT).send(Client.getInstance().getPacketListener().getOut());
+			new Packet(PacketType.ROOM_EXIT).send(Client.getInstance().getConnectionHandlerSocket().getOut());
 		}
 		CommonUtils.setNewWindow("/fxml/SceneLobby.fxml", null, null, new Thread(Connection::sendRequestRoomList));
 	}
@@ -102,12 +116,12 @@ public class Connection
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getClientSession().sendChatMessage(text);
+				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendChatMessage(text);
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		} else {
-			new PacketChatMessage(text).send(Client.getInstance().getPacketListener().getOut());
+			new PacketChatMessage(text).send(Client.getInstance().getConnectionHandlerSocket().getOut());
 		}
 	}
 

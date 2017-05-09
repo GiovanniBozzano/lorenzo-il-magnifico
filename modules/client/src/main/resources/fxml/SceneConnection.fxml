@@ -31,8 +31,8 @@
 				</GridPane>
 				<GridPane>
 					<columnConstraints>
-						<ColumnConstraints hgrow="SOMETIMES" />
-						<ColumnConstraints hgrow="SOMETIMES" />
+						<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+						<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
 					</columnConstraints>
 					<rowConstraints>
 						<RowConstraints vgrow="SOMETIMES" />

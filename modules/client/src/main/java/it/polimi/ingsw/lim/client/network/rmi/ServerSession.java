@@ -7,19 +7,18 @@ import it.polimi.ingsw.lim.common.utils.RoomInformations;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.rmi.server.Unreferenced;
 import java.util.List;
 
-public class ServerSession extends UnicastRemoteObject implements IServerSession, Unreferenced
+public class ServerSession extends UnicastRemoteObject implements IServerSession
 {
 	public ServerSession() throws RemoteException
 	{
 	}
 
 	@Override
-	public void unreferenced()
+	public void sendDisconnect() throws RemoteException
 	{
-		Client.getInstance().disconnect(false);
+		Client.getInstance().disconnect(false, true);
 	}
 
 	@Override

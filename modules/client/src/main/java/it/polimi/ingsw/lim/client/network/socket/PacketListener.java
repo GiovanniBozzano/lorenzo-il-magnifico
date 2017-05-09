@@ -5,74 +5,31 @@ import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.common.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.socket.packets.server.*;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.logging.Level;
 
 public class PacketListener extends Thread
 {
-	private final String ip;
-	private final int port;
-	private Socket socket;
-	private ObjectInputStream in;
-	private ObjectOutputStream out;
-	private Heartbeat heartbeat;
 	private boolean keepGoing = true;
-
-	public PacketListener(String ip, int port)
-	{
-		this.ip = ip;
-		this.port = port;
-	}
 
 	@Override
 	public void run()
 	{
-		try {
-			this.socket = new Socket(this.ip, this.port);
-			this.out = new ObjectOutputStream(this.socket.getOutputStream());
-			this.in = new ObjectInputStream(this.socket.getInputStream());
-		} catch (IOException exception) {
-			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-			Client.getLogger().log(Level.INFO, "Could not connect to host.", exception);
-			return;
-		}
-		Client.getInstance().setConnected(true);
-		Connection.sendHandshake();
-		this.heartbeat = new Heartbeat(this.out);
-		this.heartbeat.start();
 		while (this.keepGoing) {
 			Packet packet;
 			try {
-				packet = (Packet) this.in.readObject();
+				packet = (Packet) Client.getInstance().getConnectionHandlerSocket().getIn().readObject();
 			} catch (ClassNotFoundException | IOException exception) {
-				this.heartbeat.close();
-				try {
-					this.heartbeat.join();
-				} catch (InterruptedException innerException) {
-					Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, innerException);
-					Thread.currentThread().interrupt();
-				}
 				if (!this.keepGoing) {
 					return;
 				}
 				Client.getLogger().log(Level.INFO, "The Server closed the connection.", exception);
-				Client.getInstance().disconnect(false);
+				Client.getInstance().disconnect(false, true);
 				return;
 			}
 			if (packet == null) {
-				this.heartbeat.close();
-				try {
-					this.heartbeat.join();
-				} catch (InterruptedException exception) {
-					Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-					Thread.currentThread().interrupt();
-				}
-				Client.getInstance().disconnect(false);
+				Client.getInstance().disconnect(false, false);
 				return;
 			}
 			switch (packet.getPacketType()) {
@@ -108,23 +65,5 @@ public class PacketListener extends Thread
 	public synchronized void close()
 	{
 		this.keepGoing = false;
-		try {
-			if (this.in != null) {
-				this.in.close();
-			}
-			if (this.out != null) {
-				this.out.close();
-			}
-			if (this.socket != null) {
-				this.socket.close();
-			}
-		} catch (IOException exception) {
-			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-		}
-	}
-
-	public ObjectOutputStream getOut()
-	{
-		return this.out;
 	}
 }

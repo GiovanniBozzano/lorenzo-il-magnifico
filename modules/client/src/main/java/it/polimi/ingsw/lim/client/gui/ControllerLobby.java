@@ -73,7 +73,7 @@ public class ControllerLobby implements Initializable
 	@FXML
 	private void handleDisconnectButtonAction()
 	{
-		Client.getInstance().disconnect(false);
+		Client.getInstance().disconnect(false, false);
 	}
 
 	@Override

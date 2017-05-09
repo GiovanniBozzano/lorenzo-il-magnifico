@@ -4,10 +4,9 @@ import it.polimi.ingsw.lim.common.rmi.IClientSession;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.rmi.server.Unreferenced;
 import java.util.Objects;
 
-public class ClientSession extends UnicastRemoteObject implements IClientSession, Unreferenced
+public class ClientSession extends UnicastRemoteObject implements IClientSession
 {
 	private final transient ConnectionRMI connectionRmi;
 
@@ -17,9 +16,14 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	}
 
 	@Override
-	public void unreferenced()
+	public void sendDisconnect() throws RemoteException
 	{
 		this.connectionRmi.disconnect(false);
+	}
+
+	@Override
+	public void sendHeartbeat() throws RemoteException
+	{
 	}
 
 	@Override
