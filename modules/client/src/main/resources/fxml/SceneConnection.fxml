@@ -24,9 +24,9 @@
 						<TextField fx:id="ipTextField" prefWidth="120.0" text="localhost" GridPane.columnIndex="1" />
 						<TextField fx:id="portTextField" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 						<TextField fx:id="nameTextField" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-						<Label minWidth="50.0" text="IP:" />
-						<Label minWidth="50.0" text="Port:" GridPane.rowIndex="1" />
-						<Label minWidth="50.0" text="Name:" GridPane.rowIndex="2" />
+						<Label minWidth="-Infinity" text="IP:" />
+						<Label minWidth="-Infinity" text="Port:" GridPane.rowIndex="1" />
+						<Label minWidth="-Infinity" text="Name:" GridPane.rowIndex="2" />
 					</children>
 				</GridPane>
 				<GridPane>

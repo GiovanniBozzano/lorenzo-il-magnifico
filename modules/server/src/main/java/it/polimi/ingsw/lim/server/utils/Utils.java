@@ -91,6 +91,9 @@ public class Utils
 	{
 		List<RoomInformations> rooms = new ArrayList<>();
 		for (Room room : Server.getInstance().getRooms()) {
+			if (room.getPlayers().size() > 3) {
+				continue;
+			}
 			List<String> playerNames = new ArrayList<>();
 			for (Connection player : room.getPlayers()) {
 				playerNames.add(player.getName());

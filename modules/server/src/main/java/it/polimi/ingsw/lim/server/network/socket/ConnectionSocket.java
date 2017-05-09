@@ -30,6 +30,7 @@ public class ConnectionSocket extends Connection
 		super(id);
 		this.socket = socket;
 		try {
+			this.socket.setSoTimeout(3000);
 			this.in = new ObjectInputStream(socket.getInputStream());
 			this.out = new ObjectOutputStream(socket.getOutputStream());
 			this.out.flush();
@@ -45,7 +46,7 @@ public class ConnectionSocket extends Connection
 	public void disconnect(boolean kick)
 	{
 		super.disconnect(kick);
-		if (kick) {
+		if (kick && this.packetListener != null) {
 			this.packetListener.close();
 		}
 		try {
@@ -61,7 +62,7 @@ public class ConnectionSocket extends Connection
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
-		if (kick && this.packetListener != null && this.packetListener.isAlive()) {
+		if (kick && this.packetListener != null) {
 			try {
 				this.packetListener.join();
 			} catch (InterruptedException exception) {
@@ -124,7 +125,7 @@ public class ConnectionSocket extends Connection
 		try {
 			packet = (Packet) this.in.readObject();
 		} catch (ClassNotFoundException | IOException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getLogger().log(Level.INFO, "Handshake failed.", exception);
 			return false;
 		}
 		if (packet.getPacketType() != PacketType.HANDSHAKE || !((PacketHandshake) packet).getVersion().equals(CommonUtils.VERSION)) {

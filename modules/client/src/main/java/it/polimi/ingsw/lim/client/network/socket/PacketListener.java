@@ -20,6 +20,7 @@ public class PacketListener extends Thread
 	private Socket socket;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
+	private Heartbeat heartbeat;
 	private boolean keepGoing = true;
 
 	public PacketListener(String ip, int port)
@@ -42,11 +43,20 @@ public class PacketListener extends Thread
 		}
 		Client.getInstance().setConnected(true);
 		Connection.sendHandshake();
+		this.heartbeat = new Heartbeat(this.out);
+		this.heartbeat.start();
 		while (this.keepGoing) {
 			Packet packet;
 			try {
 				packet = (Packet) this.in.readObject();
 			} catch (ClassNotFoundException | IOException exception) {
+				this.heartbeat.close();
+				try {
+					this.heartbeat.join();
+				} catch (InterruptedException innerException) {
+					Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, innerException);
+					Thread.currentThread().interrupt();
+				}
 				if (!this.keepGoing) {
 					return;
 				}
@@ -55,6 +65,13 @@ public class PacketListener extends Thread
 				return;
 			}
 			if (packet == null) {
+				this.heartbeat.close();
+				try {
+					this.heartbeat.join();
+				} catch (InterruptedException exception) {
+					Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					Thread.currentThread().interrupt();
+				}
 				Client.getInstance().disconnect(false);
 				return;
 			}

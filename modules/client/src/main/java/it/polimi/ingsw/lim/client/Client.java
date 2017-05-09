@@ -107,6 +107,12 @@ public class Client extends Instance
 			} else {
 				if (this.packetListener != null) {
 					this.packetListener.close();
+					try {
+						this.packetListener.join();
+					} catch (InterruptedException exception) {
+						Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+						Thread.currentThread().interrupt();
+					}
 				}
 			}
 			Client.getLogger().log(Level.INFO, "Connection closed.");
