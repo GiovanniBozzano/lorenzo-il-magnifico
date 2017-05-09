@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -75,5 +76,6 @@ public class ControllerConnection implements Initializable
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{
+		this.connectionButton.prefWidthProperty().bind(((VBox) this.connectionButton.getParent()).widthProperty());
 	}
 }
