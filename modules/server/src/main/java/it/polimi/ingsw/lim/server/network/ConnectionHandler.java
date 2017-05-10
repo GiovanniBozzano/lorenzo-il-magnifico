@@ -3,9 +3,11 @@ package it.polimi.ingsw.lim.server.network;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.rmi.Handshake;
 import it.polimi.ingsw.lim.server.network.socket.ConnectionSocket;
 import it.polimi.ingsw.lim.server.utils.Utils;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,7 +19,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 
-public class ConnectionListener extends Thread
+public class ConnectionHandler extends Thread
 {
 	private final int rmiPort;
 	private final int socketPort;
@@ -25,7 +27,7 @@ public class ConnectionListener extends Thread
 	private boolean keepGoing = true;
 	private Handshake handshake;
 
-	public ConnectionListener(int rmiPort, int socketPort)
+	public ConnectionHandler(int rmiPort, int socketPort)
 	{
 		this.rmiPort = rmiPort;
 		this.socketPort = socketPort;
@@ -46,7 +48,11 @@ public class ConnectionListener extends Thread
 		try (ServerSocket serverSocket = new ServerSocket(this.socketPort)) {
 			CommonUtils.setNewWindow("/fxml/SceneMain.fxml", null, null, new Thread(() -> {
 				Utils.displayToLog("Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
-				Utils.displayToLog("Your external IP address is: " + Utils.getExternalIpAddress());
+				Server.getInstance().setExternalIp(Utils.getExternalIpAddress());
+				Platform.runLater(() -> ((ControllerMain) Server.getInstance().getWindowInformations().getController()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));
+				if (Server.getInstance().getExternalIp() != null) {
+					Utils.displayToLog("Your external IP address is: " + Server.getInstance().getExternalIp());
+				}
 			}));
 			while (this.keepGoing) {
 				try {

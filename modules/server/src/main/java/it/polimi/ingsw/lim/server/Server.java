@@ -3,7 +3,7 @@ package it.polimi.ingsw.lim.server;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.network.Connection;
-import it.polimi.ingsw.lim.server.network.ConnectionListener;
+import it.polimi.ingsw.lim.server.network.ConnectionHandler;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -18,7 +18,8 @@ public class Server extends Instance
 {
 	private int rmiPort;
 	private int socketPort;
-	private ConnectionListener connectionListener;
+	private String externalIp;
+	private ConnectionHandler connectionHandler;
 	private final ConcurrentLinkedQueue<Connection> connections = new ConcurrentLinkedQueue<>();
 	private int connectionId;
 	private final ConcurrentLinkedQueue<Room> rooms = new ConcurrentLinkedQueue<>();
@@ -36,8 +37,8 @@ public class Server extends Instance
 		this.connectionId = 0;
 		this.roomId = 0;
 		this.getWindowInformations().getStage().getScene().getRoot().setDisable(true);
-		this.connectionListener = new ConnectionListener(rmiPort, socketPort);
-		this.connectionListener.start();
+		this.connectionHandler = new ConnectionHandler(rmiPort, socketPort);
+		this.connectionHandler.start();
 	}
 
 	/**
@@ -46,28 +47,28 @@ public class Server extends Instance
 	@Override
 	public void stop()
 	{
-		if (this.connectionListener == null) {
+		if (this.connectionHandler == null) {
 			return;
 		}
 		Connection.broadcastChatMessage("Server shutting down...");
-		if (this.connectionListener.getRegistry() != null) {
+		if (this.connectionHandler.getRegistry() != null) {
 			try {
-				this.connectionListener.getRegistry().unbind("lorenzo-il-magnifico");
-				UnicastRemoteObject.unexportObject(this.connectionListener.getRegistry(), true);
-				UnicastRemoteObject.unexportObject(this.connectionListener.getHandshake(), true);
+				this.connectionHandler.getRegistry().unbind("lorenzo-il-magnifico");
+				UnicastRemoteObject.unexportObject(this.connectionHandler.getRegistry(), true);
+				UnicastRemoteObject.unexportObject(this.connectionHandler.getHandshake(), true);
 			} catch (RemoteException | NotBoundException exception) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		}
-		if (this.connectionListener != null) {
-			this.connectionListener.close();
+		if (this.connectionHandler != null) {
+			this.connectionHandler.close();
 			try (Socket socket = new Socket("localhost", this.socketPort)) {
 				socket.close();
 			} catch (IOException exception) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 			try {
-				this.connectionListener.join();
+				this.connectionHandler.join();
 			} catch (InterruptedException exception) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 				Thread.currentThread().interrupt();
@@ -85,14 +86,24 @@ public class Server extends Instance
 		return this.rmiPort;
 	}
 
+	public String getExternalIp()
+	{
+		return this.externalIp;
+	}
+
+	public void setExternalIp(String externalIp)
+	{
+		this.externalIp = externalIp;
+	}
+
 	public int getSocketPort()
 	{
 		return this.socketPort;
 	}
 
-	public ConnectionListener getConnectionListener()
+	public ConnectionHandler getConnectionHandler()
 	{
-		return this.connectionListener;
+		return this.connectionHandler;
 	}
 
 	public Queue<Connection> getConnections()

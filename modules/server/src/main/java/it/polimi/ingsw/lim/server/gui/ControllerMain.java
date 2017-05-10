@@ -3,15 +3,13 @@ package it.polimi.ingsw.lim.server.gui;
 import it.polimi.ingsw.lim.server.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class ControllerMain implements Initializable
+public class ControllerMain
 {
+	@FXML private Label connectionLabel;
 	@FXML private TextArea logTextArea;
 
 	@FXML
@@ -22,9 +20,9 @@ public class ControllerMain implements Initializable
 		Utils.executeCommand(command);
 	}
 
-	@Override
-	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
+	public Label getConnectionLabel()
 	{
+		return this.connectionLabel;
 	}
 
 	public TextArea getLogTextArea()

@@ -63,6 +63,7 @@ public class Client extends Instance
 	 * Disconnects from the Server.
 	 * If the Client is stopping, it closes all the windows, otherwise it closes all the current windows and opens the connection window.
 	 * @param isStopping the flag to check whether the Client has to be closed or not.
+	 * @param isBeingKicked the flag to check wether the Client has to notify the Server or not.
 	 */
 	public void disconnect(boolean isStopping, boolean isBeingKicked)
 	{

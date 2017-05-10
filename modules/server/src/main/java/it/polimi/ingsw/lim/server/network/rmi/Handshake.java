@@ -23,6 +23,7 @@ public class Handshake extends UnicastRemoteObject implements IHandshake
 
 	public Handshake() throws RemoteException
 	{
+		super();
 	}
 
 	@Override

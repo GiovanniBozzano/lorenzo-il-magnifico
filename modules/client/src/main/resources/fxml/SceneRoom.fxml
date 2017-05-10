@@ -19,7 +19,11 @@
 				<TextArea fx:id="chatTextArea" editable="false" prefWidth="200.0" wrapText="true" GridPane.rowIndex="1" />
 				<ListView fx:id="playersListView" focusTraversable="false" prefHeight="181.0" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 				<TextField onAction="#handleChatTextAreaAction" promptText="Enter message" GridPane.rowIndex="2" />
-				<Button mnemonicParsing="false" onAction="#handleDisconnectButtonAction" text="Disconnect" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				<VBox GridPane.columnIndex="1" GridPane.rowIndex="2">
+					<children>
+						<Button fx:id="exitButton" mnemonicParsing="false" onAction="#handleExitButtonAction" text="Exit" />
+					</children>
+				</VBox>
 			</children>
 		</GridPane>
 	</children>

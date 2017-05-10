@@ -10,6 +10,7 @@ import java.util.logging.LogRecord;
 public class LogFormatter extends Formatter
 {
 	public static final String EXCEPTION_MESSAGE = "an exception was thrown";
+	public static final String RMI_ERROR = "RMI connection closed remotely.";
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
 
 	@Override

@@ -21,9 +21,9 @@
 				<ListView fx:id="playersListView" focusTraversable="false" prefHeight="121.0" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 				<VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
 					<children>
-						<Button mnemonicParsing="false" onAction="#handleEnterRoomButtonAction" text="Enter Room" />
-						<Button mnemonicParsing="false" onAction="#handleCreateRoomButtonAction" text="Create Room" />
-						<Button mnemonicParsing="false" onAction="#handleDisconnectButtonAction" text="Disconnect" />
+						<Button fx:id="enterRoomButton" mnemonicParsing="false" onAction="#handleEnterRoomButtonAction" text="Enter Room" />
+						<Button fx:id="createRoomButton" mnemonicParsing="false" onAction="#handleCreateRoomButtonAction" text="Create Room" />
+						<Button fx:id="disconnectButton" mnemonicParsing="false" onAction="#handleDisconnectButtonAction" text="Disconnect" />
 					</children>
 				</VBox>
 			</children>

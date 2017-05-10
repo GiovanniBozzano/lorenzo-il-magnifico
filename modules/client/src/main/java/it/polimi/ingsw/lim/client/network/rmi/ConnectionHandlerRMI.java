@@ -10,13 +10,16 @@ import it.polimi.ingsw.lim.common.utils.LogFormatter;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class ConnectionHandlerRMI extends ConnectionHandler
 {
+	private ServerSession serverSession;
 	private IClientSession clientSession;
 
 	@Override
@@ -24,7 +27,8 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 	{
 		try {
 			IHandshake handshake = (IHandshake) Naming.lookup("rmi://" + Client.getInstance().getIp() + ":" + Client.getInstance().getPort() + "/lorenzo-il-magnifico");
-			this.clientSession = handshake.sendLogin(Client.getInstance().getName(), CommonUtils.VERSION, new ServerSession());
+			this.serverSession = new ServerSession();
+			this.clientSession = handshake.sendLogin(Client.getInstance().getName(), CommonUtils.VERSION, this.serverSession);
 		} catch (NotBoundException | MalformedURLException | RemoteException exception) {
 			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
 			Client.getLogger().log(Level.INFO, "Could not connect to host", exception);
@@ -43,6 +47,11 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 	public void disconnect(boolean isBeingKicked)
 	{
 		super.disconnect(isBeingKicked);
+		try {
+			UnicastRemoteObject.unexportObject(this.serverSession, true);
+		} catch (NoSuchObjectException exception) {
+			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
 		if (!isBeingKicked) {
 			try {
 				this.clientSession.sendDisconnect();

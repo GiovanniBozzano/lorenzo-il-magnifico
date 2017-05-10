@@ -10,9 +10,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -27,6 +29,9 @@ public class ControllerLobby implements Initializable
 	@FXML private Label nameLabel;
 	@FXML private ListView<RoomInformations> roomsListView;
 	@FXML private ListView<String> playersListView;
+	@FXML private Button enterRoomButton;
+	@FXML private Button createRoomButton;
+	@FXML private Button disconnectButton;
 
 	@FXML
 	private void handleRoomsListViewMouseClicked()
@@ -108,6 +113,9 @@ public class ControllerLobby implements Initializable
 				}
 			}
 		});
+		this.enterRoomButton.prefWidthProperty().bind(((VBox) this.enterRoomButton.getParent()).widthProperty());
+		this.createRoomButton.prefWidthProperty().bind(((VBox) this.createRoomButton.getParent()).widthProperty());
+		this.disconnectButton.prefWidthProperty().bind(((VBox) this.disconnectButton.getParent()).widthProperty());
 	}
 
 	public ListView<RoomInformations> getRoomsListView()

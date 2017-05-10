@@ -11,14 +11,21 @@ import java.util.List;
 
 public class ServerSession extends UnicastRemoteObject implements IServerSession
 {
-	public ServerSession() throws RemoteException
+	ServerSession() throws RemoteException
 	{
+		super();
 	}
 
 	@Override
 	public void sendDisconnect() throws RemoteException
 	{
 		Client.getInstance().disconnect(false, true);
+	}
+
+	@Override
+	public void sendHeartbeat() throws RemoteException
+	{
+		// This method is empty because it is only called to check the connection.
 	}
 
 	@Override

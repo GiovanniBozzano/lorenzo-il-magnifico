@@ -42,7 +42,7 @@ public class Connection
 			try {
 				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendHeartbeat();
 			} catch (RemoteException exception) {
-				Client.getLogger().log(Level.INFO, "RMI Heartbeat timed out.", exception);
+				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, true);
 			}
 		} else {
@@ -59,7 +59,8 @@ public class Connection
 			try {
 				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendRequestRoomList();
 			} catch (RemoteException exception) {
-				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, true);
 			}
 		} else {
 			new Packet(PacketType.ROOM_LIST_REQUEST).send(Client.getInstance().getConnectionHandlerSocket().getOut());
@@ -77,7 +78,8 @@ public class Connection
 			try {
 				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendRoomCreation(name);
 			} catch (RemoteException exception) {
-				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, true);
 			}
 		} else {
 			new PacketRoomCreation(name).send(Client.getInstance().getConnectionHandlerSocket().getOut());
@@ -91,7 +93,8 @@ public class Connection
 			try {
 				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendRoomEntry(id);
 			} catch (RemoteException exception) {
-				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, true);
 			}
 		} else {
 			new PacketRoomEntry(id).send(Client.getInstance().getConnectionHandlerSocket().getOut());
@@ -104,7 +107,8 @@ public class Connection
 			try {
 				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendRoomExit();
 			} catch (RemoteException exception) {
-				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, true);
 			}
 		} else {
 			new Packet(PacketType.ROOM_EXIT).send(Client.getInstance().getConnectionHandlerSocket().getOut());
@@ -118,7 +122,8 @@ public class Connection
 			try {
 				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendChatMessage(text);
 			} catch (RemoteException exception) {
-				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, true);
 			}
 		} else {
 			new PacketChatMessage(text).send(Client.getInstance().getConnectionHandlerSocket().getOut());

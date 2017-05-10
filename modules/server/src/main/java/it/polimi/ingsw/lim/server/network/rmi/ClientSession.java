@@ -12,6 +12,7 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 
 	ClientSession(ConnectionRMI connectionRmi) throws RemoteException
 	{
+		super();
 		this.connectionRmi = connectionRmi;
 	}
 
@@ -24,6 +25,7 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	@Override
 	public void sendHeartbeat() throws RemoteException
 	{
+		// This method is empty because it is only called to check the connection.
 	}
 
 	@Override

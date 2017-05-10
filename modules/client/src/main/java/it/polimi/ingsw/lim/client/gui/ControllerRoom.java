@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.List;
@@ -16,6 +17,7 @@ public class ControllerRoom implements Initializable
 	@FXML private Label roomNameLabel;
 	@FXML private TextArea chatTextArea;
 	@FXML private ListView<String> playersListView;
+	@FXML private Button exitButton;
 
 	@FXML
 	private void handleChatTextAreaAction(ActionEvent event)
@@ -34,7 +36,7 @@ public class ControllerRoom implements Initializable
 	}
 
 	@FXML
-	private void handleDisconnectButtonAction()
+	private void handleExitButtonAction()
 	{
 		Connection.sendRoomExit();
 	}
@@ -56,6 +58,7 @@ public class ControllerRoom implements Initializable
 				}
 			}
 		});
+		this.exitButton.prefWidthProperty().bind(((VBox) this.exitButton.getParent()).widthProperty());
 	}
 
 	public void setRoomInformations(String name, List<String> playerNames)

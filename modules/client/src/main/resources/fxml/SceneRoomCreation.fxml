@@ -30,8 +30,16 @@
 						<RowConstraints vgrow="SOMETIMES" />
 					</rowConstraints>
 					<children>
-						<Button fx:id="createButton" mnemonicParsing="false" onAction="#handleCreateButtonAction" text="Create" />
-						<Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancelButtonAction" text="Cancel" GridPane.columnIndex="1" />
+						<VBox>
+							<children>
+								<Button fx:id="createButton" mnemonicParsing="false" onAction="#handleCreateButtonAction" text="Create" />
+							</children>
+						</VBox>
+						<VBox GridPane.columnIndex="1">
+							<children>
+								<Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancelButtonAction" text="Cancel" />
+							</children>
+						</VBox>
 					</children>
 				</GridPane>
 			</children>
