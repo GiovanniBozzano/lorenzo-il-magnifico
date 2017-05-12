@@ -36,6 +36,13 @@ public class Connection
 		}
 	}
 
+	public static void sendDisconnectionAcknowledgement()
+	{
+		if (Client.getInstance().getConnectionType() == ConnectionType.SOCKET) {
+			new Packet(PacketType.DISCONNECTION_ACKNOWLEDGEMENT).send(Client.getInstance().getConnectionHandlerSocket().getOut());
+		}
+	}
+
 	public static void sendHeartbeat()
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
@@ -133,6 +140,12 @@ public class Connection
 	public static void handleHandshakeConfirmation()
 	{
 		CommonUtils.setNewWindow("/fxml/SceneLobby.fxml", null, null, new Thread(Connection::sendRequestRoomList));
+	}
+
+	public static void handleDisconnectionLogMessage(String text)
+	{
+		Client.getLogger().log(Level.INFO, text);
+		Connection.sendDisconnectionAcknowledgement();
 	}
 
 	public static void handleRoomList(List<RoomInformations> rooms)

@@ -36,6 +36,9 @@ public class PacketListener extends Thread
 				case HANDSHAKE_CONFIRMATION:
 					Connection.handleHandshakeConfirmation();
 					break;
+				case DISCONNECTION_LOG_MESSAGE:
+					Connection.handleDisconnectionLogMessage(((PacketDisconnectionLogMessage) packet).getText());
+					break;
 				case ROOM_LIST:
 					Connection.handleRoomList(((PacketRoomList) packet).getRooms());
 					break;

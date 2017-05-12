@@ -7,7 +7,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public interface IConnection
 {
-	void disconnect(boolean kick);
+	void disconnect(boolean flag, String message);
 
 	void sendHeartbeat();
 

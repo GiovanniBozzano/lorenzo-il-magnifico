@@ -19,7 +19,7 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	@Override
 	public void sendDisconnect() throws RemoteException
 	{
-		this.connectionRmi.disconnect(false);
+		this.connectionRmi.disconnect(false, null);
 	}
 
 	@Override

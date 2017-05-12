@@ -41,14 +41,27 @@ public class ConnectionSocket extends Connection
 			this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3000L, TimeUnit.MILLISECONDS);
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			this.disconnect(true);
+			this.disconnect(true, null);
 		}
 	}
 
 	@Override
-	public void disconnect(boolean isBeingKicked)
+	public void disconnect(boolean isBeingKicked, String message)
 	{
-		super.disconnect(isBeingKicked);
+		super.disconnect(isBeingKicked, message);
+		if (message != null) {
+			this.sendDisconnectionLogMessage(message);
+			try {
+				this.socket.setSoTimeout(3000);
+				Packet packet;
+				do {
+					packet = (Packet) this.in.readObject();
+				}
+				while (packet.getPacketType() != PacketType.DISCONNECTION_ACKNOWLEDGEMENT);
+			} catch (IOException | ClassNotFoundException exception) {
+				Server.getLogger().log(Level.INFO, "Connection acknowledgement failed.", exception);
+			}
+		}
 		if (isBeingKicked) {
 			this.packetListener.close();
 		}
@@ -117,6 +130,11 @@ public class ConnectionSocket extends Connection
 		new PacketLogMessage(text).send(this.out);
 	}
 
+	public void sendDisconnectionLogMessage(String text)
+	{
+		new PacketDisconnectionLogMessage(text).send(this.out);
+	}
+
 	@Override
 	public void sendChatMessage(String text)
 	{
@@ -130,24 +148,25 @@ public class ConnectionSocket extends Connection
 			packet = (Packet) this.in.readObject();
 		} catch (ClassNotFoundException | IOException exception) {
 			Server.getLogger().log(Level.INFO, "Handshake failed.", exception);
+			this.disconnect(false, null);
 			return false;
 		}
 		if (packet.getPacketType() != PacketType.HANDSHAKE || !((PacketHandshake) packet).getVersion().equals(CommonUtils.VERSION)) {
-			this.sendLogMessage("Client version not compatible with the Server.");
+			this.disconnect(false, "Client version not compatible with the Server.");
 			return false;
 		}
 		String name = ((PacketHandshake) packet).getName().replaceAll("^\\s+|\\s+$", "");
 		if (!name.matches("^[\\w\\-]{4,16}$")) {
+			this.disconnect(false, null);
 			return false;
 		}
 		for (Connection connection : Server.getInstance().getConnections()) {
 			if (connection.getName() != null && connection.getName().equals(name)) {
-				this.sendLogMessage("Client name is already taken.");
+				this.disconnect(false, "Client name is already taken.");
 				return false;
 			}
 		}
 		this.setName(name);
-		this.sendLogMessage("Connected to server.");
 		return true;
 	}
 

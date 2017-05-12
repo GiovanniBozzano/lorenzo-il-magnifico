@@ -22,8 +22,11 @@ class PacketListener extends Thread
 	@Override
 	public void run()
 	{
-		if (!this.keepGoing || !this.connectionSocket.handleHandshake()) {
-			this.connectionSocket.disconnect(false);
+		if (!this.keepGoing) {
+			this.connectionSocket.disconnect(false, null);
+			return;
+		}
+		if (!this.connectionSocket.handleHandshake()) {
 			return;
 		}
 		this.connectionSocket.sendHandshakeConfirmation();
@@ -36,11 +39,11 @@ class PacketListener extends Thread
 				if (!this.keepGoing) {
 					return;
 				}
-				this.connectionSocket.disconnect(false);
+				this.connectionSocket.disconnect(false, null);
 				return;
 			}
 			if (packet == null) {
-				this.connectionSocket.disconnect(true);
+				this.connectionSocket.disconnect(true, null);
 				return;
 			}
 			switch (packet.getPacketType()) {

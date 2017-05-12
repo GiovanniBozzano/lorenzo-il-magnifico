@@ -25,7 +25,7 @@ public enum CommandType
 			for (Connection connection : Server.getInstance().getConnections()) {
 				if (connection.getName().equals(text)) {
 					found = true;
-					connection.disconnect(true);
+					connection.disconnect(true, null);
 					break;
 				}
 			}

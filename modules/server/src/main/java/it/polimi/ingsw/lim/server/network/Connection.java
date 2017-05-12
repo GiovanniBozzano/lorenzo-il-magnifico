@@ -30,7 +30,7 @@ public abstract class Connection implements IConnection
 	public static void disconnectAll()
 	{
 		for (Connection connection : Server.getInstance().getConnections()) {
-			connection.disconnect(true);
+			connection.disconnect(true, null);
 		}
 		Server.getInstance().getConnections().clear();
 	}
@@ -50,7 +50,7 @@ public abstract class Connection implements IConnection
 	}
 
 	@Override
-	public void disconnect(boolean notifyClient)
+	public void disconnect(boolean flag, String message)
 	{
 		this.heartbeat.shutdownNow();
 		Server.getInstance().getConnections().remove(this);
@@ -78,7 +78,7 @@ public abstract class Connection implements IConnection
 	{
 		String trimmedName = name.replaceAll("^\\s+|\\s+$", "");
 		if (!trimmedName.matches("^[\\w\\-\\s]{1,16}$")) {
-			this.disconnect(true);
+			this.disconnect(true, null);
 			return;
 		}
 		for (Room room : Server.getInstance().getRooms()) {
@@ -101,7 +101,7 @@ public abstract class Connection implements IConnection
 	public void handleRoomEntry(int id)
 	{
 		if (Utils.getPlayersInRooms().contains(this)) {
-			this.disconnect(true);
+			this.disconnect(true, null);
 			return;
 		}
 		Room targetRoom = null;
@@ -112,7 +112,7 @@ public abstract class Connection implements IConnection
 			}
 		}
 		if (targetRoom == null || targetRoom.getPlayers().size() > 3) {
-			this.disconnect(true);
+			this.disconnect(true, null);
 			return;
 		}
 		targetRoom.getPlayers().add(this);

@@ -6,6 +6,7 @@ import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.enums.CommandType;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.Connection;
+import javafx.application.Platform;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,11 +48,13 @@ public class Utils
 		if (!(Server.getInstance().getWindowInformations().getController() instanceof ControllerMain)) {
 			return;
 		}
-		if (((ControllerMain) Server.getInstance().getWindowInformations().getController()).getLogTextArea().getText().length() < 1) {
-			((ControllerMain) Server.getInstance().getWindowInformations().getController()).getLogTextArea().appendText(text);
-		} else {
-			((ControllerMain) Server.getInstance().getWindowInformations().getController()).getLogTextArea().appendText("\n" + text);
-		}
+		Platform.runLater(() -> {
+			if (((ControllerMain) Server.getInstance().getWindowInformations().getController()).getLogTextArea().getText().length() < 1) {
+				((ControllerMain) Server.getInstance().getWindowInformations().getController()).getLogTextArea().appendText(text);
+			} else {
+				((ControllerMain) Server.getInstance().getWindowInformations().getController()).getLogTextArea().appendText("\n" + text);
+			}
+		});
 	}
 
 	/**

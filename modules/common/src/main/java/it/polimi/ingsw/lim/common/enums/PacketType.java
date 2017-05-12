@@ -3,6 +3,8 @@ package it.polimi.ingsw.lim.common.enums;
 public enum PacketType
 {
 	HANDSHAKE,
+	DISCONNECTION_LOG_MESSAGE,
+	DISCONNECTION_ACKNOWLEDGEMENT,
 	LOG_MESSAGE,
 	CHAT_MESSAGE,
 	HANDSHAKE_CONFIRMATION,

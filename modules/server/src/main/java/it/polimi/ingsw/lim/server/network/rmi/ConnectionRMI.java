@@ -26,9 +26,9 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void disconnect(boolean notifyClient)
+	public void disconnect(boolean notifyClient, String message)
 	{
-		super.disconnect(notifyClient);
+		super.disconnect(notifyClient, null);
 		for (ClientSession clientSession : Server.getInstance().getConnectionHandler().getHandshake().getClientSessions()) {
 			if (clientSession.getConnectionRMI() == this) {
 				try {
@@ -40,6 +40,9 @@ public class ConnectionRMI extends Connection
 			}
 		}
 		if (notifyClient) {
+			if (message != null) {
+				this.sendLogMessage(message);
+			}
 			try {
 				this.serverSession.sendDisconnect();
 			} catch (RemoteException exception) {
@@ -56,7 +59,7 @@ public class ConnectionRMI extends Connection
 			this.serverSession.sendHeartbeat();
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false);
+			this.disconnect(false, null);
 		}
 	}
 
@@ -67,7 +70,7 @@ public class ConnectionRMI extends Connection
 			this.serverSession.sendRoomList(rooms);
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false);
+			this.disconnect(false, null);
 		}
 	}
 
@@ -78,7 +81,7 @@ public class ConnectionRMI extends Connection
 			this.serverSession.sendRoomCreationFailure();
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false);
+			this.disconnect(false, null);
 		}
 	}
 
@@ -89,7 +92,7 @@ public class ConnectionRMI extends Connection
 			this.serverSession.sendRoomEntryConfirmation(roomInformations);
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false);
+			this.disconnect(false, null);
 		}
 	}
 
@@ -100,7 +103,7 @@ public class ConnectionRMI extends Connection
 			this.serverSession.sendRoomEntryOther(name);
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false);
+			this.disconnect(false, null);
 		}
 	}
 
@@ -111,7 +114,7 @@ public class ConnectionRMI extends Connection
 			this.serverSession.sendRoomExitOther(name);
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false);
+			this.disconnect(false, null);
 		}
 	}
 
@@ -122,7 +125,7 @@ public class ConnectionRMI extends Connection
 			this.serverSession.sendLogMessage(text);
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false);
+			this.disconnect(false, null);
 		}
 	}
 
@@ -133,7 +136,7 @@ public class ConnectionRMI extends Connection
 			this.serverSession.sendChatMessage(text);
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false);
+			this.disconnect(false, null);
 		}
 	}
 }
