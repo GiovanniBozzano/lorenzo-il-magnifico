@@ -17,7 +17,7 @@
 			<children>
 				<Label fx:id="connectionLabel" minWidth="-Infinity" />
 				<Label fx:id="nameLabel" minWidth="-Infinity" GridPane.columnIndex="1" />
-				<ListView fx:id="roomsListView" focusTraversable="false" onMouseClicked="#handleRoomsListViewMouseClicked" prefHeight="211.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+				<ListView fx:id="roomsListView" focusTraversable="false" onMouseClicked="#handleRoomsListViewMouseClicked" prefHeight="229.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="2" />
 				<ListView fx:id="playersListView" focusTraversable="false" prefHeight="121.0" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 				<VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
 					<children>

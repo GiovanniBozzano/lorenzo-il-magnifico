@@ -5,7 +5,6 @@ import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomCreation;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomEntry;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -24,7 +23,7 @@ class PacketListener extends Thread
 	public void run()
 	{
 		if (!this.keepGoing || !this.connectionSocket.handleHandshake()) {
-			this.connectionSocket.disconnect(true);
+			this.connectionSocket.disconnect(false);
 			return;
 		}
 		this.connectionSocket.sendHandshakeConfirmation();
@@ -33,11 +32,10 @@ class PacketListener extends Thread
 			try {
 				packet = (Packet) this.connectionSocket.getIn().readObject();
 			} catch (ClassNotFoundException | IOException exception) {
+				Server.getLogger().log(Level.INFO, "Socket Client " + this.connectionSocket.getId() + (this.connectionSocket.getName() != null ? " : " + this.connectionSocket.getName() : "") + " disconnected.", exception);
 				if (!this.keepGoing) {
 					return;
 				}
-				Server.getLogger().log(Level.INFO, "Socket Client " + this.connectionSocket.getId() + ":" + this.connectionSocket.getName() + " disconnected.", exception);
-				Utils.displayToLog("Socket Client " + this.connectionSocket.getId() + ":" + this.connectionSocket.getName() + " disconnected.");
 				this.connectionSocket.disconnect(false);
 				return;
 			}

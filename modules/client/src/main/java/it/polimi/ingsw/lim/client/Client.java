@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.client;
 
+import it.polimi.ingsw.lim.client.gui.ControllerConnection;
 import it.polimi.ingsw.lim.client.network.rmi.ConnectionHandlerRMI;
 import it.polimi.ingsw.lim.client.network.socket.ConnectionHandlerSocket;
 import it.polimi.ingsw.lim.common.Instance;
@@ -69,9 +70,6 @@ public class Client extends Instance
 	{
 		if (this.isConnected) {
 			this.isConnected = false;
-			if (notifyServer) {
-				Client.getLogger().log(Level.INFO, "The Server closed the connection.");
-			}
 			if (this.connectionHandlerRMI != null) {
 				this.connectionHandlerRMI.disconnect(notifyServer);
 			} else if (this.connectionHandlerSocket != null) {
@@ -81,6 +79,8 @@ public class Client extends Instance
 		}
 		if (isStopping) {
 			Platform.runLater(() -> CommonUtils.closeAllWindows(this.getWindowInformations().getStage()));
+		} else if (this.getWindowInformations().getController() instanceof ControllerConnection) {
+			this.getWindowInformations().getStage().getScene().getRoot().setDisable(false);
 		} else {
 			Platform.runLater(() -> {
 				FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/fxml/SceneConnection.fxml"));

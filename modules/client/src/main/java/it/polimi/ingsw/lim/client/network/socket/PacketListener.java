@@ -25,7 +25,7 @@ public class PacketListener extends Thread
 					return;
 				}
 				Client.getLogger().log(Level.INFO, "The Server closed the connection.", exception);
-				Client.getInstance().disconnect(false, true);
+				Client.getInstance().disconnect(false, false);
 				return;
 			}
 			if (packet == null) {

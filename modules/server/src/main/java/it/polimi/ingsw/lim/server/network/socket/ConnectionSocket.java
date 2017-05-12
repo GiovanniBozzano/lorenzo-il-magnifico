@@ -10,6 +10,7 @@ import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -45,10 +46,10 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void disconnect(boolean notifyClient)
+	public void disconnect(boolean isBeingKicked)
 	{
-		super.disconnect(notifyClient);
-		if (notifyClient) {
+		super.disconnect(isBeingKicked);
+		if (isBeingKicked) {
 			this.packetListener.close();
 		}
 		try {
@@ -58,7 +59,7 @@ public class ConnectionSocket extends Connection
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
-		if (notifyClient) {
+		if (isBeingKicked) {
 			try {
 				this.packetListener.join();
 			} catch (InterruptedException exception) {
@@ -66,6 +67,7 @@ public class ConnectionSocket extends Connection
 				Thread.currentThread().interrupt();
 			}
 		}
+		Utils.displayToLog("Socket Client " + this.getId() + (this.getName() != null ? " : " + this.getName() : "") + " disconnected.");
 	}
 
 	@Override
