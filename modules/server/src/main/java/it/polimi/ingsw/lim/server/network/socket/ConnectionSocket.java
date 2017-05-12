@@ -1,10 +1,10 @@
 package it.polimi.ingsw.lim.server.network.socket;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
-import it.polimi.ingsw.lim.common.socket.packets.Packet;
-import it.polimi.ingsw.lim.common.socket.packets.PacketChatMessage;
-import it.polimi.ingsw.lim.common.socket.packets.client.PacketHandshake;
-import it.polimi.ingsw.lim.common.socket.packets.server.*;
+import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
+import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketHandshake;
+import it.polimi.ingsw.lim.common.network.socket.packets.server.*;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
@@ -16,6 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class ConnectionSocket extends Connection
@@ -36,6 +37,7 @@ public class ConnectionSocket extends Connection
 			this.out.flush();
 			this.packetListener = new PacketListener(this);
 			this.packetListener.start();
+			this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3000L, TimeUnit.MILLISECONDS);
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			this.disconnect(true);
@@ -43,10 +45,10 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void disconnect(boolean isBeingKicked)
+	public void disconnect(boolean notifyClient)
 	{
-		super.disconnect(isBeingKicked);
-		if (isBeingKicked) {
+		super.disconnect(notifyClient);
+		if (notifyClient) {
 			this.packetListener.close();
 		}
 		try {
@@ -56,7 +58,7 @@ public class ConnectionSocket extends Connection
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
-		if (isBeingKicked) {
+		if (notifyClient) {
 			try {
 				this.packetListener.join();
 			} catch (InterruptedException exception) {
@@ -64,6 +66,12 @@ public class ConnectionSocket extends Connection
 				Thread.currentThread().interrupt();
 			}
 		}
+	}
+
+	@Override
+	public void sendHeartbeat()
+	{
+		new Packet(PacketType.HEARTBEAT).send(this.out);
 	}
 
 	void sendHandshakeConfirmation()

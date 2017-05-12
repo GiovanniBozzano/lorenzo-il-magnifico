@@ -1,7 +1,7 @@
-package it.polimi.ingsw.lim.common.socket.packets.server;
+package it.polimi.ingsw.lim.common.network.socket.packets.server;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
-import it.polimi.ingsw.lim.common.socket.packets.Packet;
+import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 
 public class PacketRoomExitOther extends Packet
 {

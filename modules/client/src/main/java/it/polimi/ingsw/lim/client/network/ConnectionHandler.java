@@ -1,11 +1,7 @@
 package it.polimi.ingsw.lim.client.network;
 
-import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.logging.Level;
 
 public abstract class ConnectionHandler extends Thread
 {
@@ -14,18 +10,7 @@ public abstract class ConnectionHandler extends Thread
 	@Override
 	public abstract void run();
 
-	public void disconnect(boolean isBeingKicked)
-	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
-		this.heartbeat.shutdown();
-	}
-
-	public ScheduledExecutorService getHeartbeat()
+	protected ScheduledExecutorService getHeartbeat()
 	{
 		return this.heartbeat;
 	}

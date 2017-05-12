@@ -7,11 +7,14 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public abstract class Connection implements IConnection
 {
 	private final int id;
 	private String name;
+	private final ScheduledExecutorService heartbeat = Executors.newSingleThreadScheduledExecutor();
 
 	protected Connection(int id)
 	{
@@ -47,8 +50,9 @@ public abstract class Connection implements IConnection
 	}
 
 	@Override
-	public void disconnect(boolean kick)
+	public void disconnect(boolean notifyClient)
 	{
+		this.heartbeat.shutdownNow();
 		Server.getInstance().getConnections().remove(this);
 		for (Room room : Server.getInstance().getRooms()) {
 			room.getPlayers().remove(this);
@@ -168,5 +172,11 @@ public abstract class Connection implements IConnection
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	@Override
+	public ScheduledExecutorService getHeartbeat()
+	{
+		return this.heartbeat;
 	}
 }

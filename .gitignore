@@ -2,6 +2,10 @@
 !/.idea/runConfigurations/
 !/.idea/runConfigurations/Sonar.xml
 !/.idea/codeStyleSettings.xml
+/*.iml
+/modules/client/*.iml
+/modules/common/*.iml
+/modules/server/*.iml
 /modules/client/target/
 /modules/common/target/
 /modules/server/target/

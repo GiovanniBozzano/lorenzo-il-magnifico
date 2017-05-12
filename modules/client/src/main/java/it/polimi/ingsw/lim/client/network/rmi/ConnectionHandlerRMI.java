@@ -3,8 +3,8 @@ package it.polimi.ingsw.lim.client.network.rmi;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
-import it.polimi.ingsw.lim.common.rmi.IClientSession;
-import it.polimi.ingsw.lim.common.rmi.IHandshake;
+import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
+import it.polimi.ingsw.lim.common.network.rmi.IHandshake;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 
@@ -43,16 +43,21 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		CommonUtils.setNewWindow("/fxml/SceneLobby.fxml", null, null, new Thread(Connection::sendRequestRoomList));
 	}
 
-	@Override
-	public void disconnect(boolean isBeingKicked)
+	public void disconnect(boolean notifyServer)
 	{
-		super.disconnect(isBeingKicked);
+		try {
+			this.join();
+		} catch (InterruptedException exception) {
+			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Thread.currentThread().interrupt();
+		}
+		this.getHeartbeat().shutdownNow();
 		try {
 			UnicastRemoteObject.unexportObject(this.serverSession, true);
 		} catch (NoSuchObjectException exception) {
 			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
-		if (!isBeingKicked) {
+		if (!notifyServer) {
 			try {
 				this.clientSession.sendDisconnect();
 			} catch (RemoteException exception) {

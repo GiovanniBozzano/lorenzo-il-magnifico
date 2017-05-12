@@ -1,4 +1,4 @@
-package it.polimi.ingsw.lim.common.rmi;
+package it.polimi.ingsw.lim.common.network.rmi;
 
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 

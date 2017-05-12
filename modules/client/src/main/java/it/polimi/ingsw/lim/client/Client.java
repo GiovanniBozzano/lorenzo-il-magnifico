@@ -63,19 +63,19 @@ public class Client extends Instance
 	 * Disconnects from the Server.
 	 * If the Client is stopping, it closes all the windows, otherwise it closes all the current windows and opens the connection window.
 	 * @param isStopping the flag to check whether the Client has to be closed or not.
-	 * @param isBeingKicked the flag to check wether the Client has to notify the Server or not.
+	 * @param notifyServer the flag to check wether the Client has to notify the Server or not.
 	 */
-	public void disconnect(boolean isStopping, boolean isBeingKicked)
+	public void disconnect(boolean isStopping, boolean notifyServer)
 	{
 		if (this.isConnected) {
 			this.isConnected = false;
-			if (isBeingKicked) {
+			if (notifyServer) {
 				Client.getLogger().log(Level.INFO, "The Server closed the connection.");
 			}
 			if (this.connectionHandlerRMI != null) {
-				this.connectionHandlerRMI.disconnect(isBeingKicked);
+				this.connectionHandlerRMI.disconnect(notifyServer);
 			} else if (this.connectionHandlerSocket != null) {
-				this.connectionHandlerSocket.disconnect(isBeingKicked);
+				this.connectionHandlerSocket.disconnect();
 			}
 			Client.getLogger().log(Level.INFO, "Connection closed.");
 		}

@@ -3,10 +3,13 @@ package it.polimi.ingsw.lim.server.network;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 
 import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
 
 public interface IConnection
 {
 	void disconnect(boolean kick);
+
+	void sendHeartbeat();
 
 	void sendRoomList(List<RoomInformations> rooms);
 
@@ -37,4 +40,6 @@ public interface IConnection
 	String getName();
 
 	void setName(String name);
+
+	ScheduledExecutorService getHeartbeat();
 }

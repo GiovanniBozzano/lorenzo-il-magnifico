@@ -1,9 +1,9 @@
 package it.polimi.ingsw.lim.server.network.socket;
 
-import it.polimi.ingsw.lim.common.socket.packets.Packet;
-import it.polimi.ingsw.lim.common.socket.packets.PacketChatMessage;
-import it.polimi.ingsw.lim.common.socket.packets.client.PacketRoomCreation;
-import it.polimi.ingsw.lim.common.socket.packets.client.PacketRoomEntry;
+import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
+import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomCreation;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomEntry;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.utils.Utils;
 

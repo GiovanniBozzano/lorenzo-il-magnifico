@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.server.network.rmi;
 
-import it.polimi.ingsw.lim.common.rmi.IServerSession;
+import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
@@ -11,28 +11,24 @@ import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class ConnectionRMI extends Connection
 {
 	private final IServerSession serverSession;
-	private final ScheduledExecutorService heartbeat = Executors.newSingleThreadScheduledExecutor();
 
 	ConnectionRMI(int id, String name, IServerSession serverSession)
 	{
 		super(id, name);
 		this.serverSession = serverSession;
-		this.heartbeat.scheduleAtFixedRate(this::sendHeartbeat, 0L, 3000L, TimeUnit.MILLISECONDS);
+		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3000L, TimeUnit.MILLISECONDS);
 	}
 
 	@Override
-	public void disconnect(boolean isBeingKicked)
+	public void disconnect(boolean notifyClient)
 	{
-		super.disconnect(isBeingKicked);
-		this.heartbeat.shutdown();
+		super.disconnect(notifyClient);
 		for (ClientSession clientSession : Server.getInstance().getConnectionHandler().getHandshake().getClientSessions()) {
 			if (clientSession.getConnectionRMI() == this) {
 				try {
@@ -43,7 +39,7 @@ public class ConnectionRMI extends Connection
 				break;
 			}
 		}
-		if (isBeingKicked) {
+		if (notifyClient) {
 			try {
 				this.serverSession.sendDisconnect();
 			} catch (RemoteException exception) {
@@ -53,7 +49,8 @@ public class ConnectionRMI extends Connection
 		Utils.displayToLog("RMI Client: " + this.getId() + ":" + this.getName() + " disconnected.");
 	}
 
-	private void sendHeartbeat()
+	@Override
+	public void sendHeartbeat()
 	{
 		try {
 			this.serverSession.sendHeartbeat();

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.server.network.rmi;
 
-import it.polimi.ingsw.lim.common.rmi.IClientSession;
+import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

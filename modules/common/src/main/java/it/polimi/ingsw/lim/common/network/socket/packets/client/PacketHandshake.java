@@ -1,7 +1,7 @@
-package it.polimi.ingsw.lim.common.socket.packets.client;
+package it.polimi.ingsw.lim.common.network.socket.packets.client;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
-import it.polimi.ingsw.lim.common.socket.packets.Packet;
+import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 public class PacketHandshake extends Packet

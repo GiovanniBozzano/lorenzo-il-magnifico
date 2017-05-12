@@ -1,8 +1,8 @@
 package it.polimi.ingsw.lim.server.network.rmi;
 
-import it.polimi.ingsw.lim.common.rmi.IClientSession;
-import it.polimi.ingsw.lim.common.rmi.IHandshake;
-import it.polimi.ingsw.lim.common.rmi.IServerSession;
+import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
+import it.polimi.ingsw.lim.common.network.rmi.IHandshake;
+import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.Server;

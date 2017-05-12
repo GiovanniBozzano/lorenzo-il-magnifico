@@ -24,6 +24,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 	{
 		try {
 			this.socket = new Socket(Client.getInstance().getIp(), Client.getInstance().getPort());
+			this.socket.setSoTimeout(12000);
 			this.out = new ObjectOutputStream(this.socket.getOutputStream());
 			this.in = new ObjectInputStream(this.socket.getInputStream());
 		} catch (IOException exception) {
@@ -32,16 +33,21 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			return;
 		}
 		Client.getInstance().setConnected(true);
-		Connection.sendHandshake();
-		this.getHeartbeat().scheduleAtFixedRate(Connection::sendHeartbeat, 0L, 3000L, TimeUnit.MILLISECONDS);
 		this.packetListener = new PacketListener();
 		this.packetListener.start();
+		Connection.sendHandshake();
+		this.getHeartbeat().scheduleAtFixedRate(Connection::sendHeartbeat, 0L, 3000L, TimeUnit.MILLISECONDS);
 	}
 
-	@Override
-	public void disconnect(boolean isBeingKicked)
+	public void disconnect()
 	{
-		super.disconnect(isBeingKicked);
+		try {
+			this.join();
+		} catch (InterruptedException exception) {
+			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Thread.currentThread().interrupt();
+		}
+		this.getHeartbeat().shutdownNow();
 		this.packetListener.close();
 		try {
 			this.in.close();
