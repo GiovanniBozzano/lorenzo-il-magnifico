@@ -3,9 +3,7 @@ package it.polimi.ingsw.lim.server.network.socket;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketHandshake;
 import it.polimi.ingsw.lim.common.network.socket.packets.server.*;
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
@@ -46,7 +44,7 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void disconnect(boolean isBeingKicked, String message)
+	public synchronized void disconnect(boolean isBeingKicked, String message)
 	{
 		super.disconnect(isBeingKicked, message);
 		if (message != null) {
@@ -84,90 +82,61 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void sendHeartbeat()
+	public synchronized void sendHeartbeat()
 	{
 		new Packet(PacketType.HEARTBEAT).send(this.out);
 	}
 
-	void sendHandshakeConfirmation()
+	synchronized void sendHandshakeConfirmation()
 	{
 		new Packet(PacketType.HANDSHAKE_CONFIRMATION).send(this.out);
 	}
 
 	@Override
-	public void sendRoomList(List<RoomInformations> rooms)
+	public synchronized void sendRoomList(List<RoomInformations> rooms)
 	{
 		new PacketRoomList(rooms).send(this.out);
 	}
 
 	@Override
-	public void sendRoomCreationFailure()
+	public synchronized void sendRoomCreationFailure()
 	{
 		new Packet(PacketType.ROOM_CREATION_FAILURE).send(this.out);
 	}
 
 	@Override
-	public void sendRoomEntryConfirmation(RoomInformations roomInformations)
+	public synchronized void sendRoomEntryConfirmation(RoomInformations roomInformations)
 	{
 		new PacketRoomEntryConfirmation(roomInformations).send(this.out);
 	}
 
 	@Override
-	public void sendRoomEntryOther(String name)
+	public synchronized void sendRoomEntryOther(String name)
 	{
 		new PacketRoomEntryOther(name).send(this.out);
 	}
 
 	@Override
-	public void sendRoomExitOther(String name)
+	public synchronized void sendRoomExitOther(String name)
 	{
 		new PacketRoomExitOther(name).send(this.out);
 	}
 
 	@Override
-	public void sendLogMessage(String text)
+	public synchronized void sendLogMessage(String text)
 	{
 		new PacketLogMessage(text).send(this.out);
 	}
 
-	public void sendDisconnectionLogMessage(String text)
+	private synchronized void sendDisconnectionLogMessage(String text)
 	{
 		new PacketDisconnectionLogMessage(text).send(this.out);
 	}
 
 	@Override
-	public void sendChatMessage(String text)
+	public synchronized void sendChatMessage(String text)
 	{
 		new PacketChatMessage(text.replaceAll("^\\s+|\\s+$", "")).send(this.out);
-	}
-
-	synchronized boolean handleHandshake()
-	{
-		Packet packet;
-		try {
-			packet = (Packet) this.in.readObject();
-		} catch (ClassNotFoundException | IOException exception) {
-			Server.getLogger().log(Level.INFO, "Handshake failed.", exception);
-			this.disconnect(false, null);
-			return false;
-		}
-		if (packet.getPacketType() != PacketType.HANDSHAKE || !((PacketHandshake) packet).getVersion().equals(CommonUtils.VERSION)) {
-			this.disconnect(false, "Client version not compatible with the Server.");
-			return false;
-		}
-		String name = ((PacketHandshake) packet).getName().replaceAll("^\\s+|\\s+$", "");
-		if (!name.matches("^[\\w\\-]{4,16}$")) {
-			this.disconnect(false, null);
-			return false;
-		}
-		for (Connection connection : Server.getInstance().getConnections()) {
-			if (connection.getName() != null && connection.getName().equals(name)) {
-				this.disconnect(false, "Client name is already taken.");
-				return false;
-			}
-		}
-		this.setName(name);
-		return true;
 	}
 
 	ObjectInputStream getIn()

@@ -1,10 +1,14 @@
 package it.polimi.ingsw.lim.server.network.socket;
 
+import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketHandshake;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomCreation;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomEntry;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -12,7 +16,7 @@ import java.util.logging.Level;
 class PacketListener extends Thread
 {
 	private final ConnectionSocket connectionSocket;
-	private boolean keepGoing = true;
+	private volatile boolean keepGoing = true;
 
 	PacketListener(ConnectionSocket connectionSocket)
 	{
@@ -22,11 +26,7 @@ class PacketListener extends Thread
 	@Override
 	public void run()
 	{
-		if (!this.keepGoing) {
-			this.connectionSocket.disconnect(false, null);
-			return;
-		}
-		if (!this.connectionSocket.handleHandshake()) {
+		if (!this.waitHandshake()) {
 			return;
 		}
 		this.connectionSocket.sendHandshakeConfirmation();
@@ -67,7 +67,53 @@ class PacketListener extends Thread
 		}
 	}
 
-	public synchronized void close()
+	private boolean waitHandshake()
+	{
+		Packet packet;
+		try {
+			do {
+				packet = (Packet) this.connectionSocket.getIn().readObject();
+			} while (packet.getPacketType() != PacketType.HANDSHAKE);
+		} catch (ClassNotFoundException | IOException exception) {
+			Server.getLogger().log(Level.INFO, "Handshake failed.", exception);
+			if (!this.keepGoing) {
+				return false;
+			}
+			this.connectionSocket.disconnect(false, null);
+			return false;
+		}
+		if (!((PacketHandshake) packet).getVersion().equals(CommonUtils.VERSION)) {
+			if (!this.keepGoing) {
+				return false;
+			}
+			this.connectionSocket.disconnect(false, "Client version not compatible with the Server.");
+			return false;
+		}
+		String name = ((PacketHandshake) packet).getName().replaceAll("^\\s+|\\s+$", "");
+		if (!name.matches("^[\\w\\-]{4,16}$")) {
+			if (!this.keepGoing) {
+				return false;
+			}
+			this.connectionSocket.disconnect(false, null);
+			return false;
+		}
+		for (Connection connection : Server.getInstance().getConnections()) {
+			if (connection.getName() != null && connection.getName().equals(name)) {
+				if (!this.keepGoing) {
+					return false;
+				}
+				this.connectionSocket.disconnect(false, "Client name is already taken.");
+				return false;
+			}
+		}
+		if (!this.keepGoing) {
+			return false;
+		}
+		this.setName(name);
+		return true;
+	}
+
+	synchronized void close()
 	{
 		this.keepGoing = false;
 	}

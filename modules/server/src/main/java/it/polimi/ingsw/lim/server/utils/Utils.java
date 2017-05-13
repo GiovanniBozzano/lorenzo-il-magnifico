@@ -78,6 +78,9 @@ public class Utils
 				case KICK:
 					CommandType.handleKickCommand(commandArguments);
 					break;
+				case KICKID:
+					CommandType.handleKickIdCommand(commandArguments);
+					break;
 				default:
 			}
 		} catch (IllegalArgumentException exception) {

@@ -23,6 +23,7 @@
 			<groupId>it.polimi.ingsw</groupId>
 			<artifactId>LM13-common</artifactId>
 			<version>${project.parent.version}</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
@@ -47,6 +48,7 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<minimizeJar>true</minimizeJar>
 							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<transformers>

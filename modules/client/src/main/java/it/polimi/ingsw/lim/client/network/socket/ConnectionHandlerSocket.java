@@ -58,7 +58,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		}
 	}
 
-	public ObjectInputStream getIn()
+	ObjectInputStream getIn()
 	{
 		return this.in;
 	}

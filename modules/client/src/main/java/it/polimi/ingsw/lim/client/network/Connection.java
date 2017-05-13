@@ -29,21 +29,21 @@ public class Connection
 	/**
 	 * Sends an handshake packet to the Server with chosen name and Client version.
 	 */
-	public static void sendHandshake()
+	public static synchronized void sendHandshake()
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.SOCKET) {
 			new PacketHandshake(Client.getInstance().getName()).send(Client.getInstance().getConnectionHandlerSocket().getOut());
 		}
 	}
 
-	public static void sendDisconnectionAcknowledgement()
+	public static synchronized void sendDisconnectionAcknowledgement()
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.SOCKET) {
 			new Packet(PacketType.DISCONNECTION_ACKNOWLEDGEMENT).send(Client.getInstance().getConnectionHandlerSocket().getOut());
 		}
 	}
 
-	public static void sendHeartbeat()
+	public static synchronized void sendHeartbeat()
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
@@ -60,7 +60,7 @@ public class Connection
 	/**
 	 * Sends a request to the Server asking for a room list refresh.
 	 */
-	public static void sendRequestRoomList()
+	public static synchronized void sendRequestRoomList()
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
@@ -78,7 +78,7 @@ public class Connection
 	 * Sends to the Server the newly created room to be verified.
 	 * @param name the name of the newly created room.
 	 */
-	public static void sendRoomCreation(String name)
+	public static synchronized void sendRoomCreation(String name)
 	{
 		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
@@ -93,7 +93,7 @@ public class Connection
 		}
 	}
 
-	public static void sendRoomEntry(int id)
+	public static synchronized void sendRoomEntry(int id)
 	{
 		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
@@ -108,7 +108,7 @@ public class Connection
 		}
 	}
 
-	public static void sendRoomExit()
+	public static synchronized void sendRoomExit()
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
@@ -123,7 +123,7 @@ public class Connection
 		CommonUtils.setNewWindow("/fxml/SceneLobby.fxml", null, null, new Thread(Connection::sendRequestRoomList));
 	}
 
-	public static void sendChatMessage(String text)
+	public static synchronized void sendChatMessage(String text)
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
@@ -180,7 +180,7 @@ public class Connection
 			return;
 		}
 		if (Client.getInstance().getWindowInformations().getController() instanceof ControllerRoomCreation) {
-			((ControllerRoomCreation) Client.getInstance().getWindowInformations().getController()).close();
+			Platform.runLater(((ControllerRoomCreation) Client.getInstance().getWindowInformations().getController())::close);
 		}
 		CommonUtils.setNewWindow("/fxml/SceneRoom.fxml", null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(roomInformations.getName(), roomInformations.getPlayerNames()))), null);
 	}
