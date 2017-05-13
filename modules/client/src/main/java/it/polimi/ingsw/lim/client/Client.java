@@ -78,7 +78,7 @@ public class Client extends Instance
 			Client.getLogger().log(Level.INFO, "Connection closed.");
 		}
 		if (isStopping) {
-			Platform.runLater(() -> CommonUtils.closeAllWindows(this.getWindowInformations().getStage()));
+			CommonUtils.closeAllWindows(this.getWindowInformations().getStage());
 		} else if (this.getWindowInformations().getController() instanceof ControllerConnection) {
 			this.getWindowInformations().getStage().getScene().getRoot().setDisable(false);
 		} else {

@@ -167,8 +167,8 @@ public class Connection
 		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoomCreation)) {
 			return;
 		}
+		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
 		Platform.runLater(() -> {
-			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
 			((ControllerRoomCreation) Client.getInstance().getWindowInformations().getController()).getNameTextField().setPromptText("Name already taken");
 			((ControllerRoomCreation) Client.getInstance().getWindowInformations().getController()).getNameTextField().clear();
 		});
@@ -179,12 +179,10 @@ public class Connection
 		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoomCreation) && !(Client.getInstance().getWindowInformations().getController() instanceof ControllerLobby)) {
 			return;
 		}
-		Platform.runLater(() -> {
-			if (Client.getInstance().getWindowInformations().getController() instanceof ControllerRoomCreation) {
-				((ControllerRoomCreation) Client.getInstance().getWindowInformations().getController()).close();
-			}
-			CommonUtils.setNewWindow("/fxml/SceneRoom.fxml", null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(roomInformations.getName(), roomInformations.getPlayerNames()))), null);
-		});
+		if (Client.getInstance().getWindowInformations().getController() instanceof ControllerRoomCreation) {
+			((ControllerRoomCreation) Client.getInstance().getWindowInformations().getController()).close();
+		}
+		CommonUtils.setNewWindow("/fxml/SceneRoom.fxml", null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(roomInformations.getName(), roomInformations.getPlayerNames()))), null);
 	}
 
 	public static void handleRoomEntryOther(String name)
