@@ -36,7 +36,7 @@ public class ConnectionSocket extends Connection
 			this.out.flush();
 			this.packetListener = new PacketListener(this);
 			this.packetListener.start();
-			this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3000L, TimeUnit.MILLISECONDS);
+			this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			this.disconnect(true, null);
@@ -61,7 +61,7 @@ public class ConnectionSocket extends Connection
 			}
 		}
 		if (waitPacketListener) {
-			this.packetListener.close();
+			this.packetListener.end();
 		}
 		try {
 			this.in.close();

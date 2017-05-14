@@ -109,7 +109,7 @@ class PacketListener extends Thread
 		return true;
 	}
 
-	synchronized void close()
+	synchronized void end()
 	{
 		this.keepGoing = false;
 	}

@@ -11,7 +11,7 @@ import java.util.logging.Level;
 
 class PacketListener extends Thread
 {
-	private boolean keepGoing = true;
+	private volatile boolean keepGoing = true;
 
 	@Override
 	public void run()
@@ -68,7 +68,7 @@ class PacketListener extends Thread
 		}
 	}
 
-	public synchronized void close()
+	synchronized void end()
 	{
 		this.keepGoing = false;
 	}

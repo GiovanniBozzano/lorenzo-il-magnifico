@@ -3,6 +3,7 @@
 !/.idea/runConfigurations/Sonar.xml
 !/.idea/codeStyleSettings.xml
 /*.iml
+/*.db
 /modules/client/*.iml
 /modules/common/*.iml
 /modules/server/*.iml

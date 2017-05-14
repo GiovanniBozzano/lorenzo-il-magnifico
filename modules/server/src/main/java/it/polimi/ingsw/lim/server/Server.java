@@ -2,6 +2,8 @@ package it.polimi.ingsw.lim.server;
 
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.server.database.Database;
+import it.polimi.ingsw.lim.server.database.DatabaseSQLite;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.network.ConnectionHandler;
 
@@ -10,8 +12,9 @@ import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 
 public class Server extends Instance
@@ -19,6 +22,9 @@ public class Server extends Instance
 	private int rmiPort;
 	private int socketPort;
 	private String externalIp;
+	private Database database;
+	private final ExecutorService databaseSaver = Executors.newSingleThreadExecutor();
+	private final ScheduledExecutorService databaseKeeper = Executors.newSingleThreadScheduledExecutor();
 	private ConnectionHandler connectionHandler;
 	private final ConcurrentLinkedQueue<Connection> connections = new ConcurrentLinkedQueue<>();
 	private int connectionId;
@@ -36,6 +42,15 @@ public class Server extends Instance
 		this.socketPort = socketPort;
 		this.connectionId = 0;
 		this.roomId = 0;
+		this.database = new DatabaseSQLite("database.db");
+		this.database.createTables();
+		this.databaseKeeper.scheduleAtFixedRate(() -> {
+			try {
+				this.database.getConnection().prepareStatement("SELECT 1").executeQuery();
+			} catch (SQLException exception) {
+				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			}
+		}, 0L, 60L, TimeUnit.SECONDS);
 		this.getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		this.connectionHandler = new ConnectionHandler(rmiPort, socketPort);
 		this.connectionHandler.start();
@@ -47,10 +62,10 @@ public class Server extends Instance
 	@Override
 	public void stop()
 	{
+		Connection.broadcastChatMessage("Server shutting down...");
 		if (this.connectionHandler == null) {
 			return;
 		}
-		Connection.broadcastChatMessage("Server shutting down...");
 		if (this.connectionHandler.getRegistry() != null) {
 			try {
 				this.connectionHandler.getRegistry().unbind("lorenzo-il-magnifico");
@@ -61,7 +76,7 @@ public class Server extends Instance
 			}
 		}
 		if (this.connectionHandler != null) {
-			this.connectionHandler.close();
+			this.connectionHandler.end();
 			try (Socket socket = new Socket("localhost", this.socketPort)) {
 				socket.close();
 			} catch (IOException exception) {
@@ -74,6 +89,9 @@ public class Server extends Instance
 				Thread.currentThread().interrupt();
 			}
 		}
+		this.databaseSaver.shutdown();
+		this.databaseKeeper.shutdownNow();
+		this.database.closeConnection();
 	}
 
 	public static Server getInstance()
@@ -86,6 +104,11 @@ public class Server extends Instance
 		return this.rmiPort;
 	}
 
+	public int getSocketPort()
+	{
+		return this.socketPort;
+	}
+
 	public String getExternalIp()
 	{
 		return this.externalIp;
@@ -96,9 +119,9 @@ public class Server extends Instance
 		this.externalIp = externalIp;
 	}
 
-	public int getSocketPort()
+	public Database getDatabase()
 	{
-		return this.socketPort;
+		return this.database;
 	}
 
 	public ConnectionHandler getConnectionHandler()

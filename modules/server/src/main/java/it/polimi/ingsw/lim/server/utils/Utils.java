@@ -1,9 +1,12 @@
 package it.polimi.ingsw.lim.server.utils;
 
+import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Room;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.enums.CommandType;
+import it.polimi.ingsw.lim.server.enums.Command;
+import it.polimi.ingsw.lim.server.enums.QueryRead;
+import it.polimi.ingsw.lim.server.enums.QueryWrite;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.Connection;
 import javafx.application.Platform;
@@ -12,6 +15,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -19,6 +26,8 @@ import java.util.logging.Level;
 
 public class Utils
 {
+	public static final String DATABASE_TABLE_PREFIX = "lim_";
+
 	private Utils()
 	{
 	}
@@ -71,15 +80,15 @@ public class Utils
 			commandArguments = command.replaceAll(commandType + " ", "");
 		}
 		try {
-			switch (CommandType.valueOf(commandType.toUpperCase(Locale.ENGLISH))) {
+			switch (Command.valueOf(commandType.toUpperCase(Locale.ENGLISH))) {
 				case SAY:
-					CommandType.handleSayCommand(commandArguments);
+					Command.handleSayCommand(commandArguments);
 					break;
 				case KICK:
-					CommandType.handleKickCommand(commandArguments);
+					Command.handleKickCommand(commandArguments);
 					break;
 				case KICKID:
-					CommandType.handleKickIdCommand(commandArguments);
+					Command.handleKickIdCommand(commandArguments);
 					break;
 				default:
 			}
@@ -140,5 +149,118 @@ public class Utils
 			}
 		}
 		return playersInRooms;
+	}
+
+	public static ResultSet sqlRead(QueryRead query, List<QueryArgument> queryArguments)
+	{
+		try (PreparedStatement statement = Server.getInstance().getDatabase().getConnection().prepareStatement(query.getText())) {
+			Utils.fillStatement(statement, queryArguments);
+			return statement.executeQuery();
+		} catch (SQLException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			return null;
+		}
+	}
+
+	public static void sqlWrite(QueryWrite query, List<QueryArgument> queryArguments)
+	{
+		try (PreparedStatement statement = Server.getInstance().getDatabase().getConnection().prepareStatement(query.getText())) {
+			Utils.fillStatement(statement, queryArguments);
+			statement.executeUpdate();
+		} catch (SQLException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	private static void fillStatement(PreparedStatement preparedStatement, List<QueryArgument> queryArguments) throws SQLException
+	{
+		if (queryArguments == null) {
+			return;
+		}
+		for (int index = 0; index < queryArguments.size(); index++) {
+			QueryArgument queryArgument = queryArguments.get(index);
+			switch (queryArguments.get(index).getValueType()) {
+				case INTEGER:
+					Utils.setStatementInteger(preparedStatement, queryArgument, index);
+					break;
+				case LONG:
+					Utils.setStatementLong(preparedStatement, queryArgument, index);
+					break;
+				case FLOAT:
+					Utils.setStatementFloat(preparedStatement, queryArgument, index);
+					break;
+				case DOUBLE:
+					Utils.setStatementDouble(preparedStatement, queryArgument, index);
+					break;
+				case STRING:
+					Utils.setStatementString(preparedStatement, queryArgument, index);
+					break;
+			}
+		}
+	}
+
+	private static void setStatementInteger(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
+	{
+		if (queryArgument.getValue() == null) {
+			preparedStatement.setNull(index + 1, Types.INTEGER);
+			return;
+		}
+		try {
+			int value = Integer.parseInt(queryArgument.getValue());
+			preparedStatement.setInt(index + 1, value);
+		} catch (NumberFormatException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	private static void setStatementLong(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
+	{
+		if (queryArgument.getValue() == null) {
+			preparedStatement.setNull(index + 1, Types.BIGINT);
+			return;
+		}
+		try {
+			long value = Long.parseLong(queryArgument.getValue());
+			preparedStatement.setLong(index + 1, value);
+		} catch (NumberFormatException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	private static void setStatementFloat(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
+	{
+		if (queryArgument.getValue() == null) {
+			preparedStatement.setNull(index + 1, Types.FLOAT);
+			return;
+		}
+		try {
+			float value = Float.parseFloat(queryArgument.getValue());
+			preparedStatement.setFloat(index + 1, value);
+		} catch (NumberFormatException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	private static void setStatementDouble(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
+	{
+		if (queryArgument.getValue() == null) {
+			preparedStatement.setNull(index + 1, Types.DOUBLE);
+			return;
+		}
+		try {
+			double value = Double.parseDouble(queryArgument.getValue());
+			preparedStatement.setDouble(index + 1, value);
+		} catch (NumberFormatException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	private static void setStatementString(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
+	{
+		if (queryArgument.getValue() == null) {
+			preparedStatement.setNull(index + 1, Types.VARCHAR);
+			return;
+		}
+		preparedStatement.setString(index + 1, queryArgument.getValue());
 	}
 }

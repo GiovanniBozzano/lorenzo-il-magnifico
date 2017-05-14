@@ -22,7 +22,7 @@ public class ConnectionRMI extends Connection
 	{
 		super(id, name);
 		this.serverSession = serverSession;
-		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3000L, TimeUnit.MILLISECONDS);
+		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 	}
 
 	@Override

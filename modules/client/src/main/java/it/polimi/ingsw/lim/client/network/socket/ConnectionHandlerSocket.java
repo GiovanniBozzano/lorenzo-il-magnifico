@@ -36,7 +36,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		Client.getInstance().setConnected(true);
 		this.packetListener = new PacketListener();
 		this.packetListener.start();
-		this.getHeartbeat().scheduleAtFixedRate(Connection::sendHeartbeat, 0L, 3000L, TimeUnit.MILLISECONDS);
+		this.getHeartbeat().scheduleAtFixedRate(Connection::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 		CommonUtils.setNewWindow("/fxml/SceneLogin.fxml", null, null, null);
 	}
 
@@ -49,7 +49,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			Thread.currentThread().interrupt();
 		}
 		this.getHeartbeat().shutdownNow();
-		this.packetListener.close();
+		this.packetListener.end();
 		try {
 			this.in.close();
 			this.out.close();

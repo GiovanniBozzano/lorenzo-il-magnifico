@@ -24,8 +24,8 @@ public class ConnectionHandler extends Thread
 	private final int rmiPort;
 	private final int socketPort;
 	private Registry registry;
-	private boolean keepGoing = true;
 	private Login login;
+	private volatile boolean keepGoing = true;
 
 	public ConnectionHandler(int rmiPort, int socketPort)
 	{
@@ -84,7 +84,7 @@ public class ConnectionHandler extends Thread
 		}
 	}
 
-	public synchronized void close()
+	public synchronized void end()
 	{
 		this.keepGoing = false;
 	}

@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
-public enum CommandType
+public enum Command
 {
 	SAY,
 	KICK,

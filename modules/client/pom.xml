@@ -23,7 +23,6 @@
 			<groupId>it.polimi.ingsw</groupId>
 			<artifactId>LM13-common</artifactId>
 			<version>${project.parent.version}</version>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 

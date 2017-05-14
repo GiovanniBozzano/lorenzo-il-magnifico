@@ -35,7 +35,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			return;
 		}
 		Client.getInstance().setConnected(true);
-		this.getHeartbeat().scheduleAtFixedRate(Connection::sendHeartbeat, 0L, 3000L, TimeUnit.MILLISECONDS);
+		this.getHeartbeat().scheduleAtFixedRate(Connection::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 		CommonUtils.setNewWindow("/fxml/SceneLogin.fxml", null, null, null);
 	}
 
