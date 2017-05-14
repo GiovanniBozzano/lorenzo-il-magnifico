@@ -24,8 +24,8 @@ public class ControllerConnection implements Initializable
 	@FXML
 	private void handleConnectionButtonAction()
 	{
-		String ip = this.ipTextField.getText().replace("^\\s+|\\s+$", "");
-		String port = this.portTextField.getText().replace("^\\s+|\\s+$", "");
+		String ip = this.ipTextField.getText().replace(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
+		String port = this.portTextField.getText().replace(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		if (ip.length() < 1) {
 			this.ipTextField.clear();
 			this.ipTextField.setPromptText("Insert an IP address");

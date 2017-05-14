@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControllerLogin implements Initializable
+public class ControllerAuthentication implements Initializable
 {
 	@FXML private TextField usernameTextField;
 	@FXML private TextField passwordTextField;
@@ -21,18 +21,35 @@ public class ControllerLogin implements Initializable
 	@FXML
 	public void handleLoginButtonAction()
 	{
-		String username = this.usernameTextField.getText().replaceAll("^\\s+|\\s+$", "");
-		if (username.length() < 1) {
-			this.usernameTextField.clear();
-			this.usernameTextField.setPromptText("Insert a username");
-			return;
-		}
-		if (!username.matches("^[\\w\\-]{4,16}$")) {
+		String username = this.usernameTextField.getText().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
+		if (!username.matches(CommonUtils.REGEX_USERNAME)) {
 			this.usernameTextField.clear();
 			this.usernameTextField.setPromptText("Insert a valid username");
 			return;
 		}
-		Connection.sendLogin(username, CommonUtils.encrypt(this.usernameTextField.getText()));
+		if (this.passwordTextField.getText().length() < 1) {
+			this.passwordTextField.clear();
+			this.passwordTextField.setPromptText("Insert a password");
+			return;
+		}
+		Connection.sendLogin(username, this.passwordTextField.getText());
+	}
+
+	@FXML
+	public void handleRegisterButtonAction()
+	{
+		String username = this.usernameTextField.getText().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
+		if (!username.matches(CommonUtils.REGEX_USERNAME)) {
+			this.usernameTextField.clear();
+			this.usernameTextField.setPromptText("Insert a valid username");
+			return;
+		}
+		if (this.passwordTextField.getText().length() < 1) {
+			this.passwordTextField.clear();
+			this.passwordTextField.setPromptText("Insert a password");
+			return;
+		}
+		Connection.sendRegistration(username, this.passwordTextField.getText());
 	}
 
 	@Override

@@ -6,5 +6,6 @@ public enum QueryValueType
 	LONG,
 	FLOAT,
 	DOUBLE,
-	STRING
+	STRING,
+	BYTES
 }

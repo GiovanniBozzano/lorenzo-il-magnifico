@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.client;
 
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
@@ -25,7 +26,7 @@ public class Main extends Application
 	@Override
 	public void start(Stage stage)
 	{
-		CommonUtils.setNewWindow("/fxml/SceneConnection.fxml", null);
+		CommonUtils.setNewWindow(Utils.SCENE_CONNECTION, null);
 	}
 
 	@Override

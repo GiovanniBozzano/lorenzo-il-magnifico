@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.client.network.socket;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 
@@ -37,7 +38,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		this.packetListener = new PacketListener();
 		this.packetListener.start();
 		this.getHeartbeat().scheduleAtFixedRate(Connection::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
-		CommonUtils.setNewWindow("/fxml/SceneLogin.fxml", null, null, null);
+		CommonUtils.setNewWindow(Utils.SCENE_AUTHENTICATION, null, null, null);
 	}
 
 	public void disconnect()

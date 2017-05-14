@@ -33,11 +33,11 @@ class PacketListener extends Thread
 				return;
 			}
 			switch (packet.getPacketType()) {
-				case LOGIN_CONFIRMATION:
-					Connection.handleLoginConfirmation();
+				case AUTHENTICATION_CONFIRMATION:
+					Connection.handleAuthenticationConfirmation();
 					break;
-				case LOGIN_FAILURE:
-					Connection.handleLoginFailure(((PacketLoginFailure) packet).getText());
+				case AUTHENTICATION_FAILURE:
+					Connection.handleAuthenticationFailure(((PacketAuthenticationFailure) packet).getText());
 					break;
 				case DISCONNECTION_LOG_MESSAGE:
 					Connection.handleDisconnectionLogMessage(((PacketDisconnectionLogMessage) packet).getText());

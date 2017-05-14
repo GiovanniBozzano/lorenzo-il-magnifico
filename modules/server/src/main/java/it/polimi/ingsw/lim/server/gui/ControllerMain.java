@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.gui;
 
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.utils.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +16,7 @@ public class ControllerMain
 	@FXML
 	private void handleCommandTextFieldAction(ActionEvent event)
 	{
-		String command = ((TextField) event.getSource()).getText().replace("^\\s+|\\s+$", "");
+		String command = ((TextField) event.getSource()).getText().replace(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		((TextField) event.getSource()).clear();
 		Utils.executeCommand(command);
 	}

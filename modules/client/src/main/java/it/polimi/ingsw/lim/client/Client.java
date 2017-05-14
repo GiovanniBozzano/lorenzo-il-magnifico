@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.client;
 import it.polimi.ingsw.lim.client.gui.ControllerConnection;
 import it.polimi.ingsw.lim.client.network.rmi.ConnectionHandlerRMI;
 import it.polimi.ingsw.lim.client.network.socket.ConnectionHandlerSocket;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -68,9 +69,9 @@ public class Client extends Instance
 	{
 		if (this.isConnected) {
 			this.isConnected = false;
-			if (this.connectionHandlerRMI != null) {
+			if (this.connectionType == ConnectionType.RMI) {
 				this.connectionHandlerRMI.disconnect(notifyServer);
-			} else if (this.connectionHandlerSocket != null) {
+			} else if (this.connectionType == ConnectionType.SOCKET) {
 				this.connectionHandlerSocket.disconnect();
 			}
 			Client.getLogger().log(Level.INFO, "Connection closed.");
@@ -81,7 +82,7 @@ public class Client extends Instance
 			this.getWindowInformations().getStage().getScene().getRoot().setDisable(false);
 		} else {
 			Platform.runLater(() -> {
-				FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/fxml/SceneConnection.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(Utils.SCENE_CONNECTION));
 				try {
 					Parent parent = fxmlLoader.load();
 					Stage stage = new Stage();

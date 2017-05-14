@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.client.gui;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.network.Connection;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.common.utils.WindowInformations;
@@ -55,7 +56,7 @@ public class ControllerLobby implements Initializable
 	@FXML
 	private void handleCreateRoomButtonAction()
 	{
-		FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/fxml/SceneRoomCreation.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(Utils.SCENE_ROOM_CREATION));
 		try {
 			Parent parent = fxmlLoader.load();
 			ControllerRoomCreation.setPreviousWindowInformations(Client.getInstance().getWindowInformations());

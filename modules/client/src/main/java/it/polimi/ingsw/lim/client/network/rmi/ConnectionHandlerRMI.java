@@ -3,8 +3,9 @@ package it.polimi.ingsw.lim.client.network.rmi;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
+import it.polimi.ingsw.lim.client.utils.Utils;
+import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
 import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
-import it.polimi.ingsw.lim.common.network.rmi.ILogin;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 
@@ -20,14 +21,14 @@ import java.util.logging.Level;
 public class ConnectionHandlerRMI extends ConnectionHandler
 {
 	private ServerSession serverSession;
-	private ILogin login;
+	private IAuthentication login;
 	private IClientSession clientSession;
 
 	@Override
 	public void run()
 	{
 		try {
-			this.login = (ILogin) Naming.lookup("rmi://" + Client.getInstance().getIp() + ":" + Client.getInstance().getPort() + "/lorenzo-il-magnifico");
+			this.login = (IAuthentication) Naming.lookup("rmi://" + Client.getInstance().getIp() + ":" + Client.getInstance().getPort() + "/lorenzo-il-magnifico");
 			this.serverSession = new ServerSession();
 		} catch (NotBoundException | MalformedURLException | RemoteException exception) {
 			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
@@ -36,7 +37,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		}
 		Client.getInstance().setConnected(true);
 		this.getHeartbeat().scheduleAtFixedRate(Connection::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
-		CommonUtils.setNewWindow("/fxml/SceneLogin.fxml", null, null, null);
+		CommonUtils.setNewWindow(Utils.SCENE_AUTHENTICATION, null, null, null);
 	}
 
 	public void disconnect(boolean notifyServer)
@@ -69,7 +70,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		return this.serverSession;
 	}
 
-	public ILogin getLogin()
+	public IAuthentication getLogin()
 	{
 		return this.login;
 	}

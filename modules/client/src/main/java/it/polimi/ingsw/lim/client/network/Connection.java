@@ -1,15 +1,17 @@
 package it.polimi.ingsw.lim.client.network;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.gui.ControllerAuthentication;
 import it.polimi.ingsw.lim.client.gui.ControllerLobby;
-import it.polimi.ingsw.lim.client.gui.ControllerLogin;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.gui.ControllerRoomCreation;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomCreation;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomEntry;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -30,14 +32,14 @@ public class Connection
 	/**
 	 * Tries to login with username, password and Client version.
 	 * @param username the username.
-	 * @param password the encrypted password.
+	 * @param password the password.
 	 */
 	public static synchronized void sendLogin(String username, String password)
 	{
 		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getConnectionHandlerRMI().setClientSession(Client.getInstance().getConnectionHandlerRMI().getLogin().sendLogin(username, password, CommonUtils.VERSION, Client.getInstance().getConnectionHandlerRMI().getServerSession()));
+				Client.getInstance().getConnectionHandlerRMI().setClientSession(Client.getInstance().getConnectionHandlerRMI().getLogin().sendLogin(username, CommonUtils.encrypt(password), CommonUtils.VERSION, Client.getInstance().getConnectionHandlerRMI().getServerSession()));
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, true);
@@ -48,9 +50,36 @@ public class Connection
 				return;
 			}
 			Client.getInstance().setUsername(username);
-			CommonUtils.setNewWindow("/fxml/SceneLobby.fxml", null, null, new Thread(Connection::sendRequestRoomList));
+			CommonUtils.setNewWindow(Utils.SCENE_LOBBY, null, null, new Thread(Connection::sendRequestRoomList));
 		} else {
-			new PacketLogin(username, password).send(Client.getInstance().getConnectionHandlerSocket().getOut());
+			new PacketLogin(username, CommonUtils.encrypt(password)).send(Client.getInstance().getConnectionHandlerSocket().getOut());
+		}
+	}
+
+	/**
+	 * Tries to register with username, password and Client version.
+	 * @param username the username.
+	 * @param password the password.
+	 */
+	public static synchronized void sendRegistration(String username, String password)
+	{
+		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
+		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
+			try {
+				Client.getInstance().getConnectionHandlerRMI().setClientSession(Client.getInstance().getConnectionHandlerRMI().getLogin().sendRegistration(username, CommonUtils.encrypt(password), CommonUtils.VERSION, Client.getInstance().getConnectionHandlerRMI().getServerSession()));
+			} catch (RemoteException exception) {
+				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, true);
+				return;
+			}
+			if (Client.getInstance().getConnectionHandlerRMI().getClientSession() == null) {
+				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+				return;
+			}
+			Client.getInstance().setUsername(username);
+			CommonUtils.setNewWindow(Utils.SCENE_LOBBY, null, null, new Thread(Connection::sendRequestRoomList));
+		} else {
+			new PacketRegistration(username, CommonUtils.encrypt(password)).send(Client.getInstance().getConnectionHandlerSocket().getOut());
 		}
 	}
 
@@ -65,7 +94,11 @@ public class Connection
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendHeartbeat();
+				if (Client.getInstance().getConnectionHandlerRMI().getClientSession() != null) {
+					Client.getInstance().getConnectionHandlerRMI().getClientSession().sendHeartbeat();
+				} else {
+					Client.getInstance().getConnectionHandlerRMI().getLogin().sendHeartbeat();
+				}
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, true);
@@ -138,7 +171,7 @@ public class Connection
 		} else {
 			new Packet(PacketType.ROOM_EXIT).send(Client.getInstance().getConnectionHandlerSocket().getOut());
 		}
-		CommonUtils.setNewWindow("/fxml/SceneLobby.fxml", null, null, new Thread(Connection::sendRequestRoomList));
+		CommonUtils.setNewWindow(Utils.SCENE_LOBBY, null, null, new Thread(Connection::sendRequestRoomList));
 	}
 
 	public static synchronized void sendChatMessage(String text)
@@ -155,17 +188,17 @@ public class Connection
 		}
 	}
 
-	public static void handleLoginConfirmation()
+	public static void handleAuthenticationConfirmation()
 	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerLogin)) {
+		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerAuthentication)) {
 			return;
 		}
-		CommonUtils.setNewWindow("/fxml/SceneLobby.fxml", null, null, new Thread(Connection::sendRequestRoomList));
+		CommonUtils.setNewWindow(Utils.SCENE_LOBBY, null, null, new Thread(Connection::sendRequestRoomList));
 	}
 
-	public static void handleLoginFailure(String text)
+	public static void handleAuthenticationFailure(String text)
 	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerLogin)) {
+		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerAuthentication)) {
 			return;
 		}
 		Client.getLogger().log(Level.INFO, text);

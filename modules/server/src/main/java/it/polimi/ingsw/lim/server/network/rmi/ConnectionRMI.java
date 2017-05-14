@@ -49,7 +49,7 @@ public class ConnectionRMI extends Connection
 				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 			}
 		}
-		Utils.displayToLog("RMI Client: " + this.getId() + ":" + this.getUsername() + " disconnected.");
+		Utils.displayToLog("RMI Client: " + this.getId() + " : " + this.getUsername() + " disconnected.");
 	}
 
 	@Override

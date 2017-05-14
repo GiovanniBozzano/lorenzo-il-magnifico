@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.network;
 
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Room;
 import it.polimi.ingsw.lim.server.Server;
@@ -76,7 +77,7 @@ public abstract class Connection implements IConnection
 	@Override
 	public void handleRoomCreation(String name)
 	{
-		String trimmedName = name.replaceAll("^\\s+|\\s+$", "");
+		String trimmedName = name.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		if (!trimmedName.matches("^[\\w\\-\\s]{1,16}$")) {
 			this.disconnect(true, null);
 			return;

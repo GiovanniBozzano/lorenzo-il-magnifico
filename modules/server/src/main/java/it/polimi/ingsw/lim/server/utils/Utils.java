@@ -29,6 +29,9 @@ import java.util.logging.Level;
 
 public class Utils
 {
+	public static final String SCENE_MAIN = "/fxml/SceneMain.fxml";
+	public static final String SCENE_START = "/fxml/SceneStart.fxml";
+
 	private Utils()
 	{
 	}
@@ -154,9 +157,11 @@ public class Utils
 
 	public static ResultSet sqlRead(QueryRead query, List<QueryArgument> queryArguments) throws SQLException
 	{
-		try (PreparedStatement statement = Server.getInstance().getDatabase().getConnection().prepareStatement(query.getText())) {
-			Utils.fillStatement(statement, queryArguments);
-			return statement.executeQuery();
+		Server.getLogger().log(Level.INFO, query.getText());
+		try {
+			PreparedStatement preparedStatement = Server.getInstance().getDatabase().getConnection().prepareStatement(query.getText());
+			Utils.fillStatement(preparedStatement, queryArguments);
+			return preparedStatement.executeQuery();
 		} catch (SQLException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			throw exception;
@@ -165,9 +170,10 @@ public class Utils
 
 	public static void sqlWrite(QueryWrite query, List<QueryArgument> queryArguments) throws SQLException
 	{
-		try (PreparedStatement statement = Server.getInstance().getDatabase().getConnection().prepareStatement(query.getText())) {
-			Utils.fillStatement(statement, queryArguments);
-			statement.executeUpdate();
+		Server.getLogger().log(Level.INFO, query.getText());
+		try (PreparedStatement preparedStatement = Server.getInstance().getDatabase().getConnection().prepareStatement(query.getText())) {
+			Utils.fillStatement(preparedStatement, queryArguments);
+			preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			throw exception;
@@ -197,6 +203,9 @@ public class Utils
 				case STRING:
 					Utils.setStatementString(preparedStatement, queryArgument, index);
 					break;
+				case BYTES:
+					Utils.setStatementBytes(preparedStatement, queryArgument, index);
+					break;
 				default:
 			}
 		}
@@ -204,67 +213,56 @@ public class Utils
 
 	private static void setStatementInteger(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
 	{
-		if (queryArgument.getValue() == null) {
-			preparedStatement.setNull(index + 1, Types.INTEGER);
+		if (queryArgument.getValue() instanceof Integer) {
+			preparedStatement.setInt(index + 1, (Integer) queryArgument.getValue());
 			return;
 		}
-		try {
-			int value = Integer.parseInt(queryArgument.getValue());
-			preparedStatement.setInt(index + 1, value);
-		} catch (NumberFormatException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-		}
+		preparedStatement.setNull(index + 1, Types.INTEGER);
 	}
 
 	private static void setStatementLong(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
 	{
-		if (queryArgument.getValue() == null) {
-			preparedStatement.setNull(index + 1, Types.BIGINT);
+		if (queryArgument.getValue() instanceof Long) {
+			preparedStatement.setLong(index + 1, (Long) queryArgument.getValue());
 			return;
 		}
-		try {
-			long value = Long.parseLong(queryArgument.getValue());
-			preparedStatement.setLong(index + 1, value);
-		} catch (NumberFormatException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-		}
+		preparedStatement.setNull(index + 1, Types.BIGINT);
 	}
 
 	private static void setStatementFloat(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
 	{
-		if (queryArgument.getValue() == null) {
-			preparedStatement.setNull(index + 1, Types.FLOAT);
+		if (queryArgument.getValue() instanceof Float) {
+			preparedStatement.setFloat(index + 1, (Float) queryArgument.getValue());
 			return;
 		}
-		try {
-			float value = Float.parseFloat(queryArgument.getValue());
-			preparedStatement.setFloat(index + 1, value);
-		} catch (NumberFormatException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-		}
+		preparedStatement.setNull(index + 1, Types.FLOAT);
 	}
 
 	private static void setStatementDouble(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
 	{
-		if (queryArgument.getValue() == null) {
-			preparedStatement.setNull(index + 1, Types.DOUBLE);
+		if (queryArgument.getValue() instanceof Double) {
+			preparedStatement.setDouble(index + 1, (Double) queryArgument.getValue());
 			return;
 		}
-		try {
-			double value = Double.parseDouble(queryArgument.getValue());
-			preparedStatement.setDouble(index + 1, value);
-		} catch (NumberFormatException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-		}
+		preparedStatement.setNull(index + 1, Types.DOUBLE);
 	}
 
 	private static void setStatementString(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
 	{
-		if (queryArgument.getValue() == null) {
-			preparedStatement.setNull(index + 1, Types.VARCHAR);
+		if (queryArgument.getValue() instanceof String) {
+			preparedStatement.setString(index + 1, (String) queryArgument.getValue());
 			return;
 		}
-		preparedStatement.setString(index + 1, queryArgument.getValue());
+		preparedStatement.setNull(index + 1, Types.VARCHAR);
+	}
+
+	private static void setStatementBytes(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
+	{
+		if (queryArgument.getValue() instanceof byte[]) {
+			preparedStatement.setBytes(index + 1, (byte[]) queryArgument.getValue());
+			return;
+		}
+		preparedStatement.setNull(index + 1, Types.BLOB);
 	}
 
 	public static String sha1Encrypt(String text, byte[] salt) throws NoSuchAlgorithmException

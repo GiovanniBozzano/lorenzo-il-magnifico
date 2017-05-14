@@ -13,8 +13,8 @@ public enum Command
 
 	public static void handleSayCommand(String text)
 	{
-		if (text != null && !text.replaceAll("^\\s+|\\s+$", "").isEmpty()) {
-			Connection.broadcastChatMessage("[SERVER]: " + text.replaceAll("^\\s+|\\s+$", ""));
+		if (text != null && !text.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "").isEmpty()) {
+			Connection.broadcastChatMessage("[SERVER]: " + text.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, ""));
 		} else {
 			Utils.displayToLog("Missing command arguments.");
 		}

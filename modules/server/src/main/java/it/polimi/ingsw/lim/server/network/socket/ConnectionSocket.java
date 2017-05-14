@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.server.*;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
@@ -87,14 +88,14 @@ public class ConnectionSocket extends Connection
 		new Packet(PacketType.HEARTBEAT).send(this.out);
 	}
 
-	synchronized void sendLoginConfirmation()
+	synchronized void sendAuthenticationConfirmation()
 	{
-		new Packet(PacketType.LOGIN_CONFIRMATION).send(this.out);
+		new Packet(PacketType.AUTHENTICATION_CONFIRMATION).send(this.out);
 	}
 
-	synchronized void sendLoginFailure(String text)
+	synchronized void sendAuthenticationFailure(String text)
 	{
-		new PacketLoginFailure(text).send(this.out);
+		new PacketAuthenticationFailure(text).send(this.out);
 	}
 
 	@Override
@@ -141,7 +142,7 @@ public class ConnectionSocket extends Connection
 	@Override
 	public synchronized void sendChatMessage(String text)
 	{
-		new PacketChatMessage(text.replaceAll("^\\s+|\\s+$", "")).send(this.out);
+		new PacketChatMessage(text.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "")).send(this.out);
 	}
 
 	ObjectInputStream getIn()

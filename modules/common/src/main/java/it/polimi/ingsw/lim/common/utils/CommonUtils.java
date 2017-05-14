@@ -23,6 +23,8 @@ import java.util.logging.Level;
 public class CommonUtils
 {
 	public static final String VERSION = "1.0";
+	public static final String REGEX_REMOVE_TRAILING_SPACES = "^\\s+|\\s+$";
+	public static final String REGEX_USERNAME = "^[\\w\\-]{4,16}$";
 	private static final byte[] IV = { 120, 7, 71, 53, 82, 112, 20, 8, 1, 19, 68, 26, 35, 56, 118, 23 };
 	private static final byte[] CRYPT_KEY = { 55, 78, 54, 102, 106, 89, 70, 69, 112, 83, 71, 88, 80, 98, 55, 108 };
 

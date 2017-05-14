@@ -41,7 +41,7 @@ public abstract class Database
 	public void createTables()
 	{
 		try {
-			this.getConnection().createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + Database.PREFIX + Database.TABLE_PLAYERS + " (" + Database.TABLE_PLAYERS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Database.TABLE_PLAYERS_COLUMN_USERNAME + " VARCHAR(16) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_PASSWORD + " CHAR(128) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_SALT + " RAW NOT NULL);");
+			this.getConnection().createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + Database.PREFIX + Database.TABLE_PLAYERS + " (" + Database.TABLE_PLAYERS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Database.TABLE_PLAYERS_COLUMN_USERNAME + " VARCHAR(16) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_PASSWORD + " CHAR(128) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_SALT + " BLOB NOT NULL);");
 		} catch (SQLException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}

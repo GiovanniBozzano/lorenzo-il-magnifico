@@ -5,9 +5,9 @@ import it.polimi.ingsw.lim.server.enums.QueryValueType;
 public class QueryArgument
 {
 	private final QueryValueType valueType;
-	private final String value;
+	private final Object value;
 
-	public QueryArgument(QueryValueType valueType, String value)
+	public QueryArgument(QueryValueType valueType, Object value)
 	{
 		this.valueType = valueType;
 		this.value = value;
@@ -18,7 +18,7 @@ public class QueryArgument
 		return this.valueType;
 	}
 
-	String getValue()
+	Object getValue()
 	{
 		return this.value;
 	}

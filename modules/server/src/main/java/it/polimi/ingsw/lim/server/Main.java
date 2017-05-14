@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.server;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.server.utils.Utils;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -25,7 +26,7 @@ public class Main extends Application
 	@Override
 	public void start(Stage stage)
 	{
-		CommonUtils.setNewWindow("/fxml/SceneStart.fxml", null);
+		CommonUtils.setNewWindow(Utils.SCENE_START, null);
 	}
 
 	@Override

@@ -124,6 +124,11 @@ public class Server extends Instance
 		return this.database;
 	}
 
+	public ExecutorService getDatabaseSaver()
+	{
+		return this.databaseSaver;
+	}
+
 	public ConnectionHandler getConnectionHandler()
 	{
 		return this.connectionHandler;

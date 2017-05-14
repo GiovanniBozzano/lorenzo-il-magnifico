@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
-import it.polimi.ingsw.lim.server.network.rmi.Login;
+import it.polimi.ingsw.lim.server.network.rmi.Authentication;
 import it.polimi.ingsw.lim.server.network.socket.ConnectionSocket;
 import it.polimi.ingsw.lim.server.utils.Utils;
 import javafx.application.Platform;
@@ -24,7 +24,7 @@ public class ConnectionHandler extends Thread
 	private final int rmiPort;
 	private final int socketPort;
 	private Registry registry;
-	private Login login;
+	private Authentication login;
 	private volatile boolean keepGoing = true;
 
 	public ConnectionHandler(int rmiPort, int socketPort)
@@ -38,7 +38,7 @@ public class ConnectionHandler extends Thread
 	{
 		try {
 			this.registry = LocateRegistry.createRegistry(this.rmiPort);
-			this.login = new Login();
+			this.login = new Authentication();
 			this.registry.rebind("lorenzo-il-magnifico", this.login);
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
@@ -46,7 +46,7 @@ public class ConnectionHandler extends Thread
 			return;
 		}
 		try (ServerSocket serverSocket = new ServerSocket(this.socketPort)) {
-			CommonUtils.setNewWindow("/fxml/SceneMain.fxml", null, null, new Thread(() -> {
+			CommonUtils.setNewWindow(Utils.SCENE_MAIN, null, null, new Thread(() -> {
 				Utils.displayToLog("Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
 				Server.getInstance().setExternalIp(Utils.getExternalIpAddress());
 				Platform.runLater(() -> ((ControllerMain) Server.getInstance().getWindowInformations().getController()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));
@@ -94,7 +94,7 @@ public class ConnectionHandler extends Thread
 		return this.registry;
 	}
 
-	public Login getLogin()
+	public Authentication getLogin()
 	{
 		return this.login;
 	}

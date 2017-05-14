@@ -20,8 +20,8 @@ public class ControllerStart implements Initializable
 	@FXML
 	private void handleStartButtonAction()
 	{
-		String rmiPort = this.rmiPortTextField.getText().replace("^\\s+|\\s+$", "");
-		String socketPort = this.socketPortTextField.getText().replace("^\\s+|\\s+$", "");
+		String rmiPort = this.rmiPortTextField.getText().replace(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
+		String socketPort = this.socketPortTextField.getText().replace(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		if (rmiPort.length() < 1) {
 			this.rmiPortTextField.clear();
 			this.rmiPortTextField.setPromptText("Insert a RMI port");

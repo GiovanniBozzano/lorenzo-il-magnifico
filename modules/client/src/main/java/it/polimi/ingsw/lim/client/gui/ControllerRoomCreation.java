@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.client.gui;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.network.Connection;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.WindowInformations;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,7 +23,7 @@ public class ControllerRoomCreation implements Initializable
 	@FXML
 	private void handleCreateButtonAction()
 	{
-		String name = this.nameTextField.getText().replaceAll("^\\s+|\\s+$", "");
+		String name = this.nameTextField.getText().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		if (name.length() < 1) {
 			this.nameTextField.clear();
 			this.nameTextField.setPromptText("Insert a name");

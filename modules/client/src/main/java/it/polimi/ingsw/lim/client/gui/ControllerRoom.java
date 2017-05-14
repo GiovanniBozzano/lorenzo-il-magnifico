@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.client.gui;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.network.Connection;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,7 +23,7 @@ public class ControllerRoom implements Initializable
 	@FXML
 	private void handleChatTextAreaAction(ActionEvent event)
 	{
-		String text = ((TextField) event.getSource()).getText().replaceAll("^\\s+|\\s+$", "");
+		String text = ((TextField) event.getSource()).getText().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		if (text.length() < 1) {
 			return;
 		}
