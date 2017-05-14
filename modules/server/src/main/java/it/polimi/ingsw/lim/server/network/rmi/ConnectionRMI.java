@@ -29,7 +29,7 @@ public class ConnectionRMI extends Connection
 	public void disconnect(boolean notifyClient, String message)
 	{
 		super.disconnect(notifyClient, null);
-		for (ClientSession clientSession : Server.getInstance().getConnectionHandler().getHandshake().getClientSessions()) {
+		for (ClientSession clientSession : Server.getInstance().getConnectionHandler().getLogin().getClientSessions()) {
 			if (clientSession.getConnectionRMI() == this) {
 				try {
 					UnicastRemoteObject.unexportObject(clientSession, true);
@@ -49,7 +49,7 @@ public class ConnectionRMI extends Connection
 				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 			}
 		}
-		Utils.displayToLog("RMI Client: " + this.getId() + ":" + this.getName() + " disconnected.");
+		Utils.displayToLog("RMI Client: " + this.getId() + ":" + this.getUsername() + " disconnected.");
 	}
 
 	@Override

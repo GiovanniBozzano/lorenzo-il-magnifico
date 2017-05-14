@@ -9,7 +9,7 @@ import it.polimi.ingsw.lim.common.network.socket.packets.server.*;
 import java.io.IOException;
 import java.util.logging.Level;
 
-public class PacketListener extends Thread
+class PacketListener extends Thread
 {
 	private boolean keepGoing = true;
 
@@ -33,8 +33,11 @@ public class PacketListener extends Thread
 				return;
 			}
 			switch (packet.getPacketType()) {
-				case HANDSHAKE_CONFIRMATION:
-					Connection.handleHandshakeConfirmation();
+				case LOGIN_CONFIRMATION:
+					Connection.handleLoginConfirmation();
+					break;
+				case LOGIN_FAILURE:
+					Connection.handleLoginFailure(((PacketLoginFailure) packet).getText());
 					break;
 				case DISCONNECTION_LOG_MESSAGE:
 					Connection.handleDisconnectionLogMessage(((PacketDisconnectionLogMessage) packet).getText());

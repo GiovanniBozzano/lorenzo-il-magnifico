@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
-import it.polimi.ingsw.lim.common.network.rmi.IHandshake;
+import it.polimi.ingsw.lim.common.network.rmi.ILogin;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 
@@ -20,27 +20,23 @@ import java.util.logging.Level;
 public class ConnectionHandlerRMI extends ConnectionHandler
 {
 	private ServerSession serverSession;
+	private ILogin login;
 	private IClientSession clientSession;
 
 	@Override
 	public void run()
 	{
 		try {
-			IHandshake handshake = (IHandshake) Naming.lookup("rmi://" + Client.getInstance().getIp() + ":" + Client.getInstance().getPort() + "/lorenzo-il-magnifico");
+			this.login = (ILogin) Naming.lookup("rmi://" + Client.getInstance().getIp() + ":" + Client.getInstance().getPort() + "/lorenzo-il-magnifico");
 			this.serverSession = new ServerSession();
-			this.clientSession = handshake.sendLogin(Client.getInstance().getName(), CommonUtils.VERSION, this.serverSession);
 		} catch (NotBoundException | MalformedURLException | RemoteException exception) {
 			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
 			Client.getLogger().log(Level.INFO, "Could not connect to host", exception);
 			return;
 		}
-		if (this.clientSession == null) {
-			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-			return;
-		}
 		Client.getInstance().setConnected(true);
 		this.getHeartbeat().scheduleAtFixedRate(Connection::sendHeartbeat, 0L, 3000L, TimeUnit.MILLISECONDS);
-		CommonUtils.setNewWindow("/fxml/SceneLobby.fxml", null, null, new Thread(Connection::sendRequestRoomList));
+		CommonUtils.setNewWindow("/fxml/SceneLogin.fxml", null, null, null);
 	}
 
 	public void disconnect(boolean notifyServer)
@@ -59,15 +55,32 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		}
 		if (!notifyServer) {
 			try {
-				this.clientSession.sendDisconnect();
+				if (this.clientSession != null) {
+					this.clientSession.sendDisconnect();
+				}
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		}
 	}
 
+	public ServerSession getServerSession()
+	{
+		return this.serverSession;
+	}
+
+	public ILogin getLogin()
+	{
+		return this.login;
+	}
+
 	public IClientSession getClientSession()
 	{
 		return this.clientSession;
+	}
+
+	public void setClientSession(IClientSession clientSession)
+	{
+		this.clientSession = clientSession;
 	}
 }

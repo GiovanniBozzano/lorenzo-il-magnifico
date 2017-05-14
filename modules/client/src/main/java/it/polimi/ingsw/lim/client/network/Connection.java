@@ -2,13 +2,14 @@ package it.polimi.ingsw.lim.client.network;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.gui.ControllerLobby;
+import it.polimi.ingsw.lim.client.gui.ControllerLogin;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.gui.ControllerRoomCreation;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketHandshake;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomCreation;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomEntry;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -27,16 +28,33 @@ public class Connection
 	}
 
 	/**
-	 * Sends an handshake packet to the Server with chosen name and Client version.
+	 * Tries to login with username, password and Client version.
+	 * @param username the username.
+	 * @param password the encrypted password.
 	 */
-	public static synchronized void sendHandshake()
+	public static synchronized void sendLogin(String username, String password)
 	{
-		if (Client.getInstance().getConnectionType() == ConnectionType.SOCKET) {
-			new PacketHandshake(Client.getInstance().getName()).send(Client.getInstance().getConnectionHandlerSocket().getOut());
+		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
+		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
+			try {
+				Client.getInstance().getConnectionHandlerRMI().setClientSession(Client.getInstance().getConnectionHandlerRMI().getLogin().sendLogin(username, password, CommonUtils.VERSION, Client.getInstance().getConnectionHandlerRMI().getServerSession()));
+			} catch (RemoteException exception) {
+				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, true);
+				return;
+			}
+			if (Client.getInstance().getConnectionHandlerRMI().getClientSession() == null) {
+				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+				return;
+			}
+			Client.getInstance().setUsername(username);
+			CommonUtils.setNewWindow("/fxml/SceneLobby.fxml", null, null, new Thread(Connection::sendRequestRoomList));
+		} else {
+			new PacketLogin(username, password).send(Client.getInstance().getConnectionHandlerSocket().getOut());
 		}
 	}
 
-	public static synchronized void sendDisconnectionAcknowledgement()
+	private static synchronized void sendDisconnectionAcknowledgement()
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.SOCKET) {
 			new Packet(PacketType.DISCONNECTION_ACKNOWLEDGEMENT).send(Client.getInstance().getConnectionHandlerSocket().getOut());
@@ -137,9 +155,21 @@ public class Connection
 		}
 	}
 
-	public static void handleHandshakeConfirmation()
+	public static void handleLoginConfirmation()
 	{
+		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerLogin)) {
+			return;
+		}
 		CommonUtils.setNewWindow("/fxml/SceneLobby.fxml", null, null, new Thread(Connection::sendRequestRoomList));
+	}
+
+	public static void handleLoginFailure(String text)
+	{
+		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerLogin)) {
+			return;
+		}
+		Client.getLogger().log(Level.INFO, text);
+		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
 	}
 
 	public static void handleDisconnectionLogMessage(String text)

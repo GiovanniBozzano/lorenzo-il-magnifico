@@ -55,7 +55,7 @@ public class Server extends Instance
 			try {
 				this.connectionHandler.getRegistry().unbind("lorenzo-il-magnifico");
 				UnicastRemoteObject.unexportObject(this.connectionHandler.getRegistry(), true);
-				UnicastRemoteObject.unexportObject(this.connectionHandler.getHandshake(), true);
+				UnicastRemoteObject.unexportObject(this.connectionHandler.getLogin(), true);
 			} catch (RemoteException | NotBoundException exception) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}

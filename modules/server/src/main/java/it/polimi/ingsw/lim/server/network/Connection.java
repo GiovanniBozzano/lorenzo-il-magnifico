@@ -13,7 +13,7 @@ import java.util.concurrent.ScheduledExecutorService;
 public abstract class Connection implements IConnection
 {
 	private final int id;
-	private String name;
+	private String username;
 	private final ScheduledExecutorService heartbeat = Executors.newSingleThreadScheduledExecutor();
 
 	protected Connection(int id)
@@ -21,13 +21,13 @@ public abstract class Connection implements IConnection
 		this.id = id;
 	}
 
-	protected Connection(int id, String name)
+	protected Connection(int id, String username)
 	{
 		this.id = id;
-		this.name = name;
+		this.username = username;
 	}
 
-	public static void disconnectAll()
+	static void disconnectAll()
 	{
 		for (Connection connection : Server.getInstance().getConnections()) {
 			connection.disconnect(true, null);
@@ -35,7 +35,7 @@ public abstract class Connection implements IConnection
 		Server.getInstance().getConnections().clear();
 	}
 
-	public static void broadcastRoomsUpdate()
+	private static void broadcastRoomsUpdate()
 	{
 		for (Connection connection : Utils.getPlayersInLobby()) {
 			connection.sendRoomList(Utils.convertRoomsToInformations());
@@ -60,7 +60,7 @@ public abstract class Connection implements IConnection
 				Server.getInstance().getRooms().remove(room);
 			} else {
 				for (Connection connection : room.getPlayers()) {
-					connection.sendRoomExitOther(this.getName());
+					connection.sendRoomExitOther(this.getUsername());
 				}
 			}
 		}
@@ -92,7 +92,7 @@ public abstract class Connection implements IConnection
 		room.getPlayers().add(this);
 		Server.getInstance().getRooms().add(room);
 		List<String> playerNames = new ArrayList<>();
-		playerNames.add(this.name);
+		playerNames.add(this.username);
 		this.sendRoomEntryConfirmation(new RoomInformations(roomId, trimmedName, playerNames));
 		Connection.broadcastRoomsUpdate();
 	}
@@ -118,11 +118,11 @@ public abstract class Connection implements IConnection
 		targetRoom.getPlayers().add(this);
 		List<String> playerNames = new ArrayList<>();
 		for (Connection connection : targetRoom.getPlayers()) {
-			playerNames.add(connection.getName());
+			playerNames.add(connection.getUsername());
 		}
 		this.sendRoomEntryConfirmation(new RoomInformations(targetRoom.getId(), targetRoom.getName(), playerNames));
 		for (Connection connection : targetRoom.getPlayers()) {
-			connection.sendRoomEntryOther(this.name);
+			connection.sendRoomEntryOther(this.username);
 		}
 		Connection.broadcastRoomsUpdate();
 	}
@@ -137,7 +137,7 @@ public abstract class Connection implements IConnection
 					Server.getInstance().getRooms().remove(room);
 				} else {
 					for (Connection connection : room.getPlayers()) {
-						connection.sendRoomExitOther(this.name);
+						connection.sendRoomExitOther(this.username);
 					}
 				}
 				break;
@@ -151,7 +151,7 @@ public abstract class Connection implements IConnection
 	{
 		for (Connection otherConnection : Utils.getPlayersInRooms()) {
 			if (otherConnection != this) {
-				otherConnection.sendChatMessage("[" + this.getName() + "]: " + text);
+				otherConnection.sendChatMessage("[" + this.getUsername() + "]: " + text);
 			}
 		}
 	}
@@ -163,15 +163,15 @@ public abstract class Connection implements IConnection
 	}
 
 	@Override
-	public String getName()
+	public String getUsername()
 	{
-		return this.name;
+		return this.username;
 	}
 
 	@Override
-	public void setName(String name)
+	public void setUsername(String username)
 	{
-		this.name = name;
+		this.username = username;
 	}
 
 	@Override

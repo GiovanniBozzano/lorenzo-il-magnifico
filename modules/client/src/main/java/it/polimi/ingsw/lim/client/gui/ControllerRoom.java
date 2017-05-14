@@ -29,9 +29,9 @@ public class ControllerRoom implements Initializable
 		((TextField) event.getSource()).clear();
 		Connection.sendChatMessage(text);
 		if (this.chatTextArea.getText().length() < 1) {
-			this.chatTextArea.appendText("[" + Client.getInstance().getName() + "]: " + text);
+			this.chatTextArea.appendText("[" + Client.getInstance().getUsername() + "]: " + text);
 		} else {
-			this.chatTextArea.appendText("\n[" + Client.getInstance().getName() + "]: " + text);
+			this.chatTextArea.appendText("\n[" + Client.getInstance().getUsername() + "]: " + text);
 		}
 	}
 

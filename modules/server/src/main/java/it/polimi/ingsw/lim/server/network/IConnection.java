@@ -37,9 +37,9 @@ public interface IConnection
 
 	int getId();
 
-	String getName();
+	String getUsername();
 
-	void setName(String name);
+	void setUsername(String name);
 
 	ScheduledExecutorService getHeartbeat();
 }

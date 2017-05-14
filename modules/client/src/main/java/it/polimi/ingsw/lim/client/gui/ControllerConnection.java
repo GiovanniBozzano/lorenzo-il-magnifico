@@ -17,7 +17,6 @@ public class ControllerConnection implements Initializable
 {
 	@FXML private TextField ipTextField;
 	@FXML private TextField portTextField;
-	@FXML private TextField nameTextField;
 	@FXML private RadioButton rmiRadioButton;
 	@FXML private RadioButton socketRadioButton;
 	@FXML private Button connectionButton;
@@ -27,7 +26,6 @@ public class ControllerConnection implements Initializable
 	{
 		String ip = this.ipTextField.getText().replace("^\\s+|\\s+$", "");
 		String port = this.portTextField.getText().replace("^\\s+|\\s+$", "");
-		String name = this.nameTextField.getText().replaceAll("^\\s+|\\s+$", "");
 		if (ip.length() < 1) {
 			this.ipTextField.clear();
 			this.ipTextField.setPromptText("Insert an IP address");
@@ -43,20 +41,10 @@ public class ControllerConnection implements Initializable
 			this.portTextField.setPromptText("Insert a valid port");
 			return;
 		}
-		if (name.length() < 1) {
-			this.nameTextField.clear();
-			this.nameTextField.setPromptText("Insert a name");
-			return;
-		}
-		if (!name.matches("^[\\w\\-]{4,16}$")) {
-			this.nameTextField.clear();
-			this.nameTextField.setPromptText("Insert a valid name");
-			return;
-		}
 		if (this.rmiRadioButton.isSelected() && this.socketRadioButton.isSelected()) {
 			return;
 		}
-		Client.getInstance().setup(this.rmiRadioButton.isSelected() ? ConnectionType.RMI : ConnectionType.SOCKET, ip, Integer.parseInt(port), name);
+		Client.getInstance().setup(this.rmiRadioButton.isSelected() ? ConnectionType.RMI : ConnectionType.SOCKET, ip, Integer.parseInt(port));
 	}
 
 	@FXML

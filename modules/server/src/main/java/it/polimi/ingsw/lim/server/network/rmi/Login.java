@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.network.rmi;
 
 import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
-import it.polimi.ingsw.lim.common.network.rmi.IHandshake;
+import it.polimi.ingsw.lim.common.network.rmi.ILogin;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
@@ -17,49 +17,34 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 
-public class Handshake extends UnicastRemoteObject implements IHandshake
+public class Login extends UnicastRemoteObject implements ILogin
 {
 	private final transient List<ClientSession> clientSessions = new ArrayList<>();
 
-	public Handshake() throws RemoteException
+	public Login() throws RemoteException
 	{
 		super();
 	}
 
 	@Override
-	public IClientSession sendLogin(String name, String version, IServerSession serverSession) throws RemoteException
+	public IClientSession sendLogin(String name, String password, String version, IServerSession serverSession) throws RemoteException
 	{
 		String trimmedName = name.replaceAll("^\\s+|\\s+$", "");
 		int connectionId = Server.getInstance().getConnectionId();
 		if (!version.equals(CommonUtils.VERSION)) {
 			serverSession.sendLogMessage("Client version not compatible with the Server.");
-			try {
-				Utils.displayToLog("RMI Connection refused from: " + getClientHost() + " - " + connectionId);
-			} catch (ServerNotActiveException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			}
 			return null;
 		}
 		if (!trimmedName.matches("^[\\w\\-]{4,16}$")) {
-			try {
-				Utils.displayToLog("RMI Connection refused from: " + getClientHost() + " - " + connectionId);
-			} catch (ServerNotActiveException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			}
+			serverSession.sendLogMessage("Incorrect username.");
 			return null;
 		}
 		for (Connection connection : Server.getInstance().getConnections()) {
-			if (connection.getName().equals(trimmedName)) {
-				serverSession.sendLogMessage("Client name is already taken.");
-				try {
-					Utils.displayToLog("RMI Connection refused from: " + getClientHost() + " - " + connectionId);
-				} catch (ServerNotActiveException exception) {
-					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-				}
+			if (connection.getUsername().equals(trimmedName)) {
+				serverSession.sendLogMessage("Already logged in.");
 				return null;
 			}
 		}
-		serverSession.sendLogMessage("Connected to Server.");
 		try {
 			Utils.displayToLog("RMI Connection accepted from: " + getClientHost() + " - " + connectionId);
 		} catch (ServerNotActiveException exception) {
@@ -75,7 +60,7 @@ public class Handshake extends UnicastRemoteObject implements IHandshake
 	@Override
 	public boolean equals(Object object)
 	{
-		return object instanceof Handshake && this.clientSessions.equals(((Handshake) object).getClientSessions());
+		return object instanceof Login && this.clientSessions.equals(((Login) object).getClientSessions());
 	}
 
 	@Override

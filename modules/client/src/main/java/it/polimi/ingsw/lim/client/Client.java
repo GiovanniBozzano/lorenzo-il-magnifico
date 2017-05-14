@@ -22,7 +22,7 @@ public class Client extends Instance
 	private ConnectionType connectionType;
 	private String ip;
 	private int port;
-	private String name;
+	private String username;
 	private ConnectionHandlerRMI connectionHandlerRMI;
 	private ConnectionHandlerSocket connectionHandlerSocket;
 	private boolean isConnected;
@@ -32,14 +32,12 @@ public class Client extends Instance
 	 * @param connectionType the type of connection used.
 	 * @param ip the IP address of the Server.
 	 * @param port the port of the Server.
-	 * @param name the name of the Player.
 	 */
-	public void setup(ConnectionType connectionType, String ip, int port, String name)
+	public void setup(ConnectionType connectionType, String ip, int port)
 	{
 		this.connectionType = connectionType;
 		this.ip = ip;
 		this.port = port;
-		this.name = name;
 		this.isConnected = false;
 		this.getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (connectionType == ConnectionType.RMI) {
@@ -120,9 +118,14 @@ public class Client extends Instance
 		return this.port;
 	}
 
-	public String getName()
+	public String getUsername()
 	{
-		return this.name;
+		return this.username;
+	}
+
+	public void setUsername(String username)
+	{
+		this.username = username;
 	}
 
 	public ConnectionHandlerRMI getConnectionHandlerRMI()

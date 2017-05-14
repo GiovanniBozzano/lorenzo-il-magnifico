@@ -102,7 +102,7 @@ public class Utils
 			}
 			List<String> playerNames = new ArrayList<>();
 			for (Connection player : room.getPlayers()) {
-				playerNames.add(player.getName());
+				playerNames.add(player.getUsername());
 			}
 			rooms.add(new RoomInformations(room.getId(), room.getName(), playerNames));
 		}

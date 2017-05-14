@@ -44,9 +44,9 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public synchronized void disconnect(boolean isBeingKicked, String message)
+	public synchronized void disconnect(boolean waitPacketListener, String message)
 	{
-		super.disconnect(isBeingKicked, message);
+		super.disconnect(waitPacketListener, message);
 		if (message != null) {
 			this.sendDisconnectionLogMessage(message);
 			try {
@@ -60,7 +60,7 @@ public class ConnectionSocket extends Connection
 				Server.getLogger().log(Level.INFO, "Connection acknowledgement failed.", exception);
 			}
 		}
-		if (isBeingKicked) {
+		if (waitPacketListener) {
 			this.packetListener.close();
 		}
 		try {
@@ -70,7 +70,7 @@ public class ConnectionSocket extends Connection
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
-		if (isBeingKicked) {
+		if (waitPacketListener) {
 			try {
 				this.packetListener.join();
 			} catch (InterruptedException exception) {
@@ -78,7 +78,7 @@ public class ConnectionSocket extends Connection
 				Thread.currentThread().interrupt();
 			}
 		}
-		Utils.displayToLog("Socket Client " + this.getId() + (this.getName() != null ? " : " + this.getName() : "") + " disconnected.");
+		Utils.displayToLog("Socket Client " + this.getId() + (this.getUsername() != null ? " : " + this.getUsername() : "") + " disconnected.");
 	}
 
 	@Override
@@ -87,9 +87,14 @@ public class ConnectionSocket extends Connection
 		new Packet(PacketType.HEARTBEAT).send(this.out);
 	}
 
-	synchronized void sendHandshakeConfirmation()
+	synchronized void sendLoginConfirmation()
 	{
-		new Packet(PacketType.HANDSHAKE_CONFIRMATION).send(this.out);
+		new Packet(PacketType.LOGIN_CONFIRMATION).send(this.out);
+	}
+
+	synchronized void sendLoginFailure(String text)
+	{
+		new PacketLoginFailure(text).send(this.out);
 	}
 
 	@Override

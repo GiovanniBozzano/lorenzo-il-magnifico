@@ -3,7 +3,7 @@ package it.polimi.ingsw.lim.server.network.socket;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketHandshake;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomCreation;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomEntry;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -26,16 +26,16 @@ class PacketListener extends Thread
 	@Override
 	public void run()
 	{
-		if (!this.waitHandshake()) {
+		if (!this.waitLogin()) {
 			return;
 		}
-		this.connectionSocket.sendHandshakeConfirmation();
+		this.connectionSocket.sendLoginConfirmation();
 		while (this.keepGoing) {
 			Packet packet;
 			try {
 				packet = (Packet) this.connectionSocket.getIn().readObject();
 			} catch (ClassNotFoundException | IOException exception) {
-				Server.getLogger().log(Level.INFO, "Socket Client " + this.connectionSocket.getId() + (this.connectionSocket.getName() != null ? " : " + this.connectionSocket.getName() : "") + " disconnected.", exception);
+				Server.getLogger().log(Level.INFO, "Socket Client " + this.connectionSocket.getId() + (this.connectionSocket.getUsername() != null ? " : " + this.connectionSocket.getUsername() : "") + " disconnected.", exception);
 				if (!this.keepGoing) {
 					return;
 				}
@@ -43,7 +43,7 @@ class PacketListener extends Thread
 				return;
 			}
 			if (packet == null) {
-				this.connectionSocket.disconnect(true, null);
+				this.connectionSocket.disconnect(false, null);
 				return;
 			}
 			switch (packet.getPacketType()) {
@@ -67,49 +67,45 @@ class PacketListener extends Thread
 		}
 	}
 
-	private boolean waitHandshake()
+	private boolean waitLogin()
 	{
-		Packet packet;
-		try {
-			do {
+		while (this.connectionSocket.getUsername() == null) {
+			Packet packet;
+			try {
 				packet = (Packet) this.connectionSocket.getIn().readObject();
-			} while (packet.getPacketType() != PacketType.HANDSHAKE);
-		} catch (ClassNotFoundException | IOException exception) {
-			Server.getLogger().log(Level.INFO, "Handshake failed.", exception);
-			if (!this.keepGoing) {
-				return false;
-			}
-			this.connectionSocket.disconnect(false, null);
-			return false;
-		}
-		if (!((PacketHandshake) packet).getVersion().equals(CommonUtils.VERSION)) {
-			if (!this.keepGoing) {
-				return false;
-			}
-			this.connectionSocket.disconnect(false, "Client version not compatible with the Server.");
-			return false;
-		}
-		String name = ((PacketHandshake) packet).getName().replaceAll("^\\s+|\\s+$", "");
-		if (!name.matches("^[\\w\\-]{4,16}$")) {
-			if (!this.keepGoing) {
-				return false;
-			}
-			this.connectionSocket.disconnect(false, null);
-			return false;
-		}
-		for (Connection connection : Server.getInstance().getConnections()) {
-			if (connection.getName() != null && connection.getName().equals(name)) {
+			} catch (ClassNotFoundException | IOException exception) {
+				Server.getLogger().log(Level.INFO, "Socket Client " + this.connectionSocket.getId() + " disconnected.", exception);
 				if (!this.keepGoing) {
 					return false;
 				}
-				this.connectionSocket.disconnect(false, "Client name is already taken.");
+				this.connectionSocket.disconnect(false, null);
 				return false;
 			}
+			if (packet.getPacketType() != PacketType.LOGIN) {
+				continue;
+			}
+			if (!((PacketLogin) packet).getVersion().equals(CommonUtils.VERSION)) {
+				this.connectionSocket.sendLoginFailure("Client version not compatible with the Server.");
+				continue;
+			}
+			String username = ((PacketLogin) packet).getUsername().replaceAll("^\\s+|\\s+$", "");
+			if (!username.matches("^[\\w\\-]{4,16}$")) {
+				this.connectionSocket.sendLoginFailure("Incorrect username.");
+				continue;
+			}
+			boolean alreadyLoggedIn = false;
+			for (Connection connection : Server.getInstance().getConnections()) {
+				if (connection.getUsername() != null && connection.getUsername().equals(username)) {
+					this.connectionSocket.sendLoginFailure("Already logged in.");
+					alreadyLoggedIn = true;
+					break;
+				}
+			}
+			if (alreadyLoggedIn) {
+				continue;
+			}
+			this.connectionSocket.setUsername(username);
 		}
-		if (!this.keepGoing) {
-			return false;
-		}
-		this.setName(name);
 		return true;
 	}
 

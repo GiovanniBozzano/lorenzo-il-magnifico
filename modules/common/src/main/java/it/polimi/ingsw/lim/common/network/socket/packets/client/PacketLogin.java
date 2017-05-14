@@ -4,16 +4,18 @@ import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
-public class PacketHandshake extends Packet
+public class PacketLogin extends Packet
 {
 	private final String version;
-	private final String name;
+	private final String username;
+	private final String password;
 
-	public PacketHandshake(String name)
+	public PacketLogin(String username, String password)
 	{
-		super(PacketType.HANDSHAKE);
+		super(PacketType.LOGIN);
 		this.version = CommonUtils.VERSION;
-		this.name = name;
+		this.username = username;
+		this.password = password;
 	}
 
 	public String getVersion()
@@ -21,8 +23,13 @@ public class PacketHandshake extends Packet
 		return this.version;
 	}
 
-	public String getName()
+	public String getUsername()
 	{
-		return this.name;
+		return this.username;
+	}
+
+	public String getPassword()
+	{
+		return this.password;
 	}
 }

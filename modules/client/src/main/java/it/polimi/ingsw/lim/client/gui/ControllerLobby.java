@@ -26,7 +26,7 @@ import java.util.logging.Level;
 public class ControllerLobby implements Initializable
 {
 	@FXML private Label connectionLabel;
-	@FXML private Label nameLabel;
+	@FXML private Label usernameLabel;
 	@FXML private ListView<RoomInformations> roomsListView;
 	@FXML private ListView<String> playersListView;
 	@FXML private Button enterRoomButton;
@@ -85,7 +85,7 @@ public class ControllerLobby implements Initializable
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{
 		this.connectionLabel.setText(Client.getInstance().getConnectionType().name() + " - " + Client.getInstance().getIp() + ":" + Client.getInstance().getPort());
-		this.nameLabel.setText(Client.getInstance().getName());
+		this.usernameLabel.setText(Client.getInstance().getUsername());
 		this.roomsListView.setCellFactory(param -> new ListCell<RoomInformations>()
 		{
 			@Override

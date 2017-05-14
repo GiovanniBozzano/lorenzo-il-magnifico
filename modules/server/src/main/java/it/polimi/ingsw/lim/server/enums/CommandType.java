@@ -25,7 +25,7 @@ public enum CommandType
 		if (text != null) {
 			boolean found = false;
 			for (Connection connection : Server.getInstance().getConnections()) {
-				if (connection.getName().equals(text)) {
+				if (connection.getUsername().equals(text)) {
 					found = true;
 					connection.disconnect(true, null);
 					break;

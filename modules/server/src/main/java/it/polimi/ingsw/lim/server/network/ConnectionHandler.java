@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
-import it.polimi.ingsw.lim.server.network.rmi.Handshake;
+import it.polimi.ingsw.lim.server.network.rmi.Login;
 import it.polimi.ingsw.lim.server.network.socket.ConnectionSocket;
 import it.polimi.ingsw.lim.server.utils.Utils;
 import javafx.application.Platform;
@@ -25,7 +25,7 @@ public class ConnectionHandler extends Thread
 	private final int socketPort;
 	private Registry registry;
 	private boolean keepGoing = true;
-	private Handshake handshake;
+	private Login login;
 
 	public ConnectionHandler(int rmiPort, int socketPort)
 	{
@@ -38,8 +38,8 @@ public class ConnectionHandler extends Thread
 	{
 		try {
 			this.registry = LocateRegistry.createRegistry(this.rmiPort);
-			this.handshake = new Handshake();
-			this.registry.rebind("lorenzo-il-magnifico", this.handshake);
+			this.login = new Login();
+			this.registry.rebind("lorenzo-il-magnifico", this.login);
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			Server.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
@@ -76,7 +76,7 @@ public class ConnectionHandler extends Thread
 			try {
 				this.registry.unbind("lorenzo-il-magnifico");
 				UnicastRemoteObject.unexportObject(this.registry, true);
-				UnicastRemoteObject.unexportObject(this.handshake, true);
+				UnicastRemoteObject.unexportObject(this.login, true);
 			} catch (RemoteException | NotBoundException nestedException) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, nestedException);
 			}
@@ -94,8 +94,8 @@ public class ConnectionHandler extends Thread
 		return this.registry;
 	}
 
-	public Handshake getHandshake()
+	public Login getLogin()
 	{
-		return this.handshake;
+		return this.login;
 	}
 }
