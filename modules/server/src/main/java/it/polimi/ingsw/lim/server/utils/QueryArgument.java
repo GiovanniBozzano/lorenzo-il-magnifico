@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.server.utils;
 
 import it.polimi.ingsw.lim.server.enums.QueryValueType;
 
-class QueryArgument
+public class QueryArgument
 {
 	private final QueryValueType valueType;
 	private final String value;

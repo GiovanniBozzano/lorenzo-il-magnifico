@@ -42,7 +42,7 @@ public class Server extends Instance
 		this.socketPort = socketPort;
 		this.connectionId = 0;
 		this.roomId = 0;
-		this.database = new DatabaseSQLite("database.db");
+		this.database = new DatabaseSQLite(Database.DATABASE_FILE);
 		this.database.createTables();
 		this.databaseKeeper.scheduleAtFixedRate(() -> {
 			try {

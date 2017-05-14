@@ -15,6 +15,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,8 +29,6 @@ import java.util.logging.Level;
 
 public class Utils
 {
-	public static final String DATABASE_TABLE_PREFIX = "lim_";
-
 	private Utils()
 	{
 	}
@@ -151,24 +152,25 @@ public class Utils
 		return playersInRooms;
 	}
 
-	public static ResultSet sqlRead(QueryRead query, List<QueryArgument> queryArguments)
+	public static ResultSet sqlRead(QueryRead query, List<QueryArgument> queryArguments) throws SQLException
 	{
 		try (PreparedStatement statement = Server.getInstance().getDatabase().getConnection().prepareStatement(query.getText())) {
 			Utils.fillStatement(statement, queryArguments);
 			return statement.executeQuery();
 		} catch (SQLException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			return null;
+			throw exception;
 		}
 	}
 
-	public static void sqlWrite(QueryWrite query, List<QueryArgument> queryArguments)
+	public static void sqlWrite(QueryWrite query, List<QueryArgument> queryArguments) throws SQLException
 	{
 		try (PreparedStatement statement = Server.getInstance().getDatabase().getConnection().prepareStatement(query.getText())) {
 			Utils.fillStatement(statement, queryArguments);
 			statement.executeUpdate();
 		} catch (SQLException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			throw exception;
 		}
 	}
 
@@ -195,6 +197,7 @@ public class Utils
 				case STRING:
 					Utils.setStatementString(preparedStatement, queryArgument, index);
 					break;
+				default:
 			}
 		}
 	}
@@ -262,5 +265,24 @@ public class Utils
 			return;
 		}
 		preparedStatement.setString(index + 1, queryArgument.getValue());
+	}
+
+	public static String sha1Encrypt(String text, byte[] salt) throws NoSuchAlgorithmException
+	{
+		MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
+		messageDigest.update(salt);
+		byte[] bytes = messageDigest.digest(text.getBytes());
+		StringBuilder stringBuilder = new StringBuilder();
+		for (byte currentByte : bytes) {
+			stringBuilder.append(Integer.toString((currentByte & 0xFF) + 0x100, 16).substring(1));
+		}
+		return stringBuilder.toString();
+	}
+
+	public static byte[] getSalt() throws NoSuchAlgorithmException
+	{
+		byte[] salt = new byte[16];
+		SecureRandom.getInstance("SHA1PRNG").nextBytes(salt);
+		return salt;
 	}
 }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.lim.server.database;
 
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,6 +9,13 @@ import java.util.logging.Level;
 
 public abstract class Database
 {
+	public static final String PREFIX = "lim_";
+	public static final String DATABASE_FILE = "database.db";
+	public static final String TABLE_PLAYERS = "players";
+	public static final String TABLE_PLAYERS_COLUMN_ID = "id";
+	public static final String TABLE_PLAYERS_COLUMN_USERNAME = "username";
+	@SuppressWarnings("squid:S2068") public static final String TABLE_PLAYERS_COLUMN_PASSWORD = "password";
+	public static final String TABLE_PLAYERS_COLUMN_SALT = "salt";
 	private Connection connection;
 
 	protected abstract Connection openConnection();
@@ -35,8 +41,7 @@ public abstract class Database
 	public void createTables()
 	{
 		try {
-			this.getConnection().createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + Utils.DATABASE_TABLE_PREFIX + "groups (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(256) NOT NULL);");
-			this.getConnection().createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + Utils.DATABASE_TABLE_PREFIX + "npcs (id INTEGER PRIMARY KEY AUTOINCREMENT, npc_id INTEGER(11) NOT NULL, group_id INTEGER(11) NOT NULL);");
+			this.getConnection().createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + Database.PREFIX + Database.TABLE_PLAYERS + " (" + Database.TABLE_PLAYERS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Database.TABLE_PLAYERS_COLUMN_USERNAME + " VARCHAR(16) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_PASSWORD + " CHAR(128) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_SALT + " RAW NOT NULL);");
 		} catch (SQLException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}

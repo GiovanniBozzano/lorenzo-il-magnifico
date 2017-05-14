@@ -7,10 +7,21 @@ import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomCreation;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomEntry;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
+import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.database.Database;
+import it.polimi.ingsw.lim.server.enums.QueryRead;
+import it.polimi.ingsw.lim.server.enums.QueryValueType;
 import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.utils.QueryArgument;
+import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 class PacketListener extends Thread
@@ -102,6 +113,22 @@ class PacketListener extends Thread
 				}
 			}
 			if (alreadyLoggedIn) {
+				continue;
+			}
+			List<QueryArgument> queryArguments = new ArrayList<>();
+			queryArguments.add(new QueryArgument(QueryValueType.STRING, ((PacketLogin) packet).getUsername().replaceAll("^\\s+|\\s+$", "")));
+			try (ResultSet resultSet = Utils.sqlRead(QueryRead.GET_SALT_AND_PASSWORD_WITH_USERNAME, queryArguments)) {
+				if (!resultSet.next()) {
+					this.connectionSocket.sendLoginFailure("Incorrect username.");
+					continue;
+				}
+				if (!Utils.sha1Encrypt(((PacketLogin) packet).getPassword(), resultSet.getBytes(Database.TABLE_PLAYERS_COLUMN_SALT)).equals(resultSet.getString(Database.TABLE_PLAYERS_COLUMN_PASSWORD))) {
+					this.connectionSocket.sendLoginFailure("Incorrect password.");
+					continue;
+				}
+			} catch (SQLException | NoSuchAlgorithmException exception) {
+				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				this.connectionSocket.sendLoginFailure("Server error.");
 				continue;
 			}
 			this.connectionSocket.setUsername(username);
