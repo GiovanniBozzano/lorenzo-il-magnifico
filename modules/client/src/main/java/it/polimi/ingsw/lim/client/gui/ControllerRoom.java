@@ -32,7 +32,7 @@ public class ControllerRoom implements Initializable
 		if (this.chatTextArea.getText().length() < 1) {
 			this.chatTextArea.appendText("[ME]: " + text);
 		} else {
-			this.chatTextArea.appendText("\n[" + Client.getInstance().getUsername() + "]: " + text);
+			this.chatTextArea.appendText("\n[ME]: " + text);
 		}
 	}
 
