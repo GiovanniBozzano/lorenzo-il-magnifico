@@ -31,6 +31,7 @@ public class Connection
 
 	/**
 	 * Tries to login with username, password and Client version.
+	 *
 	 * @param username the username.
 	 * @param password the password.
 	 */
@@ -58,6 +59,7 @@ public class Connection
 
 	/**
 	 * Tries to register with username, password and Client version.
+	 *
 	 * @param username the username.
 	 * @param password the password.
 	 */
@@ -127,6 +129,7 @@ public class Connection
 
 	/**
 	 * Sends to the Server the newly created room to be verified.
+	 *
 	 * @param name the name of the newly created room.
 	 */
 	public static synchronized void sendRoomCreation(String name)

@@ -67,7 +67,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 				return null;
 			}
 			Server.getLogger().log(Level.INFO, decryptedPassword);
-			if (!Utils.sha1Encrypt(decryptedPassword, resultSet.getBytes(Database.TABLE_PLAYERS_COLUMN_SALT)).equals(resultSet.getString(Database.TABLE_PLAYERS_COLUMN_PASSWORD))) {
+			if (!Utils.sha512Encrypt(decryptedPassword, resultSet.getBytes(Database.TABLE_PLAYERS_COLUMN_SALT)).equals(resultSet.getString(Database.TABLE_PLAYERS_COLUMN_PASSWORD))) {
 				serverSession.sendLogMessage("Incorrect password.");
 				resultSet.getStatement().close();
 				return null;
@@ -79,7 +79,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			return null;
 		}
 		try {
-			Utils.displayToLog("RMI Connection accepted from: " + getClientHost() + " - " + connectionId);
+			Utils.displayToLog("RMI Player " + UnicastRemoteObject.getClientHost() + " logged in as: " + trimmedUsername);
 		} catch (ServerNotActiveException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
@@ -124,7 +124,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			}
 			resultSet.getStatement().close();
 			byte[] salt = Utils.getSalt();
-			String encryptedPassword = Utils.sha1Encrypt(decryptedPassword, salt);
+			String encryptedPassword = Utils.sha512Encrypt(decryptedPassword, salt);
 			queryArguments.clear();
 			queryArguments.add(new QueryArgument(QueryValueType.STRING, trimmedUsername));
 			queryArguments.add(new QueryArgument(QueryValueType.STRING, encryptedPassword));
@@ -142,7 +142,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			return null;
 		}
 		try {
-			Utils.displayToLog("RMI Connection accepted from: " + getClientHost() + " - " + connectionId);
+			Utils.displayToLog("RMI Player " + UnicastRemoteObject.getClientHost() + " registerd as: " + trimmedUsername);
 		} catch (ServerNotActiveException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}

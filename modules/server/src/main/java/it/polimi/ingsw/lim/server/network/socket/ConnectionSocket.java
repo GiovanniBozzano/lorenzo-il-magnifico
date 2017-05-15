@@ -38,6 +38,7 @@ public class ConnectionSocket extends Connection
 			this.packetListener = new PacketListener(this);
 			this.packetListener.start();
 			this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
+			Utils.displayToLog("Socket connection accepted from: " + socket.getInetAddress().getHostAddress() + " : " + id);
 		} catch (IOException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			this.disconnect(true, null);
@@ -79,7 +80,7 @@ public class ConnectionSocket extends Connection
 				Thread.currentThread().interrupt();
 			}
 		}
-		Utils.displayToLog("Socket Client " + this.getId() + (this.getUsername() != null ? " : " + this.getUsername() : "") + " disconnected.");
+		Utils.displayToLog("Socket Player " + this.socket.getInetAddress().getHostAddress() + " : " + this.getId() + (this.getUsername() != null ? " : " + this.getUsername() : "") + " disconnected.");
 	}
 
 	@Override
@@ -143,6 +144,11 @@ public class ConnectionSocket extends Connection
 	public synchronized void sendChatMessage(String text)
 	{
 		new PacketChatMessage(text.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "")).send(this.out);
+	}
+
+	Socket getSocket()
+	{
+		return this.socket;
 	}
 
 	ObjectInputStream getIn()

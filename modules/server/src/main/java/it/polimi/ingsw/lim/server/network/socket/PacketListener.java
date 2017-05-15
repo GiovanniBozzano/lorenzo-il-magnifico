@@ -19,6 +19,7 @@ import it.polimi.ingsw.lim.server.utils.QueryArgument;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.io.IOException;
+import java.rmi.server.UnicastRemoteObject;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -87,7 +88,7 @@ class PacketListener extends Thread
 			try {
 				packet = (Packet) this.connectionSocket.getIn().readObject();
 			} catch (ClassNotFoundException | IOException exception) {
-				Server.getLogger().log(Level.INFO, "Socket Client " + this.connectionSocket.getId() + " disconnected.", exception);
+				Server.getLogger().log(Level.INFO, "Socket Client " + this.connectionSocket.getSocket().getInetAddress().getHostAddress() + " : " + this.connectionSocket.getId() + " disconnected.", exception);
 				if (!this.keepGoing) {
 					return false;
 				}
@@ -138,7 +139,7 @@ class PacketListener extends Thread
 				resultSet.getStatement().close();
 				return;
 			}
-			if (!Utils.sha1Encrypt(decryptedPassword, resultSet.getBytes(Database.TABLE_PLAYERS_COLUMN_SALT)).equals(resultSet.getString(Database.TABLE_PLAYERS_COLUMN_PASSWORD))) {
+			if (!Utils.sha512Encrypt(decryptedPassword, resultSet.getBytes(Database.TABLE_PLAYERS_COLUMN_SALT)).equals(resultSet.getString(Database.TABLE_PLAYERS_COLUMN_PASSWORD))) {
 				this.connectionSocket.sendAuthenticationFailure("Incorrect password.");
 				resultSet.getStatement().close();
 				return;
@@ -150,6 +151,7 @@ class PacketListener extends Thread
 			return;
 		}
 		this.connectionSocket.setUsername(trimmedUsername);
+		Utils.displayToLog("Socket Player " + this.connectionSocket.getSocket().getInetAddress().getHostAddress() + " : " + this.connectionSocket.getId() + " logged in as: " + trimmedUsername);
 	}
 
 	private void register(PacketRegistration packetRegistration)
@@ -189,7 +191,7 @@ class PacketListener extends Thread
 			}
 			resultSet.getStatement().close();
 			byte[] salt = Utils.getSalt();
-			String encryptedPassword = Utils.sha1Encrypt(decryptedPassword, salt);
+			String encryptedPassword = Utils.sha512Encrypt(decryptedPassword, salt);
 			queryArguments.clear();
 			queryArguments.add(new QueryArgument(QueryValueType.STRING, trimmedUsername));
 			queryArguments.add(new QueryArgument(QueryValueType.STRING, encryptedPassword));
@@ -207,6 +209,7 @@ class PacketListener extends Thread
 			return;
 		}
 		this.connectionSocket.setUsername(trimmedUsername);
+		Utils.displayToLog("Socket Player " + this.connectionSocket.getSocket().getInetAddress().getHostAddress() + " : " + this.connectionSocket.getId() + " registerd as: " + trimmedUsername);
 	}
 
 	synchronized void end()

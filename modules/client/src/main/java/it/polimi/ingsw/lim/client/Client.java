@@ -29,7 +29,9 @@ public class Client extends Instance
 	private boolean isConnected;
 
 	/**
-	 * Tries to connect to an RMI or Socket Server and, if successful, opens the lobby screen.
+	 * Tries to connect to an RMI or Socket Server and, if successful, opens the
+	 * lobby screen.
+	 *
 	 * @param connectionType the type of connection used.
 	 * @param ip the IP address of the Server.
 	 * @param port the port of the Server.
@@ -60,10 +62,14 @@ public class Client extends Instance
 	}
 
 	/**
-	 * Disconnects from the Server.
-	 * If the Client is stopping, it closes all the windows, otherwise it closes all the current windows and opens the connection window.
-	 * @param isStopping the flag to check whether the Client has to be closed or not.
-	 * @param notifyServer the flag to check wether the Client has to notify the Server or not.
+	 * Disconnects from the Server. If the Client is stopping, it closes all the
+	 * windows, otherwise it closes all the current windows and opens the
+	 * connection window.
+	 *
+	 * @param isStopping the flag to check whether the Client has to be closed
+	 * or not.
+	 * @param notifyServer the flag to check wether the Client has to notify the
+	 * Server or not.
 	 */
 	public void disconnect(boolean isStopping, boolean notifyServer)
 	{
