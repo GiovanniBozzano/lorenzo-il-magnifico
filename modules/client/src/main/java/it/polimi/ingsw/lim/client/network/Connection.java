@@ -92,6 +92,9 @@ public class Connection
 		}
 	}
 
+	/**
+	 * Tries to send an heartbeat to check the connection status.
+	 */
 	public static synchronized void sendHeartbeat()
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
