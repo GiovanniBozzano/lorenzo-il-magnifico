@@ -34,7 +34,7 @@ class PacketListener extends Thread
 			}
 			switch (packet.getPacketType()) {
 				case AUTHENTICATION_CONFIRMATION:
-					Connection.handleAuthenticationConfirmation();
+					Connection.handleAuthenticationConfirmation(((PacketAuthenticationConfirmation) packet).getUsername());
 					break;
 				case AUTHENTICATION_FAILURE:
 					Connection.handleAuthenticationFailure(((PacketAuthenticationFailure) packet).getText());

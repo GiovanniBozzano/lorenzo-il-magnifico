@@ -41,6 +41,7 @@ public class Client extends Instance
 		this.connectionType = connectionType;
 		this.ip = ip;
 		this.port = port;
+		this.username = null;
 		this.isConnected = false;
 		this.getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (connectionType == ConnectionType.RMI) {

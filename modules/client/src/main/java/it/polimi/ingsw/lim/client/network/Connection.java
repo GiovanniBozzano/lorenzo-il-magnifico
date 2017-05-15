@@ -194,11 +194,12 @@ public class Connection
 		}
 	}
 
-	public static void handleAuthenticationConfirmation()
+	public static void handleAuthenticationConfirmation(String username)
 	{
 		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerAuthentication)) {
 			return;
 		}
+		Client.getInstance().setUsername(username);
 		CommonUtils.setNewWindow(Utils.SCENE_LOBBY, null, null, new Thread(Connection::sendRequestRoomList));
 	}
 

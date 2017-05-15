@@ -5,6 +5,7 @@ import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -14,7 +15,7 @@ import java.util.ResourceBundle;
 public class ControllerAuthentication implements Initializable
 {
 	@FXML private TextField usernameTextField;
-	@FXML private TextField passwordTextField;
+	@FXML private PasswordField passwordTextField;
 	@FXML private Button loginButton;
 	@FXML private Button registerButton;
 

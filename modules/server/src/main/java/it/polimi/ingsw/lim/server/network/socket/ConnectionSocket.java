@@ -91,7 +91,7 @@ public class ConnectionSocket extends Connection
 
 	synchronized void sendAuthenticationConfirmation()
 	{
-		new Packet(PacketType.AUTHENTICATION_CONFIRMATION).send(this.out);
+		new PacketAuthenticationConfirmation(this.getUsername()).send(this.out);
 	}
 
 	synchronized void sendAuthenticationFailure(String text)

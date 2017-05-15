@@ -19,7 +19,6 @@ import it.polimi.ingsw.lim.server.utils.QueryArgument;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.io.IOException;
-import java.rmi.server.UnicastRemoteObject;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
