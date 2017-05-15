@@ -51,7 +51,11 @@
           </indentOptions>
         </codeStyleSettings>
         <codeStyleSettings language="JSON">
+          <option name="RIGHT_MARGIN" value="0" />
+          <option name="KEEP_LINE_BREAKS" value="false" />
+          <option name="WRAP_ON_TYPING" value="0" />
           <indentOptions>
+            <option name="INDENT_SIZE" value="4" />
             <option name="USE_TAB_CHARACTER" value="true" />
           </indentOptions>
         </codeStyleSettings>

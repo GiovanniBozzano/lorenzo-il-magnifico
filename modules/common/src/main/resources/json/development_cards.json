@@ -34,20 +34,20 @@
 				"Card_type": "YELLOW",
 				"discount_choices": [
 					[
-            			{
-              				"type": "WOOD",
-              				"amount": 1
-            			},
-            			{
-              				"type": "STONE",
-              				"amount": 1
-           				}
-          			],
-          			[
-           				{},
-           		 		{}
-          			]
-          		]
+						{
+							"type": "WOOD",
+							"amount": 1
+						},
+						{
+							"type": "STONE",
+							"amount": 1
+						}
+					],
+					[
+						{},
+						{}
+					]
+				]
 			}
 		},
 		{
@@ -64,16 +64,16 @@
 				"Card_type": "BLUE",
 				"discount_choices": [
 					[
-            			{
-             				"type": "COIN",
-              				"amount": 1
-            			}
-          			],
-          			[
-            			{},
-            			{}
-          			]
-          		]
+						{
+							"type": "COIN",
+							"amount": 1
+						}
+					],
+					[
+						{},
+						{}
+					]
+				]
 			}
 		},
 		{
@@ -140,9 +140,9 @@
 			"permanent_bonus": {
 				"type": "Malus",
 				"rows": [
-            		"THIRD",
+					"THIRD",
 					"FOURTH"
-            	]
+				]
 			}
 		},
 		{
@@ -151,24 +151,24 @@
 			"price": 3,
 			"instantReward": {
 				"Event": [
-				{
-				"type": "Event_card",
-				"value": 4,
-				"Card_type": [
-					"BLUE",
-					"GREEN",
-					"PURPLE",
-					"YELLOW"
-				],
-				"discount_choices": []
-				}
+					{
+						"type": "Event_card",
+						"value": 4,
+						"Card_type": [
+							"BLUE",
+							"GREEN",
+							"PURPLE",
+							"YELLOW"
+						],
+						"discount_choices": []
+					}
 				],
 				"Resource_amount": [
 					{
-              			"type": "FAITH_POINT",
-              			"amount": 1
-            		}
-        		]
+						"type": "FAITH_POINT",
+						"amount": 1
+					}
+				]
 			},
 			"permanent_bonus": null
 		},
@@ -178,21 +178,21 @@
 			"price": 4,
 			"instantReward": {
 				"Event": [
-				{
-				"type": "Event_card",
-				"value": 6,
-				"Card_type": [
-					"GREEN"
-				],
-				"discount_choices": []
-				}
+					{
+						"type": "Event_card",
+						"value": 6,
+						"Card_type": [
+							"GREEN"
+						],
+						"discount_choices": []
+					}
 				],
 				"Resource_amount": [
 					{
-             			"type": "MILITARY_POINT",
-              			"amount": 2
-            		}
-        		]
+						"type": "MILITARY_POINT",
+						"amount": 2
+					}
+				]
 			},
 			"permanent_bonus": null
 		},
@@ -210,20 +210,20 @@
 						],
 						"discount_choices": [
 							[
-            					{
-              						"type": "WOOD",
-              						"amount": 1
-            					},
-           						{
-                					"type": "STONE",
-              						"amount": 1
-           	 					}
-          					],
-          					[
-            					{},
-            					{}
-          					]
-          				]
+								{
+									"type": "WOOD",
+									"amount": 1
+								},
+								{
+									"type": "STONE",
+									"amount": 1
+								}
+							],
+							[
+								{},
+								{}
+							]
+						]
 					}
 				],
 				"Resource_amount": []
@@ -244,16 +244,16 @@
 						],
 						"discount_choices": [
 							[
-            					{
-              						"type": "COIN",
-              						"amount": 2
-            					}
-          					],
-          					[
-            					{},
-            					{}
-          					]
-          				]
+								{
+									"type": "COIN",
+									"amount": 2
+								}
+							],
+							[
+								{},
+								{}
+							]
+						]
 					}
 				],
 				"Resource_amount": []
@@ -266,17 +266,17 @@
 			"price": 4,
 			"instantReward": {
 				"Event": [
-				{
-				"type": "Event_card",
-				"value": 6,
-				"Card_type": [
-					"PURPLE"
-				],
-				"discount_choices": []
-				}
+					{
+						"type": "Event_card",
+						"value": 6,
+						"Card_type": [
+							"PURPLE"
+						],
+						"discount_choices": []
+					}
 				],
 				"Resource_amount": [
-				{
+					{
 						"type": "COUNCIL_PRIVILEGE",
 						"amount": 1
 					}
@@ -412,14 +412,14 @@
 			"price": 4,
 			"instantReward": {
 				"Event": [
-				{
-				"type": "Event_work",
-				"value": 4,
-				"Work_type": "HARVEST"
-				}
+					{
+						"type": "Event_work",
+						"value": 4,
+						"Work_type": "HARVEST"
+					}
 				],
 				"Resource_amount": [
-				{
+					{
 						"type": "FAITH_POINT",
 						"amount": 2
 					}
@@ -433,14 +433,14 @@
 			"price": 5,
 			"instantReward": {
 				"Event": [
-				{
-				"type": "Event_work",
-				"value": 4,
-				"Work_type": "PRODUCTION"
-				}
+					{
+						"type": "Event_work",
+						"value": 4,
+						"Work_type": "PRODUCTION"
+					}
 				],
 				"Resource_amount": [
-				{
+					{
 						"type": "FAITH_POINT",
 						"amount": 1
 					}
@@ -471,17 +471,17 @@
 			"price": 6,
 			"instantReward": {
 				"Event": [
-				{
-				"type": "Event_card",
-				"value": 7,
-				"Card_type": [
-					"BLUE",
-					"GREEN",
-					"PURPLE",
-					"YELLOW"
-				],
-				"discount_choices": []
-				}
+					{
+						"type": "Event_card",
+						"value": 7,
+						"Card_type": [
+							"BLUE",
+							"GREEN",
+							"PURPLE",
+							"YELLOW"
+						],
+						"discount_choices": []
+					}
 				],
 				"Resource_amount": [
 					{
@@ -990,27 +990,25 @@
 						"resource_condition": 2,
 						"resource_price": 5
 					}
-
 				],
 				[
 					{
-
 					}
 				]
 			],
 			"instantReward": {
 				"Event": [
-				{
-				"type": "Event_card",
-				"value": 6,
-				"Card_type": [
-					"PURPLE"
-				],
-				"discount_choices": []
-				}
+					{
+						"type": "Event_card",
+						"value": 6,
+						"Card_type": [
+							"PURPLE"
+						],
+						"discount_choices": []
+					}
 				],
 				"Resource_amount": [
-				{
+					{
 						"type": "COUNCIL_PRIVILEGE",
 						"amount": 1
 					}
@@ -1019,5 +1017,4 @@
 			"victory_value": 10
 		}
 	]
-
 }
