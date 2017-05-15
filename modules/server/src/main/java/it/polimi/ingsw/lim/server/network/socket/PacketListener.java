@@ -138,7 +138,7 @@ class PacketListener extends Thread
 				resultSet.getStatement().close();
 				return;
 			}
-			if (!Utils.sha1Encrypt(decryptedPassword, resultSet.getBytes(Database.TABLE_PLAYERS_COLUMN_SALT)).equals(resultSet.getString(Database.TABLE_PLAYERS_COLUMN_PASSWORD))) {
+			if (!Utils.sha512Encrypt(decryptedPassword, resultSet.getBytes(Database.TABLE_PLAYERS_COLUMN_SALT)).equals(resultSet.getString(Database.TABLE_PLAYERS_COLUMN_PASSWORD))) {
 				this.connectionSocket.sendAuthenticationFailure("Incorrect password.");
 				resultSet.getStatement().close();
 				return;
@@ -189,7 +189,7 @@ class PacketListener extends Thread
 			}
 			resultSet.getStatement().close();
 			byte[] salt = Utils.getSalt();
-			String encryptedPassword = Utils.sha1Encrypt(decryptedPassword, salt);
+			String encryptedPassword = Utils.sha512Encrypt(decryptedPassword, salt);
 			queryArguments.clear();
 			queryArguments.add(new QueryArgument(QueryValueType.STRING, trimmedUsername));
 			queryArguments.add(new QueryArgument(QueryValueType.STRING, encryptedPassword));

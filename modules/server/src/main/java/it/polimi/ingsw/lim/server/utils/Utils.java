@@ -38,7 +38,9 @@ public class Utils
 
 	/**
 	 * Checks online for the external IP address.
-	 * @return a string representing the IP address if successful, otherwise null.
+	 *
+	 * @return a string representing the IP address if successful, otherwise
+	 * null.
 	 */
 	public static String getExternalIpAddress()
 	{
@@ -54,6 +56,7 @@ public class Utils
 
 	/**
 	 * Prints a string to the log visible in the main screen.
+	 *
 	 * @param text the string to print.
 	 */
 	public static void displayToLog(String text)
@@ -72,6 +75,7 @@ public class Utils
 
 	/**
 	 * Executes the given command.
+	 *
 	 * @param command the command to execute.
 	 */
 	public static void executeCommand(String command)
@@ -104,6 +108,7 @@ public class Utils
 
 	/**
 	 * Converts a list of Room objects to a list of RoomInformations objects.
+	 *
 	 * @return the list to convert.
 	 */
 	public static List<RoomInformations> convertRoomsToInformations()
@@ -124,6 +129,7 @@ public class Utils
 
 	/**
 	 * Retrieves the players currently not in a room.
+	 *
 	 * @return the list of players currently not in a room
 	 */
 	public static List<Connection> getPlayersInLobby()
@@ -135,6 +141,7 @@ public class Utils
 
 	/**
 	 * Retrieves the players currently in a room.
+	 *
 	 * @return the list of players currently in a room
 	 */
 	public static List<Connection> getPlayersInRooms()
@@ -155,6 +162,16 @@ public class Utils
 		return playersInRooms;
 	}
 
+	/**
+	 * Executes a read query on the database with a prepared statement.
+	 *
+	 * @param query the query to execute.
+	 * @param queryArguments the arguments to fill the statement.
+	 *
+	 * @return the rows returned by the query.
+	 *
+	 * @throws SQLException if the query was not successful.
+	 */
 	public static ResultSet sqlRead(QueryRead query, List<QueryArgument> queryArguments) throws SQLException
 	{
 		Server.getLogger().log(Level.INFO, query.getText());
@@ -168,6 +185,15 @@ public class Utils
 		}
 	}
 
+	/**
+	 * Executes a write query on the database with a prepared statement.
+	 *
+	 * @param query the query to execute.
+	 * @param queryArguments the arguments to use to fill the prepared
+	 * statement.
+	 *
+	 * @throws SQLException if the query was not successful.
+	 */
 	public static void sqlWrite(QueryWrite query, List<QueryArgument> queryArguments) throws SQLException
 	{
 		Server.getLogger().log(Level.INFO, query.getText());
@@ -180,6 +206,15 @@ public class Utils
 		}
 	}
 
+	/**
+	 * Fills a prepared statement with the given arguments.
+	 *
+	 * @param preparedStatement the prepared statement to fill.
+	 * @param queryArguments the arguments to use to fill the prepared
+	 * statement.
+	 *
+	 * @throws SQLException if the process was not successful.
+	 */
 	private static void fillStatement(PreparedStatement preparedStatement, List<QueryArgument> queryArguments) throws SQLException
 	{
 		if (queryArguments == null) {
@@ -211,6 +246,15 @@ public class Utils
 		}
 	}
 
+	/**
+	 * Sets the given prepared statement argument to the given integer.
+	 *
+	 * @param preparedStatement the prepared statement to set.
+	 * @param queryArgument the argument to use to set the prepared statement.
+	 * @param index the index of the parepared statement argument to set.
+	 *
+	 * @throws SQLException if the process was not successful.
+	 */
 	private static void setStatementInteger(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
 	{
 		if (queryArgument.getValue() instanceof Integer) {
@@ -220,6 +264,15 @@ public class Utils
 		preparedStatement.setNull(index + 1, Types.INTEGER);
 	}
 
+	/**
+	 * Sets the given prepared statement argument to the given long.
+	 *
+	 * @param preparedStatement the prepared statement to set.
+	 * @param queryArgument the argument to use to set the prepared statement.
+	 * @param index the index of the parepared statement argument to set.
+	 *
+	 * @throws SQLException if the process was not successful.
+	 */
 	private static void setStatementLong(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
 	{
 		if (queryArgument.getValue() instanceof Long) {
@@ -229,6 +282,15 @@ public class Utils
 		preparedStatement.setNull(index + 1, Types.BIGINT);
 	}
 
+	/**
+	 * Sets the given prepared statement argument to the given float.
+	 *
+	 * @param preparedStatement the prepared statement to set.
+	 * @param queryArgument the argument to use to set the prepared statement.
+	 * @param index the index of the parepared statement argument to set.
+	 *
+	 * @throws SQLException if the process was not successful.
+	 */
 	private static void setStatementFloat(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
 	{
 		if (queryArgument.getValue() instanceof Float) {
@@ -238,6 +300,15 @@ public class Utils
 		preparedStatement.setNull(index + 1, Types.FLOAT);
 	}
 
+	/**
+	 * Sets the given prepared statement argument to the given double.
+	 *
+	 * @param preparedStatement the prepared statement to set.
+	 * @param queryArgument the argument to use to set the prepared statement.
+	 * @param index the index of the parepared statement argument to set.
+	 *
+	 * @throws SQLException if the process was not successful.
+	 */
 	private static void setStatementDouble(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
 	{
 		if (queryArgument.getValue() instanceof Double) {
@@ -247,6 +318,15 @@ public class Utils
 		preparedStatement.setNull(index + 1, Types.DOUBLE);
 	}
 
+	/**
+	 * Sets the given prepared statement argument to the given string.
+	 *
+	 * @param preparedStatement the prepared statement to set.
+	 * @param queryArgument the argument to use to set the prepared statement.
+	 * @param index the index of the parepared statement argument to set.
+	 *
+	 * @throws SQLException if the process was not successful.
+	 */
 	private static void setStatementString(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
 	{
 		if (queryArgument.getValue() instanceof String) {
@@ -256,6 +336,15 @@ public class Utils
 		preparedStatement.setNull(index + 1, Types.VARCHAR);
 	}
 
+	/**
+	 * Sets the given prepared statement argument to the given bytes array.
+	 *
+	 * @param preparedStatement the prepared statement to set.
+	 * @param queryArgument the argument to use to set the prepared statement.
+	 * @param index the index of the parepared statement argument to set.
+	 *
+	 * @throws SQLException if the process was not successful.
+	 */
 	private static void setStatementBytes(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
 	{
 		if (queryArgument.getValue() instanceof byte[]) {
@@ -265,7 +354,17 @@ public class Utils
 		preparedStatement.setNull(index + 1, Types.BLOB);
 	}
 
-	public static String sha1Encrypt(String text, byte[] salt) throws NoSuchAlgorithmException
+	/**
+	 * Uses SHA-512 to encrypt a string with the given salt.
+	 *
+	 * @param text the string to encrypt.
+	 * @param salt the salt to use.
+	 *
+	 * @return the encrypted string.
+	 *
+	 * @throws NoSuchAlgorithmException if the process was not successful.
+	 */
+	public static String sha512Encrypt(String text, byte[] salt) throws NoSuchAlgorithmException
 	{
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
 		messageDigest.update(salt);
@@ -277,6 +376,13 @@ public class Utils
 		return stringBuilder.toString();
 	}
 
+	/**
+	 * Generates a random salt made as a 16 bytes array.
+	 *
+	 * @return the generated salt.
+	 *
+	 * @throws NoSuchAlgorithmException if the process was not successful.
+	 */
 	public static byte[] getSalt() throws NoSuchAlgorithmException
 	{
 		byte[] salt = new byte[16];

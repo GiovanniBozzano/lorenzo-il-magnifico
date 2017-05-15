@@ -32,7 +32,9 @@ public class Server extends Instance
 	private int roomId;
 
 	/**
-	 * Initializes RMI and Socket Servers and, if successful, opens the main screen.
+	 * Initializes RMI and Socket Servers and, if successful, opens the main
+	 * screen.
+	 *
 	 * @param rmiPort the port of the RMI Server.
 	 * @param socketPort the port of the Socket Server.
 	 */

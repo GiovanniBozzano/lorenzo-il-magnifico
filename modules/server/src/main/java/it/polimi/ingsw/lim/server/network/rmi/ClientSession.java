@@ -70,7 +70,7 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 		return Objects.hash(this.connectionRmi.getId());
 	}
 
-	public ConnectionRMI getConnectionRMI()
+	ConnectionRMI getConnectionRMI()
 	{
 		return this.connectionRmi;
 	}

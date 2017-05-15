@@ -34,6 +34,7 @@ public class CommonUtils
 
 	/**
 	 * Opens a new window and closes the current one.
+	 *
 	 * @param fxmlFileLocation the .fxml file location.
 	 * @param title the title of the new window.
 	 */
@@ -43,12 +44,16 @@ public class CommonUtils
 	}
 
 	/**
-	 * Opens a new window and closes the current one.
-	 * Executes an optional thread before showing the new window and another one after it has been shown.
+	 * Opens a new window and closes the current one. Executes an optional
+	 * thread before showing the new window and another one after it has been
+	 * shown.
+	 *
 	 * @param fxmlFileLocation the .fxml file location.
 	 * @param title the title of the new window.
-	 * @param firstThread the thread to execute before the window has been shown.
-	 * @param secondThread the thread to execute after the window has been shown.
+	 * @param firstThread the thread to execute before the window has been
+	 * shown.
+	 * @param secondThread the thread to execute after the window has been
+	 * shown.
 	 */
 	public static void setNewWindow(String fxmlFileLocation, String title, Thread firstThread, Thread secondThread)
 	{
@@ -84,6 +89,7 @@ public class CommonUtils
 
 	/**
 	 * Closes the given window and all the parent ones.
+	 *
 	 * @param stage the first window to close.
 	 */
 	public static void closeAllWindows(Stage stage)
@@ -96,7 +102,9 @@ public class CommonUtils
 
 	/**
 	 * Checks whether a string can be parsed as an integer or not.
+	 *
 	 * @param string the string to be checked.
+	 *
 	 * @return true if the string can be parsed, otherwise false.
 	 */
 	public static boolean isInteger(String string)
@@ -121,7 +129,9 @@ public class CommonUtils
 
 	/**
 	 * Encrypt a string with a 128 bit key.
+	 *
 	 * @param text the string to be encrypted.
+	 *
 	 * @return the encrypted string.
 	 */
 	public static String encrypt(String text)
@@ -138,7 +148,9 @@ public class CommonUtils
 
 	/**
 	 * Decrypt a string with a 128 bit key.
+	 *
 	 * @param text the string to be decrypted.
+	 *
 	 * @return the decrypted string.
 	 */
 	public static String decrypt(String text)
