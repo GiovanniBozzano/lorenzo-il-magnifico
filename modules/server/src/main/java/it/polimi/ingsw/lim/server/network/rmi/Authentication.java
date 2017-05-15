@@ -66,7 +66,6 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 				resultSet.getStatement().close();
 				return null;
 			}
-			Server.getLogger().log(Level.INFO, decryptedPassword);
 			if (!Utils.sha512Encrypt(decryptedPassword, resultSet.getBytes(Database.TABLE_PLAYERS_COLUMN_SALT)).equals(resultSet.getString(Database.TABLE_PLAYERS_COLUMN_PASSWORD))) {
 				serverSession.sendLogMessage("Incorrect password.");
 				resultSet.getStatement().close();
