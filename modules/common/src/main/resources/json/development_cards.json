@@ -1,12 +1,12 @@
 {
-	"CardBlue": [
+	"cards_blue": [
 		{
 			"display_name": "CONDOTTIERO",
 			"period": "FIRST",
 			"price": 2,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": [
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
 					{
 						"type": "MILITARY_POINT",
 						"amount": 3
@@ -16,7 +16,7 @@
 			"permanent_bonus": {
 				"type": "Bonus_addition_card",
 				"value": 2,
-				"Card_type": "GREEN",
+				"card_type": "GREEN",
 				"discount_choices": []
 			}
 		},
@@ -24,14 +24,14 @@
 			"display_name": "COSTRUTTORE",
 			"period": "FIRST",
 			"price": 4,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": []
+			"instant_reward": {
+				"event": [],
+				"resource_amount": []
 			},
 			"permanent_bonus": {
 				"type": "Bonus_addition_card",
 				"value": 2,
-				"Card_type": "YELLOW",
+				"card_type": "YELLOW",
 				"discount_choices": [
 					[
 						{
@@ -54,14 +54,14 @@
 			"display_name": "DAMA",
 			"period": "FIRST",
 			"price": 4,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": []
+			"instant_reward": {
+				"event": [],
+				"resource_amount": []
 			},
 			"permanent_bonus": {
 				"type": "Bonus_addition_card",
 				"value": 2,
-				"Card_type": "BLUE",
+				"card_type": "BLUE",
 				"discount_choices": [
 					[
 						{
@@ -80,9 +80,9 @@
 			"display_name": "CAVALIERE",
 			"period": "FIRST",
 			"price": 2,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": [
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
 					{
 						"type": "COUNCIL_PRIVILEGE",
 						"amount": 1
@@ -92,7 +92,7 @@
 			"permanent_bonus": {
 				"type": "Bonus_addition_card",
 				"value": 2,
-				"Card_type": "PURPLE",
+				"card_type": "PURPLE",
 				"discount_choices": []
 			}
 		},
@@ -100,37 +100,37 @@
 			"display_name": "CONTADINO",
 			"period": "FIRST",
 			"price": 3,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": []
+			"instant_reward": {
+				"event": [],
+				"resource_amount": []
 			},
 			"permanent_bonus": {
 				"type": "Bonus_addition_work",
 				"value": 2,
-				"Work_type": "HARVEST"
+				"work_type": "HARVEST"
 			}
 		},
 		{
 			"display_name": "ARTIGIANO",
 			"period": "FIRST",
 			"price": 3,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": []
+			"instant_reward": {
+				"event": [],
+				"resource_amount": []
 			},
 			"permanent_bonus": {
 				"type": "Bonus_addition_work",
 				"value": 2,
-				"Work_type": "PRODUCTION"
+				"work_type": "PRODUCTION"
 			}
 		},
 		{
 			"display_name": "PREDICATORE",
 			"period": "FIRST",
 			"price": 2,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": [
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
 					{
 						"type": "FAITH_POINT",
 						"amount": 4
@@ -149,12 +149,12 @@
 			"display_name": "BADESSA",
 			"period": "FIRST",
 			"price": 3,
-			"instantReward": {
-				"Event": [
+			"instant_reward": {
+				"event": [
 					{
-						"type": "Event_card",
+						"type": "event_card",
 						"value": 4,
-						"Card_type": [
+						"card_type": [
 							"BLUE",
 							"GREEN",
 							"PURPLE",
@@ -163,7 +163,7 @@
 						"discount_choices": []
 					}
 				],
-				"Resource_amount": [
+				"resource_amount": [
 					{
 						"type": "FAITH_POINT",
 						"amount": 1
@@ -176,18 +176,18 @@
 			"display_name": "CAPITANO",
 			"period": "SECOND",
 			"price": 4,
-			"instantReward": {
-				"Event": [
+			"instant_reward": {
+				"event": [
 					{
-						"type": "Event_card",
+						"type": "event_card",
 						"value": 6,
-						"Card_type": [
+						"card_type": [
 							"GREEN"
 						],
 						"discount_choices": []
 					}
 				],
-				"Resource_amount": [
+				"resource_amount": [
 					{
 						"type": "MILITARY_POINT",
 						"amount": 2
@@ -200,12 +200,12 @@
 			"display_name": "ARCHITETTO",
 			"period": "SECOND",
 			"price": 4,
-			"instantReward": {
-				"Event": [
+			"instant_reward": {
+				"event": [
 					{
-						"type": "Event_card",
+						"type": "event_card",
 						"value": 6,
-						"Card_type": [
+						"card_type": [
 							"YELLOW"
 						],
 						"discount_choices": [
@@ -226,7 +226,7 @@
 						]
 					}
 				],
-				"Resource_amount": []
+				"resource_amount": []
 			},
 			"permanent_bonus": null
 		},
@@ -234,12 +234,12 @@
 			"display_name": "MECENATE",
 			"period": "SECOND",
 			"price": 3,
-			"instantReward": {
-				"Event": [
+			"instant_reward": {
+				"event": [
 					{
-						"type": "Event_card",
+						"type": "event_card",
 						"value": 6,
-						"Card_type": [
+						"card_type": [
 							"BLUE"
 						],
 						"discount_choices": [
@@ -256,7 +256,7 @@
 						]
 					}
 				],
-				"Resource_amount": []
+				"resource_amount": []
 			},
 			"permanent_bonus": null
 		},
@@ -264,18 +264,18 @@
 			"display_name": "EROE",
 			"period": "SECOND",
 			"price": 4,
-			"instantReward": {
-				"Event": [
+			"instant_reward": {
+				"event": [
 					{
-						"type": "Event_card",
+						"type": "event_card",
 						"value": 6,
-						"Card_type": [
+						"card_type": [
 							"PURPLE"
 						],
 						"discount_choices": []
 					}
 				],
-				"Resource_amount": [
+				"resource_amount": [
 					{
 						"type": "COUNCIL_PRIVILEGE",
 						"amount": 1
@@ -288,37 +288,37 @@
 			"display_name": "FATTORE",
 			"period": "SECOND",
 			"price": 4,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": []
+			"instant_reward": {
+				"event": [],
+				"resource_amount": []
 			},
 			"permanent_bonus": {
 				"type": "Bonus_addition_work",
 				"value": 3,
-				"Work_type": "HARVEST"
+				"work_type": "HARVEST"
 			}
 		},
 		{
 			"display_name": "STUDIOSO",
 			"period": "SECOND",
 			"price": 4,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": []
+			"instant_reward": {
+				"event": [],
+				"resource_amount": []
 			},
 			"permanent_bonus": {
 				"type": "Bonus_addition_work",
 				"value": 3,
-				"Work_type": "PRODUCTION"
+				"work_type": "PRODUCTION"
 			}
 		},
 		{
 			"display_name": "MESSO_PAPALE",
 			"period": "SECOND",
 			"price": 5,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": [
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
 					{
 						"type": "FAITH_POINT",
 						"amount": 3
@@ -331,9 +331,9 @@
 			"display_name": "MESSO_REALE",
 			"period": "SECOND",
 			"price": 5,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": [
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
 					{
 						"type": "COUNCIL_PRIVILEGE",
 						"amount": 3
@@ -346,13 +346,13 @@
 			"display_name": "NOBILE",
 			"period": "THIRD",
 			"price": 6,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": [
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
 					{
 						"type": "VICTORY_POINT",
 						"amount": 2,
-						"Card_type": "GREEN"
+						"card_type": "GREEN"
 					}
 				]
 			},
@@ -362,13 +362,13 @@
 			"display_name": "GOVERNATORE",
 			"period": "THIRD",
 			"price": 6,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": [
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
 					{
 						"type": "VICTORY_POINT",
 						"amount": 2,
-						"Card_type": "YELLOW"
+						"card_type": "YELLOW"
 					}
 				]
 			},
@@ -378,13 +378,13 @@
 			"display_name": "CORTIGIANA",
 			"period": "THIRD",
 			"price": 7,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": [
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
 					{
 						"type": "VICTORY_POINT",
 						"amount": 2,
-						"Card_type": "BLUE"
+						"card_type": "BLUE"
 					}
 				]
 			},
@@ -394,13 +394,13 @@
 			"display_name": "ARALDO",
 			"period": "THIRD",
 			"price": 6,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": [
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
 					{
 						"type": "VICTORY_POINT",
 						"amount": 2,
-						"Card_type": "PURPLE"
+						"card_type": "PURPLE"
 					}
 				]
 			},
@@ -410,15 +410,15 @@
 			"display_name": "CARDINALE",
 			"period": "THIRD",
 			"price": 4,
-			"instantReward": {
-				"Event": [
+			"instant_reward": {
+				"event": [
 					{
-						"type": "Event_work",
+						"type": "event_work",
 						"value": 4,
-						"Work_type": "HARVEST"
+						"work_type": "HARVEST"
 					}
 				],
-				"Resource_amount": [
+				"resource_amount": [
 					{
 						"type": "FAITH_POINT",
 						"amount": 2
@@ -431,15 +431,15 @@
 			"display_name": "VESCOVO",
 			"period": "THIRD",
 			"price": 5,
-			"instantReward": {
-				"Event": [
+			"instant_reward": {
+				"event": [
 					{
-						"type": "Event_work",
+						"type": "event_work",
 						"value": 4,
-						"Work_type": "PRODUCTION"
+						"work_type": "PRODUCTION"
 					}
 				],
-				"Resource_amount": [
+				"resource_amount": [
 					{
 						"type": "FAITH_POINT",
 						"amount": 1
@@ -452,9 +452,9 @@
 			"display_name": "GENERALE",
 			"period": "THIRD",
 			"price": 5,
-			"instantReward": {
-				"Event": [],
-				"Resource_amount": [
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
 					{
 						"type": "VICTORY_POINT",
 						"amount": 1,
@@ -469,12 +469,12 @@
 			"display_name": "AMBASCIATORE",
 			"period": "THIRD",
 			"price": 6,
-			"instantReward": {
-				"Event": [
+			"instant_reward": {
+				"event": [
 					{
-						"type": "Event_card",
+						"type": "event_card",
 						"value": 7,
-						"Card_type": [
+						"card_type": [
 							"BLUE",
 							"GREEN",
 							"PURPLE",
@@ -483,7 +483,7 @@
 						"discount_choices": []
 					}
 				],
-				"Resource_amount": [
+				"resource_amount": [
 					{
 						"type": "COUNCIL_PRIVILEGE",
 						"amount": 1
@@ -493,7 +493,7 @@
 			"permanent_bonus": null
 		}
 	],
-	"CardGreen": [
+	"cards_green": [
 		{
 			"display_name": "AVAMPOSTO_COMMERCIALE",
 			"period": "FIRST",
@@ -979,7 +979,7 @@
 			]
 		}
 	],
-	"CardPurple": [
+	"cards_purple": [
 		{
 			"display_name": "EROE",
 			"period": "SECOND",
@@ -996,18 +996,18 @@
 					}
 				]
 			],
-			"instantReward": {
-				"Event": [
+			"instant_reward": {
+				"event": [
 					{
-						"type": "Event_card",
+						"type": "event_card",
 						"value": 6,
-						"Card_type": [
+						"card_type": [
 							"PURPLE"
 						],
 						"discount_choices": []
 					}
 				],
-				"Resource_amount": [
+				"resource_amount": [
 					{
 						"type": "COUNCIL_PRIVILEGE",
 						"amount": 1
