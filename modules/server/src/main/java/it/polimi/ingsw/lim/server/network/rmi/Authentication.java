@@ -108,12 +108,6 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			serverSession.sendLogMessage("Incorrect password.");
 			return null;
 		}
-		for (Connection connection : Server.getInstance().getConnections()) {
-			if (connection.getUsername().equals(trimmedUsername)) {
-				serverSession.sendLogMessage("Already logged in.");
-				return null;
-			}
-		}
 		List<QueryArgument> queryArguments = new ArrayList<>();
 		queryArguments.add(new QueryArgument(QueryValueType.STRING, trimmedUsername));
 		try (ResultSet resultSet = Utils.sqlRead(QueryRead.CHECK_EXISTING_USERNAME, queryArguments)) {

@@ -170,17 +170,6 @@ class PacketListener extends Thread
 			this.connectionSocket.sendAuthenticationFailure("Incorrect password.");
 			return;
 		}
-		boolean alreadyLoggedIn = false;
-		for (Connection connection : Server.getInstance().getConnections()) {
-			if (connection.getUsername() != null && connection.getUsername().equals(trimmedUsername)) {
-				this.connectionSocket.sendAuthenticationFailure("Already logged in.");
-				alreadyLoggedIn = true;
-				break;
-			}
-		}
-		if (alreadyLoggedIn) {
-			return;
-		}
 		List<QueryArgument> queryArguments = new ArrayList<>();
 		queryArguments.add(new QueryArgument(QueryValueType.STRING, packetRegistration.getUsername().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "")));
 		try (ResultSet resultSet = Utils.sqlRead(QueryRead.CHECK_EXISTING_USERNAME, queryArguments)) {
