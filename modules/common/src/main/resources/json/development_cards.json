@@ -1,0 +1,1023 @@
+{
+	"CardBlue": [
+		{
+			"display_name": "CONDOTTIERO",
+			"period": "FIRST",
+			"price": 2,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": [
+					{
+						"type": "MILITARY_POINT",
+						"amount": 3
+					}
+				]
+			},
+			"permanent_bonus": {
+				"type": "Bonus_addition_card",
+				"value": 2,
+				"Card_type": "GREEN",
+				"discount_choices": []
+			}
+		},
+		{
+			"display_name": "COSTRUTTORE",
+			"period": "FIRST",
+			"price": 4,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": []
+			},
+			"permanent_bonus": {
+				"type": "Bonus_addition_card",
+				"value": 2,
+				"Card_type": "YELLOW",
+				"discount_choices": [
+					[
+            			{
+              				"type": "WOOD",
+              				"amount": 1
+            			},
+            			{
+              				"type": "STONE",
+              				"amount": 1
+           				}
+          			],
+          			[
+           				{},
+           		 		{}
+          			]
+          		]
+			}
+		},
+		{
+			"display_name": "DAMA",
+			"period": "FIRST",
+			"price": 4,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": []
+			},
+			"permanent_bonus": {
+				"type": "Bonus_addition_card",
+				"value": 2,
+				"Card_type": "BLUE",
+				"discount_choices": [
+					[
+            			{
+             				"type": "COIN",
+              				"amount": 1
+            			}
+          			],
+          			[
+            			{},
+            			{}
+          			]
+          		]
+			}
+		},
+		{
+			"display_name": "CAVALIERE",
+			"period": "FIRST",
+			"price": 2,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": [
+					{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 1
+					}
+				]
+			},
+			"permanent_bonus": {
+				"type": "Bonus_addition_card",
+				"value": 2,
+				"Card_type": "PURPLE",
+				"discount_choices": []
+			}
+		},
+		{
+			"display_name": "CONTADINO",
+			"period": "FIRST",
+			"price": 3,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": []
+			},
+			"permanent_bonus": {
+				"type": "Bonus_addition_work",
+				"value": 2,
+				"Work_type": "HARVEST"
+			}
+		},
+		{
+			"display_name": "ARTIGIANO",
+			"period": "FIRST",
+			"price": 3,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": []
+			},
+			"permanent_bonus": {
+				"type": "Bonus_addition_work",
+				"value": 2,
+				"Work_type": "PRODUCTION"
+			}
+		},
+		{
+			"display_name": "PREDICATORE",
+			"period": "FIRST",
+			"price": 2,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 4
+					}
+				]
+			},
+			"permanent_bonus": {
+				"type": "Malus",
+				"rows": [
+            		"THIRD",
+					"FOURTH"
+            	]
+			}
+		},
+		{
+			"display_name": "BADESSA",
+			"period": "FIRST",
+			"price": 3,
+			"instantReward": {
+				"Event": [
+				{
+				"type": "Event_card",
+				"value": 4,
+				"Card_type": [
+					"BLUE",
+					"GREEN",
+					"PURPLE",
+					"YELLOW"
+				],
+				"discount_choices": []
+				}
+				],
+				"Resource_amount": [
+					{
+              			"type": "FAITH_POINT",
+              			"amount": 1
+            		}
+        		]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "CAPITANO",
+			"period": "SECOND",
+			"price": 4,
+			"instantReward": {
+				"Event": [
+				{
+				"type": "Event_card",
+				"value": 6,
+				"Card_type": [
+					"GREEN"
+				],
+				"discount_choices": []
+				}
+				],
+				"Resource_amount": [
+					{
+             			"type": "MILITARY_POINT",
+              			"amount": 2
+            		}
+        		]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "ARCHITETTO",
+			"period": "SECOND",
+			"price": 4,
+			"instantReward": {
+				"Event": [
+					{
+						"type": "Event_card",
+						"value": 6,
+						"Card_type": [
+							"YELLOW"
+						],
+						"discount_choices": [
+							[
+            					{
+              						"type": "WOOD",
+              						"amount": 1
+            					},
+           						{
+                					"type": "STONE",
+              						"amount": 1
+           	 					}
+          					],
+          					[
+            					{},
+            					{}
+          					]
+          				]
+					}
+				],
+				"Resource_amount": []
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "MECENATE",
+			"period": "SECOND",
+			"price": 3,
+			"instantReward": {
+				"Event": [
+					{
+						"type": "Event_card",
+						"value": 6,
+						"Card_type": [
+							"BLUE"
+						],
+						"discount_choices": [
+							[
+            					{
+              						"type": "COIN",
+              						"amount": 2
+            					}
+          					],
+          					[
+            					{},
+            					{}
+          					]
+          				]
+					}
+				],
+				"Resource_amount": []
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "EROE",
+			"period": "SECOND",
+			"price": 4,
+			"instantReward": {
+				"Event": [
+				{
+				"type": "Event_card",
+				"value": 6,
+				"Card_type": [
+					"PURPLE"
+				],
+				"discount_choices": []
+				}
+				],
+				"Resource_amount": [
+				{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 1
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "FATTORE",
+			"period": "SECOND",
+			"price": 4,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": []
+			},
+			"permanent_bonus": {
+				"type": "Bonus_addition_work",
+				"value": 3,
+				"Work_type": "HARVEST"
+			}
+		},
+		{
+			"display_name": "STUDIOSO",
+			"period": "SECOND",
+			"price": 4,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": []
+			},
+			"permanent_bonus": {
+				"type": "Bonus_addition_work",
+				"value": 3,
+				"Work_type": "PRODUCTION"
+			}
+		},
+		{
+			"display_name": "MESSO_PAPALE",
+			"period": "SECOND",
+			"price": 5,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 3
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "MESSO_REALE",
+			"period": "SECOND",
+			"price": 5,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": [
+					{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 3
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "NOBILE",
+			"period": "THIRD",
+			"price": 6,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": [
+					{
+						"type": "VICTORY_POINT",
+						"amount": 2,
+						"Card_type": "GREEN"
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "GOVERNATORE",
+			"period": "THIRD",
+			"price": 6,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": [
+					{
+						"type": "VICTORY_POINT",
+						"amount": 2,
+						"Card_type": "YELLOW"
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "CORTIGIANA",
+			"period": "THIRD",
+			"price": 7,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": [
+					{
+						"type": "VICTORY_POINT",
+						"amount": 2,
+						"Card_type": "BLUE"
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "ARALDO",
+			"period": "THIRD",
+			"price": 6,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": [
+					{
+						"type": "VICTORY_POINT",
+						"amount": 2,
+						"Card_type": "PURPLE"
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "CARDINALE",
+			"period": "THIRD",
+			"price": 4,
+			"instantReward": {
+				"Event": [
+				{
+				"type": "Event_work",
+				"value": 4,
+				"Work_type": "HARVEST"
+				}
+				],
+				"Resource_amount": [
+				{
+						"type": "FAITH_POINT",
+						"amount": 2
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "VESCOVO",
+			"period": "THIRD",
+			"price": 5,
+			"instantReward": {
+				"Event": [
+				{
+				"type": "Event_work",
+				"value": 4,
+				"Work_type": "PRODUCTION"
+				}
+				],
+				"Resource_amount": [
+				{
+						"type": "FAITH_POINT",
+						"amount": 1
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "GENERALE",
+			"period": "THIRD",
+			"price": 5,
+			"instantReward": {
+				"Event": [],
+				"Resource_amount": [
+					{
+						"type": "VICTORY_POINT",
+						"amount": 1,
+						"type_multiplier": "MILITARY_POINT",
+						"amount_multiplier": 2
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "AMBASCIATORE",
+			"period": "THIRD",
+			"price": 6,
+			"instantReward": {
+				"Event": [
+				{
+				"type": "Event_card",
+				"value": 7,
+				"Card_type": [
+					"BLUE",
+					"GREEN",
+					"PURPLE",
+					"YELLOW"
+				],
+				"discount_choices": []
+				}
+				],
+				"Resource_amount": [
+					{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 1
+					}
+				]
+			},
+			"permanent_bonus": null
+		}
+	],
+	"CardGreen": [
+		{
+			"display_name": "AVAMPOSTO_COMMERCIALE",
+			"period": "FIRST",
+			"activation_cost": 2,
+			"instant_resources": [],
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "BOSCO",
+			"period": "FIRST",
+			"activation_cost": 2,
+			"instant_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "BORGO",
+			"period": "FIRST",
+			"activation_cost": 3,
+			"instant_resources": [],
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				},
+				{
+					"type": "SERVANT",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "CAVA_DI_GHIAIA",
+			"period": "FIRST",
+			"activation_cost": 4,
+			"instant_resources": [
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "FORESTA",
+			"period": "FIRST",
+			"activation_cost": 5,
+			"instant_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "WOOD",
+					"amount": 3
+				}
+			]
+		},
+		{
+			"display_name": "MONASTERO",
+			"period": "FIRST",
+			"activation_cost": 6,
+			"instant_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "SERVANT",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "ROCCA",
+			"period": "FIRST",
+			"activation_cost": 5,
+			"instant_resources": [],
+			"harvest_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "CITTÀ",
+			"period": "FIRST",
+			"activation_cost": 6,
+			"instant_resources": [
+				{
+					"type": "COIN",
+					"amount": 3
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "COUNCIL_PRIVILEGE",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "MINIERA_ORO",
+			"period": "SECOND",
+			"activation_cost": 1,
+			"instant_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "VILLAGGIO_MONTANO",
+			"period": "SECOND",
+			"activation_cost": 3,
+			"instant_resources": [
+				{
+					"type": "SERVANT",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 1
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "VILLAGGIO_MINERARIO",
+			"period": "SECOND",
+			"activation_cost": 4,
+			"instant_resources": [
+				{
+					"type": "SERVANT",
+					"amount": 2
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "SERVANT",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "CAVA_DI_PIETRA",
+			"period": "SECOND",
+			"activation_cost": 3,
+			"instant_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "STONE",
+					"amount": 3
+				}
+			]
+		},
+		{
+			"display_name": "POSSEDIMENTO",
+			"period": "SECOND",
+			"activation_cost": 4,
+			"instant_resources": [
+				{
+					"type": "SERVANT",
+					"amount": 2
+				},
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "EREMO",
+			"period": "SECOND",
+			"activation_cost": 2,
+			"instant_resources": [
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "MANIERO",
+			"period": "SECOND",
+			"activation_cost": 5,
+			"instant_resources": [],
+			"harvest_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "SERVANT",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "DUCATO",
+			"period": "SECOND",
+			"activation_cost": 6,
+			"instant_resources": [
+				{
+					"type": "COIN",
+					"amount": 4
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "CITTÀ_MERCANTILE",
+			"period": "THIRD",
+			"activation_cost": 1,
+			"instant_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				},
+				{
+					"type": "SERVANT",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 3
+				}
+			]
+		},
+		{
+			"display_name": "TENUTA",
+			"period": "THIRD",
+			"activation_cost": 3,
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 1
+				},
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "COLONIA",
+			"period": "THIRD",
+			"activation_cost": 5,
+			"instant_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 2
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 4
+				},
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "CAVA_DI_MARMO",
+			"period": "THIRD",
+			"activation_cost": 2,
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 3
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "PROVINCIA",
+			"period": "THIRD",
+			"activation_cost": 6,
+			"instant_resources": [
+				{
+					"type": "COUNCIL_PRIVILEGE",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 4
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "SANTUARIO",
+			"period": "THIRD",
+			"activation_cost": 1,
+			"instant_resources": [
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				},
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "CASTELLO",
+			"period": "THIRD",
+			"activation_cost": 4,
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "COIN",
+					"amount": 2
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 3
+				},
+				{
+					"type": "SERVANT",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "CITTÀ_FORTIFICATA",
+			"period": "THIRD",
+			"activation_cost": 2,
+			"instant_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "SERVANT",
+					"amount": 1
+				}
+			],
+			"harvest_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 1
+				},
+				{
+					"type": "SERVANT",
+					"amount": 2
+				}
+			]
+		}
+	],
+	"CardPurple": [
+		{
+			"display_name": "EROE",
+			"period": "SECOND",
+			"resource_trade_option": [
+				[
+					{
+						"type": "WOOD",
+						"resource_condition": 2,
+						"resource_price": 5
+					}
+
+				],
+				[
+					{
+
+					}
+				]
+			],
+			"instantReward": {
+				"Event": [
+				{
+				"type": "Event_card",
+				"value": 6,
+				"Card_type": [
+					"PURPLE"
+				],
+				"discount_choices": []
+				}
+				],
+				"Resource_amount": [
+				{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 1
+					}
+				]
+			},
+			"victory_value": 10
+		}
+	]
+
+}
