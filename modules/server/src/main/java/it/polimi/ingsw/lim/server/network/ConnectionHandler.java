@@ -63,7 +63,6 @@ public class ConnectionHandler extends Thread
 						serverSocket.close();
 					} else {
 						int connectionId = Server.getInstance().getConnectionId();
-						Utils.displayToLog("Socket Connection accepted from: " + socket.getInetAddress().getHostAddress() + " - " + connectionId);
 						Server.getInstance().getConnections().add(new ConnectionSocket(connectionId, socket));
 					}
 				} catch (IOException exception) {

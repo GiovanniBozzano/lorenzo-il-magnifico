@@ -19,6 +19,7 @@ import it.polimi.ingsw.lim.server.utils.QueryArgument;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.io.IOException;
+import java.rmi.server.UnicastRemoteObject;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -87,7 +88,7 @@ class PacketListener extends Thread
 			try {
 				packet = (Packet) this.connectionSocket.getIn().readObject();
 			} catch (ClassNotFoundException | IOException exception) {
-				Server.getLogger().log(Level.INFO, "Socket Client " + this.connectionSocket.getId() + " disconnected.", exception);
+				Server.getLogger().log(Level.INFO, "Socket Client " + this.connectionSocket.getSocket().getInetAddress().getHostAddress() + " : " + this.connectionSocket.getId() + " disconnected.", exception);
 				if (!this.keepGoing) {
 					return false;
 				}
@@ -150,6 +151,7 @@ class PacketListener extends Thread
 			return;
 		}
 		this.connectionSocket.setUsername(trimmedUsername);
+		Utils.displayToLog("Socket Player " + this.connectionSocket.getSocket().getInetAddress().getHostAddress() + " : " + this.connectionSocket.getId() + " logged in as: " + trimmedUsername);
 	}
 
 	private void register(PacketRegistration packetRegistration)
@@ -207,6 +209,7 @@ class PacketListener extends Thread
 			return;
 		}
 		this.connectionSocket.setUsername(trimmedUsername);
+		Utils.displayToLog("Socket Player " + this.connectionSocket.getSocket().getInetAddress().getHostAddress() + " : " + this.connectionSocket.getId() + " registerd as: " + trimmedUsername);
 	}
 
 	synchronized void end()

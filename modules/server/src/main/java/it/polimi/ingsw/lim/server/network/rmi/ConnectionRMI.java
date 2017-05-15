@@ -9,6 +9,7 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
+import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -49,7 +50,11 @@ public class ConnectionRMI extends Connection
 				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 			}
 		}
-		Utils.displayToLog("RMI Client: " + this.getId() + " : " + this.getUsername() + " disconnected.");
+		try {
+			Utils.displayToLog("RMI Player: " + UnicastRemoteObject.getClientHost() + " : " + this.getId() + " : " + this.getUsername() + " disconnected.");
+		} catch (ServerNotActiveException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
 	}
 
 	@Override

@@ -79,7 +79,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			return null;
 		}
 		try {
-			Utils.displayToLog("RMI Connection accepted from: " + getClientHost() + " - " + connectionId);
+			Utils.displayToLog("RMI Player " + UnicastRemoteObject.getClientHost() + " logged in as: " + trimmedUsername);
 		} catch (ServerNotActiveException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
@@ -142,7 +142,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			return null;
 		}
 		try {
-			Utils.displayToLog("RMI Connection accepted from: " + getClientHost() + " - " + connectionId);
+			Utils.displayToLog("RMI Player " + UnicastRemoteObject.getClientHost() + " registerd as: " + trimmedUsername);
 		} catch (ServerNotActiveException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
