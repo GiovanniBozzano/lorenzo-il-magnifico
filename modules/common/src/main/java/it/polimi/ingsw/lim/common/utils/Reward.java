@@ -5,12 +5,12 @@ import it.polimi.ingsw.lim.common.events.Event;
 public class Reward
 {
 	private final Event[] events;
-	private final ResourceAmount[] resources;
+	private final ResourceAmount[] resourceAmounts;
 
-	public Reward(Event[] events, ResourceAmount[] resources)
+	public Reward(Event[] events, ResourceAmount[] resourceAmounts)
 	{
 		this.events = events;
-		this.resources = resources;
+		this.resourceAmounts = resourceAmounts;
 	}
 
 	public Event[] getEvents()
@@ -18,8 +18,8 @@ public class Reward
 		return this.events;
 	}
 
-	public ResourceAmount[] getResources()
+	public ResourceAmount[] getResourceAmounts()
 	{
-		return this.resources;
+		return this.resourceAmounts;
 	}
 }

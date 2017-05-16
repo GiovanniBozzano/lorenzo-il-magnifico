@@ -1565,7 +1565,8 @@
 					{
 						"type": "WOOD",
 						"amount": 3
-					},{
+					},
+					{
 						"type": "STONE",
 						"amount": 3
 					},

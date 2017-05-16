@@ -2,15 +2,15 @@ package it.polimi.ingsw.lim.common.utils;
 
 public class DiscountChoice
 {
-	private final ResourceAmount[] resourceAmount;
+	private final ResourceAmount[] resourceAmounts;
 
-	public DiscountChoice(ResourceAmount[] resourceAmount)
+	public DiscountChoice(ResourceAmount[] resourceAmounts)
 	{
-		this.resourceAmount = resourceAmount;
+		this.resourceAmounts = resourceAmounts;
 	}
 
-	public ResourceAmount[] getResourceAmount()
+	public ResourceAmount[] getResourceAmounts()
 	{
-		return this.resourceAmount;
+		return this.resourceAmounts;
 	}
 }

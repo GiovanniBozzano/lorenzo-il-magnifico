@@ -1,9 +1,10 @@
-package it.polimi.ingsw.lim.common.enums;
+package it.polimi.ingsw.lim.common.cards;
 
+import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.ResourceTradeOption;
 
-public class CardYellow
+public class DevelopmentCardBuilding extends DevelopmentCard
 {
 	/*
 	ZECCA("YELLOW_CARD_1_1", Period.FIRST, new ResourceAmount[] { new ResourceAmount(ResourceType.WOOD, 1), new ResourceAmount(ResourceType.STONE, 3) }, new ResourceAmount[] { new ResourceAmount(ResourceType.VICTORY_POINT, 5) }, 5, new ResourceTradeOption[] { new ResourceTradeOption(new ResourceAmount[] {}, new ResourceAmount[] { new ResourceAmount(ResourceType.COIN, 1, CardType.YELLOW) }) }),
@@ -31,31 +32,18 @@ public class CardYellow
 	ACCADEMIA_MILITARE("YELLOW_CARD_3_7", Period.THIRD, new ResourceAmount[] { new ResourceAmount(ResourceType.SERVANT, 1), new ResourceAmount(ResourceType.WOOD, 2), new ResourceAmount(ResourceType.STONE, 2) }, new ResourceAmount[] { new ResourceAmount(ResourceType.VICTORY_POINT, 7) }, 3, new ResourceTradeOption[] { new ResourceTradeOption(new ResourceAmount[] { new ResourceAmount(ResourceType.SERVANT, 1) }, new ResourceAmount[] { new ResourceAmount(ResourceType.MILITARY_POINT, 3), new ResourceAmount(ResourceType.VICTORY_POINT, 1) }) }),
 	CATTEDRALE("YELLOW_CARD_3_8", Period.THIRD, new ResourceAmount[] { new ResourceAmount(ResourceType.WOOD, 4), new ResourceAmount(ResourceType.STONE, 4) }, new ResourceAmount[] { new ResourceAmount(ResourceType.VICTORY_POINT, 7), new ResourceAmount(ResourceType.FAITH_POINT, 3) }, 2, new ResourceTradeOption[] { new ResourceTradeOption(new ResourceAmount[] {}, new ResourceAmount[] { new ResourceAmount(ResourceType.VICTORY_POINT, 1) }) });
 	*/
-	private final String displayName;
-	private final Period period;
 	private final ResourceAmount[] buildResources;
 	private final ResourceAmount[] instantResources;
 	private final int activationCost;
 	private final ResourceTradeOption[] tradeOptions;
 
-	public CardYellow(String displayName, Period period, ResourceAmount[] buildResources, ResourceAmount[] instantResources, int activationCost, ResourceTradeOption[] tradeOptions)
+	public DevelopmentCardBuilding(String displayName, Period period, ResourceAmount[] buildResources, ResourceAmount[] instantResources, int activationCost, ResourceTradeOption[] tradeOptions)
 	{
-		this.displayName = displayName;
-		this.period = period;
+		super(displayName, period);
 		this.buildResources = buildResources;
 		this.instantResources = instantResources;
 		this.activationCost = activationCost;
 		this.tradeOptions = tradeOptions;
-	}
-
-	public String getDisplayName()
-	{
-		return this.displayName;
-	}
-
-	public Period getPeriod()
-	{
-		return this.period;
 	}
 
 	public ResourceAmount[] getBuildResources()

@@ -1,9 +1,10 @@
-package it.polimi.ingsw.lim.common.enums;
+package it.polimi.ingsw.lim.common.cards;
 
+import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.common.utils.Reward;
 
-public class CardPurple
+public class DevelopmentCardVenture extends DevelopmentCard
 {
 	/*
 	INGAGGIARE_RECLUTE("PURPLE_CARD_1_1", Period.FIRST, new ResourceTradeOption[] { new ResourceTradeOption(new ResourceAmount[] {}, new ResourceAmount[] { new ResourceAmount(ResourceType.COIN, 4) }) }, new Reward(new Event[] {}, new ResourceAmount[] { new ResourceAmount(ResourceType.MILITARY_POINT, 5) }), 4),
@@ -31,29 +32,16 @@ public class CardPurple
 	GUERRA_SANTA("PURPLE_CARD_3_7", Period.THIRD, new ResourceTradeOption[] { new ResourceTradeOption(new ResourceAmount[] { new ResourceAmount(ResourceType.MILITARY_POINT, 15) }, new ResourceAmount[] { new ResourceAmount(ResourceType.MILITARY_POINT, 8) }) }, new Reward(new Event[] {}, new ResourceAmount[] { new ResourceAmount(ResourceType.FAITH_POINT, 4) }), 8),
 	SOSTEGNO_PAPA("PURPLE_CARD_3_8", Period.THIRD, new ResourceTradeOption[] { new ResourceTradeOption(new ResourceAmount[] { new ResourceAmount(ResourceType.MILITARY_POINT, 10) }, new ResourceAmount[] { new ResourceAmount(ResourceType.MILITARY_POINT, 5) }), new ResourceTradeOption(new ResourceAmount[] {}, new ResourceAmount[] { new ResourceAmount(ResourceType.WOOD, 3), new ResourceAmount(ResourceType.COIN, 4), new ResourceAmount(ResourceType.STONE, 3) }) }, new Reward(new Event[] {}, new ResourceAmount[] { new ResourceAmount(ResourceType.FAITH_POINT, 2) }), 10),;
 	*/
-	private final String displayName;
-	private final Period period;
 	private final ResourceTradeOption[] resourceTradeOptions;
 	private final Reward instantReward;
 	private final int victoryValue;
 
-	public CardPurple(String displayName, Period period, ResourceTradeOption[] resourceTradeOptions, Reward instantReward, int victoryValue)
+	public DevelopmentCardVenture(String displayName, Period period, ResourceTradeOption[] resourceTradeOptions, Reward instantReward, int victoryValue)
 	{
-		this.displayName = displayName;
-		this.period = period;
+		super(displayName, period);
 		this.resourceTradeOptions = resourceTradeOptions;
 		this.instantReward = instantReward;
 		this.victoryValue = victoryValue;
-	}
-
-	public String getDisplayName()
-	{
-		return this.displayName;
-	}
-
-	public Period getPeriod()
-	{
-		return this.period;
 	}
 
 	public ResourceTradeOption[] getResourceTradeOptions()

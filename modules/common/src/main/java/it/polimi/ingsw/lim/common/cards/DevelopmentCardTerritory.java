@@ -1,8 +1,9 @@
-package it.polimi.ingsw.lim.common.enums;
+package it.polimi.ingsw.lim.common.cards;
 
+import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.utils.ResourceAmount;
 
-public class CardGreen extends DevelopmentCard
+public class DevelopmentCardTerritory extends DevelopmentCard
 {
 	/*
 	AVAMPOSTO_COMMERCIALE("GREEN_CARD_1_1", Period.FIRST, new ResourceAmount[] {}, 1, new ResourceAmount[] { new ResourceAmount(ResourceType.COIN, 1) }),
@@ -30,29 +31,16 @@ public class CardGreen extends DevelopmentCard
 	CASTELLO("GREEN_CARD_3_7", Period.THIRD, new ResourceAmount[] { new ResourceAmount(ResourceType.VICTORY_POINT, 2), new ResourceAmount(ResourceType.COIN, 2) }, 4, new ResourceAmount[] { new ResourceAmount(ResourceType.MILITARY_POINT, 3), new ResourceAmount(ResourceType.SERVANT, 1) }),
 	CITTA_FORTIFICATA("GREEN_CARD_3_8", Period.THIRD, new ResourceAmount[] { new ResourceAmount(ResourceType.MILITARY_POINT, 2), new ResourceAmount(ResourceType.SERVANT, 1) }, 2, new ResourceAmount[] { new ResourceAmount(ResourceType.MILITARY_POINT, 1), new ResourceAmount(ResourceType.SERVANT, 2) }),;
 	*/
-	private final String displayName;
-	private final Period period;
 	private final ResourceAmount[] instantResources;
 	private final int activationCost;
 	private final ResourceAmount[] harvestResources;
 
-	public CardGreen(String displayName, Period period, ResourceAmount[] instantResources, int activationCost, ResourceAmount[] harvestResources)
+	public DevelopmentCardTerritory(String displayName, Period period, ResourceAmount[] instantResources, int activationCost, ResourceAmount[] harvestResources)
 	{
-		this.displayName = displayName;
-		this.period = period;
+		super(displayName, period);
 		this.instantResources = instantResources;
 		this.activationCost = activationCost;
 		this.harvestResources = harvestResources;
-	}
-
-	public String getDisplayName()
-	{
-		return this.displayName;
-	}
-
-	public Period getPeriod()
-	{
-		return this.period;
 	}
 
 	public ResourceAmount[] getInstantResources()

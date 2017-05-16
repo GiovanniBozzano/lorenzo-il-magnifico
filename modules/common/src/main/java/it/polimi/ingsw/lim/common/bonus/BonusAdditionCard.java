@@ -20,7 +20,7 @@ public class BonusAdditionCard extends BonusAddition
 		return this.cardType;
 	}
 
-	public DiscountChoice[] getDiscoutChoices()
+	public DiscountChoice[] getDiscountChoices()
 	{
 		return this.discoutChoices;
 	}

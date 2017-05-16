@@ -1,36 +1,37 @@
-package it.polimi.ingsw.lim.common.json;
+package it.polimi.ingsw.lim.server.cards.json;
 
 import com.google.gson.*;
 import it.polimi.ingsw.lim.common.bonus.BonusAdditionCard;
 import it.polimi.ingsw.lim.common.bonus.BonusAdditionWork;
 import it.polimi.ingsw.lim.common.bonus.Malus;
+import it.polimi.ingsw.lim.common.cards.DevelopmentCardCharacter;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.events.Event;
 import it.polimi.ingsw.lim.common.events.EventCard;
 import it.polimi.ingsw.lim.common.events.EventWork;
-import it.polimi.ingsw.lim.common.utils.CardsDeck;
 import it.polimi.ingsw.lim.common.utils.DiscountChoice;
 import it.polimi.ingsw.lim.common.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.Reward;
+import it.polimi.ingsw.lim.server.cards.CardsDeck;
 
 import java.lang.reflect.Type;
 
-public class CardsBlueDeserializer implements JsonDeserializer<CardsDeck<CardBlue>>
+public class CardsBlueDeserializer implements JsonDeserializer<CardsDeck<DevelopmentCardCharacter>>
 {
 	@Override
-	public CardsDeck<CardBlue> deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+	public CardsDeck<DevelopmentCardCharacter> deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
 	{
-		CardBlue[] periodFirst = CardsBlueDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_first").getAsJsonArray());
-		CardBlue[] periodSecond = CardsBlueDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_second").getAsJsonArray());
-		CardBlue[] periodThird = CardsBlueDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_third").getAsJsonArray());
+		DevelopmentCardCharacter[] periodFirst = CardsBlueDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_first").getAsJsonArray(), Period.FIRST);
+		DevelopmentCardCharacter[] periodSecond = CardsBlueDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_second").getAsJsonArray(), Period.SECOND);
+		DevelopmentCardCharacter[] periodThird = CardsBlueDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_third").getAsJsonArray(), Period.THIRD);
 		return new CardsDeck<>(periodFirst, periodSecond, periodThird);
 	}
 
-	private static CardBlue[] getPeriodCards(JsonArray period)
+	private static DevelopmentCardCharacter[] getPeriodCards(JsonArray periodArray, Period period)
 	{
-		CardBlue[] cards = new CardBlue[8];
-		for (int index = 0; index < period.size() && index < 8; index++) {
-			JsonObject card = period.get(index).getAsJsonObject();
+		DevelopmentCardCharacter[] cards = new DevelopmentCardCharacter[8];
+		for (int index = 0; index < periodArray.size() && index < 8; index++) {
+			JsonObject card = periodArray.get(index).getAsJsonObject();
 			String displayName = card.get("display_name").getAsString();
 			int price = card.get("price").getAsInt();
 			JsonObject instantReward = card.get("instant_reward").getAsJsonObject();
@@ -73,7 +74,7 @@ public class CardsBlueDeserializer implements JsonDeserializer<CardsDeck<CardBlu
 				}
 			}
 			if (card.get("permanent_bonus").isJsonNull()) {
-				cards[index] = new CardBlue(displayName, Period.FIRST, price, new Reward(instantRewardEvents, instantRewardResourceAmounts), null);
+				cards[index] = new DevelopmentCardCharacter(displayName, period, price, new Reward(instantRewardEvents, instantRewardResourceAmounts), null);
 			} else {
 				JsonObject permanentBonusJson = card.get("permanent_bonus").getAsJsonObject();
 				Object permanentBonus;
@@ -104,7 +105,7 @@ public class CardsBlueDeserializer implements JsonDeserializer<CardsDeck<CardBlu
 					}
 					permanentBonus = new Malus(rows);
 				}
-				cards[index] = new CardBlue(displayName, Period.FIRST, price, new Reward(instantRewardEvents, instantRewardResourceAmounts), permanentBonus);
+				cards[index] = new DevelopmentCardCharacter(displayName, period, price, new Reward(instantRewardEvents, instantRewardResourceAmounts), permanentBonus);
 			}
 		}
 		return cards;

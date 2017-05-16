@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.server;
 
 import it.polimi.ingsw.lim.common.Instance;
-import it.polimi.ingsw.lim.common.utils.CardHelper;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.database.DatabaseSQLite;
@@ -41,7 +40,6 @@ public class Server extends Instance
 	 */
 	public void setup(int rmiPort, int socketPort)
 	{
-		CardHelper.initializeCards();
 		this.rmiPort = rmiPort;
 		this.socketPort = socketPort;
 		this.connectionId = 0;

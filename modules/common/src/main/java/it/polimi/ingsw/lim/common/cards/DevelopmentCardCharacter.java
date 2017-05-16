@@ -1,8 +1,9 @@
-package it.polimi.ingsw.lim.common.enums;
+package it.polimi.ingsw.lim.common.cards;
 
+import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.utils.Reward;
 
-public class CardBlue extends DevelopmentCard
+public class DevelopmentCardCharacter extends DevelopmentCard
 {
 	/*
 	CONDOTTIERO("BLUE_CARD_1_1", Period.FIRST, 2, new Reward(new Event[] {}, new ResourceAmount[] { new ResourceAmount(ResourceType.MILITARY_POINT, 3) }), new BonusAdditionCard(2, CardType.GREEN, new ResourceAmount[][] {})),
@@ -30,29 +31,16 @@ public class CardBlue extends DevelopmentCard
 	GENERALE("BLUE_CARD_3_7", Period.THIRD, 5, new Reward(new Event[] {}, new ResourceAmount[] { new ResourceAmount(ResourceType.VICTORY_POINT, 1, ResourceType.MILITARY_POINT, 2) }), null),
 	AMBASCIATORE("BLUE_CARD_3_8", Period.THIRD, 6, new Reward(new Event[] { new EventCard(7, new CardType[] { CardType.BLUE, CardType.GREEN, CardType.PURPLE, CardType.YELLOW }, new ResourceAmount[][] {}) }, new ResourceAmount[] { new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, 1) }), null);
 	*/
-	private final String displayName;
-	private final Period period;
 	private final int price;
 	private final Reward instantReward;
 	private final Object permanentBonus;
 
-	public CardBlue(String displayName, Period period, int price, Reward instantReward, Object permanentBonus)
+	public DevelopmentCardCharacter(String displayName, Period period, int price, Reward instantReward, Object permanentBonus)
 	{
-		this.displayName = displayName;
-		this.period = period;
+		super(displayName, period);
 		this.price = price;
 		this.instantReward = instantReward;
 		this.permanentBonus = permanentBonus;
-	}
-
-	public String getDisplayName()
-	{
-		return this.displayName;
-	}
-
-	public Period getPeriod()
-	{
-		return this.period;
 	}
 
 	public int getPrice()
