@@ -1,0 +1,464 @@
+{
+	"period_first": [
+		{
+			"display_name": "CONDOTTIERO",
+			"price": 2,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": [
+					{
+						"type": "MILITARY_POINT",
+						"amount": 3
+					}
+				]
+			},
+			"permanent_bonus": {
+				"type": "ADDITION_CARD",
+				"value": 2,
+				"card_type": "GREEN",
+				"discount_choices": []
+			}
+		},
+		{
+			"display_name": "COSTRUTTORE",
+			"price": 4,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": []
+			},
+			"permanent_bonus": {
+				"type": "ADDITION_CARD",
+				"value": 2,
+				"card_type": "YELLOW",
+				"discount_choices": [
+					[
+						{
+							"type": "WOOD",
+							"amount": 1
+						}
+					],
+					[
+						{
+							"type": "STONE",
+							"amount": 1
+						}
+					]
+				]
+			}
+		},
+		{
+			"display_name": "DAMA",
+			"price": 4,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": []
+			},
+			"permanent_bonus": {
+				"type": "ADDITION_CARD",
+				"value": 2,
+				"card_type": "BLUE",
+				"discount_choices": [
+					[
+						{
+							"type": "COIN",
+							"amount": 1
+						}
+					]
+				]
+			}
+		},
+		{
+			"display_name": "CAVALIERE",
+			"price": 2,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": [
+					{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 1
+					}
+				]
+			},
+			"permanent_bonus": {
+				"type": "ADDITION_CARD",
+				"value": 2,
+				"card_type": "PURPLE",
+				"discount_choices": []
+			}
+		},
+		{
+			"display_name": "CONTADINO",
+			"price": 3,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": []
+			},
+			"permanent_bonus": {
+				"type": "ADDITION_WORK",
+				"value": 2,
+				"work_type": "HARVEST"
+			}
+		},
+		{
+			"display_name": "ARTIGIANO",
+			"price": 3,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": []
+			},
+			"permanent_bonus": {
+				"type": "ADDITION_WORK",
+				"value": 2,
+				"work_type": "PRODUCTION"
+			}
+		},
+		{
+			"display_name": "PREDICATORE",
+			"price": 2,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 4
+					}
+				]
+			},
+			"permanent_bonus": {
+				"type": "MALUS",
+				"rows": [
+					"THIRD",
+					"FOURTH"
+				]
+			}
+		},
+		{
+			"display_name": "BADESSA",
+			"price": 3,
+			"instant_reward": {
+				"events": [
+					{
+						"type": "CARD",
+						"value": 4,
+						"card_types": [
+							"BLUE",
+							"GREEN",
+							"PURPLE",
+							"YELLOW"
+						],
+						"discount_choices": []
+					}
+				],
+				"resource_amounts": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 1
+					}
+				]
+			},
+			"permanent_bonus": null
+		}
+	],
+	"period_second": [
+		{
+			"display_name": "CAPITANO",
+			"price": 4,
+			"instant_reward": {
+				"events": [
+					{
+						"type": "CARD",
+						"value": 6,
+						"card_types": [
+							"GREEN"
+						],
+						"discount_choices": []
+					}
+				],
+				"resource_amounts": [
+					{
+						"type": "MILITARY_POINT",
+						"amount": 2
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "ARCHITETTO",
+			"price": 4,
+			"instant_reward": {
+				"events": [
+					{
+						"type": "CARD",
+						"value": 6,
+						"card_types": [
+							"YELLOW"
+						],
+						"discount_choices": [
+							[
+								{
+									"type": "WOOD",
+									"amount": 1
+								}
+							],
+							[
+								{
+									"type": "STONE",
+									"amount": 1
+								}
+							]
+						]
+					}
+				],
+				"resource_amounts": []
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "MECENATE",
+			"price": 3,
+			"instant_reward": {
+				"events": [
+					{
+						"type": "CARD",
+						"value": 6,
+						"card_types": [
+							"BLUE"
+						],
+						"discount_choices": [
+							[
+								{
+									"type": "COIN",
+									"amount": 2
+								}
+							]
+						]
+					}
+				],
+				"resource_amounts": []
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "EROE",
+			"price": 4,
+			"instant_reward": {
+				"events": [
+					{
+						"type": "CARD",
+						"value": 6,
+						"card_types": [
+							"PURPLE"
+						],
+						"discount_choices": []
+					}
+				],
+				"resource_amounts": [
+					{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 1
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "FATTORE",
+			"price": 4,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": []
+			},
+			"permanent_bonus": {
+				"type": "ADDITION_WORK",
+				"value": 3,
+				"work_type": "HARVEST"
+			}
+		},
+		{
+			"display_name": "STUDIOSO",
+			"price": 4,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": []
+			},
+			"permanent_bonus": {
+				"type": "ADDITION_WORK",
+				"value": 3,
+				"work_type": "PRODUCTION"
+			}
+		},
+		{
+			"display_name": "MESSO_PAPALE",
+			"price": 5,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 3
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "MESSO_REALE",
+			"price": 5,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": [
+					{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 3
+					}
+				]
+			},
+			"permanent_bonus": null
+		}
+	],
+	"period_third": [
+		{
+			"display_name": "NOBILE",
+			"price": 6,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": [
+					{
+						"type": "VICTORY_POINT",
+						"amount": 2,
+						"card_types": "GREEN"
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "GOVERNATORE",
+			"price": 6,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": [
+					{
+						"type": "VICTORY_POINT",
+						"amount": 2,
+						"card_types": "YELLOW"
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "CORTIGIANA",
+			"price": 7,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": [
+					{
+						"type": "VICTORY_POINT",
+						"amount": 2,
+						"card_types": "BLUE"
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "ARALDO",
+			"price": 6,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": [
+					{
+						"type": "VICTORY_POINT",
+						"amount": 2,
+						"card_types": "PURPLE"
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "CARDINALE",
+			"price": 4,
+			"instant_reward": {
+				"events": [
+					{
+						"type": "WORK",
+						"value": 4,
+						"work_type": "HARVEST"
+					}
+				],
+				"resource_amounts": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 2
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "VESCOVO",
+			"price": 5,
+			"instant_reward": {
+				"events": [
+					{
+						"type": "WORK",
+						"value": 4,
+						"work_type": "PRODUCTION"
+					}
+				],
+				"resource_amounts": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 1
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "GENERALE",
+			"price": 5,
+			"instant_reward": {
+				"events": [],
+				"resource_amounts": [
+					{
+						"type": "VICTORY_POINT",
+						"amount": 1,
+						"type_multiplier": "MILITARY_POINT",
+						"amount_multiplier": 2
+					}
+				]
+			},
+			"permanent_bonus": null
+		},
+		{
+			"display_name": "AMBASCIATORE",
+			"price": 6,
+			"instant_reward": {
+				"events": [
+					{
+						"type": "CARD",
+						"value": 7,
+						"card_types": [
+							"BLUE",
+							"GREEN",
+							"PURPLE",
+							"YELLOW"
+						],
+						"discount_choices": []
+					}
+				],
+				"resource_amounts": [
+					{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 1
+					}
+				]
+			},
+			"permanent_bonus": null
+		}
+	]
+}

@@ -1,0 +1,468 @@
+{
+	"period_first": [
+		{
+			"display_name": "AVAMPOSTO_COMMERCIALE",
+			"instant_resources": [],
+			"activation_cost": 2,
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "BOSCO",
+			"instant_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			],
+			"activation_cost": 2,
+			"harvest_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "BORGO",
+			"instant_resources": [],
+			"activation_cost": 3,
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				},
+				{
+					"type": "SERVANT",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "CAVA_DI_GHIAIA",
+			"instant_resources": [
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			],
+			"activation_cost": 4,
+			"harvest_resources": [
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "FORESTA",
+			"instant_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			],
+			"activation_cost": 5,
+			"harvest_resources": [
+				{
+					"type": "WOOD",
+					"amount": 3
+				}
+			]
+		},
+		{
+			"display_name": "MONASTERO",
+			"instant_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "SERVANT",
+					"amount": 1
+				}
+			],
+			"activation_cost": 6,
+			"harvest_resources": [
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "ROCCA",
+			"instant_resources": [],
+			"activation_cost": 5,
+			"harvest_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "CITTÀ",
+			"instant_resources": [
+				{
+					"type": "COIN",
+					"amount": 3
+				}
+			],
+			"activation_cost": 6,
+			"harvest_resources": [
+				{
+					"type": "COUNCIL_PRIVILEGE",
+					"amount": 1
+				}
+			]
+		}
+	],
+	"period_second": [
+		{
+			"display_name": "MINIERA_ORO",
+			"instant_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				}
+			],
+			"activation_cost": 1,
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "VILLAGGIO_MONTANO",
+			"instant_resources": [
+				{
+					"type": "SERVANT",
+					"amount": 1
+				}
+			],
+			"activation_cost": 3,
+			"harvest_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 1
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "VILLAGGIO_MINERARIO",
+			"instant_resources": [
+				{
+					"type": "SERVANT",
+					"amount": 2
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			],
+			"activation_cost": 4,
+			"harvest_resources": [
+				{
+					"type": "SERVANT",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "CAVA_DI_PIETRA",
+			"instant_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			],
+			"activation_cost": 3,
+			"harvest_resources": [
+				{
+					"type": "STONE",
+					"amount": 3
+				}
+			]
+		},
+		{
+			"display_name": "POSSEDIMENTO",
+			"instant_resources": [
+				{
+					"type": "SERVANT",
+					"amount": 2
+				},
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			],
+			"activation_cost": 4,
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "EREMO",
+			"instant_resources": [
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				}
+			],
+			"activation_cost": 2,
+			"harvest_resources": [
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "MANIERO",
+			"instant_resources": [],
+			"activation_cost": 5,
+			"harvest_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "SERVANT",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "DUCATO",
+			"instant_resources": [
+				{
+					"type": "COIN",
+					"amount": 4
+				}
+			],
+			"activation_cost": 6,
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				}
+			]
+		}
+	],
+	"period_third": [
+		{
+			"display_name": "CITTÀ_MERCANTILE",
+			"instant_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				},
+				{
+					"type": "SERVANT",
+					"amount": 1
+				}
+			],
+			"activation_cost": 1,
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 3
+				}
+			]
+		},
+		{
+			"display_name": "TENUTA",
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 1
+				},
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			],
+			"activation_cost": 3,
+			"harvest_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "COLONIA",
+			"instant_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 2
+				}
+			],
+			"activation_cost": 5,
+			"harvest_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 4
+				},
+				{
+					"type": "WOOD",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "CAVA_DI_MARMO",
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 3
+				}
+			],
+			"activation_cost": 2,
+			"harvest_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			]
+		},
+		{
+			"display_name": "PROVINCIA",
+			"instant_resources": [
+				{
+					"type": "COUNCIL_PRIVILEGE",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			],
+			"activation_cost": 6,
+			"harvest_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 4
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "SANTUARIO",
+			"instant_resources": [
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				}
+			],
+			"activation_cost": 1,
+			"harvest_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				},
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "CASTELLO",
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "COIN",
+					"amount": 2
+				}
+			],
+			"activation_cost": 4,
+			"harvest_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 3
+				},
+				{
+					"type": "SERVANT",
+					"amount": 1
+				}
+			]
+		},
+		{
+			"display_name": "CITTÀ_FORTIFICATA",
+			"instant_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "SERVANT",
+					"amount": 1
+				}
+			],
+			"activation_cost": 2,
+			"harvest_resources": [
+				{
+					"type": "MILITARY_POINT",
+					"amount": 1
+				},
+				{
+					"type": "SERVANT",
+					"amount": 2
+				}
+			]
+		}
+	]
+}

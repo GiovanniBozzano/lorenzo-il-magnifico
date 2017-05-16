@@ -1,14 +1,14 @@
 package it.polimi.ingsw.lim.common.bonus;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.utils.DiscountChoice;
 
 public class BonusAdditionCard extends BonusAddition
 {
 	private final CardType cardType;
-	private final ResourceAmount[][] discoutChoices;
+	private final DiscountChoice[] discoutChoices;
 
-	public BonusAdditionCard(int value, CardType cardType, ResourceAmount[][] discountChoices)
+	public BonusAdditionCard(int value, CardType cardType, DiscountChoice[] discountChoices)
 	{
 		this.value = value;
 		this.cardType = cardType;
@@ -20,7 +20,7 @@ public class BonusAdditionCard extends BonusAddition
 		return this.cardType;
 	}
 
-	public ResourceAmount[][] getDiscoutChoices()
+	public DiscountChoice[] getDiscoutChoices()
 	{
 		return this.discoutChoices;
 	}

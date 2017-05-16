@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.client.gui;
 
-import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.event.ActionEvent;

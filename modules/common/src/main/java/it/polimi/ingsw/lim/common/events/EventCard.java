@@ -1,14 +1,14 @@
 package it.polimi.ingsw.lim.common.events;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.utils.DiscountChoice;
 
 public class EventCard extends Event
 {
 	private final CardType[] cardTypes;
-	private final ResourceAmount[][] discountChoices;
+	private final DiscountChoice[] discountChoices;
 
-	public EventCard(int value, CardType[] cardTypes, ResourceAmount[][] discountChoices)
+	public EventCard(int value, CardType[] cardTypes, DiscountChoice[] discountChoices)
 	{
 		this.value = value;
 		this.cardTypes = cardTypes;
@@ -20,7 +20,7 @@ public class EventCard extends Event
 		return this.cardTypes;
 	}
 
-	public ResourceAmount[][] getDiscountChoices()
+	public DiscountChoice[] getDiscountChoices()
 	{
 		return this.discountChoices;
 	}

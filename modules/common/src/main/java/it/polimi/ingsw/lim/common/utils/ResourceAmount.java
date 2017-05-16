@@ -1,44 +1,44 @@
 package it.polimi.ingsw.lim.common.utils;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.enums.Resource;
+import it.polimi.ingsw.lim.common.enums.ResourceType;
 
 public class ResourceAmount
 {
-	private final Resource resourceType;
+	private final ResourceType resourceType;
 	private final int amount;
 	private final CardType cardTypeMultiplier;
-	private final Resource resourceTypeMultiplier;
-	private final int resourceAmountMultiplier;
+	private final ResourceType resourceTypeMultiplier;
+	private final int resourceAmountDivider;
 
-	public ResourceAmount(Resource resourceType, int amount)
+	public ResourceAmount(ResourceType resourceType, int amount)
 	{
 		this.resourceType = resourceType;
 		this.amount = amount;
 		this.cardTypeMultiplier = null;
 		this.resourceTypeMultiplier = null;
-		this.resourceAmountMultiplier = 0;
+		this.resourceAmountDivider = 0;
 	}
 
-	public ResourceAmount(Resource resourceType, int amount, CardType cardTypeMultiplier)
+	public ResourceAmount(ResourceType resourceType, int amount, CardType cardTypeMultiplier)
 	{
 		this.resourceType = resourceType;
 		this.amount = amount;
 		this.cardTypeMultiplier = cardTypeMultiplier;
 		this.resourceTypeMultiplier = null;
-		this.resourceAmountMultiplier = 0;
+		this.resourceAmountDivider = 0;
 	}
 
-	public ResourceAmount(Resource resourceType, int amount, Resource resourceTypeMultiplier, int resourceAmountMultiplier)
+	public ResourceAmount(ResourceType resourceType, int amount, ResourceType resourceTypeMultiplier, int resourceAmountDivider)
 	{
 		this.resourceType = resourceType;
 		this.amount = amount;
 		this.cardTypeMultiplier = null;
 		this.resourceTypeMultiplier = resourceTypeMultiplier;
-		this.resourceAmountMultiplier = resourceAmountMultiplier;
+		this.resourceAmountDivider = resourceAmountDivider;
 	}
 
-	public Resource getResourceType()
+	public ResourceType getResourceType()
 	{
 		return this.resourceType;
 	}
@@ -53,13 +53,13 @@ public class ResourceAmount
 		return this.cardTypeMultiplier;
 	}
 
-	public Resource getResourceTypeMultiplier()
+	public ResourceType getResourceTypeMultiplier()
 	{
 		return this.resourceTypeMultiplier;
 	}
 
-	public int getResourceAmountMultiplier()
+	public int getResourceAmountDivider()
 	{
-		return this.resourceAmountMultiplier;
+		return this.resourceAmountDivider;
 	}
 }

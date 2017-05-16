@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.common.enums;
 
-public enum Resource
+public enum ResourceType
 {
 	COIN,
 	WOOD,
