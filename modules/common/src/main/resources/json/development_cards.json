@@ -981,18 +981,496 @@
 	],
 	"cards_purple": [
 		{
-			"display_name": "EROE",
+			"display_name": "INGAGGIARE_RECLUTE",
+			"period": "FIRST",
+			"resource_trade_option": [
+				[
+					{
+						"type": "COIN",
+						"amount_condition": 0,
+						"amount": 4
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "MILITARY_POINT",
+						"amount": 5
+					}
+				]
+			},
+			"victory_value": 4
+		},
+		{
+			"display_name": "RIPARARE_CHIESA",
+			"period": "FIRST",
+			"resource_trade_option": [
+				[
+					{
+						"type": "COIN",
+						"amount_condition": 0,
+						"amount": 1
+					},
+					{
+						"type": "WOOD",
+						"amount_condition": 0,
+						"amount": 1
+					},
+					{
+						"type": "STONE",
+						"amount_condition": 0,
+						"amount": 1
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 1
+					}
+				]
+			},
+			"victory_value": 5
+		},
+		{
+			"display_name": "COSTRUIRE_MURA",
+			"period": "FIRST",
+			"resource_trade_option": [
+				[
+					{
+						"type": "STONE",
+						"amount_condition": 0,
+						"amount": 3
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "MILITARY_POINT",
+						"amount": 2
+					},
+					{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 1
+					}
+				]
+			},
+			"victory_value": 3
+		},
+		{
+			"display_name": "INNALZARE_STATUA",
+			"period": "FIRST",
+			"resource_trade_option": [
+				[
+					{
+						"type": "WOOD",
+						"amount_condition": 0,
+						"amount": 2
+					},
+					{
+						"type": "STONE",
+						"amount_condition": 0,
+						"amount": 2
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 2
+					}
+				]
+			},
+			"victory_value": 4
+		},
+		{
+			"display_name": "CAMPAGNA_MILITARE",
+			"period": "FIRST",
+			"resource_trade_option": [
+				[
+					{
+						"type": "MILITARY_POINT",
+						"amount_condition": 3,
+						"amount": 2
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "COIN",
+						"amount": 3
+					}
+				]
+			},
+			"victory_value": 5
+		},
+		{
+			"display_name": "OSPITARE_MENDICANTI",
+			"period": "FIRST",
+			"resource_trade_option": [
+				[
+					{
+						"type": "WOOD",
+						"amount_condition": 0,
+						"amount": 3
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "SERVANT",
+						"amount": 4
+					}
+				]
+			},
+			"victory_value": 4
+		},
+		{
+			"display_name": "COMBATTERE_ERESIE",
+			"period": "FIRST",
+			"resource_trade_option": [
+				[
+					{
+						"type": "MILITARY_POINT",
+						"amount_condition": 5,
+						"amount": 3
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 2
+					}
+				]
+			},
+			"victory_value": 5
+		},
+		{
+			"display_name": "SOSTEGNO_VESCOVO",
+			"period": "FIRST",
+			"resource_trade_option": [
+				[
+					{
+						"type": "MILITARY_POINT",
+						"amount_condition": 4,
+						"amount": 2
+					}
+				],
+				[
+					{
+						"type": "WOOD",
+						"amount_condition": 0,
+						"amount": 1
+					},
+					{
+						"type": "COIN",
+						"amount_condition": 0,
+						"amount": 2
+					},
+					{
+						"type": "STONE",
+						"amount_condition": 0,
+						"amount": 1
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 3
+					}
+				]
+			},
+			"victory_value": 1
+		},
+		{
+			"display_name": "INGAGGIARE_SOLDATI",
+			"period": "SECOND",
+			"resource_trade_option": [
+				[
+					{
+						"type": "COIN",
+						"amount_condition": 0,
+						"amount": 6
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "MILITARY_POINT",
+						"amount": 6
+					}
+				]
+			},
+			"victory_value": 5
+		},
+		{
+			"display_name": "RIPARARE_ABBAZIA",
+			"period": "SECOND",
+			"resource_trade_option": [
+				[
+					{
+						"type": "COIN",
+						"amount_condition": 0,
+						"amount": 2
+					},
+					{
+						"type": "WOOD",
+						"amount_condition": 0,
+						"amount": 2
+					},
+					{
+						"type": "STONE",
+						"amount_condition": 0,
+						"amount": 2
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 2
+					}
+				]
+			},
+			"victory_value": 6
+		},
+		{
+			"display_name": "COSTRUIRE_BASTIONI",
+			"period": "SECOND",
+			"resource_trade_option": [
+				[
+					{
+						"type": "STONE",
+						"amount_condition": 0,
+						"amount": 4
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "MILITARY_POINT",
+						"amount": 3
+					},
+					{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 1
+					}
+				]
+			},
+			"victory_value": 2
+		},
+		{
+			"display_name": "SUPPORTO_RE",
+			"period": "SECOND",
+			"resource_trade_option": [
+				[
+					{
+						"type": "MILITARY_POINT",
+						"amount_condition": 6,
+						"amount": 3
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "COIN",
+						"amount": 5
+					},
+					{
+						"type": "COUNCIL_PRIVILEGE",
+						"amount": 1
+					}
+				]
+			},
+			"victory_value": 3
+		},
+		{
+			"display_name": "SCAVARE_CANALIZZAZIONI",
+			"period": "SECOND",
+			"resource_trade_option": [
+				[
+					{
+						"type": "SERVANT",
+						"amount_condition": 0,
+						"amount": 2
+					},
+					{
+						"type": "COIN",
+						"amount_condition": 0,
+						"amount": 3
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [
+					{
+						"type": "event_work",
+						"value": 4,
+						"work_type": "HARVEST"
+					}
+				],
+				"resource_amount": []
+			},
+			"victory_value": 5
+		},
+		{
+			"display_name": "ACCOGLIERE_STRANIERI",
 			"period": "SECOND",
 			"resource_trade_option": [
 				[
 					{
 						"type": "WOOD",
-						"resource_condition": 2,
-						"resource_price": 5
+						"amount_condition": 0,
+						"amount": 4
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "SERVANT",
+						"amount": 5
+					}
+				]
+			},
+			"victory_value": 4
+		},
+		{
+			"display_name": "CROCIATA",
+			"period": "SECOND",
+			"resource_trade_option": [
+				[
+					{
+						"type": "MILITARY_POINT",
+						"amount_condition": 8,
+						"amount": 4
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "COIN",
+						"amount": 5
+					},
+					{
+						"type": "FAITH_POINT",
+						"amount": 1
+					}
+				]
+			},
+			"victory_value": 5
+		},
+		{
+			"display_name": "SOSTEGNO_CARDINALE",
+			"period": "SECOND",
+			"resource_trade_option": [
+				[
+					{
+						"type": "MILITARY_POINT",
+						"amount_condition": 7,
+						"amount": 4
 					}
 				],
 				[
 					{
+						"type": "WOOD",
+						"amount_condition": 0,
+						"amount": 2
+					},
+					{
+						"type": "COIN",
+						"amount_condition": 0,
+						"amount": 3
+					},
+					{
+						"type": "STONE",
+						"amount_condition": 7,
+						"amount": 2
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 3
+					}
+				]
+			},
+			"victory_value": 4
+		},
+		{
+			"display_name": "INGAGGIARE_MERCENARI",
+			"period": "THIRD",
+			"resource_trade_option": [
+				[
+					{
+						"type": "COIN",
+						"amount_condition": 0,
+						"amount": 8
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "MILITARY_POINT",
+						"amount": 7
+					}
+				]
+			},
+			"victory_value": 6
+		},
+		{
+			"display_name": "RIPARARE_CATTEDRALE",
+			"period": "THIRD",
+			"resource_trade_option": [
+				[
+					{
+						"type": "COIN",
+						"amount_condition": 0,
+						"amount": 3
+					},
+					{
+						"type": "WOOD",
+						"amount_condition": 0,
+						"amount": 3
+					},
+					{
+						"type": "STONE",
+						"amount_condition": 0,
+						"amount": 3
 					}
 				]
 			],
@@ -1000,21 +1478,197 @@
 				"event": [
 					{
 						"type": "event_card",
-						"value": 6,
+						"value": 7,
 						"card_type": [
-							"PURPLE"
+							"BLUE",
+							"GREEN",
+							"PURPLE",
+							"YELLOW"
 						],
 						"discount_choices": []
 					}
 				],
 				"resource_amount": [
 					{
+						"type": "FAITH_POINT",
+						"amount": 1
+					}
+				]
+			},
+			"victory_value": 5
+		},
+		{
+			"display_name": "COSTRUIRE_TORRI",
+			"period": "THIRD",
+			"resource_trade_option": [
+				[
+					{
+						"type": "STONE",
+						"amount_condition": 0,
+						"amount": 6
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "MILITARY_POINT",
+						"amount": 4
+					},
+					{
 						"type": "COUNCIL_PRIVILEGE",
 						"amount": 1
 					}
 				]
 			},
+			"victory_value": 4
+		},
+		{
+			"display_name": "COMMISSIONARE_ARTE_SACRA",
+			"period": "THIRD",
+			"resource_trade_option": [
+				[
+					{
+						"type": "WOOD",
+						"amount_condition": 0,
+						"amount": 6
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 3
+					}
+				]
+			},
+			"victory_value": 3
+		},
+		{
+			"display_name": "CONQUISTA_MILITARE",
+			"period": "THIRD",
+			"resource_trade_option": [
+				[
+					{
+						"type": "MILITARY_POINT",
+						"amount_condition": 12,
+						"amount": 6
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "WOOD",
+						"amount": 3
+					},{
+						"type": "STONE",
+						"amount": 3
+					},
+					{
+						"type": "COIN",
+						"amount": 3
+					}
+				]
+			},
+			"victory_value": 7
+		},
+		{
+			"display_name": "MIGLIORARE_STRADE",
+			"period": "THIRD",
+			"resource_trade_option": [
+				[
+					{
+						"type": "SERVANT",
+						"amount_condition": 0,
+						"amount": 3
+					},
+					{
+						"type": "COIN",
+						"amount_condition": 0,
+						"amount": 4
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [
+					{
+						"type": "event_work",
+						"value": 3,
+						"work_type": "PRODUCTION"
+					}
+				],
+				"resource_amount": []
+			},
+			"victory_value": 5
+		},
+		{
+			"display_name": "GUERRA_SANTA",
+			"period": "THIRD",
+			"resource_trade_option": [
+				[
+					{
+						"type": "MILITARY_POINT",
+						"amount_condition": 15,
+						"amount": 8
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 4
+					}
+				]
+			},
+			"victory_value": 8
+		},
+		{
+			"display_name": "SOSTEGNO_PAPA",
+			"period": "THIRD",
+			"resource_trade_option": [
+				[
+					{
+						"type": "MILITARY_POINT",
+						"amount_condition": 10,
+						"amount": 5
+					}
+				],
+				[
+					{
+						"type": "WOOD",
+						"amount_condition": 0,
+						"amount": 3
+					},
+					{
+						"type": "COIN",
+						"amount_condition": 0,
+						"amount": 4
+					},
+					{
+						"type": "STONE",
+						"amount_condition": 0,
+						"amount": 3
+					}
+				]
+			],
+			"instant_reward": {
+				"event": [],
+				"resource_amount": [
+					{
+						"type": "FAITH_POINT",
+						"amount": 2
+					}
+				]
+			},
 			"victory_value": 10
 		}
-	]
+	],
+	"cards_yellow": []
 }
