@@ -2,7 +2,6 @@
 	"period_first": [
 		{
 			"display_name": "INGAGGIARE_RECLUTE",
-			"period": "FIRST",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -27,7 +26,6 @@
 		},
 		{
 			"display_name": "RIPARARE_CHIESA",
-			"period": "FIRST",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -60,7 +58,6 @@
 		},
 		{
 			"display_name": "COSTRUIRE_MURA",
-			"period": "FIRST",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -89,7 +86,6 @@
 		},
 		{
 			"display_name": "INNALZARE_STATUA",
-			"period": "FIRST",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -118,7 +114,6 @@
 		},
 		{
 			"display_name": "CAMPAGNA_MILITARE",
-			"period": "FIRST",
 			"resource_trade_option": [
 				{
 					"resource_condition": [
@@ -148,7 +143,6 @@
 		},
 		{
 			"display_name": "OSPITARE_MENDICANTI",
-			"period": "FIRST",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -173,7 +167,6 @@
 		},
 		{
 			"display_name": "COMBATTERE_ERESIE",
-			"period": "FIRST",
 			"resource_trade_option": [
 				{
 					"resource_condition": [
@@ -203,7 +196,6 @@
 		},
 		{
 			"display_name": "SOSTEGNO_VESCOVO",
-			"period": "FIRST",
 			"resource_trade_option": [
 				{
 					"resource_condition": [
@@ -252,7 +244,6 @@
 	"period_second": [
 		{
 			"display_name": "INGAGGIARE_SOLDATI",
-			"period": "SECOND",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -277,7 +268,6 @@
 		},
 		{
 			"display_name": "RIPARARE_ABBAZIA",
-			"period": "SECOND",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -310,7 +300,6 @@
 		},
 		{
 			"display_name": "COSTRUIRE_BASTIONI",
-			"period": "SECOND",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -339,7 +328,6 @@
 		},
 		{
 			"display_name": "SUPPORTO_RE",
-			"period": "SECOND",
 			"resource_trade_option": [
 				{
 					"resource_condition": [
@@ -373,7 +361,6 @@
 		},
 		{
 			"display_name": "SCAVARE_CANALIZZAZIONI",
-			"period": "SECOND",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -403,7 +390,6 @@
 		},
 		{
 			"display_name": "ACCOGLIERE_STRANIERI",
-			"period": "SECOND",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -428,7 +414,6 @@
 		},
 		{
 			"display_name": "CROCIATA",
-			"period": "SECOND",
 			"resource_trade_option": [
 				{
 					"resource_condition": [
@@ -462,7 +447,6 @@
 		},
 		{
 			"display_name": "SOSTEGNO_CARDINALE",
-			"period": "SECOND",
 			"resource_trade_option": [
 				{
 					"resource_condition": [
@@ -511,7 +495,6 @@
 	"period_third": [
 		{
 			"display_name": "INGAGGIARE_MERCENARI",
-			"period": "THIRD",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -536,7 +519,6 @@
 		},
 		{
 			"display_name": "RIPARARE_CATTEDRALE",
-			"period": "THIRD",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -581,7 +563,6 @@
 		},
 		{
 			"display_name": "COSTRUIRE_TORRI",
-			"period": "THIRD",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -610,7 +591,6 @@
 		},
 		{
 			"display_name": "COMMISSIONARE_ARTE_SACRA",
-			"period": "THIRD",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -635,7 +615,6 @@
 		},
 		{
 			"display_name": "CONQUISTA_MILITARE",
-			"period": "THIRD",
 			"resource_trade_option": [
 				{
 					"resource_condition": [
@@ -673,7 +652,6 @@
 		},
 		{
 			"display_name": "MIGLIORARE_STRADE",
-			"period": "THIRD",
 			"resource_trade_option": [
 				{
 					"resource_condition": [],
@@ -703,7 +681,6 @@
 		},
 		{
 			"display_name": "GUERRA_SANTA",
-			"period": "THIRD",
 			"resource_trade_option": [
 				{
 					"resource_condition": [
@@ -733,7 +710,6 @@
 		},
 		{
 			"display_name": "SOSTEGNO_PAPA",
-			"period": "THIRD",
 			"resource_trade_option": [
 				{
 					"resource_condition": [
