@@ -984,13 +984,15 @@
 			"display_name": "INGAGGIARE_RECLUTE",
 			"period": "FIRST",
 			"resource_trade_option": [
-				[
-					{
-						"type": "COIN",
-						"amount_condition": 0,
-						"amount": 4
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "COIN",
+							"amount": 4
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1007,23 +1009,23 @@
 			"display_name": "RIPARARE_CHIESA",
 			"period": "FIRST",
 			"resource_trade_option": [
-				[
-					{
-						"type": "COIN",
-						"amount_condition": 0,
-						"amount": 1
-					},
-					{
-						"type": "WOOD",
-						"amount_condition": 0,
-						"amount": 1
-					},
-					{
-						"type": "STONE",
-						"amount_condition": 0,
-						"amount": 1
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "COIN",
+							"amount": 1
+						},
+						{
+							"type": "WOOD",
+							"amount": 1
+						},
+						{
+							"type": "STONE",
+							"amount": 1
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1040,13 +1042,15 @@
 			"display_name": "COSTRUIRE_MURA",
 			"period": "FIRST",
 			"resource_trade_option": [
-				[
-					{
-						"type": "STONE",
-						"amount_condition": 0,
-						"amount": 3
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "STONE",
+							"amount": 3
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1067,18 +1071,19 @@
 			"display_name": "INNALZARE_STATUA",
 			"period": "FIRST",
 			"resource_trade_option": [
-				[
-					{
-						"type": "WOOD",
-						"amount_condition": 0,
-						"amount": 2
-					},
-					{
-						"type": "STONE",
-						"amount_condition": 0,
-						"amount": 2
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "WOOD",
+							"amount": 2
+						},
+						{
+							"type": "STONE",
+							"amount": 2
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1095,13 +1100,20 @@
 			"display_name": "CAMPAGNA_MILITARE",
 			"period": "FIRST",
 			"resource_trade_option": [
-				[
-					{
-						"type": "MILITARY_POINT",
-						"amount_condition": 3,
-						"amount": 2
-					}
-				]
+				{
+					"resource_condition": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 3
+						}
+					],
+					"resource_cost": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 2
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1118,13 +1130,15 @@
 			"display_name": "OSPITARE_MENDICANTI",
 			"period": "FIRST",
 			"resource_trade_option": [
-				[
-					{
-						"type": "WOOD",
-						"amount_condition": 0,
-						"amount": 3
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "WOOD",
+							"amount": 3
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1141,13 +1155,20 @@
 			"display_name": "COMBATTERE_ERESIE",
 			"period": "FIRST",
 			"resource_trade_option": [
-				[
-					{
-						"type": "MILITARY_POINT",
-						"amount_condition": 5,
-						"amount": 3
-					}
-				]
+				{
+					"resource_condition": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 5
+						}
+					],
+					"resource_cost": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 3
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1164,30 +1185,37 @@
 			"display_name": "SOSTEGNO_VESCOVO",
 			"period": "FIRST",
 			"resource_trade_option": [
-				[
-					{
-						"type": "MILITARY_POINT",
-						"amount_condition": 4,
-						"amount": 2
-					}
-				],
-				[
-					{
-						"type": "WOOD",
-						"amount_condition": 0,
-						"amount": 1
-					},
-					{
-						"type": "COIN",
-						"amount_condition": 0,
-						"amount": 2
-					},
-					{
-						"type": "STONE",
-						"amount_condition": 0,
-						"amount": 1
-					}
-				]
+				{
+					"resource_condition": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 4
+						}
+					],
+					"resource_cost": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 2
+						}
+					]
+				},
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "WOOD",
+							"amount": 1
+						},
+						{
+							"type": "COIN",
+							"amount": 2
+						},
+						{
+							"type": "STONE",
+							"amount": 1
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1204,13 +1232,15 @@
 			"display_name": "INGAGGIARE_SOLDATI",
 			"period": "SECOND",
 			"resource_trade_option": [
-				[
-					{
-						"type": "COIN",
-						"amount_condition": 0,
-						"amount": 6
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "COIN",
+							"amount": 6
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1227,23 +1257,23 @@
 			"display_name": "RIPARARE_ABBAZIA",
 			"period": "SECOND",
 			"resource_trade_option": [
-				[
-					{
-						"type": "COIN",
-						"amount_condition": 0,
-						"amount": 2
-					},
-					{
-						"type": "WOOD",
-						"amount_condition": 0,
-						"amount": 2
-					},
-					{
-						"type": "STONE",
-						"amount_condition": 0,
-						"amount": 2
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "COIN",
+							"amount": 2
+						},
+						{
+							"type": "WOOD",
+							"amount": 2
+						},
+						{
+							"type": "STONE",
+							"amount": 2
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1260,13 +1290,15 @@
 			"display_name": "COSTRUIRE_BASTIONI",
 			"period": "SECOND",
 			"resource_trade_option": [
-				[
-					{
-						"type": "STONE",
-						"amount_condition": 0,
-						"amount": 4
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "STONE",
+							"amount": 4
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1287,13 +1319,20 @@
 			"display_name": "SUPPORTO_RE",
 			"period": "SECOND",
 			"resource_trade_option": [
-				[
-					{
-						"type": "MILITARY_POINT",
-						"amount_condition": 6,
-						"amount": 3
-					}
-				]
+				{
+					"resource_condition": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 6
+						}
+					],
+					"resource_cost": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 3
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1314,18 +1353,19 @@
 			"display_name": "SCAVARE_CANALIZZAZIONI",
 			"period": "SECOND",
 			"resource_trade_option": [
-				[
-					{
-						"type": "SERVANT",
-						"amount_condition": 0,
-						"amount": 2
-					},
-					{
-						"type": "COIN",
-						"amount_condition": 0,
-						"amount": 3
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "SERVANT",
+							"amount": 2
+						},
+						{
+							"type": "COIN",
+							"amount": 3
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [
@@ -1343,13 +1383,15 @@
 			"display_name": "ACCOGLIERE_STRANIERI",
 			"period": "SECOND",
 			"resource_trade_option": [
-				[
-					{
-						"type": "WOOD",
-						"amount_condition": 0,
-						"amount": 4
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "WOOD",
+							"amount": 4
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1366,13 +1408,20 @@
 			"display_name": "CROCIATA",
 			"period": "SECOND",
 			"resource_trade_option": [
-				[
-					{
-						"type": "MILITARY_POINT",
-						"amount_condition": 8,
-						"amount": 4
-					}
-				]
+				{
+					"resource_condition": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 8
+						}
+					],
+					"resource_cost": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 4
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1393,30 +1442,37 @@
 			"display_name": "SOSTEGNO_CARDINALE",
 			"period": "SECOND",
 			"resource_trade_option": [
-				[
-					{
-						"type": "MILITARY_POINT",
-						"amount_condition": 7,
-						"amount": 4
-					}
-				],
-				[
-					{
-						"type": "WOOD",
-						"amount_condition": 0,
-						"amount": 2
-					},
-					{
-						"type": "COIN",
-						"amount_condition": 0,
-						"amount": 3
-					},
-					{
-						"type": "STONE",
-						"amount_condition": 7,
-						"amount": 2
-					}
-				]
+				{
+					"resource_condition": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 7
+						}
+					],
+					"resource_cost": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 4
+						}
+					]
+				},
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "WOOD",
+							"amount": 2
+						},
+						{
+							"type": "COIN",
+							"amount": 3
+						},
+						{
+							"type": "STONE",
+							"amount": 2
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1433,13 +1489,15 @@
 			"display_name": "INGAGGIARE_MERCENARI",
 			"period": "THIRD",
 			"resource_trade_option": [
-				[
-					{
-						"type": "COIN",
-						"amount_condition": 0,
-						"amount": 8
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "COIN",
+							"amount": 8
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1456,23 +1514,23 @@
 			"display_name": "RIPARARE_CATTEDRALE",
 			"period": "THIRD",
 			"resource_trade_option": [
-				[
-					{
-						"type": "COIN",
-						"amount_condition": 0,
-						"amount": 3
-					},
-					{
-						"type": "WOOD",
-						"amount_condition": 0,
-						"amount": 3
-					},
-					{
-						"type": "STONE",
-						"amount_condition": 0,
-						"amount": 3
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "COIN",
+							"amount": 3
+						},
+						{
+							"type": "WOOD",
+							"amount": 3
+						},
+						{
+							"type": "STONE",
+							"amount": 3
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [
@@ -1501,13 +1559,15 @@
 			"display_name": "COSTRUIRE_TORRI",
 			"period": "THIRD",
 			"resource_trade_option": [
-				[
-					{
-						"type": "STONE",
-						"amount_condition": 0,
-						"amount": 6
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "STONE",
+							"amount": 6
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1528,13 +1588,13 @@
 			"display_name": "COMMISSIONARE_ARTE_SACRA",
 			"period": "THIRD",
 			"resource_trade_option": [
-				[
-					{
-						"type": "WOOD",
-						"amount_condition": 0,
-						"amount": 6
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "WOOD",
+							"amount": 6
+						}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1551,13 +1611,20 @@
 			"display_name": "CONQUISTA_MILITARE",
 			"period": "THIRD",
 			"resource_trade_option": [
-				[
-					{
-						"type": "MILITARY_POINT",
-						"amount_condition": 12,
-						"amount": 6
-					}
-				]
+				{
+					"resource_condition": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 12
+						}
+					],
+					"resource_cost": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 6
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1582,18 +1649,19 @@
 			"display_name": "MIGLIORARE_STRADE",
 			"period": "THIRD",
 			"resource_trade_option": [
-				[
-					{
-						"type": "SERVANT",
-						"amount_condition": 0,
-						"amount": 3
-					},
-					{
-						"type": "COIN",
-						"amount_condition": 0,
-						"amount": 4
-					}
-				]
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "SERVANT",
+							"amount": 3
+						},
+						{
+							"type": "COIN",
+							"amount": 4
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [
@@ -1611,13 +1679,20 @@
 			"display_name": "GUERRA_SANTA",
 			"period": "THIRD",
 			"resource_trade_option": [
-				[
-					{
-						"type": "MILITARY_POINT",
-						"amount_condition": 15,
-						"amount": 8
-					}
-				]
+				{
+					"resource_condition": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 15
+						}
+					],
+					"resource_cost": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 8
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1634,30 +1709,37 @@
 			"display_name": "SOSTEGNO_PAPA",
 			"period": "THIRD",
 			"resource_trade_option": [
-				[
-					{
-						"type": "MILITARY_POINT",
-						"amount_condition": 10,
-						"amount": 5
-					}
-				],
-				[
-					{
-						"type": "WOOD",
-						"amount_condition": 0,
-						"amount": 3
-					},
-					{
-						"type": "COIN",
-						"amount_condition": 0,
-						"amount": 4
-					},
-					{
-						"type": "STONE",
-						"amount_condition": 0,
-						"amount": 3
-					}
-				]
+				{
+					"resource_condition": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 10
+						}
+					],
+					"resource_cost": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 5
+						}
+					]
+				},
+				{
+					"resource_condition": [],
+					"resource_cost": [
+						{
+							"type": "WOOD",
+							"amount": 3
+						},
+						{
+							"type": "COIN",
+							"amount": 4
+						},
+						{
+							"type": "STONE",
+							"amount": 3
+						}
+					]
+				}
 			],
 			"instant_reward": {
 				"event": [],
@@ -1671,5 +1753,36 @@
 			"victory_value": 10
 		}
 	],
-	"cards_yellow": []
-}
+	"cards_yellow": [
+		{
+			"display_name": "ZECCA",
+			"period": "FIRST",
+			"build_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 3
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 5
+				}
+			],
+			"activation_cost": 5,
+			"resource_trade_option": [
+				{
+					cost[],
+					reward[]
+
+				},
+				{
+					cost[],
+					reward[]
+				}
+				]
+		},
