@@ -3,7 +3,7 @@
 		{
 			"display_name": "AVAMPOSTO_COMMERCIALE",
 			"instant_resources": [],
-			"activation_cost": 2,
+			"activation_cost": 1,
 			"harvest_resources": [
 				{
 					"type": "COIN",
