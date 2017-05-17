@@ -18,8 +18,8 @@ import it.polimi.ingsw.lim.common.events.EventWork;
 import it.polimi.ingsw.lim.common.utils.DiscountChoice;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.ResourceAmount;
-import it.polimi.ingsw.lim.server.cards.json.CardsBlueDeserializer;
-import it.polimi.ingsw.lim.server.cards.json.CardsGreenDeserializer;
+import it.polimi.ingsw.lim.server.cards.json.DevelopmentCardsCharacterDeserializer;
+import it.polimi.ingsw.lim.server.cards.json.DevelopmentCardsTerritoryDeserializer;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,13 +29,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class CardsDeck<T extends DevelopmentCard>
+public class DevelopmentCardsDeck<T extends DevelopmentCard>
 {
 	private final T[] firstPeriod;
 	private final T[] secondPeriod;
 	private final T[] thirdPeriod;
 
-	public CardsDeck(T[] firstPeriod, T[] secondPeriod, T[] thirdPeriod)
+	public DevelopmentCardsDeck(T[] firstPeriod, T[] secondPeriod, T[] thirdPeriod)
 	{
 		this.firstPeriod = firstPeriod;
 		this.secondPeriod = secondPeriod;
@@ -195,15 +195,15 @@ public class CardsDeck<T extends DevelopmentCard>
 		private static final Map<Class<? extends DevelopmentCard>, Type> TYPE_TOKENS = new HashMap<>();
 
 		static {
-			Builder.TYPE_TOKENS.put(DevelopmentCardTerritory.class, new TypeToken<CardsDeck<DevelopmentCardTerritory>>()
+			Builder.TYPE_TOKENS.put(DevelopmentCardTerritory.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardTerritory>>()
 			{
 			}.getType());
-			Builder.TYPE_TOKENS.put(DevelopmentCardCharacter.class, new TypeToken<CardsDeck<DevelopmentCardCharacter>>()
+			Builder.TYPE_TOKENS.put(DevelopmentCardCharacter.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardCharacter>>()
 			{
 			}.getType());
 		}
 
-		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapter(Builder.TYPE_TOKENS.get(DevelopmentCardTerritory.class), new CardsGreenDeserializer()).registerTypeAdapter(Builder.TYPE_TOKENS.get(DevelopmentCardCharacter.class), new CardsBlueDeserializer());
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapter(Builder.TYPE_TOKENS.get(DevelopmentCardTerritory.class), new DevelopmentCardsTerritoryDeserializer()).registerTypeAdapter(Builder.TYPE_TOKENS.get(DevelopmentCardCharacter.class), new DevelopmentCardsCharacterDeserializer());
 		private static final Gson GSON = Builder.GSON_BUILDER.create();
 		private final Class<T> clazz;
 		private final String jsonFile;
@@ -214,7 +214,7 @@ public class CardsDeck<T extends DevelopmentCard>
 			this.jsonFile = jsonFile;
 		}
 
-		CardsDeck<T> initialize()
+		DevelopmentCardsDeck<T> initialize()
 		{
 			try (Reader reader = new InputStreamReader(Builder.class.getResourceAsStream(this.jsonFile), "UTF-8")) {
 				return Builder.GSON.fromJson(reader, Builder.TYPE_TOKENS.get(this.clazz));

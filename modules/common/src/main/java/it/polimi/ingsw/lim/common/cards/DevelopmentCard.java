@@ -2,20 +2,14 @@ package it.polimi.ingsw.lim.common.cards;
 
 import it.polimi.ingsw.lim.common.enums.Period;
 
-public abstract class DevelopmentCard
+public abstract class DevelopmentCard extends Card
 {
-	private final String displayName;
 	private final Period period;
 
 	DevelopmentCard(String displayName, Period period)
 	{
-		this.displayName = displayName;
+		super(displayName);
 		this.period = period;
-	}
-
-	public String getDisplayName()
-	{
-		return this.displayName;
 	}
 
 	public Period getPeriod()

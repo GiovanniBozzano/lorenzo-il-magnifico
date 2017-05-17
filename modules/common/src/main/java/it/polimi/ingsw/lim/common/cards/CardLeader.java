@@ -1,9 +1,10 @@
-package it.polimi.ingsw.lim.common.enums;
+package it.polimi.ingsw.lim.common.cards;
 
 import it.polimi.ingsw.lim.common.utils.ResourceAmount;
 
-public enum CardLeader
+public class CardLeader extends Card
 {
+	/*
 	FRANCESCO_SFORZA("Francesco Sforza", new ResourceAmount[] { new ResourceAmount(ResourceType.PURPLE_CARD, 5) }),
 	LUDOVICO_ARIOSTO("Ludovico Ariosto", new ResourceAmount[] { new ResourceAmount(ResourceType.BLUE_CARD, 5) }),
 	FILIPPO_BRUNELLESCHI("Filippo Brunelleschi", new ResourceAmount[] { new ResourceAmount(ResourceType.YELLOW_CARD, 5) }),
@@ -16,7 +17,7 @@ public enum CardLeader
 	LEONARDO_DA_VINCI("Leonardo Da Vinci", new ResourceAmount[] { new ResourceAmount(ResourceType.BLUE_CARD, 4), new ResourceAmount(ResourceType.GREEN_CARD, 2) }),
 	PICO_DELLA_MIRANDOLA("Pico Della Mirandola", new ResourceAmount[] { new ResourceAmount(ResourceType.PURPLE_CARD, 4), new ResourceAmount(ResourceType.YELLOW_CARD, 2) }),
 	SISTO_IV("Sisto IV", new ResourceAmount[] { new ResourceAmount(ResourceType.STONE, 6), new ResourceAmount(ResourceType.SERVANT, 6), new ResourceAmount(ResourceType.WOOD, 6), new ResourceAmount(ResourceType.COIN, 6) }),
-	/*LUCREZIA_BORGIA("Lucrezia Borgia", new Object[] {}),*/
+	/*LUCREZIA_BORGIA("Lucrezia Borgia", new Object[] {}),
 	SIGISMONDO_MALATESTA("Sigismondo Malatesta", new ResourceAmount[] { new ResourceAmount(ResourceType.MILITARY_POINT, 7), new ResourceAmount(ResourceType.FAITH_POINT, 3) }),
 	LORENZO_DE_MEDICI("Lorenzo De' Medici", new ResourceAmount[] { new ResourceAmount(ResourceType.VICTORY_POINT, 35) }),
 	LUDOVICO_IL_MORO("Ludovico Il Moro", new ResourceAmount[] { new ResourceAmount(ResourceType.GREEN_CARD, 2), new ResourceAmount(ResourceType.PURPLE_CARD, 2), new ResourceAmount(ResourceType.YELLOW_CARD, 2), new ResourceAmount(ResourceType.BLUE_CARD, 2) }),
@@ -24,18 +25,13 @@ public enum CardLeader
 	SANTA_RITA("Santa Rita", new ResourceAmount[] { new ResourceAmount(ResourceType.FAITH_POINT, 8) }),
 	COSIMO_DE_MEDICI("Cosimo De' Medici", new ResourceAmount[] { new ResourceAmount(ResourceType.BLUE_CARD, 2), new ResourceAmount(ResourceType.YELLOW_CARD, 4) }),
 	BARTOLOMEO_COLLEONI("Bartolomeo Colleoni", new ResourceAmount[] { new ResourceAmount(ResourceType.PURPLE_CARD, 2), new ResourceAmount(ResourceType.GREEN_CARD, 4) });
-	private final String displayName;
+	*/
 	private final ResourceAmount[] neededResources;
 
-	CardLeader(String displayName, ResourceAmount[] neededResources)
+	public CardLeader(String displayName, ResourceAmount[] neededResources)
 	{
-		this.displayName = displayName;
+		super(displayName);
 		this.neededResources = neededResources;
-	}
-
-	public String getDisplayName()
-	{
-		return this.displayName;
 	}
 
 	public ResourceAmount[] getNeededResources()

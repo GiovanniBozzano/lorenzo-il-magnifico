@@ -1,7 +1,10 @@
-package it.polimi.ingsw.lim.common.enums;
+package it.polimi.ingsw.lim.common.cards;
 
-public enum ExcommunicationTiles
+import it.polimi.ingsw.lim.common.enums.Period;
+
+public class ExcommunicationTiles
 {
+	/*
 	EXCOMMUNICATION_TILES_1_1(Period.FIRST, new Object[] {}),
 	EXCOMMUNICATION_TILES_1_2(Period.FIRST, new Object[] {}),
 	EXCOMMUNICATION_TILES_1_3(Period.FIRST, new Object[] {}),
@@ -23,10 +26,11 @@ public enum ExcommunicationTiles
 	EXCOMMUNICATION_TILES_3_5(Period.THIRD, new Object[] {}),
 	EXCOMMUNICATION_TILES_3_6(Period.THIRD, new Object[] {}),
 	EXCOMMUNICATION_TILES_3_7(Period.THIRD, new Object[] {});
+	*/
 	private final Period period;
 	private final Object[] attributes;
 
-	ExcommunicationTiles(Period period, Object[] attributes)
+	public ExcommunicationTiles(Period period, Object[] attributes)
 	{
 		this.period = period;
 		this.attributes = attributes;

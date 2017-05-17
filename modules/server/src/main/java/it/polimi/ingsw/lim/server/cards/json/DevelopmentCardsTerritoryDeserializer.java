@@ -5,19 +5,19 @@ import it.polimi.ingsw.lim.common.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.utils.ResourceAmount;
-import it.polimi.ingsw.lim.server.cards.CardsDeck;
+import it.polimi.ingsw.lim.server.cards.DevelopmentCardsDeck;
 
 import java.lang.reflect.Type;
 
-public class CardsGreenDeserializer implements JsonDeserializer<CardsDeck<DevelopmentCardTerritory>>
+public class DevelopmentCardsTerritoryDeserializer implements JsonDeserializer<DevelopmentCardsDeck<DevelopmentCardTerritory>>
 {
 	@Override
-	public CardsDeck<DevelopmentCardTerritory> deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+	public DevelopmentCardsDeck<DevelopmentCardTerritory> deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
 	{
-		DevelopmentCardTerritory[] periodFirst = CardsGreenDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_first").getAsJsonArray(), Period.FIRST);
-		DevelopmentCardTerritory[] periodSecond = CardsGreenDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_second").getAsJsonArray(), Period.SECOND);
-		DevelopmentCardTerritory[] periodThird = CardsGreenDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_third").getAsJsonArray(), Period.THIRD);
-		return new CardsDeck<>(periodFirst, periodSecond, periodThird);
+		DevelopmentCardTerritory[] periodFirst = DevelopmentCardsTerritoryDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_first").getAsJsonArray(), Period.FIRST);
+		DevelopmentCardTerritory[] periodSecond = DevelopmentCardsTerritoryDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_second").getAsJsonArray(), Period.SECOND);
+		DevelopmentCardTerritory[] periodThird = DevelopmentCardsTerritoryDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_third").getAsJsonArray(), Period.THIRD);
+		return new DevelopmentCardsDeck<>(periodFirst, periodSecond, periodThird);
 	}
 
 	private static DevelopmentCardTerritory[] getPeriodCards(JsonArray periodArray, Period period)

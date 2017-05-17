@@ -7,30 +7,30 @@ import it.polimi.ingsw.lim.common.cards.DevelopmentCardVenture;
 
 public class CardsHandler
 {
-	public static final CardsDeck<DevelopmentCardTerritory> CARDS_GREEN = new CardsDeck.Builder<>(DevelopmentCardTerritory.class, "/json/development_cards_green.json").initialize();
-	public static final CardsDeck<DevelopmentCardCharacter> CARDS_BLUE = new CardsDeck.Builder<>(DevelopmentCardCharacter.class, "/json/development_cards_blue.json").initialize();
-	private final DevelopmentCardCharacter[] blueOrder = new DevelopmentCardCharacter[4];
-	private final DevelopmentCardTerritory[] greenOrder = new DevelopmentCardTerritory[4];
-	private final DevelopmentCardVenture[] purpleOrder = new DevelopmentCardVenture[4];
-	private final DevelopmentCardBuilding[] yellowOrder = new DevelopmentCardBuilding[4];
+	public static final DevelopmentCardsDeck<DevelopmentCardTerritory> CARDS_TERRITORY = new DevelopmentCardsDeck.Builder<>(DevelopmentCardTerritory.class, "/json/development_cards_territory.json").initialize();
+	public static final DevelopmentCardsDeck<DevelopmentCardCharacter> CARDS_CHARACTER = new DevelopmentCardsDeck.Builder<>(DevelopmentCardCharacter.class, "/json/development_cards_character.json").initialize();
+	private final DevelopmentCardCharacter[] currentDevelopmentCardsCharacters = new DevelopmentCardCharacter[4];
+	private final DevelopmentCardTerritory[] currentDevelopmentCardsTerritory = new DevelopmentCardTerritory[4];
+	private final DevelopmentCardVenture[] currentDevelopmentCardsVenture = new DevelopmentCardVenture[4];
+	private final DevelopmentCardBuilding[] currentDevelopmentCardsBuilding = new DevelopmentCardBuilding[4];
 
-	public DevelopmentCardCharacter[] getBlueOrder()
+	public DevelopmentCardCharacter[] getCurrentDevelopmentCardsCharacters()
 	{
-		return this.blueOrder;
+		return this.currentDevelopmentCardsCharacters;
 	}
 
-	public DevelopmentCardTerritory[] getGreenOrder()
+	public DevelopmentCardTerritory[] getCurrentDevelopmentCardsTerritory()
 	{
-		return this.greenOrder;
+		return this.currentDevelopmentCardsTerritory;
 	}
 
-	public DevelopmentCardVenture[] getPurpleOrder()
+	public DevelopmentCardVenture[] getCurrentDevelopmentCardsVenture()
 	{
-		return this.purpleOrder;
+		return this.currentDevelopmentCardsVenture;
 	}
 
-	public DevelopmentCardBuilding[] getYellowOrder()
+	public DevelopmentCardBuilding[] getCurrentDevelopmentCardsBuilding()
 	{
-		return this.yellowOrder;
+		return this.currentDevelopmentCardsBuilding;
 	}
 }

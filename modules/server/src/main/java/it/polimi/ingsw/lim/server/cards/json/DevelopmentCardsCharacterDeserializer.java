@@ -12,19 +12,19 @@ import it.polimi.ingsw.lim.common.events.EventWork;
 import it.polimi.ingsw.lim.common.utils.DiscountChoice;
 import it.polimi.ingsw.lim.common.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.Reward;
-import it.polimi.ingsw.lim.server.cards.CardsDeck;
+import it.polimi.ingsw.lim.server.cards.DevelopmentCardsDeck;
 
 import java.lang.reflect.Type;
 
-public class CardsBlueDeserializer implements JsonDeserializer<CardsDeck<DevelopmentCardCharacter>>
+public class DevelopmentCardsCharacterDeserializer implements JsonDeserializer<DevelopmentCardsDeck<DevelopmentCardCharacter>>
 {
 	@Override
-	public CardsDeck<DevelopmentCardCharacter> deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+	public DevelopmentCardsDeck<DevelopmentCardCharacter> deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
 	{
-		DevelopmentCardCharacter[] periodFirst = CardsBlueDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_first").getAsJsonArray(), Period.FIRST);
-		DevelopmentCardCharacter[] periodSecond = CardsBlueDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_second").getAsJsonArray(), Period.SECOND);
-		DevelopmentCardCharacter[] periodThird = CardsBlueDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_third").getAsJsonArray(), Period.THIRD);
-		return new CardsDeck<>(periodFirst, periodSecond, periodThird);
+		DevelopmentCardCharacter[] periodFirst = DevelopmentCardsCharacterDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_first").getAsJsonArray(), Period.FIRST);
+		DevelopmentCardCharacter[] periodSecond = DevelopmentCardsCharacterDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_second").getAsJsonArray(), Period.SECOND);
+		DevelopmentCardCharacter[] periodThird = DevelopmentCardsCharacterDeserializer.getPeriodCards(jsonElement.getAsJsonObject().get("period_third").getAsJsonArray(), Period.THIRD);
+		return new DevelopmentCardsDeck<>(periodFirst, periodSecond, periodThird);
 	}
 
 	private static DevelopmentCardCharacter[] getPeriodCards(JsonArray periodArray, Period period)
