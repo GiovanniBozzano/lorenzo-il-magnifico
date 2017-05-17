@@ -53,8 +53,8 @@ public class ConnectionHandler extends Thread
 				Platform.runLater(() -> ((ControllerMain) Server.getInstance().getWindowInformations().getController()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));
 				if (Server.getInstance().getExternalIp() != null) {
 					Utils.displayToLog("Your external IP address is: " + Server.getInstance().getExternalIp());
-					Utils.displayToLog(CardsHandler.CARDS_TERRITORY.toString());
-					Utils.displayToLog(CardsHandler.CARDS_CHARACTER.toString());
+					Utils.displayToLog(CardsHandler.DEVELOPMENT_CARDS_TERRITORY.toString());
+					Utils.displayToLog(CardsHandler.DEVELOPMENT_CARDS_CHARACTER.toString());
 				}
 			}));
 			while (this.keepGoing) {

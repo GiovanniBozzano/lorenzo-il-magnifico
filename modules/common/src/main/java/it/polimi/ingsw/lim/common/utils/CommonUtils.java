@@ -58,7 +58,7 @@ public class CommonUtils
 	public static void setNewWindow(String fxmlFileLocation, String title, Thread firstThread, Thread secondThread)
 	{
 		Platform.runLater(() -> {
-			FXMLLoader fxmlLoader = new FXMLLoader(Instance.getInstance().getClass().getResource(fxmlFileLocation));
+			FXMLLoader fxmlLoader = new FXMLLoader(CommonUtils.class.getResource(fxmlFileLocation));
 			try {
 				Parent parent = fxmlLoader.load();
 				Stage stage;
