@@ -33,7 +33,7 @@ public class DevelopmentCardsTerritoryDeserializer implements JsonDeserializer<D
 				instantResources[indexInstantResources] = new ResourceAmount(ResourceType.valueOf(instantResource.get("type").getAsString()), instantResource.get("amount").getAsInt());
 			}
 			int activationCost = card.get("activation_cost").getAsInt();
-			JsonArray harvestResourcesJson = card.get("instant_resources").getAsJsonArray();
+			JsonArray harvestResourcesJson = card.get("harvest_resources").getAsJsonArray();
 			ResourceAmount[] harvestResources = new ResourceAmount[harvestResourcesJson.size()];
 			for (int indexHarvestResources = 0; indexHarvestResources < harvestResourcesJson.size(); indexHarvestResources++) {
 				JsonObject harvestResource = harvestResourcesJson.get(indexHarvestResources).getAsJsonObject();
