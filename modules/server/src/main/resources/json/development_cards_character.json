@@ -15,7 +15,7 @@
 			"permanent_bonus": {
 				"type": "ADDITION_CARD",
 				"value": 2,
-				"card_type": "GREEN",
+				"card_type": "TERRITORY",
 				"discount_choices": []
 			}
 		},
@@ -29,7 +29,7 @@
 			"permanent_bonus": {
 				"type": "ADDITION_CARD",
 				"value": 2,
-				"card_type": "YELLOW",
+				"card_type": "BUILDING",
 				"discount_choices": [
 					[
 						{
@@ -56,7 +56,7 @@
 			"permanent_bonus": {
 				"type": "ADDITION_CARD",
 				"value": 2,
-				"card_type": "BLUE",
+				"card_type": "CHARACTER",
 				"discount_choices": [
 					[
 						{
@@ -82,7 +82,7 @@
 			"permanent_bonus": {
 				"type": "ADDITION_CARD",
 				"value": 2,
-				"card_type": "PURPLE",
+				"card_type": "VENTURE",
 				"discount_choices": []
 			}
 		},
@@ -141,10 +141,10 @@
 						"type": "CARD",
 						"value": 4,
 						"card_types": [
-							"BLUE",
-							"GREEN",
-							"PURPLE",
-							"YELLOW"
+							"CHARACTER",
+							"TERRITORY",
+							"VENTURE",
+							"BUILDING"
 						],
 						"discount_choices": []
 					}
@@ -169,7 +169,7 @@
 						"type": "CARD",
 						"value": 6,
 						"card_types": [
-							"GREEN"
+							"TERRITORY"
 						],
 						"discount_choices": []
 					}
@@ -192,7 +192,7 @@
 						"type": "CARD",
 						"value": 6,
 						"card_types": [
-							"YELLOW"
+							"BUILDING"
 						],
 						"discount_choices": [
 							[
@@ -223,7 +223,7 @@
 						"type": "CARD",
 						"value": 6,
 						"card_types": [
-							"BLUE"
+							"CHARACTER"
 						],
 						"discount_choices": [
 							[
@@ -248,7 +248,7 @@
 						"type": "CARD",
 						"value": 6,
 						"card_types": [
-							"PURPLE"
+							"VENTURE"
 						],
 						"discount_choices": []
 					}
@@ -327,7 +327,7 @@
 					{
 						"type": "VICTORY_POINT",
 						"amount": 2,
-						"card_types": "GREEN"
+						"card_types": "TERRITORY"
 					}
 				]
 			},
@@ -342,7 +342,7 @@
 					{
 						"type": "VICTORY_POINT",
 						"amount": 2,
-						"card_types": "YELLOW"
+						"card_types": "BUILDING"
 					}
 				]
 			},
@@ -357,7 +357,7 @@
 					{
 						"type": "VICTORY_POINT",
 						"amount": 2,
-						"card_types": "BLUE"
+						"card_types": "CHARACTER"
 					}
 				]
 			},
@@ -372,7 +372,7 @@
 					{
 						"type": "VICTORY_POINT",
 						"amount": 2,
-						"card_types": "PURPLE"
+						"card_types": "VENTURE"
 					}
 				]
 			},
@@ -443,10 +443,10 @@
 						"type": "CARD",
 						"value": 7,
 						"card_types": [
-							"BLUE",
-							"GREEN",
-							"PURPLE",
-							"YELLOW"
+							"CHARACTER",
+							"TERRITORY",
+							"VENTURE",
+							"BUILDING"
 						],
 						"discount_choices": []
 					}

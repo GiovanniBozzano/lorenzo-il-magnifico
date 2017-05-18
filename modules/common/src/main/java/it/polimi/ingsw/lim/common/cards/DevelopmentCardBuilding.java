@@ -35,15 +35,15 @@ public class DevelopmentCardBuilding extends DevelopmentCard
 	private final ResourceAmount[] buildResources;
 	private final ResourceAmount[] instantResources;
 	private final int activationCost;
-	private final ResourceTradeOption[] tradeOptions;
+	private final ResourceTradeOption[] resourceTradeOptions;
 
-	public DevelopmentCardBuilding(String displayName, Period period, ResourceAmount[] buildResources, ResourceAmount[] instantResources, int activationCost, ResourceTradeOption[] tradeOptions)
+	public DevelopmentCardBuilding(String displayName, Period period, ResourceAmount[] buildResources, ResourceAmount[] instantResources, int activationCost, ResourceTradeOption[] resourceTradeOptions)
 	{
 		super(displayName, period);
 		this.buildResources = buildResources;
 		this.instantResources = instantResources;
 		this.activationCost = activationCost;
-		this.tradeOptions = tradeOptions;
+		this.resourceTradeOptions = resourceTradeOptions;
 	}
 
 	public ResourceAmount[] getBuildResources()
@@ -56,13 +56,7 @@ public class DevelopmentCardBuilding extends DevelopmentCard
 		return this.instantResources;
 	}
 
-	public int getActivationCost()
-	{
-		return this.activationCost;
-	}
+	public int getActivationCost() {return this.activationCost;}
 
-	public ResourceTradeOption[] getTradeOptions()
-	{
-		return this.tradeOptions;
-	}
+	public ResourceTradeOption[] getResourceTradeOptions() {return this.resourceTradeOptions;}
 }

@@ -544,10 +544,10 @@
 						"type": "event_card",
 						"value": 7,
 						"card_type": [
-							"BLUE",
-							"GREEN",
-							"PURPLE",
-							"YELLOW"
+							"CHARACTER",
+							"TERRITORY",
+							"VENTURE",
+							"BUILDING"
 						],
 						"discount_choices": []
 					}

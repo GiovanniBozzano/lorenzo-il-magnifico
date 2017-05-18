@@ -2,22 +2,22 @@ package it.polimi.ingsw.lim.common.utils;
 
 public class ResourceTradeOption
 {
-	private final ResourceAmount[] resourceAmountsCost;
-	private final ResourceAmount[] resourceAmountsGain;
+	private final ResourceAmount[] employedResources;
+	private final ResourceAmount[] producedResources;
 
-	public ResourceTradeOption(ResourceAmount[] resourceAmountsCost, ResourceAmount[] resourceAmountsGain)
+	public ResourceTradeOption(ResourceAmount[] employedResources, ResourceAmount[] producedResources)
 	{
-		this.resourceAmountsCost = resourceAmountsCost;
-		this.resourceAmountsGain = resourceAmountsGain;
+		this.employedResources = employedResources;
+		this.producedResources = producedResources;
 	}
 
-	public ResourceAmount[] getResourceAmountsCost()
+	public ResourceAmount[] getemployedResources()
 	{
-		return this.resourceAmountsCost;
+		return this.employedResources;
 	}
 
-	public ResourceAmount[] getResourceAmountsGain()
+	public ResourceAmount[] getproducedResources()
 	{
-		return this.resourceAmountsGain;
+		return this.producedResources;
 	}
 }

@@ -19,14 +19,14 @@
 				}
 			],
 			"activation_cost": 5,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [],
 					"produced_resources": [
 						{
 							"type": "COIN",
 							"amount": 1,
-							"card_type": "YELLOW"
+							"card_type": "BUILDING"
 						}
 					]
 				}
@@ -51,14 +51,14 @@
 				}
 			],
 			"activation_cost": 5,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [],
 					"produced_resources": [
 						{
 							"type": "COIN",
 							"amount": 1,
-							"card_type": "GREEN"
+							"card_type": "TERRITORY"
 						}
 					]
 				}
@@ -83,14 +83,14 @@
 				}
 			],
 			"activation_cost": 6,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [],
 					"produced_resources": [
 						{
 							"type": "VICTORY_POINT",
 							"amount": 1,
-							"card_type": "PURPLE"
+							"card_type": "VENTURE"
 						}
 					]
 				}
@@ -115,14 +115,14 @@
 				}
 			],
 			"activation_cost": 6,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [],
 					"produced_resources": [
 						{
 							"type": "VICTORY_POINT",
 							"amount": 1,
-							"card_type": "BLUE"
+							"card_type": "CHARACTER"
 						}
 					]
 				}
@@ -147,7 +147,7 @@
 				}
 			],
 			"activation_cost": 4,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -197,7 +197,7 @@
 				}
 			],
 			"activation_cost": 3,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -243,7 +243,7 @@
 				}
 			],
 			"activation_cost": 2,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -275,7 +275,7 @@
 				}
 			],
 			"activation_cost": 1,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -313,7 +313,7 @@
 				}
 			],
 			"activation_cost": 3,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -349,7 +349,7 @@
 				}
 			],
 			"activation_cost": 3,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -395,7 +395,7 @@
 				}
 			],
 			"activation_cost": 4,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -441,7 +441,7 @@
 				}
 			],
 			"activation_cost": 5,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -491,7 +491,7 @@
 				}
 			],
 			"activation_cost": 4,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -535,7 +535,7 @@
 				}
 			],
 			"activation_cost": 2,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -575,7 +575,7 @@
 				}
 			],
 			"activation_cost": 1,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -615,7 +615,7 @@
 				}
 			],
 			"activation_cost": 6,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [],
 					"produced_resources": [
@@ -656,7 +656,7 @@
 				}
 			],
 			"activation_cost": 2,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [],
 					"produced_resources": [
@@ -687,7 +687,7 @@
 				}
 			],
 			"activation_cost": 4,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -732,7 +732,7 @@
 				}
 			],
 			"activation_cost": 1,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [],
 					"produced_resources": [
@@ -767,7 +767,7 @@
 				}
 			],
 			"activation_cost": 5,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [],
 					"produced_resources": [
@@ -806,7 +806,7 @@
 				}
 			],
 			"activation_cost": 6,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -850,7 +850,7 @@
 				}
 			],
 			"activation_cost": 1,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -904,7 +904,7 @@
 				}
 			],
 			"activation_cost": 3,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [
 						{
@@ -948,7 +948,7 @@
 				}
 			],
 			"activation_cost": 2,
-			"resource_trade_option": [
+			"resource_trade_options": [
 				{
 					"employed_resource": [],
 					"produced_resources": [
