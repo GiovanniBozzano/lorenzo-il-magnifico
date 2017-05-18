@@ -1,0 +1,964 @@
+{
+	"period_first": [
+		{
+			"display_name": "ZECCA",
+			"build_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 3
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 5
+				}
+			],
+			"activation_cost": 5,
+			"resource_trade_option": [
+				{
+					"employed_resource": [],
+					"produced_resources": [
+						{
+							"type": "COIN",
+							"amount": 1,
+							"card_type": "YELLOW"
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "ESATTORIA",			
+			"build_resources": [
+				{
+					"type": "WOOD",
+					"amount": 3
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 5
+				}
+			],
+			"activation_cost": 5,
+			"resource_trade_option": [
+				{
+					"employed_resource": [],
+					"produced_resources": [
+						{
+							"type": "COIN",
+							"amount": 1,
+							"card_type": "GREEN"
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "ARCO_TRIONFO",			
+			"build_resources": [
+				{
+					"type": "COIN",
+					"amount": 2
+				},
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 6
+				}
+			],
+			"activation_cost": 6,
+			"resource_trade_option": [
+				{
+					"employed_resource": [],
+					"produced_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 1,
+							"card_type": "PURPLE"
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "TEATRO",			
+			"build_resources": [
+				{
+					"type": "COIN",
+					"amount": 2
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 6
+				}
+			],
+			"activation_cost": 6,
+			"resource_trade_option": [
+				{
+					"employed_resource": [],
+					"produced_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 1,
+							"card_type": "BLUE"
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "FALEGNAMERIA",			
+			"build_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 3
+				}
+			],
+			"activation_cost": 4,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "WOOD",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "COIN",
+							"amount": 3
+						}
+					]
+				},
+				{
+					"employed_resource": [
+						{
+							"type": "WOOD",
+							"amount": 2
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "COIN",
+							"amount": 5
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "TAGLIAPIETRE",			
+			"build_resources": [
+				{
+					"type": "COIN",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 2
+				}
+			],
+			"activation_cost": 3,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "STONE",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "COIN",
+							"amount": 3
+						}
+					]
+				},
+				{
+					"employed_resource": [
+						{
+							"type": "STONE",
+							"amount": 2
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "COIN",
+							"amount": 5
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "CAPPELLA",			
+			"build_resources": [
+				{
+					"type": "WOOD",
+					"amount": 2
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				}
+			],
+			"activation_cost": 2,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "COIN",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "FAITH_POINT",
+							"amount": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "RESIDENZA",			
+			"build_resources": [
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 1
+				}
+			],
+			"activation_cost": 1,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "COIN",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "COUNCIL_PRIVILEGE",
+							"amount": 1
+						}
+					]
+				}
+			]
+		}
+	],
+	"period_second": [
+		{
+			"display_name": "MERCATO",
+			"build_resources": [
+				{
+					"type": "WOOD",
+					"amount": 2
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 3
+				}
+			],
+			"activation_cost": 3,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "COIN",
+							"amount": 3
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "WOOD",
+							"amount": 2
+						},
+						{
+							"type": "STONE",
+							"amount": 2
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "TESORERIA",			
+			"build_resources": [
+				{
+					"type": "WOOD",
+					"amount": 3
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 4
+				}
+			],
+			"activation_cost": 3,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "COIN",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 3
+						}
+					]
+				},
+				{
+					"employed_resource": [
+						{
+							"type": "COIN",
+							"amount": 2
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 5
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "GILDA_PITTORI",			
+			"build_resources": [
+				{
+					"type": "WOOD",
+					"amount": 4
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 5
+				}
+			],
+			"activation_cost": 4,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "WOOD",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 3
+						}
+					]
+				},
+				{
+					"employed_resource": [
+						{
+							"type": "WOOD",
+							"amount": 3
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 7
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "GILDA_SCULTORI",			
+			"build_resources": [
+				{
+					"type": "STONE",
+					"amount": 4
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 6
+				}
+			],
+			"activation_cost": 5,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "STONE",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 3
+						}
+					]
+				},
+				{
+					"employed_resource": [
+						{
+							"type": "STONE",
+							"amount": 3
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 7
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "GILDA_COSTRUTTORI",			
+			"build_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 4
+				}
+			],
+			"activation_cost": 4,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "SERVANT",
+							"amount": 1
+						},
+						{
+							"type": "WOOD",
+							"amount": 1
+						},
+						{
+							"type": "STONE",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 6
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "BATTISTERO",			
+			"build_resources": [
+				{
+					"type": "STONE",
+					"amount": 3
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 2
+				},
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				}
+			],
+			"activation_cost": 2,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "FAITH_POINT",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "COIN",
+							"amount": 2
+						},
+						{
+							"type": "VICTORY_POINT",
+							"amount": 2
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "CASERMA",			
+			"build_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 3
+				}
+			],
+			"activation_cost": 1,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "SERVANT",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 3
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "FORTEZZA",			
+			"build_resources": [
+				{
+					"type": "COIN",
+					"amount": 2
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				},
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 8
+				}
+			],
+			"activation_cost": 6,
+			"resource_trade_option": [
+				{
+					"employed_resource": [],
+					"produced_resources": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 2
+						},
+						{
+							"type": "VICTORY_POINT",
+							"amount": 2
+						}
+					]
+				}
+			]
+		}
+	],
+	"period_third": [
+		{
+			"display_name": "BANCA",
+			"build_resources": [
+				{
+					"type": "COIN",
+					"amount": 3
+				},
+				{
+					"type": "WOOD",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 3
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 7
+				}
+			],
+			"activation_cost": 2,
+			"resource_trade_option": [
+				{
+					"employed_resource": [],
+					"produced_resources": [
+						{
+							"type": "COIN",
+							"amount": 5
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "FIERA",			
+			"build_resources": [
+				{
+					"type": "COIN",
+					"amount": 4
+				},
+				{
+					"type": "WOOD",
+					"amount": 3
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 8
+				}
+			],
+			"activation_cost": 4,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "COIN",
+							"amount": 4
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "WOOD",
+							"amount": 3
+						},
+						{
+							"type": "STONE",
+							"amount": 3
+						}
+
+					]
+				}
+			]
+		},
+		{
+			"display_name": "GIARDINO",			
+			"build_resources": [
+				{
+					"type": "SERVANT",
+					"amount": 2
+				},
+				{
+					"type": "WOOD",
+					"amount": 4
+				},
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 10
+				}
+			],
+			"activation_cost": 1,
+			"resource_trade_option": [
+				{
+					"employed_resource": [],
+					"produced_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 3
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "CASTELLETTO",			
+			"build_resources": [
+				{
+					"type": "COIN",
+					"amount": 2
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				},
+				{
+					"type": "STONE",
+					"amount": 4
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 9
+				}
+			],
+			"activation_cost": 5,
+			"resource_trade_option": [
+				{
+					"employed_resource": [],
+					"produced_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 2
+						},
+						{
+							"type": "COUNCIL_PRIVILEGE",
+							"amount": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "PALAZZO",			
+			"build_resources": [
+				{
+					"type": "COIN",
+					"amount": 3
+				},
+				{
+					"type": "WOOD",
+					"amount": 3
+				},
+				{
+					"type": "STONE",
+					"amount": 1
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 9
+				}
+			],
+			"activation_cost": 6,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "COIN",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "SERVANT",
+							"amount": 2
+						},
+						{
+							"type": "VICTORY_POINT",
+							"amount": 4
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "BASILICA",			
+			"build_resources": [
+				{
+					"type": "WOOD",
+					"amount": 1
+				},
+				{
+					"type": "STONE",
+					"amount": 4
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 5
+				},
+				{
+					"type": "FAITH_POINT",
+					"amount": 1
+				}
+			],
+			"activation_cost": 1,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "WOOD",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "FAITH_POINT",
+							"amount": 2
+						}
+					]
+				},
+				{
+					"employed_resource": [
+						{
+							"type": "STONE",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "FAITH_POINT",
+							"amount": 2
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "ACCADEMIA_MILITARE",			
+			"build_resources": [
+				{
+					"type": "SERVANT",
+					"amount": 1
+				},
+				{
+					"type": "WOOD",
+					"amount": 2
+				},
+				{
+					"type": "STONE",
+					"amount": 2
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 7
+				}
+			],
+			"activation_cost": 3,
+			"resource_trade_option": [
+				{
+					"employed_resource": [
+						{
+							"type": "SERVANT",
+							"amount": 1
+						}
+					],
+					"produced_resources": [
+						{
+							"type": "MILITARY_POINT",
+							"amount": 3
+						},
+						{
+							"type": "VICTORY_POINT",
+							"amount": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"display_name": "CATTEDRALE",			
+			"build_resources": [
+				{
+					"type": "WOOD",
+					"amount": 4
+				},
+				{
+					"type": "STONE",
+					"amount": 4
+				}
+			],
+			"instant_resources": [
+				{
+					"type": "VICTORY_POINT",
+					"amount": 7
+				},
+				{
+					"type": "FAITH_POINT",
+					"amount": 3
+				}
+			],
+			"activation_cost": 2,
+			"resource_trade_option": [
+				{
+					"employed_resource": [],
+					"produced_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 1
+						}
+					]
+				}
+			]
+		}
+	]
+}
