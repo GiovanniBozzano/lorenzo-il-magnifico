@@ -1582,8 +1582,7 @@
 					}
 				]
 			},
-			"victory_value": 4
-		},
+			"victory_value": 4,
 		{
 			"display_name": "COMMISSIONARE_ARTE_SACRA",
 			"period": "THIRD",
@@ -1595,194 +1594,198 @@
 							"type": "WOOD",
 							"amount": 6
 						}
-			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
-					{
-						"type": "FAITH_POINT",
-						"amount": 3
-					}
-				]
-			},
-			"victory_value": 3
-		},
-		{
-			"display_name": "CONQUISTA_MILITARE",
-			"period": "THIRD",
-			"resource_trade_option": [
-				{
-					"resource_condition": [
-						{
-							"type": "MILITARY_POINT",
-							"amount": 12
-						}
 					],
-					"resource_cost": [
-						{
-							"type": "MILITARY_POINT",
-							"amount": 6
-						}
-					]
-				}
-			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
-					{
-						"type": "WOOD",
-						"amount": 3
+					"instant_reward": {
+						"event": [],
+						"resource_amount": [
+							{
+								"type": "FAITH_POINT",
+								"amount": 3
+							}
+						]
 					},
-					{
-						"type": "STONE",
-						"amount": 3
-					},
-					{
-						"type": "COIN",
-						"amount": 3
-					}
-				]
-			},
-			"victory_value": 7
-		},
-		{
-			"display_name": "MIGLIORARE_STRADE",
-			"period": "THIRD",
-			"resource_trade_option": [
-				{
-					"resource_condition": [],
-					"resource_cost": [
-						{
-							"type": "SERVANT",
-							"amount": 3
-						},
-						{
-							"type": "COIN",
-							"amount": 4
-						}
-					]
-				}
-			],
-			"instant_reward": {
-				"event": [
-					{
-						"type": "event_work",
-						"value": 3,
-						"work_type": "PRODUCTION"
-					}
-				],
-				"resource_amount": []
-			},
-			"victory_value": 5
-		},
-		{
-			"display_name": "GUERRA_SANTA",
-			"period": "THIRD",
-			"resource_trade_option": [
-				{
-					"resource_condition": [
-						{
-							"type": "MILITARY_POINT",
-							"amount": 15
-						}
-					],
-					"resource_cost": [
-						{
-							"type": "MILITARY_POINT",
-							"amount": 8
-						}
-					]
-				}
-			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
-					{
-						"type": "FAITH_POINT",
-						"amount": 4
-					}
-				]
-			},
-			"victory_value": 8
-		},
-		{
-			"display_name": "SOSTEGNO_PAPA",
-			"period": "THIRD",
-			"resource_trade_option": [
-				{
-					"resource_condition": [
-						{
-							"type": "MILITARY_POINT",
-							"amount": 10
-						}
-					],
-					"resource_cost": [
-						{
-							"type": "MILITARY_POINT",
-							"amount": 5
-						}
-					]
+					"victory_value": 3
 				},
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"display_name": "CONQUISTA_MILITARE",
+					"period": "THIRD",
+					"resource_trade_option": [
 						{
-							"type": "WOOD",
-							"amount": 3
+							"resource_condition": [
+								{
+									"type": "MILITARY_POINT",
+									"amount": 12
+								}
+							],
+							"resource_cost": [
+								{
+									"type": "MILITARY_POINT",
+									"amount": 6
+								}
+							]
+						}
+					],
+					"instant_reward": {
+						"event": [],
+						"resource_amount": [
+							{
+								"type": "WOOD",
+								"amount": 3
+							},
+							{
+								"type": "STONE",
+								"amount": 3
+							},
+							{
+								"type": "COIN",
+								"amount": 3
+							}
+						]
+					},
+					"victory_value": 7
+				},
+				{
+					"display_name": "MIGLIORARE_STRADE",
+					"period": "THIRD",
+					"resource_trade_option": [
+						{
+							"resource_condition": [],
+							"resource_cost": [
+								{
+									"type": "SERVANT",
+									"amount": 3
+								},
+								{
+									"type": "COIN",
+									"amount": 4
+								}
+							]
+						}
+					],
+					"instant_reward": {
+						"event": [
+							{
+								"type": "event_work",
+								"value": 3,
+								"work_type": "PRODUCTION"
+							}
+						],
+						"resource_amount": []
+					},
+					"victory_value": 5
+				},
+				{
+					"display_name": "GUERRA_SANTA",
+					"period": "THIRD",
+					"resource_trade_option": [
+						{
+							"resource_condition": [
+								{
+									"type": "MILITARY_POINT",
+									"amount": 15
+								}
+							],
+							"resource_cost": [
+								{
+									"type": "MILITARY_POINT",
+									"amount": 8
+								}
+							]
+						}
+					],
+					"instant_reward": {
+						"event": [],
+						"resource_amount": [
+							{
+								"type": "FAITH_POINT",
+								"amount": 4
+							}
+						]
+					},
+					"victory_value": 8
+				},
+				{
+					"display_name": "SOSTEGNO_PAPA",
+					"period": "THIRD",
+					"resource_trade_option": [
+						{
+							"resource_condition": [
+								{
+									"type": "MILITARY_POINT",
+									"amount": 10
+								}
+							],
+							"resource_cost": [
+								{
+									"type": "MILITARY_POINT",
+									"amount": 5
+								}
+							]
 						},
 						{
-							"type": "COIN",
-							"amount": 4
+							"resource_condition": [],
+							"resource_cost": [
+								{
+									"type": "WOOD",
+									"amount": 3
+								},
+								{
+									"type": "COIN",
+									"amount": 4
+								},
+								{
+									"type": "STONE",
+									"amount": 3
+								}
+							]
+						}
+					],
+					"instant_reward": {
+						"event": [],
+						"resource_amount": [
+							{
+								"type": "FAITH_POINT",
+								"amount": 2
+							}
+						]
+					},
+					"victory_value": 10
+				}
+			]
+			"cards_yellow": [
+				{
+					"display_name": "ZECCA",
+					"period": "FIRST",
+					"build_resources": [
+						{
+							"type": "WOOD",
+							"amount": 1
 						},
 						{
 							"type": "STONE",
 							"amount": 3
 						}
-					]
-				}
-			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
-					{
-						"type": "FAITH_POINT",
-						"amount": 2
-					}
-				]
-			},
-			"victory_value": 10
-		}
-	],
-	"cards_yellow": [
-		{
-			"display_name": "ZECCA",
-			"period": "FIRST",
-			"build_resources": [
-				{
-					"type": "WOOD",
-					"amount": 1
-				},
-				{
-					"type": "STONE",
-					"amount": 3
-				}
-			],
-			"instant_resources": [
-				{
-					"type": "VICTORY_POINT",
-					"amount": 5
-				}
-			],
-			"activation_cost": 5,
-			"resource_trade_option": [
-				{
-					cost[],
-					reward[]
+					],
+					"instant_resources": [
+						{
+							"type": "VICTORY_POINT",
+							"amount": 5
+						}
+					],
+					"activation_cost": 5,
+					"resource_trade_option": [
+						{
+							cost
+						[],
+						reward
+						[]
 
+						},
+						{
+							cost
+						[],
+						reward
+						[]
+						}
+					]
 				},
-				{
-					cost[],
-					reward[]
-				}
-				]
-		},

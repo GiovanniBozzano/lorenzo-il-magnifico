@@ -11,6 +11,7 @@ import it.polimi.ingsw.lim.common.events.EventCard;
 import it.polimi.ingsw.lim.common.events.EventWork;
 import it.polimi.ingsw.lim.common.utils.DiscountChoice;
 import it.polimi.ingsw.lim.common.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.utils.ResourceAmountMultiplierCard;
 import it.polimi.ingsw.lim.common.utils.Reward;
 import it.polimi.ingsw.lim.server.cards.DevelopmentCardsDeck;
 
@@ -68,7 +69,7 @@ public class DevelopmentCardsCharacterDeserializer implements JsonDeserializer<D
 			for (int indexInstantRewardResourceAmounts = 0; indexInstantRewardResourceAmounts < instantRewardResourceAmountsJson.size(); indexInstantRewardResourceAmounts++) {
 				JsonObject instantRewardResourceAmount = instantRewardResourceAmountsJson.get(indexInstantRewardResourceAmounts).getAsJsonObject();
 				if (instantRewardResourceAmount.has("card_type")) {
-					instantRewardResourceAmounts[indexInstantRewardResourceAmounts] = new ResourceAmount(ResourceType.valueOf(instantRewardResourceAmount.get("type").getAsString()), instantRewardResourceAmount.get("amount").getAsInt(), CardType.valueOf(instantRewardResourceAmount.get("card_type").getAsString()));
+					instantRewardResourceAmounts[indexInstantRewardResourceAmounts] = new ResourceAmountMultiplierCard(ResourceType.valueOf(instantRewardResourceAmount.get("type").getAsString()), instantRewardResourceAmount.get("amount").getAsInt(), CardType.valueOf(instantRewardResourceAmount.get("card_type").getAsString()));
 				} else {
 					instantRewardResourceAmounts[indexInstantRewardResourceAmounts] = new ResourceAmount(ResourceType.valueOf(instantRewardResourceAmount.get("type").getAsString()), instantRewardResourceAmount.get("amount").getAsInt());
 				}
