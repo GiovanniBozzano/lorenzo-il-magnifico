@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.database.DatabaseSQLite;
+import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.network.ConnectionHandler;
 

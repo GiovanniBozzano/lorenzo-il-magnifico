@@ -2,8 +2,8 @@ package it.polimi.ingsw.lim.server.network;
 
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
-import it.polimi.ingsw.lim.server.Room;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.ArrayList;

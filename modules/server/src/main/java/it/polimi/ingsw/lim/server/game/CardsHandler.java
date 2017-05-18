@@ -1,9 +1,10 @@
-package it.polimi.ingsw.lim.server.cards;
+package it.polimi.ingsw.lim.server.game;
 
 import it.polimi.ingsw.lim.common.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.common.cards.DevelopmentCardCharacter;
 import it.polimi.ingsw.lim.common.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.common.cards.DevelopmentCardVenture;
+import it.polimi.ingsw.lim.server.cards.DevelopmentCardsDeck;
 
 public class CardsHandler
 {

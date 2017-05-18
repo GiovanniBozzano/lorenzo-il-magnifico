@@ -190,7 +190,7 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 		}
 	}
 
-	static class Builder<T extends DevelopmentCard>
+	public static class Builder<T extends DevelopmentCard>
 	{
 		private static final Map<Class<? extends DevelopmentCard>, Type> TYPE_TOKENS = new HashMap<>();
 
@@ -208,13 +208,13 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 		private final Class<T> clazz;
 		private final String jsonFile;
 
-		Builder(Class<T> clazz, String jsonFile)
+		public Builder(Class<T> clazz, String jsonFile)
 		{
 			this.clazz = clazz;
 			this.jsonFile = jsonFile;
 		}
 
-		DevelopmentCardsDeck<T> initialize()
+		public DevelopmentCardsDeck<T> initialize()
 		{
 			try (Reader reader = new InputStreamReader(Builder.class.getResourceAsStream(this.jsonFile), "UTF-8")) {
 				return Builder.GSON.fromJson(reader, Builder.TYPE_TOKENS.get(this.clazz));

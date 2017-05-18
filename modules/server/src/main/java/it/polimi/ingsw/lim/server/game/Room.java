@@ -1,4 +1,4 @@
-package it.polimi.ingsw.lim.server;
+package it.polimi.ingsw.lim.server.game;
 
 import it.polimi.ingsw.lim.server.network.Connection;
 

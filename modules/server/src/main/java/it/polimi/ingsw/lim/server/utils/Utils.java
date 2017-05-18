@@ -2,11 +2,11 @@ package it.polimi.ingsw.lim.server.utils;
 
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
-import it.polimi.ingsw.lim.server.Room;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.enums.Command;
 import it.polimi.ingsw.lim.server.enums.QueryRead;
 import it.polimi.ingsw.lim.server.enums.QueryWrite;
+import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.Connection;
 import javafx.application.Platform;

@@ -3,7 +3,7 @@ package it.polimi.ingsw.lim.server.network;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.cards.CardsHandler;
+import it.polimi.ingsw.lim.server.game.CardsHandler;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.rmi.Authentication;
 import it.polimi.ingsw.lim.server.network.socket.ConnectionSocket;
