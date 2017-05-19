@@ -36,7 +36,6 @@ public class ControllerLobby implements Initializable
 	@FXML private Button enterRoomButton;
 	@FXML private Button createRoomButton;
 	@FXML private Button disconnectButton;
-	@FXML private Button gameRulesButton;
 
 	@FXML
 	private void handleRoomsListViewMouseClicked()
@@ -85,15 +84,6 @@ public class ControllerLobby implements Initializable
 	{
 		Client.getInstance().disconnect(false, false);
 	}
-
-	@FXML
-	private void handleGameRulesButtonAction()
-	{
-
-	}
-
-
-
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)

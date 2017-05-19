@@ -31,7 +31,6 @@
 						<Button fx:id="enterRoomButton" mnemonicParsing="false" onAction="#handleEnterRoomButtonAction" text="Enter Room" />
 						<Button fx:id="createRoomButton" mnemonicParsing="false" onAction="#handleCreateRoomButtonAction" text="Create Room" />
 						<Button fx:id="disconnectButton" mnemonicParsing="false" onAction="#handleDisconnectButtonAction" text="Disconnect" />
-                  		<Button fx:id="gameRulesButton" mnemonicParsing="false" onAction="#handleGameRulesButtonAction" text="Game Rules" />
 					</children>
 				</VBox>
 			</children>
