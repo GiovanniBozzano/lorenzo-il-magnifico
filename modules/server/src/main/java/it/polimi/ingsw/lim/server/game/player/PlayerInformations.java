@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class PlayerInformations
 {
-	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler();
+	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler(this);
 	private final PlayerResourceHandler playerResourceHandler;
 	private final Map<FamilyMemberType, ActionType> familyMembersPositions = new HashMap<>();
 

@@ -8,6 +8,7 @@ import it.polimi.ingsw.lim.common.bonus.BonusAdditionCard;
 import it.polimi.ingsw.lim.common.bonus.BonusAdditionWork;
 import it.polimi.ingsw.lim.common.bonus.Malus;
 import it.polimi.ingsw.lim.common.cards.DevelopmentCard;
+import it.polimi.ingsw.lim.common.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.common.cards.DevelopmentCardCharacter;
 import it.polimi.ingsw.lim.common.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.common.enums.CardType;
@@ -18,6 +19,7 @@ import it.polimi.ingsw.lim.common.events.EventWork;
 import it.polimi.ingsw.lim.common.utils.DiscountChoice;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.ResourceAmount;
+import it.polimi.ingsw.lim.server.cards.json.DevelopmentCardsBuildingDeserializer;
 import it.polimi.ingsw.lim.server.cards.json.DevelopmentCardsCharacterDeserializer;
 import it.polimi.ingsw.lim.server.cards.json.DevelopmentCardsTerritoryDeserializer;
 
@@ -186,6 +188,28 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 					stringBuilder.append("      type: ").append(resourceAmounts[indexResourceAmounts].getResourceType().name()).append("\n");
 					stringBuilder.append("      amount: ").append(resourceAmounts[indexResourceAmounts].getAmount()).append("\n");
 				}
+			} else if (period[indexCards] instanceof DevelopmentCardBuilding) {
+				DevelopmentCardBuilding developmentCardBuilding = (DevelopmentCardBuilding) period[indexCards];
+				stringBuilder.append("build_resources:\n");
+				ResourceAmount[] resourceAmounts = developmentCardBuilding.getBuildResources();
+				for (int indexResourceAmounts = 0; indexResourceAmounts < resourceAmounts.length; indexResourceAmounts++) {
+					if (indexResourceAmounts != 0) {
+						stringBuilder.append("      ----------\n");
+					}
+					stringBuilder.append("      type: ").append(resourceAmounts[indexResourceAmounts].getResourceType().name()).append("\n");
+					stringBuilder.append("      amount: ").append(resourceAmounts[indexResourceAmounts].getAmount()).append("\n");
+				}
+				stringBuilder.append("instant_resources:\n");
+				resourceAmounts = developmentCardBuilding.getInstantResources();
+				for (int indexResourceAmounts = 0; indexResourceAmounts < resourceAmounts.length; indexResourceAmounts++) {
+					if (indexResourceAmounts != 0) {
+						stringBuilder.append("      ----------\n");
+					}
+					stringBuilder.append("      type: ").append(resourceAmounts[indexResourceAmounts].getResourceType().name()).append("\n");
+					stringBuilder.append("      amount: ").append(resourceAmounts[indexResourceAmounts].getAmount()).append("\n");
+				}
+				stringBuilder.append("activation_cost: ").append(developmentCardBuilding.getActivationCost()).append("\n");
+				/* manca tradeoptions
 			}
 		}
 	}
@@ -198,12 +222,15 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 			Builder.TYPE_TOKENS.put(DevelopmentCardTerritory.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardTerritory>>()
 			{
 			}.getType());
+			Builder.TYPE_TOKENS.put(DevelopmentCardBuilding.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardBuilding>>()
+			{
+			}.getType());
 			Builder.TYPE_TOKENS.put(DevelopmentCardCharacter.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardCharacter>>()
 			{
 			}.getType());
 		}
 
-		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapter(Builder.TYPE_TOKENS.get(DevelopmentCardTerritory.class), new DevelopmentCardsTerritoryDeserializer()).registerTypeAdapter(Builder.TYPE_TOKENS.get(DevelopmentCardCharacter.class), new DevelopmentCardsCharacterDeserializer());
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapter(Builder.TYPE_TOKENS.get(DevelopmentCardTerritory.class), new DevelopmentCardsTerritoryDeserializer()).registerTypeAdapter(Builder.TYPE_TOKENS.get(DevelopmentCardBuilding.class), new DevelopmentCardsBuildingDeserializer()).registerTypeAdapter(Builder.TYPE_TOKENS.get(DevelopmentCardCharacter.class), new DevelopmentCardsCharacterDeserializer());
 		private static final Gson GSON = Builder.GSON_BUILDER.create();
 		private final Class<T> clazz;
 		private final String jsonFile;
