@@ -13,11 +13,12 @@ public class PlayerInformations
 	private final Map<FamilyMemberType, ActionType> familyMembersPositions = new HashMap<>();
 
 	public PlayerInformations(PlayerResourceHandler playerResourceHandler)
-	{
+	{   
 		this.playerResourceHandler = playerResourceHandler;
-		this.familyMembersPositions.put(FamilyMemberType.BLACK, ActionType.BOARD);
-		this.familyMembersPositions.put(FamilyMemberType.ORANGE, ActionType.BOARD);
-		this.familyMembersPositions.put(FamilyMemberType.WHITE, ActionType.BOARD);
+		this.familyMembersPositions.put(FamilyMemberType.BLACK, ActionType.NONE);
+		this.familyMembersPositions.put(FamilyMemberType.ORANGE, ActionType.NONE);
+		this.familyMembersPositions.put(FamilyMemberType.WHITE, ActionType.NONE);
+		this.familyMembersPositions.put(FamilyMemberType.NEUTRAL, ActionType.NONE);
 	}
 
 	public PlayerCardHandler getPlayerCardHandler()

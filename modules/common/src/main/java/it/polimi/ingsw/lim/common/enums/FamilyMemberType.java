@@ -4,5 +4,6 @@ public enum FamilyMemberType
 {
 	BLACK,
 	ORANGE,
-	WHITE
+	WHITE,
+	NEUTRAL
 }

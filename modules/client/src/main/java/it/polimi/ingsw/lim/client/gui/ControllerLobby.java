@@ -19,6 +19,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.awt.Desktop.Action;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,6 +36,7 @@ public class ControllerLobby implements Initializable
 	@FXML private Button enterRoomButton;
 	@FXML private Button createRoomButton;
 	@FXML private Button disconnectButton;
+	@FXML private Button gameRulesButton;
 
 	@FXML
 	private void handleRoomsListViewMouseClicked()
@@ -81,6 +85,15 @@ public class ControllerLobby implements Initializable
 	{
 		Client.getInstance().disconnect(false, false);
 	}
+
+	@FXML
+	private void handleGameRulesButtonAction()
+	{
+
+	}
+
+
+
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
