@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
+import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
 import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -35,20 +36,14 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			Client.getLogger().log(Level.INFO, "Could not connect to host", exception);
 			return;
 		}
-		Client.getInstance().setConnected(true);
 		this.getHeartbeat().scheduleAtFixedRate(Connection::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 		CommonUtils.setNewWindow(Utils.SCENE_AUTHENTICATION, null, null, null);
 	}
 
+	@Override
 	public void disconnect(boolean notifyServer)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
-		this.getHeartbeat().shutdownNow();
+		super.disconnect(notifyServer);
 		try {
 			UnicastRemoteObject.unexportObject(this.serverSession, true);
 		} catch (NoSuchObjectException exception) {
@@ -63,6 +58,24 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		}
+	}
+
+	@Override
+	public synchronized void sendLogin(String username, String password)
+	{
+		super.sendLogin(username, password);
+		try {
+			this.clientSession = this.login.sendLogin(username, CommonUtils.encrypt(password), CommonUtils.VERSION, this.serverSession);
+		} catch (RemoteException exception) {
+			Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+			Client.getInstance().disconnect(false, true);
+			return;
+		} catch (AuthenticationFailedException exception) {
+			Client.getLogger().log(Level.INFO, exception.getMessage(), exception);
+			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+		}
+		Client.getInstance().setUsername(username);
+		CommonUtils.setNewWindow(Utils.SCENE_LOBBY, null, null, new Thread(Connection::sendRequestRoomList));
 	}
 
 	public ServerSession getServerSession()

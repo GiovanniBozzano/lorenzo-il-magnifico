@@ -30,34 +30,6 @@ public class Connection
 	}
 
 	/**
-	 * Tries to login with username, password and Client version.
-	 *
-	 * @param username the username.
-	 * @param password the password.
-	 */
-	public static synchronized void sendLogin(String username, String password)
-	{
-		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
-		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
-			try {
-				Client.getInstance().getConnectionHandlerRMI().setClientSession(Client.getInstance().getConnectionHandlerRMI().getLogin().sendLogin(username, CommonUtils.encrypt(password), CommonUtils.VERSION, Client.getInstance().getConnectionHandlerRMI().getServerSession()));
-			} catch (RemoteException exception) {
-				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-				Client.getInstance().disconnect(false, true);
-				return;
-			}
-			if (Client.getInstance().getConnectionHandlerRMI().getClientSession() == null) {
-				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-				return;
-			}
-			Client.getInstance().setUsername(username);
-			CommonUtils.setNewWindow(Utils.SCENE_LOBBY, null, null, new Thread(Connection::sendRequestRoomList));
-		} else {
-			new PacketLogin(username, CommonUtils.encrypt(password)).send(Client.getInstance().getConnectionHandlerSocket().getOut());
-		}
-	}
-
-	/**
 	 * Tries to register with username, password and Client version.
 	 *
 	 * @param username the username.
@@ -68,13 +40,13 @@ public class Connection
 		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getConnectionHandlerRMI().setClientSession(Client.getInstance().getConnectionHandlerRMI().getLogin().sendRegistration(username, CommonUtils.encrypt(password), CommonUtils.VERSION, Client.getInstance().getConnectionHandlerRMI().getServerSession()));
+				Client.getInstance().getConnectionHandler().setClientSession(Client.getInstance().getConnectionHandler().getLogin().sendRegistration(username, CommonUtils.encrypt(password), CommonUtils.VERSION, Client.getInstance().getConnectionHandler().getServerSession()));
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, true);
 				return;
 			}
-			if (Client.getInstance().getConnectionHandlerRMI().getClientSession() == null) {
+			if (Client.getInstance().getConnectionHandler().getClientSession() == null) {
 				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
 				return;
 			}
@@ -99,10 +71,10 @@ public class Connection
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				if (Client.getInstance().getConnectionHandlerRMI().getClientSession() != null) {
-					Client.getInstance().getConnectionHandlerRMI().getClientSession().sendHeartbeat();
+				if (Client.getInstance().getConnectionHandler().getClientSession() != null) {
+					Client.getInstance().getConnectionHandler().getClientSession().sendHeartbeat();
 				} else {
-					Client.getInstance().getConnectionHandlerRMI().getLogin().sendHeartbeat();
+					Client.getInstance().getConnectionHandler().getLogin().sendHeartbeat();
 				}
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
@@ -120,7 +92,7 @@ public class Connection
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendRequestRoomList();
+				Client.getInstance().getConnectionHandler().getClientSession().sendRoomListRequest();
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, true);
@@ -140,7 +112,7 @@ public class Connection
 		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendRoomCreation(name);
+				Client.getInstance().getConnectionHandler().getClientSession().sendRoomCreation(name);
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, true);
@@ -155,7 +127,7 @@ public class Connection
 		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendRoomEntry(id);
+				Client.getInstance().getConnectionHandler().getClientSession().sendRoomEntry(id);
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, true);
@@ -169,7 +141,7 @@ public class Connection
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendRoomExit();
+				Client.getInstance().getConnectionHandler().getClientSession().sendRoomExit();
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, true);
@@ -184,7 +156,7 @@ public class Connection
 	{
 		if (Client.getInstance().getConnectionType() == ConnectionType.RMI) {
 			try {
-				Client.getInstance().getConnectionHandlerRMI().getClientSession().sendChatMessage(text);
+				Client.getInstance().getConnectionHandler().getClientSession().sendChatMessage(text);
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, true);
@@ -194,97 +166,5 @@ public class Connection
 		}
 	}
 
-	public static void handleAuthenticationConfirmation(String username)
-	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerAuthentication)) {
-			return;
-		}
-		Client.getInstance().setUsername(username);
-		CommonUtils.setNewWindow(Utils.SCENE_LOBBY, null, null, new Thread(Connection::sendRequestRoomList));
-	}
 
-	public static void handleAuthenticationFailure(String text)
-	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerAuthentication)) {
-			return;
-		}
-		Client.getLogger().log(Level.INFO, text);
-		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-	}
-
-	public static void handleDisconnectionLogMessage(String text)
-	{
-		Client.getLogger().log(Level.INFO, text);
-		Connection.sendDisconnectionAcknowledgement();
-	}
-
-	public static void handleRoomList(List<RoomInformations> rooms)
-	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerLobby)) {
-			return;
-		}
-		Platform.runLater(() -> {
-			((ControllerLobby) Client.getInstance().getWindowInformations().getController()).getRoomsListView().getItems().clear();
-			((ControllerLobby) Client.getInstance().getWindowInformations().getController()).getPlayerListView().getItems().clear();
-			for (RoomInformations roomInformations : rooms) {
-				((ControllerLobby) Client.getInstance().getWindowInformations().getController()).getRoomsListView().getItems().add(roomInformations);
-			}
-		});
-	}
-
-	public static void handleRoomCreationFailure()
-	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoomCreation)) {
-			return;
-		}
-		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-		Platform.runLater(() -> {
-			((ControllerRoomCreation) Client.getInstance().getWindowInformations().getController()).getNameTextField().setPromptText("Name already taken");
-			((ControllerRoomCreation) Client.getInstance().getWindowInformations().getController()).getNameTextField().clear();
-		});
-	}
-
-	public static void handleRoomEntryConfirmation(RoomInformations roomInformations)
-	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoomCreation) && !(Client.getInstance().getWindowInformations().getController() instanceof ControllerLobby)) {
-			return;
-		}
-		if (Client.getInstance().getWindowInformations().getController() instanceof ControllerRoomCreation) {
-			Platform.runLater(((ControllerRoomCreation) Client.getInstance().getWindowInformations().getController())::close);
-		}
-		CommonUtils.setNewWindow("/fxml/SceneRoom.fxml", null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(roomInformations.getName(), roomInformations.getPlayerNames()))), null);
-	}
-
-	public static void handleRoomEntryOther(String name)
-	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoom)) {
-			return;
-		}
-		Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getPlayersListView().getItems().add(name));
-	}
-
-	public static void handleRoomExitOther(String name)
-	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoom)) {
-			return;
-		}
-		Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getPlayersListView().getItems().remove(name));
-	}
-
-	public static void handleChatMessage(String text)
-	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoom)) {
-			return;
-		}
-		if (((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getChatTextArea().getText().length() < 1) {
-			Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getChatTextArea().appendText(text));
-		} else {
-			Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getChatTextArea().appendText("\n" + text));
-		}
-	}
-
-	public static void handleLogMessage(String text)
-	{
-		Client.getLogger().log(Level.INFO, text);
-	}
 }

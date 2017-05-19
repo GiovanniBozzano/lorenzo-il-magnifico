@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.client;
 
 import it.polimi.ingsw.lim.client.gui.ControllerConnection;
+import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.network.rmi.ConnectionHandlerRMI;
 import it.polimi.ingsw.lim.client.network.socket.ConnectionHandlerSocket;
 import it.polimi.ingsw.lim.client.utils.Utils;
@@ -24,8 +25,7 @@ public class Client extends Instance
 	private String ip;
 	private int port;
 	private String username;
-	private ConnectionHandlerRMI connectionHandlerRMI;
-	private ConnectionHandlerSocket connectionHandlerSocket;
+	private ConnectionHandler connectionHandler;
 	private boolean isConnected;
 
 	/**
@@ -45,12 +45,12 @@ public class Client extends Instance
 		this.isConnected = false;
 		this.getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (connectionType == ConnectionType.RMI) {
-			this.connectionHandlerRMI = new ConnectionHandlerRMI();
-			this.connectionHandlerRMI.start();
+			this.connectionHandler = new ConnectionHandlerRMI();
 		} else {
-			this.connectionHandlerSocket = new ConnectionHandlerSocket();
-			this.connectionHandlerSocket.start();
+			this.connectionHandler = new ConnectionHandlerSocket();
 		}
+		this.connectionHandler.start();
+
 	}
 
 	/**
@@ -74,13 +74,8 @@ public class Client extends Instance
 	 */
 	public void disconnect(boolean isStopping, boolean notifyServer)
 	{
-		if (this.isConnected) {
-			this.isConnected = false;
-			if (this.connectionType == ConnectionType.RMI) {
-				this.connectionHandlerRMI.disconnect(notifyServer);
-			} else if (this.connectionType == ConnectionType.SOCKET) {
-				this.connectionHandlerSocket.disconnect();
-			}
+		if (this.connectionHandler != null) {
+			this.connectionHandler.disconnect(notifyServer);
 			Client.getLogger().log(Level.INFO, "Connection closed.");
 		}
 		if (isStopping) {
@@ -136,18 +131,8 @@ public class Client extends Instance
 		this.username = username;
 	}
 
-	public ConnectionHandlerRMI getConnectionHandlerRMI()
+	public ConnectionHandler getConnectionHandler()
 	{
-		return this.connectionHandlerRMI;
-	}
-
-	public ConnectionHandlerSocket getConnectionHandlerSocket()
-	{
-		return this.connectionHandlerSocket;
-	}
-
-	public void setConnected(boolean isConnected)
-	{
-		this.isConnected = isConnected;
+		return this.connectionHandler;
 	}
 }

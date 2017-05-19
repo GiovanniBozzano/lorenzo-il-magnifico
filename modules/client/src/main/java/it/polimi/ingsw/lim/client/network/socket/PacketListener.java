@@ -19,7 +19,7 @@ class PacketListener extends Thread
 		while (this.keepGoing) {
 			Packet packet;
 			try {
-				packet = (Packet) Client.getInstance().getConnectionHandlerSocket().getIn().readObject();
+				packet = (Packet) ((ConnectionHandlerSocket) Client.getInstance().getConnectionHandler()).getIn().readObject();
 			} catch (ClassNotFoundException | IOException exception) {
 				if (!this.keepGoing) {
 					return;

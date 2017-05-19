@@ -69,7 +69,7 @@ public abstract class Connection implements IConnection
 	}
 
 	@Override
-	public void handleRequestRoomList()
+	public void handleRoomListRequest()
 	{
 		this.sendRoomList(Utils.convertRoomsToInformations());
 	}

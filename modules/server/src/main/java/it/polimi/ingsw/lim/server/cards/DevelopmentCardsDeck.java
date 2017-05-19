@@ -209,7 +209,6 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 					stringBuilder.append("      amount: ").append(resourceAmounts[indexResourceAmounts].getAmount()).append("\n");
 				}
 				stringBuilder.append("activation_cost: ").append(developmentCardBuilding.getActivationCost()).append("\n");
-				/* manca tradeoptions
 			}
 		}
 	}

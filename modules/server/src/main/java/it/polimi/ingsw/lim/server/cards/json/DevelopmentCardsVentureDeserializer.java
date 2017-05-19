@@ -28,7 +28,7 @@ public class DevelopmentCardsVentureDeserializer implements JsonDeserializer<Dev
 		for (int index = 0; index < periodArray.size() && index < 8; index++) {
 			JsonObject card = periodArray.get(index).getAsJsonObject();
 			String displayName = card.get("display_name").getAsString();
-			/*JsonArray resourceTradeOptionsJson = card.get("resource_trade_options").getAsJsonArray();
+			JsonArray resourceTradeOptionsJson = card.get("resource_trade_options").getAsJsonArray();
 			ResourceTradeOption[] resourceTradeOptions = new ResourceTradeOption[resourceTradeOptionsJson.size()];
 			for (int indexResourceTradeOptions = 0; indexResourceTradeOptions < resourceTradeOptionsJson.size(); indexResourceTradeOptions++) {
 				JsonArray employedResourcesJson = resourceTradeOptionsJson.get(indexResourceTradeOptions).getAsJsonArray();
@@ -48,7 +48,7 @@ public class DevelopmentCardsVentureDeserializer implements JsonDeserializer<Dev
 					}
 				}
 				resourceTradeOptions[indexResourceTradeOptions] = new ResourceTradeOption(employedResources, producedResources);
-			}*/
+			}
 			JsonObject instantReward = card.get("instant_reward").getAsJsonObject();
 			JsonArray instantRewardEventsJson = instantReward.get("events").getAsJsonArray();
 			Event[] instantRewardEvents = new Event[instantRewardEventsJson.size()];

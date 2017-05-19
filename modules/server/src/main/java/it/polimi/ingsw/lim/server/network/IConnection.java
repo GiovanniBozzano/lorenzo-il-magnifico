@@ -25,7 +25,7 @@ public interface IConnection
 
 	void sendChatMessage(String text);
 
-	void handleRequestRoomList();
+	void handleRoomListRequest();
 
 	void handleRoomCreation(String name);
 

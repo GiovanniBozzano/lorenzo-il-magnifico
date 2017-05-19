@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 
@@ -34,22 +35,16 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			Client.getLogger().log(Level.INFO, "Could not connect to host.", exception);
 			return;
 		}
-		Client.getInstance().setConnected(true);
 		this.packetListener = new PacketListener();
 		this.packetListener.start();
 		this.getHeartbeat().scheduleAtFixedRate(Connection::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 		CommonUtils.setNewWindow(Utils.SCENE_AUTHENTICATION, null, null, null);
 	}
 
-	public void disconnect()
+	@Override
+	public void disconnect(boolean notifyServer)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
-		this.getHeartbeat().shutdownNow();
+		super.disconnect(notifyServer);
 		this.packetListener.end();
 		try {
 			this.in.close();
@@ -59,6 +54,20 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
+
+	@Override
+	public synchronized void sendLogin(String username, String password)
+	{
+		super.sendLogin(username, password);
+		new PacketLogin(username, CommonUtils.encrypt(password)).send(this.out);
+	}
+
+	public void handleDisconnectionLogMessage(String text)
+	{
+		Client.getLogger().log(Level.INFO, text);
+		this.sendDisconnectionAcknowledgement();
+	}
+
 
 	ObjectInputStream getIn()
 	{

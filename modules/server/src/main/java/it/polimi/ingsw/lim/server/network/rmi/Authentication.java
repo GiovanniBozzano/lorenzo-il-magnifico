@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.network.rmi;
 
+import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
 import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
@@ -35,47 +36,40 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	}
 
 	@Override
-	public IClientSession sendLogin(String username, String password, String version, IServerSession serverSession) throws RemoteException
+	public IClientSession sendLogin(String username, String password, String version, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
 	{
 		String trimmedUsername = username.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		int connectionId = Server.getInstance().getConnectionId();
 		if (!version.equals(CommonUtils.VERSION)) {
-			serverSession.sendLogMessage("Client version not compatible with the Server.");
-			return null;
+			throw new AuthenticationFailedException("Client version not compatible with the Server.");
 		}
 		if (!trimmedUsername.matches(CommonUtils.REGEX_USERNAME)) {
-			serverSession.sendLogMessage("Incorrect username.");
-			return null;
+			throw new AuthenticationFailedException("Incorrect username.");
 		}
 		String decryptedPassword = CommonUtils.decrypt(password);
 		if (decryptedPassword == null || decryptedPassword.length() < 1) {
-			serverSession.sendLogMessage("Incorrect password.");
-			return null;
+			throw new AuthenticationFailedException("Incorrect password.");
 		}
 		for (Connection connection : Server.getInstance().getConnections()) {
 			if (connection.getUsername().equals(trimmedUsername)) {
-				serverSession.sendLogMessage("Already logged in.");
-				return null;
+				throw new AuthenticationFailedException("Already logged in.");
 			}
 		}
 		List<QueryArgument> queryArguments = new ArrayList<>();
 		queryArguments.add(new QueryArgument(QueryValueType.STRING, trimmedUsername));
 		try (ResultSet resultSet = Utils.sqlRead(QueryRead.GET_PASSWORD_AND_SALT_WITH_USERNAME, queryArguments)) {
 			if (!resultSet.next()) {
-				serverSession.sendLogMessage("Incorrect username.");
 				resultSet.getStatement().close();
-				return null;
+				throw new AuthenticationFailedException("Incorrect username.");
 			}
 			if (!Utils.sha512Encrypt(decryptedPassword, resultSet.getBytes(Database.TABLE_PLAYERS_COLUMN_SALT)).equals(resultSet.getString(Database.TABLE_PLAYERS_COLUMN_PASSWORD))) {
-				serverSession.sendLogMessage("Incorrect password.");
 				resultSet.getStatement().close();
-				return null;
+				throw new AuthenticationFailedException("Incorrect password.");
 			}
 			resultSet.getStatement().close();
 		} catch (SQLException | NoSuchAlgorithmException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			serverSession.sendLogMessage("Server error.");
-			return null;
+			throw new AuthenticationFailedException("Server error.");
 		}
 		try {
 			Utils.displayToLog("RMI Player " + UnicastRemoteObject.getClientHost() + " logged in as: " + trimmedUsername);
@@ -90,30 +84,26 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	}
 
 	@Override
-	public IClientSession sendRegistration(String username, String password, String version, IServerSession serverSession) throws RemoteException
+	public IClientSession sendRegistration(String username, String password, String version, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
 	{
 		String trimmedUsername = username.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		int connectionId = Server.getInstance().getConnectionId();
 		if (!version.equals(CommonUtils.VERSION)) {
-			serverSession.sendLogMessage("Client version not compatible with the Server.");
-			return null;
+			throw new AuthenticationFailedException("Client version not compatible with the Server.");
 		}
 		if (!trimmedUsername.matches(CommonUtils.REGEX_USERNAME)) {
-			serverSession.sendLogMessage("Incorrect username.");
-			return null;
+			throw new AuthenticationFailedException("Incorrect username.");
 		}
 		String decryptedPassword = CommonUtils.decrypt(password);
 		if (decryptedPassword == null || decryptedPassword.length() < 1) {
-			serverSession.sendLogMessage("Incorrect password.");
-			return null;
+			throw new AuthenticationFailedException("Incorrect password.");
 		}
 		List<QueryArgument> queryArguments = new ArrayList<>();
 		queryArguments.add(new QueryArgument(QueryValueType.STRING, trimmedUsername));
 		try (ResultSet resultSet = Utils.sqlRead(QueryRead.CHECK_EXISTING_USERNAME, queryArguments)) {
 			if (resultSet.next()) {
-				serverSession.sendLogMessage("Username already taken.");
 				resultSet.getStatement().close();
-				return null;
+				throw new AuthenticationFailedException("Username already taken.");
 			}
 			resultSet.getStatement().close();
 			byte[] salt = Utils.getSalt();
@@ -131,8 +121,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			});
 		} catch (SQLException | NoSuchAlgorithmException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			serverSession.sendLogMessage("Server error.");
-			return null;
+			throw new AuthenticationFailedException("Server error.");
 		}
 		try {
 			Utils.displayToLog("RMI Player " + UnicastRemoteObject.getClientHost() + " registerd as: " + trimmedUsername);

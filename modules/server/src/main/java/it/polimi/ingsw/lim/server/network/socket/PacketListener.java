@@ -23,11 +23,23 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 class PacketListener extends Thread
 {
+	private static final Map<PacketType, IPacketHandler> PACKET_HANDLERS = new HashMap<>();
+
+	static {
+		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, (connectionSocket, packet) -> connectionSocket.handleChatMessage(((PacketChatMessage) packet).getText()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_CREATION, (connectionSocket, packet) -> connectionSocket.handleRoomCreation(((PacketRoomCreation) packet).getName()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_ENTRY, (connectionSocket, packet) -> connectionSocket.handleRoomEntry(((PacketRoomEntry) packet).getId()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_EXIT, (connectionSocket, packet) -> connectionSocket.handleRoomExit());
+		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_LIST_REQUEST, (connectionSocket, packet) -> connectionSocket.handleRoomListRequest());
+	}
+
 	private final ConnectionSocket connectionSocket;
 	private volatile boolean keepGoing = true;
 
@@ -59,24 +71,7 @@ class PacketListener extends Thread
 				this.connectionSocket.disconnect(false, null);
 				return;
 			}
-			switch (packet.getPacketType()) {
-				case ROOM_LIST_REQUEST:
-					this.connectionSocket.handleRequestRoomList();
-					break;
-				case ROOM_CREATION:
-					this.connectionSocket.handleRoomCreation(((PacketRoomCreation) packet).getName());
-					break;
-				case ROOM_ENTRY:
-					this.connectionSocket.handleRoomEntry(((PacketRoomEntry) packet).getId());
-					break;
-				case ROOM_EXIT:
-					this.connectionSocket.handleRoomExit();
-					break;
-				case CHAT_MESSAGE:
-					this.connectionSocket.handleChatMessage(((PacketChatMessage) packet).getText());
-					break;
-				default:
-			}
+			PacketListener.PACKET_HANDLERS.get(packet.getPacketType()).execute(this.connectionSocket, packet);
 		}
 	}
 
