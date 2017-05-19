@@ -13,7 +13,7 @@ public class PlayerInformations
 	private final Map<FamilyMemberType, ActionType> familyMembersPositions = new HashMap<>();
 
 	public PlayerInformations(PlayerResourceHandler playerResourceHandler)
-	{   
+	{
 		this.playerResourceHandler = playerResourceHandler;
 		this.familyMembersPositions.put(FamilyMemberType.BLACK, ActionType.NONE);
 		this.familyMembersPositions.put(FamilyMemberType.ORANGE, ActionType.NONE);

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client.gui;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.WindowInformations;
 import javafx.fxml.FXML;
@@ -34,7 +33,7 @@ public class ControllerRoomCreation implements Initializable
 			this.nameTextField.setPromptText("Insert a valid name");
 			return;
 		}
-		Connection.sendRoomCreation(name);
+		Client.getInstance().getConnectionHandler().sendRoomCreation(name);
 	}
 
 	@FXML
@@ -42,7 +41,7 @@ public class ControllerRoomCreation implements Initializable
 	{
 		Client.getInstance().getWindowInformations().getStage().close();
 		Client.getInstance().setWindowInformations(ControllerRoomCreation.previousWindowInformations);
-		Connection.sendRequestRoomList();
+		Client.getInstance().getConnectionHandler().sendRequestRoomList();
 	}
 
 	@Override

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-public abstract class Connection implements IConnection
+public abstract class Connection
 {
 	private final int id;
 	private String username;
@@ -50,7 +50,6 @@ public abstract class Connection implements IConnection
 		}
 	}
 
-	@Override
 	public void disconnect(boolean flag, String message)
 	{
 		this.heartbeat.shutdownNow();
@@ -68,13 +67,27 @@ public abstract class Connection implements IConnection
 		Connection.broadcastRoomsUpdate();
 	}
 
-	@Override
+	public abstract void sendHeartbeat();
+
+	public abstract void sendRoomList(List<RoomInformations> rooms);
+
+	public abstract void sendRoomCreationFailure();
+
+	public abstract void sendRoomEntryConfirmation(RoomInformations roomInformations);
+
+	public abstract void sendRoomEntryOther(String name);
+
+	public abstract void sendRoomExitOther(String name);
+
+	public abstract void sendLogMessage(String text);
+
+	public abstract void sendChatMessage(String text);
+
 	public void handleRoomListRequest()
 	{
 		this.sendRoomList(Utils.convertRoomsToInformations());
 	}
 
-	@Override
 	public void handleRoomCreation(String name)
 	{
 		String trimmedName = name.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
@@ -98,7 +111,6 @@ public abstract class Connection implements IConnection
 		Connection.broadcastRoomsUpdate();
 	}
 
-	@Override
 	public void handleRoomEntry(int id)
 	{
 		if (Utils.getPlayersInRooms().contains(this)) {
@@ -128,7 +140,6 @@ public abstract class Connection implements IConnection
 		Connection.broadcastRoomsUpdate();
 	}
 
-	@Override
 	public void handleRoomExit()
 	{
 		for (Room room : Server.getInstance().getRooms()) {
@@ -147,7 +158,6 @@ public abstract class Connection implements IConnection
 		Connection.broadcastRoomsUpdate();
 	}
 
-	@Override
 	public void handleChatMessage(String text)
 	{
 		for (Connection otherConnection : Utils.getPlayersInRooms()) {
@@ -157,26 +167,22 @@ public abstract class Connection implements IConnection
 		}
 	}
 
-	@Override
 	public int getId()
 	{
 		return this.id;
 	}
 
-	@Override
 	public String getUsername()
 	{
 		return this.username;
 	}
 
-	@Override
 	public void setUsername(String username)
 	{
 		this.username = username;
 	}
 
-	@Override
-	public ScheduledExecutorService getHeartbeat()
+	protected ScheduledExecutorService getHeartbeat()
 	{
 		return this.heartbeat;
 	}

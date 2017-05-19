@@ -1,10 +1,14 @@
 package it.polimi.ingsw.lim.server.utils;
 
+import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.enums.Command;
 import it.polimi.ingsw.lim.server.enums.QueryRead;
+import it.polimi.ingsw.lim.server.enums.QueryValueType;
 import it.polimi.ingsw.lim.server.enums.QueryWrite;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
@@ -160,6 +164,80 @@ public class Utils
 			}
 		}
 		return playersInRooms;
+	}
+
+	public static void checkLogin(String version, String username, String password) throws AuthenticationFailedException
+	{
+		if (!version.equals(CommonUtils.VERSION)) {
+			throw new AuthenticationFailedException("Client version not compatible with the Server.");
+		}
+		if (!username.matches(CommonUtils.REGEX_USERNAME)) {
+			throw new AuthenticationFailedException("Incorrect username.");
+		}
+		String decryptedPassword = CommonUtils.decrypt(password);
+		if (decryptedPassword == null || decryptedPassword.length() < 1) {
+			throw new AuthenticationFailedException("Incorrect password.");
+		}
+		for (Connection connection : Server.getInstance().getConnections()) {
+			if (connection.getUsername().equals(username)) {
+				throw new AuthenticationFailedException("Already logged in.");
+			}
+		}
+		List<QueryArgument> queryArguments = new ArrayList<>();
+		queryArguments.add(new QueryArgument(QueryValueType.STRING, username));
+		try (ResultSet resultSet = Utils.sqlRead(QueryRead.GET_PASSWORD_AND_SALT_WITH_USERNAME, queryArguments)) {
+			if (!resultSet.next()) {
+				resultSet.getStatement().close();
+				throw new AuthenticationFailedException("Incorrect username.");
+			}
+			if (!Utils.sha512Encrypt(decryptedPassword, resultSet.getBytes(Database.TABLE_PLAYERS_COLUMN_SALT)).equals(resultSet.getString(Database.TABLE_PLAYERS_COLUMN_PASSWORD))) {
+				resultSet.getStatement().close();
+				throw new AuthenticationFailedException("Incorrect password.");
+			}
+			resultSet.getStatement().close();
+		} catch (SQLException | NoSuchAlgorithmException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			throw new AuthenticationFailedException("Server error.");
+		}
+	}
+
+	public static void checkRegistration(String version, String username, String password) throws AuthenticationFailedException
+	{
+		if (!version.equals(CommonUtils.VERSION)) {
+			throw new AuthenticationFailedException("Client version not compatible with the Server.");
+		}
+		if (!username.matches(CommonUtils.REGEX_USERNAME)) {
+			throw new AuthenticationFailedException("Incorrect username.");
+		}
+		String decryptedPassword = CommonUtils.decrypt(password);
+		if (decryptedPassword == null || decryptedPassword.length() < 1) {
+			throw new AuthenticationFailedException("Incorrect password.");
+		}
+		List<QueryArgument> queryArguments = new ArrayList<>();
+		queryArguments.add(new QueryArgument(QueryValueType.STRING, username));
+		try (ResultSet resultSet = Utils.sqlRead(QueryRead.CHECK_EXISTING_USERNAME, queryArguments)) {
+			if (resultSet.next()) {
+				resultSet.getStatement().close();
+				throw new AuthenticationFailedException("Username already taken.");
+			}
+			resultSet.getStatement().close();
+			byte[] salt = Utils.getSalt();
+			String encryptedPassword = Utils.sha512Encrypt(decryptedPassword, salt);
+			queryArguments.clear();
+			queryArguments.add(new QueryArgument(QueryValueType.STRING, username));
+			queryArguments.add(new QueryArgument(QueryValueType.STRING, encryptedPassword));
+			queryArguments.add(new QueryArgument(QueryValueType.BYTES, salt));
+			Server.getInstance().getDatabaseSaver().execute(() -> {
+				try {
+					Utils.sqlWrite(QueryWrite.INSERT_USERNAME_AND_PASSWORD_AND_SALT, queryArguments);
+				} catch (SQLException exception) {
+					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				}
+			});
+		} catch (SQLException | NoSuchAlgorithmException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			throw new AuthenticationFailedException("Server error.");
+		}
 	}
 
 	/**

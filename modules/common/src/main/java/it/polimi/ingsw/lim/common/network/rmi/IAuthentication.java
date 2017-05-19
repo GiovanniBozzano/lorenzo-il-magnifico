@@ -2,7 +2,6 @@ package it.polimi.ingsw.lim.common.network.rmi;
 
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 
-import javax.naming.AuthenticationException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 

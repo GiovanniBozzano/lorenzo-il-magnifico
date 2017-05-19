@@ -59,15 +59,25 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	}
 
 	@Override
-	public boolean equals(Object object)
+	public boolean equals(Object o)
 	{
-		return object instanceof ClientSession && this.connectionRmi == ((ClientSession) object).connectionRmi;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || this.getClass() != o.getClass()) {
+			return false;
+		}
+		if (!super.equals(o)) {
+			return false;
+		}
+		ClientSession that = (ClientSession) o;
+		return Objects.equals(this.connectionRmi, that.connectionRmi);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(this.connectionRmi.getId());
+		return Objects.hash(super.hashCode(), this.connectionRmi);
 	}
 
 	ConnectionRMI getConnectionRMI()

@@ -45,13 +45,56 @@ public abstract class ConnectionHandler extends Thread
 		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 	}
 
+	/**
+	 * Tries to register with username, password and Client version.
+	 *
+	 * @param username the username.
+	 * @param password the password.
+	 */
+	public synchronized void sendRegistration(String username, String password)
+	{
+		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
+	}
+
+	/**
+	 * Tries to send an heartbeat to check the connection status.
+	 */
+	public abstract void sendHeartbeat();
+
+	/**
+	 * Sends a request to the Server asking for a room list refresh.
+	 */
+	public abstract void sendRequestRoomList();
+
+	/**
+	 * Sends to the Server the newly created room to be verified.
+	 *
+	 * @param name the name of the newly created room.
+	 */
+	public synchronized void sendRoomCreation(String name)
+	{
+		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
+	}
+
+	public synchronized void sendRoomEntry(int id)
+	{
+		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
+	}
+
+	public synchronized void sendRoomExit()
+	{
+		CommonUtils.setNewWindow(Utils.SCENE_LOBBY, null, null, new Thread(this::sendRequestRoomList));
+	}
+
+	public abstract void sendChatMessage(String text);
+
 	public void handleAuthenticationConfirmation(String username)
 	{
 		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerAuthentication)) {
 			return;
 		}
 		Client.getInstance().setUsername(username);
-		CommonUtils.setNewWindow(Utils.SCENE_LOBBY, null, null, new Thread(Connection::sendRequestRoomList));
+		CommonUtils.setNewWindow(Utils.SCENE_LOBBY, null, null, new Thread(this::sendRequestRoomList));
 	}
 
 	public void handleAuthenticationFailure(String text)

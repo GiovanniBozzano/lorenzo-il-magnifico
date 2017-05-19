@@ -50,7 +50,6 @@ public class Client extends Instance
 			this.connectionHandler = new ConnectionHandlerSocket();
 		}
 		this.connectionHandler.start();
-
 	}
 
 	/**

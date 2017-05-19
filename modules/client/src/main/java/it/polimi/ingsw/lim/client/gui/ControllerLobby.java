@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client.gui;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
@@ -19,9 +18,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.awt.Desktop.Action;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -53,7 +49,7 @@ public class ControllerLobby implements Initializable
 		if (this.roomsListView.getSelectionModel().getSelectedItem() == null) {
 			return;
 		}
-		Connection.sendRoomEntry(this.roomsListView.getSelectionModel().getSelectedItem().getId());
+		Client.getInstance().getConnectionHandler().sendRoomEntry(this.roomsListView.getSelectionModel().getSelectedItem().getId());
 	}
 
 	@FXML
@@ -70,7 +66,7 @@ public class ControllerLobby implements Initializable
 			stage.sizeToScene();
 			stage.setOnCloseRequest(event -> {
 				Client.getInstance().setWindowInformations(ControllerRoomCreation.getPreviousWindowInformations());
-				Connection.sendRequestRoomList();
+				Client.getInstance().getConnectionHandler().sendRequestRoomList();
 			});
 			Client.getInstance().setWindowInformations(new WindowInformations(fxmlLoader.getController(), stage));
 			stage.show();

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client.network.rmi;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.RoomInformations;
 
@@ -31,42 +30,42 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	@Override
 	public void sendRoomList(List<RoomInformations> rooms) throws RemoteException
 	{
-		Connection.handleRoomList(rooms);
+		Client.getInstance().getConnectionHandler().handleRoomList(rooms);
 	}
 
 	@Override
 	public void sendRoomCreationFailure()
 	{
-		Connection.handleRoomCreationFailure();
+		Client.getInstance().getConnectionHandler().handleRoomCreationFailure();
 	}
 
 	@Override
 	public void sendRoomEntryConfirmation(RoomInformations roomInformations) throws RemoteException
 	{
-		Connection.handleRoomEntryConfirmation(roomInformations);
+		Client.getInstance().getConnectionHandler().handleRoomEntryConfirmation(roomInformations);
 	}
 
 	@Override
 	public void sendRoomEntryOther(String name) throws RemoteException
 	{
-		Connection.handleRoomEntryOther(name);
+		Client.getInstance().getConnectionHandler().handleRoomEntryOther(name);
 	}
 
 	@Override
 	public void sendRoomExitOther(String name) throws RemoteException
 	{
-		Connection.handleRoomExitOther(name);
+		Client.getInstance().getConnectionHandler().handleRoomExitOther(name);
 	}
 
 	@Override
 	public void sendLogMessage(String text) throws RemoteException
 	{
-		Connection.handleLogMessage(text);
+		Client.getInstance().getConnectionHandler().handleLogMessage(text);
 	}
 
 	@Override
 	public void sendChatMessage(String text) throws RemoteException
 	{
-		Connection.handleChatMessage(text);
+		Client.getInstance().getConnectionHandler().handleChatMessage(text);
 	}
 }

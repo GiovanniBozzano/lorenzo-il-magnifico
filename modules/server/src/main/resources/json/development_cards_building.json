@@ -33,7 +33,7 @@
 			]
 		},
 		{
-			"display_name": "ESATTORIA",			
+			"display_name": "ESATTORIA",
 			"build_resources": [
 				{
 					"type": "WOOD",
@@ -65,7 +65,7 @@
 			]
 		},
 		{
-			"display_name": "ARCO_TRIONFO",			
+			"display_name": "ARCO_TRIONFO",
 			"build_resources": [
 				{
 					"type": "COIN",
@@ -97,7 +97,7 @@
 			]
 		},
 		{
-			"display_name": "TEATRO",			
+			"display_name": "TEATRO",
 			"build_resources": [
 				{
 					"type": "COIN",
@@ -129,7 +129,7 @@
 			]
 		},
 		{
-			"display_name": "FALEGNAMERIA",			
+			"display_name": "FALEGNAMERIA",
 			"build_resources": [
 				{
 					"type": "COIN",
@@ -179,7 +179,7 @@
 			]
 		},
 		{
-			"display_name": "TAGLIAPIETRE",			
+			"display_name": "TAGLIAPIETRE",
 			"build_resources": [
 				{
 					"type": "COIN",
@@ -229,7 +229,7 @@
 			]
 		},
 		{
-			"display_name": "CAPPELLA",			
+			"display_name": "CAPPELLA",
 			"build_resources": [
 				{
 					"type": "WOOD",
@@ -261,7 +261,7 @@
 			]
 		},
 		{
-			"display_name": "RESIDENZA",			
+			"display_name": "RESIDENZA",
 			"build_resources": [
 				{
 					"type": "STONE",
@@ -335,7 +335,7 @@
 			]
 		},
 		{
-			"display_name": "TESORERIA",			
+			"display_name": "TESORERIA",
 			"build_resources": [
 				{
 					"type": "WOOD",
@@ -381,7 +381,7 @@
 			]
 		},
 		{
-			"display_name": "GILDA_PITTORI",			
+			"display_name": "GILDA_PITTORI",
 			"build_resources": [
 				{
 					"type": "WOOD",
@@ -427,7 +427,7 @@
 			]
 		},
 		{
-			"display_name": "GILDA_SCULTORI",			
+			"display_name": "GILDA_SCULTORI",
 			"build_resources": [
 				{
 					"type": "STONE",
@@ -473,7 +473,7 @@
 			]
 		},
 		{
-			"display_name": "GILDA_COSTRUTTORI",			
+			"display_name": "GILDA_COSTRUTTORI",
 			"build_resources": [
 				{
 					"type": "WOOD",
@@ -517,7 +517,7 @@
 			]
 		},
 		{
-			"display_name": "BATTISTERO",			
+			"display_name": "BATTISTERO",
 			"build_resources": [
 				{
 					"type": "STONE",
@@ -557,7 +557,7 @@
 			]
 		},
 		{
-			"display_name": "CASERMA",			
+			"display_name": "CASERMA",
 			"build_resources": [
 				{
 					"type": "WOOD",
@@ -593,7 +593,7 @@
 			]
 		},
 		{
-			"display_name": "FORTEZZA",			
+			"display_name": "FORTEZZA",
 			"build_resources": [
 				{
 					"type": "COIN",
@@ -669,7 +669,7 @@
 			]
 		},
 		{
-			"display_name": "FIERA",			
+			"display_name": "FIERA",
 			"build_resources": [
 				{
 					"type": "COIN",
@@ -704,13 +704,12 @@
 							"type": "STONE",
 							"amount": 3
 						}
-
 					]
 				}
 			]
 		},
 		{
-			"display_name": "GIARDINO",			
+			"display_name": "GIARDINO",
 			"build_resources": [
 				{
 					"type": "SERVANT",
@@ -745,7 +744,7 @@
 			]
 		},
 		{
-			"display_name": "CASTELLETTO",			
+			"display_name": "CASTELLETTO",
 			"build_resources": [
 				{
 					"type": "COIN",
@@ -784,7 +783,7 @@
 			]
 		},
 		{
-			"display_name": "PALAZZO",			
+			"display_name": "PALAZZO",
 			"build_resources": [
 				{
 					"type": "COIN",
@@ -828,7 +827,7 @@
 			]
 		},
 		{
-			"display_name": "BASILICA",			
+			"display_name": "BASILICA",
 			"build_resources": [
 				{
 					"type": "WOOD",
@@ -882,7 +881,7 @@
 			]
 		},
 		{
-			"display_name": "ACCADEMIA_MILITARE",			
+			"display_name": "ACCADEMIA_MILITARE",
 			"build_resources": [
 				{
 					"type": "SERVANT",
@@ -926,7 +925,7 @@
 			]
 		},
 		{
-			"display_name": "CATTEDRALE",			
+			"display_name": "CATTEDRALE",
 			"build_resources": [
 				{
 					"type": "WOOD",

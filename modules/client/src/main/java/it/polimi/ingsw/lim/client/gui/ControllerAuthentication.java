@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.client.gui;
 
-import it.polimi.ingsw.lim.client.network.Connection;
+import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,7 +33,7 @@ public class ControllerAuthentication implements Initializable
 			this.passwordTextField.setPromptText("Insert a password");
 			return;
 		}
-		Connection.sendLogin(username, this.passwordTextField.getText());
+		Client.getInstance().getConnectionHandler().sendLogin(username, this.passwordTextField.getText());
 	}
 
 	@FXML
@@ -50,7 +50,7 @@ public class ControllerAuthentication implements Initializable
 			this.passwordTextField.setPromptText("Insert a password");
 			return;
 		}
-		Connection.sendRegistration(username, this.passwordTextField.getText());
+		Client.getInstance().getConnectionHandler().sendRegistration(username, this.passwordTextField.getText());
 	}
 
 	@Override

@@ -1,10 +1,15 @@
 package it.polimi.ingsw.lim.client.network.socket;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.network.Connection;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
+import it.polimi.ingsw.lim.common.enums.PacketType;
+import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
+import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomCreation;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomEntry;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 
@@ -37,7 +42,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		}
 		this.packetListener = new PacketListener();
 		this.packetListener.start();
-		this.getHeartbeat().scheduleAtFixedRate(Connection::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
+		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 		CommonUtils.setNewWindow(Utils.SCENE_AUTHENTICATION, null, null, null);
 	}
 
@@ -62,20 +67,65 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		new PacketLogin(username, CommonUtils.encrypt(password)).send(this.out);
 	}
 
-	public void handleDisconnectionLogMessage(String text)
+	@Override
+	public synchronized void sendRegistration(String username, String password)
+	{
+		super.sendRegistration(username, password);
+		new PacketRegistration(username, CommonUtils.encrypt(password)).send(this.out);
+	}
+
+	private synchronized void sendDisconnectionAcknowledgement()
+	{
+		new Packet(PacketType.DISCONNECTION_ACKNOWLEDGEMENT).send(this.out);
+	}
+
+	@Override
+	public synchronized void sendHeartbeat()
+	{
+		new Packet(PacketType.HEARTBEAT).send(this.out);
+	}
+
+	@Override
+	public synchronized void sendRequestRoomList()
+	{
+		new Packet(PacketType.ROOM_LIST_REQUEST).send(this.out);
+	}
+
+	@Override
+	public synchronized void sendRoomCreation(String name)
+	{
+		super.sendRoomCreation(name);
+		new PacketRoomCreation(name).send(this.out);
+	}
+
+	@Override
+	public synchronized void sendRoomEntry(int id)
+	{
+		super.sendRoomEntry(id);
+		new PacketRoomEntry(id).send(this.out);
+	}
+
+	@Override
+	public synchronized void sendRoomExit()
+	{
+		new Packet(PacketType.ROOM_EXIT).send(this.out);
+		super.sendRoomExit();
+	}
+
+	@Override
+	public synchronized void sendChatMessage(String text)
+	{
+		new PacketChatMessage(text).send(this.out);
+	}
+
+	void handleDisconnectionLogMessage(String text)
 	{
 		Client.getLogger().log(Level.INFO, text);
 		this.sendDisconnectionAcknowledgement();
 	}
 
-
 	ObjectInputStream getIn()
 	{
 		return this.in;
-	}
-
-	public ObjectOutputStream getOut()
-	{
-		return this.out;
 	}
 }

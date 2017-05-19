@@ -6,7 +6,7 @@ import it.polimi.ingsw.lim.common.utils.ResourceTradeOption;
 
 public class DevelopmentCardBuilding extends DevelopmentCard
 {
-    /*
+	/*
 	ZECCA("YELLOW_CARD_1_1", Period.FIRST, new ResourceAmount[] { new ResourceAmount(ResourceType.WOOD, 1), new ResourceAmount(ResourceType.STONE, 3) }, new ResourceAmount[] { new ResourceAmount(ResourceType.VICTORY_POINT, 5) }, 5, new ResourceTradeOption[] { new ResourceTradeOption(new ResourceAmount[] {}, new ResourceAmount[] { new ResourceAmount(ResourceType.COIN, 1, CardType.YELLOW) }) }),
 	ESATTORIA("YELLOW_CARD_1_2", Period.FIRST, new ResourceAmount[] { new ResourceAmount(ResourceType.WOOD, 3), new ResourceAmount(ResourceType.STONE, 1) }, new ResourceAmount[] { new ResourceAmount(ResourceType.VICTORY_POINT, 5) }, 5, new ResourceTradeOption[] { new ResourceTradeOption(new ResourceAmount[] {}, new ResourceAmount[] { new ResourceAmount(ResourceType.COIN, 1, CardType.GREEN) }) }),
 	ARCO_TRIONFO("YELLOW_CARD_1_3", Period.FIRST, new ResourceAmount[] { new ResourceAmount(ResourceType.COIN, 2), new ResourceAmount(ResourceType.STONE, 2) }, new ResourceAmount[] { new ResourceAmount(ResourceType.VICTORY_POINT, 6) }, 6, new ResourceTradeOption[] { new ResourceTradeOption(new ResourceAmount[] {}, new ResourceAmount[] { new ResourceAmount(ResourceType.VICTORY_POINT, 1, CardType.PURPLE) }) }),
@@ -56,7 +56,13 @@ public class DevelopmentCardBuilding extends DevelopmentCard
 		return this.instantResources;
 	}
 
-	public int getActivationCost() {return this.activationCost;}
+	public int getActivationCost()
+	{
+		return this.activationCost;
+	}
 
-	public ResourceTradeOption[] getResourceTradeOptions() {return this.resourceTradeOptions;}
+	public ResourceTradeOption[] getResourceTradeOptions()
+	{
+		return this.resourceTradeOptions;
+	}
 }

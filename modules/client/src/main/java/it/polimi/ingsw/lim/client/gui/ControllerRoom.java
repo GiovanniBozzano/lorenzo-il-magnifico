@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.client.gui;
 
-import it.polimi.ingsw.lim.client.network.Connection;
+import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,7 +27,7 @@ public class ControllerRoom implements Initializable
 			return;
 		}
 		((TextField) event.getSource()).clear();
-		Connection.sendChatMessage(text);
+		Client.getInstance().getConnectionHandler().sendChatMessage(text);
 		if (this.chatTextArea.getText().length() < 1) {
 			this.chatTextArea.appendText("[ME]: " + text);
 		} else {
@@ -38,7 +38,7 @@ public class ControllerRoom implements Initializable
 	@FXML
 	private void handleExitButtonAction()
 	{
-		Connection.sendRoomExit();
+		Client.getInstance().getConnectionHandler().sendRoomExit();
 	}
 
 	@Override
