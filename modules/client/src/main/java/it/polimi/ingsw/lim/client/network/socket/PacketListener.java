@@ -7,25 +7,25 @@ import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.server.*;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Level;
 
 class PacketListener extends Thread
 {
-	private static final Map<PacketType, IPacketHandler> PACKET_HANDLERS = new HashMap<>();
+	private static final Map<PacketType, IPacketHandler> PACKET_HANDLERS = new EnumMap<>(PacketType.class);
 
 	static {
-		PacketListener.PACKET_HANDLERS.put(PacketType.AUTHENTICATION_CONFIRMATION, (packet) -> Client.getInstance().getConnectionHandler().handleAuthenticationConfirmation(((PacketAuthenticationConfirmation) packet).getUsername()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.AUTHENTICATION_FAILURE, (packet) -> Client.getInstance().getConnectionHandler().handleAuthenticationFailure(((PacketAuthenticationFailure) packet).getText()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.DISCONNECTION_LOG_MESSAGE, (packet) -> ((ConnectionHandlerSocket) Client.getInstance().getConnectionHandler()).handleDisconnectionLogMessage(((PacketDisconnectionLogMessage) packet).getText()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_LIST, (packet) -> Client.getInstance().getConnectionHandler().handleRoomList(((PacketRoomList) packet).getRooms()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_CREATION_FAILURE, (packet) -> Client.getInstance().getConnectionHandler().handleRoomCreationFailure());
-		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_ENTRY_CONFIRMATION, (packet) -> Client.getInstance().getConnectionHandler().handleRoomEntryConfirmation(((PacketRoomEntryConfirmation) packet).getRoomInformations()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_ENTRY_OTHER, (packet) -> Client.getInstance().getConnectionHandler().handleRoomEntryOther(((PacketRoomEntryOther) packet).getName()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_EXIT_OTHER, (packet) -> Client.getInstance().getConnectionHandler().handleRoomExitOther(((PacketRoomExitOther) packet).getName()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.LOG_MESSAGE, (packet) -> Client.getInstance().getConnectionHandler().handleLogMessage(((PacketLogMessage) packet).getText()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, (packet) -> Client.getInstance().getConnectionHandler().handleChatMessage(((PacketChatMessage) packet).getText()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.HEARTBEAT, packet -> {
+			// This method is empty because it is only called to check the connection.
+		});
+		PacketListener.PACKET_HANDLERS.put(PacketType.AUTHENTICATION_CONFIRMATION, packet -> ((ConnectionHandlerSocket) Client.getInstance().getConnectionHandler()).handleAuthenticationConfirmation(((PacketAuthenticationConfirmation) packet).getUsername(), ((PacketAuthenticationConfirmation) packet).getRoomInformations()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.AUTHENTICATION_FAILURE, packet -> ((ConnectionHandlerSocket) Client.getInstance().getConnectionHandler()).handleAuthenticationFailure(((PacketAuthenticationFailure) packet).getText()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.DISCONNECTION_LOG_MESSAGE, packet -> ((ConnectionHandlerSocket) Client.getInstance().getConnectionHandler()).handleDisconnectionLogMessage(((PacketDisconnectionLogMessage) packet).getText()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_ENTRY_OTHER, packet -> Client.getInstance().getConnectionHandler().handleRoomEntryOther(((PacketRoomEntryOther) packet).getName()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_EXIT_OTHER, packet -> Client.getInstance().getConnectionHandler().handleRoomExitOther(((PacketRoomExitOther) packet).getName()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.LOG_MESSAGE, packet -> Client.getInstance().getConnectionHandler().handleLogMessage(((PacketLogMessage) packet).getText()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, packet -> Client.getInstance().getConnectionHandler().handleChatMessage(((PacketChatMessage) packet).getText()));
 	}
 
 	private volatile boolean keepGoing = true;

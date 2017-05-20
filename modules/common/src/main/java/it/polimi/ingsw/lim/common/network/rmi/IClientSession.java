@@ -9,13 +9,5 @@ public interface IClientSession extends Remote
 
 	void sendHeartbeat() throws RemoteException;
 
-	void sendRoomListRequest() throws RemoteException;
-
-	void sendRoomEntry(int id) throws RemoteException;
-
-	void sendRoomExit() throws RemoteException;
-
-	void sendRoomCreation(String name) throws RemoteException;
-
 	void sendChatMessage(String text) throws RemoteException;
 }

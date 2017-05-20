@@ -2,16 +2,13 @@ package it.polimi.ingsw.lim.server.network.rmi;
 
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
-import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
-import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -50,11 +47,7 @@ public class ConnectionRMI extends Connection
 				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 			}
 		}
-		try {
-			Utils.displayToLog("RMI Player: " + UnicastRemoteObject.getClientHost() + " : " + this.getId() + " : " + this.getUsername() + " disconnected.");
-		} catch (ServerNotActiveException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-		}
+		Utils.displayToLog("RMI Player: " + this.getId() + " : " + this.getUsername() + " disconnected.");
 	}
 
 	@Override
@@ -62,39 +55,6 @@ public class ConnectionRMI extends Connection
 	{
 		try {
 			this.serverSession.sendHeartbeat();
-		} catch (RemoteException exception) {
-			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false, null);
-		}
-	}
-
-	@Override
-	public void sendRoomList(List<RoomInformations> rooms)
-	{
-		try {
-			this.serverSession.sendRoomList(rooms);
-		} catch (RemoteException exception) {
-			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false, null);
-		}
-	}
-
-	@Override
-	public void sendRoomCreationFailure()
-	{
-		try {
-			this.serverSession.sendRoomCreationFailure();
-		} catch (RemoteException exception) {
-			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false, null);
-		}
-	}
-
-	@Override
-	public void sendRoomEntryConfirmation(RoomInformations roomInformations)
-	{
-		try {
-			this.serverSession.sendRoomEntryConfirmation(roomInformations);
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 			this.disconnect(false, null);

@@ -4,13 +4,13 @@ import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.utils.ResourceAmount;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class PlayerResourceHandler
 {
 	private final PlayerInformations playerInformations;
-	private final Map<ResourceType, Integer> resources = new HashMap<>();
+	private final Map<ResourceType, Integer> resources = new EnumMap<>(ResourceType.class);
 
 	public PlayerResourceHandler(PlayerInformations playerInformations, int resourcesCoin, int resourcesWood, int resourcesStone, int resourcesServant)
 	{
@@ -109,5 +109,10 @@ public class PlayerResourceHandler
 	public int getResourcesVictoryPoint()
 	{
 		return this.resources.get(ResourceType.VICTORY_POINT);
+	}
+
+	public PlayerInformations getPlayerInformations()
+	{
+		return this.playerInformations;
 	}
 }

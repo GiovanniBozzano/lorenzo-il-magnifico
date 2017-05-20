@@ -4,29 +4,32 @@ import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketAuthentication;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomCreation;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRoomEntry;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
+import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
 class PacketListener extends Thread
 {
-	private static final Map<PacketType, IPacketHandler> PACKET_HANDLERS = new HashMap<>();
+	private static final Map<PacketType, IPacketHandler> PACKET_HANDLERS = new EnumMap<>(PacketType.class);
 
 	static {
+		PacketListener.PACKET_HANDLERS.put(PacketType.HEARTBEAT, (connectionSocket, packet) -> {
+			// This method is empty because it is only called to check the connection.
+		});
 		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, (connectionSocket, packet) -> connectionSocket.handleChatMessage(((PacketChatMessage) packet).getText()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_CREATION, (connectionSocket, packet) -> connectionSocket.handleRoomCreation(((PacketRoomCreation) packet).getName()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_ENTRY, (connectionSocket, packet) -> connectionSocket.handleRoomEntry(((PacketRoomEntry) packet).getId()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_EXIT, (connectionSocket, packet) -> connectionSocket.handleRoomExit());
-		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_LIST_REQUEST, (connectionSocket, packet) -> connectionSocket.handleRoomListRequest());
 	}
 
 	private final ConnectionSocket connectionSocket;
@@ -43,7 +46,6 @@ class PacketListener extends Thread
 		if (!this.waitAuthentication()) {
 			return;
 		}
-		this.connectionSocket.sendAuthenticationConfirmation();
 		while (this.keepGoing) {
 			Packet packet;
 			try {
@@ -71,28 +73,49 @@ class PacketListener extends Thread
 			try {
 				packet = (Packet) this.connectionSocket.getIn().readObject();
 			} catch (ClassNotFoundException | IOException exception) {
-				Server.getLogger().log(Level.INFO, "Socket Client " + this.connectionSocket.getSocket().getInetAddress().getHostAddress() + " : " + this.connectionSocket.getId() + " disconnected.", exception);
+				Server.getLogger().log(Level.INFO, "Socket Client disconnected.", exception);
 				if (!this.keepGoing) {
 					return false;
 				}
 				this.connectionSocket.disconnect(false, null);
 				return false;
 			}
+			if (packet.getPacketType() != PacketType.LOGIN && packet.getPacketType() != PacketType.REGISTRATION) {
+				continue;
+			}
+			String trimmedUsername = ((PacketAuthentication) packet).getUsername().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 			try {
 				if (packet.getPacketType() == PacketType.LOGIN) {
-					String trimmedUsername = ((PacketLogin) packet).getUsername().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 					Utils.checkLogin(((PacketLogin) packet).getVersion(), trimmedUsername, ((PacketLogin) packet).getPassword());
-					this.connectionSocket.setUsername(trimmedUsername);
-					Utils.displayToLog("Socket Player " + this.connectionSocket.getSocket().getInetAddress().getHostAddress() + " : " + this.connectionSocket.getId() + " logged in as: " + trimmedUsername);
+					Utils.displayToLog("Socket Player logged in as: " + trimmedUsername);
 				} else if (packet.getPacketType() == PacketType.REGISTRATION) {
-					String trimmedUsername = ((PacketRegistration) packet).getUsername().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 					Utils.checkRegistration(((PacketRegistration) packet).getVersion(), trimmedUsername, ((PacketRegistration) packet).getPassword());
-					this.connectionSocket.setUsername(trimmedUsername);
-					Utils.displayToLog("Socket Player " + this.connectionSocket.getSocket().getInetAddress().getHostAddress() + " : " + this.connectionSocket.getId() + " registerd as: " + trimmedUsername);
+					Utils.displayToLog("Socket Player registerd as: " + trimmedUsername);
 				}
 			} catch (AuthenticationFailedException exception) {
+				Server.getLogger().log(Level.INFO, "Socket Client failed authentication.", exception);
 				this.connectionSocket.sendAuthenticationFailure(exception.getLocalizedMessage());
+				return false;
 			}
+			this.connectionSocket.setUsername(trimmedUsername);
+			Room targetRoom = null;
+			for (Room room : Server.getInstance().getRooms()) {
+				if (!room.getIsStarted() && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {
+					targetRoom = room;
+					break;
+				}
+			}
+			if (targetRoom == null) {
+				targetRoom = new Room(Server.getInstance().getRoomId(), ((PacketAuthentication) packet).getRoomType());
+				Server.getInstance().getRooms().add(targetRoom);
+			}
+			targetRoom.getPlayers().add(this.connectionSocket);
+			List<String> playerUsernames = new ArrayList<>();
+			for (Connection player : targetRoom.getPlayers()) {
+				player.sendRoomEntryOther(trimmedUsername);
+				playerUsernames.add(player.getUsername());
+			}
+			this.connectionSocket.sendAuthenticationConfirmation(new RoomInformations(targetRoom.getId(), targetRoom.getRoomType(), playerUsernames));
 		}
 		return true;
 	}

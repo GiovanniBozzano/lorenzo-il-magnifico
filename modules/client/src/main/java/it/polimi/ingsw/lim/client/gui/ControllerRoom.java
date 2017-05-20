@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.client.gui;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,7 +39,7 @@ public class ControllerRoom implements Initializable
 	@FXML
 	private void handleExitButtonAction()
 	{
-		Client.getInstance().getConnectionHandler().sendRoomExit();
+		Client.getInstance().disconnect(false, true);
 	}
 
 	@Override
@@ -61,9 +62,9 @@ public class ControllerRoom implements Initializable
 		this.exitButton.prefWidthProperty().bind(((VBox) this.exitButton.getParent()).widthProperty());
 	}
 
-	public void setRoomInformations(String name, List<String> playerNames)
+	public void setRoomInformations(RoomType roomType, List<String> playerNames)
 	{
-		this.roomNameLabel.setText(name);
+		this.roomNameLabel.setText(roomType.name());
 		this.playersListView.getItems().addAll(playerNames);
 	}
 

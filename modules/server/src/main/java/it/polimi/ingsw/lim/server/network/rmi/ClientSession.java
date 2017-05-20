@@ -29,48 +29,24 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	}
 
 	@Override
-	public void sendRoomListRequest() throws RemoteException
-	{
-		this.connectionRmi.handleRoomListRequest();
-	}
-
-	@Override
-	public void sendRoomCreation(String name) throws RemoteException
-	{
-		this.connectionRmi.handleRoomCreation(name);
-	}
-
-	@Override
-	public void sendRoomEntry(int id) throws RemoteException
-	{
-		this.connectionRmi.handleRoomEntry(id);
-	}
-
-	@Override
-	public void sendRoomExit() throws RemoteException
-	{
-		this.connectionRmi.handleRoomExit();
-	}
-
-	@Override
 	public void sendChatMessage(String text) throws RemoteException
 	{
 		this.connectionRmi.handleChatMessage(text);
 	}
 
 	@Override
-	public boolean equals(Object o)
+	public boolean equals(Object object)
 	{
-		if (this == o) {
+		if (this == object) {
 			return true;
 		}
-		if (o == null || this.getClass() != o.getClass()) {
+		if (object == null || this.getClass() != object.getClass()) {
 			return false;
 		}
-		if (!super.equals(o)) {
+		if (!super.equals(object)) {
 			return false;
 		}
-		ClientSession that = (ClientSession) o;
+		ClientSession that = (ClientSession) object;
 		return Objects.equals(this.connectionRmi, that.connectionRmi);
 	}
 

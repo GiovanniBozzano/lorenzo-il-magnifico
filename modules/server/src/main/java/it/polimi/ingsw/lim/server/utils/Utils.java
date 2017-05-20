@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.server.utils;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
-import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.enums.Command;
@@ -110,62 +109,6 @@ public class Utils
 		}
 	}
 
-	/**
-	 * Converts a list of Room objects to a list of RoomInformations objects.
-	 *
-	 * @return the list to convert.
-	 */
-	public static List<RoomInformations> convertRoomsToInformations()
-	{
-		List<RoomInformations> rooms = new ArrayList<>();
-		for (Room room : Server.getInstance().getRooms()) {
-			if (room.getPlayers().size() > 3) {
-				continue;
-			}
-			List<String> playerNames = new ArrayList<>();
-			for (Connection player : room.getPlayers()) {
-				playerNames.add(player.getUsername());
-			}
-			rooms.add(new RoomInformations(room.getId(), room.getName(), playerNames));
-		}
-		return rooms;
-	}
-
-	/**
-	 * Retrieves the players currently not in a room.
-	 *
-	 * @return the list of players currently not in a room
-	 */
-	public static List<Connection> getPlayersInLobby()
-	{
-		List<Connection> playersInLobby = new ArrayList<>(Server.getInstance().getConnections());
-		playersInLobby.removeAll(Utils.getPlayersInRooms());
-		return playersInLobby;
-	}
-
-	/**
-	 * Retrieves the players currently in a room.
-	 *
-	 * @return the list of players currently in a room
-	 */
-	public static List<Connection> getPlayersInRooms()
-	{
-		List<Connection> playersInRooms = new ArrayList<>();
-		for (Connection connection : Server.getInstance().getConnections()) {
-			boolean isInRoom = false;
-			for (Room room : Server.getInstance().getRooms()) {
-				if (room.getPlayers().contains(connection)) {
-					isInRoom = true;
-					break;
-				}
-			}
-			if (isInRoom) {
-				playersInRooms.add(connection);
-			}
-		}
-		return playersInRooms;
-	}
-
 	public static void checkLogin(String version, String username, String password) throws AuthenticationFailedException
 	{
 		if (!version.equals(CommonUtils.VERSION)) {
@@ -179,7 +122,7 @@ public class Utils
 			throw new AuthenticationFailedException("Incorrect password.");
 		}
 		for (Connection connection : Server.getInstance().getConnections()) {
-			if (connection.getUsername().equals(username)) {
+			if (connection.getUsername() != null && connection.getUsername().equals(username)) {
 				throw new AuthenticationFailedException("Already logged in.");
 			}
 		}
@@ -240,6 +183,17 @@ public class Utils
 		}
 	}
 
+	public static Room getPlayerRoom(Connection connection)
+	{
+		for (Room room : Server.getInstance().getRooms()) {
+			if (!room.getPlayers().contains(connection)) {
+				continue;
+			}
+			return room;
+		}
+		return null;
+	}
+
 	/**
 	 * Executes a read query on the database with a prepared statement.
 	 *
@@ -252,7 +206,6 @@ public class Utils
 	 */
 	public static ResultSet sqlRead(QueryRead query, List<QueryArgument> queryArguments) throws SQLException
 	{
-		Server.getLogger().log(Level.INFO, query.getText());
 		try {
 			PreparedStatement preparedStatement = Server.getInstance().getDatabase().getConnection().prepareStatement(query.getText());
 			Utils.fillStatement(preparedStatement, queryArguments);
@@ -274,7 +227,6 @@ public class Utils
 	 */
 	public static void sqlWrite(QueryWrite query, List<QueryArgument> queryArguments) throws SQLException
 	{
-		Server.getLogger().log(Level.INFO, query.getText());
 		try (PreparedStatement preparedStatement = Server.getInstance().getDatabase().getConnection().prepareStatement(query.getText())) {
 			Utils.fillStatement(preparedStatement, queryArguments);
 			preparedStatement.executeUpdate();
@@ -407,11 +359,7 @@ public class Utils
 	 */
 	private static void setStatementString(PreparedStatement preparedStatement, QueryArgument queryArgument, int index) throws SQLException
 	{
-		if (queryArgument.getValue() instanceof String) {
-			preparedStatement.setString(index + 1, (String) queryArgument.getValue());
-			return;
-		}
-		preparedStatement.setNull(index + 1, Types.VARCHAR);
+		preparedStatement.setString(index + 1, (String) queryArgument.getValue());
 	}
 
 	/**

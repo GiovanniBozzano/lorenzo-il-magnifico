@@ -1,13 +1,9 @@
 package it.polimi.ingsw.lim.server.network;
 
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
-import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -36,16 +32,12 @@ public abstract class Connection
 		Server.getInstance().getConnections().clear();
 	}
 
-	private static void broadcastRoomsUpdate()
-	{
-		for (Connection connection : Utils.getPlayersInLobby()) {
-			connection.sendRoomList(Utils.convertRoomsToInformations());
-		}
-	}
-
 	public static void broadcastChatMessage(String text)
 	{
-		for (Connection connection : Utils.getPlayersInRooms()) {
+		for (Connection connection : Server.getInstance().getConnections()) {
+			if (connection.getUsername() == null) {
+				continue;
+			}
 			connection.sendChatMessage(text);
 		}
 	}
@@ -60,20 +52,13 @@ public abstract class Connection
 				Server.getInstance().getRooms().remove(room);
 			} else {
 				for (Connection connection : room.getPlayers()) {
-					connection.sendRoomExitOther(this.getUsername());
+					connection.sendRoomExitOther(this.username);
 				}
 			}
 		}
-		Connection.broadcastRoomsUpdate();
 	}
 
 	public abstract void sendHeartbeat();
-
-	public abstract void sendRoomList(List<RoomInformations> rooms);
-
-	public abstract void sendRoomCreationFailure();
-
-	public abstract void sendRoomEntryConfirmation(RoomInformations roomInformations);
 
 	public abstract void sendRoomEntryOther(String name);
 
@@ -83,84 +68,13 @@ public abstract class Connection
 
 	public abstract void sendChatMessage(String text);
 
-	public void handleRoomListRequest()
-	{
-		this.sendRoomList(Utils.convertRoomsToInformations());
-	}
-
-	public void handleRoomCreation(String name)
-	{
-		String trimmedName = name.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
-		if (!trimmedName.matches("^[\\w\\-\\s]{1,16}$")) {
-			this.disconnect(true, null);
-			return;
-		}
-		for (Room room : Server.getInstance().getRooms()) {
-			if (room.getName().equals(trimmedName)) {
-				this.sendRoomCreationFailure();
-				return;
-			}
-		}
-		int roomId = Server.getInstance().getRoomId();
-		Room room = new Room(roomId, trimmedName);
-		room.getPlayers().add(this);
-		Server.getInstance().getRooms().add(room);
-		List<String> playerNames = new ArrayList<>();
-		playerNames.add(this.username);
-		this.sendRoomEntryConfirmation(new RoomInformations(roomId, trimmedName, playerNames));
-		Connection.broadcastRoomsUpdate();
-	}
-
-	public void handleRoomEntry(int id)
-	{
-		if (Utils.getPlayersInRooms().contains(this)) {
-			this.disconnect(true, null);
-			return;
-		}
-		Room targetRoom = null;
-		for (Room room : Server.getInstance().getRooms()) {
-			if (room.getId() == id) {
-				targetRoom = room;
-				break;
-			}
-		}
-		if (targetRoom == null || targetRoom.getPlayers().size() > 3) {
-			this.disconnect(true, null);
-			return;
-		}
-		targetRoom.getPlayers().add(this);
-		List<String> playerNames = new ArrayList<>();
-		for (Connection connection : targetRoom.getPlayers()) {
-			playerNames.add(connection.getUsername());
-		}
-		this.sendRoomEntryConfirmation(new RoomInformations(targetRoom.getId(), targetRoom.getName(), playerNames));
-		for (Connection connection : targetRoom.getPlayers()) {
-			connection.sendRoomEntryOther(this.username);
-		}
-		Connection.broadcastRoomsUpdate();
-	}
-
-	public void handleRoomExit()
-	{
-		for (Room room : Server.getInstance().getRooms()) {
-			if (room.getPlayers().contains(this)) {
-				room.getPlayers().remove(this);
-				if (room.getPlayers().isEmpty()) {
-					Server.getInstance().getRooms().remove(room);
-				} else {
-					for (Connection connection : room.getPlayers()) {
-						connection.sendRoomExitOther(this.username);
-					}
-				}
-				break;
-			}
-		}
-		Connection.broadcastRoomsUpdate();
-	}
-
 	public void handleChatMessage(String text)
 	{
-		for (Connection otherConnection : Utils.getPlayersInRooms()) {
+		Room room = Utils.getPlayerRoom(this);
+		if (room == null) {
+			return;
+		}
+		for (Connection otherConnection : room.getPlayers()) {
 			if (otherConnection != this) {
 				otherConnection.sendChatMessage("[" + this.getUsername() + "]: " + text);
 			}

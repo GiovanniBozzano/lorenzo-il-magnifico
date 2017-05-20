@@ -1,5 +1,7 @@
 package it.polimi.ingsw.lim.common.utils;
 
+import it.polimi.ingsw.lim.common.enums.RoomType;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,13 +9,13 @@ import java.util.List;
 public class RoomInformations implements Serializable
 {
 	private final int id;
-	private final String name;
+	private final RoomType roomType;
 	private final List<String> playerNames = new ArrayList<>();
 
-	public RoomInformations(int id, String name, List<String> playerNames)
+	public RoomInformations(int id, RoomType roomType, List<String> playerNames)
 	{
 		this.id = id;
-		this.name = name;
+		this.roomType = roomType;
 		this.playerNames.addAll(playerNames);
 	}
 
@@ -22,9 +24,9 @@ public class RoomInformations implements Serializable
 		return this.id;
 	}
 
-	public String getName()
+	public RoomType getRoomType()
 	{
-		return this.name;
+		return this.roomType;
 	}
 
 	public List<String> getPlayerNames()

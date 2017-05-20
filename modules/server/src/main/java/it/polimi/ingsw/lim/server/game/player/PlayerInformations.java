@@ -3,14 +3,14 @@ package it.polimi.ingsw.lim.server.game.player;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class PlayerInformations
 {
 	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler(this);
 	private final PlayerResourceHandler playerResourceHandler;
-	private final Map<FamilyMemberType, ActionType> familyMembersPositions = new HashMap<>();
+	private final Map<FamilyMemberType, ActionType> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
 
 	public PlayerInformations(PlayerResourceHandler playerResourceHandler)
 	{

@@ -1,21 +1,22 @@
 package it.polimi.ingsw.lim.server.network.rmi;
 
+import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
-import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
+import it.polimi.ingsw.lim.common.utils.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.rmi.RemoteException;
-import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
 
 public class Authentication extends UnicastRemoteObject implements IAuthentication
 {
@@ -27,37 +28,63 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	}
 
 	@Override
-	public IClientSession sendLogin(String username, String password, String version, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
+	public AuthenticationInformations sendLogin(String version, String username, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
 	{
 		String trimmedUsername = username.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		Utils.checkLogin(version, trimmedUsername, password);
-		try {
-			Utils.displayToLog("RMI Player " + UnicastRemoteObject.getClientHost() + " logged in as: " + trimmedUsername);
-		} catch (ServerNotActiveException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-		}
+		Utils.displayToLog("RMI Player logged in as: " + trimmedUsername);
 		ConnectionRMI connectionRmi = new ConnectionRMI(Server.getInstance().getConnectionId(), trimmedUsername, serverSession);
-		Server.getInstance().getConnections().add(connectionRmi);
 		ClientSession clientSession = new ClientSession(connectionRmi);
 		this.clientSessions.add(clientSession);
-		return clientSession;
+		Server.getInstance().getConnections().add(connectionRmi);
+		Room targetRoom = null;
+		for (Room room : Server.getInstance().getRooms()) {
+			if (!room.getIsStarted() && room.getRoomType() == roomType && room.getPlayers().size() < roomType.getPlayersNumber()) {
+				targetRoom = room;
+				break;
+			}
+		}
+		if (targetRoom == null) {
+			targetRoom = new Room(Server.getInstance().getRoomId(), roomType);
+			Server.getInstance().getRooms().add(targetRoom);
+		}
+		targetRoom.getPlayers().add(connectionRmi);
+		List<String> playerUsernames = new ArrayList<>();
+		for (Connection player : targetRoom.getPlayers()) {
+			player.sendRoomEntryOther(trimmedUsername);
+			playerUsernames.add(player.getUsername());
+		}
+		return new AuthenticationInformations(clientSession, new RoomInformations(targetRoom.getId(), targetRoom.getRoomType(), playerUsernames));
 	}
 
 	@Override
-	public IClientSession sendRegistration(String username, String password, String version, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
+	public AuthenticationInformations sendRegistration(String version, String username, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
 	{
 		String trimmedUsername = username.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		Utils.checkRegistration(version, trimmedUsername, password);
-		try {
-			Utils.displayToLog("RMI Player " + UnicastRemoteObject.getClientHost() + " registerd as: " + trimmedUsername);
-		} catch (ServerNotActiveException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-		}
+		Utils.displayToLog("RMI Player registerd as: " + trimmedUsername);
 		ConnectionRMI connectionRmi = new ConnectionRMI(Server.getInstance().getConnectionId(), trimmedUsername, serverSession);
-		Server.getInstance().getConnections().add(connectionRmi);
 		ClientSession clientSession = new ClientSession(connectionRmi);
 		this.clientSessions.add(clientSession);
-		return clientSession;
+		Server.getInstance().getConnections().add(connectionRmi);
+		Room targetRoom = null;
+		for (Room room : Server.getInstance().getRooms()) {
+			if (!room.getIsStarted() && room.getRoomType() == roomType && room.getPlayers().size() < roomType.getPlayersNumber()) {
+				targetRoom = room;
+				break;
+			}
+		}
+		if (targetRoom == null) {
+			targetRoom = new Room(Server.getInstance().getRoomId(), roomType);
+			Server.getInstance().getRooms().add(targetRoom);
+		}
+		targetRoom.getPlayers().add(connectionRmi);
+		List<String> playerUsernames = new ArrayList<>();
+		for (Connection player : targetRoom.getPlayers()) {
+			player.sendRoomEntryOther(trimmedUsername);
+			playerUsernames.add(player.getUsername());
+		}
+		return new AuthenticationInformations(clientSession, new RoomInformations(targetRoom.getId(), targetRoom.getRoomType(), playerUsernames));
 	}
 
 	@Override
@@ -67,18 +94,18 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	}
 
 	@Override
-	public boolean equals(Object o)
+	public boolean equals(Object object)
 	{
-		if (this == o) {
+		if (this == object) {
 			return true;
 		}
-		if (o == null || this.getClass() != o.getClass()) {
+		if (object == null || this.getClass() != object.getClass()) {
 			return false;
 		}
-		if (!super.equals(o)) {
+		if (!super.equals(object)) {
 			return false;
 		}
-		Authentication that = (Authentication) o;
+		Authentication that = (Authentication) object;
 		return Objects.equals(this.clientSessions, that.clientSessions);
 	}
 

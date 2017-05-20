@@ -26,7 +26,6 @@ public class Client extends Instance
 	private int port;
 	private String username;
 	private ConnectionHandler connectionHandler;
-	private boolean isConnected;
 
 	/**
 	 * Tries to connect to an RMI or Socket Server and, if successful, opens the
@@ -42,7 +41,6 @@ public class Client extends Instance
 		this.ip = ip;
 		this.port = port;
 		this.username = null;
-		this.isConnected = false;
 		this.getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 		if (connectionType == ConnectionType.RMI) {
 			this.connectionHandler = new ConnectionHandlerRMI();

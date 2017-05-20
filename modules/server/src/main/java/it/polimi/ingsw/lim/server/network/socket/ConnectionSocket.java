@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -80,7 +79,7 @@ public class ConnectionSocket extends Connection
 				Thread.currentThread().interrupt();
 			}
 		}
-		Utils.displayToLog("Socket Player " + this.socket.getInetAddress().getHostAddress() + " : " + this.getId() + (this.getUsername() != null ? " : " + this.getUsername() : "") + " disconnected.");
+		Utils.displayToLog("Socket Player " + this.getId() + (this.getUsername() != null ? " : " + this.getUsername() : "") + " disconnected.");
 	}
 
 	@Override
@@ -89,32 +88,14 @@ public class ConnectionSocket extends Connection
 		new Packet(PacketType.HEARTBEAT).send(this.out);
 	}
 
-	synchronized void sendAuthenticationConfirmation()
+	synchronized void sendAuthenticationConfirmation(RoomInformations roomInformations)
 	{
-		new PacketAuthenticationConfirmation(this.getUsername()).send(this.out);
+		new PacketAuthenticationConfirmation(this.getUsername(), roomInformations).send(this.out);
 	}
 
 	synchronized void sendAuthenticationFailure(String text)
 	{
 		new PacketAuthenticationFailure(text).send(this.out);
-	}
-
-	@Override
-	public synchronized void sendRoomList(List<RoomInformations> rooms)
-	{
-		new PacketRoomList(rooms).send(this.out);
-	}
-
-	@Override
-	public synchronized void sendRoomCreationFailure()
-	{
-		new Packet(PacketType.ROOM_CREATION_FAILURE).send(this.out);
-	}
-
-	@Override
-	public synchronized void sendRoomEntryConfirmation(RoomInformations roomInformations)
-	{
-		new PacketRoomEntryConfirmation(roomInformations).send(this.out);
 	}
 
 	@Override
