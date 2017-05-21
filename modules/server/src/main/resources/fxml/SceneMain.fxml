@@ -1,17 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.*?>
+<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.JFXTextField?><?import javafx.geometry.Insets?><?import javafx.scene.control.Label?><?import javafx.scene.control.TextArea?><?import javafx.scene.layout.*?><?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.server.gui.ControllerMain">
-	<children>
-		<VBox layoutX="200.0" layoutY="100.0" spacing="5.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
-			<children>
-				<Label fx:id="connectionLabel" minWidth="-Infinity" />
-				<TextArea fx:id="logTextArea" editable="false" prefHeight="280.0" />
-				<TextField onAction="#handleCommandTextFieldAction" promptText="Enter command..." />
-			</children>
-		</VBox>
-	</children>
+	<VBox layoutX="200.0" layoutY="100.0" spacing="5.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+		<Label fx:id="connectionLabel" minWidth="-Infinity">
+			<font>
+				<Font name="Roboto" size="12.0" />
+			</font>
+		</Label>
+		<TextArea fx:id="logTextArea" prefHeight="280.0">
+			<font>
+				<Font name="Roboto" size="12.0" />
+			</font>
+		</TextArea>
+		<JFXTextField labelFloat="true" onAction="#handleCommandTextFieldAction" promptText="Enter command...">
+			<VBox.margin>
+				<Insets top="10.0" />
+			</VBox.margin>
+			<font>
+				<Font name="Roboto" size="12.0" />
+			</font>
+		</JFXTextField>
+	</VBox>
 </AnchorPane>

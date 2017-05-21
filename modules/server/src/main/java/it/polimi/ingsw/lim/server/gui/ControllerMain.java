@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.gui;
 
+import it.polimi.ingsw.lim.common.gui.IController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.utils.Utils;
 import javafx.event.ActionEvent;
@@ -8,7 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class ControllerMain
+import javax.annotation.PostConstruct;
+
+public class ControllerMain implements IController
 {
 	@FXML private Label connectionLabel;
 	@FXML private TextArea logTextArea;
@@ -19,6 +22,12 @@ public class ControllerMain
 		String command = ((TextField) event.getSource()).getText().replace(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		((TextField) event.getSource()).clear();
 		Utils.executeCommand(command);
+	}
+
+	@Override
+	@PostConstruct
+	public void setupGui()
+	{
 	}
 
 	public Label getConnectionLabel()

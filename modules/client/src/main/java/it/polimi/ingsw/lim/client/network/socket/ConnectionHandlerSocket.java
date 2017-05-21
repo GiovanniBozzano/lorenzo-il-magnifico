@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.client.network.socket;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.gui.ControllerAuthentication;
+import it.polimi.ingsw.lim.client.gui.ControllerConnection;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
@@ -39,25 +40,37 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			this.out = new ObjectOutputStream(this.socket.getOutputStream());
 			this.in = new ObjectInputStream(this.socket.getInputStream());
 		} catch (IOException exception) {
-			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
 			Client.getLogger().log(Level.INFO, "Could not connect to host.", exception);
+			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+			Platform.runLater(() -> {
+				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().requestFocus();
+				((ControllerConnection) Client.getInstance().getWindowInformations().getController()).showDialog("Could not connect to host");
+			});
 			return;
 		}
 		this.packetListener = new PacketListener();
 		this.packetListener.start();
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
-		CommonUtils.setNewWindow(Utils.SCENE_AUTHENTICATION, null, null, null);
+		CommonUtils.setNewWindow(Utils.SCENE_AUTHENTICATION, null);
 	}
 
 	@Override
 	public void disconnect(boolean notifyServer)
 	{
 		super.disconnect(notifyServer);
-		this.packetListener.end();
+		if (this.packetListener != null) {
+			this.packetListener.end();
+		}
 		try {
-			this.in.close();
-			this.out.close();
-			this.socket.close();
+			if (this.in != null) {
+				this.in.close();
+			}
+			if (this.out != null) {
+				this.out.close();
+			}
+			if (this.socket != null) {
+				this.socket.close();
+			}
 		} catch (IOException exception) {
 			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
@@ -120,7 +133,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			return;
 		}
 		Client.getInstance().setUsername(username);
-		CommonUtils.setNewWindow(Utils.SCENE_ROOM, null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(roomInformations.getRoomType(), roomInformations.getPlayerNames()))), null);
+		CommonUtils.setNewWindow(Utils.SCENE_ROOM, null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(roomInformations.getRoomType(), roomInformations.getPlayerNames()))));
 	}
 
 	void handleAuthenticationFailure(String text)
@@ -128,8 +141,8 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerAuthentication)) {
 			return;
 		}
-		Client.getLogger().log(Level.INFO, text);
 		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+		Platform.runLater(() -> ((ControllerAuthentication) Client.getInstance().getWindowInformations().getController()).showDialog(text));
 	}
 
 	ObjectInputStream getIn()

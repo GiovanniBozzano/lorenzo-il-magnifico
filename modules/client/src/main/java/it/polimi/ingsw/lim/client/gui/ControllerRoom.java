@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.client.gui;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.common.enums.RoomType;
+import it.polimi.ingsw.lim.common.gui.IController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,11 +10,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import javax.annotation.PostConstruct;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ControllerRoom implements Initializable
+public class ControllerRoom implements Initializable, IController
 {
 	@FXML private Label roomNameLabel;
 	@FXML private TextArea chatTextArea;
@@ -60,6 +62,12 @@ public class ControllerRoom implements Initializable
 			}
 		});
 		this.exitButton.prefWidthProperty().bind(((VBox) this.exitButton.getParent()).widthProperty());
+	}
+
+	@Override
+	@PostConstruct
+	public void setupGui()
+	{
 	}
 
 	public void setRoomInformations(RoomType roomType, List<String> playerNames)

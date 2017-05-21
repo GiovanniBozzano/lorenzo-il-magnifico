@@ -1,11 +1,16 @@
 package it.polimi.ingsw.lim.common.utils;
 
 import it.polimi.ingsw.lim.common.Instance;
+import it.polimi.ingsw.lim.common.gui.IController;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -14,6 +19,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -40,7 +46,7 @@ public class CommonUtils
 	 */
 	public static void setNewWindow(String fxmlFileLocation, String title)
 	{
-		CommonUtils.setNewWindow(fxmlFileLocation, title, null, null);
+		CommonUtils.setNewWindow(fxmlFileLocation, title, null);
 	}
 
 	/**
@@ -50,36 +56,32 @@ public class CommonUtils
 	 *
 	 * @param fxmlFileLocation the .fxml file location.
 	 * @param title the title of the new window.
-	 * @param firstThread the thread to execute before the window has been
-	 * shown.
-	 * @param secondThread the thread to execute after the window has been
+	 * @param postShowingThread the thread to execute after the window has been
 	 * shown.
 	 */
-	public static void setNewWindow(String fxmlFileLocation, String title, Thread firstThread, Thread secondThread)
+	public static void setNewWindow(String fxmlFileLocation, String title, Thread postShowingThread)
 	{
 		Platform.runLater(() -> {
-			FXMLLoader fxmlLoader = new FXMLLoader(CommonUtils.class.getResource(fxmlFileLocation));
+			FXMLLoader fxmlLoader = new FXMLLoader(Instance.getInstance().getClass().getResource(fxmlFileLocation));
 			try {
 				Parent parent = fxmlLoader.load();
 				Stage stage;
-				if (Instance.getInstance().getWindowInformations() != null) {
-					stage = Instance.getInstance().getWindowInformations().getStage();
-				} else {
+				if (Instance.getInstance().getWindowInformations() == null) {
 					stage = new Stage();
+				} else {
+					stage = Instance.getInstance().getWindowInformations().getStage();
 				}
 				stage.setScene(new Scene(parent));
 				stage.setTitle(title);
 				stage.sizeToScene();
 				stage.setResizable(false);
-				if (firstThread != null) {
-					firstThread.start();
-				}
 				if (Instance.getInstance().getWindowInformations() == null) {
 					stage.show();
 				}
+				((IController) fxmlLoader.getController()).setupGui();
 				Instance.getInstance().setWindowInformations(new WindowInformations(fxmlLoader.getController(), stage));
-				if (secondThread != null) {
-					secondThread.start();
+				if (postShowingThread != null) {
+					postShowingThread.start();
 				}
 			} catch (IOException exception) {
 				Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
@@ -97,6 +99,22 @@ public class CommonUtils
 		stage.close();
 		if (stage.getOwner() != null) {
 			CommonUtils.closeAllWindows((Stage) stage.getOwner());
+		}
+	}
+
+	public static void setTooltipDelay(Tooltip tooltip, double milliseconds)
+	{
+		try {
+			Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
+			fieldBehavior.setAccessible(true);
+			Object objBehavior = fieldBehavior.get(tooltip);
+			Field fieldTimer = objBehavior.getClass().getDeclaredField("activationTimer");
+			fieldTimer.setAccessible(true);
+			Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
+			objTimer.getKeyFrames().clear();
+			objTimer.getKeyFrames().add(new KeyFrame(new Duration(milliseconds)));
+		} catch (NoSuchFieldException | IllegalAccessException exception) {
+			Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 

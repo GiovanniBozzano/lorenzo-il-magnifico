@@ -19,6 +19,7 @@ import it.polimi.ingsw.lim.common.events.EventWork;
 import it.polimi.ingsw.lim.common.utils.DiscountChoice;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.ResourceAmount;
+import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.cards.json.DevelopmentCardsBuildingDeserializer;
 import it.polimi.ingsw.lim.server.cards.json.DevelopmentCardsCharacterDeserializer;
 import it.polimi.ingsw.lim.server.cards.json.DevelopmentCardsTerritoryDeserializer;
@@ -242,7 +243,7 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 
 		public DevelopmentCardsDeck<T> initialize()
 		{
-			try (Reader reader = new InputStreamReader(Builder.class.getResourceAsStream(this.jsonFile), "UTF-8")) {
+			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
 				return Builder.GSON.fromJson(reader, Builder.TYPE_TOKENS.get(this.clazz));
 			} catch (IOException exception) {
 				Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
