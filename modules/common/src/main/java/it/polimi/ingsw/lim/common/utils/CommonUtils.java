@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import javax.crypto.BadPaddingException;
@@ -68,6 +69,7 @@ public class CommonUtils
 				Stage stage;
 				if (Instance.getInstance().getWindowInformations() == null) {
 					stage = new Stage();
+					stage.initStyle(StageStyle.UNDECORATED);
 				} else {
 					stage = Instance.getInstance().getWindowInformations().getStage();
 				}

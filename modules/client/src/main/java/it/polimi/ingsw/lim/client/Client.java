@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -85,6 +86,7 @@ public class Client extends Instance
 				try {
 					Parent parent = fxmlLoader.load();
 					Stage stage = new Stage();
+					stage.initStyle(StageStyle.UNDECORATED);
 					stage.setScene(new Scene(parent));
 					stage.sizeToScene();
 					stage.setResizable(false);

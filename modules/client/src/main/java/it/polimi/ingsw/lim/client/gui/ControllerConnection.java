@@ -30,6 +30,8 @@ public class ControllerConnection implements Initializable, IController
 	@FXML private JFXDialogLayout dialogLayout;
 	@FXML private Label dialogLabel;
 	@FXML private JFXButton dialogOkButton;
+	private double xOffset;
+	private double yOffset;
 
 	@FXML
 	private void handleConnectionButtonAction()
@@ -67,6 +69,14 @@ public class ControllerConnection implements Initializable, IController
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{
+		this.stackPane.setOnMousePressed(event -> {
+			this.xOffset = this.stackPane.getScene().getWindow().getX() - event.getScreenX();
+			this.yOffset = this.stackPane.getScene().getWindow().getY() - event.getScreenY();
+		});
+		this.stackPane.setOnMouseDragged(event -> {
+			this.stackPane.getScene().getWindow().setX(event.getScreenX() + this.xOffset);
+			this.stackPane.getScene().getWindow().setY(event.getScreenY() + this.yOffset);
+		});
 		this.stackPane.getChildren().remove(this.dialog);
 		this.dialog.setTransitionType(DialogTransition.CENTER);
 		this.dialog.setDialogContainer(this.stackPane);

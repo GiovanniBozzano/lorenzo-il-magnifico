@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import javax.annotation.PostConstruct;
@@ -17,10 +18,13 @@ import java.util.ResourceBundle;
 
 public class ControllerRoom implements Initializable, IController
 {
+	@FXML private StackPane stackPane;
 	@FXML private Label roomNameLabel;
 	@FXML private TextArea chatTextArea;
 	@FXML private ListView<String> playersListView;
 	@FXML private Button exitButton;
+	private double xOffset;
+	private double yOffset;
 
 	@FXML
 	private void handleChatTextAreaAction(ActionEvent event)
@@ -47,6 +51,14 @@ public class ControllerRoom implements Initializable, IController
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{
+		this.stackPane.setOnMousePressed(event -> {
+			this.xOffset = this.stackPane.getScene().getWindow().getX() - event.getScreenX();
+			this.yOffset = this.stackPane.getScene().getWindow().getY() - event.getScreenY();
+		});
+		this.stackPane.setOnMouseDragged(event -> {
+			this.stackPane.getScene().getWindow().setX(event.getScreenX() + this.xOffset);
+			this.stackPane.getScene().getWindow().setY(event.getScreenY() + this.yOffset);
+		});
 		this.playersListView.setCellFactory(param -> new ListCell<String>()
 		{
 			@Override
