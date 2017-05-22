@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXListView?><?import com.jfoenix.controls.JFXTextField?><?import javafx.geometry.Insets?><?import javafx.scene.control.Label?><?import javafx.scene.control.TextArea?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?><?import javafx.scene.text.Font?>
+<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXListView?><?import com.jfoenix.controls.JFXTextField?><?import javafx.geometry.Insets?><?import javafx.scene.control.Label?><?import javafx.scene.control.TextArea?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?><?import javafx.scene.text.*?>
 <StackPane fx:id="stackPane" onMouseDragged="#handleStackPaneMouseDragged" onMousePressed="#handleStackPaneMousePressed" style="-fx-border-color: #757575; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.client.gui.ControllerRoom">
-	<GridPane hgap="5.0" vgap="5.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+	<GridPane hgap="5.0" vgap="5.0">
 		<columnConstraints>
 			<ColumnConstraints hgrow="SOMETIMES" />
 			<ColumnConstraints hgrow="SOMETIMES" />
@@ -30,7 +30,11 @@
 				</ImageView>
 			</children>
 		</HBox>
-		<Label fx:id="playerNameLabel" minWidth="-Infinity" GridPane.columnSpan="2" />
+		<Label fx:id="playerNameLabel" minWidth="-Infinity" GridPane.columnSpan="2">
+			<font>
+				<Font name="Roboto Bold" size="12.0" />
+			</font>
+		</Label>
 		<VBox prefHeight="0.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
 			<children>
 				<JFXButton fx:id="gameRulesButton" onAction="#handleGameRulesButtonAction" style="-fx-background-color: #66BB6A;" text="Game Rules" textFill="WHITE">
@@ -57,7 +61,7 @@
 		</JFXTextField>
 		<Label fx:id="timerLabel" minWidth="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
 			<font>
-				<Font name="Roboto" size="12.0" />
+				<Font name="Roboto Bold" size="12.0" />
 			</font>
 		</Label>
 		<StackPane.margin>

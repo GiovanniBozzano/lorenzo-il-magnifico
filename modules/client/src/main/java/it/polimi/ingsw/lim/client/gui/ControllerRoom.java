@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javax.annotation.PostConstruct;
@@ -57,6 +58,7 @@ public class ControllerRoom extends CustomController
 			protected void updateItem(String rule, boolean empty)
 			{
 				super.updateItem(rule, empty);
+				super.setFont(Font.loadFont(this.getClass().getResourceAsStream("/font/roboto/Roboto-Regular.ttf"), 12));
 				this.setDisable(true);
 				if (empty || rule == null) {
 					this.setText(null);
@@ -71,6 +73,7 @@ public class ControllerRoom extends CustomController
 			protected void updateItem(String playerName, boolean empty)
 			{
 				super.updateItem(playerName, empty);
+				super.setFont(Font.loadFont(this.getClass().getResourceAsStream("/font/roboto/Roboto-Regular.ttf"), 12));
 				this.setDisable(true);
 				if (empty || playerName == null) {
 					this.setText(null);
