@@ -9,10 +9,13 @@ import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -32,6 +35,57 @@ public class ControllerConnection implements Initializable, IController
 	@FXML private JFXButton dialogOkButton;
 	private double xOffset;
 	private double yOffset;
+
+	@FXML
+	private void handleStackPaneMousePressed(MouseEvent event)
+	{
+		this.stackPane.getScene().getRoot().requestFocus();
+		this.xOffset = this.stackPane.getScene().getWindow().getX() - event.getScreenX();
+		this.yOffset = this.stackPane.getScene().getWindow().getY() - event.getScreenY();
+	}
+
+	@FXML
+	private void handleStackPaneMouseDragged(MouseEvent event)
+	{
+		this.stackPane.getScene().getWindow().setX(event.getScreenX() + this.xOffset);
+		this.stackPane.getScene().getWindow().setY(event.getScreenY() + this.yOffset);
+	}
+
+	@FXML
+	private void handleQuitImageViewMouseClicked()
+	{
+		Client.getInstance().stop();
+	}
+
+	@FXML
+	private void handleQuitImageViewMouseEntered()
+	{
+		this.stackPane.getScene().setCursor(Cursor.HAND);
+	}
+
+	@FXML
+	private void handleQuitImageViewMouseExited()
+	{
+		this.stackPane.getScene().setCursor(Cursor.DEFAULT);
+	}
+
+	@FXML
+	private void handleMinimizeImageViewMouseClicked()
+	{
+		((Stage) this.stackPane.getScene().getWindow()).setIconified(true);
+	}
+
+	@FXML
+	private void handleMinimizeImageViewMouseEntered()
+	{
+		this.stackPane.getScene().setCursor(Cursor.HAND);
+	}
+
+	@FXML
+	private void handleMinimizeImageViewMouseExited()
+	{
+		this.stackPane.getScene().setCursor(Cursor.DEFAULT);
+	}
 
 	@FXML
 	private void handleConnectionButtonAction()
@@ -63,20 +117,12 @@ public class ControllerConnection implements Initializable, IController
 	public void handleDialogOkButtonAction()
 	{
 		this.dialog.close();
-		this.dialog.getScene().getRoot().requestFocus();
+		this.stackPane.getScene().getRoot().requestFocus();
 	}
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{
-		this.stackPane.setOnMousePressed(event -> {
-			this.xOffset = this.stackPane.getScene().getWindow().getX() - event.getScreenX();
-			this.yOffset = this.stackPane.getScene().getWindow().getY() - event.getScreenY();
-		});
-		this.stackPane.setOnMouseDragged(event -> {
-			this.stackPane.getScene().getWindow().setX(event.getScreenX() + this.xOffset);
-			this.stackPane.getScene().getWindow().setY(event.getScreenY() + this.yOffset);
-		});
 		this.stackPane.getChildren().remove(this.dialog);
 		this.dialog.setTransitionType(DialogTransition.CENTER);
 		this.dialog.setDialogContainer(this.stackPane);
@@ -92,6 +138,13 @@ public class ControllerConnection implements Initializable, IController
 	@PostConstruct
 	public void setupGui()
 	{
+		((Stage) this.stackPane.getScene().getWindow()).iconifiedProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue) {
+				this.stackPane.getScene().setCursor(Cursor.HAND);
+				this.stackPane.getScene().setCursor(Cursor.DEFAULT);
+			}
+		});
+		this.stackPane.getScene().getRoot().requestFocus();
 		((StackPane) ((JFXRippler) ((AnchorPane) this.rmiRadioButton.getChildrenUnmodifiable().get(1)).getChildren().get(0)).getChildren().get(0)).setPadding(new Insets(0.0D));
 		this.rmiRadioButton.getChildrenUnmodifiable().get(0).setTranslateX(10.0D);
 		((StackPane) ((JFXRippler) ((AnchorPane) this.socketRadioButton.getChildrenUnmodifiable().get(1)).getChildren().get(0)).getChildren().get(0)).setPadding(new Insets(0.0D));

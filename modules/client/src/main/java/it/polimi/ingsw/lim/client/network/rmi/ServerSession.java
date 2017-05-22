@@ -16,7 +16,7 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	@Override
 	public void sendDisconnect() throws RemoteException
 	{
-		Client.getInstance().disconnect(false, true);
+		Client.getInstance().disconnect(false, false);
 	}
 
 	@Override

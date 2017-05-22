@@ -1,9 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXTextField?><?import javafx.geometry.*?><?import javafx.scene.control.Separator?><?import javafx.scene.layout.*?><?import javafx.scene.text.Font?>
-<StackPane fx:id="stackPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.server.gui.ControllerStart">
+<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.JFXButton?><?import com.jfoenix.controls.JFXTextField?><?import javafx.geometry.*?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?><?import javafx.scene.text.Font?>
+<StackPane fx:id="stackPane" onMouseDragged="#handleStackPaneMouseDragged" onMousePressed="#handleStackPaneMousePressed" style="-fx-border-color: #757575; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.server.gui.ControllerStart">
 	<VBox layoutX="50.0" layoutY="-40.0" spacing="10.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+		<HBox alignment="TOP_RIGHT">
+			<children>
+				<ImageView onMouseClicked="#handleMinimizeImageViewMouseClicked" onMouseEntered="#handleMinimizeImageViewMouseEntered" onMouseExited="#handleMinimizeImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
+					<image>
+						<Image url="@/images/icon_minimize.png" />
+					</image>
+					<HBox.margin>
+						<Insets />
+					</HBox.margin>
+				</ImageView>
+				<ImageView onMouseClicked="#handleQuitImageViewMouseClicked" onMouseEntered="#handleQuitImageViewMouseEntered" onMouseExited="#handleQuitImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
+					<image>
+						<Image url="@/images/icon_quit.png" />
+					</image>
+					<HBox.margin>
+						<Insets left="10.0" />
+					</HBox.margin>
+				</ImageView>
+			</children>
+		</HBox>
 		<JFXTextField fx:id="rmiPortTextField" labelFloat="true" minWidth="-Infinity" promptText="Enter RMI port..." text="8080">
 			<VBox.margin>
-				<Insets top="10.0" />
+				<Insets />
 			</VBox.margin>
 			<font>
 				<Font name="Roboto" size="12.0" />
@@ -17,15 +37,13 @@
 				<Font name="Roboto" size="12.0" />
 			</font>
 		</JFXTextField>
-		<Separator minWidth="-Infinity" prefWidth="180.0">
-			<VBox.margin>
-				<Insets top="5.0" />
-			</VBox.margin>
-		</Separator>
 		<JFXButton fx:id="startButton" onAction="#handleStartButtonAction" style="-fx-background-color: #66BB6A;" text="Start" textFill="WHITE">
 			<font>
 				<Font name="Roboto Bold" size="12.0" />
 			</font>
+			<VBox.margin>
+				<Insets top="5.0" />
+			</VBox.margin>
 		</JFXButton>
 		<StackPane.margin>
 			<Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

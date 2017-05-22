@@ -19,11 +19,14 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class ConnectionHandlerRMI extends ConnectionHandler
 {
+	private final ExecutorService rmiExecutor = Executors.newSingleThreadExecutor();
 	private ServerSession serverSession;
 	private IAuthentication login;
 	private IClientSession clientSession;
@@ -51,6 +54,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 	public void disconnect(boolean notifyServer)
 	{
 		super.disconnect(notifyServer);
+		this.rmiExecutor.shutdownNow();
 		if (notifyServer && this.clientSession != null) {
 			try {
 				this.clientSession.sendDisconnect();
@@ -64,38 +68,42 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 	public synchronized void sendLogin(String username, String password, RoomType roomType)
 	{
 		super.sendLogin(username, password, roomType);
-		try {
-			AuthenticationInformations authenticationInformations = this.login.sendLogin(CommonUtils.VERSION, username, CommonUtils.encrypt(password), roomType, this.serverSession);
-			this.clientSession = authenticationInformations.getClientSession();
-			Client.getInstance().setUsername(username);
-			CommonUtils.setNewWindow(Utils.SCENE_ROOM, null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames()))));
-		} catch (RemoteException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			Client.getInstance().disconnect(false, true);
-		} catch (AuthenticationFailedException exception) {
-			Client.getLogger().log(Level.INFO, exception.getLocalizedMessage(), exception);
-			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-			Platform.runLater(() -> ((ControllerAuthentication) Client.getInstance().getWindowInformations().getController()).showDialog(exception.getLocalizedMessage()));
-		}
+		this.rmiExecutor.execute(() -> {
+			try {
+				AuthenticationInformations authenticationInformations = this.login.sendLogin(CommonUtils.VERSION, username, CommonUtils.encrypt(password), roomType, this.serverSession);
+				this.clientSession = authenticationInformations.getClientSession();
+				Client.getInstance().setUsername(username);
+				CommonUtils.setNewWindow(Utils.SCENE_ROOM, null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames()))));
+			} catch (RemoteException exception) {
+				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, true);
+			} catch (AuthenticationFailedException exception) {
+				Client.getLogger().log(Level.INFO, exception.getLocalizedMessage(), exception);
+				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+				Platform.runLater(() -> ((ControllerAuthentication) Client.getInstance().getWindowInformations().getController()).showDialog(exception.getLocalizedMessage()));
+			}
+		});
 	}
 
 	@Override
 	public synchronized void sendRegistration(String username, String password, RoomType roomType)
 	{
 		super.sendRegistration(username, password, roomType);
-		try {
-			AuthenticationInformations authenticationInformations = this.login.sendRegistration(CommonUtils.VERSION, username, CommonUtils.encrypt(password), roomType, this.serverSession);
-			this.clientSession = authenticationInformations.getClientSession();
-			Client.getInstance().setUsername(username);
-			CommonUtils.setNewWindow(Utils.SCENE_ROOM, null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames()))));
-		} catch (RemoteException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			Client.getInstance().disconnect(false, true);
-		} catch (AuthenticationFailedException exception) {
-			Client.getLogger().log(Level.INFO, exception.getLocalizedMessage(), exception);
-			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-			Platform.runLater(() -> ((ControllerAuthentication) Client.getInstance().getWindowInformations().getController()).showDialog(exception.getLocalizedMessage()));
-		}
+		this.rmiExecutor.execute(() -> {
+			try {
+				AuthenticationInformations authenticationInformations = this.login.sendRegistration(CommonUtils.VERSION, username, CommonUtils.encrypt(password), roomType, this.serverSession);
+				this.clientSession = authenticationInformations.getClientSession();
+				Client.getInstance().setUsername(username);
+				CommonUtils.setNewWindow(Utils.SCENE_ROOM, null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames()))));
+			} catch (RemoteException exception) {
+				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, true);
+			} catch (AuthenticationFailedException exception) {
+				Client.getLogger().log(Level.INFO, exception.getLocalizedMessage(), exception);
+				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+				Platform.runLater(() -> ((ControllerAuthentication) Client.getInstance().getWindowInformations().getController()).showDialog(exception.getLocalizedMessage()));
+			}
+		});
 	}
 
 	@Override
@@ -118,11 +126,13 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 	public synchronized void sendChatMessage(String text)
 	{
 		super.sendChatMessage(text);
-		try {
-			this.clientSession.sendChatMessage(text);
-		} catch (RemoteException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			Client.getInstance().disconnect(false, true);
-		}
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.clientSession.sendChatMessage(text);
+			} catch (RemoteException exception) {
+				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, true);
+			}
+		});
 	}
 }

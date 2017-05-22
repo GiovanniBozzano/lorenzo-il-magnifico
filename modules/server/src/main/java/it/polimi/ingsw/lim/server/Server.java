@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server;
 
 import it.polimi.ingsw.lim.common.Instance;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.database.DatabaseSQLite;
@@ -63,12 +64,13 @@ public class Server extends Instance
 	 * Disconnects all Clients, waiting for every thread to terminate properly.
 	 */
 	@Override
-	public void stop()
+	synchronized public void stop()
 	{
-		Connection.broadcastChatMessage("Server shutting down...");
 		if (this.connectionHandler == null) {
+			CommonUtils.closeAllWindows(this.getWindowInformations().getStage());
 			return;
 		}
+		Connection.broadcastChatMessage("Server shutting down...");
 		if (this.connectionHandler.getRegistry() != null) {
 			try {
 				this.connectionHandler.getRegistry().unbind("lorenzo-il-magnifico");
@@ -78,23 +80,23 @@ public class Server extends Instance
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		}
-		if (this.connectionHandler != null) {
-			this.connectionHandler.end();
-			try (Socket socket = new Socket("localhost", this.socketPort)) {
-				socket.close();
-			} catch (IOException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			}
-			try {
-				this.connectionHandler.join();
-			} catch (InterruptedException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-				Thread.currentThread().interrupt();
-			}
+		this.connectionHandler.end();
+		try (Socket socket = new Socket("localhost", this.socketPort)) {
+			socket.close();
+		} catch (IOException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+		try {
+			this.connectionHandler.join();
+		} catch (InterruptedException exception) {
+			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Thread.currentThread().interrupt();
 		}
 		this.databaseSaver.shutdown();
 		this.databaseKeeper.shutdownNow();
 		this.database.closeConnection();
+		this.connectionHandler = null;
+		CommonUtils.closeAllWindows(this.getWindowInformations().getStage());
 	}
 
 	public static Server getInstance()

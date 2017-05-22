@@ -9,11 +9,14 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class ConnectionRMI extends Connection
 {
+	private final ExecutorService rmiExecutor = Executors.newSingleThreadExecutor();
 	private final IServerSession serverSession;
 
 	ConnectionRMI(int id, String name, IServerSession serverSession)
@@ -47,6 +50,7 @@ public class ConnectionRMI extends Connection
 				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 			}
 		}
+		this.rmiExecutor.shutdownNow();
 		Utils.displayToLog("RMI Player: " + this.getId() + " : " + this.getUsername() + " disconnected.");
 	}
 
@@ -64,44 +68,53 @@ public class ConnectionRMI extends Connection
 	@Override
 	public void sendRoomEntryOther(String name)
 	{
-		try {
-			this.serverSession.sendRoomEntryOther(name);
-		} catch (RemoteException exception) {
-			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false, null);
-		}
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendRoomEntryOther(name);
+			} catch (RemoteException exception) {
+				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
 	}
 
 	@Override
 	public void sendRoomExitOther(String name)
 	{
-		try {
-			this.serverSession.sendRoomExitOther(name);
-		} catch (RemoteException exception) {
-			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false, null);
-		}
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendRoomExitOther(name);
+			} catch (RemoteException exception) {
+				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
 	}
 
 	@Override
 	public void sendLogMessage(String text)
 	{
-		try {
-			this.serverSession.sendLogMessage(text);
-		} catch (RemoteException exception) {
-			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false, null);
-		}
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendLogMessage(text);
+			} catch (RemoteException exception) {
+				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
 	}
 
 	@Override
 	public void sendChatMessage(String text)
 	{
-		try {
-			this.serverSession.sendChatMessage(text);
-		} catch (RemoteException exception) {
-			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			this.disconnect(false, null);
-		}
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendChatMessage(text);
+			} catch (RemoteException exception) {
+				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
 	}
 }
+
