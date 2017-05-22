@@ -65,7 +65,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			}
 		}
 		try {
-			UnicastRemoteObject.unexportObject(this.serverSession, true);
+			UnicastRemoteObject.unexportObject(this.serverSession, false);
 		} catch (NoSuchObjectException exception) {
 			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 		}
@@ -83,7 +83,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			}
 		} catch (RemoteException exception) {
 			Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			Client.getInstance().disconnect(false, true);
+			Client.getInstance().disconnect(false, false);
 		}
 	}
 
@@ -93,13 +93,10 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		super.sendLogin(username, password, roomType);
 		this.rmiExecutor.execute(() -> {
 			try {
-				AuthenticationInformations authenticationInformations = this.login.sendLogin(CommonUtils.VERSION, username, CommonUtils.encrypt(password), roomType, this.serverSession);
-				this.clientSession = authenticationInformations.getClientSession();
-				Client.getInstance().setUsername(username);
-				CommonUtils.setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));
+				this.finalizeAuthentication(username, this.login.sendLogin(CommonUtils.VERSION, username, CommonUtils.encrypt(password), roomType, this.serverSession));
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-				Client.getInstance().disconnect(false, true);
+				Client.getInstance().disconnect(false, false);
 			} catch (AuthenticationFailedException exception) {
 				Client.getLogger().log(Level.INFO, exception.getLocalizedMessage(), exception);
 				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
@@ -114,13 +111,10 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		super.sendRegistration(username, password, roomType);
 		this.rmiExecutor.execute(() -> {
 			try {
-				AuthenticationInformations authenticationInformations = this.login.sendRegistration(CommonUtils.VERSION, username, CommonUtils.encrypt(password), roomType, this.serverSession);
-				this.clientSession = authenticationInformations.getClientSession();
-				Client.getInstance().setUsername(username);
-				CommonUtils.setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));
+				this.finalizeAuthentication(username, this.login.sendRegistration(CommonUtils.VERSION, username, CommonUtils.encrypt(password), roomType, this.serverSession));
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-				Client.getInstance().disconnect(false, true);
+				Client.getInstance().disconnect(false, false);
 			} catch (AuthenticationFailedException exception) {
 				Client.getLogger().log(Level.INFO, exception.getLocalizedMessage(), exception);
 				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
@@ -138,7 +132,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				this.clientSession.sendRoomTimerRequest();
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-				Client.getInstance().disconnect(false, true);
+				Client.getInstance().disconnect(false, false);
 			}
 		});
 	}
@@ -152,8 +146,15 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				this.clientSession.sendChatMessage(text);
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-				Client.getInstance().disconnect(false, true);
+				Client.getInstance().disconnect(false, false);
 			}
 		});
+	}
+
+	private void finalizeAuthentication(String username, AuthenticationInformations authenticationInformations) throws RemoteException, AuthenticationFailedException
+	{
+		this.clientSession = authenticationInformations.getClientSession();
+		Client.getInstance().setUsername(username);
+		CommonUtils.setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));
 	}
 }

@@ -33,28 +33,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 		String trimmedUsername = username.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		Utils.checkLogin(version, trimmedUsername, password);
 		Utils.displayToLog("RMI Player logged in as: " + trimmedUsername);
-		ConnectionRMI connectionRmi = new ConnectionRMI(Server.getInstance().getConnectionId(), trimmedUsername, serverSession);
-		ClientSession clientSession = new ClientSession(connectionRmi);
-		this.clientSessions.add(clientSession);
-		Server.getInstance().getConnections().add(connectionRmi);
-		Room targetRoom = null;
-		for (Room room : Server.getInstance().getRooms()) {
-			if (!room.getIsStarted() && room.getRoomType() == roomType && room.getPlayers().size() < roomType.getPlayersNumber()) {
-				targetRoom = room;
-				break;
-			}
-		}
-		if (targetRoom == null) {
-			targetRoom = new Room(Server.getInstance().getRoomId(), roomType);
-			Server.getInstance().getRooms().add(targetRoom);
-		}
-		targetRoom.addPlayer(connectionRmi);
-		List<String> playerUsernames = new ArrayList<>();
-		for (Connection player : targetRoom.getPlayers()) {
-			player.sendRoomEntryOther(trimmedUsername);
-			playerUsernames.add(player.getUsername());
-		}
-		return new AuthenticationInformations(clientSession, new RoomInformations(targetRoom.getId(), targetRoom.getRoomType(), playerUsernames));
+		return this.finalizeAuthentication(trimmedUsername, roomType, serverSession);
 	}
 
 	@Override
@@ -63,28 +42,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 		String trimmedUsername = username.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		Utils.checkRegistration(version, trimmedUsername, password);
 		Utils.displayToLog("RMI Player registerd as: " + trimmedUsername);
-		ConnectionRMI connectionRmi = new ConnectionRMI(Server.getInstance().getConnectionId(), trimmedUsername, serverSession);
-		ClientSession clientSession = new ClientSession(connectionRmi);
-		this.clientSessions.add(clientSession);
-		Server.getInstance().getConnections().add(connectionRmi);
-		Room targetRoom = null;
-		for (Room room : Server.getInstance().getRooms()) {
-			if (!room.getIsStarted() && room.getRoomType() == roomType && room.getPlayers().size() < roomType.getPlayersNumber()) {
-				targetRoom = room;
-				break;
-			}
-		}
-		if (targetRoom == null) {
-			targetRoom = new Room(Server.getInstance().getRoomId(), roomType);
-			Server.getInstance().getRooms().add(targetRoom);
-		}
-		targetRoom.addPlayer(connectionRmi);
-		List<String> playerUsernames = new ArrayList<>();
-		for (Connection player : targetRoom.getPlayers()) {
-			player.sendRoomEntryOther(trimmedUsername);
-			playerUsernames.add(player.getUsername());
-		}
-		return new AuthenticationInformations(clientSession, new RoomInformations(targetRoom.getId(), targetRoom.getRoomType(), playerUsernames));
+		return this.finalizeAuthentication(trimmedUsername, roomType, serverSession);
 	}
 
 	@Override
@@ -113,6 +71,32 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	public int hashCode()
 	{
 		return Objects.hash(super.hashCode(), this.clientSessions);
+	}
+
+	private AuthenticationInformations finalizeAuthentication(String username, RoomType roomType, IServerSession serverSession) throws RemoteException
+	{
+		ConnectionRMI connectionRmi = new ConnectionRMI(Server.getInstance().getConnectionId(), username, serverSession);
+		ClientSession clientSession = new ClientSession(connectionRmi);
+		this.clientSessions.add(clientSession);
+		Server.getInstance().getConnections().add(connectionRmi);
+		Room targetRoom = null;
+		for (Room room : Server.getInstance().getRooms()) {
+			if (!room.getIsStarted() && room.getRoomType() == roomType && room.getPlayers().size() < roomType.getPlayersNumber()) {
+				targetRoom = room;
+				break;
+			}
+		}
+		if (targetRoom == null) {
+			targetRoom = new Room(Server.getInstance().getRoomId(), roomType);
+			Server.getInstance().getRooms().add(targetRoom);
+		}
+		targetRoom.addPlayer(connectionRmi);
+		List<String> playerUsernames = new ArrayList<>();
+		for (Connection player : targetRoom.getPlayers()) {
+			player.sendRoomEntryOther(username);
+			playerUsernames.add(player.getUsername());
+		}
+		return new AuthenticationInformations(clientSession, new RoomInformations(targetRoom.getId(), targetRoom.getRoomType(), playerUsernames));
 	}
 
 	List<ClientSession> getClientSessions()

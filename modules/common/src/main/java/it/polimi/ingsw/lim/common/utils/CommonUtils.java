@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.common.utils;
 
 import it.polimi.ingsw.lim.common.Instance;
-import it.polimi.ingsw.lim.common.gui.IController;
+import it.polimi.ingsw.lim.common.gui.CustomController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -79,7 +79,7 @@ public class CommonUtils
 				if (Instance.getInstance().getWindowInformations() == null) {
 					stage.show();
 				}
-				((IController) fxmlLoader.getController()).setupGui();
+				((CustomController) fxmlLoader.getController()).setupGui();
 				Instance.getInstance().setWindowInformations(new WindowInformations(fxmlLoader.getController(), stage));
 				if (postShowing != null) {
 					ExecutorService executorService = Executors.newSingleThreadExecutor();

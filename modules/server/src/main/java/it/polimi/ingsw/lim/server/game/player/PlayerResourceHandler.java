@@ -47,11 +47,11 @@ public class PlayerResourceHandler
 			case 2:
 				return this.resources.get(ResourceType.MILITARY_POINT) > 3;
 			case 3:
-				return this.resources.get(ResourceType.MILITARY_POINT) > 3;
+				return this.resources.get(ResourceType.MILITARY_POINT) > 7;
 			case 4:
-				return this.resources.get(ResourceType.MILITARY_POINT) > 3;
+				return this.resources.get(ResourceType.MILITARY_POINT) > 12;
 			case 5:
-				return this.resources.get(ResourceType.MILITARY_POINT) > 3;
+				return this.resources.get(ResourceType.MILITARY_POINT) > 18;
 			default:
 				return false;
 		}

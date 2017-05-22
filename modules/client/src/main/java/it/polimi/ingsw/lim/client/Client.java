@@ -7,7 +7,7 @@ import it.polimi.ingsw.lim.client.network.socket.ConnectionHandlerSocket;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
-import it.polimi.ingsw.lim.common.gui.IController;
+import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowInformations;
@@ -100,7 +100,7 @@ public class Client extends Instance
 						CommonUtils.closeAllWindows(this.getWindowInformations().getStage());
 						this.setWindowInformations(new WindowInformations(fxmlLoader.getController(), stage));
 						stage.show();
-						((IController) fxmlLoader.getController()).setupGui();
+						((CustomController) fxmlLoader.getController()).setupGui();
 					} catch (IOException exception) {
 						Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 					}
