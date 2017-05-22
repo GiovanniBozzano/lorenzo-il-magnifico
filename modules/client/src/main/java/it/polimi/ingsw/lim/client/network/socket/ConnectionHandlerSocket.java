@@ -77,6 +77,13 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 	}
 
 	@Override
+	public synchronized void sendHeartbeat()
+	{
+		super.sendHeartbeat();
+		new Packet(PacketType.HEARTBEAT).send(this.out);
+	}
+
+	@Override
 	public synchronized void sendLogin(String username, String password, RoomType roomType)
 	{
 		super.sendLogin(username, password, roomType);
@@ -99,13 +106,6 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			Thread.currentThread().interrupt();
 		}
 		new Packet(PacketType.DISCONNECTION_ACKNOWLEDGEMENT).send(this.out);
-	}
-
-	@Override
-	public synchronized void sendHeartbeat()
-	{
-		super.sendHeartbeat();
-		new Packet(PacketType.HEARTBEAT).send(this.out);
 	}
 
 	@Override
