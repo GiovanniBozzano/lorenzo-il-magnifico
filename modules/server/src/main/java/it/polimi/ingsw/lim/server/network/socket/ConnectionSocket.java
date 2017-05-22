@@ -83,46 +83,58 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public synchronized void sendHeartbeat()
+	public void sendHeartbeat()
 	{
 		new Packet(PacketType.HEARTBEAT).send(this.out);
 	}
 
-	synchronized void sendAuthenticationConfirmation(RoomInformations roomInformations)
+	void sendAuthenticationConfirmation(RoomInformations roomInformations)
 	{
 		new PacketAuthenticationConfirmation(this.getUsername(), roomInformations).send(this.out);
 	}
 
-	synchronized void sendAuthenticationFailure(String text)
+	void sendAuthenticationFailure(String text)
 	{
 		new PacketAuthenticationFailure(text).send(this.out);
 	}
 
 	@Override
-	public synchronized void sendRoomEntryOther(String name)
+	public void sendRoomEntryOther(String name)
 	{
 		new PacketRoomEntryOther(name).send(this.out);
 	}
 
 	@Override
-	public synchronized void sendRoomExitOther(String name)
+	public void sendRoomExitOther(String name)
 	{
 		new PacketRoomExitOther(name).send(this.out);
 	}
 
 	@Override
-	public synchronized void sendLogMessage(String text)
+	public void sendRoomTimer(int timer)
+	{
+		new PacketRoomTimer(timer).send(this.out);
+	}
+
+	@Override
+	public void sendGameStarted(RoomInformations roomInformations)
+	{
+		new PacketGameStarted(roomInformations).send(this.out);
+	}
+
+	@Override
+	public void sendLogMessage(String text)
 	{
 		new PacketLogMessage(text).send(this.out);
 	}
 
-	private synchronized void sendDisconnectionLogMessage(String text)
+	private void sendDisconnectionLogMessage(String text)
 	{
 		new PacketDisconnectionLogMessage(text).send(this.out);
 	}
 
 	@Override
-	public synchronized void sendChatMessage(String text)
+	public void sendChatMessage(String text)
 	{
 		new PacketChatMessage(text.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "")).send(this.out);
 	}

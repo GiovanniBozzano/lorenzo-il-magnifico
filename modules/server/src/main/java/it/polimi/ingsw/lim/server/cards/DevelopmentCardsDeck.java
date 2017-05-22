@@ -3,26 +3,23 @@ package it.polimi.ingsw.lim.server.cards;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.bonus.BonusAdditionCard;
 import it.polimi.ingsw.lim.common.bonus.BonusAdditionWork;
 import it.polimi.ingsw.lim.common.bonus.Malus;
-import it.polimi.ingsw.lim.common.cards.DevelopmentCard;
+import it.polimi.ingsw.lim.common.cards.Card;
 import it.polimi.ingsw.lim.common.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.common.cards.DevelopmentCardCharacter;
 import it.polimi.ingsw.lim.common.cards.DevelopmentCardTerritory;
-import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.events.Event;
 import it.polimi.ingsw.lim.common.events.EventCard;
 import it.polimi.ingsw.lim.common.events.EventWork;
-import it.polimi.ingsw.lim.common.utils.DiscountChoice;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.common.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.utils.ResourceAmountMultiplierCard;
+import it.polimi.ingsw.lim.common.utils.ResourceAmountMultiplierResource;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.cards.json.DevelopmentCardsBuildingDeserializer;
-import it.polimi.ingsw.lim.server.cards.json.DevelopmentCardsCharacterDeserializer;
-import it.polimi.ingsw.lim.server.cards.json.DevelopmentCardsTerritoryDeserializer;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class DevelopmentCardsDeck<T extends DevelopmentCard>
+public class DevelopmentCardsDeck<T extends Card>
 {
 	private final T[] firstPeriod;
 	private final T[] secondPeriod;
@@ -63,160 +60,12 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 	@Override
 	public String toString()
 	{
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("\n");
-		this.appendPeriod(stringBuilder, this.firstPeriod);
-		this.appendPeriod(stringBuilder, this.secondPeriod);
-		this.appendPeriod(stringBuilder, this.thirdPeriod);
-		return stringBuilder.toString();
+		return Builder.GSON.toJson(this);
 	}
 
-	private void appendPeriod(StringBuilder stringBuilder, T[] period)
+	public static class Builder<T extends Card>
 	{
-		for (int indexCards = 0; indexCards < period.length; indexCards++) {
-			if (indexCards != 0) {
-				stringBuilder.append("****************************************\n");
-			} else {
-				stringBuilder.append("########################################\n");
-				stringBuilder.append("########################################\n");
-			}
-			stringBuilder.append("display_name: ").append(period[indexCards].getDisplayName()).append("\n");
-			stringBuilder.append("period: ").append(period[indexCards].getPeriod().name()).append("\n");
-			if (period[indexCards] instanceof DevelopmentCardCharacter) {
-				DevelopmentCardCharacter developmentCardCharacter = (DevelopmentCardCharacter) period[indexCards];
-				stringBuilder.append("price: ").append(developmentCardCharacter.getPrice()).append("\n");
-				stringBuilder.append("instant_reward:\n");
-				stringBuilder.append("  events:\n");
-				Event[] events = developmentCardCharacter.getInstantReward().getEvents();
-				for (int indexEvents = 0; indexEvents < events.length; indexEvents++) {
-					if (indexEvents != 0) {
-						stringBuilder.append("      ----------\n");
-					}
-					if (events[indexEvents] instanceof EventCard) {
-						EventCard eventCard = (EventCard) events[indexEvents];
-						stringBuilder.append("      type: CARD\n");
-						stringBuilder.append("      value: ").append(eventCard.getValue()).append("\n");
-						stringBuilder.append("      card_types:\n");
-						for (CardType cardType : eventCard.getCardTypes()) {
-							stringBuilder.append("          ").append(cardType.name()).append("\n");
-						}
-						stringBuilder.append("      discount_choices:\n");
-						DiscountChoice[] discountChoices = eventCard.getDiscountChoices();
-						for (int indexDiscountChoices = 0; indexDiscountChoices < discountChoices.length; indexDiscountChoices++) {
-							if (indexDiscountChoices != 0) {
-								stringBuilder.append("          ----------\n");
-							}
-							stringBuilder.append("          resource_amounts:\n");
-							ResourceAmount[] resourceAmounts = discountChoices[indexDiscountChoices].getResourceAmounts();
-							for (int indexResourceAmount = 0; indexResourceAmount < resourceAmounts.length; indexResourceAmount++) {
-								if (indexResourceAmount != 0) {
-									stringBuilder.append("              ----------\n");
-								}
-								stringBuilder.append("              type: ").append(resourceAmounts[indexResourceAmount].getResourceType().name()).append("\n");
-								stringBuilder.append("              amount: ").append(resourceAmounts[indexResourceAmount].getAmount()).append("\n");
-							}
-						}
-					} else {
-						EventWork eventCard = (EventWork) events[indexEvents];
-						stringBuilder.append("      type: WORK\n");
-						stringBuilder.append("      value: ").append(eventCard.getValue()).append("\n");
-						stringBuilder.append("      work_type: ").append(eventCard.getWorkType().name()).append("\n");
-					}
-				}
-				stringBuilder.append("  resource_amounts:\n");
-				ResourceAmount[] resourceAmounts = developmentCardCharacter.getInstantReward().getResourceAmounts();
-				for (int indexResourceAmounts = 0; indexResourceAmounts < resourceAmounts.length; indexResourceAmounts++) {
-					if (indexResourceAmounts != 0) {
-						stringBuilder.append("      ----------\n");
-					}
-					stringBuilder.append("      type: ").append(resourceAmounts[indexResourceAmounts].getResourceType().name()).append("\n");
-					stringBuilder.append("      amount: ").append(resourceAmounts[indexResourceAmounts].getAmount()).append("\n");
-				}
-				stringBuilder.append("permanent_bonus:\n");
-				if (developmentCardCharacter.getPermanentBonus() instanceof BonusAdditionCard) {
-					BonusAdditionCard bonusAdditionCard = (BonusAdditionCard) developmentCardCharacter.getPermanentBonus();
-					stringBuilder.append("  type: ADDITION_CARD\n");
-					stringBuilder.append("  value: ").append(bonusAdditionCard.getValue()).append("\n");
-					stringBuilder.append("  card_type: ").append(bonusAdditionCard.getCardType().name()).append("\n");
-					stringBuilder.append("  discount_choices:\n");
-					DiscountChoice[] discountChoices = bonusAdditionCard.getDiscountChoices();
-					for (int indexDiscountChoices = 0; indexDiscountChoices < discountChoices.length; indexDiscountChoices++) {
-						if (indexDiscountChoices != 0) {
-							stringBuilder.append("      ----------\n");
-						}
-						stringBuilder.append("      resource_amounts:\n");
-						resourceAmounts = discountChoices[indexDiscountChoices].getResourceAmounts();
-						for (int indexResourceAmounts = 0; indexResourceAmounts < resourceAmounts.length; indexResourceAmounts++) {
-							if (indexResourceAmounts != 0) {
-								stringBuilder.append("          ----------\n");
-							}
-							stringBuilder.append("          type: ").append(resourceAmounts[indexResourceAmounts].getResourceType().name()).append("\n");
-							stringBuilder.append("          amount: ").append(resourceAmounts[indexResourceAmounts].getAmount()).append("\n");
-						}
-					}
-				} else if (developmentCardCharacter.getPermanentBonus() instanceof BonusAdditionWork) {
-					BonusAdditionWork bonusAdditionWork = (BonusAdditionWork) developmentCardCharacter.getPermanentBonus();
-					stringBuilder.append("  type: ADDITION_WORK\n");
-					stringBuilder.append("  value: ").append(bonusAdditionWork.getValue()).append("\n");
-					stringBuilder.append("  work_type: ").append(bonusAdditionWork.getWorkType().name()).append("\n");
-				} else if (developmentCardCharacter.getPermanentBonus() instanceof Malus) {
-					Malus malus = (Malus) developmentCardCharacter.getPermanentBonus();
-					stringBuilder.append("  type: MALUS\n");
-					stringBuilder.append("  rows:\n");
-					Row[] rows = malus.getRows();
-					for (Row row : rows) {
-						stringBuilder.append("      ").append(row.name()).append("\n");
-					}
-				}
-			} else if (period[indexCards] instanceof DevelopmentCardTerritory) {
-				DevelopmentCardTerritory developmentCardTerritory = (DevelopmentCardTerritory) period[indexCards];
-				stringBuilder.append("instant_resources:\n");
-				ResourceAmount[] resourceAmounts = developmentCardTerritory.getInstantResources();
-				for (int indexResourceAmounts = 0; indexResourceAmounts < resourceAmounts.length; indexResourceAmounts++) {
-					if (indexResourceAmounts != 0) {
-						stringBuilder.append("      ----------\n");
-					}
-					stringBuilder.append("      type: ").append(resourceAmounts[indexResourceAmounts].getResourceType().name()).append("\n");
-					stringBuilder.append("      amount: ").append(resourceAmounts[indexResourceAmounts].getAmount()).append("\n");
-				}
-				stringBuilder.append("activation_cost: ").append(developmentCardTerritory.getActivationCost()).append("\n");
-				stringBuilder.append("harvest_resources:\n");
-				resourceAmounts = developmentCardTerritory.getHarvestResources();
-				for (int indexResourceAmounts = 0; indexResourceAmounts < resourceAmounts.length; indexResourceAmounts++) {
-					if (indexResourceAmounts != 0) {
-						stringBuilder.append("      ----------\n");
-					}
-					stringBuilder.append("      type: ").append(resourceAmounts[indexResourceAmounts].getResourceType().name()).append("\n");
-					stringBuilder.append("      amount: ").append(resourceAmounts[indexResourceAmounts].getAmount()).append("\n");
-				}
-			} else if (period[indexCards] instanceof DevelopmentCardBuilding) {
-				DevelopmentCardBuilding developmentCardBuilding = (DevelopmentCardBuilding) period[indexCards];
-				stringBuilder.append("build_resources:\n");
-				ResourceAmount[] resourceAmounts = developmentCardBuilding.getBuildResources();
-				for (int indexResourceAmounts = 0; indexResourceAmounts < resourceAmounts.length; indexResourceAmounts++) {
-					if (indexResourceAmounts != 0) {
-						stringBuilder.append("      ----------\n");
-					}
-					stringBuilder.append("      type: ").append(resourceAmounts[indexResourceAmounts].getResourceType().name()).append("\n");
-					stringBuilder.append("      amount: ").append(resourceAmounts[indexResourceAmounts].getAmount()).append("\n");
-				}
-				stringBuilder.append("instant_resources:\n");
-				resourceAmounts = developmentCardBuilding.getInstantResources();
-				for (int indexResourceAmounts = 0; indexResourceAmounts < resourceAmounts.length; indexResourceAmounts++) {
-					if (indexResourceAmounts != 0) {
-						stringBuilder.append("      ----------\n");
-					}
-					stringBuilder.append("      type: ").append(resourceAmounts[indexResourceAmounts].getResourceType().name()).append("\n");
-					stringBuilder.append("      amount: ").append(resourceAmounts[indexResourceAmounts].getAmount()).append("\n");
-				}
-				stringBuilder.append("activation_cost: ").append(developmentCardBuilding.getActivationCost()).append("\n");
-			}
-		}
-	}
-
-	public static class Builder<T extends DevelopmentCard>
-	{
-		private static final Map<Class<? extends DevelopmentCard>, Type> TYPE_TOKENS = new HashMap<>();
+		private static final Map<Class<? extends Card>, Type> TYPE_TOKENS = new HashMap<>();
 
 		static {
 			Builder.TYPE_TOKENS.put(DevelopmentCardTerritory.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardTerritory>>()
@@ -230,7 +79,10 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 			}.getType());
 		}
 
-		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapter(Builder.TYPE_TOKENS.get(DevelopmentCardTerritory.class), new DevelopmentCardsTerritoryDeserializer()).registerTypeAdapter(Builder.TYPE_TOKENS.get(DevelopmentCardBuilding.class), new DevelopmentCardsBuildingDeserializer()).registerTypeAdapter(Builder.TYPE_TOKENS.get(DevelopmentCardCharacter.class), new DevelopmentCardsCharacterDeserializer());
+		private static final RuntimeTypeAdapterFactory<ResourceAmount> RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT = RuntimeTypeAdapterFactory.of(ResourceAmount.class).registerSubtype(ResourceAmount.class, "STANDARD").registerSubtype(ResourceAmountMultiplierCard.class, "MULTIPLIER_CARD").registerSubtype(ResourceAmountMultiplierResource.class, "MULTIPLIER_RESOURCE");
+		private static final RuntimeTypeAdapterFactory<Object> RUNTIME_TYPE_ADAPTER_FACTORY_BONUS = RuntimeTypeAdapterFactory.of(Object.class).registerSubtype(BonusAdditionCard.class, "ADDITION_CARD").registerSubtype(BonusAdditionWork.class, "ADDITION_WORK").registerSubtype(Malus.class, "MALUS");
+		private static final RuntimeTypeAdapterFactory<Event> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(Event.class).registerSubtype(EventCard.class, "CARD").registerSubtype(EventWork.class, "WORK");
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT).registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_BONUS).registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_EVENT);
 		private static final Gson GSON = Builder.GSON_BUILDER.create();
 		private final Class<T> clazz;
 		private final String jsonFile;

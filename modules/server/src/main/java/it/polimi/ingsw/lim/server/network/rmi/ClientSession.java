@@ -29,6 +29,12 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	}
 
 	@Override
+	public void sendRoomTimerRequest() throws RemoteException
+	{
+		this.connectionRmi.handleRoomTimerRequest();
+	}
+
+	@Override
 	public void sendChatMessage(String text) throws RemoteException
 	{
 		this.connectionRmi.handleChatMessage(text);

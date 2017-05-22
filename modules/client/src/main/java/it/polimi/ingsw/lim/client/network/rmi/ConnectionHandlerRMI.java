@@ -17,8 +17,10 @@ import javafx.application.Platform;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -47,11 +49,11 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			return;
 		}
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
-		CommonUtils.setNewWindow(Utils.SCENE_AUTHENTICATION, null);
+		CommonUtils.setNewWindow(Utils.SCENE_AUTHENTICATION);
 	}
 
 	@Override
-	public void disconnect(boolean notifyServer)
+	public synchronized void disconnect(boolean notifyServer)
 	{
 		super.disconnect(notifyServer);
 		this.rmiExecutor.shutdownNow();
@@ -61,6 +63,27 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
+		}
+		try {
+			UnicastRemoteObject.unexportObject(this.serverSession, true);
+		} catch (NoSuchObjectException exception) {
+			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	@Override
+	public synchronized void sendHeartbeat()
+	{
+		super.sendHeartbeat();
+		try {
+			if (this.clientSession != null) {
+				this.clientSession.sendHeartbeat();
+			} else {
+				this.login.sendHeartbeat();
+			}
+		} catch (RemoteException exception) {
+			Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+			Client.getInstance().disconnect(false, true);
 		}
 	}
 
@@ -73,7 +96,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				AuthenticationInformations authenticationInformations = this.login.sendLogin(CommonUtils.VERSION, username, CommonUtils.encrypt(password), roomType, this.serverSession);
 				this.clientSession = authenticationInformations.getClientSession();
 				Client.getInstance().setUsername(username);
-				CommonUtils.setNewWindow(Utils.SCENE_ROOM, null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames()))));
+				CommonUtils.setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, true);
@@ -94,7 +117,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				AuthenticationInformations authenticationInformations = this.login.sendRegistration(CommonUtils.VERSION, username, CommonUtils.encrypt(password), roomType, this.serverSession);
 				this.clientSession = authenticationInformations.getClientSession();
 				Client.getInstance().setUsername(username);
-				CommonUtils.setNewWindow(Utils.SCENE_ROOM, null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames()))));
+				CommonUtils.setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));
 			} catch (RemoteException exception) {
 				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, true);
@@ -107,19 +130,17 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 	}
 
 	@Override
-	public synchronized void sendHeartbeat()
+	public synchronized void sendRoomTimerRequest()
 	{
-		super.sendHeartbeat();
-		try {
-			if (this.clientSession != null) {
-				this.clientSession.sendHeartbeat();
-			} else {
-				this.login.sendHeartbeat();
+		super.sendRoomTimerRequest();
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.clientSession.sendRoomTimerRequest();
+			} catch (RemoteException exception) {
+				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, true);
 			}
-		} catch (RemoteException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
-			Client.getInstance().disconnect(false, true);
-		}
+		});
 	}
 
 	@Override

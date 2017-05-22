@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.client.gui;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.common.enums.RoomType;
@@ -12,6 +13,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.annotation.PostConstruct;
@@ -24,8 +26,10 @@ public class ControllerRoom implements Initializable, IController
 	@FXML private StackPane stackPane;
 	@FXML private Label playerNameLabel;
 	@FXML private TextArea chatTextArea;
+	@FXML private JFXButton gameRulesButton;
 	@FXML private JFXListView<String> rulesListView;
 	@FXML private JFXListView<String> playersListView;
+	@FXML private Label timerLabel;
 	private double xOffset;
 	private double yOffset;
 
@@ -78,6 +82,11 @@ public class ControllerRoom implements Initializable, IController
 	private void handleMinimizeImageViewMouseExited()
 	{
 		this.stackPane.getScene().setCursor(Cursor.DEFAULT);
+	}
+
+	@FXML
+	private void handleGameRulesButtonAction()
+	{
 	}
 
 	@FXML
@@ -140,13 +149,23 @@ public class ControllerRoom implements Initializable, IController
 			}
 		});
 		this.stackPane.getScene().getRoot().requestFocus();
+		this.gameRulesButton.setPrefWidth(((VBox) this.gameRulesButton.getParent()).getWidth());
 	}
 
 	public void setRoomInformations(RoomType roomType, List<String> playerNames)
 	{
 		this.playerNameLabel.setText(Client.getInstance().getUsername());
 		this.rulesListView.getItems().add("Room type: " + roomType.getDisplayName());
+		if (roomType == RoomType.EXTENDED) {
+			this.playersListView.setPrefHeight(122.0D);
+			this.stackPane.getScene().getWindow().sizeToScene();
+		}
 		this.playersListView.getItems().addAll(playerNames);
+		if (playerNames.size() < 2) {
+			this.timerLabel.setText("Waiting for other players...");
+		} else {
+			Client.getInstance().getConnectionHandler().sendRoomTimerRequest();
+		}
 	}
 
 	public ListView<String> getPlayersListView()
@@ -157,5 +176,10 @@ public class ControllerRoom implements Initializable, IController
 	public TextArea getChatTextArea()
 	{
 		return this.chatTextArea;
+	}
+
+	public Label getTimerLabel()
+	{
+		return this.timerLabel;
 	}
 }

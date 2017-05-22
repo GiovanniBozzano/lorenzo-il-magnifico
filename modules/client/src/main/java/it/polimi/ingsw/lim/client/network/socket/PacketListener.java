@@ -24,6 +24,8 @@ class PacketListener extends Thread
 		PacketListener.PACKET_HANDLERS.put(PacketType.DISCONNECTION_LOG_MESSAGE, packet -> ((ConnectionHandlerSocket) Client.getInstance().getConnectionHandler()).handleDisconnectionLogMessage(((PacketDisconnectionLogMessage) packet).getText()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_ENTRY_OTHER, packet -> Client.getInstance().getConnectionHandler().handleRoomEntryOther(((PacketRoomEntryOther) packet).getName()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_EXIT_OTHER, packet -> Client.getInstance().getConnectionHandler().handleRoomExitOther(((PacketRoomExitOther) packet).getName()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_TIMER, packet -> Client.getInstance().getConnectionHandler().handleRoomTimer(((PacketRoomTimer) packet).getTimer()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_STARTED, packet -> Client.getInstance().getConnectionHandler().handleGameStarted(((PacketGameStarted) packet).getRoomInformations()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.LOG_MESSAGE, packet -> Client.getInstance().getConnectionHandler().handleLogMessage(((PacketLogMessage) packet).getText()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, packet -> Client.getInstance().getConnectionHandler().handleChatMessage(((PacketChatMessage) packet).getText()));
 	}

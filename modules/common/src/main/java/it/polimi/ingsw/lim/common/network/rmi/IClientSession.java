@@ -9,5 +9,7 @@ public interface IClientSession extends Remote
 
 	void sendHeartbeat() throws RemoteException;
 
+	void sendRoomTimerRequest() throws RemoteException;
+
 	void sendChatMessage(String text) throws RemoteException;
 }

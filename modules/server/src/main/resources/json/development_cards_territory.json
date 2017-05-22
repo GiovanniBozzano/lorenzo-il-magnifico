@@ -1,465 +1,533 @@
 {
-	"period_first": [
+	"firstPeriod": [
 		{
-			"display_name": "AVAMPOSTO_COMMERCIALE",
-			"instant_resources": [],
-			"activation_cost": 1,
-			"harvest_resources": [
+			"displayName": "AVAMPOSTO_COMMERCIALE",
+			"instantResources": [],
+			"activationCost": 1,
+			"harvestResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 1
 				}
 			]
 		},
 		{
-			"display_name": "BOSCO",
-			"instant_resources": [
+			"displayName": "BOSCO",
+			"instantResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 1
 				}
 			],
-			"activation_cost": 2,
-			"harvest_resources": [
+			"activationCost": 2,
+			"harvestResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 1
 				}
 			]
 		},
 		{
-			"display_name": "BORGO",
-			"instant_resources": [],
-			"activation_cost": 3,
-			"harvest_resources": [
+			"displayName": "BORGO",
+			"instantResources": [],
+			"activationCost": 3,
+			"harvestResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 1
 				},
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 1
 				}
 			]
 		},
 		{
-			"display_name": "CAVA_DI_GHIAIA",
-			"instant_resources": [
+			"displayName": "CAVA_DI_GHIAIA",
+			"instantResources": [
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 2
 				}
 			],
-			"activation_cost": 4,
-			"harvest_resources": [
+			"activationCost": 4,
+			"harvestResources": [
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 2
 				}
 			]
 		},
 		{
-			"display_name": "FORESTA",
-			"instant_resources": [
+			"displayName": "FORESTA",
+			"instantResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 1
 				}
 			],
-			"activation_cost": 5,
-			"harvest_resources": [
+			"activationCost": 5,
+			"harvestResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 3
 				}
 			]
 		},
 		{
-			"display_name": "MONASTERO",
-			"instant_resources": [
+			"displayName": "MONASTERO",
+			"instantResources": [
 				{
-					"type": "MILITARY_POINT",
+					"type": "STANDARD",
+					"resourceType": "MILITARY_POINT",
 					"amount": 2
 				},
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 1
 				}
 			],
-			"activation_cost": 6,
-			"harvest_resources": [
+			"activationCost": 6,
+			"harvestResources": [
 				{
-					"type": "FAITH_POINT",
+					"type": "STANDARD",
+					"resourceType": "FAITH_POINT",
 					"amount": 1
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 1
 				}
 			]
 		},
 		{
-			"display_name": "ROCCA",
-			"instant_resources": [],
-			"activation_cost": 5,
-			"harvest_resources": [
+			"displayName": "ROCCA",
+			"instantResources": [],
+			"activationCost": 5,
+			"harvestResources": [
 				{
-					"type": "MILITARY_POINT",
+					"type": "STANDARD",
+					"resourceType": "MILITARY_POINT",
 					"amount": 2
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 1
 				}
 			]
 		},
 		{
-			"display_name": "CITTÀ",
-			"instant_resources": [
+			"displayName": "CITTÀ",
+			"instantResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 3
 				}
 			],
-			"activation_cost": 6,
-			"harvest_resources": [
+			"activationCost": 6,
+			"harvestResources": [
 				{
-					"type": "COUNCIL_PRIVILEGE",
+					"type": "STANDARD",
+					"resourceType": "COUNCIL_PRIVILEGE",
 					"amount": 1
 				}
 			]
 		}
 	],
-	"period_second": [
+	"secondPeriod": [
 		{
-			"display_name": "MINIERA_ORO",
-			"instant_resources": [
+			"displayName": "MINIERA_ORO",
+			"instantResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 1
 				}
 			],
-			"activation_cost": 1,
-			"harvest_resources": [
+			"activationCost": 1,
+			"harvestResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 2
 				}
 			]
 		},
 		{
-			"display_name": "VILLAGGIO_MONTANO",
-			"instant_resources": [
+			"displayName": "VILLAGGIO_MONTANO",
+			"instantResources": [
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 1
 				}
 			],
-			"activation_cost": 3,
-			"harvest_resources": [
+			"activationCost": 3,
+			"harvestResources": [
 				{
-					"type": "MILITARY_POINT",
+					"type": "STANDARD",
+					"resourceType": "MILITARY_POINT",
 					"amount": 1
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 2
 				}
 			]
 		},
 		{
-			"display_name": "VILLAGGIO_MINERARIO",
-			"instant_resources": [
+			"displayName": "VILLAGGIO_MINERARIO",
+			"instantResources": [
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 2
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 1
 				}
 			],
-			"activation_cost": 4,
-			"harvest_resources": [
+			"activationCost": 4,
+			"harvestResources": [
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 1
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 2
 				}
 			]
 		},
 		{
-			"display_name": "CAVA_DI_PIETRA",
-			"instant_resources": [
+			"displayName": "CAVA_DI_PIETRA",
+			"instantResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 1
 				}
 			],
-			"activation_cost": 3,
-			"harvest_resources": [
+			"activationCost": 3,
+			"harvestResources": [
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 3
 				}
 			]
 		},
 		{
-			"display_name": "POSSEDIMENTO",
-			"instant_resources": [
+			"displayName": "POSSEDIMENTO",
+			"instantResources": [
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 2
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 1
 				}
 			],
-			"activation_cost": 4,
-			"harvest_resources": [
+			"activationCost": 4,
+			"harvestResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 1
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 2
 				}
 			]
 		},
 		{
-			"display_name": "EREMO",
-			"instant_resources": [
+			"displayName": "EREMO",
+			"instantResources": [
 				{
-					"type": "FAITH_POINT",
+					"type": "STANDARD",
+					"resourceType": "FAITH_POINT",
 					"amount": 1
 				}
 			],
-			"activation_cost": 2,
-			"harvest_resources": [
+			"activationCost": 2,
+			"harvestResources": [
 				{
-					"type": "FAITH_POINT",
+					"type": "STANDARD",
+					"resourceType": "FAITH_POINT",
 					"amount": 1
 				}
 			]
 		},
 		{
-			"display_name": "MANIERO",
-			"instant_resources": [],
-			"activation_cost": 5,
-			"harvest_resources": [
+			"displayName": "MANIERO",
+			"instantResources": [],
+			"activationCost": 5,
+			"harvestResources": [
 				{
-					"type": "MILITARY_POINT",
+					"type": "STANDARD",
+					"resourceType": "MILITARY_POINT",
 					"amount": 2
 				},
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 2
 				}
 			]
 		},
 		{
-			"display_name": "DUCATO",
-			"instant_resources": [
+			"displayName": "DUCATO",
+			"instantResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 4
 				}
 			],
-			"activation_cost": 6,
-			"harvest_resources": [
+			"activationCost": 6,
+			"harvestResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 1
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 1
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 2
 				}
 			]
 		}
 	],
-	"period_third": [
+	"thirdPeriod": [
 		{
-			"display_name": "CITTÀ_MERCANTILE",
-			"instant_resources": [
+			"displayName": "CITTÀ_MERCANTILE",
+			"instantResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 1
 				},
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 1
 				}
 			],
-			"activation_cost": 1,
-			"harvest_resources": [
+			"activationCost": 1,
+			"harvestResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 3
 				}
 			]
 		},
 		{
-			"display_name": "TENUTA",
-			"instant_resources": [
+			"displayName": "TENUTA",
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 1
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 1
 				}
 			],
-			"activation_cost": 3,
-			"harvest_resources": [
+			"activationCost": 3,
+			"harvestResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 2
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 2
 				}
 			]
 		},
 		{
-			"display_name": "COLONIA",
-			"instant_resources": [
+			"displayName": "COLONIA",
+			"instantResources": [
 				{
-					"type": "MILITARY_POINT",
+					"type": "STANDARD",
+					"resourceType": "MILITARY_POINT",
 					"amount": 2
 				}
 			],
-			"activation_cost": 5,
-			"harvest_resources": [
+			"activationCost": 5,
+			"harvestResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 4
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 1
 				}
 			]
 		},
 		{
-			"display_name": "CAVA_DI_MARMO",
-			"instant_resources": [
+			"displayName": "CAVA_DI_MARMO",
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 3
 				}
 			],
-			"activation_cost": 2,
-			"harvest_resources": [
+			"activationCost": 2,
+			"harvestResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 1
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 2
 				}
 			]
 		},
 		{
-			"display_name": "PROVINCIA",
-			"instant_resources": [
+			"displayName": "PROVINCIA",
+			"instantResources": [
 				{
-					"type": "COUNCIL_PRIVILEGE",
+					"type": "STANDARD",
+					"resourceType": "COUNCIL_PRIVILEGE",
 					"amount": 1
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 1
 				}
 			],
-			"activation_cost": 6,
-			"harvest_resources": [
+			"activationCost": 6,
+			"harvestResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 4
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 1
 				}
 			]
 		},
 		{
-			"display_name": "SANTUARIO",
-			"instant_resources": [
+			"displayName": "SANTUARIO",
+			"instantResources": [
 				{
-					"type": "FAITH_POINT",
+					"type": "STANDARD",
+					"resourceType": "FAITH_POINT",
 					"amount": 1
 				}
 			],
-			"activation_cost": 1,
-			"harvest_resources": [
+			"activationCost": 1,
+			"harvestResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 1
 				},
 				{
-					"type": "FAITH_POINT",
+					"type": "STANDARD",
+					"resourceType": "FAITH_POINT",
 					"amount": 1
 				}
 			]
 		},
 		{
-			"display_name": "CASTELLO",
-			"instant_resources": [
+			"displayName": "CASTELLO",
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 2
 				},
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 2
 				}
 			],
-			"activation_cost": 4,
-			"harvest_resources": [
+			"activationCost": 4,
+			"harvestResources": [
 				{
-					"type": "MILITARY_POINT",
+					"type": "STANDARD",
+					"resourceType": "MILITARY_POINT",
 					"amount": 3
 				},
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 1
 				}
 			]
 		},
 		{
-			"display_name": "CITTÀ_FORTIFICATA",
-			"instant_resources": [
+			"displayName": "CITTÀ_FORTIFICATA",
+			"instantResources": [
 				{
-					"type": "MILITARY_POINT",
+					"type": "STANDARD",
+					"resourceType": "MILITARY_POINT",
 					"amount": 2
 				},
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 1
 				}
 			],
-			"activation_cost": 2,
-			"harvest_resources": [
+			"activationCost": 2,
+			"harvestResources": [
 				{
-					"type": "MILITARY_POINT",
+					"type": "STANDARD",
+					"resourceType": "MILITARY_POINT",
 					"amount": 1
 				},
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 2
 				}
 			]

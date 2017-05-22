@@ -7,11 +7,11 @@ public class ResourceAmountMultiplierResource extends ResourceAmount
 	private final ResourceType resourceTypeMultiplier;
 	private final int resourceAmountDivider;
 
-	public ResourceAmountMultiplierResource(ResourceType resourceType, int amount, ResourceType resourceTypeMultiplier, int resourceAmountDivider)
+	public ResourceAmountMultiplierResource(ResourceType resourceType, int amount, ResourceType resourceTypeMultiplier, int amountDivider)
 	{
 		super(resourceType, amount);
 		this.resourceTypeMultiplier = resourceTypeMultiplier;
-		this.resourceAmountDivider = resourceAmountDivider;
+		this.resourceAmountDivider = amountDivider;
 	}
 
 	public ResourceType getResourceTypeMultiplier()

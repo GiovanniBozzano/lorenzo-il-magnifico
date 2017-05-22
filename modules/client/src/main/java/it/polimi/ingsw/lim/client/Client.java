@@ -51,8 +51,8 @@ public class Client extends Instance
 				this.connectionHandler = new ConnectionHandlerSocket();
 			}
 			this.connectionHandler.start();
-			executorService.shutdownNow();
 		});
+		executorService.shutdown();
 	}
 
 	/**
@@ -76,8 +76,8 @@ public class Client extends Instance
 	 */
 	public synchronized void disconnect(boolean isStopping, boolean notifyServer)
 	{
-		ExecutorService executor = Executors.newSingleThreadExecutor();
-		executor.execute(() -> {
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		executorService.execute(() -> {
 			if (this.connectionHandler != null) {
 				this.connectionHandler.disconnect(notifyServer);
 				this.connectionHandler = null;
@@ -106,8 +106,8 @@ public class Client extends Instance
 					}
 				});
 			}
-			executor.shutdownNow();
 		});
+		executorService.shutdown();
 	}
 
 	public static Client getInstance()

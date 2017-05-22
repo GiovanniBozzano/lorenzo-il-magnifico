@@ -43,8 +43,8 @@ public class Server extends Instance
 	 */
 	public synchronized void setup(int rmiPort, int socketPort)
 	{
-		ExecutorService executor = Executors.newSingleThreadExecutor();
-		executor.execute(() -> {
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		executorService.execute(() -> {
 			this.rmiPort = rmiPort;
 			this.socketPort = socketPort;
 			this.connectionId = 0;
@@ -61,8 +61,8 @@ public class Server extends Instance
 			this.getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 			this.connectionHandler = new ConnectionHandler(rmiPort, socketPort);
 			this.connectionHandler.start();
-			executor.shutdownNow();
 		});
+		executorService.shutdown();
 	}
 
 	/**
@@ -71,42 +71,40 @@ public class Server extends Instance
 	@Override
 	public synchronized void stop()
 	{
-		ExecutorService executor = Executors.newSingleThreadExecutor();
-		executor.execute(() -> {
-			synchronized (this) {
-				if (this.connectionHandler != null) {
-					Connection.broadcastChatMessage("Server shutting down...");
-					Connection.disconnectAll();
-					if (this.connectionHandler.getRegistry() != null) {
-						try {
-							this.connectionHandler.getRegistry().unbind("lorenzo-il-magnifico");
-							UnicastRemoteObject.unexportObject(this.connectionHandler.getRegistry(), true);
-							UnicastRemoteObject.unexportObject(this.connectionHandler.getLogin(), true);
-						} catch (RemoteException | NotBoundException exception) {
-							Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-						}
-					}
-					this.connectionHandler.end();
-					try (Socket socket = new Socket("localhost", this.socketPort)) {
-						socket.close();
-					} catch (IOException exception) {
-						Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-					}
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		executorService.execute(() -> {
+			if (this.connectionHandler != null) {
+				Connection.broadcastChatMessage("Server shutting down...");
+				Connection.disconnectAll();
+				if (this.connectionHandler.getRegistry() != null) {
 					try {
-						this.connectionHandler.join();
-					} catch (InterruptedException exception) {
+						this.connectionHandler.getRegistry().unbind("lorenzo-il-magnifico");
+						UnicastRemoteObject.unexportObject(this.connectionHandler.getRegistry(), true);
+						UnicastRemoteObject.unexportObject(this.connectionHandler.getLogin(), true);
+					} catch (RemoteException | NotBoundException exception) {
 						Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-						Thread.currentThread().interrupt();
 					}
-					this.databaseSaver.shutdown();
-					this.databaseKeeper.shutdownNow();
-					this.database.closeConnection();
-					this.connectionHandler = null;
 				}
-				Platform.runLater(() -> CommonUtils.closeAllWindows(this.getWindowInformations().getStage()));
-				executor.shutdownNow();
+				this.connectionHandler.end();
+				try (Socket socket = new Socket("localhost", this.socketPort)) {
+					socket.close();
+				} catch (IOException exception) {
+					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				}
+				try {
+					this.connectionHandler.join();
+				} catch (InterruptedException exception) {
+					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					Thread.currentThread().interrupt();
+				}
+				this.databaseSaver.shutdown();
+				this.databaseKeeper.shutdownNow();
+				this.database.closeConnection();
+				this.connectionHandler = null;
 			}
+			Platform.runLater(() -> CommonUtils.closeAllWindows(this.getWindowInformations().getStage()));
 		});
+		executorService.shutdown();
 	}
 
 	public static Server getInstance()

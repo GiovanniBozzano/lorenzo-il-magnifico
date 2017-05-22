@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.common.gui;
 
 import javax.annotation.PostConstruct;
 
-public interface IController
+@FunctionalInterface public interface IController
 {
 	@PostConstruct
 	void setupGui();

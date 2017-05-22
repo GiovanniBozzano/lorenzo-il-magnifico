@@ -25,6 +25,8 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
 public class CommonUtils
@@ -43,11 +45,10 @@ public class CommonUtils
 	 * Opens a new window and closes the current one.
 	 *
 	 * @param fxmlFileLocation the .fxml file location.
-	 * @param title the title of the new window.
 	 */
-	public static void setNewWindow(String fxmlFileLocation, String title)
+	public static void setNewWindow(String fxmlFileLocation)
 	{
-		CommonUtils.setNewWindow(fxmlFileLocation, title, null);
+		CommonUtils.setNewWindow(fxmlFileLocation, null);
 	}
 
 	/**
@@ -56,11 +57,10 @@ public class CommonUtils
 	 * shown.
 	 *
 	 * @param fxmlFileLocation the .fxml file location.
-	 * @param title the title of the new window.
-	 * @param postShowingThread the thread to execute after the window has been
+	 * @param postShowing the thread to execute after the window has been
 	 * shown.
 	 */
-	public static void setNewWindow(String fxmlFileLocation, String title, Thread postShowingThread)
+	public static void setNewWindow(String fxmlFileLocation, Runnable postShowing)
 	{
 		Platform.runLater(() -> {
 			FXMLLoader fxmlLoader = new FXMLLoader(Instance.getInstance().getClass().getResource(fxmlFileLocation));
@@ -74,7 +74,6 @@ public class CommonUtils
 					stage = Instance.getInstance().getWindowInformations().getStage();
 				}
 				stage.setScene(new Scene(parent));
-				stage.setTitle(title);
 				stage.sizeToScene();
 				stage.setResizable(false);
 				if (Instance.getInstance().getWindowInformations() == null) {
@@ -82,8 +81,10 @@ public class CommonUtils
 				}
 				((IController) fxmlLoader.getController()).setupGui();
 				Instance.getInstance().setWindowInformations(new WindowInformations(fxmlLoader.getController(), stage));
-				if (postShowingThread != null) {
-					postShowingThread.start();
+				if (postShowing != null) {
+					ExecutorService executorService = Executors.newSingleThreadExecutor();
+					executorService.execute(postShowing);
+					executorService.shutdown();
 				}
 			} catch (IOException exception) {
 				Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);

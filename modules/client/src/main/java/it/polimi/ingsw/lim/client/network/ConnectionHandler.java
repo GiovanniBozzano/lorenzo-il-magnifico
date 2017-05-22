@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import javafx.application.Platform;
 
 import java.util.concurrent.Executors;
@@ -26,6 +27,19 @@ public abstract class ConnectionHandler extends Thread
 			Thread.currentThread().interrupt();
 		}
 		this.getHeartbeat().shutdownNow();
+	}
+
+	/**
+	 * Tries to send an heartbeat to check the connection status.
+	 */
+	public synchronized void sendHeartbeat()
+	{
+		try {
+			this.join();
+		} catch (InterruptedException exception) {
+			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Thread.currentThread().interrupt();
+		}
 	}
 
 	/**
@@ -62,10 +76,7 @@ public abstract class ConnectionHandler extends Thread
 		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
 	}
 
-	/**
-	 * Tries to send an heartbeat to check the connection status.
-	 */
-	public synchronized void sendHeartbeat()
+	public synchronized void sendRoomTimerRequest()
 	{
 		try {
 			this.join();
@@ -98,7 +109,27 @@ public abstract class ConnectionHandler extends Thread
 		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoom)) {
 			return;
 		}
-		Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getPlayersListView().getItems().remove(name));
+		Platform.runLater(() -> {
+			((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getPlayersListView().getItems().remove(name);
+			if (((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getPlayersListView().getItems().size() < 2) {
+				((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getTimerLabel().setText("Waiting for other players...");
+			}
+		});
+	}
+
+	public void handleRoomTimer(int timer)
+	{
+		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoom)) {
+			return;
+		}
+		Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getTimerLabel().setText("Game starts in: " + timer));
+	}
+
+	public void handleGameStarted(RoomInformations roomInformations)
+	{
+		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoom)) {
+			return;
+		}
 	}
 
 	public void handleChatMessage(String text)

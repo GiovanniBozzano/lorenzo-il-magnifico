@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.server.network.rmi;
 
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
@@ -84,6 +85,32 @@ public class ConnectionRMI extends Connection
 		this.rmiExecutor.execute(() -> {
 			try {
 				this.serverSession.sendRoomExitOther(name);
+			} catch (RemoteException exception) {
+				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
+	public void sendRoomTimer(int timer)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendRoomTimer(timer);
+			} catch (RemoteException exception) {
+				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
+	public void sendGameStarted(RoomInformations roomInformations)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameStarted(roomInformations);
 			} catch (RemoteException exception) {
 				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);

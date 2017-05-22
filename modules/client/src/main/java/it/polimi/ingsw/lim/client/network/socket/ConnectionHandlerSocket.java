@@ -55,7 +55,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 	}
 
 	@Override
-	public void disconnect(boolean notifyServer)
+	public synchronized void disconnect(boolean notifyServer)
 	{
 		super.disconnect(notifyServer);
 		if (this.packetListener != null) {
@@ -109,6 +109,13 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 	}
 
 	@Override
+	public synchronized void sendRoomTimerRequest()
+	{
+		super.sendRoomTimerRequest();
+		new Packet(PacketType.ROOM_TIMER_REQUEST).send(this.out);
+	}
+
+	@Override
 	public synchronized void sendChatMessage(String text)
 	{
 		super.sendChatMessage(text);
@@ -133,7 +140,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			return;
 		}
 		Client.getInstance().setUsername(username);
-		CommonUtils.setNewWindow(Utils.SCENE_ROOM, null, new Thread(() -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(roomInformations.getRoomType(), roomInformations.getPlayerNames()))));
+		CommonUtils.setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(roomInformations.getRoomType(), roomInformations.getPlayerNames())));
 	}
 
 	void handleAuthenticationFailure(String text)

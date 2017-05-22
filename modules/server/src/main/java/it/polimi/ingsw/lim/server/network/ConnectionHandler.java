@@ -48,16 +48,18 @@ public class ConnectionHandler extends Thread
 			return;
 		}
 		try (ServerSocket serverSocket = new ServerSocket(this.socketPort)) {
-			CommonUtils.setNewWindow(Utils.SCENE_MAIN, null, new Thread(() -> {
+			CommonUtils.setNewWindow(Utils.SCENE_MAIN, () -> {
 				Utils.displayToLog("Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
 				Server.getInstance().setExternalIp(Utils.getExternalIpAddress());
 				Platform.runLater(() -> ((ControllerMain) Server.getInstance().getWindowInformations().getController()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));
 				if (Server.getInstance().getExternalIp() != null) {
 					Utils.displayToLog("Your external IP address is: " + Server.getInstance().getExternalIp());
-					Utils.displayToLog(CardsHandler.DEVELOPMENT_CARDS_TERRITORY.toString());
+					Utils.displayToLog(CardsHandler.DEVELOPMENT_CARDS_BUILDING.toString());
 					Utils.displayToLog(CardsHandler.DEVELOPMENT_CARDS_CHARACTER.toString());
+					Utils.displayToLog(CardsHandler.DEVELOPMENT_CARDS_TERRITORY.toString());
+					Utils.displayToLog(CardsHandler.DEVELOPMENT_CARDS_VENTURE.toString());
 				}
-			}));
+			});
 			while (this.keepGoing) {
 				try {
 					Socket socket = serverSocket.accept();

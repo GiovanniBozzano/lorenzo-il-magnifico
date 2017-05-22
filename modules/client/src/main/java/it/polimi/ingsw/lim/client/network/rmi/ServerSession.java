@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.client.network.rmi;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
+import it.polimi.ingsw.lim.common.utils.RoomInformations;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -35,6 +36,18 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	public void sendRoomExitOther(String name) throws RemoteException
 	{
 		Client.getInstance().getConnectionHandler().handleRoomExitOther(name);
+	}
+
+	@Override
+	public void sendRoomTimer(int timer) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleRoomTimer(timer);
+	}
+
+	@Override
+	public void sendGameStarted(RoomInformations roomInformations) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGameStarted(roomInformations);
 	}
 
 	@Override

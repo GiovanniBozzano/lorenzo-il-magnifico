@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.network;
 
+import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.utils.Utils;
@@ -47,7 +48,7 @@ public abstract class Connection
 		this.heartbeat.shutdownNow();
 		Server.getInstance().getConnections().remove(this);
 		for (Room room : Server.getInstance().getRooms()) {
-			room.getPlayers().remove(this);
+			room.removePlayer(this);
 			if (room.getPlayers().isEmpty()) {
 				Server.getInstance().getRooms().remove(room);
 			} else {
@@ -64,9 +65,22 @@ public abstract class Connection
 
 	public abstract void sendRoomExitOther(String name);
 
+	public abstract void sendRoomTimer(int timer);
+
+	public abstract void sendGameStarted(RoomInformations roomInformations);
+
 	public abstract void sendLogMessage(String text);
 
 	public abstract void sendChatMessage(String text);
+
+	public void handleRoomTimerRequest()
+	{
+		Room room = Utils.getPlayerRoom(this);
+		if (room == null) {
+			return;
+		}
+		this.sendRoomTimer(room.getTimer());
+	}
 
 	public void handleChatMessage(String text)
 	{

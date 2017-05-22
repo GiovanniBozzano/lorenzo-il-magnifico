@@ -1,130 +1,142 @@
 {
-	"period_first": [
+	"firstPeriod": [
 		{
-			"display_name": "CONDOTTIERO",
+			"displayName": "CONDOTTIERO",
 			"price": 2,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "MILITARY_POINT",
+						"type": "STANDARD",
+						"resourceType": "MILITARY_POINT",
 						"amount": 3
 					}
 				]
 			},
-			"permanent_bonus": {
+			"permanentBonus": {
 				"type": "ADDITION_CARD",
 				"value": 2,
-				"card_type": "TERRITORY",
-				"discount_choices": []
+				"cardType": "TERRITORY",
+				"discountChoices": []
 			}
 		},
 		{
-			"display_name": "COSTRUTTORE",
+			"displayName": "COSTRUTTORE",
 			"price": 4,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": []
+				"resourceAmounts": []
 			},
-			"permanent_bonus": {
+			"permanentBonus": {
 				"type": "ADDITION_CARD",
 				"value": 2,
-				"card_type": "BUILDING",
-				"discount_choices": [
-					[
-						{
-							"type": "WOOD",
-							"amount": 1
-						}
-					],
-					[
-						{
-							"type": "STONE",
-							"amount": 1
-						}
-					]
-				]
-			}
-		},
-		{
-			"display_name": "DAMA",
-			"price": 4,
-			"instant_reward": {
-				"events": [],
-				"resource_amounts": []
-			},
-			"permanent_bonus": {
-				"type": "ADDITION_CARD",
-				"value": 2,
-				"card_type": "CHARACTER",
-				"discount_choices": [
-					[
-						{
-							"type": "COIN",
-							"amount": 1
-						}
-					]
-				]
-			}
-		},
-		{
-			"display_name": "CAVALIERE",
-			"price": 2,
-			"instant_reward": {
-				"events": [],
-				"resource_amounts": [
+				"cardType": "BUILDING",
+				"discountChoices": [
 					{
-						"type": "COUNCIL_PRIVILEGE",
+						"resourceAmounts": [
+							{
+								"type": "STANDARD",
+								"resourceType": "WOOD",
+								"amount": 1
+							}
+						]
+					},
+					{
+						"resourceAmounts": [
+							{
+								"type": "STANDARD",
+								"resourceType": "STONE",
+								"amount": 1
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"displayName": "DAMA",
+			"price": 4,
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": []
+			},
+			"permanentBonus": {
+				"type": "ADDITION_CARD",
+				"value": 2,
+				"cardType": "CHARACTER",
+				"discountChoices": [
+					{
+						"resourceAmounts": [
+							{
+								"type": "STANDARD",
+								"resourceType": "COIN",
+								"amount": 1
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"displayName": "CAVALIERE",
+			"price": 2,
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "COUNCIL_PRIVILEGE",
 						"amount": 1
 					}
 				]
 			},
-			"permanent_bonus": {
+			"permanentBonus": {
 				"type": "ADDITION_CARD",
 				"value": 2,
-				"card_type": "VENTURE",
-				"discount_choices": []
+				"cardType": "VENTURE",
+				"discountChoices": []
 			}
 		},
 		{
-			"display_name": "CONTADINO",
+			"displayName": "CONTADINO",
 			"price": 3,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": []
+				"resourceAmounts": []
 			},
-			"permanent_bonus": {
+			"permanentBonus": {
 				"type": "ADDITION_WORK",
 				"value": 2,
-				"work_type": "HARVEST"
+				"workType": "HARVEST"
 			}
 		},
 		{
-			"display_name": "ARTIGIANO",
+			"displayName": "ARTIGIANO",
 			"price": 3,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": []
+				"resourceAmounts": []
 			},
-			"permanent_bonus": {
+			"permanentBonus": {
 				"type": "ADDITION_WORK",
 				"value": 2,
-				"work_type": "PRODUCTION"
+				"workType": "PRODUCTION"
 			}
 		},
 		{
-			"display_name": "PREDICATORE",
+			"displayName": "PREDICATORE",
 			"price": 2,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 4
 					}
 				]
 			},
-			"permanent_bonus": {
+			"permanentBonus": {
 				"type": "MALUS",
 				"rows": [
 					"THIRD",
@@ -133,332 +145,354 @@
 			}
 		},
 		{
-			"display_name": "BADESSA",
+			"displayName": "BADESSA",
 			"price": 3,
-			"instant_reward": {
+			"instantReward": {
 				"events": [
 					{
 						"type": "CARD",
 						"value": 4,
-						"card_types": [
+						"cardTypes": [
 							"CHARACTER",
 							"TERRITORY",
 							"VENTURE",
 							"BUILDING"
 						],
-						"discount_choices": []
+						"discountChoices": []
 					}
 				],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 1
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		}
 	],
-	"period_second": [
+	"secondPeriod": [
 		{
-			"display_name": "CAPITANO",
+			"displayName": "CAPITANO",
 			"price": 4,
-			"instant_reward": {
+			"instantReward": {
 				"events": [
 					{
 						"type": "CARD",
 						"value": 6,
-						"card_types": [
+						"cardTypes": [
 							"TERRITORY"
 						],
-						"discount_choices": []
+						"discountChoices": []
 					}
 				],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "MILITARY_POINT",
+						"type": "STANDARD",
+						"resourceType": "MILITARY_POINT",
 						"amount": 2
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		},
 		{
-			"display_name": "ARCHITETTO",
+			"displayName": "ARCHITETTO",
 			"price": 4,
-			"instant_reward": {
+			"instantReward": {
 				"events": [
 					{
 						"type": "CARD",
 						"value": 6,
-						"card_types": [
+						"cardTypes": [
 							"BUILDING"
 						],
-						"discount_choices": [
-							[
-								{
-									"type": "WOOD",
-									"amount": 1
-								}
-							],
-							[
-								{
-									"type": "STONE",
-									"amount": 1
-								}
-							]
+						"discountChoices": [
+							{
+								"resourceAmounts": [
+									{
+										"type": "STANDARD",
+										"resourceType": "WOOD",
+										"amount": 1
+									}
+								]
+							},
+							{
+								"resourceAmounts": [
+									{
+										"type": "STANDARD",
+										"resourceType": "STONE",
+										"amount": 1
+									}
+								]
+							}
 						]
 					}
 				],
-				"resource_amounts": []
+				"resourceAmounts": []
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		},
 		{
-			"display_name": "MECENATE",
+			"displayName": "MECENATE",
 			"price": 3,
-			"instant_reward": {
+			"instantReward": {
 				"events": [
 					{
 						"type": "CARD",
 						"value": 6,
-						"card_types": [
+						"cardTypes": [
 							"CHARACTER"
 						],
-						"discount_choices": [
-							[
-								{
-									"type": "COIN",
-									"amount": 2
-								}
-							]
+						"discountChoices": [
+							{
+								"resourceAmounts": [
+									{
+										"type": "STANDARD",
+										"resourceType": "COIN",
+										"amount": 2
+									}
+								]
+							}
 						]
 					}
 				],
-				"resource_amounts": []
+				"resourceAmounts": []
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		},
 		{
-			"display_name": "EROE",
+			"displayName": "EROE",
 			"price": 4,
-			"instant_reward": {
+			"instantReward": {
 				"events": [
 					{
 						"type": "CARD",
 						"value": 6,
-						"card_types": [
+						"cardTypes": [
 							"VENTURE"
 						],
-						"discount_choices": []
+						"discountChoices": []
 					}
 				],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "COUNCIL_PRIVILEGE",
+						"type": "STANDARD",
+						"resourceType": "COUNCIL_PRIVILEGE",
 						"amount": 1
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		},
 		{
-			"display_name": "FATTORE",
+			"displayName": "FATTORE",
 			"price": 4,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": []
+				"resourceAmounts": []
 			},
-			"permanent_bonus": {
+			"permanentBonus": {
 				"type": "ADDITION_WORK",
 				"value": 3,
-				"work_type": "HARVEST"
+				"workType": "HARVEST"
 			}
 		},
 		{
-			"display_name": "STUDIOSO",
+			"displayName": "STUDIOSO",
 			"price": 4,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": []
+				"resourceAmounts": []
 			},
-			"permanent_bonus": {
+			"permanentBonus": {
 				"type": "ADDITION_WORK",
 				"value": 3,
-				"work_type": "PRODUCTION"
+				"workType": "PRODUCTION"
 			}
 		},
 		{
-			"display_name": "MESSO_PAPALE",
+			"displayName": "MESSO_PAPALE",
 			"price": 5,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 3
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		},
 		{
-			"display_name": "MESSO_REALE",
+			"displayName": "MESSO_REALE",
 			"price": 5,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "COUNCIL_PRIVILEGE",
+						"type": "STANDARD",
+						"resourceType": "COUNCIL_PRIVILEGE",
 						"amount": 3
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		}
 	],
-	"period_third": [
+	"thirdPeriod": [
 		{
-			"display_name": "NOBILE",
+			"displayName": "NOBILE",
 			"price": 6,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "VICTORY_POINT",
+						"type": "MULTIPLIER_CARD",
+						"resourceType": "VICTORY_POINT",
 						"amount": 2,
-						"card_types": "TERRITORY"
+						"cardTypeMultiplier": "TERRITORY"
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		},
 		{
-			"display_name": "GOVERNATORE",
+			"displayName": "GOVERNATORE",
 			"price": 6,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "VICTORY_POINT",
+						"type": "MULTIPLIER_CARD",
+						"resourceType": "VICTORY_POINT",
 						"amount": 2,
-						"card_types": "BUILDING"
+						"cardTypeMultiplier": "BUILDING"
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		},
 		{
-			"display_name": "CORTIGIANA",
+			"displayName": "CORTIGIANA",
 			"price": 7,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "VICTORY_POINT",
+						"type": "MULTIPLIER_CARD",
+						"resourceType": "VICTORY_POINT",
 						"amount": 2,
-						"card_types": "CHARACTER"
+						"cardTypeMultiplier": "CHARACTER"
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		},
 		{
-			"display_name": "ARALDO",
+			"displayName": "ARALDO",
 			"price": 6,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "VICTORY_POINT",
+						"type": "MULTIPLIER_CARD",
+						"resourceType": "VICTORY_POINT",
 						"amount": 2,
-						"card_types": "VENTURE"
+						"cardTypeMultiplier": "VENTURE"
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		},
 		{
-			"display_name": "CARDINALE",
+			"displayName": "CARDINALE",
 			"price": 4,
-			"instant_reward": {
+			"instantReward": {
 				"events": [
 					{
 						"type": "WORK",
 						"value": 4,
-						"work_type": "HARVEST"
+						"workType": "HARVEST"
 					}
 				],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 2
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		},
 		{
-			"display_name": "VESCOVO",
+			"displayName": "VESCOVO",
 			"price": 5,
-			"instant_reward": {
+			"instantReward": {
 				"events": [
 					{
 						"type": "WORK",
 						"value": 4,
-						"work_type": "PRODUCTION"
+						"workType": "PRODUCTION"
 					}
 				],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 1
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		},
 		{
-			"display_name": "GENERALE",
+			"displayName": "GENERALE",
 			"price": 5,
-			"instant_reward": {
+			"instantReward": {
 				"events": [],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "VICTORY_POINT",
+						"type": "MULTIPLIER_RESOURCE",
+						"resourceType": "VICTORY_POINT",
 						"amount": 1,
-						"type_multiplier": "MILITARY_POINT",
-						"amount_multiplier": 2
+						"resourceTypeMultiplier": "MILITARY_POINT",
+						"amountDivider": 2
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		},
 		{
-			"display_name": "AMBASCIATORE",
+			"displayName": "AMBASCIATORE",
 			"price": 6,
-			"instant_reward": {
+			"instantReward": {
 				"events": [
 					{
 						"type": "CARD",
 						"value": 7,
-						"card_types": [
+						"cardTypes": [
 							"CHARACTER",
 							"TERRITORY",
 							"VENTURE",
 							"BUILDING"
 						],
-						"discount_choices": []
+						"discountChoices": []
 					}
 				],
-				"resource_amounts": [
+				"resourceAmounts": [
 					{
-						"type": "COUNCIL_PRIVILEGE",
+						"type": "STANDARD",
+						"resourceType": "COUNCIL_PRIVILEGE",
 						"amount": 1
 					}
 				]
 			},
-			"permanent_bonus": null
+			"permanentBonus": null
 		}
 	]
 }

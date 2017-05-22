@@ -48,7 +48,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			targetRoom = new Room(Server.getInstance().getRoomId(), roomType);
 			Server.getInstance().getRooms().add(targetRoom);
 		}
-		targetRoom.getPlayers().add(connectionRmi);
+		targetRoom.addPlayer(connectionRmi);
 		List<String> playerUsernames = new ArrayList<>();
 		for (Connection player : targetRoom.getPlayers()) {
 			player.sendRoomEntryOther(trimmedUsername);
@@ -78,7 +78,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			targetRoom = new Room(Server.getInstance().getRoomId(), roomType);
 			Server.getInstance().getRooms().add(targetRoom);
 		}
-		targetRoom.getPlayers().add(connectionRmi);
+		targetRoom.addPlayer(connectionRmi);
 		List<String> playerUsernames = new ArrayList<>();
 		for (Connection player : targetRoom.getPlayers()) {
 			player.sendRoomEntryOther(trimmedUsername);

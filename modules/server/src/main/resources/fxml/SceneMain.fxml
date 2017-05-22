@@ -37,7 +37,7 @@
 				</Label>
 			</children>
 		</GridPane>
-		<TextArea fx:id="logTextArea" prefHeight="280.0">
+		<TextArea fx:id="logTextArea" editable="false" prefHeight="280.0">
 			<font>
 				<Font name="Roboto" size="12.0" />
 			</font>

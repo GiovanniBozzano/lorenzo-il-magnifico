@@ -29,6 +29,7 @@ class PacketListener extends Thread
 		PacketListener.PACKET_HANDLERS.put(PacketType.HEARTBEAT, (connectionSocket, packet) -> {
 			// This method is empty because it is only called to check the connection.
 		});
+		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_TIMER_REQUEST, (connectionSocket, packet) -> connectionSocket.handleRoomTimerRequest());
 		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, (connectionSocket, packet) -> connectionSocket.handleChatMessage(((PacketChatMessage) packet).getText()));
 	}
 
@@ -109,7 +110,7 @@ class PacketListener extends Thread
 				targetRoom = new Room(Server.getInstance().getRoomId(), ((PacketAuthentication) packet).getRoomType());
 				Server.getInstance().getRooms().add(targetRoom);
 			}
-			targetRoom.getPlayers().add(this.connectionSocket);
+			targetRoom.addPlayer(this.connectionSocket);
 			List<String> playerUsernames = new ArrayList<>();
 			for (Connection player : targetRoom.getPlayers()) {
 				player.sendRoomEntryOther(trimmedUsername);
