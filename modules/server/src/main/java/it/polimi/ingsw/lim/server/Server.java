@@ -8,6 +8,7 @@ import it.polimi.ingsw.lim.server.database.DatabaseSQLite;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.network.ConnectionHandler;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -40,63 +41,72 @@ public class Server extends Instance
 	 * @param rmiPort the port of the RMI Server.
 	 * @param socketPort the port of the Socket Server.
 	 */
-	public void setup(int rmiPort, int socketPort)
+	public synchronized void setup(int rmiPort, int socketPort)
 	{
-		this.rmiPort = rmiPort;
-		this.socketPort = socketPort;
-		this.connectionId = 0;
-		this.roomId = 0;
-		this.database = new DatabaseSQLite(Database.DATABASE_FILE);
-		this.database.createTables();
-		this.databaseKeeper.scheduleAtFixedRate(() -> {
-			try {
-				this.database.getConnection().prepareStatement("SELECT 1").executeQuery();
-			} catch (SQLException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			}
-		}, 0L, 60L, TimeUnit.SECONDS);
-		this.getWindowInformations().getStage().getScene().getRoot().setDisable(true);
-		this.connectionHandler = new ConnectionHandler(rmiPort, socketPort);
-		this.connectionHandler.start();
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+		executor.execute(() -> {
+			this.rmiPort = rmiPort;
+			this.socketPort = socketPort;
+			this.connectionId = 0;
+			this.roomId = 0;
+			this.database = new DatabaseSQLite(Database.DATABASE_FILE);
+			this.database.createTables();
+			this.databaseKeeper.scheduleAtFixedRate(() -> {
+				try {
+					this.database.getConnection().prepareStatement("SELECT 1").executeQuery();
+				} catch (SQLException exception) {
+					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				}
+			}, 0L, 60L, TimeUnit.SECONDS);
+			this.getWindowInformations().getStage().getScene().getRoot().setDisable(true);
+			this.connectionHandler = new ConnectionHandler(rmiPort, socketPort);
+			this.connectionHandler.start();
+			executor.shutdownNow();
+		});
 	}
 
 	/**
 	 * Disconnects all Clients, waiting for every thread to terminate properly.
 	 */
 	@Override
-	synchronized public void stop()
+	public synchronized void stop()
 	{
-		if (this.connectionHandler == null) {
-			CommonUtils.closeAllWindows(this.getWindowInformations().getStage());
-			return;
-		}
-		Connection.broadcastChatMessage("Server shutting down...");
-		if (this.connectionHandler.getRegistry() != null) {
-			try {
-				this.connectionHandler.getRegistry().unbind("lorenzo-il-magnifico");
-				UnicastRemoteObject.unexportObject(this.connectionHandler.getRegistry(), true);
-				UnicastRemoteObject.unexportObject(this.connectionHandler.getLogin(), true);
-			} catch (RemoteException | NotBoundException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+		executor.execute(() -> {
+			synchronized (this) {
+				if (this.connectionHandler != null) {
+					Connection.broadcastChatMessage("Server shutting down...");
+					Connection.disconnectAll();
+					if (this.connectionHandler.getRegistry() != null) {
+						try {
+							this.connectionHandler.getRegistry().unbind("lorenzo-il-magnifico");
+							UnicastRemoteObject.unexportObject(this.connectionHandler.getRegistry(), true);
+							UnicastRemoteObject.unexportObject(this.connectionHandler.getLogin(), true);
+						} catch (RemoteException | NotBoundException exception) {
+							Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+						}
+					}
+					this.connectionHandler.end();
+					try (Socket socket = new Socket("localhost", this.socketPort)) {
+						socket.close();
+					} catch (IOException exception) {
+						Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					}
+					try {
+						this.connectionHandler.join();
+					} catch (InterruptedException exception) {
+						Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+						Thread.currentThread().interrupt();
+					}
+					this.databaseSaver.shutdown();
+					this.databaseKeeper.shutdownNow();
+					this.database.closeConnection();
+					this.connectionHandler = null;
+				}
+				Platform.runLater(() -> CommonUtils.closeAllWindows(this.getWindowInformations().getStage()));
+				executor.shutdownNow();
 			}
-		}
-		this.connectionHandler.end();
-		try (Socket socket = new Socket("localhost", this.socketPort)) {
-			socket.close();
-		} catch (IOException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-		}
-		try {
-			this.connectionHandler.join();
-		} catch (InterruptedException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
-		this.databaseSaver.shutdown();
-		this.databaseKeeper.shutdownNow();
-		this.database.closeConnection();
-		this.connectionHandler = null;
-		CommonUtils.closeAllWindows(this.getWindowInformations().getStage());
+		});
 	}
 
 	public static Server getInstance()

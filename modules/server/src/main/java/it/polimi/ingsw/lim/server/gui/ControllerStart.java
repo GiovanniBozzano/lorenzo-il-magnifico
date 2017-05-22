@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import javax.annotation.PostConstruct;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.Executors;
 
 public class ControllerStart implements Initializable, IController
 {
@@ -81,7 +80,7 @@ public class ControllerStart implements Initializable, IController
 	private void handleStartButtonAction()
 	{
 		this.startButton.getScene().getRoot().setDisable(true);
-		Executors.newSingleThreadExecutor().execute(() -> Server.getInstance().setup(Integer.parseInt(this.rmiPortTextField.getText()), Integer.parseInt(this.socketPortTextField.getText())));
+		Server.getInstance().setup(Integer.parseInt(this.rmiPortTextField.getText()), Integer.parseInt(this.socketPortTextField.getText()));
 	}
 
 	@Override

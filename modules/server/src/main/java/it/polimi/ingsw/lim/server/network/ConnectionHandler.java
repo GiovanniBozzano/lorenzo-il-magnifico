@@ -30,6 +30,7 @@ public class ConnectionHandler extends Thread
 
 	public ConnectionHandler(int rmiPort, int socketPort)
 	{
+		this.setName("ConnectionHandler");
 		this.rmiPort = rmiPort;
 		this.socketPort = socketPort;
 	}
@@ -62,7 +63,6 @@ public class ConnectionHandler extends Thread
 					Socket socket = serverSocket.accept();
 					if (!this.keepGoing) {
 						socket.close();
-						Connection.disconnectAll();
 						serverSocket.close();
 					} else {
 						int connectionId = Server.getInstance().getConnectionId();

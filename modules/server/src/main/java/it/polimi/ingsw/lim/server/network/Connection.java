@@ -24,7 +24,7 @@ public abstract class Connection
 		this.username = username;
 	}
 
-	static void disconnectAll()
+	public static void disconnectAll()
 	{
 		for (Connection connection : Server.getInstance().getConnections()) {
 			connection.disconnect(true, null);

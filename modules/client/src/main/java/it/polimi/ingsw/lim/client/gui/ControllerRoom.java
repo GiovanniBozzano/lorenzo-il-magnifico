@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 public class ControllerRoom implements Initializable, IController
 {
 	@FXML private StackPane stackPane;
-	@FXML private Label roomNameLabel;
+	@FXML private Label playerNameLabel;
 	@FXML private TextArea chatTextArea;
 	@FXML private JFXListView<String> rulesListView;
 	@FXML private JFXListView<String> playersListView;
@@ -99,7 +99,21 @@ public class ControllerRoom implements Initializable, IController
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{
-		this.playersListView.setCellFactory(param -> new ListCell<String>()
+		this.rulesListView.setCellFactory(parameter -> new ListCell<String>()
+		{
+			@Override
+			protected void updateItem(String rule, boolean empty)
+			{
+				super.updateItem(rule, empty);
+				this.setDisable(true);
+				if (empty || rule == null) {
+					this.setText(null);
+				} else {
+					this.setText(rule);
+				}
+			}
+		});
+		this.playersListView.setCellFactory(parameter -> new ListCell<String>()
 		{
 			@Override
 			protected void updateItem(String playerName, boolean empty)
@@ -130,7 +144,8 @@ public class ControllerRoom implements Initializable, IController
 
 	public void setRoomInformations(RoomType roomType, List<String> playerNames)
 	{
-		this.roomNameLabel.setText(roomType.name());
+		this.playerNameLabel.setText(Client.getInstance().getUsername());
+		this.rulesListView.getItems().add("Room type: " + roomType.getDisplayName());
 		this.playersListView.getItems().addAll(playerNames);
 	}
 

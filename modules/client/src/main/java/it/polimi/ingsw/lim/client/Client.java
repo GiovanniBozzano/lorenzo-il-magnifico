@@ -19,11 +19,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
 public class Client extends Instance
 {
-	private ConnectionType connectionType;
 	private String ip;
 	private int port;
 	private String username;
@@ -37,18 +38,21 @@ public class Client extends Instance
 	 * @param ip the IP address of the Server.
 	 * @param port the port of the Server.
 	 */
-	public void setup(ConnectionType connectionType, String ip, int port)
+	public synchronized void setup(ConnectionType connectionType, String ip, int port)
 	{
-		this.connectionType = connectionType;
-		this.ip = ip;
-		this.port = port;
-		this.username = null;
-		if (connectionType == ConnectionType.RMI) {
-			this.connectionHandler = new ConnectionHandlerRMI();
-		} else {
-			this.connectionHandler = new ConnectionHandlerSocket();
-		}
-		this.connectionHandler.start();
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		executorService.execute(() -> {
+			this.ip = ip;
+			this.port = port;
+			this.username = null;
+			if (connectionType == ConnectionType.RMI) {
+				this.connectionHandler = new ConnectionHandlerRMI();
+			} else {
+				this.connectionHandler = new ConnectionHandlerSocket();
+			}
+			this.connectionHandler.start();
+			executorService.shutdownNow();
+		});
 	}
 
 	/**
@@ -57,7 +61,7 @@ public class Client extends Instance
 	@Override
 	public void stop()
 	{
-		this.disconnect(true, false);
+		this.disconnect(true, true);
 	}
 
 	/**
@@ -70,45 +74,45 @@ public class Client extends Instance
 	 * @param notifyServer the flag to check wether the Client has to notify the
 	 * Server or not.
 	 */
-	public void disconnect(boolean isStopping, boolean notifyServer)
+	public synchronized void disconnect(boolean isStopping, boolean notifyServer)
 	{
-		if (this.connectionHandler != null) {
-			this.connectionHandler.disconnect(notifyServer);
-			Client.getLogger().log(Level.INFO, "Connection closed.");
-		}
-		if (isStopping) {
-			CommonUtils.closeAllWindows(this.getWindowInformations().getStage());
-		} else if (this.getWindowInformations().getController() instanceof ControllerConnection) {
-			this.getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-		} else {
-			Platform.runLater(() -> {
-				FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(Utils.SCENE_CONNECTION));
-				try {
-					Parent parent = fxmlLoader.load();
-					Stage stage = new Stage();
-					stage.initStyle(StageStyle.UNDECORATED);
-					stage.setScene(new Scene(parent));
-					stage.sizeToScene();
-					stage.setResizable(false);
-					CommonUtils.closeAllWindows(this.getWindowInformations().getStage());
-					this.setWindowInformations(new WindowInformations(fxmlLoader.getController(), stage));
-					stage.show();
-					((IController) fxmlLoader.getController()).setupGui();
-				} catch (IOException exception) {
-					Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-				}
-			});
-		}
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+		executor.execute(() -> {
+			if (this.connectionHandler != null) {
+				this.connectionHandler.disconnect(notifyServer);
+				this.connectionHandler = null;
+				Client.getLogger().log(Level.INFO, "Connection closed.");
+			}
+			if (isStopping) {
+				Platform.runLater(() -> CommonUtils.closeAllWindows(this.getWindowInformations().getStage()));
+			} else if (this.getWindowInformations().getController() instanceof ControllerConnection) {
+				this.getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+			} else {
+				Platform.runLater(() -> {
+					FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(Utils.SCENE_CONNECTION));
+					try {
+						Parent parent = fxmlLoader.load();
+						Stage stage = new Stage();
+						stage.initStyle(StageStyle.UNDECORATED);
+						stage.setScene(new Scene(parent));
+						stage.sizeToScene();
+						stage.setResizable(false);
+						CommonUtils.closeAllWindows(this.getWindowInformations().getStage());
+						this.setWindowInformations(new WindowInformations(fxmlLoader.getController(), stage));
+						stage.show();
+						((IController) fxmlLoader.getController()).setupGui();
+					} catch (IOException exception) {
+						Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					}
+				});
+			}
+			executor.shutdownNow();
+		});
 	}
 
 	public static Client getInstance()
 	{
 		return (Client) Instance.getInstance();
-	}
-
-	public ConnectionType getConnectionType()
-	{
-		return this.connectionType;
 	}
 
 	public String getIp()

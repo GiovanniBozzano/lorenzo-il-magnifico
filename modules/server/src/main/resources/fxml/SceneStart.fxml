@@ -3,7 +3,7 @@
 	<VBox layoutX="50.0" layoutY="-40.0" spacing="10.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
 		<HBox alignment="TOP_RIGHT">
 			<children>
-				<ImageView onMouseClicked="#handleMinimizeImageViewMouseClicked" onMouseEntered="#handleMinimizeImageViewMouseEntered" onMouseExited="#handleMinimizeImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
+				<ImageView fitHeight="12.0" fitWidth="12.0" onMouseClicked="#handleMinimizeImageViewMouseClicked" onMouseEntered="#handleMinimizeImageViewMouseEntered" onMouseExited="#handleMinimizeImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
 					<image>
 						<Image url="@/images/icon_minimize.png" />
 					</image>
@@ -11,7 +11,7 @@
 						<Insets />
 					</HBox.margin>
 				</ImageView>
-				<ImageView onMouseClicked="#handleQuitImageViewMouseClicked" onMouseEntered="#handleQuitImageViewMouseEntered" onMouseExited="#handleQuitImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
+				<ImageView fitHeight="12.0" fitWidth="12.0" onMouseClicked="#handleQuitImageViewMouseClicked" onMouseEntered="#handleQuitImageViewMouseEntered" onMouseExited="#handleQuitImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
 					<image>
 						<Image url="@/images/icon_quit.png" />
 					</image>
