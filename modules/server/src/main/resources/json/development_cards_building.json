@@ -1,177 +1,200 @@
 {
-	"period_first": [
+	"firstPeriod": [
 		{
-			"display_name": "ZECCA",
-			"build_resources": [
+			"displayName": "ZECCA",
+			"buildResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 1
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 3
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 5
 				}
 			],
-			"activation_cost": 5,
-			"resource_trade_options": [
+			"activationCost": 5,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [],
-					"produced_resources": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "MULTIPLIER_CARD",
+							"resourceType": "COIN",
 							"amount": 1,
-							"card_type": "BUILDING"
+							"cardTypeMultiplier": "BUILDING"
 						}
 					]
 				}
 			]
 		},
 		{
-			"display_name": "ESATTORIA",
-			"build_resources": [
+			"displayName": "ESATTORIA",
+			"buildResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 3
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 1
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 5
 				}
 			],
-			"activation_cost": 5,
-			"resource_trade_options": [
+			"activationCost": 5,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [],
-					"produced_resources": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "MULTIPLIER_CARD",
+							"resourceType": "COIN",
 							"amount": 1,
-							"card_type": "TERRITORY"
+							"cardTypeMultiplier": "TERRITORY"
 						}
 					]
 				}
 			]
 		},
 		{
-			"display_name": "ARCO_TRIONFO",
-			"build_resources": [
+			"displayName": "ARCO_TRIONFO",
+			"buildResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 2
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 2
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 6
 				}
 			],
-			"activation_cost": 6,
-			"resource_trade_options": [
+			"activationCost": 6,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [],
-					"produced_resources": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "VICTORY_POINT",
+							"type": "MULTIPLIER_CARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 1,
-							"card_type": "VENTURE"
+							"cardTypeMultiplier": "VENTURE"
 						}
 					]
 				}
 			]
 		},
 		{
-			"display_name": "TEATRO",
-			"build_resources": [
+			"displayName": "TEATRO",
+			"buildResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 2
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 2
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 6
 				}
 			],
-			"activation_cost": 6,
-			"resource_trade_options": [
+			"activationCost": 6,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [],
-					"produced_resources": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "VICTORY_POINT",
+							"type": "MULTIPLIER_CARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 1,
-							"card_type": "CHARACTER"
+							"cardTypeMultiplier": "CHARACTER"
 						}
 					]
 				}
 			]
 		},
 		{
-			"display_name": "FALEGNAMERIA",
-			"build_resources": [
+			"displayName": "FALEGNAMERIA",
+			"buildResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 1
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 2
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 3
 				}
 			],
-			"activation_cost": 4,
-			"resource_trade_options": [
+			"activationCost": 4,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 3
 						}
 					]
 				},
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 2
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 5
 						}
 					]
@@ -179,49 +202,56 @@
 			]
 		},
 		{
-			"display_name": "TAGLIAPIETRE",
-			"build_resources": [
+			"displayName": "TAGLIAPIETRE",
+			"buildResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 1
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 2
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 2
 				}
 			],
-			"activation_cost": 3,
-			"resource_trade_options": [
+			"activationCost": 3,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 3
 						}
 					]
 				},
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 2
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 5
 						}
 					]
@@ -229,31 +259,35 @@
 			]
 		},
 		{
-			"display_name": "CAPPELLA",
-			"build_resources": [
+			"displayName": "CAPPELLA",
+			"buildResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 2
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "FAITH_POINT",
+					"type": "STANDARD",
+					"resourceType": "FAITH_POINT",
 					"amount": 1
 				}
 			],
-			"activation_cost": 2,
-			"resource_trade_options": [
+			"activationCost": 2,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "FAITH_POINT",
+							"type": "STANDARD",
+							"resourceType": "FAITH_POINT",
 							"amount": 1
 						}
 					]
@@ -261,31 +295,35 @@
 			]
 		},
 		{
-			"display_name": "RESIDENZA",
-			"build_resources": [
+			"displayName": "RESIDENZA",
+			"buildResources": [
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 2
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 1
 				}
 			],
-			"activation_cost": 1,
-			"resource_trade_options": [
+			"activationCost": 1,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "COUNCIL_PRIVILEGE",
+							"type": "STANDARD",
+							"resourceType": "COUNCIL_PRIVILEGE",
 							"amount": 1
 						}
 					]
@@ -293,41 +331,47 @@
 			]
 		}
 	],
-	"period_second": [
+	"secondPeriod": [
 		{
-			"display_name": "MERCATO",
-			"build_resources": [
+			"displayName": "MERCATO",
+			"buildResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 2
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 1
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 3
 				}
 			],
-			"activation_cost": 3,
-			"resource_trade_options": [
+			"activationCost": 3,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 3
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 2
 						},
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 2
 						}
 					]
@@ -335,45 +379,51 @@
 			]
 		},
 		{
-			"display_name": "TESORERIA",
-			"build_resources": [
+			"displayName": "TESORERIA",
+			"buildResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 3
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 4
 				}
 			],
-			"activation_cost": 3,
-			"resource_trade_options": [
+			"activationCost": 3,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 3
 						}
 					]
 				},
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 2
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 5
 						}
 					]
@@ -381,45 +431,51 @@
 			]
 		},
 		{
-			"display_name": "GILDA_PITTORI",
-			"build_resources": [
+			"displayName": "GILDA_PITTORI",
+			"buildResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 4
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 5
 				}
 			],
-			"activation_cost": 4,
-			"resource_trade_options": [
+			"activationCost": 4,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 3
 						}
 					]
 				},
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 3
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 7
 						}
 					]
@@ -427,45 +483,51 @@
 			]
 		},
 		{
-			"display_name": "GILDA_SCULTORI",
-			"build_resources": [
+			"displayName": "GILDA_SCULTORI",
+			"buildResources": [
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 4
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 6
 				}
 			],
-			"activation_cost": 5,
-			"resource_trade_options": [
+			"activationCost": 5,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 3
 						}
 					]
 				},
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 3
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 7
 						}
 					]
@@ -473,43 +535,50 @@
 			]
 		},
 		{
-			"display_name": "GILDA_COSTRUTTORI",
-			"build_resources": [
+			"displayName": "GILDA_COSTRUTTORI",
+			"buildResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 1
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 2
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 4
 				}
 			],
-			"activation_cost": 4,
-			"resource_trade_options": [
+			"activationCost": 4,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "SERVANT",
+							"type": "STANDARD",
+							"resourceType": "SERVANT",
 							"amount": 1
 						},
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 1
 						},
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 6
 						}
 					]
@@ -517,39 +586,45 @@
 			]
 		},
 		{
-			"display_name": "BATTISTERO",
-			"build_resources": [
+			"displayName": "BATTISTERO",
+			"buildResources": [
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 3
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 2
 				},
 				{
-					"type": "FAITH_POINT",
+					"type": "STANDARD",
+					"resourceType": "FAITH_POINT",
 					"amount": 1
 				}
 			],
-			"activation_cost": 2,
-			"resource_trade_options": [
+			"activationCost": 2,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "FAITH_POINT",
+							"type": "STANDARD",
+							"resourceType": "FAITH_POINT",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 2
 						},
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 2
 						}
 					]
@@ -557,35 +632,40 @@
 			]
 		},
 		{
-			"display_name": "CASERMA",
-			"build_resources": [
+			"displayName": "CASERMA",
+			"buildResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 1
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 1
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 3
 				}
 			],
-			"activation_cost": 1,
-			"resource_trade_options": [
+			"activationCost": 1,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "SERVANT",
+							"type": "STANDARD",
+							"resourceType": "SERVANT",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 3
 						}
 					]
@@ -593,38 +673,44 @@
 			]
 		},
 		{
-			"display_name": "FORTEZZA",
-			"build_resources": [
+			"displayName": "FORTEZZA",
+			"buildResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 2
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 2
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 2
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 8
 				}
 			],
-			"activation_cost": 6,
-			"resource_trade_options": [
+			"activationCost": 6,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [],
-					"produced_resources": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 2
 						},
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 2
 						}
 					]
@@ -632,36 +718,41 @@
 			]
 		}
 	],
-	"period_third": [
+	"thirdPeriod": [
 		{
-			"display_name": "BANCA",
-			"build_resources": [
+			"displayName": "BANCA",
+			"buildResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 3
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 1
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 3
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 7
 				}
 			],
-			"activation_cost": 2,
-			"resource_trade_options": [
+			"activationCost": 2,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [],
-					"produced_resources": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 5
 						}
 					]
@@ -669,39 +760,45 @@
 			]
 		},
 		{
-			"display_name": "FIERA",
-			"build_resources": [
+			"displayName": "FIERA",
+			"buildResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 4
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 3
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 8
 				}
 			],
-			"activation_cost": 4,
-			"resource_trade_options": [
+			"activationCost": 4,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 4
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 3
 						},
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 3
 						}
 					]
@@ -709,34 +806,39 @@
 			]
 		},
 		{
-			"display_name": "GIARDINO",
-			"build_resources": [
+			"displayName": "GIARDINO",
+			"buildResources": [
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 2
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 4
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 2
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 10
 				}
 			],
-			"activation_cost": 1,
-			"resource_trade_options": [
+			"activationCost": 1,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [],
-					"produced_resources": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 3
 						}
 					]
@@ -744,38 +846,44 @@
 			]
 		},
 		{
-			"display_name": "CASTELLETTO",
-			"build_resources": [
+			"displayName": "CASTELLETTO",
+			"buildResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 2
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 2
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 4
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 9
 				}
 			],
-			"activation_cost": 5,
-			"resource_trade_options": [
+			"activationCost": 5,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [],
-					"produced_resources": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 2
 						},
 						{
-							"type": "COUNCIL_PRIVILEGE",
+							"type": "STANDARD",
+							"resourceType": "COUNCIL_PRIVILEGE",
 							"amount": 1
 						}
 					]
@@ -783,43 +891,50 @@
 			]
 		},
 		{
-			"display_name": "PALAZZO",
-			"build_resources": [
+			"displayName": "PALAZZO",
+			"buildResources": [
 				{
-					"type": "COIN",
+					"type": "STANDARD",
+					"resourceType": "COIN",
 					"amount": 3
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 3
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 1
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 9
 				}
 			],
-			"activation_cost": 6,
-			"resource_trade_options": [
+			"activationCost": 6,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "SERVANT",
+							"type": "STANDARD",
+							"resourceType": "SERVANT",
 							"amount": 2
 						},
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 4
 						}
 					]
@@ -827,53 +942,61 @@
 			]
 		},
 		{
-			"display_name": "BASILICA",
-			"build_resources": [
+			"displayName": "BASILICA",
+			"buildResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 1
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 4
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 5
 				},
 				{
-					"type": "FAITH_POINT",
+					"type": "STANDARD",
+					"resourceType": "FAITH_POINT",
 					"amount": 1
 				}
 			],
-			"activation_cost": 1,
-			"resource_trade_options": [
+			"activationCost": 1,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "FAITH_POINT",
+							"type": "STANDARD",
+							"resourceType": "FAITH_POINT",
 							"amount": 2
 						}
 					]
 				},
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "FAITH_POINT",
+							"type": "STANDARD",
+							"resourceType": "FAITH_POINT",
 							"amount": 2
 						}
 					]
@@ -881,43 +1004,50 @@
 			]
 		},
 		{
-			"display_name": "ACCADEMIA_MILITARE",
-			"build_resources": [
+			"displayName": "ACCADEMIA_MILITARE",
+			"buildResources": [
 				{
-					"type": "SERVANT",
+					"type": "STANDARD",
+					"resourceType": "SERVANT",
 					"amount": 1
 				},
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 2
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 2
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 7
 				}
 			],
-			"activation_cost": 3,
-			"resource_trade_options": [
+			"activationCost": 3,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [
+					"employedResources": [
 						{
-							"type": "SERVANT",
+							"type": "STANDARD",
+							"resourceType": "SERVANT",
 							"amount": 1
 						}
 					],
-					"produced_resources": [
+					"producedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 3
 						},
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 1
 						}
 					]
@@ -925,34 +1055,39 @@
 			]
 		},
 		{
-			"display_name": "CATTEDRALE",
-			"build_resources": [
+			"displayName": "CATTEDRALE",
+			"buildResources": [
 				{
-					"type": "WOOD",
+					"type": "STANDARD",
+					"resourceType": "WOOD",
 					"amount": 4
 				},
 				{
-					"type": "STONE",
+					"type": "STANDARD",
+					"resourceType": "STONE",
 					"amount": 4
 				}
 			],
-			"instant_resources": [
+			"instantResources": [
 				{
-					"type": "VICTORY_POINT",
+					"type": "STANDARD",
+					"resourceType": "VICTORY_POINT",
 					"amount": 7
 				},
 				{
-					"type": "FAITH_POINT",
+					"type": "STANDARD",
+					"resourceType": "FAITH_POINT",
 					"amount": 3
 				}
 			],
-			"activation_cost": 2,
-			"resource_trade_options": [
+			"activationCost": 2,
+			"resourceTradeOptions": [
 				{
-					"employed_resource": [],
-					"produced_resources": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "VICTORY_POINT",
+							"type": "STANDARD",
+							"resourceType": "VICTORY_POINT",
 							"amount": 1
 						}
 					]
