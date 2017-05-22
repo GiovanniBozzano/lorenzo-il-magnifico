@@ -1,758 +1,838 @@
 {
-	"period_first": [
+	"firstPeriod": [
 		{
-			"display_name": "INGAGGIARE_RECLUTE",
-			"resource_trade_option": [
+			"displayName": "INGAGGIARE_RECLUTE",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 4
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "MILITARY_POINT",
+						"type": "STANDARD",
+						"resourceType": "MILITARY_POINT",
 						"amount": 5
 					}
 				]
 			},
-			"victory_value": 4
+			"victoryValue": 4
 		},
 		{
-			"display_name": "RIPARARE_CHIESA",
-			"resource_trade_option": [
+			"displayName": "RIPARARE_CHIESA",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 1
 						},
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 1
 						},
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 1
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 1
 					}
 				]
 			},
-			"victory_value": 5
+			"victoryValue": 5
 		},
 		{
-			"display_name": "COSTRUIRE_MURA",
-			"resource_trade_option": [
+			"displayName": "COSTRUIRE_MURA",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 3
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "MILITARY_POINT",
+						"type": "STANDARD",
+						"resourceType": "MILITARY_POINT",
 						"amount": 2
 					},
 					{
-						"type": "COUNCIL_PRIVILEGE",
+						"type": "STANDARD",
+						"resourceType": "COUNCIL_PRIVILEGE",
 						"amount": 1
 					}
 				]
 			},
-			"victory_value": 3
+			"victoryValue": 3
 		},
 		{
-			"display_name": "INNALZARE_STATUA",
-			"resource_trade_option": [
+			"displayName": "INNALZARE_STATUA",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 2
 						},
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 2
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "COUNCIL_PRIVILEGE",
+						"type": "STANDARD",
+						"resourceType": "COUNCIL_PRIVILEGE",
 						"amount": 2
 					}
 				]
 			},
-			"victory_value": 4
+			"victoryValue": 4
 		},
 		{
-			"display_name": "CAMPAGNA_MILITARE",
-			"resource_trade_option": [
+			"displayName": "CAMPAGNA_MILITARE",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [
+					"employedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 3
 						}
 					],
-					"resource_cost": [
+					"producedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 2
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "COIN",
+						"type": "STANDARD",
+						"resourceType": "COIN",
 						"amount": 3
 					}
 				]
 			},
-			"victory_value": 5
+			"victoryValue": 5
 		},
 		{
-			"display_name": "OSPITARE_MENDICANTI",
-			"resource_trade_option": [
+			"displayName": "OSPITARE_MENDICANTI",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 3
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "SERVANT",
+						"type": "STANDARD",
+						"resourceType": "SERVANT",
 						"amount": 4
 					}
 				]
 			},
-			"victory_value": 4
+			"victoryValue": 4
 		},
 		{
-			"display_name": "COMBATTERE_ERESIE",
-			"resource_trade_option": [
+			"displayName": "COMBATTERE_ERESIE",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [
+					"employedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 5
 						}
 					],
-					"resource_cost": [
+					"producedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 3
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 2
 					}
 				]
 			},
-			"victory_value": 5
+			"victoryValue": 5
 		},
 		{
-			"display_name": "SOSTEGNO_VESCOVO",
-			"resource_trade_option": [
+			"displayName": "SOSTEGNO_VESCOVO",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [
+					"employedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 4
 						}
 					],
-					"resource_cost": [
+					"producedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 2
 						}
 					]
 				},
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 1
 						},
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 2
 						},
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 1
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 3
 					}
 				]
 			},
-			"victory_value": 1
+			"victoryValue": 1
 		}
 	],
-	"period_second": [
+	"secondPeriod": [
 		{
-			"display_name": "INGAGGIARE_SOLDATI",
-			"resource_trade_option": [
+			"displayName": "INGAGGIARE_SOLDATI",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 6
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "MILITARY_POINT",
+						"type": "STANDARD",
+						"resourceType": "MILITARY_POINT",
 						"amount": 6
 					}
 				]
 			},
-			"victory_value": 5
+			"victoryValue": 5
 		},
 		{
-			"display_name": "RIPARARE_ABBAZIA",
-			"resource_trade_option": [
+			"displayName": "RIPARARE_ABBAZIA",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 2
 						},
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 2
 						},
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 2
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 2
 					}
 				]
 			},
-			"victory_value": 6
+			"victoryValue": 6
 		},
 		{
-			"display_name": "COSTRUIRE_BASTIONI",
-			"resource_trade_option": [
+			"displayName": "COSTRUIRE_BASTIONI",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 4
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "MILITARY_POINT",
+						"type": "STANDARD",
+						"resourceType": "MILITARY_POINT",
 						"amount": 3
 					},
 					{
-						"type": "COUNCIL_PRIVILEGE",
+						"type": "STANDARD",
+						"resourceType": "COUNCIL_PRIVILEGE",
 						"amount": 1
 					}
 				]
 			},
-			"victory_value": 2
+			"victoryValue": 2
 		},
 		{
-			"display_name": "SUPPORTO_RE",
-			"resource_trade_option": [
+			"displayName": "SUPPORTO_RE",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [
+					"employedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 6
 						}
 					],
-					"resource_cost": [
+					"producedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 3
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "COIN",
+						"type": "STANDARD",
+						"resourceType": "COIN",
 						"amount": 5
 					},
 					{
-						"type": "COUNCIL_PRIVILEGE",
+						"type": "STANDARD",
+						"resourceType": "COUNCIL_PRIVILEGE",
 						"amount": 1
 					}
 				]
 			},
-			"victory_value": 3
+			"victoryValue": 3
 		},
 		{
-			"display_name": "SCAVARE_CANALIZZAZIONI",
-			"resource_trade_option": [
+			"displayName": "SCAVARE_CANALIZZAZIONI",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "SERVANT",
+							"type": "STANDARD",
+							"resourceType": "SERVANT",
 							"amount": 2
 						},
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 3
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [
+			"instantReward": {
+				"events": [
 					{
-						"type": "event_work",
+						"type": "WORK",
 						"value": 4,
-						"work_type": "HARVEST"
+						"workType": "HARVEST"
 					}
 				],
-				"resource_amount": []
+				"resourceAmounts": []
 			},
-			"victory_value": 5
+			"victoryValue": 5
 		},
 		{
-			"display_name": "ACCOGLIERE_STRANIERI",
-			"resource_trade_option": [
+			"displayName": "ACCOGLIERE_STRANIERI",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 4
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "SERVANT",
+						"type": "STANDARD",
+						"resourceType": "SERVANT",
 						"amount": 5
 					}
 				]
 			},
-			"victory_value": 4
+			"victoryValue": 4
 		},
 		{
-			"display_name": "CROCIATA",
-			"resource_trade_option": [
+			"displayName": "CROCIATA",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [
+					"employedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 8
 						}
 					],
-					"resource_cost": [
+					"producedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 4
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "COIN",
+						"type": "STANDARD",
+						"resourceType": "COIN",
 						"amount": 5
 					},
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 1
 					}
 				]
 			},
-			"victory_value": 5
+			"victoryValue": 5
 		},
 		{
-			"display_name": "SOSTEGNO_CARDINALE",
-			"resource_trade_option": [
+			"displayName": "SOSTEGNO_CARDINALE",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [
+					"employedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 7
 						}
 					],
-					"resource_cost": [
+					"producedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 4
 						}
 					]
 				},
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 2
 						},
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 3
 						},
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 2
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 3
 					}
 				]
 			},
-			"victory_value": 4
+			"victoryValue": 4
 		}
 	],
-	"period_third": [
+	"thirdPeriod": [
 		{
-			"display_name": "INGAGGIARE_MERCENARI",
-			"resource_trade_option": [
+			"displayName": "INGAGGIARE_MERCENARI",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 8
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "MILITARY_POINT",
+						"type": "STANDARD",
+						"resourceType": "MILITARY_POINT",
 						"amount": 7
 					}
 				]
 			},
-			"victory_value": 6
+			"victoryValue": 6
 		},
 		{
-			"display_name": "RIPARARE_CATTEDRALE",
-			"resource_trade_option": [
+			"displayName": "RIPARARE_CATTEDRALE",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 3
 						},
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 3
 						},
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 3
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [
+			"instantReward": {
+				"events": [
 					{
-						"type": "event_card",
+						"type": "CARD",
 						"value": 7,
-						"card_type": [
+						"cardTypes": [
 							"CHARACTER",
 							"TERRITORY",
 							"VENTURE",
 							"BUILDING"
 						],
-						"discount_choices": []
+						"discountChoices": []
 					}
 				],
-				"resource_amount": [
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 1
 					}
 				]
 			},
-			"victory_value": 5
+			"victoryValue": 5
 		},
 		{
-			"display_name": "COSTRUIRE_TORRI",
-			"resource_trade_option": [
+			"displayName": "COSTRUIRE_TORRI",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 6
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "MILITARY_POINT",
+						"type": "STANDARD",
+						"resourceType": "MILITARY_POINT",
 						"amount": 4
 					},
 					{
-						"type": "COUNCIL_PRIVILEGE",
+						"type": "STANDARD",
+						"resourceType": "COUNCIL_PRIVILEGE",
 						"amount": 1
 					}
 				]
 			},
-			"victory_value": 4
+			"victoryValue": 4
 		},
 		{
-			"display_name": "COMMISSIONARE_ARTE_SACRA",
-			"resource_trade_option": [
+			"displayName": "COMMISSIONARE_ARTE_SACRA",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 6
 						}
 					],
-					"instant_reward": {
-						"event": [],
-						"resource_amount": [
+					"instantReward": {
+						"events": [],
+						"resourceAmounts": [
 							{
-								"type": "FAITH_POINT",
+								"type": "STANDARD",
+								"resourceType": "FAITH_POINT",
 								"amount": 3
 							}
 						]
 					}
 				}
 			],
-			"victory_value": 3
+			"victoryValue": 3
 		},
 		{
-			"display_name": "CONQUISTA_MILITARE",
-			"resource_trade_option": [
+			"displayName": "CONQUISTA_MILITARE",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [
+					"employedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 12
 						}
 					],
-					"resource_cost": [
+					"producedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 6
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "WOOD",
+						"type": "STANDARD",
+						"resourceType": "WOOD",
 						"amount": 3
 					},
 					{
-						"type": "STONE",
+						"type": "STANDARD",
+						"resourceType": "STONE",
 						"amount": 3
 					},
 					{
-						"type": "COIN",
+						"type": "STANDARD",
+						"resourceType": "COIN",
 						"amount": 3
 					}
 				]
 			},
-			"victory_value": 7
+			"victoryValue": 7
 		},
 		{
-			"display_name": "MIGLIORARE_STRADE",
-			"resource_trade_option": [
+			"displayName": "MIGLIORARE_STRADE",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "SERVANT",
+							"type": "STANDARD",
+							"resourceType": "SERVANT",
 							"amount": 3
 						},
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 4
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [
+			"instantReward": {
+				"events": [
 					{
-						"type": "event_work",
+						"type": "WORK",
 						"value": 3,
-						"work_type": "PRODUCTION"
+						"workType": "PRODUCTION"
 					}
 				],
-				"resource_amount": []
+				"resourceAmounts": []
 			},
-			"victory_value": 5
+			"victoryValue": 5
 		},
 		{
-			"display_name": "GUERRA_SANTA",
-			"resource_trade_option": [
+			"displayName": "GUERRA_SANTA",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [
+					"employedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 15
 						}
 					],
-					"resource_cost": [
+					"producedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 8
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 4
 					}
 				]
 			},
-			"victory_value": 8
+			"victoryValue": 8
 		},
 		{
-			"display_name": "SOSTEGNO_PAPA",
-			"resource_trade_option": [
+			"displayName": "SOSTEGNO_PAPA",
+			"resourceTradeOptions": [
 				{
-					"resource_condition": [
+					"employedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 10
 						}
 					],
-					"resource_cost": [
+					"producedResources": [
 						{
-							"type": "MILITARY_POINT",
+							"type": "STANDARD",
+							"resourceType": "MILITARY_POINT",
 							"amount": 5
 						}
 					]
 				},
 				{
-					"resource_condition": [],
-					"resource_cost": [
+					"employedResources": [],
+					"producedResources": [
 						{
-							"type": "WOOD",
+							"type": "STANDARD",
+							"resourceType": "WOOD",
 							"amount": 3
 						},
 						{
-							"type": "COIN",
+							"type": "STANDARD",
+							"resourceType": "COIN",
 							"amount": 4
 						},
 						{
-							"type": "STONE",
+							"type": "STANDARD",
+							"resourceType": "STONE",
 							"amount": 3
 						}
 					]
 				}
 			],
-			"instant_reward": {
-				"event": [],
-				"resource_amount": [
+			"instantReward": {
+				"events": [],
+				"resourceAmounts": [
 					{
-						"type": "FAITH_POINT",
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
 						"amount": 2
 					}
 				]
 			},
-			"victory_value": 10
+			"victoryValue": 10
 		}
 	]
 }
