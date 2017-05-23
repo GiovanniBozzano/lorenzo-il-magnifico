@@ -8,10 +8,7 @@ import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.bonus.BonusAdditionCard;
 import it.polimi.ingsw.lim.common.bonus.BonusAdditionWork;
 import it.polimi.ingsw.lim.common.bonus.Malus;
-import it.polimi.ingsw.lim.common.cards.Card;
-import it.polimi.ingsw.lim.common.cards.DevelopmentCardBuilding;
-import it.polimi.ingsw.lim.common.cards.DevelopmentCardCharacter;
-import it.polimi.ingsw.lim.common.cards.DevelopmentCardTerritory;
+import it.polimi.ingsw.lim.common.cards.*;
 import it.polimi.ingsw.lim.common.events.Event;
 import it.polimi.ingsw.lim.common.events.EventCard;
 import it.polimi.ingsw.lim.common.events.EventWork;
@@ -68,13 +65,16 @@ public class DevelopmentCardsDeck<T extends Card>
 		private static final Map<Class<? extends Card>, Type> TYPE_TOKENS = new HashMap<>();
 
 		static {
-			Builder.TYPE_TOKENS.put(DevelopmentCardTerritory.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardTerritory>>()
-			{
-			}.getType());
 			Builder.TYPE_TOKENS.put(DevelopmentCardBuilding.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardBuilding>>()
 			{
 			}.getType());
 			Builder.TYPE_TOKENS.put(DevelopmentCardCharacter.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardCharacter>>()
+			{
+			}.getType());
+			Builder.TYPE_TOKENS.put(DevelopmentCardTerritory.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardTerritory>>()
+			{
+			}.getType());
+			Builder.TYPE_TOKENS.put(DevelopmentCardVenture.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardVenture>>()
 			{
 			}.getType());
 		}
