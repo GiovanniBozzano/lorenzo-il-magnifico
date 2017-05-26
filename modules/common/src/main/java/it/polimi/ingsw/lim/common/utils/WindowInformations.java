@@ -1,19 +1,20 @@
 package it.polimi.ingsw.lim.common.utils;
 
+import it.polimi.ingsw.lim.common.gui.CustomController;
 import javafx.stage.Stage;
 
 public class WindowInformations
 {
-	private final Object controller;
+	private final CustomController controller;
 	private final Stage stage;
 
-	public WindowInformations(Object controller, Stage stage)
+	public WindowInformations(CustomController controller, Stage stage)
 	{
 		this.controller = controller;
 		this.stage = stage;
 	}
 
-	public Object getController()
+	public CustomController getController()
 	{
 		return this.controller;
 	}

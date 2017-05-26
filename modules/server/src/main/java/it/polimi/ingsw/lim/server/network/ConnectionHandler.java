@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.network;
 
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.CardsHandler;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
@@ -44,14 +44,14 @@ public class ConnectionHandler extends Thread
 			this.registry.rebind("lorenzo-il-magnifico", this.login);
 		} catch (RemoteException exception) {
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-			Server.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
 			return;
 		}
 		try (ServerSocket serverSocket = new ServerSocket(this.socketPort)) {
-			CommonUtils.setNewWindow(Utils.SCENE_MAIN, () -> {
+			WindowFactory.getInstance().setNewWindow(Utils.SCENE_MAIN, true, () -> {
 				Utils.displayToLog("Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
 				Server.getInstance().setExternalIp(Utils.getExternalIpAddress());
-				Platform.runLater(() -> ((ControllerMain) Server.getInstance().getWindowInformations().getController()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));
+				Platform.runLater(() -> ((ControllerMain) WindowFactory.getInstance().getCurrentWindow().getController()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));
 				if (Server.getInstance().getExternalIp() != null) {
 					Utils.displayToLog("Your external IP address is: " + Server.getInstance().getExternalIp());
 					Utils.displayToLog(CardsHandler.DEVELOPMENT_CARDS_BUILDING.toString());
@@ -84,7 +84,7 @@ public class ConnectionHandler extends Thread
 			} catch (RemoteException | NotBoundException nestedException) {
 				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, nestedException);
 			}
-			Server.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
 		}
 	}
 

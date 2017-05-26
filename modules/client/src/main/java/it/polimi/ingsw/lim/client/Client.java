@@ -7,18 +7,9 @@ import it.polimi.ingsw.lim.client.network.socket.ConnectionHandlerSocket;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
-import it.polimi.ingsw.lim.common.gui.CustomController;
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
-import it.polimi.ingsw.lim.common.utils.WindowInformations;
+import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -84,27 +75,11 @@ public class Client extends Instance
 				Client.getLogger().log(Level.INFO, "Connection closed.");
 			}
 			if (isStopping) {
-				Platform.runLater(() -> CommonUtils.closeAllWindows(this.getWindowInformations().getStage()));
-			} else if (this.getWindowInformations().getController() instanceof ControllerConnection) {
-				this.getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+				Platform.runLater(() -> WindowFactory.getInstance().closeAllWindows());
+			} else if (WindowFactory.getInstance().isWindowOpen(ControllerConnection.class)) {
+				WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
 			} else {
-				Platform.runLater(() -> {
-					FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(Utils.SCENE_CONNECTION));
-					try {
-						Parent parent = fxmlLoader.load();
-						Stage stage = new Stage();
-						stage.initStyle(StageStyle.UNDECORATED);
-						stage.setScene(new Scene(parent));
-						stage.sizeToScene();
-						stage.setResizable(false);
-						CommonUtils.closeAllWindows(this.getWindowInformations().getStage());
-						this.setWindowInformations(new WindowInformations(fxmlLoader.getController(), stage));
-						stage.show();
-						((CustomController) fxmlLoader.getController()).setupGui();
-					} catch (IOException exception) {
-						Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-					}
-				});
+				WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, true);
 			}
 		});
 		executorService.shutdown();

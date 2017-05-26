@@ -60,15 +60,18 @@
 							</transformers>
 							<filters>
 								<filter>
-									<artifact>it.polimi.ingsw:LM13-common</artifact>
+									<artifact>*:*</artifact>
 									<includes>
 										<include>**</include>
 									</includes>
-								</filter>
-								<filter>
-									<artifact>*:*</artifact>
 									<excludes>
 										<exclude>META-INF/maven/**</exclude>
+									</excludes>
+								</filter>
+								<filter>
+									<artifact>junit:junit</artifact>
+									<excludes>
+										<exclude>**</exclude>
 									</excludes>
 								</filter>
 							</filters>

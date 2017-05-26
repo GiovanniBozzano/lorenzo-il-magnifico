@@ -75,6 +75,11 @@ public abstract class CustomController implements Initializable
 	@PostConstruct
 	public abstract void setupGui();
 
+	public void setDisable(boolean disable)
+	{
+		this.stackPane.getScene().getRoot().setDisable(disable);
+	}
+
 	public StackPane getStackPane()
 	{
 		return this.stackPane;

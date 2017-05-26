@@ -1,8 +1,8 @@
 package it.polimi.ingsw.lim.server;
 
 import it.polimi.ingsw.lim.common.Instance;
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.database.DatabaseSQLite;
 import it.polimi.ingsw.lim.server.game.Room;
@@ -58,7 +58,7 @@ public class Server extends Instance
 					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 				}
 			}, 0L, 60L, TimeUnit.SECONDS);
-			this.getWindowInformations().getStage().getScene().getRoot().setDisable(true);
+			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(true);
 			this.connectionHandler = new ConnectionHandler(rmiPort, socketPort);
 			this.connectionHandler.start();
 		});
@@ -102,7 +102,7 @@ public class Server extends Instance
 				this.database.closeConnection();
 				this.connectionHandler = null;
 			}
-			Platform.runLater(() -> CommonUtils.closeAllWindows(this.getWindowInformations().getStage()));
+			Platform.runLater(() -> WindowFactory.getInstance().closeAllWindows());
 		});
 		executorService.shutdown();
 	}
