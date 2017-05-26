@@ -1,8 +1,8 @@
 package it.polimi.ingsw.lim.client.network.rmi;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
-import it.polimi.ingsw.lim.common.utils.RoomInformations;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

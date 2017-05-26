@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.server.game.player;
 
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
 
 import java.util.EnumMap;
 import java.util.Map;

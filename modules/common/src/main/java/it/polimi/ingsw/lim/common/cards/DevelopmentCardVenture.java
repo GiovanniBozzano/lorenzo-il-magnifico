@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.common.cards;
 
-import it.polimi.ingsw.lim.common.utils.ResourceTradeOption;
-import it.polimi.ingsw.lim.common.utils.Reward;
+import it.polimi.ingsw.lim.common.game.ResourceTradeOption;
+import it.polimi.ingsw.lim.common.game.Reward;
 
 public class DevelopmentCardVenture extends Card
 {

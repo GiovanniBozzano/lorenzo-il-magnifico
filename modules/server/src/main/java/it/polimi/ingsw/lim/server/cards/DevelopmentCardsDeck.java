@@ -12,10 +12,10 @@ import it.polimi.ingsw.lim.common.cards.*;
 import it.polimi.ingsw.lim.common.events.Event;
 import it.polimi.ingsw.lim.common.events.EventCard;
 import it.polimi.ingsw.lim.common.events.EventWork;
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.ResourceAmountMultiplierCard;
+import it.polimi.ingsw.lim.common.game.ResourceAmountMultiplierResource;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
-import it.polimi.ingsw.lim.common.utils.ResourceAmount;
-import it.polimi.ingsw.lim.common.utils.ResourceAmountMultiplierCard;
-import it.polimi.ingsw.lim.common.utils.ResourceAmountMultiplierResource;
 import it.polimi.ingsw.lim.server.Server;
 
 import java.io.IOException;

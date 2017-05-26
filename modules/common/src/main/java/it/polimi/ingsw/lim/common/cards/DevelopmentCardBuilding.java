@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.common.cards;
 
-import it.polimi.ingsw.lim.common.utils.ResourceAmount;
-import it.polimi.ingsw.lim.common.utils.ResourceTradeOption;
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.ResourceTradeOption;
 
 public class DevelopmentCardBuilding extends Card
 {

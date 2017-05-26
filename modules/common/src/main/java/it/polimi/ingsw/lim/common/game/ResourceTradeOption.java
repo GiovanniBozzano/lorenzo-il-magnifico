@@ -1,4 +1,4 @@
-package it.polimi.ingsw.lim.common.utils;
+package it.polimi.ingsw.lim.common.game;
 
 public class ResourceTradeOption
 {

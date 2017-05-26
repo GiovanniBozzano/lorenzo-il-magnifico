@@ -8,13 +8,13 @@ import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
+import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
-import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import javafx.application.Platform;
 
 import java.io.IOException;

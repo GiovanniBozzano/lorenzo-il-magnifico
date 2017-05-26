@@ -1,4 +1,4 @@
-package it.polimi.ingsw.lim.common.utils;
+package it.polimi.ingsw.lim.common.game;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;

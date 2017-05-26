@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.common.cards;
 
-import it.polimi.ingsw.lim.common.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
 
 public class CardLeader extends Card
 {

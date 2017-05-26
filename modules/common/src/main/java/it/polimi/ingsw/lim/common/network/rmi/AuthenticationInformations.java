@@ -1,6 +1,6 @@
-package it.polimi.ingsw.lim.common.utils;
+package it.polimi.ingsw.lim.common.network.rmi;
 
-import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
+import it.polimi.ingsw.lim.common.game.RoomInformations;
 
 import java.io.Serializable;
 

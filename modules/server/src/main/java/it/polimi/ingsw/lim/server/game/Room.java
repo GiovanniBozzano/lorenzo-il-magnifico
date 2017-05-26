@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.game;
 
 import it.polimi.ingsw.lim.common.enums.RoomType;
+import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.server.ServerSettings;
 import it.polimi.ingsw.lim.server.network.Connection;
 
@@ -18,6 +19,7 @@ public class Room
 	private int timer;
 	private ScheduledExecutorService timerExecutor;
 	private boolean isStarted = false;
+	private GameHandler gameHandler;
 
 	public Room(int id, RoomType roomType)
 	{
@@ -34,7 +36,7 @@ public class Room
 			this.timerExecutor.scheduleWithFixedDelay(() -> {
 				this.timer--;
 				if (this.timer == 0) {
-					this.timerExecutor.shutdownNow();
+					this.startGame();
 				} else {
 					for (Connection roomPlayer : this.players) {
 						roomPlayer.sendRoomTimer(this.timer);
@@ -42,7 +44,7 @@ public class Room
 				}
 			}, 1, 1, TimeUnit.SECONDS);
 		} else if (this.players.size() >= this.getRoomType().getPlayersNumber()) {
-			this.timerExecutor.shutdownNow();
+			this.startGame();
 		}
 	}
 
@@ -55,6 +57,20 @@ public class Room
 			}
 			this.timerExecutor = null;
 			this.timer = ServerSettings.getInstance().getRoomTimer();
+		}
+	}
+
+	private void startGame()
+	{
+		this.timerExecutor.shutdownNow();
+		this.isStarted = true;
+		this.gameHandler = new GameHandler();
+		List<String> playerUsernames = new ArrayList<>();
+		for (Connection connection : this.players) {
+			playerUsernames.add(connection.getUsername());
+		}
+		for (Connection connection : this.players) {
+			connection.sendGameStarted(new RoomInformations(this.id, this.roomType, playerUsernames));
 		}
 	}
 

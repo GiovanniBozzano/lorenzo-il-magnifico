@@ -2,11 +2,11 @@ package it.polimi.ingsw.lim.server.network.rmi;
 
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
+import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
-import it.polimi.ingsw.lim.common.utils.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
-import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.network.Connection;

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.lim.common.network.socket.packets.server;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
+import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
-import it.polimi.ingsw.lim.common.utils.RoomInformations;
 
 public class PacketGameStarted extends Packet
 {

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.common.network.rmi;
 
-import it.polimi.ingsw.lim.common.utils.RoomInformations;
+import it.polimi.ingsw.lim.common.game.RoomInformations;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

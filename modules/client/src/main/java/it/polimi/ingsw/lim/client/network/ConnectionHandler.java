@@ -2,9 +2,11 @@ package it.polimi.ingsw.lim.client.network;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.RoomType;
+import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
-import it.polimi.ingsw.lim.common.utils.RoomInformations;
 import javafx.application.Platform;
 
 import java.util.concurrent.Executors;
@@ -130,6 +132,7 @@ public abstract class ConnectionHandler extends Thread
 		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoom)) {
 			return;
 		}
+		CommonUtils.setNewWindow(Utils.SCENE_GAME);
 	}
 
 	public void handleChatMessage(String text)

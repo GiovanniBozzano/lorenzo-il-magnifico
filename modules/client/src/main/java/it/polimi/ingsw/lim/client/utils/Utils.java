@@ -5,6 +5,7 @@ public class Utils
 	public static final String SCENE_AUTHENTICATION = "/fxml/SceneAuthentication.fxml";
 	public static final String SCENE_CONNECTION = "/fxml/SceneConnection.fxml";
 	public static final String SCENE_ROOM = "/fxml/SceneRoom.fxml";
+	public static final String SCENE_GAME = "/fxml/SceneGame.fxml";
 
 	private Utils()
 	{

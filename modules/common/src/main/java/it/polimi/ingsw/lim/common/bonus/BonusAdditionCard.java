@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.common.bonus;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.utils.DiscountChoice;
+import it.polimi.ingsw.lim.common.game.DiscountChoice;
 
 public class BonusAdditionCard
 {
