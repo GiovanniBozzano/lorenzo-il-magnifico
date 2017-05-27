@@ -4,7 +4,6 @@ import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.player.PlayerInformations;
-import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -77,7 +76,7 @@ public abstract class Connection
 
 	public void handleRoomTimerRequest()
 	{
-		Room room = Utils.getPlayerRoom(this);
+		Room room = Room.getPlayerRoom(this);
 		if (room == null) {
 			return;
 		}
@@ -86,7 +85,7 @@ public abstract class Connection
 
 	public void handleChatMessage(String text)
 	{
-		Room room = Utils.getPlayerRoom(this);
+		Room room = Room.getPlayerRoom(this);
 		if (room == null) {
 			return;
 		}

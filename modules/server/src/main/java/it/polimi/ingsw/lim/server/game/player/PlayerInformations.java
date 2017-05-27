@@ -1,9 +1,9 @@
 package it.polimi.ingsw.lim.server.game.player;
 
-import it.polimi.ingsw.lim.common.bonus.Bonus;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.events.IEvent;
+import it.polimi.ingsw.lim.server.game.bonus.Bonus;
+import it.polimi.ingsw.lim.server.game.events.IEvent;
 
 import java.util.ArrayList;
 import java.util.EnumMap;

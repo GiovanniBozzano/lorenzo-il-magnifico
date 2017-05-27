@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.lim.common.Instance;
-import it.polimi.ingsw.lim.common.game.CouncilPalaceReward;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

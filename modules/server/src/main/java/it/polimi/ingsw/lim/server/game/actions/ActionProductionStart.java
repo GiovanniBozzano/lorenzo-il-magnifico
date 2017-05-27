@@ -1,15 +1,11 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
-import it.polimi.ingsw.lim.common.bonus.Bonus;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.events.EventStartProduction;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionStart;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
 import it.polimi.ingsw.lim.server.network.Connection;
-import it.polimi.ingsw.lim.server.utils.Utils;
-
-import java.util.List;
 
 public class ActionProductionStart extends ActionInformationsProductionStart implements IAction
 {
@@ -27,7 +23,7 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 	@Override
 	public boolean isLegal()
 	{
-		Room room = Utils.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player);
 		if (room == null) {
 			return false;
 		}
@@ -39,10 +35,7 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 			return false;
 		}
 		this.event = new EventStartProduction(gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()) + this.servants);
-		List<Bonus<EventStartProduction>> appliedBonuses = IAction.getAppliedBonuses(EventStartProduction.class, this.player.getPlayerInformations().getActiveBonuses());
-		for (Bonus<EventStartProduction> bonus : appliedBonuses) {
-			this.event = bonus.apply(this.event);
-		}
+		IAction.applyBonuses(this.player.getPlayerInformations().getActiveBonuses(), this.event);
 		return this.event.getValue() >= gameHandler.getFreeProductionSlotType().getCost();
 	}
 

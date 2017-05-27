@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
-import it.polimi.ingsw.lim.common.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionTrade;
 import it.polimi.ingsw.lim.server.network.Connection;
@@ -9,9 +8,9 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 {
 	private Connection player;
 
-	public ActionProductionTrade(Connection player, FamilyMemberType familyMemberType, DevelopmentCardBuilding developmentCardBuilding)
+	public ActionProductionTrade(Connection player, FamilyMemberType familyMemberType, int developmentCardBuildingIndex)
 	{
-		super(familyMemberType, developmentCardBuilding);
+		super(familyMemberType, developmentCardBuildingIndex);
 		this.player = player;
 	}
 

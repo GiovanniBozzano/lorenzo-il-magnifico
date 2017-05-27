@@ -1,10 +1,9 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
-import it.polimi.ingsw.lim.common.bonus.Bonus;
-import it.polimi.ingsw.lim.common.events.IEvent;
+import it.polimi.ingsw.lim.server.game.bonus.Bonus;
+import it.polimi.ingsw.lim.server.game.events.IEvent;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface IAction
@@ -13,16 +12,11 @@ public interface IAction
 
 	void apply();
 
-	@SuppressWarnings("unchecked")
-	static <T extends IEvent> List<Bonus<T>> getAppliedBonuses(Class<T> eventClass, List<Bonus<? extends IEvent>> bonuses)
+	static void applyBonuses(List<Bonus<? extends IEvent>> bonuses, IEvent event)
 	{
-		List<Bonus<T>> appliedBonuses = new ArrayList<>();
 		for (Bonus bonus : bonuses) {
-			if (bonus.getEventClass() == eventClass) {
-				appliedBonuses.add(bonus);
-			}
+			bonus.call(event);
 		}
-		return appliedBonuses;
 	}
 
 	Connection getPlayer();

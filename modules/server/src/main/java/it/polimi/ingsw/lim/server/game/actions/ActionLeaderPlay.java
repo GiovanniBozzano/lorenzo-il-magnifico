@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
-import it.polimi.ingsw.lim.common.cards.CardLeader;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderPlay;
 import it.polimi.ingsw.lim.server.network.Connection;
 
@@ -8,9 +7,9 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 {
 	private Connection player;
 
-	public ActionLeaderPlay(Connection player, CardLeader cardLeader)
+	public ActionLeaderPlay(Connection player, int cardLeaderIndex)
 	{
-		super(cardLeader);
+		super(cardLeaderIndex);
 		this.player = player;
 	}
 

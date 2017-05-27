@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.server.game.player;
 
-import it.polimi.ingsw.lim.common.cards.*;
+import it.polimi.ingsw.lim.server.game.cards.*;
 
 import java.util.ArrayList;
 import java.util.List;

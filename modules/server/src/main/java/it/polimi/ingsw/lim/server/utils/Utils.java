@@ -10,7 +10,6 @@ import it.polimi.ingsw.lim.server.enums.Command;
 import it.polimi.ingsw.lim.server.enums.QueryRead;
 import it.polimi.ingsw.lim.server.enums.QueryValueType;
 import it.polimi.ingsw.lim.server.enums.QueryWrite;
-import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.Connection;
 import javafx.application.Platform;
@@ -182,17 +181,6 @@ public class Utils
 			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			throw new AuthenticationFailedException("Server error.");
 		}
-	}
-
-	public static Room getPlayerRoom(Connection connection)
-	{
-		for (Room room : Server.getInstance().getRooms()) {
-			if (!room.getPlayers().contains(connection)) {
-				continue;
-			}
-			return room;
-		}
-		return null;
 	}
 
 	/**

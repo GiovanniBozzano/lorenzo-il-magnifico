@@ -1,20 +1,19 @@
 package it.polimi.ingsw.lim.common.game.actions;
 
-import it.polimi.ingsw.lim.common.cards.CardLeader;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 
 public class ActionInformationsLeaderActivation extends ActionInformations
 {
-	private CardLeader cardLeader;
+	private int cardLeaderIndex;
 
-	public ActionInformationsLeaderActivation(CardLeader cardLeader)
+	public ActionInformationsLeaderActivation(int cardLeaderIndex)
 	{
 		super(ActionType.LEADER_ACTIVATION);
-		this.cardLeader = cardLeader;
+		this.cardLeaderIndex = cardLeaderIndex;
 	}
 
-	public CardLeader getCardLeader()
+	public int getCardLeaderIndex()
 	{
-		return this.cardLeader;
+		return this.cardLeaderIndex;
 	}
 }

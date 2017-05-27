@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.server.game;
 
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.ServerSettings;
 import it.polimi.ingsw.lim.server.network.Connection;
 
@@ -72,6 +73,17 @@ public class Room
 		for (Connection connection : this.players) {
 			connection.sendGameStarted(new RoomInformations(this.id, this.roomType, playerUsernames));
 		}
+	}
+
+	public static Room getPlayerRoom(Connection connection)
+	{
+		for (Room room : Server.getInstance().getRooms()) {
+			if (!room.getPlayers().contains(connection)) {
+				continue;
+			}
+			return room;
+		}
+		return null;
 	}
 
 	public int getId()

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
-import it.polimi.ingsw.lim.common.cards.CardLeader;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderActivation;
 import it.polimi.ingsw.lim.server.network.Connection;
 
@@ -8,9 +7,9 @@ public class ActionLeaderActivation extends ActionInformationsLeaderActivation i
 {
 	private Connection player;
 
-	public ActionLeaderActivation(Connection player, CardLeader cardLeader)
+	public ActionLeaderActivation(Connection player, int cardLeaderIndex)
 	{
-		super(cardLeader);
+		super(cardLeaderIndex);
 		this.player = player;
 	}
 
