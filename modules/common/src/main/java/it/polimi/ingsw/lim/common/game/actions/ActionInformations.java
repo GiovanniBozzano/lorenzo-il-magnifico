@@ -2,7 +2,9 @@ package it.polimi.ingsw.lim.common.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 
-public class ActionInformations
+import java.io.Serializable;
+
+public abstract class ActionInformations implements Serializable
 {
 	private ActionType actionType;
 

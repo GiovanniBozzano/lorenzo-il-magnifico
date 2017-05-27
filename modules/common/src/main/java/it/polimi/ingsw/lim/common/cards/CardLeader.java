@@ -26,16 +26,16 @@ public class CardLeader extends Card
 	COSIMO_DE_MEDICI("Cosimo De' Medici", new ResourceAmount[] { new ResourceAmount(ResourceType.BLUE_CARD, 2), new ResourceAmount(ResourceType.YELLOW_CARD, 4) }),
 	BARTOLOMEO_COLLEONI("Bartolomeo Colleoni", new ResourceAmount[] { new ResourceAmount(ResourceType.PURPLE_CARD, 2), new ResourceAmount(ResourceType.GREEN_CARD, 4) });
 	*/
-	private final ResourceAmount[] neededResources;
+	private final ResourceAmount[] activationResources;
 
-	public CardLeader(String displayName, ResourceAmount[] neededResources)
+	public CardLeader(String displayName, ResourceAmount[] activationResources)
 	{
 		super(displayName);
-		this.neededResources = neededResources;
+		this.activationResources = activationResources;
 	}
 
-	public ResourceAmount[] getNeededResources()
+	public ResourceAmount[] getactivationResources()
 	{
-		return this.neededResources;
+		return this.activationResources;
 	}
 }

@@ -1,0 +1,33 @@
+package it.polimi.ingsw.lim.server.game.actions;
+
+import it.polimi.ingsw.lim.common.cards.DevelopmentCardBuilding;
+import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionTrade;
+import it.polimi.ingsw.lim.server.network.Connection;
+
+public class ActionProductionTrade extends ActionInformationsProductionTrade implements IAction
+{
+	private Connection player;
+
+	public ActionProductionTrade(Connection player, FamilyMemberType familyMemberType, DevelopmentCardBuilding developmentCardBuilding)
+	{
+		super(familyMemberType, developmentCardBuilding);
+		this.player = player;
+	}
+
+	@Override
+	public void isLegal()
+	{
+	}
+
+	@Override
+	public void apply()
+	{
+	}
+
+	@Override
+	public Connection getPlayer()
+	{
+		return this.player;
+	}
+}

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.lim.server.game;
+package it.polimi.ingsw.lim.server.cards;
 
 import it.polimi.ingsw.lim.common.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.common.cards.DevelopmentCardCharacter;
