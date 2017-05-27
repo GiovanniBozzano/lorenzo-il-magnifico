@@ -1,8 +1,8 @@
 package it.polimi.ingsw.lim.server;
 
 import it.polimi.ingsw.lim.common.Instance;
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.utils.Utils;
 import javafx.application.Application;
 import javafx.scene.text.Font;
@@ -45,7 +45,7 @@ public class Main extends Application
 		Font.loadFont(this.getClass().getResourceAsStream("/font/roboto/RobotoCondensed-Light.ttf"), 12);
 		Font.loadFont(this.getClass().getResourceAsStream("/font/roboto/RobotoCondensed-LightItalic.ttf"), 12);
 		Font.loadFont(this.getClass().getResourceAsStream("/font/roboto/RobotoCondensed-Regular.ttf"), 12);
-		CommonUtils.setNewWindow(Utils.SCENE_START, null);
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_START, true, null);
 	}
 
 	@Override

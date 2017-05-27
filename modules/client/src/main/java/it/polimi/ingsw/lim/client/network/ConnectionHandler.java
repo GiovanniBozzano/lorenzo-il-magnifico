@@ -5,8 +5,8 @@ import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
 
 import java.util.concurrent.Executors;
@@ -58,7 +58,7 @@ public abstract class ConnectionHandler extends Thread
 			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
-		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
+		WindowFactory.getInstance().getCurrentWindow().getController().setDisable(true);
 	}
 
 	/**
@@ -75,7 +75,7 @@ public abstract class ConnectionHandler extends Thread
 			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
-		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(true);
+		WindowFactory.getInstance().getCurrentWindow().getController().setDisable(true);
 	}
 
 	public synchronized void sendRoomTimerRequest()
@@ -100,50 +100,50 @@ public abstract class ConnectionHandler extends Thread
 
 	public void handleRoomEntryOther(String name)
 	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoom)) {
+		if (!WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
-		Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getPlayersListView().getItems().add(name));
+		Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().add(name));
 	}
 
 	public void handleRoomExitOther(String name)
 	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoom)) {
+		if (!WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
 		Platform.runLater(() -> {
-			((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getPlayersListView().getItems().remove(name);
-			if (((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getPlayersListView().getItems().size() < 2) {
-				((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getTimerLabel().setText("Waiting for other players...");
+			((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().remove(name);
+			if (((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().size() < 2) {
+				((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getTimerLabel().setText("Waiting for other players...");
 			}
 		});
 	}
 
 	public void handleRoomTimer(int timer)
 	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoom)) {
+		if (!WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
-		Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getTimerLabel().setText("Game starts in: " + timer));
+		Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getTimerLabel().setText("Game starts in: " + timer));
 	}
 
 	public void handleGameStarted(RoomInformations roomInformations)
 	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoom)) {
+		if (!WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
-		CommonUtils.setNewWindow(Utils.SCENE_GAME);
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, true);
 	}
 
 	public void handleChatMessage(String text)
 	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerRoom)) {
+		if (!WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
-		if (((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getChatTextArea().getText().length() < 1) {
-			Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getChatTextArea().appendText(text));
+		if (((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().getText().length() < 1) {
+			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().appendText(text));
 		} else {
-			Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).getChatTextArea().appendText("\n" + text));
+			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().appendText("\n" + text));
 		}
 	}
 

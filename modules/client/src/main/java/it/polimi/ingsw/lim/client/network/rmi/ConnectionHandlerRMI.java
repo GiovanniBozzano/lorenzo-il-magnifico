@@ -13,6 +13,7 @@ import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
 import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
 
 import java.net.MalformedURLException;
@@ -41,15 +42,12 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			this.login = (IAuthentication) Naming.lookup("rmi://" + Client.getInstance().getIp() + ":" + Client.getInstance().getPort() + "/lorenzo-il-magnifico");
 		} catch (NotBoundException | MalformedURLException | RemoteException exception) {
 			Client.getLogger().log(Level.INFO, "Could not connect to host.", exception);
-			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-			Platform.runLater(() -> {
-				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().requestFocus();
-				((ControllerConnection) Client.getInstance().getWindowInformations().getController()).showDialog("Could not connect to host");
-			});
+			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
+			Platform.runLater(() -> ((ControllerConnection) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog("Could not connect to host"));
 			return;
 		}
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
-		CommonUtils.setNewWindow(Utils.SCENE_AUTHENTICATION);
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_AUTHENTICATION, true);
 	}
 
 	@Override
@@ -99,8 +97,8 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				Client.getInstance().disconnect(false, false);
 			} catch (AuthenticationFailedException exception) {
 				Client.getLogger().log(Level.INFO, exception.getLocalizedMessage(), exception);
-				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-				Platform.runLater(() -> ((ControllerAuthentication) Client.getInstance().getWindowInformations().getController()).showDialog(exception.getLocalizedMessage()));
+				WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
+				Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog(exception.getLocalizedMessage()));
 			}
 		});
 	}
@@ -117,8 +115,8 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				Client.getInstance().disconnect(false, false);
 			} catch (AuthenticationFailedException exception) {
 				Client.getLogger().log(Level.INFO, exception.getLocalizedMessage(), exception);
-				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-				Platform.runLater(() -> ((ControllerAuthentication) Client.getInstance().getWindowInformations().getController()).showDialog(exception.getLocalizedMessage()));
+				WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
+				Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog(exception.getLocalizedMessage()));
 			}
 		});
 	}
@@ -155,6 +153,6 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 	{
 		this.clientSession = authenticationInformations.getClientSession();
 		Client.getInstance().setUsername(username);
-		CommonUtils.setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, true, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));
 	}
 }

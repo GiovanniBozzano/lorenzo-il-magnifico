@@ -22,7 +22,7 @@ public class ControllerStart extends CustomController
 	@FXML
 	private void handleStartButtonAction()
 	{
-		this.startButton.getScene().getRoot().setDisable(true);
+		this.setDisable(true);
 		Server.getInstance().setup(Integer.parseInt(this.rmiPortTextField.getText()), Integer.parseInt(this.socketPortTextField.getText()));
 	}
 

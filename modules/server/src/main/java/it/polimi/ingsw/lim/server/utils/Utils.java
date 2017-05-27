@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.server.utils;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.enums.Command;
@@ -64,14 +65,14 @@ public class Utils
 	 */
 	public static void displayToLog(String text)
 	{
-		if (!(Server.getInstance().getWindowInformations().getController() instanceof ControllerMain)) {
+		if (!WindowFactory.getInstance().isWindowOpen(ControllerMain.class)) {
 			return;
 		}
 		Platform.runLater(() -> {
-			if (((ControllerMain) Server.getInstance().getWindowInformations().getController()).getLogTextArea().getText().length() < 1) {
-				((ControllerMain) Server.getInstance().getWindowInformations().getController()).getLogTextArea().appendText(text);
+			if (((ControllerMain) WindowFactory.getInstance().getCurrentWindow().getController()).getLogTextArea().getText().length() < 1) {
+				((ControllerMain) WindowFactory.getInstance().getCurrentWindow().getController()).getLogTextArea().appendText(text);
 			} else {
-				((ControllerMain) Server.getInstance().getWindowInformations().getController()).getLogTextArea().appendText("\n" + text);
+				((ControllerMain) WindowFactory.getInstance().getCurrentWindow().getController()).getLogTextArea().appendText("\n" + text);
 			}
 		});
 	}

@@ -15,6 +15,7 @@ import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -41,17 +42,16 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			this.in = new ObjectInputStream(this.socket.getInputStream());
 		} catch (IOException exception) {
 			Client.getLogger().log(Level.INFO, "Could not connect to host.", exception);
-			Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
+			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
 			Platform.runLater(() -> {
-				Client.getInstance().getWindowInformations().getStage().getScene().getRoot().requestFocus();
-				((ControllerConnection) Client.getInstance().getWindowInformations().getController()).showDialog("Could not connect to host");
+				((ControllerConnection) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog("Could not connect to host");
 			});
 			return;
 		}
 		this.packetListener = new PacketListener();
 		this.packetListener.start();
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
-		CommonUtils.setNewWindow(Utils.SCENE_AUTHENTICATION, null);
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_AUTHENTICATION, true);
 	}
 
 	@Override
@@ -136,20 +136,20 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 
 	void handleAuthenticationConfirmation(String username, RoomInformations roomInformations)
 	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerAuthentication)) {
+		if (!WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
 			return;
 		}
 		Client.getInstance().setUsername(username);
-		CommonUtils.setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) Client.getInstance().getWindowInformations().getController()).setRoomInformations(roomInformations.getRoomType(), roomInformations.getPlayerNames())));
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, true, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).setRoomInformations(roomInformations.getRoomType(), roomInformations.getPlayerNames())));
 	}
 
 	void handleAuthenticationFailure(String text)
 	{
-		if (!(Client.getInstance().getWindowInformations().getController() instanceof ControllerAuthentication)) {
+		if (!WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
 			return;
 		}
-		Client.getInstance().getWindowInformations().getStage().getScene().getRoot().setDisable(false);
-		Platform.runLater(() -> ((ControllerAuthentication) Client.getInstance().getWindowInformations().getController()).showDialog(text));
+		WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
+		Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog(text));
 	}
 
 	ObjectInputStream getIn()
