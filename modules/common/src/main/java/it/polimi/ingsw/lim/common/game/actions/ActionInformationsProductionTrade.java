@@ -21,7 +21,8 @@ public class ActionInformationsProductionTrade extends ActionInformations
 		return this.developmentCardBuilding;
 	}
 
-	public FamilyMemberType getFamilyMemberType() {
+	public FamilyMemberType getFamilyMemberType()
+	{
 		return this.familyMemberType;
 	}
 }

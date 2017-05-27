@@ -15,8 +15,9 @@ public class ActionLeaderActivation extends ActionInformationsLeaderActivation i
 	}
 
 	@Override
-	public void isLegal()
+	public boolean isLegal()
 	{
+		return false;
 	}
 
 	@Override

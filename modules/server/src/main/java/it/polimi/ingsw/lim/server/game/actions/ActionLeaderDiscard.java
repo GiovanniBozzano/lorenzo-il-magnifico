@@ -15,8 +15,9 @@ public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard impleme
 	}
 
 	@Override
-	public void isLegal()
+	public boolean isLegal()
 	{
+		return false;
 	}
 
 	@Override

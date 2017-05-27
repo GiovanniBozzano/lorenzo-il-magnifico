@@ -15,8 +15,9 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 	}
 
 	@Override
-	public void isLegal()
+	public boolean isLegal()
 	{
+		return false;
 	}
 
 	@Override

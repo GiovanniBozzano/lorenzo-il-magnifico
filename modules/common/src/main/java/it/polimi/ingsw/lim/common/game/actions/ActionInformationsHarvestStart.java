@@ -3,13 +3,13 @@ package it.polimi.ingsw.lim.common.game.actions;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 
-public class ActionInformationsProduction extends ActionInformations
+public class ActionInformationsHarvestStart extends ActionInformations
 {
 	private FamilyMemberType familyMemberType;
 
-	public ActionInformationsProduction(FamilyMemberType familyMemberType)
+	public ActionInformationsHarvestStart(FamilyMemberType familyMemberType)
 	{
-		super(ActionType.PRODUCTION);
+		super(ActionType.HARVEST);
 		this.familyMemberType = familyMemberType;
 	}
 

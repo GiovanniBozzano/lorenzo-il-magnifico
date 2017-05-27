@@ -1,21 +1,21 @@
 package it.polimi.ingsw.lim.common.game;
 
-import it.polimi.ingsw.lim.common.events.Event;
+import it.polimi.ingsw.lim.common.actionrewards.ActionReward;
 
 public class Reward
 {
-	private final Event[] events;
+	private final ActionReward actionReward;
 	private final ResourceAmount[] resourceAmounts;
 
-	public Reward(Event[] events, ResourceAmount[] resourceAmounts)
+	public Reward(ActionReward actionReward, ResourceAmount[] resourceAmounts)
 	{
-		this.events = events;
+		this.actionReward = actionReward;
 		this.resourceAmounts = resourceAmounts;
 	}
 
-	public Event[] getEvents()
+	public ActionReward getActionReward()
 	{
-		return this.events;
+		return this.actionReward;
 	}
 
 	public ResourceAmount[] getResourceAmounts()

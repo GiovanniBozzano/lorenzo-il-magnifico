@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.server.network;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.concurrent.Executors;
@@ -13,6 +14,7 @@ public abstract class Connection
 	private final int id;
 	private String username;
 	private final ScheduledExecutorService heartbeat = Executors.newSingleThreadScheduledExecutor();
+	private PlayerInformations playerInformations;
 
 	protected Connection(int id)
 	{
@@ -113,5 +115,10 @@ public abstract class Connection
 	protected ScheduledExecutorService getHeartbeat()
 	{
 		return this.heartbeat;
+	}
+
+	public PlayerInformations getPlayerInformations()
+	{
+		return this.playerInformations;
 	}
 }

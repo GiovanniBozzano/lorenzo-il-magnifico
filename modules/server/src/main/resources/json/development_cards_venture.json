@@ -420,9 +420,8 @@
 			"instantReward": {
 				"events": [
 					{
-						"type": "WORK",
-						"value": 4,
-						"workType": "HARVEST"
+						"type": "HARVEST",
+						"value": 4
 					}
 				],
 				"resourceAmounts": []
@@ -741,9 +740,8 @@
 			"instantReward": {
 				"events": [
 					{
-						"type": "WORK",
-						"value": 3,
-						"workType": "PRODUCTION"
+						"type": "PRODUCTION",
+						"value": 3
 					}
 				],
 				"resourceAmounts": []

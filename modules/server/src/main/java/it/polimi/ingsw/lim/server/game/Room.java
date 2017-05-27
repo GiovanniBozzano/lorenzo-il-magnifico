@@ -64,7 +64,7 @@ public class Room
 	{
 		this.timerExecutor.shutdownNow();
 		this.isStarted = true;
-		this.gameHandler = new GameHandler();
+		this.gameHandler = new GameHandler(this);
 		List<String> playerUsernames = new ArrayList<>();
 		for (Connection connection : this.players) {
 			playerUsernames.add(connection.getUsername());
@@ -97,5 +97,10 @@ public class Room
 	public boolean getIsStarted()
 	{
 		return this.isStarted;
+	}
+
+	public GameHandler getGameHandler()
+	{
+		return this.gameHandler;
 	}
 }

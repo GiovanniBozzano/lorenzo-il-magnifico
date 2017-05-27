@@ -105,9 +105,8 @@
 				"resourceAmounts": []
 			},
 			"permanentBonus": {
-				"type": "ADDITION_WORK",
-				"value": 2,
-				"workType": "HARVEST"
+				"type": "HARVEST",
+				"value": 2
 			}
 		},
 		{
@@ -118,9 +117,8 @@
 				"resourceAmounts": []
 			},
 			"permanentBonus": {
-				"type": "ADDITION_WORK",
-				"value": 2,
-				"workType": "PRODUCTION"
+				"type": "PRODUCTION",
+				"value": 2
 			}
 		},
 		{
@@ -294,9 +292,8 @@
 				"resourceAmounts": []
 			},
 			"permanentBonus": {
-				"type": "ADDITION_WORK",
-				"value": 3,
-				"workType": "HARVEST"
+				"type": "HARVEST",
+				"value": 3
 			}
 		},
 		{
@@ -307,9 +304,8 @@
 				"resourceAmounts": []
 			},
 			"permanentBonus": {
-				"type": "ADDITION_WORK",
-				"value": 3,
-				"workType": "PRODUCTION"
+				"type": "PRODUCTION",
+				"value": 3
 			}
 		},
 		{
@@ -414,9 +410,8 @@
 			"instantReward": {
 				"events": [
 					{
-						"type": "WORK",
-						"value": 4,
-						"workType": "HARVEST"
+						"type": "HARVEST",
+						"value": 4
 					}
 				],
 				"resourceAmounts": [
@@ -435,9 +430,8 @@
 			"instantReward": {
 				"events": [
 					{
-						"type": "WORK",
-						"value": 4,
-						"workType": "PRODUCTION"
+						"type": "PRODUCTION",
+						"value": 4
 					}
 				],
 				"resourceAmounts": [

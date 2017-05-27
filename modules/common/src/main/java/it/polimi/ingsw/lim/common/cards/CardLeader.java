@@ -1,8 +1,8 @@
 package it.polimi.ingsw.lim.common.cards;
 
-import it.polimi.ingsw.lim.common.game.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.CardLeaderConditions;
 
-public class CardLeader extends Card
+public abstract class CardLeader extends Card
 {
 	/*
 	FRANCESCO_SFORZA("Francesco Sforza", new ResourceAmount[] { new ResourceAmount(ResourceType.PURPLE_CARD, 5) }),
@@ -26,16 +26,16 @@ public class CardLeader extends Card
 	COSIMO_DE_MEDICI("Cosimo De' Medici", new ResourceAmount[] { new ResourceAmount(ResourceType.BLUE_CARD, 2), new ResourceAmount(ResourceType.YELLOW_CARD, 4) }),
 	BARTOLOMEO_COLLEONI("Bartolomeo Colleoni", new ResourceAmount[] { new ResourceAmount(ResourceType.PURPLE_CARD, 2), new ResourceAmount(ResourceType.GREEN_CARD, 4) });
 	*/
-	private final ResourceAmount[] activationResources;
+	private final CardLeaderConditions[] conditions;
 
-	public CardLeader(String displayName, ResourceAmount[] activationResources)
+	public CardLeader(String displayName, CardLeaderConditions[] conditions)
 	{
 		super(displayName);
-		this.activationResources = activationResources;
+		this.conditions = conditions;
 	}
 
-	public ResourceAmount[] getactivationResources()
+	public CardLeaderConditions[] getConditions()
 	{
-		return this.activationResources;
+		return this.conditions;
 	}
 }

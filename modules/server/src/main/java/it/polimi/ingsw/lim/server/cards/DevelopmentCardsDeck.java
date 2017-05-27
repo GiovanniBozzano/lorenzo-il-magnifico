@@ -5,13 +5,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.lim.common.Instance;
-import it.polimi.ingsw.lim.common.bonus.BonusAdditionCard;
-import it.polimi.ingsw.lim.common.bonus.BonusAdditionWork;
-import it.polimi.ingsw.lim.common.bonus.Malus;
+import it.polimi.ingsw.lim.common.actionrewards.ActionReward;
+import it.polimi.ingsw.lim.common.actionrewards.automatic.ActionRewardStartHarvest;
+import it.polimi.ingsw.lim.common.actionrewards.automatic.ActionRewardStartProduction;
+import it.polimi.ingsw.lim.common.actionrewards.choice.ActionRewardGetCard;
+import it.polimi.ingsw.lim.common.bonus.*;
 import it.polimi.ingsw.lim.common.cards.*;
-import it.polimi.ingsw.lim.common.events.Event;
-import it.polimi.ingsw.lim.common.events.EventCard;
-import it.polimi.ingsw.lim.common.events.EventWork;
 import it.polimi.ingsw.lim.common.game.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.ResourceAmountMultiplierCard;
 import it.polimi.ingsw.lim.common.game.ResourceAmountMultiplierResource;
@@ -80,8 +79,8 @@ public class DevelopmentCardsDeck<T extends Card>
 		}
 
 		private static final RuntimeTypeAdapterFactory<ResourceAmount> RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT = RuntimeTypeAdapterFactory.of(ResourceAmount.class).registerSubtype(ResourceAmount.class, "STANDARD").registerSubtype(ResourceAmountMultiplierCard.class, "MULTIPLIER_CARD").registerSubtype(ResourceAmountMultiplierResource.class, "MULTIPLIER_RESOURCE");
-		private static final RuntimeTypeAdapterFactory<Object> RUNTIME_TYPE_ADAPTER_FACTORY_BONUS = RuntimeTypeAdapterFactory.of(Object.class).registerSubtype(BonusAdditionCard.class, "ADDITION_CARD").registerSubtype(BonusAdditionWork.class, "ADDITION_WORK").registerSubtype(Malus.class, "MALUS");
-		private static final RuntimeTypeAdapterFactory<Event> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(Event.class).registerSubtype(EventCard.class, "CARD").registerSubtype(EventWork.class, "WORK");
+		private static final RuntimeTypeAdapterFactory<Bonus> RUNTIME_TYPE_ADAPTER_FACTORY_BONUS = RuntimeTypeAdapterFactory.of(Bonus.class).registerSubtype(BonusGetCard.class, "CARD").registerSubtype(BonusStartHarvest.class, "HARVEST").registerSubtype(BonusStartProduction.class, "PRODUCTION").registerSubtype(BonusMalus.class, "MALUS");
+		private static final RuntimeTypeAdapterFactory<ActionReward> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(ActionReward.class).registerSubtype(ActionRewardGetCard.class, "CARD").registerSubtype(ActionRewardStartHarvest.class, "HARVEST").registerSubtype(ActionRewardStartProduction.class, "PRODUCTION");
 		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT).registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_BONUS).registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_EVENT);
 		private static final Gson GSON = Builder.GSON_BUILDER.create();
 		private final Class<T> clazz;

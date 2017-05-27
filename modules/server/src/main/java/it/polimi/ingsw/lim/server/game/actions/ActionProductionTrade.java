@@ -16,8 +16,9 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 	}
 
 	@Override
-	public void isLegal()
+	public boolean isLegal()
 	{
+		return false;
 	}
 
 	@Override

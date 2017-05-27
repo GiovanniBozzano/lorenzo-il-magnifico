@@ -16,8 +16,9 @@ public class ActionMarket extends ActionInformationsMarket implements IAction
 	}
 
 	@Override
-	public void isLegal()
+	public boolean isLegal()
 	{
+		return false;
 	}
 
 	@Override

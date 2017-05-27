@@ -1,9 +1,6 @@
 package it.polimi.ingsw.lim.server.game.player;
 
-import it.polimi.ingsw.lim.common.cards.DevelopmentCardBuilding;
-import it.polimi.ingsw.lim.common.cards.DevelopmentCardCharacter;
-import it.polimi.ingsw.lim.common.cards.DevelopmentCardTerritory;
-import it.polimi.ingsw.lim.common.cards.DevelopmentCardVenture;
+import it.polimi.ingsw.lim.common.cards.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +12,7 @@ public class PlayerCardHandler
 	private final List<DevelopmentCardCharacter> developmentCardCharacters = new ArrayList<>();
 	private final List<DevelopmentCardTerritory> developmentCardTerritories = new ArrayList<>();
 	private final List<DevelopmentCardVenture> developmentCardVentures = new ArrayList<>();
+	private final List<CardLeader> cardsLeader = new ArrayList<>();
 
 	public PlayerCardHandler(PlayerInformations playerInformations)
 	{

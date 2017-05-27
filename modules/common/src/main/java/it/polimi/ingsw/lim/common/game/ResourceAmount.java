@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.common.enums.ResourceType;
 public class ResourceAmount
 {
 	private final ResourceType resourceType;
-	private final int amount;
+	private int amount;
 
 	public ResourceAmount(ResourceType resourceType, int amount)
 	{
@@ -21,5 +21,10 @@ public class ResourceAmount
 	public int getAmount()
 	{
 		return this.amount;
+	}
+
+	public void setAmount(int amount)
+	{
+		this.amount = (this.amount - amount <= 0 ? 0 : this.amount - amount);
 	}
 }

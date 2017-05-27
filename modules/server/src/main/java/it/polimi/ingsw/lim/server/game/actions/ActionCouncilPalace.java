@@ -16,8 +16,9 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 	}
 
 	@Override
-	public void isLegal()
+	public boolean isLegal()
 	{
+		return false;
 	}
 
 	@Override
