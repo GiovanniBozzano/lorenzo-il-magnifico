@@ -1,17 +1,16 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
-import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionTrade;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionProductionTrade extends ActionInformationsProductionTrade implements IAction
+public class ActionProductionTrade implements IAction
 {
 	private final Connection player;
+	private final int developmentCardBuildingIndex;
 
-	public ActionProductionTrade(Connection player, FamilyMemberType familyMemberType, int developmentCardBuildingIndex)
+	public ActionProductionTrade(Connection player, int developmentCardBuildingIndex)
 	{
-		super(familyMemberType, developmentCardBuildingIndex);
 		this.player = player;
+		this.developmentCardBuildingIndex = developmentCardBuildingIndex;
 	}
 
 	@Override
@@ -29,5 +28,10 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 	public Connection getPlayer()
 	{
 		return this.player;
+	}
+
+	public int getDevelopmentCardBuildingIndex()
+	{
+		return this.developmentCardBuildingIndex;
 	}
 }

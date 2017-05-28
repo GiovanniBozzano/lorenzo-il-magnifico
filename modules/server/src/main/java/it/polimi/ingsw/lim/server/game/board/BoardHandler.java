@@ -11,12 +11,13 @@ import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
 public class BoardHandler
 {
-	public static final List<CouncilPalaceReward> COUNCIL_PALACE_REWARDS = new CouncilPalaceRewardsBuilder("/json/council_privilege_rewards.json").initialize();
+	private static final List<CouncilPalaceReward> COUNCIL_PALACE_REWARDS = new CouncilPalaceRewardsBuilder("/json/council_privilege_rewards.json").initialize();
 
 	private static class CouncilPalaceRewardsBuilder
 	{
@@ -38,7 +39,7 @@ public class BoardHandler
 			} catch (IOException exception) {
 				Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 			}
-			return null;
+			return new ArrayList<>();
 		}
 	}
 }

@@ -52,6 +52,6 @@ public class EventVictoryPointsCalculation extends Event
 
 	public void setVictoryPoints(int victoryPoints)
 	{
-		this.victoryPoints = (this.victoryPoints - victoryPoints <= 0 ? 0 : this.victoryPoints - victoryPoints);
+		this.victoryPoints = this.victoryPoints - victoryPoints <= 0 ? 0 : this.victoryPoints - victoryPoints;
 	}
 }

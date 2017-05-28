@@ -25,6 +25,6 @@ public class ResourceAmount
 
 	public void setAmount(int amount)
 	{
-		this.amount = (this.amount - amount <= 0 ? 0 : this.amount - amount);
+		this.amount = this.amount - amount <= 0 ? 0 : this.amount - amount;
 	}
 }

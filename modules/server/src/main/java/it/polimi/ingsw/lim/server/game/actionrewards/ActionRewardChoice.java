@@ -1,12 +1,13 @@
 package it.polimi.ingsw.lim.server.game.actionrewards;
 
 import it.polimi.ingsw.lim.server.enums.ActionRewardType;
+import it.polimi.ingsw.lim.server.network.Connection;
 
 public abstract class ActionRewardChoice extends ActionReward
 {
-	public ActionRewardChoice()
+	public ActionRewardChoice(Connection player)
 	{
-		super(ActionRewardType.CHOICE);
+		super(player, ActionRewardType.CHOICE);
 	}
 
 	public abstract void apply();
