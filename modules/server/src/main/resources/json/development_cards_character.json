@@ -1,7 +1,7 @@
 {
 	"firstPeriod": [
 		{
-			"displayName": "CONDOTTIERO",
+			"displayName": "Warlord",
 			"index": 0,
 			"price": 2,
 			"instantReward": {
@@ -22,7 +22,7 @@
 			}
 		},
 		{
-			"displayName": "COSTRUTTORE",
+			"displayName": "Stonemason",
 			"index": 1,
 			"price": 4,
 			"instantReward": {
@@ -56,7 +56,7 @@
 			}
 		},
 		{
-			"displayName": "DAMA",
+			"displayName": "Dame",
 			"index": 2,
 			"price": 4,
 			"instantReward": {
@@ -81,7 +81,7 @@
 			}
 		},
 		{
-			"displayName": "CAVALIERE",
+			"displayName": "Knight",
 			"index": 3,
 			"price": 2,
 			"instantReward": {
@@ -102,7 +102,7 @@
 			}
 		},
 		{
-			"displayName": "CONTADINO",
+			"displayName": "Farmer",
 			"index": 4,
 			"price": 3,
 			"instantReward": {
@@ -115,7 +115,7 @@
 			}
 		},
 		{
-			"displayName": "ARTIGIANO",
+			"displayName": "Artisan",
 			"index": 5,
 			"price": 3,
 			"instantReward": {
@@ -128,7 +128,7 @@
 			}
 		},
 		{
-			"displayName": "PREDICATORE",
+			"displayName": "Preacher",
 			"index": 6,
 			"price": 2,
 			"instantReward": {
@@ -150,7 +150,7 @@
 			}
 		},
 		{
-			"displayName": "BADESSA",
+			"displayName": "Abbess",
 			"index": 7,
 			"price": 3,
 			"instantReward": {
@@ -178,7 +178,7 @@
 	],
 	"secondPeriod": [
 		{
-			"displayName": "CAPITANO",
+			"displayName": "Captain",
 			"index": 8,
 			"price": 4,
 			"instantReward": {
@@ -201,7 +201,7 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "ARCHITETTO",
+			"displayName": "Architect",
 			"index": 9,
 			"price": 4,
 			"instantReward": {
@@ -237,7 +237,7 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "MECENATE",
+			"displayName": "Patron",
 			"index": 10,
 			"price": 3,
 			"instantReward": {
@@ -264,7 +264,7 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "EROE",
+			"displayName": "Hero",
 			"index": 11,
 			"price": 4,
 			"instantReward": {
@@ -287,7 +287,7 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "FATTORE",
+			"displayName": "Peasant",
 			"index": 12,
 			"price": 4,
 			"instantReward": {
@@ -300,7 +300,7 @@
 			}
 		},
 		{
-			"displayName": "STUDIOSO",
+			"displayName": "Scholar",
 			"index": 13,
 			"price": 4,
 			"instantReward": {
@@ -313,7 +313,7 @@
 			}
 		},
 		{
-			"displayName": "MESSO_PAPALE",
+			"displayName": "Papal Messenger",
 			"index": 14,
 			"price": 5,
 			"instantReward": {
@@ -329,7 +329,7 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "MESSO_REALE",
+			"displayName": "Royal Messenger",
 			"index": 15,
 			"price": 5,
 			"instantReward": {
@@ -347,7 +347,7 @@
 	],
 	"thirdPeriod": [
 		{
-			"displayName": "NOBILE",
+			"displayName": "Noble",
 			"index": 16,
 			"price": 6,
 			"instantReward": {
@@ -364,7 +364,7 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "GOVERNATORE",
+			"displayName": "Governor",
 			"index": 17,
 			"price": 6,
 			"instantReward": {
@@ -381,7 +381,7 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "CORTIGIANA",
+			"displayName": "Paramour",
 			"index": 18,
 			"price": 7,
 			"instantReward": {
@@ -398,7 +398,7 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "ARALDO",
+			"displayName": "Herald",
 			"index": 19,
 			"price": 6,
 			"instantReward": {
@@ -415,7 +415,7 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "CARDINALE",
+			"displayName": "Cardinal",
 			"index": 20,
 			"price": 4,
 			"instantReward": {
@@ -434,7 +434,7 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "VESCOVO",
+			"displayName": "Bishop",
 			"index": 21,
 			"price": 5,
 			"instantReward": {
@@ -453,7 +453,7 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "GENERALE",
+			"displayName": "General",
 			"index": 22,
 			"price": 5,
 			"instantReward": {
@@ -471,7 +471,7 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "AMBASCIATORE",
+			"displayName": "Ambassador",
 			"index": 23,
 			"price": 6,
 			"instantReward": {

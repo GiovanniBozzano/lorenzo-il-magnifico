@@ -1,7 +1,7 @@
 {
 	"firstPeriod": [
 		{
-			"displayName": "INGAGGIARE_RECLUTE",
+			"displayName": "Hiring Recruits",
 			"index": 0,
 			"resourceTradeOptions": [
 				{
@@ -28,7 +28,7 @@
 			"victoryValue": 4
 		},
 		{
-			"displayName": "RIPARARE_CHIESA",
+			"displayName": "Repairing the Church",
 			"index": 1,
 			"resourceTradeOptions": [
 				{
@@ -65,7 +65,7 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "COSTRUIRE_MURA",
+			"displayName": "Buildings the Walls",
 			"index": 2,
 			"resourceTradeOptions": [
 				{
@@ -97,7 +97,7 @@
 			"victoryValue": 3
 		},
 		{
-			"displayName": "INNALZARE_STATUA",
+			"displayName": "Raising a Statue",
 			"index": 3,
 			"resourceTradeOptions": [
 				{
@@ -129,7 +129,7 @@
 			"victoryValue": 4
 		},
 		{
-			"displayName": "CAMPAGNA_MILITARE",
+			"displayName": "Military Campaign",
 			"index": 4,
 			"resourceTradeOptions": [
 				{
@@ -162,7 +162,7 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "OSPITARE_MENDICANTI",
+			"displayName": "Hosting Panhandlers",
 			"index": 5,
 			"resourceTradeOptions": [
 				{
@@ -189,7 +189,7 @@
 			"victoryValue": 4
 		},
 		{
-			"displayName": "COMBATTERE_ERESIE",
+			"displayName": "Fighting Heresies",
 			"index": 6,
 			"resourceTradeOptions": [
 				{
@@ -222,7 +222,7 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "SOSTEGNO_VESCOVO",
+			"displayName": "Support to the Bishop",
 			"index": 7,
 			"resourceTradeOptions": [
 				{
@@ -277,7 +277,7 @@
 	],
 	"secondPeriod": [
 		{
-			"displayName": "INGAGGIARE_SOLDATI",
+			"displayName": "Hiring Soldiers",
 			"index": 8,
 			"resourceTradeOptions": [
 				{
@@ -304,7 +304,7 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "RIPARARE_ABBAZIA",
+			"displayName": "Repairing the Abbey",
 			"index": 9,
 			"resourceTradeOptions": [
 				{
@@ -341,7 +341,7 @@
 			"victoryValue": 6
 		},
 		{
-			"displayName": "COSTRUIRE_BASTIONI",
+			"displayName": "Building the Bastions",
 			"index": 10,
 			"resourceTradeOptions": [
 				{
@@ -373,7 +373,7 @@
 			"victoryValue": 2
 		},
 		{
-			"displayName": "SUPPORTO_RE",
+			"displayName": "Support to the King",
 			"index": 11,
 			"resourceTradeOptions": [
 				{
@@ -411,7 +411,7 @@
 			"victoryValue": 3
 		},
 		{
-			"displayName": "SCAVARE_CANALIZZAZIONI",
+			"displayName": "Improving the Canals",
 			"index": 12,
 			"resourceTradeOptions": [
 				{
@@ -440,7 +440,7 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "ACCOGLIERE_STRANIERI",
+			"displayName": "Hosting Foreigners",
 			"index": 13,
 			"resourceTradeOptions": [
 				{
@@ -467,7 +467,7 @@
 			"victoryValue": 4
 		},
 		{
-			"displayName": "CROCIATA",
+			"displayName": "Crusade",
 			"index": 14,
 			"resourceTradeOptions": [
 				{
@@ -505,7 +505,7 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "SOSTEGNO_CARDINALE",
+			"displayName": "Support to the Cardinal",
 			"index": 15,
 			"resourceTradeOptions": [
 				{
@@ -560,7 +560,7 @@
 	],
 	"thirdPeriod": [
 		{
-			"displayName": "INGAGGIARE_MERCENARI",
+			"displayName": "Hiring Mercenaries",
 			"index": 16,
 			"resourceTradeOptions": [
 				{
@@ -587,7 +587,7 @@
 			"victoryValue": 6
 		},
 		{
-			"displayName": "RIPARARE_CATTEDRALE",
+			"displayName": "Repairing the Cathedral",
 			"index": 17,
 			"resourceTradeOptions": [
 				{
@@ -634,7 +634,7 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "COSTRUIRE_TORRI",
+			"displayName": "Building the Towers",
 			"index": 18,
 			"resourceTradeOptions": [
 				{
@@ -666,7 +666,7 @@
 			"victoryValue": 4
 		},
 		{
-			"displayName": "COMMISSIONARE_ARTE_SACRA",
+			"displayName": "Promoting Sacred Art",
 			"index": 19,
 			"resourceTradeOptions": [
 				{
@@ -693,7 +693,7 @@
 			"victoryValue": 3
 		},
 		{
-			"displayName": "CONQUISTA_MILITARE",
+			"displayName": "Military Conquest",
 			"index": 20,
 			"resourceTradeOptions": [
 				{
@@ -736,7 +736,7 @@
 			"victoryValue": 7
 		},
 		{
-			"displayName": "MIGLIORARE_STRADE",
+			"displayName": "Improving the Roads",
 			"index": 21,
 			"resourceTradeOptions": [
 				{
@@ -765,7 +765,7 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "GUERRA_SANTA",
+			"displayName": "Sacred War",
 			"index": 22,
 			"resourceTradeOptions": [
 				{
@@ -798,7 +798,7 @@
 			"victoryValue": 8
 		},
 		{
-			"displayName": "SOSTEGNO_PAPA",
+			"displayName": "Support to the Pope",
 			"index": 23,
 			"resourceTradeOptions": [
 				{

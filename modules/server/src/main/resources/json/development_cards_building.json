@@ -1,7 +1,7 @@
 {
 	"firstPeriod": [
 		{
-			"displayName": "ZECCA",
+			"displayName": "Mint",
 			"index": 0,
 			"buildResources": [
 				{
@@ -38,7 +38,7 @@
 			]
 		},
 		{
-			"displayName": "ESATTORIA",
+			"displayName": "Tax Office",
 			"index": 1,
 			"buildResources": [
 				{
@@ -75,7 +75,7 @@
 			]
 		},
 		{
-			"displayName": "ARCO_TRIONFO",
+			"displayName": "Triumphal Arch",
 			"index": 2,
 			"buildResources": [
 				{
@@ -112,7 +112,7 @@
 			]
 		},
 		{
-			"displayName": "TEATRO",
+			"displayName": "Theater",
 			"index": 3,
 			"buildResources": [
 				{
@@ -149,7 +149,7 @@
 			]
 		},
 		{
-			"displayName": "FALEGNAMERIA",
+			"displayName": "Carpenter's Shop",
 			"index": 4,
 			"buildResources": [
 				{
@@ -207,7 +207,7 @@
 			]
 		},
 		{
-			"displayName": "TAGLIAPIETRE",
+			"displayName": "Stonemason's Shop",
 			"index": 5,
 			"buildResources": [
 				{
@@ -265,7 +265,7 @@
 			]
 		},
 		{
-			"displayName": "CAPPELLA",
+			"displayName": "Chapel",
 			"index": 6,
 			"buildResources": [
 				{
@@ -302,7 +302,7 @@
 			]
 		},
 		{
-			"displayName": "RESIDENZA",
+			"displayName": "Residence",
 			"index": 7,
 			"buildResources": [
 				{
@@ -341,7 +341,7 @@
 	],
 	"secondPeriod": [
 		{
-			"displayName": "MERCATO",
+			"displayName": "Marketplace",
 			"index": 8,
 			"buildResources": [
 				{
@@ -388,7 +388,7 @@
 			]
 		},
 		{
-			"displayName": "TESORERIA",
+			"displayName": "Treasury",
 			"index": 9,
 			"buildResources": [
 				{
@@ -441,7 +441,7 @@
 			]
 		},
 		{
-			"displayName": "GILDA_PITTORI",
+			"displayName": "Painters' Guild",
 			"index": 10,
 			"buildResources": [
 				{
@@ -494,7 +494,7 @@
 			]
 		},
 		{
-			"displayName": "GILDA_SCULTORI",
+			"displayName": "Sculptors' Guild",
 			"index": 11,
 			"buildResources": [
 				{
@@ -547,7 +547,7 @@
 			]
 		},
 		{
-			"displayName": "GILDA_COSTRUTTORI",
+			"displayName": "Stonemasons' Guild",
 			"index": 12,
 			"buildResources": [
 				{
@@ -599,7 +599,7 @@
 			]
 		},
 		{
-			"displayName": "BATTISTERO",
+			"displayName": "Baptistery",
 			"index": 13,
 			"buildResources": [
 				{
@@ -646,7 +646,7 @@
 			]
 		},
 		{
-			"displayName": "CASERMA",
+			"displayName": "Barracks",
 			"index": 14,
 			"buildResources": [
 				{
@@ -688,7 +688,7 @@
 			]
 		},
 		{
-			"displayName": "FORTEZZA",
+			"displayName": "Stronghold",
 			"index": 15,
 			"buildResources": [
 				{
@@ -736,7 +736,7 @@
 	],
 	"thirdPeriod": [
 		{
-			"displayName": "BANCA",
+			"displayName": "Bank",
 			"index": 16,
 			"buildResources": [
 				{
@@ -777,7 +777,7 @@
 			]
 		},
 		{
-			"displayName": "FIERA",
+			"displayName": "Fair",
 			"index": 17,
 			"buildResources": [
 				{
@@ -824,7 +824,7 @@
 			]
 		},
 		{
-			"displayName": "GIARDINO",
+			"displayName": "Garden",
 			"index": 18,
 			"buildResources": [
 				{
@@ -865,7 +865,7 @@
 			]
 		},
 		{
-			"displayName": "CASTELLETTO",
+			"displayName": "Fortress",
 			"index": 19,
 			"buildResources": [
 				{
@@ -911,7 +911,7 @@
 			]
 		},
 		{
-			"displayName": "PALAZZO",
+			"displayName": "Palace",
 			"index": 20,
 			"buildResources": [
 				{
@@ -963,7 +963,7 @@
 			]
 		},
 		{
-			"displayName": "BASILICA",
+			"displayName": "Church",
 			"index": 21,
 			"buildResources": [
 				{
@@ -1026,7 +1026,7 @@
 			]
 		},
 		{
-			"displayName": "ACCADEMIA_MILITARE",
+			"displayName": "Military Academy",
 			"index": 22,
 			"buildResources": [
 				{
@@ -1078,7 +1078,7 @@
 			]
 		},
 		{
-			"displayName": "CATTEDRALE",
+			"displayName": "Cathedral",
 			"index": 23,
 			"buildResources": [
 				{

@@ -1,7 +1,7 @@
 {
 	"firstPeriod": [
 		{
-			"displayName": "AVAMPOSTO_COMMERCIALE",
+			"displayName": "Commercial Hub",
 			"index": 0,
 			"instantResources": [],
 			"activationCost": 1,
@@ -14,7 +14,7 @@
 			]
 		},
 		{
-			"displayName": "BOSCO",
+			"displayName": "Woods",
 			"index": 1,
 			"instantResources": [
 				{
@@ -33,7 +33,7 @@
 			]
 		},
 		{
-			"displayName": "BORGO",
+			"displayName": "Village",
 			"index": 2,
 			"instantResources": [],
 			"activationCost": 3,
@@ -51,7 +51,7 @@
 			]
 		},
 		{
-			"displayName": "CAVA_DI_GHIAIA",
+			"displayName": "Gravel Pit",
 			"index": 3,
 			"instantResources": [
 				{
@@ -70,7 +70,7 @@
 			]
 		},
 		{
-			"displayName": "FORESTA",
+			"displayName": "Forest",
 			"index": 4,
 			"instantResources": [
 				{
@@ -89,7 +89,7 @@
 			]
 		},
 		{
-			"displayName": "MONASTERO",
+			"displayName": "Monastery",
 			"index": 5,
 			"instantResources": [
 				{
@@ -118,7 +118,7 @@
 			]
 		},
 		{
-			"displayName": "ROCCA",
+			"displayName": "Citadel",
 			"index": 6,
 			"instantResources": [],
 			"activationCost": 5,
@@ -136,7 +136,7 @@
 			]
 		},
 		{
-			"displayName": "CITTÀ",
+			"displayName": "City",
 			"index": 7,
 			"instantResources": [
 				{
@@ -157,7 +157,7 @@
 	],
 	"secondPeriod": [
 		{
-			"displayName": "MINIERA_ORO",
+			"displayName": "Gold Mine",
 			"index": 8,
 			"instantResources": [
 				{
@@ -176,7 +176,7 @@
 			]
 		},
 		{
-			"displayName": "VILLAGGIO_MONTANO",
+			"displayName": "Mountain Town",
 			"index": 9,
 			"instantResources": [
 				{
@@ -200,7 +200,7 @@
 			]
 		},
 		{
-			"displayName": "VILLAGGIO_MINERARIO",
+			"displayName": "Mining Town",
 			"index": 10,
 			"instantResources": [
 				{
@@ -229,7 +229,7 @@
 			]
 		},
 		{
-			"displayName": "CAVA_DI_PIETRA",
+			"displayName": "Rock Pit",
 			"index": 11,
 			"instantResources": [
 				{
@@ -248,7 +248,7 @@
 			]
 		},
 		{
-			"displayName": "POSSEDIMENTO",
+			"displayName": "Estate",
 			"index": 12,
 			"instantResources": [
 				{
@@ -277,7 +277,7 @@
 			]
 		},
 		{
-			"displayName": "EREMO",
+			"displayName": "Hermitage",
 			"index": 13,
 			"instantResources": [
 				{
@@ -296,7 +296,7 @@
 			]
 		},
 		{
-			"displayName": "MANIERO",
+			"displayName": "Manor House",
 			"index": 14,
 			"instantResources": [],
 			"activationCost": 5,
@@ -314,7 +314,7 @@
 			]
 		},
 		{
-			"displayName": "DUCATO",
+			"displayName": "Dukedom",
 			"index": 15,
 			"instantResources": [
 				{
@@ -345,7 +345,7 @@
 	],
 	"thirdPeriod": [
 		{
-			"displayName": "CITTÀ_MERCANTILE",
+			"displayName": "Trading Town",
 			"index": 16,
 			"instantResources": [
 				{
@@ -369,7 +369,7 @@
 			]
 		},
 		{
-			"displayName": "TENUTA",
+			"displayName": "Farm",
 			"index": 17,
 			"instantResources": [
 				{
@@ -398,7 +398,7 @@
 			]
 		},
 		{
-			"displayName": "COLONIA",
+			"displayName": "Colony",
 			"index": 18,
 			"instantResources": [
 				{
@@ -422,7 +422,7 @@
 			]
 		},
 		{
-			"displayName": "CAVA_DI_MARMO",
+			"displayName": "Marble Pit",
 			"index": 19,
 			"instantResources": [
 				{
@@ -446,7 +446,7 @@
 			]
 		},
 		{
-			"displayName": "PROVINCIA",
+			"displayName": "Province",
 			"index": 20,
 			"instantResources": [
 				{
@@ -475,7 +475,7 @@
 			]
 		},
 		{
-			"displayName": "SANTUARIO",
+			"displayName": "Sanctuary",
 			"index": 21,
 			"instantResources": [
 				{
@@ -499,7 +499,7 @@
 			]
 		},
 		{
-			"displayName": "CASTELLO",
+			"displayName": "Castle",
 			"index": 22,
 			"instantResources": [
 				{
@@ -528,7 +528,7 @@
 			]
 		},
 		{
-			"displayName": "CITTÀ_FORTIFICATA",
+			"displayName": "Fortified Town",
 			"index": 23,
 			"instantResources": [
 				{
