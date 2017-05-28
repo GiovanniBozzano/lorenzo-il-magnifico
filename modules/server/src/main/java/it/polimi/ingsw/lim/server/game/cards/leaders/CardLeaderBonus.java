@@ -8,9 +8,9 @@ public abstract class CardLeaderBonus extends CardLeader
 {
 	private final Modifier modifier;
 
-	public CardLeaderBonus(String displayName, CardLeaderConditions[] conditions, Modifier modifier)
+	public CardLeaderBonus(String displayName, int index, CardLeaderConditions[] conditions, Modifier modifier)
 	{
-		super(displayName, conditions);
+		super(displayName, index, conditions);
 		this.modifier = modifier;
 	}
 

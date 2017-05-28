@@ -8,9 +8,9 @@ public abstract class CardLeaderReward extends CardLeader
 {
 	private final Reward reward;
 
-	public CardLeaderReward(String displayName, CardLeaderConditions[] conditions, Reward reward)
+	public CardLeaderReward(String displayName, int index, CardLeaderConditions[] conditions, Reward reward)
 	{
-		super(displayName, conditions);
+		super(displayName, index, conditions);
 		this.reward = reward;
 	}
 

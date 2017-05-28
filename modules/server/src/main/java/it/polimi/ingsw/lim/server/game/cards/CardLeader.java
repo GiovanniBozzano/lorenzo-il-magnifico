@@ -28,9 +28,9 @@ public abstract class CardLeader extends Card
 	*/
 	private final CardLeaderConditions[] conditions;
 
-	public CardLeader(String displayName, CardLeaderConditions[] conditions)
+	public CardLeader(String displayName, int index, CardLeaderConditions[] conditions)
 	{
-		super(displayName);
+		super(displayName, index);
 		this.conditions = conditions;
 	}
 

@@ -43,6 +43,6 @@ public class EventGetCard extends Event
 
 	public void setActionValue(int actionValue)
 	{
-		this.actionValue = (this.actionValue - actionValue <= 0 ? 0 : this.actionValue - actionValue);
+		this.actionValue = this.actionValue - actionValue <= 0 ? 0 : this.actionValue - actionValue;
 	}
 }

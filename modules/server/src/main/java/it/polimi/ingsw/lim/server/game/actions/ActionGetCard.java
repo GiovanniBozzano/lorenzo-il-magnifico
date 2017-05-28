@@ -3,17 +3,23 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.Row;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsGetCard;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionGetCard extends ActionInformationsGetCard implements IAction
+public class ActionGetCard implements IAction
 {
 	private final Connection player;
+	private final FamilyMemberType familyMemberType;
+	private final int servants;
+	private final CardType cardType;
+	private final Row row;
 
 	public ActionGetCard(Connection player, FamilyMemberType familyMemberType, int servants, CardType cardType, Row row)
 	{
-		super(familyMemberType, servants, cardType, row);
 		this.player = player;
+		this.familyMemberType = familyMemberType;
+		this.servants = servants;
+		this.cardType = cardType;
+		this.row = row;
 	}
 
 	@Override
@@ -31,5 +37,25 @@ public class ActionGetCard extends ActionInformationsGetCard implements IAction
 	public Connection getPlayer()
 	{
 		return this.player;
+	}
+
+	public FamilyMemberType getFamilyMemberType()
+	{
+		return this.familyMemberType;
+	}
+
+	public int getServants()
+	{
+		return this.servants;
+	}
+
+	public CardType getCardType()
+	{
+		return this.cardType;
+	}
+
+	public Row getRow()
+	{
+		return this.row;
 	}
 }

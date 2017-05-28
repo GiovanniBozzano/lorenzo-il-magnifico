@@ -2,7 +2,6 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionStart;
 import it.polimi.ingsw.lim.server.enums.WorkSlotType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
@@ -11,16 +10,17 @@ import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionProductionStart extends ActionInformationsProductionStart implements IAction
+public class ActionProductionStart implements IAction
 {
 	private final Connection player;
+	private final FamilyMemberType familyMemberType;
 	private int effectiveServants;
 	private WorkSlotType workSlotType;
 
 	public ActionProductionStart(Connection player, FamilyMemberType familyMemberType, int servants)
 	{
-		super(familyMemberType);
 		this.player = player;
+		this.familyMemberType = familyMemberType;
 		this.effectiveServants = servants;
 	}
 
@@ -38,12 +38,12 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 			return false;
 		}
 		// check if the board slot is occupied and get effective family member value
-		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.PRODUCTION_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
+		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, BoardPosition.PRODUCTION_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
 		IAction.applyModifiers(this.player.getPlayerInformations().getActiveModifiers(), eventPlaceFamilyMember);
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
-			for (Connection player : room.getPlayers()) {
-				if (player.getPlayerInformations().isOccupyingBoardPosition(BoardPosition.PRODUCTION_SMALL)) {
+			for (Connection currentPlayer : room.getPlayers()) {
+				if (currentPlayer.getPlayerInformations().isOccupyingBoardPosition(BoardPosition.PRODUCTION_SMALL)) {
 					this.workSlotType = WorkSlotType.BIG;
 					break;
 				}
@@ -72,5 +72,10 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 	public Connection getPlayer()
 	{
 		return this.player;
+	}
+
+	public FamilyMemberType getFamilyMemberType()
+	{
+		return this.familyMemberType;
 	}
 }

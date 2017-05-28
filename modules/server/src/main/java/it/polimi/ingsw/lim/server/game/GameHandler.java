@@ -3,13 +3,13 @@ package it.polimi.ingsw.lim.server.game;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class GameHandler
 {
 	private final Room room;
-	private final Map<FamilyMemberType, Integer> familyMemberTypeValues = new HashMap<>();
+	private final Map<FamilyMemberType, Integer> familyMemberTypeValues = new EnumMap<>(FamilyMemberType.class);
 	private Connection turnPlayer;
 
 	GameHandler(Room room)

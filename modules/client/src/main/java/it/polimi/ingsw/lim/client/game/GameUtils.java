@@ -8,15 +8,15 @@ import java.util.List;
 
 public class GameUtils
 {
-	private GameUtils()
-	{
-	}
-
 	private static final List<DevelopmentCardInformations> DEVELOPMENT_CARDS_BUILDING = new ArrayList<>();
 	private static final List<DevelopmentCardInformations> DEVELOPMENT_CARDS_CHARACTER = new ArrayList<>();
 	private static final List<DevelopmentCardInformations> DEVELOPMENT_CARDS_TERRITORY = new ArrayList<>();
 	private static final List<DevelopmentCardInformations> DEVELOPMENT_CARDS_VENTURE = new ArrayList<>();
 	private static final List<CouncilPalaceRewardInformations> COUNCIL_PALACE_REWARDS = new ArrayList<>();
+
+	private GameUtils()
+	{
+	}
 
 	public static List<DevelopmentCardInformations> getDevelopmentCardsBuilding()
 	{

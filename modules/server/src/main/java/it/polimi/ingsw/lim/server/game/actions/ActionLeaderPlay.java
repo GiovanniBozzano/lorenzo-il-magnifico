@@ -1,16 +1,16 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderPlay;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IAction
+public class ActionLeaderPlay implements IAction
 {
 	private final Connection player;
+	private final int cardLeaderIndex;
 
 	public ActionLeaderPlay(Connection player, int cardLeaderIndex)
 	{
-		super(cardLeaderIndex);
 		this.player = player;
+		this.cardLeaderIndex = cardLeaderIndex;
 	}
 
 	@Override
@@ -28,5 +28,10 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 	public Connection getPlayer()
 	{
 		return this.player;
+	}
+
+	public int getCardLeaderIndex()
+	{
+		return this.cardLeaderIndex;
 	}
 }

@@ -27,13 +27,12 @@ import java.util.logging.Level;
 public class WindowFactory
 {
 	private static final WindowFactory INSTANCE = new WindowFactory();
+	private final ObservableMap<Stage, CustomController> openWindows = FXCollections.observableHashMap();
+	private final ObjectProperty<WindowInformations> currentWindow = new SimpleObjectProperty<>(null);
 
 	private WindowFactory()
 	{
 	}
-
-	private final ObservableMap<Stage, CustomController> openWindows = FXCollections.observableHashMap();
-	private final ObjectProperty<WindowInformations> currentWindow = new SimpleObjectProperty<>(null);
 
 	/**
 	 * <p>Opens a new window and closes the current one.
@@ -68,7 +67,13 @@ public class WindowFactory
 				return;
 			}
 			Stage stage = new Stage();
-			this.registerStage(stage, fxmlLoader.getController());
+			stage.addEventHandler(WindowEvent.WINDOW_SHOWN, event -> this.openWindows.put(stage, fxmlLoader.getController()));
+			stage.addEventHandler(WindowEvent.WINDOW_HIDDEN, event -> this.openWindows.remove(stage));
+			stage.focusedProperty().addListener((observable, wasFocused, isNowFocused) -> {
+				if (isNowFocused) {
+					this.currentWindow.set(new WindowInformations(fxmlLoader.getController(), stage));
+				}
+			});
 			stage.setScene(new Scene(parent));
 			stage.sizeToScene();
 			stage.initStyle(StageStyle.UNDECORATED);
@@ -82,17 +87,6 @@ public class WindowFactory
 				ExecutorService executorService = Executors.newSingleThreadExecutor();
 				executorService.execute(postShowing);
 				executorService.shutdown();
-			}
-		});
-	}
-
-	private void registerStage(Stage stage, CustomController controller)
-	{
-		stage.addEventHandler(WindowEvent.WINDOW_SHOWN, event -> this.openWindows.put(stage, controller));
-		stage.addEventHandler(WindowEvent.WINDOW_HIDDEN, event -> this.openWindows.remove(stage));
-		stage.focusedProperty().addListener((observable, wasFocused, isNowFocused) -> {
-			if (isNowFocused) {
-				this.currentWindow.set(new WindowInformations(controller, stage));
 			}
 		});
 	}

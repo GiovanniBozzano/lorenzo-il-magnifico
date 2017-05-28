@@ -1,17 +1,17 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsHarvestStart;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionHarvestStart extends ActionInformationsHarvestStart implements IAction
+public class ActionHarvestStart implements IAction
 {
 	private final Connection player;
+	private final FamilyMemberType familyMemberType;
 
 	public ActionHarvestStart(Connection player, FamilyMemberType familyMemberType)
 	{
-		super(familyMemberType);
 		this.player = player;
+		this.familyMemberType = familyMemberType;
 	}
 
 	@Override
@@ -29,5 +29,10 @@ public class ActionHarvestStart extends ActionInformationsHarvestStart implement
 	public Connection getPlayer()
 	{
 		return this.player;
+	}
+
+	public FamilyMemberType getFamilyMemberType()
+	{
+		return this.familyMemberType;
 	}
 }
