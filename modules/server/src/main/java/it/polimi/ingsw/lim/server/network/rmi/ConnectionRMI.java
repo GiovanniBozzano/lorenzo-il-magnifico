@@ -20,9 +20,9 @@ public class ConnectionRMI extends Connection
 	private final ExecutorService rmiExecutor = Executors.newSingleThreadExecutor();
 	private final IServerSession serverSession;
 
-	ConnectionRMI(int id, String name, IServerSession serverSession)
+	ConnectionRMI(String name, IServerSession serverSession)
 	{
-		super(id, name);
+		super(name);
 		this.serverSession = serverSession;
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 	}
@@ -52,7 +52,7 @@ public class ConnectionRMI extends Connection
 			}
 		}
 		this.rmiExecutor.shutdownNow();
-		Utils.displayToLog("RMI Player: " + this.getId() + " : " + this.getUsername() + " disconnected.");
+		Utils.displayToLog("RMI Player: " + this.getUsername() + " disconnected.");
 	}
 
 	@Override

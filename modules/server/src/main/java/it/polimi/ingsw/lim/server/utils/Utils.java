@@ -40,7 +40,7 @@ public class Utils
 	}
 
 	/**
-	 * Checks online for the external IP address.
+	 * <p>Checks online for the external IP address.
 	 *
 	 * @return a string representing the IP address if successful, otherwise
 	 * null.
@@ -58,7 +58,7 @@ public class Utils
 	}
 
 	/**
-	 * Prints a string to the log visible in the main screen.
+	 * <p>Prints a string to the log visible in the main screen.
 	 *
 	 * @param text the string to print.
 	 */
@@ -77,7 +77,7 @@ public class Utils
 	}
 
 	/**
-	 * Executes the given command.
+	 * <p>Executes the given command.
 	 *
 	 * @param command the command to execute.
 	 */
@@ -97,9 +97,6 @@ public class Utils
 					break;
 				case KICK:
 					Command.handleKickCommand(commandArguments);
-					break;
-				case KICKID:
-					Command.handleKickIdCommand(commandArguments);
 					break;
 				default:
 			}
@@ -184,7 +181,7 @@ public class Utils
 	}
 
 	/**
-	 * Executes a read query on the database with a prepared statement.
+	 * <p>Executes a read query on the database with a prepared statement.
 	 *
 	 * @param query the query to execute.
 	 * @param queryArguments the arguments to fill the statement.
@@ -206,7 +203,7 @@ public class Utils
 	}
 
 	/**
-	 * Executes a write query on the database with a prepared statement.
+	 * <p>Executes a write query on the database with a prepared statement.
 	 *
 	 * @param query the query to execute.
 	 * @param queryArguments the arguments to use to fill the prepared
@@ -226,7 +223,7 @@ public class Utils
 	}
 
 	/**
-	 * Fills a prepared statement with the given arguments.
+	 * <p>Fills a prepared statement with the given arguments.
 	 *
 	 * @param preparedStatement the prepared statement to fill.
 	 * @param queryArguments the arguments to use to fill the prepared
@@ -266,7 +263,7 @@ public class Utils
 	}
 
 	/**
-	 * Sets the given prepared statement argument to the given integer.
+	 * <p>Sets the given prepared statement argument to the given integer.
 	 *
 	 * @param preparedStatement the prepared statement to set.
 	 * @param queryArgument the argument to use to set the prepared statement.
@@ -284,7 +281,7 @@ public class Utils
 	}
 
 	/**
-	 * Sets the given prepared statement argument to the given long.
+	 * <p>Sets the given prepared statement argument to the given long.
 	 *
 	 * @param preparedStatement the prepared statement to set.
 	 * @param queryArgument the argument to use to set the prepared statement.
@@ -302,7 +299,7 @@ public class Utils
 	}
 
 	/**
-	 * Sets the given prepared statement argument to the given float.
+	 * <p>Sets the given prepared statement argument to the given float.
 	 *
 	 * @param preparedStatement the prepared statement to set.
 	 * @param queryArgument the argument to use to set the prepared statement.
@@ -320,7 +317,7 @@ public class Utils
 	}
 
 	/**
-	 * Sets the given prepared statement argument to the given double.
+	 * <p>Sets the given prepared statement argument to the given double.
 	 *
 	 * @param preparedStatement the prepared statement to set.
 	 * @param queryArgument the argument to use to set the prepared statement.
@@ -338,7 +335,7 @@ public class Utils
 	}
 
 	/**
-	 * Sets the given prepared statement argument to the given string.
+	 * <p>Sets the given prepared statement argument to the given string.
 	 *
 	 * @param preparedStatement the prepared statement to set.
 	 * @param queryArgument the argument to use to set the prepared statement.
@@ -352,7 +349,7 @@ public class Utils
 	}
 
 	/**
-	 * Sets the given prepared statement argument to the given bytes array.
+	 * <p>Sets the given prepared statement argument to the given bytes array.
 	 *
 	 * @param preparedStatement the prepared statement to set.
 	 * @param queryArgument the argument to use to set the prepared statement.
@@ -370,7 +367,7 @@ public class Utils
 	}
 
 	/**
-	 * Uses SHA-512 to encrypt a string with the given salt.
+	 * <p>Uses SHA-512 to encrypt a string with the given salt.
 	 *
 	 * @param text the string to encrypt.
 	 * @param salt the salt to use.
@@ -392,7 +389,7 @@ public class Utils
 	}
 
 	/**
-	 * Generates a random salt made as a 16 bytes array.
+	 * <p>Generates a random salt made as a 16 bytes array.
 	 *
 	 * @return the generated salt.
 	 *

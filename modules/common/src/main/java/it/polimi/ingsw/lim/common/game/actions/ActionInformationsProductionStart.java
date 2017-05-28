@@ -5,11 +5,11 @@ import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 
 public class ActionInformationsProductionStart extends ActionInformations
 {
-	private FamilyMemberType familyMemberType;
+	private final FamilyMemberType familyMemberType;
 
 	public ActionInformationsProductionStart(FamilyMemberType familyMemberType)
 	{
-		super(ActionType.PRODUCTION);
+		super(ActionType.PRODUCTION_START);
 		this.familyMemberType = familyMemberType;
 	}
 

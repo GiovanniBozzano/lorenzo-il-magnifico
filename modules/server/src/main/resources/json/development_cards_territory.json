@@ -2,6 +2,7 @@
 	"firstPeriod": [
 		{
 			"displayName": "AVAMPOSTO_COMMERCIALE",
+			"index": 0,
 			"instantResources": [],
 			"activationCost": 1,
 			"harvestResources": [
@@ -14,6 +15,7 @@
 		},
 		{
 			"displayName": "BOSCO",
+			"index": 1,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -32,6 +34,7 @@
 		},
 		{
 			"displayName": "BORGO",
+			"index": 2,
 			"instantResources": [],
 			"activationCost": 3,
 			"harvestResources": [
@@ -49,6 +52,7 @@
 		},
 		{
 			"displayName": "CAVA_DI_GHIAIA",
+			"index": 3,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -67,6 +71,7 @@
 		},
 		{
 			"displayName": "FORESTA",
+			"index": 4,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -85,6 +90,7 @@
 		},
 		{
 			"displayName": "MONASTERO",
+			"index": 5,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -113,6 +119,7 @@
 		},
 		{
 			"displayName": "ROCCA",
+			"index": 6,
 			"instantResources": [],
 			"activationCost": 5,
 			"harvestResources": [
@@ -130,6 +137,7 @@
 		},
 		{
 			"displayName": "CITTÀ",
+			"index": 7,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -150,6 +158,7 @@
 	"secondPeriod": [
 		{
 			"displayName": "MINIERA_ORO",
+			"index": 8,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -168,6 +177,7 @@
 		},
 		{
 			"displayName": "VILLAGGIO_MONTANO",
+			"index": 9,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -191,6 +201,7 @@
 		},
 		{
 			"displayName": "VILLAGGIO_MINERARIO",
+			"index": 10,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -219,6 +230,7 @@
 		},
 		{
 			"displayName": "CAVA_DI_PIETRA",
+			"index": 11,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -237,6 +249,7 @@
 		},
 		{
 			"displayName": "POSSEDIMENTO",
+			"index": 12,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -265,6 +278,7 @@
 		},
 		{
 			"displayName": "EREMO",
+			"index": 13,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -283,6 +297,7 @@
 		},
 		{
 			"displayName": "MANIERO",
+			"index": 14,
 			"instantResources": [],
 			"activationCost": 5,
 			"harvestResources": [
@@ -300,6 +315,7 @@
 		},
 		{
 			"displayName": "DUCATO",
+			"index": 15,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -330,6 +346,7 @@
 	"thirdPeriod": [
 		{
 			"displayName": "CITTÀ_MERCANTILE",
+			"index": 16,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -353,6 +370,7 @@
 		},
 		{
 			"displayName": "TENUTA",
+			"index": 17,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -381,6 +399,7 @@
 		},
 		{
 			"displayName": "COLONIA",
+			"index": 18,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -404,6 +423,7 @@
 		},
 		{
 			"displayName": "CAVA_DI_MARMO",
+			"index": 19,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -427,6 +447,7 @@
 		},
 		{
 			"displayName": "PROVINCIA",
+			"index": 20,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -455,6 +476,7 @@
 		},
 		{
 			"displayName": "SANTUARIO",
+			"index": 21,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -478,6 +500,7 @@
 		},
 		{
 			"displayName": "CASTELLO",
+			"index": 22,
 			"instantResources": [
 				{
 					"type": "STANDARD",
@@ -506,6 +529,7 @@
 		},
 		{
 			"displayName": "CITTÀ_FORTIFICATA",
+			"index": 23,
 			"instantResources": [
 				{
 					"type": "STANDARD",

@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.server.game.utils;
 
 public class CouncilPalaceReward
 {
-	private ResourceAmount[] resourceAmounts;
+	private final ResourceAmount[] resourceAmounts;
 
 	public CouncilPalaceReward(ResourceAmount[] resourceAmounts)
 	{

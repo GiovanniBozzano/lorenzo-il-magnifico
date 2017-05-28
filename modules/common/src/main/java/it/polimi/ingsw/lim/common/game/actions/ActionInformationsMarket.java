@@ -6,8 +6,8 @@ import it.polimi.ingsw.lim.common.enums.MarketSlot;
 
 public class ActionInformationsMarket extends ActionInformations
 {
-	private FamilyMemberType familyMemberType;
-	private MarketSlot marketSlot;
+	private final FamilyMemberType familyMemberType;
+	private final MarketSlot marketSlot;
 
 	public ActionInformationsMarket(FamilyMemberType familyMemberType, MarketSlot marketSlot)
 	{

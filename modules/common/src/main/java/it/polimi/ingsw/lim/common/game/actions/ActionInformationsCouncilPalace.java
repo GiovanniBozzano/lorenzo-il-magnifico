@@ -5,8 +5,8 @@ import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 
 public class ActionInformationsCouncilPalace extends ActionInformations
 {
-	private FamilyMemberType familyMemberType;
-	private int councilPalaceRewardIndex;
+	private final FamilyMemberType familyMemberType;
+	private final int councilPalaceRewardIndex;
 
 	public ActionInformationsCouncilPalace(FamilyMemberType familyMemberType, int councilPalaceRewardIndex)
 	{

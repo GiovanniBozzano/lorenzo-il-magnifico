@@ -1,21 +1,21 @@
 package it.polimi.ingsw.lim.server.game.cards.leaders;
 
-import it.polimi.ingsw.lim.server.game.bonus.Bonus;
 import it.polimi.ingsw.lim.server.game.cards.CardLeader;
+import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.utils.CardLeaderConditions;
 
 public abstract class CardLeaderBonus extends CardLeader
 {
-	private final Bonus bonus;
+	private final Modifier modifier;
 
-	public CardLeaderBonus(String displayName, CardLeaderConditions[] conditions, Bonus bonus)
+	public CardLeaderBonus(String displayName, CardLeaderConditions[] conditions, Modifier modifier)
 	{
 		super(displayName, conditions);
-		this.bonus = bonus;
+		this.modifier = modifier;
 	}
 
-	public Bonus getBonus()
+	public Modifier getModifier()
 	{
-		return this.bonus;
+		return this.modifier;
 	}
 }

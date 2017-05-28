@@ -1,16 +1,24 @@
 package it.polimi.ingsw.lim.server.game.events;
 
-public class EventStartHarvest implements IEvent
-{
-	private final int value;
+import it.polimi.ingsw.lim.server.network.Connection;
 
-	public EventStartHarvest(int value)
+public class EventStartHarvest extends Event
+{
+	private int actionValue;
+
+	public EventStartHarvest(Connection player, int actionValue)
 	{
-		this.value = value;
+		super(player);
+		this.actionValue = actionValue;
 	}
 
-	@Override
-	public void apply()
+	public int getActionValue()
 	{
+		return this.actionValue;
+	}
+
+	public void setActionValue(int actionValue)
+	{
+		this.actionValue = actionValue;
 	}
 }

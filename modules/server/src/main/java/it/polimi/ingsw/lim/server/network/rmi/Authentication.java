@@ -75,7 +75,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 
 	private AuthenticationInformations finalizeAuthentication(String username, RoomType roomType, IServerSession serverSession) throws RemoteException
 	{
-		ConnectionRMI connectionRmi = new ConnectionRMI(Server.getInstance().getConnectionId(), username, serverSession);
+		ConnectionRMI connectionRmi = new ConnectionRMI(username, serverSession);
 		ClientSession clientSession = new ClientSession(connectionRmi);
 		this.clientSessions.add(clientSession);
 		Server.getInstance().getConnections().add(connectionRmi);
@@ -87,7 +87,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			}
 		}
 		if (targetRoom == null) {
-			targetRoom = new Room(Server.getInstance().getRoomId(), roomType);
+			targetRoom = new Room(roomType);
 			Server.getInstance().getRooms().add(targetRoom);
 		}
 		targetRoom.addPlayer(connectionRmi);
@@ -96,7 +96,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			player.sendRoomEntryOther(username);
 			playerUsernames.add(player.getUsername());
 		}
-		return new AuthenticationInformations(clientSession, new RoomInformations(targetRoom.getId(), targetRoom.getRoomType(), playerUsernames));
+		return new AuthenticationInformations(clientSession, new RoomInformations(targetRoom.getRoomType(), playerUsernames));
 	}
 
 	List<ClientSession> getClientSessions()

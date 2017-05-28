@@ -10,9 +10,9 @@ public class DevelopmentCardBuilding extends Card
 	private final int activationCost;
 	private final ResourceTradeOption[] resourceTradeOptions;
 
-	public DevelopmentCardBuilding(String displayName, ResourceAmount[] buildResources, ResourceAmount[] instantResources, int activationCost, ResourceTradeOption[] resourceTradeOptions)
+	public DevelopmentCardBuilding(String displayName, int index, ResourceAmount[] buildResources, ResourceAmount[] instantResources, int activationCost, ResourceTradeOption[] resourceTradeOptions)
 	{
-		super(displayName);
+		super(displayName, index);
 		this.buildResources = buildResources;
 		this.instantResources = instantResources;
 		this.activationCost = activationCost;

@@ -2,6 +2,7 @@
 	"firstPeriod": [
 		{
 			"displayName": "INGAGGIARE_RECLUTE",
+			"index": 0,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -15,7 +16,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -28,6 +29,7 @@
 		},
 		{
 			"displayName": "RIPARARE_CHIESA",
+			"index": 1,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -51,7 +53,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -64,6 +66,7 @@
 		},
 		{
 			"displayName": "COSTRUIRE_MURA",
+			"index": 2,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -77,7 +80,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -95,6 +98,7 @@
 		},
 		{
 			"displayName": "INNALZARE_STATUA",
+			"index": 3,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -113,7 +117,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -126,6 +130,7 @@
 		},
 		{
 			"displayName": "CAMPAGNA_MILITARE",
+			"index": 4,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -145,7 +150,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -158,6 +163,7 @@
 		},
 		{
 			"displayName": "OSPITARE_MENDICANTI",
+			"index": 5,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -171,7 +177,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -184,6 +190,7 @@
 		},
 		{
 			"displayName": "COMBATTERE_ERESIE",
+			"index": 6,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -203,7 +210,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -216,6 +223,7 @@
 		},
 		{
 			"displayName": "SOSTEGNO_VESCOVO",
+			"index": 7,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -255,7 +263,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -270,6 +278,7 @@
 	"secondPeriod": [
 		{
 			"displayName": "INGAGGIARE_SOLDATI",
+			"index": 8,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -283,7 +292,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -296,6 +305,7 @@
 		},
 		{
 			"displayName": "RIPARARE_ABBAZIA",
+			"index": 9,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -319,7 +329,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -332,6 +342,7 @@
 		},
 		{
 			"displayName": "COSTRUIRE_BASTIONI",
+			"index": 10,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -345,7 +356,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -363,6 +374,7 @@
 		},
 		{
 			"displayName": "SUPPORTO_RE",
+			"index": 11,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -382,7 +394,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -400,6 +412,7 @@
 		},
 		{
 			"displayName": "SCAVARE_CANALIZZAZIONI",
+			"index": 12,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -418,18 +431,17 @@
 				}
 			],
 			"instantReward": {
-				"events": [
-					{
-						"type": "HARVEST",
-						"value": 4
-					}
-				],
+				"actionReward": {
+					"type": "HARVEST",
+					"value": 4
+				},
 				"resourceAmounts": []
 			},
 			"victoryValue": 5
 		},
 		{
 			"displayName": "ACCOGLIERE_STRANIERI",
+			"index": 13,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -443,7 +455,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -456,6 +468,7 @@
 		},
 		{
 			"displayName": "CROCIATA",
+			"index": 14,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -475,7 +488,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -493,6 +506,7 @@
 		},
 		{
 			"displayName": "SOSTEGNO_CARDINALE",
+			"index": 15,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -532,7 +546,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -547,6 +561,7 @@
 	"thirdPeriod": [
 		{
 			"displayName": "INGAGGIARE_MERCENARI",
+			"index": 16,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -560,7 +575,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -573,6 +588,7 @@
 		},
 		{
 			"displayName": "RIPARARE_CATTEDRALE",
+			"index": 17,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -596,19 +612,17 @@
 				}
 			],
 			"instantReward": {
-				"events": [
-					{
-						"type": "CARD",
-						"value": 7,
-						"cardTypes": [
-							"CHARACTER",
-							"TERRITORY",
-							"VENTURE",
-							"BUILDING"
-						],
-						"discountChoices": []
-					}
-				],
+				"actionReward": {
+					"type": "CARD",
+					"value": 7,
+					"cardTypes": [
+						"CHARACTER",
+						"TERRITORY",
+						"VENTURE",
+						"BUILDING"
+					],
+					"discountChoices": []
+				},
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -621,6 +635,7 @@
 		},
 		{
 			"displayName": "COSTRUIRE_TORRI",
+			"index": 18,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -634,7 +649,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -652,6 +667,7 @@
 		},
 		{
 			"displayName": "COMMISSIONARE_ARTE_SACRA",
+			"index": 19,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -663,7 +679,7 @@
 						}
 					],
 					"instantReward": {
-						"events": [],
+						"actionReward": null,
 						"resourceAmounts": [
 							{
 								"type": "STANDARD",
@@ -678,6 +694,7 @@
 		},
 		{
 			"displayName": "CONQUISTA_MILITARE",
+			"index": 20,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -697,7 +714,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -720,6 +737,7 @@
 		},
 		{
 			"displayName": "MIGLIORARE_STRADE",
+			"index": 21,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -738,18 +756,17 @@
 				}
 			],
 			"instantReward": {
-				"events": [
-					{
-						"type": "PRODUCTION",
-						"value": 3
-					}
-				],
+				"actionReward": {
+					"type": "PRODUCTION",
+					"value": 3
+				},
 				"resourceAmounts": []
 			},
 			"victoryValue": 5
 		},
 		{
 			"displayName": "GUERRA_SANTA",
+			"index": 22,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -769,7 +786,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -782,6 +799,7 @@
 		},
 		{
 			"displayName": "SOSTEGNO_PAPA",
+			"index": 23,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -821,7 +839,7 @@
 				}
 			],
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",

@@ -27,7 +27,7 @@ public class CommonUtils
 	}
 
 	/**
-	 * Checks whether a string can be parsed as an integer or not.
+	 * <p>Checks whether a string can be parsed as an integer or not.
 	 *
 	 * @param string the string to be checked.
 	 *
@@ -54,7 +54,7 @@ public class CommonUtils
 	}
 
 	/**
-	 * Encrypt a string with a 128 bit key.
+	 * <p>Encrypt a string with a 128 bit key.
 	 *
 	 * @param text the string to be encrypted.
 	 *
@@ -73,7 +73,7 @@ public class CommonUtils
 	}
 
 	/**
-	 * Decrypt a string with a 128 bit key.
+	 * <p>Decrypt a string with a 128 bit key.
 	 *
 	 * @param text the string to be decrypted.
 	 *

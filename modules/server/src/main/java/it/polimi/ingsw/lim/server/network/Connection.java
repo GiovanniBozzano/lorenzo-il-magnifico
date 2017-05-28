@@ -10,19 +10,16 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public abstract class Connection
 {
-	private final int id;
 	private String username;
 	private final ScheduledExecutorService heartbeat = Executors.newSingleThreadScheduledExecutor();
 	private PlayerInformations playerInformations;
 
-	protected Connection(int id)
+	protected Connection()
 	{
-		this.id = id;
 	}
 
-	protected Connection(int id, String username)
+	protected Connection(String username)
 	{
-		this.id = id;
 		this.username = username;
 	}
 
@@ -94,11 +91,6 @@ public abstract class Connection
 				otherConnection.sendChatMessage("[" + this.getUsername() + "]: " + text);
 			}
 		}
-	}
-
-	public int getId()
-	{
-		return this.id;
 	}
 
 	public String getUsername()

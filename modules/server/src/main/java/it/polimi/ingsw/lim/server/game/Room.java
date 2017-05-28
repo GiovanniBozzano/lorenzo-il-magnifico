@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Room
 {
-	private final int id;
 	private final RoomType roomType;
 	private final List<Connection> players = new ArrayList<>();
 	private int timer;
@@ -22,9 +21,8 @@ public class Room
 	private boolean isStarted = false;
 	private GameHandler gameHandler;
 
-	public Room(int id, RoomType roomType)
+	public Room(RoomType roomType)
 	{
-		this.id = id;
 		this.roomType = roomType;
 		this.timer = ServerSettings.getInstance().getRoomTimer();
 	}
@@ -71,7 +69,7 @@ public class Room
 			playerUsernames.add(connection.getUsername());
 		}
 		for (Connection connection : this.players) {
-			connection.sendGameStarted(new RoomInformations(this.id, this.roomType, playerUsernames));
+			connection.sendGameStarted(new RoomInformations(this.roomType, playerUsernames));
 		}
 	}
 
@@ -84,11 +82,6 @@ public class Room
 			return room;
 		}
 		return null;
-	}
-
-	public int getId()
-	{
-		return this.id;
 	}
 
 	public RoomType getRoomType()

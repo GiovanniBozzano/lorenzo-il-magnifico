@@ -11,7 +11,7 @@ import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
 import it.polimi.ingsw.lim.server.game.actionrewards.automatic.ActionRewardStartHarvest;
 import it.polimi.ingsw.lim.server.game.actionrewards.automatic.ActionRewardStartProduction;
 import it.polimi.ingsw.lim.server.game.actionrewards.choice.ActionRewardGetCard;
-import it.polimi.ingsw.lim.server.game.bonus.*;
+import it.polimi.ingsw.lim.server.game.modifiers.*;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmountMultiplierCard;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmountMultiplierResource;
@@ -78,8 +78,8 @@ public class DevelopmentCardsDeck<T extends Card>
 		}
 
 		private static final RuntimeTypeAdapterFactory<ResourceAmount> RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT = RuntimeTypeAdapterFactory.of(ResourceAmount.class).registerSubtype(ResourceAmount.class, "STANDARD").registerSubtype(ResourceAmountMultiplierCard.class, "MULTIPLIER_CARD").registerSubtype(ResourceAmountMultiplierResource.class, "MULTIPLIER_RESOURCE");
-		private static final RuntimeTypeAdapterFactory<Bonus> RUNTIME_TYPE_ADAPTER_FACTORY_BONUS = RuntimeTypeAdapterFactory.of(Bonus.class).registerSubtype(BonusGetCard.class, "CARD").registerSubtype(BonusStartHarvest.class, "HARVEST").registerSubtype(BonusStartProduction.class, "PRODUCTION").registerSubtype(BonusMalus.class, "MALUS");
-		private static final RuntimeTypeAdapterFactory<ActionReward> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(ActionReward.class).registerSubtype(ActionRewardGetCard.class, "CARD").registerSubtype(ActionRewardStartHarvest.class, "HARVEST").registerSubtype(ActionRewardStartProduction.class, "PRODUCTION");
+		private static final RuntimeTypeAdapterFactory<Modifier> RUNTIME_TYPE_ADAPTER_FACTORY_BONUS = RuntimeTypeAdapterFactory.of(Modifier.class).registerSubtype(ModifierGetCard.class, "CARD").registerSubtype(ModifierStartHarvest.class, "HARVEST_START").registerSubtype(ModifierStartProduction.class, "PRODUCTION_START").registerSubtype(ModifierActionCardMalus.class, "MALUS");
+		private static final RuntimeTypeAdapterFactory<ActionReward> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(ActionReward.class).registerSubtype(ActionRewardGetCard.class, "CARD").registerSubtype(ActionRewardStartHarvest.class, "HARVEST_START").registerSubtype(ActionRewardStartProduction.class, "PRODUCTION_START");
 		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT).registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_BONUS).registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_EVENT);
 		private static final Gson GSON = Builder.GSON_BUILDER.create();
 		private final Class<T> clazz;

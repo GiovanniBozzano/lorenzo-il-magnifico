@@ -7,7 +7,7 @@ import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionMarket extends ActionInformationsMarket implements IAction
 {
-	private Connection player;
+	private final Connection player;
 
 	public ActionMarket(Connection player, FamilyMemberType familyMemberType, MarketSlot marketSlot)
 	{

@@ -8,7 +8,7 @@ public enum ActionRewardType
 {
 	AUTOMATIC(ActionRewardAutomatic.class),
 	CHOICE(ActionRewardChoice.class);
-	private Class<? extends ActionReward> actionRewardClass;
+	private final Class<? extends ActionReward> actionRewardClass;
 
 	ActionRewardType(Class<? extends ActionReward> actionRewardClass)
 	{

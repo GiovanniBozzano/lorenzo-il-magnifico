@@ -22,8 +22,8 @@ public class Client extends Instance
 	private ConnectionHandler connectionHandler;
 
 	/**
-	 * Tries to connect to an RMI or Socket Server and, if successful, opens the
-	 * lobby screen.
+	 * <p>Tries to connect to an RMI or Socket Server and, if successful, opens
+	 * the lobby screen.
 	 *
 	 * @param connectionType the type of connection used.
 	 * @param ip the IP address of the Server.
@@ -47,7 +47,7 @@ public class Client extends Instance
 	}
 
 	/**
-	 * Disconnects from the Server and closes all windows.
+	 * <p>Disconnects from the Server and closes all windows.
 	 */
 	@Override
 	public void stop()
@@ -56,8 +56,8 @@ public class Client extends Instance
 	}
 
 	/**
-	 * Disconnects from the Server. If the Client is stopping, it closes all the
-	 * windows, otherwise it closes all the current windows and opens the
+	 * <p>Disconnects from the Server. If the Client is stopping, it closes all
+	 * the windows, otherwise it closes all the current windows and opens the
 	 * connection window.
 	 *
 	 * @param isStopping the flag to check whether the Client has to be closed

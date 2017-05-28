@@ -1,26 +1,24 @@
 package it.polimi.ingsw.lim.server.game.events;
 
-public class EventStartProduction implements IEvent
+import it.polimi.ingsw.lim.server.network.Connection;
+
+public class EventStartProduction extends Event
 {
-	private int value;
+	private int actionValue;
 
-	public EventStartProduction(int value)
+	public EventStartProduction(Connection player, int actionValue)
 	{
-		this.value = value;
+		super(player);
+		this.actionValue = actionValue;
 	}
 
-	@Override
-	public void apply()
+	public int getActionValue()
 	{
+		return this.actionValue;
 	}
 
-	public int getValue()
+	public void setActionValue(int actionValue)
 	{
-		return this.value;
-	}
-
-	public void setValue(int value)
-	{
-		this.value = value;
+		this.actionValue = actionValue;
 	}
 }

@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 
 public class ActionInformationsLeaderActivation extends ActionInformations
 {
-	private int cardLeaderIndex;
+	private final int cardLeaderIndex;
 
 	public ActionInformationsLeaderActivation(int cardLeaderIndex)
 	{

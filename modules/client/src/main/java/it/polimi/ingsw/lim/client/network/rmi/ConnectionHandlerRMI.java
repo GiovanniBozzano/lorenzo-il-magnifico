@@ -149,7 +149,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		});
 	}
 
-	private void finalizeAuthentication(String username, AuthenticationInformations authenticationInformations) throws RemoteException, AuthenticationFailedException
+	private void finalizeAuthentication(String username, AuthenticationInformations authenticationInformations)
 	{
 		this.clientSession = authenticationInformations.getClientSession();
 		Client.getInstance().setUsername(username);

@@ -5,8 +5,8 @@ import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 
 public class ActionInformationsProductionTrade extends ActionInformations
 {
-	private FamilyMemberType familyMemberType;
-	private int developmentCardBuildingIndex;
+	private final FamilyMemberType familyMemberType;
+	private final int developmentCardBuildingIndex;
 
 	public ActionInformationsProductionTrade(FamilyMemberType familyMemberType, int developmentCardBuildingIndex)
 	{

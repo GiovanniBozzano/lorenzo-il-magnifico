@@ -67,8 +67,7 @@ public class ConnectionHandler extends Thread
 						socket.close();
 						serverSocket.close();
 					} else {
-						int connectionId = Server.getInstance().getConnectionId();
-						Server.getInstance().getConnections().add(new ConnectionSocket(connectionId, socket));
+						Server.getInstance().getConnections().add(new ConnectionSocket(socket));
 					}
 				} catch (IOException exception) {
 					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);

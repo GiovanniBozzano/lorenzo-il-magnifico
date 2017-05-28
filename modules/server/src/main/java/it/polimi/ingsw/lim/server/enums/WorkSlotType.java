@@ -1,4 +1,4 @@
-package it.polimi.ingsw.lim.common.enums;
+package it.polimi.ingsw.lim.server.enums;
 
 public enum WorkSlotType
 {

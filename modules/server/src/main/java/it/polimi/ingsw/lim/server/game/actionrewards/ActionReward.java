@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.server.enums.ActionRewardType;
 
 public class ActionReward
 {
-	private ActionRewardType actionRewardType;
+	private final ActionRewardType actionRewardType;
 
 	public ActionReward(ActionRewardType actionRewardType)
 	{

@@ -4,8 +4,8 @@ import it.polimi.ingsw.lim.common.enums.CardType;
 
 public class CardAmount
 {
-	private CardType cardType;
-	private int amount;
+	private final CardType cardType;
+	private final int amount;
 
 	public CardAmount(CardType cardType, int amount)
 	{

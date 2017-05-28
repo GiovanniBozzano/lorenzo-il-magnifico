@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard implements IAction
 {
-	private Connection player;
+	private final Connection player;
 
 	public ActionLeaderDiscard(Connection player, int cardLeaderIndex)
 	{

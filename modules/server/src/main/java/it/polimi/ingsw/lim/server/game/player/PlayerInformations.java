@@ -2,8 +2,8 @@ package it.polimi.ingsw.lim.server.game.player;
 
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.server.game.bonus.Bonus;
-import it.polimi.ingsw.lim.server.game.events.IEvent;
+import it.polimi.ingsw.lim.server.game.events.Event;
+import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -15,7 +15,7 @@ public class PlayerInformations
 	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler(this);
 	private final PlayerResourceHandler playerResourceHandler;
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
-	private final List<Bonus<? extends IEvent>> activeBonuses = new ArrayList<>();
+	private final List<Modifier<? extends Event>> activeModifiers = new ArrayList<>();
 
 	public PlayerInformations(PlayerResourceHandler playerResourceHandler)
 	{
@@ -24,6 +24,16 @@ public class PlayerInformations
 		this.familyMembersPositions.put(FamilyMemberType.ORANGE, BoardPosition.NONE);
 		this.familyMembersPositions.put(FamilyMemberType.WHITE, BoardPosition.NONE);
 		this.familyMembersPositions.put(FamilyMemberType.NEUTRAL, BoardPosition.NONE);
+	}
+
+	public boolean isOccupyingBoardPosition(BoardPosition boardPosition)
+	{
+		for (BoardPosition playerBoardPosition : this.familyMembersPositions.values()) {
+			if (playerBoardPosition == boardPosition) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public PlayerCardHandler getPlayerCardHandler()
@@ -41,8 +51,8 @@ public class PlayerInformations
 		return this.familyMembersPositions;
 	}
 
-	public List<Bonus<? extends IEvent>> getActiveBonuses()
+	public List<Modifier<? extends Event>> getActiveModifiers()
 	{
-		return this.activeBonuses;
+		return this.activeModifiers;
 	}
 }

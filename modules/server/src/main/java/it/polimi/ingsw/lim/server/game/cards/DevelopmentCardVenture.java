@@ -9,9 +9,9 @@ public class DevelopmentCardVenture extends Card
 	private final Reward instantReward;
 	private final int victoryValue;
 
-	public DevelopmentCardVenture(String displayName, ResourceTradeOption[] resourceTradeOptions, Reward instantReward, int victoryValue)
+	public DevelopmentCardVenture(String displayName, int index, ResourceTradeOption[] resourceTradeOptions, Reward instantReward, int victoryValue)
 	{
-		super(displayName);
+		super(displayName, index);
 		this.resourceTradeOptions = resourceTradeOptions;
 		this.instantReward = instantReward;
 		this.victoryValue = victoryValue;

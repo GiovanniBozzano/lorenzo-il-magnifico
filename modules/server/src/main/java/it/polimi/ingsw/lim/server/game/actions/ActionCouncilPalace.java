@@ -6,7 +6,7 @@ import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionCouncilPalace extends ActionInformationsCouncilPalace implements IAction
 {
-	private Connection player;
+	private final Connection player;
 
 	public ActionCouncilPalace(Connection player, FamilyMemberType familyMemberType, int councilPalaceRewardIndex)
 	{

@@ -30,12 +30,10 @@ public class Server extends Instance
 	private final ScheduledExecutorService databaseKeeper = Executors.newSingleThreadScheduledExecutor();
 	private ConnectionHandler connectionHandler;
 	private final ConcurrentLinkedQueue<Connection> connections = new ConcurrentLinkedQueue<>();
-	private int connectionId;
 	private final ConcurrentLinkedQueue<Room> rooms = new ConcurrentLinkedQueue<>();
-	private int roomId;
 
 	/**
-	 * Initializes RMI and Socket Servers and, if successful, opens the main
+	 * <p>Initializes RMI and Socket Servers and, if successful, opens the main
 	 * screen.
 	 *
 	 * @param rmiPort the port of the RMI Server.
@@ -47,8 +45,6 @@ public class Server extends Instance
 		executorService.execute(() -> {
 			this.rmiPort = rmiPort;
 			this.socketPort = socketPort;
-			this.connectionId = 0;
-			this.roomId = 0;
 			this.database = new DatabaseSQLite(Database.DATABASE_FILE);
 			this.database.createTables();
 			this.databaseKeeper.scheduleAtFixedRate(() -> {
@@ -66,7 +62,8 @@ public class Server extends Instance
 	}
 
 	/**
-	 * Disconnects all Clients, waiting for every thread to terminate properly.
+	 * <p>Disconnects all Clients, waiting for every thread to terminate
+	 * properly.
 	 */
 	@Override
 	public synchronized void stop()
@@ -152,18 +149,8 @@ public class Server extends Instance
 		return this.connections;
 	}
 
-	public int getConnectionId()
-	{
-		return this.connectionId++;
-	}
-
 	public Queue<Room> getRooms()
 	{
 		return this.rooms;
-	}
-
-	public int getRoomId()
-	{
-		return this.roomId++;
 	}
 }

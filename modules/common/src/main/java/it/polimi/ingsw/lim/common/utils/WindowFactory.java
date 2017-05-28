@@ -36,9 +36,10 @@ public class WindowFactory
 	private final ObjectProperty<WindowInformations> currentWindow = new SimpleObjectProperty<>(null);
 
 	/**
-	 * Opens a new window and closes the current one.
+	 * <p>Opens a new window and closes the current one.
 	 *
 	 * @param fxmlFileLocation the .fxml file location.
+	 * @param closeOthers whether to close the other windows or not.
 	 */
 	public void setNewWindow(String fxmlFileLocation, boolean closeOthers)
 	{
@@ -46,11 +47,12 @@ public class WindowFactory
 	}
 
 	/**
-	 * Opens a new window and closes the current one. Executes an optional
+	 * <p>Opens a new window and closes the current one. Executes an optional
 	 * thread before showing the new window and another one after it has been
 	 * shown.
 	 *
 	 * @param fxmlFileLocation the .fxml file location.
+	 * @param closeOthers whether to close the other windows or not.
 	 * @param postShowing the thread to execute after the window has been
 	 * shown.
 	 */
@@ -96,7 +98,7 @@ public class WindowFactory
 	}
 
 	/**
-	 * Closes the given window and all the parent ones.
+	 * <p>Closes the given window and all the parent ones.
 	 */
 	public void closeAllWindows()
 	{

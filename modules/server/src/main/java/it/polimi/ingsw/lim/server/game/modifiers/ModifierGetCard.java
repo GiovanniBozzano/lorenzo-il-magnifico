@@ -1,16 +1,22 @@
-package it.polimi.ingsw.lim.server.game.bonus;
+package it.polimi.ingsw.lim.server.game.modifiers;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.server.game.events.EventGetCard;
 import it.polimi.ingsw.lim.server.game.utils.DiscountChoice;
 
-public class BonusGetCard extends Bonus<EventGetCard>
+/**
+ * <p>Whenever you perform an action to take a {@code cardType} card (through a
+ * Family Member or as an efect of another card), increase the value of the
+ * action by {@code value}. In addition, the cost of the card you take is
+ * reduced by {@code discountChoices}.
+ */
+public class ModifierGetCard extends Modifier<EventGetCard>
 {
 	private final int value;
 	private final CardType cardType;
 	private final DiscountChoice[] discoutChoices;
 
-	public BonusGetCard(int value, CardType cardType, DiscountChoice[] discountChoices)
+	public ModifierGetCard(int value, CardType cardType, DiscountChoice[] discountChoices)
 	{
 		super(EventGetCard.class);
 		this.value = value;

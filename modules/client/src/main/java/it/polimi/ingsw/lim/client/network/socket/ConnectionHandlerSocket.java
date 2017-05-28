@@ -43,9 +43,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		} catch (IOException exception) {
 			Client.getLogger().log(Level.INFO, "Could not connect to host.", exception);
 			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
-			Platform.runLater(() -> {
-				((ControllerConnection) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog("Could not connect to host");
-			});
+			Platform.runLater(() -> ((ControllerConnection) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog("Could not connect to host"));
 			return;
 		}
 		this.packetListener = new PacketListener();

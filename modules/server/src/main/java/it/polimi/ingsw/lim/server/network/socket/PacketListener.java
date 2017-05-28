@@ -52,7 +52,7 @@ class PacketListener extends Thread
 			try {
 				packet = (Packet) this.connectionSocket.getIn().readObject();
 			} catch (ClassNotFoundException | IOException exception) {
-				Server.getLogger().log(Level.INFO, "Socket Client " + this.connectionSocket.getId() + (this.connectionSocket.getUsername() != null ? " : " + this.connectionSocket.getUsername() : "") + " disconnected.", exception);
+				Server.getLogger().log(Level.INFO, "Socket Client" + (this.connectionSocket.getUsername() != null ? " " + this.connectionSocket.getUsername() : "") + " disconnected.", exception);
 				if (!this.keepGoing) {
 					return;
 				}
@@ -107,7 +107,7 @@ class PacketListener extends Thread
 				}
 			}
 			if (targetRoom == null) {
-				targetRoom = new Room(Server.getInstance().getRoomId(), ((PacketAuthentication) packet).getRoomType());
+				targetRoom = new Room(((PacketAuthentication) packet).getRoomType());
 				Server.getInstance().getRooms().add(targetRoom);
 			}
 			targetRoom.addPlayer(this.connectionSocket);
@@ -116,7 +116,7 @@ class PacketListener extends Thread
 				player.sendRoomEntryOther(trimmedUsername);
 				playerUsernames.add(player.getUsername());
 			}
-			this.connectionSocket.sendAuthenticationConfirmation(new RoomInformations(targetRoom.getId(), targetRoom.getRoomType(), playerUsernames));
+			this.connectionSocket.sendAuthenticationConfirmation(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
 		}
 		return true;
 	}

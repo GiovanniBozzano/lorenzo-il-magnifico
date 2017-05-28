@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
-import it.polimi.ingsw.lim.server.game.bonus.Bonus;
-import it.polimi.ingsw.lim.server.game.events.IEvent;
+import it.polimi.ingsw.lim.server.game.events.Event;
+import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.List;
@@ -12,10 +12,10 @@ public interface IAction
 
 	void apply();
 
-	static void applyBonuses(List<Bonus<? extends IEvent>> bonuses, IEvent event)
+	static void applyModifiers(List<Modifier<? extends Event>> modifiers, Event event)
 	{
-		for (Bonus bonus : bonuses) {
-			bonus.call(event);
+		for (Modifier modifier : modifiers) {
+			modifier.call(event);
 		}
 	}
 

@@ -2,6 +2,7 @@
 	"firstPeriod": [
 		{
 			"displayName": "ZECCA",
+			"index": 0,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -38,6 +39,7 @@
 		},
 		{
 			"displayName": "ESATTORIA",
+			"index": 1,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -74,6 +76,7 @@
 		},
 		{
 			"displayName": "ARCO_TRIONFO",
+			"index": 2,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -110,6 +113,7 @@
 		},
 		{
 			"displayName": "TEATRO",
+			"index": 3,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -146,6 +150,7 @@
 		},
 		{
 			"displayName": "FALEGNAMERIA",
+			"index": 4,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -203,6 +208,7 @@
 		},
 		{
 			"displayName": "TAGLIAPIETRE",
+			"index": 5,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -260,6 +266,7 @@
 		},
 		{
 			"displayName": "CAPPELLA",
+			"index": 6,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -296,6 +303,7 @@
 		},
 		{
 			"displayName": "RESIDENZA",
+			"index": 7,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -334,6 +342,7 @@
 	"secondPeriod": [
 		{
 			"displayName": "MERCATO",
+			"index": 8,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -380,6 +389,7 @@
 		},
 		{
 			"displayName": "TESORERIA",
+			"index": 9,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -432,6 +442,7 @@
 		},
 		{
 			"displayName": "GILDA_PITTORI",
+			"index": 10,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -484,6 +495,7 @@
 		},
 		{
 			"displayName": "GILDA_SCULTORI",
+			"index": 11,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -536,6 +548,7 @@
 		},
 		{
 			"displayName": "GILDA_COSTRUTTORI",
+			"index": 12,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -587,6 +600,7 @@
 		},
 		{
 			"displayName": "BATTISTERO",
+			"index": 13,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -633,6 +647,7 @@
 		},
 		{
 			"displayName": "CASERMA",
+			"index": 14,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -674,6 +689,7 @@
 		},
 		{
 			"displayName": "FORTEZZA",
+			"index": 15,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -721,6 +737,7 @@
 	"thirdPeriod": [
 		{
 			"displayName": "BANCA",
+			"index": 16,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -761,6 +778,7 @@
 		},
 		{
 			"displayName": "FIERA",
+			"index": 17,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -807,6 +825,7 @@
 		},
 		{
 			"displayName": "GIARDINO",
+			"index": 18,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -847,6 +866,7 @@
 		},
 		{
 			"displayName": "CASTELLETTO",
+			"index": 19,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -892,6 +912,7 @@
 		},
 		{
 			"displayName": "PALAZZO",
+			"index": 20,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -943,6 +964,7 @@
 		},
 		{
 			"displayName": "BASILICA",
+			"index": 21,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -1005,6 +1027,7 @@
 		},
 		{
 			"displayName": "ACCADEMIA_MILITARE",
+			"index": 22,
 			"buildResources": [
 				{
 					"type": "STANDARD",
@@ -1056,6 +1079,7 @@
 		},
 		{
 			"displayName": "CATTEDRALE",
+			"index": 23,
 			"buildResources": [
 				{
 					"type": "STANDARD",

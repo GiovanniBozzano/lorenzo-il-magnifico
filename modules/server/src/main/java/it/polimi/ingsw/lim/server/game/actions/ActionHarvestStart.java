@@ -6,7 +6,7 @@ import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionHarvestStart extends ActionInformationsHarvestStart implements IAction
 {
-	private Connection player;
+	private final Connection player;
 
 	public ActionHarvestStart(Connection player, FamilyMemberType familyMemberType)
 	{

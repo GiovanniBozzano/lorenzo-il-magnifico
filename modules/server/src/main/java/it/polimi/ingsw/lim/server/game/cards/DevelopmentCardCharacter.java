@@ -8,9 +8,9 @@ public class DevelopmentCardCharacter extends Card
 	private final Reward instantReward;
 	private final Object permanentBonus;
 
-	public DevelopmentCardCharacter(String displayName, int price, Reward instantReward, Object permanentBonus)
+	public DevelopmentCardCharacter(String displayName, int index, int price, Reward instantReward, Object permanentBonus)
 	{
-		super(displayName);
+		super(displayName, index);
 		this.price = price;
 		this.instantReward = instantReward;
 		this.permanentBonus = permanentBonus;

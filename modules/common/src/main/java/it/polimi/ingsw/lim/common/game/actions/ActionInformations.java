@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public abstract class ActionInformations implements Serializable
 {
-	private ActionType actionType;
+	private final ActionType actionType;
 
 	public ActionInformations(ActionType actionType)
 	{

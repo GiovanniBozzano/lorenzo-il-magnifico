@@ -32,7 +32,7 @@ public abstract class ConnectionHandler extends Thread
 	}
 
 	/**
-	 * Tries to send an heartbeat to check the connection status.
+	 * <p>Tries to send an heartbeat to check the connection status.
 	 */
 	public synchronized void sendHeartbeat()
 	{
@@ -45,10 +45,12 @@ public abstract class ConnectionHandler extends Thread
 	}
 
 	/**
-	 * Tries to login with username, password and Client version.
+	 * <p>Tries to login with username, password and Client version, sending the
+	 * desired {@link RoomType}.
 	 *
 	 * @param username the username.
 	 * @param password the password.
+	 * @param roomType the desired {@link RoomType}.
 	 */
 	public synchronized void sendLogin(String username, String password, RoomType roomType)
 	{
@@ -62,10 +64,12 @@ public abstract class ConnectionHandler extends Thread
 	}
 
 	/**
-	 * Tries to register with username, password and Client version.
+	 * <p>Tries to register with username, password and Client version, sending
+	 * the desired {@link RoomType}.
 	 *
 	 * @param username the username.
 	 * @param password the password.
+	 * @param roomType the desired {@link RoomType}.
 	 */
 	public synchronized void sendRegistration(String username, String password, RoomType roomType)
 	{

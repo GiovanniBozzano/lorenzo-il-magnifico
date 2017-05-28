@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IAction
 {
-	private Connection player;
+	private final Connection player;
 
 	public ActionLeaderPlay(Connection player, int cardLeaderIndex)
 	{

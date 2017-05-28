@@ -6,7 +6,7 @@ import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionProductionTrade extends ActionInformationsProductionTrade implements IAction
 {
-	private Connection player;
+	private final Connection player;
 
 	public ActionProductionTrade(Connection player, FamilyMemberType familyMemberType, int developmentCardBuildingIndex)
 	{

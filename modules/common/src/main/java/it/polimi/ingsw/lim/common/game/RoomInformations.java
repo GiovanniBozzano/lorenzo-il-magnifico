@@ -8,20 +8,13 @@ import java.util.List;
 
 public class RoomInformations implements Serializable
 {
-	private final int id;
 	private final RoomType roomType;
 	private final List<String> playerNames = new ArrayList<>();
 
-	public RoomInformations(int id, RoomType roomType, List<String> playerNames)
+	public RoomInformations(RoomType roomType, List<String> playerNames)
 	{
-		this.id = id;
 		this.roomType = roomType;
 		this.playerNames.addAll(playerNames);
-	}
-
-	public int getId()
-	{
-		return this.id;
 	}
 
 	public RoomType getRoomType()

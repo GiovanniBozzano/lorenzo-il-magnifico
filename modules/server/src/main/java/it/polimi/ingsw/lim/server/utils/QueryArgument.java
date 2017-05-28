@@ -3,8 +3,8 @@ package it.polimi.ingsw.lim.server.utils;
 import it.polimi.ingsw.lim.server.enums.QueryValueType;
 
 /**
- * This class is used to represent an argument of an SQL query, with a type and
- * a generic value
+ * <p>This class is used to represent an argument of an SQL query, with a type
+ * and a generic value
  */
 public class QueryArgument
 {

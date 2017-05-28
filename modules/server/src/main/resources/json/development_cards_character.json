@@ -2,9 +2,10 @@
 	"firstPeriod": [
 		{
 			"displayName": "CONDOTTIERO",
+			"index": 0,
 			"price": 2,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -22,9 +23,10 @@
 		},
 		{
 			"displayName": "COSTRUTTORE",
+			"index": 1,
 			"price": 4,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": []
 			},
 			"permanentBonus": {
@@ -55,9 +57,10 @@
 		},
 		{
 			"displayName": "DAMA",
+			"index": 2,
 			"price": 4,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": []
 			},
 			"permanentBonus": {
@@ -79,9 +82,10 @@
 		},
 		{
 			"displayName": "CAVALIERE",
+			"index": 3,
 			"price": 2,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -99,9 +103,10 @@
 		},
 		{
 			"displayName": "CONTADINO",
+			"index": 4,
 			"price": 3,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": []
 			},
 			"permanentBonus": {
@@ -111,9 +116,10 @@
 		},
 		{
 			"displayName": "ARTIGIANO",
+			"index": 5,
 			"price": 3,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": []
 			},
 			"permanentBonus": {
@@ -123,9 +129,10 @@
 		},
 		{
 			"displayName": "PREDICATORE",
+			"index": 6,
 			"price": 2,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -144,21 +151,20 @@
 		},
 		{
 			"displayName": "BADESSA",
+			"index": 7,
 			"price": 3,
 			"instantReward": {
-				"events": [
-					{
-						"type": "CARD",
-						"value": 4,
-						"cardTypes": [
-							"CHARACTER",
-							"TERRITORY",
-							"VENTURE",
-							"BUILDING"
-						],
-						"discountChoices": []
-					}
-				],
+				"actionReward": {
+					"type": "CARD",
+					"value": 4,
+					"cardTypes": [
+						"CHARACTER",
+						"TERRITORY",
+						"VENTURE",
+						"BUILDING"
+					],
+					"discountChoices": []
+				},
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -173,18 +179,17 @@
 	"secondPeriod": [
 		{
 			"displayName": "CAPITANO",
+			"index": 8,
 			"price": 4,
 			"instantReward": {
-				"events": [
-					{
-						"type": "CARD",
-						"value": 6,
-						"cardTypes": [
-							"TERRITORY"
-						],
-						"discountChoices": []
-					}
-				],
+				"actionReward": {
+					"type": "CARD",
+					"value": 6,
+					"cardTypes": [
+						"TERRITORY"
+					],
+					"discountChoices": []
+				},
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -197,83 +202,80 @@
 		},
 		{
 			"displayName": "ARCHITETTO",
+			"index": 9,
 			"price": 4,
 			"instantReward": {
-				"events": [
-					{
-						"type": "CARD",
-						"value": 6,
-						"cardTypes": [
-							"BUILDING"
-						],
-						"discountChoices": [
-							{
-								"resourceAmounts": [
-									{
-										"type": "STANDARD",
-										"resourceType": "WOOD",
-										"amount": 1
-									}
-								]
-							},
-							{
-								"resourceAmounts": [
-									{
-										"type": "STANDARD",
-										"resourceType": "STONE",
-										"amount": 1
-									}
-								]
-							}
-						]
-					}
-				],
+				"actionReward": {
+					"type": "CARD",
+					"value": 6,
+					"cardTypes": [
+						"BUILDING"
+					],
+					"discountChoices": [
+						{
+							"resourceAmounts": [
+								{
+									"type": "STANDARD",
+									"resourceType": "WOOD",
+									"amount": 1
+								}
+							]
+						},
+						{
+							"resourceAmounts": [
+								{
+									"type": "STANDARD",
+									"resourceType": "STONE",
+									"amount": 1
+								}
+							]
+						}
+					]
+				},
 				"resourceAmounts": []
 			},
 			"permanentBonus": null
 		},
 		{
 			"displayName": "MECENATE",
+			"index": 10,
 			"price": 3,
 			"instantReward": {
-				"events": [
-					{
-						"type": "CARD",
-						"value": 6,
-						"cardTypes": [
-							"CHARACTER"
-						],
-						"discountChoices": [
-							{
-								"resourceAmounts": [
-									{
-										"type": "STANDARD",
-										"resourceType": "COIN",
-										"amount": 2
-									}
-								]
-							}
-						]
-					}
-				],
+				"actionReward": {
+					"type": "CARD",
+					"value": 6,
+					"cardTypes": [
+						"CHARACTER"
+					],
+					"discountChoices": [
+						{
+							"resourceAmounts": [
+								{
+									"type": "STANDARD",
+									"resourceType": "COIN",
+									"amount": 2
+								}
+							]
+						}
+					]
+				},
 				"resourceAmounts": []
 			},
 			"permanentBonus": null
 		},
 		{
 			"displayName": "EROE",
+			"index": 11,
 			"price": 4,
 			"instantReward": {
-				"events": [
-					{
-						"type": "CARD",
-						"value": 6,
-						"cardTypes": [
-							"VENTURE"
-						],
-						"discountChoices": []
-					}
-				],
+				"actionReward": {
+					"type": "CARD",
+					"value": 6,
+					"cardTypes": [
+						"VENTURE"
+					],
+					"discountChoices": []
+				},
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -286,9 +288,10 @@
 		},
 		{
 			"displayName": "FATTORE",
+			"index": 12,
 			"price": 4,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": []
 			},
 			"permanentBonus": {
@@ -298,9 +301,10 @@
 		},
 		{
 			"displayName": "STUDIOSO",
+			"index": 13,
 			"price": 4,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": []
 			},
 			"permanentBonus": {
@@ -310,9 +314,10 @@
 		},
 		{
 			"displayName": "MESSO_PAPALE",
+			"index": 14,
 			"price": 5,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -325,9 +330,10 @@
 		},
 		{
 			"displayName": "MESSO_REALE",
+			"index": 15,
 			"price": 5,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -342,9 +348,10 @@
 	"thirdPeriod": [
 		{
 			"displayName": "NOBILE",
+			"index": 16,
 			"price": 6,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "MULTIPLIER_CARD",
@@ -358,9 +365,10 @@
 		},
 		{
 			"displayName": "GOVERNATORE",
+			"index": 17,
 			"price": 6,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "MULTIPLIER_CARD",
@@ -374,9 +382,10 @@
 		},
 		{
 			"displayName": "CORTIGIANA",
+			"index": 18,
 			"price": 7,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "MULTIPLIER_CARD",
@@ -390,9 +399,10 @@
 		},
 		{
 			"displayName": "ARALDO",
+			"index": 19,
 			"price": 6,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "MULTIPLIER_CARD",
@@ -406,14 +416,13 @@
 		},
 		{
 			"displayName": "CARDINALE",
+			"index": 20,
 			"price": 4,
 			"instantReward": {
-				"events": [
-					{
-						"type": "HARVEST",
-						"value": 4
-					}
-				],
+				"actionReward": {
+					"type": "HARVEST",
+					"value": 4
+				},
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -426,14 +435,13 @@
 		},
 		{
 			"displayName": "VESCOVO",
+			"index": 21,
 			"price": 5,
 			"instantReward": {
-				"events": [
-					{
-						"type": "PRODUCTION",
-						"value": 4
-					}
-				],
+				"actionReward": {
+					"type": "PRODUCTION",
+					"value": 4
+				},
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
@@ -446,9 +454,10 @@
 		},
 		{
 			"displayName": "GENERALE",
+			"index": 22,
 			"price": 5,
 			"instantReward": {
-				"events": [],
+				"actionReward": null,
 				"resourceAmounts": [
 					{
 						"type": "MULTIPLIER_RESOURCE",
@@ -463,21 +472,20 @@
 		},
 		{
 			"displayName": "AMBASCIATORE",
+			"index": 23,
 			"price": 6,
 			"instantReward": {
-				"events": [
-					{
-						"type": "CARD",
-						"value": 7,
-						"cardTypes": [
-							"CHARACTER",
-							"TERRITORY",
-							"VENTURE",
-							"BUILDING"
-						],
-						"discountChoices": []
-					}
-				],
+				"actionReward": {
+					"type": "CARD",
+					"value": 7,
+					"cardTypes": [
+						"CHARACTER",
+						"TERRITORY",
+						"VENTURE",
+						"BUILDING"
+					],
+					"discountChoices": []
+				},
 				"resourceAmounts": [
 					{
 						"type": "STANDARD",
