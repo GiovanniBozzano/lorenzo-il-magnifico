@@ -9,12 +9,12 @@ import it.polimi.ingsw.lim.server.game.events.EventGetCard;
  * {@code rows} floors of the towers (through a Family Member or as an
  * effect of another card).
  */
-public class ModifierActionCardMalus extends Modifier<EventGetCard>
+public class ModifierGetDevelopmentCardReward extends Modifier<EventGetCard>
 {
 	private final CardType cardType;
 	private final Row[] rows;
 
-	public ModifierActionCardMalus(CardType cardType, Row[] rows)
+	public ModifierGetDevelopmentCardReward(CardType cardType, Row[] rows)
 	{
 		super(EventGetCard.class);
 		this.cardType = cardType;

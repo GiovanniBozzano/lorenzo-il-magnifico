@@ -4,9 +4,9 @@ import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 
 /**
- * <p>REQUIREMENT:  5 Building Cards
+ * <p>REQUIREMENT: 5 Building Cards
  *
- * <p>PERMANENT ABILITY:   You don’t have to spend 3 coins when you place your
+ * <p>PERMANENT ABILITY: You don’t have to spend 3 coins when you place your
  * Family Members in a Tower that is already occupied.
  */
 public class ModifierFilippoBrunelleschi extends Modifier<EventPlaceFamilyMember>

@@ -6,7 +6,7 @@ import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 /**
  * <p>REQUIREMENT: 3 Development Cards, 12 Coins, 2 Faith Points
  *
- * <p>PERMANENT ABILITY:  You don’t need to satisfy the Military Points
+ * <p>PERMANENT ABILITY: You don’t need to satisfy the Military Points
  * requirement when you take Territory Cards.
  */
 public class ModifierCesareBorgia extends Modifier<EventGetCard>

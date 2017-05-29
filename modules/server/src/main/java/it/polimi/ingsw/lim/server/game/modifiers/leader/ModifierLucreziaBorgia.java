@@ -5,11 +5,11 @@ import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 
 /**
- * <p>REQUIREMENT:   6 Development Cards of the same type
+ * <p>REQUIREMENT: 6 Development Cards of the same type
  *
- * <p>PERMANENT ABILITY:   Your colored Family Members have a bonus of +2 on
- * their value. (You can increase their value by spending servants or if you
- * have Character Cards with this effect.)
+ * <p>PERMANENT ABILITY: Your colored Family Members have a bonus of +2 on their
+ * value. (You can increase their value by spending servants or if you have
+ * Character Cards with this effect).
  */
 public class ModifierLucreziaBorgia extends Modifier<EventPlaceFamilyMember>
 {

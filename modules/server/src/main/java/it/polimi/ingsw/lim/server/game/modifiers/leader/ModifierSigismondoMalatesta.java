@@ -5,11 +5,11 @@ import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 
 /**
- * <p>REQUIREMENT:      7 Military Points and 3 Faith Points
+ * <p>REQUIREMENT: 7 Military Points and 3 Faith Points
  *
- * <p>PERMANENT ABILITY:      Your uncolored Family Member has a bonus of +3 on
- * its value. (You can increase its value by spending servants or if you have
- * Character Cards with this effect.)
+ * <p>PERMANENT ABILITY: Your uncolored Family Member has a bonus of +3 on its
+ * value. (You can increase its value by spending servants or if you have
+ * Character Cards with this effect).
  */
 public class ModifierSigismondoMalatesta extends Modifier<EventPlaceFamilyMember>
 {

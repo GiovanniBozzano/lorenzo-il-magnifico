@@ -11,11 +11,11 @@ import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
  * Military Points, consider each Card a single source, so you gain -1 Military
  * Point for each card).
  */
-public class ModifierGainMilitaryPoints extends Modifier<EventGainResources>
+public class ModifierGainResourcesMilitaryPoints extends Modifier<EventGainResources>
 {
-	private static final ModifierGainMilitaryPoints INSTANCE = new ModifierGainMilitaryPoints();
+	private static final ModifierGainResourcesMilitaryPoints INSTANCE = new ModifierGainResourcesMilitaryPoints();
 
-	private ModifierGainMilitaryPoints()
+	private ModifierGainResourcesMilitaryPoints()
 	{
 		super(EventGainResources.class);
 	}
@@ -31,8 +31,8 @@ public class ModifierGainMilitaryPoints extends Modifier<EventGainResources>
 		}
 	}
 
-	public ModifierGainMilitaryPoints getInstance()
+	public ModifierGainResourcesMilitaryPoints getInstance()
 	{
-		return ModifierGainMilitaryPoints.INSTANCE;
+		return ModifierGainResourcesMilitaryPoints.INSTANCE;
 	}
 }

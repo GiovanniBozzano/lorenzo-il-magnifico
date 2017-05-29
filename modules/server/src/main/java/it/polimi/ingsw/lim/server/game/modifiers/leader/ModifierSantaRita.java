@@ -7,11 +7,11 @@ import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 
 /**
- * <p>REQUIREMENT:     8 Faith Points
+ * <p>REQUIREMENT: 8 Faith Points
  *
- * <p>PERMANENT ABILITY:    Each time you receive wood, stone, coins, or
- * servants as an immediate effect from Development Cards (not from an action
- * space), you receive the resources twice.
+ * <p>PERMANENT ABILITY: Each time you receive wood, stone, coins, or servants
+ * as an immediate effect from Development Cards (not from an action space), you
+ * receive the resources twice.
  */
 public class ModifierSantaRita extends Modifier<EventGainResources>
 {

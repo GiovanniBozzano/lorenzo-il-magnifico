@@ -8,11 +8,10 @@ import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 /**
  * <p>REQUIREMENT: 4 Venture Cards and 2 Building Cards
  *
- * <p>PERMANENT ABILITY:
- * When you take Development Cards, you get a discount of 3 coins (if the
- * card you are taking has coins in its cost.) This is not a discount on the
- * coins you must spend if you take a Development Card from a Tower that’s
- * already occupied.
+ * <p>PERMANENT ABILITY: When you take Development Cards, you get a discount of
+ * 3 coins (if the card you are taking has coins in its cost). This is not a
+ * discount on the coins you must spend if you take a Development Card from a
+ * Tower that’s already occupied.
  */
 public class ModifierPicoDellaMirandola extends Modifier<EventGetCard>
 {

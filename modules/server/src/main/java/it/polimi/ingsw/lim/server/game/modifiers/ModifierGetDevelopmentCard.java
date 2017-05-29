@@ -10,13 +10,13 @@ import it.polimi.ingsw.lim.server.game.utils.DiscountChoice;
  * action by {@code value}. In addition, the cost of the card you take is
  * reduced by {@code discountChoices}.
  */
-public class ModifierGetCard extends Modifier<EventGetCard>
+public class ModifierGetDevelopmentCard extends Modifier<EventGetCard>
 {
 	private final int value;
 	private final CardType cardType;
 	private final DiscountChoice[] discoutChoices;
 
-	public ModifierGetCard(int value, CardType cardType, DiscountChoice[] discountChoices)
+	public ModifierGetDevelopmentCard(int value, CardType cardType, DiscountChoice[] discountChoices)
 	{
 		super(EventGetCard.class);
 		this.value = value;

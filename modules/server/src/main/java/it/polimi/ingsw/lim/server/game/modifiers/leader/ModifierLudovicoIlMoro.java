@@ -5,12 +5,12 @@ import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 
 /**
- * <p>REQUIREMENT:     2 Territory Cards, 2 Character Cards, 2 Building Cards,
- * and 2 Venture Cards
+ * <p>REQUIREMENT: 2 Territory Cards, 2 Character Cards, 2 Building Cards, and 2
+ * Venture Cards
  *
- * <p>PERMANENT ABILITY:     Your colored Family Members has a value of 5,
+ * <p>PERMANENT ABILITY: Your colored Family Members has a value of 5,
  * regardless of their related dice. (You can increase their value by spending
- * servants or if you have Character Cards with this effect.)
+ * servants or if you have Character Cards with this effect).
  */
 public class ModifierLudovicoIlMoro extends Modifier<EventPlaceFamilyMember>
 {

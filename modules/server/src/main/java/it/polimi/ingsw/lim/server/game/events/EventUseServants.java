@@ -19,6 +19,6 @@ public class EventUseServants extends Event
 
 	public void setServants(int servants)
 	{
-		this.servants = servants;
+		this.servants = servants <= 0 ? 0 : servants;
 	}
 }
