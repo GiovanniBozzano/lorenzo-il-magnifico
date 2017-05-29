@@ -11,6 +11,7 @@ public class EventGetCard extends Event
 	private final Row row;
 	private final ResourceAmount[] cost;
 	private int actionValue;
+	private boolean ignoreSlotLock = false;
 
 	public EventGetCard(Connection player, CardType cardType, Row row, ResourceAmount[] cost, int actionValue)
 	{
@@ -43,6 +44,16 @@ public class EventGetCard extends Event
 
 	public void setActionValue(int actionValue)
 	{
-		this.actionValue = this.actionValue - actionValue <= 0 ? 0 : this.actionValue - actionValue;
+		this.actionValue = actionValue <= 0 ? 0 : actionValue;
+	}
+
+	public boolean isIgnoreSlotLock()
+	{
+		return this.ignoreSlotLock;
+	}
+
+	public void setIgnoreSlotLock(boolean ignoreSlotLock)
+	{
+		this.ignoreSlotLock = ignoreSlotLock;
 	}
 }

@@ -49,7 +49,7 @@ public class ActionProductionStart implements IAction
 				}
 			}
 		}
-		// check if the players has the servants he sent
+		// check if the player has the servants he sent
 		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResourcesServant() < this.effectiveServants) {
 			return false;
 		}

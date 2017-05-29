@@ -10,6 +10,7 @@ public class EventPlaceFamilyMember extends Event
 	private final BoardPosition boardPosition;
 	private int familyMemberValue;
 	private boolean ignoreOccupied = false;
+	private boolean ignoreOccupiedTax = false;
 	private boolean cancelled = false;
 
 	public EventPlaceFamilyMember(Connection player, FamilyMemberType familyMemberType, BoardPosition boardPosition, int familyMemberValue)
@@ -37,7 +38,7 @@ public class EventPlaceFamilyMember extends Event
 
 	public void setFamilyMemberValue(int familyMemberValue)
 	{
-		this.familyMemberValue = familyMemberValue;
+		this.familyMemberValue = familyMemberValue <= 0 ? 0 : familyMemberValue;
 	}
 
 	public boolean isIgnoreOccupied()
@@ -48,6 +49,16 @@ public class EventPlaceFamilyMember extends Event
 	public void setIgnoreOccupied(boolean ignoreOccupied)
 	{
 		this.ignoreOccupied = ignoreOccupied;
+	}
+
+	public boolean isIgnoreOccupiedTax()
+	{
+		return this.ignoreOccupiedTax;
+	}
+
+	public void setIgnoreOccupiedTax(boolean ignoreOccupiedTax)
+	{
+		this.ignoreOccupiedTax = ignoreOccupiedTax;
 	}
 
 	public boolean isCancelled()
