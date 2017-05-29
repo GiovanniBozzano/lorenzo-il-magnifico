@@ -18,14 +18,8 @@ public class ModifierStartProduction extends Modifier<EventStartProduction>
 	}
 
 	@Override
-	public EventStartProduction apply(EventStartProduction event)
+	public void apply(EventStartProduction event)
 	{
 		event.setActionValue(event.getActionValue() + this.value);
-		return event;
-	}
-
-	public int getValue()
-	{
-		return this.value;
 	}
 }

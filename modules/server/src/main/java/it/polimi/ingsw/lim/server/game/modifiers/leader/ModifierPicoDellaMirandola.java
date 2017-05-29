@@ -24,15 +24,14 @@ public class ModifierPicoDellaMirandola extends Modifier<EventGetCard>
 	}
 
 	@Override
-	public EventGetCard apply(EventGetCard event)
+	public void apply(EventGetCard event)
 	{
 		for (ResourceAmount resourceAmount : event.getCost()) {
 			if (resourceAmount.getResourceType() == ResourceType.COIN) {
 				resourceAmount.setAmount(resourceAmount.getAmount() - 3);
-				return event;
+				return;
 			}
 		}
-		return event;
 	}
 
 	public static ModifierPicoDellaMirandola getInstance()

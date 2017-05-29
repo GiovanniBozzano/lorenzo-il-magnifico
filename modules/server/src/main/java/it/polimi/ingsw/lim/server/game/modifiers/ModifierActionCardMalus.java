@@ -22,13 +22,7 @@ public class ModifierActionCardMalus extends Modifier<EventGetCard>
 	}
 
 	@Override
-	public EventGetCard apply(EventGetCard event)
+	public void apply(EventGetCard event)
 	{
-		return event;
-	}
-
-	public Row[] getRows()
-	{
-		return this.rows;
 	}
 }

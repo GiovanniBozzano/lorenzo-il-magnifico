@@ -10,7 +10,6 @@
 		<sonar.language>java</sonar.language>
 		<sonar.host.url>http://localhost:9000/</sonar.host.url>
 		<sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
-		<sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>
 	</properties>
 	<modules>
 		<module>modules/client</module>

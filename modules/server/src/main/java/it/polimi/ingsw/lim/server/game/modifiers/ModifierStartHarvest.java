@@ -18,13 +18,7 @@ public class ModifierStartHarvest extends Modifier<EventStartHarvest>
 	}
 
 	@Override
-	public EventStartHarvest apply(EventStartHarvest event)
+	public void apply(EventStartHarvest event)
 	{
-		return event;
-	}
-
-	public int getValue()
-	{
-		return this.value;
 	}
 }

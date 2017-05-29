@@ -19,10 +19,9 @@ public class ModifierLudovicoAriosto extends Modifier<EventPlaceFamilyMember>
 	}
 
 	@Override
-	public EventPlaceFamilyMember apply(EventPlaceFamilyMember event)
+	public void apply(EventPlaceFamilyMember event)
 	{
 		event.setIgnoreOccupied(true);
-		return event;
 	}
 
 	public static ModifierLudovicoAriosto getInstance()

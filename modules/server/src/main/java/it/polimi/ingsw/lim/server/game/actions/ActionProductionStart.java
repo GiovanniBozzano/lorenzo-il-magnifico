@@ -39,7 +39,7 @@ public class ActionProductionStart implements IAction
 		}
 		// check if the board slot is occupied and get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, BoardPosition.PRODUCTION_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
-		IAction.applyModifiers(this.player.getPlayerInformations().getActiveModifiers(), eventPlaceFamilyMember);
+		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
 			for (Connection currentPlayer : room.getPlayers()) {
@@ -55,11 +55,11 @@ public class ActionProductionStart implements IAction
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.effectiveServants);
-		IAction.applyModifiers(this.player.getPlayerInformations().getActiveModifiers(), eventUseServants);
+		eventUseServants.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
 		this.effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
 		EventStartProduction eventStartProduction = new EventStartProduction(this.player, effectiveFamilyMemberValue + this.effectiveServants);
-		IAction.applyModifiers(this.player.getPlayerInformations().getActiveModifiers(), eventStartProduction);
+		eventStartProduction.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
 		return eventStartProduction.getActionValue() >= this.workSlotType.getCost();
 	}
 

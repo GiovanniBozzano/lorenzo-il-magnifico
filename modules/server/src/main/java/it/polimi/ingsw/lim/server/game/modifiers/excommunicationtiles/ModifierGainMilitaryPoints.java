@@ -21,15 +21,14 @@ public class ModifierGainMilitaryPoints extends Modifier<EventGainResources>
 	}
 
 	@Override
-	public EventGainResources apply(EventGainResources event)
+	public void apply(EventGainResources event)
 	{
 		for (ResourceAmount resourceAmount : event.getResourceAmounts()) {
 			if (resourceAmount.getResourceType() == ResourceType.MILITARY_POINT) {
 				resourceAmount.setAmount(resourceAmount.getAmount() - event.getSourcesCount());
-				return event;
+				return;
 			}
 		}
-		return event;
 	}
 
 	public ModifierGainMilitaryPoints getInstance()

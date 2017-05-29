@@ -25,23 +25,7 @@ public class ModifierGetCard extends Modifier<EventGetCard>
 	}
 
 	@Override
-	public EventGetCard apply(EventGetCard event)
+	public void apply(EventGetCard event)
 	{
-		return event;
-	}
-
-	public int getValue()
-	{
-		return this.value;
-	}
-
-	public CardType getCardType()
-	{
-		return this.cardType;
-	}
-
-	public DiscountChoice[] getDiscountChoices()
-	{
-		return this.discoutChoices;
 	}
 }
