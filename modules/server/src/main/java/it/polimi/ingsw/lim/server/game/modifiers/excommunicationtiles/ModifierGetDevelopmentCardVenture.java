@@ -1,19 +1,19 @@
 package it.polimi.ingsw.lim.server.game.modifiers.excommunicationtiles;
 
-import it.polimi.ingsw.lim.server.game.events.EventGetCard;
+import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 
-public class ModifierGetDevelopmentCardVenture extends Modifier<EventGetCard>
+public class ModifierGetDevelopmentCardVenture extends Modifier<EventGetDevelopmentCard>
 {
 	private static final ModifierGetDevelopmentCardVenture INSTANCE = new ModifierGetDevelopmentCardVenture();
 
 	private ModifierGetDevelopmentCardVenture()
 	{
-		super(EventGetCard.class);
+		super(EventGetDevelopmentCard.class);
 	}
 
 	@Override
-	public void apply(EventGetCard event)
+	public void apply(EventGetDevelopmentCard event)
 	{
 	}
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.modifiers;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.server.game.events.EventGetCard;
+import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.utils.DiscountChoice;
 
 /**
@@ -10,7 +10,7 @@ import it.polimi.ingsw.lim.server.game.utils.DiscountChoice;
  * action by {@code value}. In addition, the cost of the card you take is
  * reduced by {@code discountChoices}.
  */
-public class ModifierGetDevelopmentCard extends Modifier<EventGetCard>
+public class ModifierGetDevelopmentCard extends Modifier<EventGetDevelopmentCard>
 {
 	private final int value;
 	private final CardType cardType;
@@ -18,14 +18,14 @@ public class ModifierGetDevelopmentCard extends Modifier<EventGetCard>
 
 	public ModifierGetDevelopmentCard(int value, CardType cardType, DiscountChoice[] discountChoices)
 	{
-		super(EventGetCard.class);
+		super(EventGetDevelopmentCard.class);
 		this.value = value;
 		this.cardType = cardType;
 		this.discoutChoices = discountChoices;
 	}
 
 	@Override
-	public void apply(EventGetCard event)
+	public void apply(EventGetDevelopmentCard event)
 	{
 	}
 }

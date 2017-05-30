@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.server.game.cards.CardLeader;
 import it.polimi.ingsw.lim.server.game.utils.CardLeaderConditions;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
 
-public abstract class CardLeaderReward extends CardLeader
+public class CardLeaderReward extends CardLeader
 {
 	private final Reward reward;
 

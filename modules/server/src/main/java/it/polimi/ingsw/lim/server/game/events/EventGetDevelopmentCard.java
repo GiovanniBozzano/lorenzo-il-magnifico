@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class EventGetCard extends Event
+public class EventGetDevelopmentCard extends Event
 {
 	private final CardType cardType;
 	private final Row row;
@@ -13,7 +13,7 @@ public class EventGetCard extends Event
 	private int actionValue;
 	private boolean ignoreSlotLock = false;
 
-	public EventGetCard(Connection player, CardType cardType, Row row, ResourceAmount[] cost, int actionValue)
+	public EventGetDevelopmentCard(Connection player, CardType cardType, Row row, ResourceAmount[] cost, int actionValue)
 	{
 		super(player);
 		this.cardType = cardType;
