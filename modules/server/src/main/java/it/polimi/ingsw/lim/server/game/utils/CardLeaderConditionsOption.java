@@ -1,11 +1,11 @@
 package it.polimi.ingsw.lim.server.game.utils;
 
-public class CardLeaderConditions
+public class CardLeaderConditionsOption
 {
 	private final CardAmount[] cardAmounts;
 	private final ResourceAmount[] resourceAmounts;
 
-	public CardLeaderConditions(CardAmount[] cardAmounts, ResourceAmount[] resourceAmounts)
+	public CardLeaderConditionsOption(CardAmount[] cardAmounts, ResourceAmount[] resourceAmounts)
 	{
 		this.cardAmounts = cardAmounts;
 		this.resourceAmounts = resourceAmounts;

@@ -5,10 +5,10 @@ import it.polimi.ingsw.lim.server.network.Connection;
 
 public abstract class ActionRewardChoice extends ActionReward
 {
-	public ActionRewardChoice(Connection player)
+	public ActionRewardChoice()
 	{
-		super(player, ActionRewardType.CHOICE);
+		super(ActionRewardType.CHOICE);
 	}
 
-	public abstract void apply();
+	public abstract void apply(Connection player);
 }

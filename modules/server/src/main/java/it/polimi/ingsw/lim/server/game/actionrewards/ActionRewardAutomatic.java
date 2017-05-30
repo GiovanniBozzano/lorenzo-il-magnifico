@@ -6,10 +6,10 @@ import it.polimi.ingsw.lim.server.network.Connection;
 
 public abstract class ActionRewardAutomatic<T extends Event> extends ActionReward
 {
-	public ActionRewardAutomatic(Connection player)
+	public ActionRewardAutomatic()
 	{
-		super(player, ActionRewardType.AUTOMATIC);
+		super(ActionRewardType.AUTOMATIC);
 	}
 
-	public abstract T apply();
+	public abstract T apply(Connection player);
 }

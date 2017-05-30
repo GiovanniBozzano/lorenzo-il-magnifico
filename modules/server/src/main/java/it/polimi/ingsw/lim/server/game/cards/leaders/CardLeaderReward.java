@@ -1,16 +1,16 @@
 package it.polimi.ingsw.lim.server.game.cards.leaders;
 
 import it.polimi.ingsw.lim.server.game.cards.CardLeader;
-import it.polimi.ingsw.lim.server.game.utils.CardLeaderConditions;
+import it.polimi.ingsw.lim.server.game.utils.CardLeaderConditionsOption;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
 
 public class CardLeaderReward extends CardLeader
 {
 	private final Reward reward;
 
-	public CardLeaderReward(String displayName, int index, CardLeaderConditions[] conditions, Reward reward)
+	public CardLeaderReward(String displayName, int index, CardLeaderConditionsOption[] conditionsOptions, Reward reward)
 	{
-		super(displayName, index, conditions);
+		super(displayName, index, conditionsOptions);
 		this.reward = reward;
 	}
 

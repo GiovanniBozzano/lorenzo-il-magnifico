@@ -5,22 +5,21 @@ import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardChoice;
 import it.polimi.ingsw.lim.server.game.utils.DiscountChoice;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionRewardGetCard extends ActionRewardChoice
+public class ActionRewardGetDevelopmentCard extends ActionRewardChoice
 {
 	private final int value;
 	private final CardType[] cardTypes;
 	private final DiscountChoice[] discountChoices;
 
-	public ActionRewardGetCard(Connection player, int value, CardType[] cardTypes, DiscountChoice[] discountChoices)
+	public ActionRewardGetDevelopmentCard(int value, CardType[] cardTypes, DiscountChoice[] discountChoices)
 	{
-		super(player);
 		this.value = value;
 		this.cardTypes = cardTypes;
 		this.discountChoices = discountChoices;
 	}
 
 	@Override
-	public void apply()
+	public void apply(Connection player)
 	{
 	}
 

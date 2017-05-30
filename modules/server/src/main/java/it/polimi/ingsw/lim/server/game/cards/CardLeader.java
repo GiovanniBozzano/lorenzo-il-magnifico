@@ -1,19 +1,19 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
-import it.polimi.ingsw.lim.server.game.utils.CardLeaderConditions;
+import it.polimi.ingsw.lim.server.game.utils.CardLeaderConditionsOption;
 
 public abstract class CardLeader extends Card
 {
-	private final CardLeaderConditions[] conditions;
+	private final CardLeaderConditionsOption[] conditionsOptions;
 
-	public CardLeader(String displayName, int index, CardLeaderConditions[] conditions)
+	public CardLeader(String displayName, int index, CardLeaderConditionsOption[] conditionsOptions)
 	{
 		super(displayName, index);
-		this.conditions = conditions;
+		this.conditionsOptions = conditionsOptions;
 	}
 
-	public CardLeaderConditions[] getConditions()
+	public CardLeaderConditionsOption[] getConditionsOptions()
 	{
-		return this.conditions;
+		return this.conditionsOptions;
 	}
 }

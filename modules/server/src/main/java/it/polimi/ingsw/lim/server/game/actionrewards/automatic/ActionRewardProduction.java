@@ -4,20 +4,19 @@ import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardAutomatic;
 import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionRewardStartProduction extends ActionRewardAutomatic<EventStartProduction>
+public class ActionRewardProduction extends ActionRewardAutomatic<EventStartProduction>
 {
 	private final int value;
 
-	public ActionRewardStartProduction(Connection player, int value)
+	public ActionRewardProduction(int value)
 	{
-		super(player);
 		this.value = value;
 	}
 
 	@Override
-	public EventStartProduction apply()
+	public EventStartProduction apply(Connection player)
 	{
-		return new EventStartProduction(this.getPlayer(), this.value);
+		return new EventStartProduction(player, this.value);
 	}
 
 	public int getValue()

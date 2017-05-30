@@ -4,20 +4,19 @@ import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardAutomatic;
 import it.polimi.ingsw.lim.server.game.events.EventStartHarvest;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionRewardStartHarvest extends ActionRewardAutomatic<EventStartHarvest>
+public class ActionRewardHarvest extends ActionRewardAutomatic<EventStartHarvest>
 {
 	private final int value;
 
-	public ActionRewardStartHarvest(Connection player, int value)
+	public ActionRewardHarvest(int value)
 	{
-		super(player);
 		this.value = value;
 	}
 
 	@Override
-	public EventStartHarvest apply()
+	public EventStartHarvest apply(Connection player)
 	{
-		return new EventStartHarvest(this.getPlayer(), this.value);
+		return new EventStartHarvest(player, this.value);
 	}
 
 	public int getValue()
