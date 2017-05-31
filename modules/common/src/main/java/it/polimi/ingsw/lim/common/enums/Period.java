@@ -4,5 +4,20 @@ public enum Period
 {
 	FIRST,
 	SECOND,
-	THIRD
+	THIRD;
+
+	public static Period next(Period period)
+	{
+		if (period == null) {
+			return FIRST;
+		}
+		switch (period) {
+			case FIRST:
+				return SECOND;
+			case SECOND:
+				return THIRD;
+			default:
+				return null;
+		}
+	}
 }

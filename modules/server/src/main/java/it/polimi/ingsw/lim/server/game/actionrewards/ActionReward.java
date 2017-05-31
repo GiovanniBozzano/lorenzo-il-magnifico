@@ -1,8 +1,9 @@
 package it.polimi.ingsw.lim.server.game.actionrewards;
 
 import it.polimi.ingsw.lim.server.enums.ActionRewardType;
+import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionReward
+public abstract class ActionReward
 {
 	private final ActionRewardType actionRewardType;
 
@@ -10,6 +11,8 @@ public class ActionReward
 	{
 		this.actionRewardType = actionRewardType;
 	}
+
+	public abstract void apply(Connection player);
 
 	public ActionRewardType getActionRewardType()
 	{

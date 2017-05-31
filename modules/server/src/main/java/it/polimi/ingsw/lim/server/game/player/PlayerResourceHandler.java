@@ -32,16 +32,20 @@ public class PlayerResourceHandler
 	private final PlayerInformations playerInformations;
 	private final Map<ResourceType, Integer> resources = new EnumMap<>(ResourceType.class);
 
-	public PlayerResourceHandler(PlayerInformations playerInformations, int resourcesCoin, int resourcesWood, int resourcesStone, int resourcesServant)
+	public PlayerResourceHandler(PlayerInformations playerInformations, int resourcesServant, int resourcesStone, int resourcesWood)
 	{
 		this.playerInformations = playerInformations;
-		this.resources.put(ResourceType.COIN, resourcesCoin);
-		this.resources.put(ResourceType.WOOD, resourcesWood);
-		this.resources.put(ResourceType.STONE, resourcesStone);
 		this.resources.put(ResourceType.SERVANT, resourcesServant);
-		this.resources.put(ResourceType.MILITARY_POINT, 0);
+		this.resources.put(ResourceType.STONE, resourcesStone);
+		this.resources.put(ResourceType.WOOD, resourcesWood);
 		this.resources.put(ResourceType.FAITH_POINT, 0);
+		this.resources.put(ResourceType.MILITARY_POINT, 0);
 		this.resources.put(ResourceType.VICTORY_POINT, 0);
+	}
+
+	public void addResource(ResourceAmount resourceAmount)
+	{
+		this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
 	}
 
 	public void addResources(ResourceAmount[] resourcesAmount)
@@ -49,6 +53,11 @@ public class PlayerResourceHandler
 		for (ResourceAmount resourceAmount : resourcesAmount) {
 			this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
 		}
+	}
+
+	public void subtractResource(ResourceAmount resourceAmount)
+	{
+		this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
 	}
 
 	public void subtractResources(ResourceAmount[] resourcesAmount)

@@ -112,4 +112,9 @@ public abstract class Connection
 	{
 		return this.playerInformations;
 	}
+
+	public void setPlayerInformations(PlayerInformations playerInformations)
+	{
+		this.playerInformations = playerInformations;
+	}
 }
