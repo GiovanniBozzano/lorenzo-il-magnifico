@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.lim.common.Instance;
+import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
@@ -20,36 +21,42 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 public class DevelopmentCardsDeck<T extends Card>
 {
-	private final T[] firstPeriod;
-	private final T[] secondPeriod;
-	private final T[] thirdPeriod;
+	private final List<T> firstPeriod;
+	private final List<T> secondPeriod;
+	private final List<T> thirdPeriod;
+	private final Map<Period, List<T>> periods = new HashMap<>();
 
-	public DevelopmentCardsDeck(T[] firstPeriod, T[] secondPeriod, T[] thirdPeriod)
+	public DevelopmentCardsDeck(List<T> firstPeriod, List<T> secondPeriod, List<T> thirdPeriod)
 	{
-		this.firstPeriod = firstPeriod;
-		this.secondPeriod = secondPeriod;
-		this.thirdPeriod = thirdPeriod;
+		this.firstPeriod = new ArrayList<>(firstPeriod);
+		this.secondPeriod = new ArrayList<>(secondPeriod);
+		this.thirdPeriod = new ArrayList<>(thirdPeriod);
+		this.periods.put(Period.FIRST, this.firstPeriod);
+		this.periods.put(Period.SECOND, this.secondPeriod);
+		this.periods.put(Period.THIRD, this.thirdPeriod);
 	}
 
-	public T[] getFirstPeriod()
+	public Map<Period, List<T>> getPeriods()
 	{
-		return this.firstPeriod;
+		return this.periods;
 	}
 
-	public T[] getSecondPeriod()
+	public void shuffle()
 	{
-		return this.secondPeriod;
+		Collections.shuffle(this.firstPeriod);
+		Collections.shuffle(this.secondPeriod);
+		Collections.shuffle(this.thirdPeriod);
 	}
 
-	public T[] getThirdPeriod()
+	@Override
+	public DevelopmentCardsDeck<T> clone()
 	{
-		return this.thirdPeriod;
+		return new DevelopmentCardsDeck<>(this.firstPeriod, this.secondPeriod, this.thirdPeriod);
 	}
 
 	@Override
@@ -78,8 +85,8 @@ public class DevelopmentCardsDeck<T extends Card>
 		}
 
 		private static final RuntimeTypeAdapterFactory<ResourceAmount> RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT = RuntimeTypeAdapterFactory.of(ResourceAmount.class).registerSubtype(ResourceAmount.class, "STANDARD").registerSubtype(ResourceAmountMultiplierCard.class, "MULTIPLIER_CARD").registerSubtype(ResourceAmountMultiplierResource.class, "MULTIPLIER_RESOURCE");
-		private static final RuntimeTypeAdapterFactory<Modifier> RUNTIME_TYPE_ADAPTER_FACTORY_BONUS = RuntimeTypeAdapterFactory.of(Modifier.class).registerSubtype(ModifierGetDevelopmentCard.class, "CARD").registerSubtype(ModifierStartHarvest.class, "HARVEST_START").registerSubtype(ModifierStartProduction.class, "PRODUCTION_START").registerSubtype(ModifierGetDevelopmentCardReward.class, "MALUS");
-		private static final RuntimeTypeAdapterFactory<ActionReward> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(ActionReward.class).registerSubtype(ActionRewardGetDevelopmentCard.class, "CARD").registerSubtype(ActionRewardHarvest.class, "HARVEST_START").registerSubtype(ActionRewardProduction.class, "PRODUCTION_START");
+		private static final RuntimeTypeAdapterFactory<Modifier> RUNTIME_TYPE_ADAPTER_FACTORY_BONUS = RuntimeTypeAdapterFactory.of(Modifier.class).registerSubtype(ModifierGetDevelopmentCard.class, "CARD").registerSubtype(ModifierStartHarvest.class, "HARVEST").registerSubtype(ModifierStartProduction.class, "PRODUCTION").registerSubtype(ModifierGetDevelopmentCardReward.class, "MALUS");
+		private static final RuntimeTypeAdapterFactory<ActionReward> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(ActionReward.class).registerSubtype(ActionRewardGetDevelopmentCard.class, "CARD").registerSubtype(ActionRewardHarvest.class, "HARVEST").registerSubtype(ActionRewardProduction.class, "PRODUCTION");
 		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT).registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_BONUS).registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_EVENT);
 		private static final Gson GSON = Builder.GSON_BUILDER.create();
 		private final Class<T> clazz;
