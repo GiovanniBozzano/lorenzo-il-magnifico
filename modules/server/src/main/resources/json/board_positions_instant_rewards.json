@@ -1,0 +1,24 @@
+[
+	[
+		"MARKET_1",
+		[
+			{
+				"resourceType": "WOOD",
+				"amount": 10
+			},
+			{
+				"resourceType": "STONE",
+				"amount": 10
+			}
+		]
+	],
+	[
+		"MARKET_2",
+		[
+			{
+				"resourceType": "WOOD",
+				"amount": 10
+			}
+		]
+	]
+]

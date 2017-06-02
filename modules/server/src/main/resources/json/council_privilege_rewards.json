@@ -1,6 +1,6 @@
-{
-	"councilPrivilegeReward": [
-		[
+[
+	{
+		"resourceAmounts": [
 			{
 				"type": "STANDARD",
 				"resourceType": "WOOD",
@@ -11,34 +11,42 @@
 				"resourceType": "STONE",
 				"amount": 1
 			}
-		],
-		[
+		]
+	},
+	{
+		"resourceAmounts": [
 			{
 				"type": "STANDARD",
 				"resourceType": "SERVANT",
 				"amount": 2
 			}
-		],
-		[
+		]
+	},
+	{
+		"resourceAmounts": [
 			{
 				"type": "STANDARD",
 				"resourceType": "COIN",
 				"amount": 2
 			}
-		],
-		[
+		]
+	},
+	{
+		"resourceAmounts": [
 			{
 				"type": "STANDARD",
 				"resourceType": "MILITARY_POINT",
 				"amount": 2
 			}
-		],
-		[
+		]
+	},
+	{
+		"resourceAmounts": [
 			{
 				"type": "STANDARD",
 				"resourceType": "FAITH_POINT",
 				"amount": 1
 			}
 		]
-	]
-}
+	}
+]

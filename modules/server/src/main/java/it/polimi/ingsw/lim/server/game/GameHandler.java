@@ -23,7 +23,7 @@ public class GameHandler
 	private DevelopmentCardsDeck<DevelopmentCardTerritory> developmentCardsTerritory = CardsHandler.DEVELOPMENT_CARDS_TERRITORY.clone();
 	private DevelopmentCardsDeck<DevelopmentCardVenture> developmentCardsVenture = CardsHandler.DEVELOPMENT_CARDS_VENTURE.clone();
 	private final Map<FamilyMemberType, Integer> familyMemberTypeValues = new EnumMap<>(FamilyMemberType.class);
-	private List<Connection> turnOrder = new ArrayList<>();
+	private List<Connection> turnOrder = new LinkedList<>();
 	private Connection turnPlayer;
 	private Period period;
 	private Round round;
