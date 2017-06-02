@@ -10,5 +10,8 @@ public enum BoardPosition
 	MARKET_1,
 	MARKET_2,
 	MARKET_3,
-	MARKTE_4
+	MARKET_4,
+	MARKET_5,
+	MARKET_6,
+	COUNCIL_PALACE
 }

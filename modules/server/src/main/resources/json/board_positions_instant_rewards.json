@@ -3,12 +3,8 @@
 		"MARKET_1",
 		[
 			{
-				"resourceType": "WOOD",
-				"amount": 10
-			},
-			{
-				"resourceType": "STONE",
-				"amount": 10
+				"resourceType": "COIN",
+				"amount": 5
 			}
 		]
 	],
@@ -16,8 +12,73 @@
 		"MARKET_2",
 		[
 			{
+				"resourceType": "SERVANT",
+				"amount": 5
+			}
+		]
+	],
+	[
+		"MARKET_3",
+		[
+			{
+				"resourceType": "MILITARY_POINT",
+				"amount": 3
+			},
+			{
+				"resourceType": "COIN",
+				"amount": 2
+			}
+		]
+	],
+	[
+		"MARKET_4",
+		[
+			{
+				"resourceType": "COUNCIL_PRIVILEGE",
+				"amount": 1
+			},
+			{
+				"resourceType": "COUNCIL_PRIVILEGE",
+				"amount": 1
+			}
+		]
+	],
+	[
+		"MARKET_5",
+		[
+			{
 				"resourceType": "WOOD",
-				"amount": 10
+				"amount": 2
+			},
+			{
+				"resourceType": "STONE",
+				"amount": 2
+			}
+		]
+	],
+	[
+		"MARKET_6",
+		[
+			{
+				"resourceType": "FAITH_POINT",
+				"amount": 1
+			},
+			{
+				"resourceType": "PRESTIGE_POINT",
+				"amount": 1
+			}
+		]
+	],
+	[
+		"COUNCIL_PALACE",
+		[
+			{
+				"resourceType": "COUNCIL_PRIVILEGE",
+				"amount": 1
+			},
+			{
+				"resourceType": "COIN",
+				"amount": 1
 			}
 		]
 	]

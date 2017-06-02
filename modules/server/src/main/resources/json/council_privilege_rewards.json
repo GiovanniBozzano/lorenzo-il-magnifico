@@ -48,5 +48,14 @@
 				"amount": 1
 			}
 		]
+	},
+	{
+		"resourceAmounts":	[
+			{
+				"type": "STANDARD",
+				"resourceType": "PRESTIGE_POINT",
+				"amount": 1
+			}
+		]
 	}
 ]
