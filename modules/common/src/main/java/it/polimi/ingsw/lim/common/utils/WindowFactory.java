@@ -77,7 +77,7 @@ public class WindowFactory
 			stage.setScene(new Scene(parent));
 			stage.sizeToScene();
 			stage.initStyle(StageStyle.UNDECORATED);
-			stage.setResizable(false);
+			//stage.setResizable(false);
 			if (closeOthers) {
 				this.closeAllWindows();
 			}
