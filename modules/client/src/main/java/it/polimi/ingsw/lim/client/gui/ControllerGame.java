@@ -60,7 +60,7 @@ public class ControllerGame extends CustomController
 			}
 		});
 		this.getStackPane().getScene().getRoot().requestFocus();
-		double originalGameBoardWidth = this.gameBoard.getWidth() - 3;
+		double originalGameBoardWidth = this.gameBoard.getWidth();
 		double originalGameBoardHeight = this.gameBoard.getHeight();
 		Screen screen = Screen.getPrimary();
 		Rectangle2D bounds = screen.getVisualBounds();
