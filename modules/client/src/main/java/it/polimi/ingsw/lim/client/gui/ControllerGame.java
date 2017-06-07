@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -59,7 +61,7 @@ public class ControllerGame extends CustomController
 		});
 		this.getStackPane().getScene().getRoot().requestFocus();
 		double originalGameBoardWidth = this.gameBoard.getWidth() - 3;
-		double originalGameBoardHeight = this.gameBoard.getHeight() - 3;
+		double originalGameBoardHeight = this.gameBoard.getHeight();
 		Screen screen = Screen.getPrimary();
 		Rectangle2D bounds = screen.getVisualBounds();
 		double ratio = (bounds.getHeight() - bounds.getHeight() / 15) / this.getStackPane().getScene().getWindow().getHeight();
@@ -94,13 +96,19 @@ public class ControllerGame extends CustomController
 		borderGlow.setWidth(40.0D);
 		borderGlow.setHeight(40.0D);
 		for (Node node : this.gameBoard.getChildren()) {
-			((Pane) node).setSnapToPixel(false);
-			((Pane) node).setPrefWidth(((Pane) node).getPrefWidth() * ratio);
-			((Pane) node).setPrefHeight(((Pane) node).getPrefHeight() * ratio);
+			if (node instanceof Pane) {
+				((Pane) node).setSnapToPixel(false);
+				((Pane) node).setPrefWidth(((Pane) node).getPrefWidth() * ratio);
+				((Pane) node).setPrefHeight(((Pane) node).getPrefHeight() * ratio);
+				node.setOnMouseEntered((event) -> node.setEffect(borderGlow));
+				node.setOnMouseExited((event) -> node.effectProperty().set(null));
+			} else if (node instanceof Label) {
+				((Label) node).setSnapToPixel(false);
+				((Label) node).setPrefWidth(((Label) node).getPrefWidth() * ratio);
+				((Label) node).setPrefHeight(((Label) node).getPrefHeight() * ratio);
+			}
 			node.setLayoutX(node.getLayoutX() * gameBoardWidthRatio);
 			node.setLayoutY(node.getLayoutY() * gameBoardHeightRatio);
-			node.setOnMouseEntered((event) -> node.setEffect(borderGlow));
-			node.setOnMouseExited((event) -> node.effectProperty().set(null));
 		}
 		double oldWidth = this.playerBoard1DevelopmentCardsVenture.getPrefWidth();
 		this.playerBoard1DevelopmentCardsVenture.setPrefWidth(this.playerTabPanel.getWidth());
