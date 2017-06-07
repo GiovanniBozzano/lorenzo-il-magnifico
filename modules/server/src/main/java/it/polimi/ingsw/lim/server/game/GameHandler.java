@@ -1,12 +1,16 @@
 package it.polimi.ingsw.lim.server.game;
 
-import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
+import it.polimi.ingsw.lim.common.enums.Period;
+import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.enums.Round;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.events.Event;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.server.game.utils.ExpectedAction;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
@@ -27,7 +31,7 @@ public class GameHandler
 	private Connection turnPlayer;
 	private Period period;
 	private Round round;
-	private ActionType expectedAction;
+	private ExpectedAction expectedAction;
 
 	GameHandler(Room room)
 	{
@@ -136,6 +140,11 @@ public class GameHandler
 		return index + 1 >= this.turnOrder.size() ? null : this.turnOrder.get(index + 1);
 	}
 
+	public CardsHandler getCardsHandler()
+	{
+		return cardsHandler;
+	}
+
 	public Map<FamilyMemberType, Integer> getFamilyMemberTypeValues()
 	{
 		return this.familyMemberTypeValues;
@@ -146,7 +155,7 @@ public class GameHandler
 		return this.turnPlayer;
 	}
 
-	public ActionType getExpectedAction()
+	public ExpectedAction getExpectedAction()
 	{
 		return this.expectedAction;
 	}

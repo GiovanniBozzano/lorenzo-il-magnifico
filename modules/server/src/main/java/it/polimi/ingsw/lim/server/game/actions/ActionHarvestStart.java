@@ -7,7 +7,6 @@ import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventStartHarvest;
-import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.network.Connection;
 

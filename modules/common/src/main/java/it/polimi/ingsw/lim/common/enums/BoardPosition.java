@@ -1,5 +1,8 @@
 package it.polimi.ingsw.lim.common.enums;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum BoardPosition
 {
 	NONE,
@@ -11,7 +14,56 @@ public enum BoardPosition
 	MARKET_2,
 	MARKET_3,
 	MARKET_4,
-	MARKET_5,
-	MARKET_6,
-	COUNCIL_PALACE
+	TERRITORY_1,
+	TERRITORY_2,
+	TERRITORY_3,
+	TERRITORY_4,
+	BUILDING_1,
+	BUILDING_2,
+	BUILDING_3,
+	BUILDING_4,
+	CHARACTER_1,
+	CHARACTER_2,
+	CHARACTER_3,
+	CHARACTER_4,
+	VENTURE_1,
+	VENTURE_2,
+	VENTURE_3,
+	VENTURE_4,
+	COUNCIL_PALACE;
+	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_BUILDING_POSITIONS = new HashMap<>();
+	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_CHARACTER_POSITIONS = new HashMap<>();
+	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_TERRITORY_POSITIONS = new HashMap<>();
+	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_VENTURE_POSITIONS = new HashMap<>();
+	private static final Map<CardType, Map<Row, BoardPosition>> DEVELOPMENT_CARDS_TYPES = new HashMap<>();
+
+	static {
+		BoardPosition.DEVELOPMENT_CARDS_BUILDING_POSITIONS.put(Row.FIRST, BoardPosition.BUILDING_1);
+		BoardPosition.DEVELOPMENT_CARDS_BUILDING_POSITIONS.put(Row.SECOND, BoardPosition.BUILDING_2);
+		BoardPosition.DEVELOPMENT_CARDS_BUILDING_POSITIONS.put(Row.THIRD, BoardPosition.BUILDING_3);
+		BoardPosition.DEVELOPMENT_CARDS_BUILDING_POSITIONS.put(Row.FOURTH, BoardPosition.BUILDING_4);
+		BoardPosition.DEVELOPMENT_CARDS_CHARACTER_POSITIONS.put(Row.FIRST, BoardPosition.CHARACTER_1);
+		BoardPosition.DEVELOPMENT_CARDS_CHARACTER_POSITIONS.put(Row.SECOND, BoardPosition.CHARACTER_2);
+		BoardPosition.DEVELOPMENT_CARDS_CHARACTER_POSITIONS.put(Row.THIRD, BoardPosition.CHARACTER_3);
+		BoardPosition.DEVELOPMENT_CARDS_CHARACTER_POSITIONS.put(Row.FOURTH, BoardPosition.CHARACTER_4);
+		BoardPosition.DEVELOPMENT_CARDS_TERRITORY_POSITIONS.put(Row.FIRST, BoardPosition.TERRITORY_1);
+		BoardPosition.DEVELOPMENT_CARDS_TERRITORY_POSITIONS.put(Row.SECOND, BoardPosition.TERRITORY_2);
+		BoardPosition.DEVELOPMENT_CARDS_TERRITORY_POSITIONS.put(Row.THIRD, BoardPosition.TERRITORY_3);
+		BoardPosition.DEVELOPMENT_CARDS_TERRITORY_POSITIONS.put(Row.FOURTH, BoardPosition.TERRITORY_4);
+		BoardPosition.DEVELOPMENT_CARDS_VENTURE_POSITIONS.put(Row.FIRST, BoardPosition.VENTURE_1);
+		BoardPosition.DEVELOPMENT_CARDS_VENTURE_POSITIONS.put(Row.SECOND, BoardPosition.VENTURE_2);
+		BoardPosition.DEVELOPMENT_CARDS_VENTURE_POSITIONS.put(Row.THIRD, BoardPosition.VENTURE_3);
+		BoardPosition.DEVELOPMENT_CARDS_VENTURE_POSITIONS.put(Row.FOURTH, BoardPosition.VENTURE_4);
+		BoardPosition.DEVELOPMENT_CARDS_TYPES.put(CardType.BUILDING, BoardPosition.DEVELOPMENT_CARDS_BUILDING_POSITIONS);
+		BoardPosition.DEVELOPMENT_CARDS_TYPES.put(CardType.CHARACTER, BoardPosition.DEVELOPMENT_CARDS_CHARACTER_POSITIONS);
+		BoardPosition.DEVELOPMENT_CARDS_TYPES.put(CardType.TERRITORY, BoardPosition.DEVELOPMENT_CARDS_TERRITORY_POSITIONS);
+		BoardPosition.DEVELOPMENT_CARDS_TYPES.put(CardType.VENTURE, BoardPosition.DEVELOPMENT_CARDS_VENTURE_POSITIONS);
+	}
+
+	public static BoardPosition getDevelopmentCardPosition(CardType cardType, Row row)
+	{
+		return BoardPosition.DEVELOPMENT_CARDS_TYPES.get(cardType).get(row);
+	}
 }
+
+

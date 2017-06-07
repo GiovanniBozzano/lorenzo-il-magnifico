@@ -1,40 +1,29 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
-import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.server.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.game.utils.ResourceTradeOption;
+import it.polimi.ingsw.lim.server.game.utils.Reward;
 
-public class DevelopmentCardBuilding extends Card
+import java.util.List;
+
+public class DevelopmentCardBuilding extends DevelopmentCard
 {
-	private final ResourceAmount[] buildResources;
-	private final ResourceAmount[] instantResources;
-	private final int activationCost;
-	private final ResourceTradeOption[] resourceTradeOptions;
+	private final int activationValue;
+	private final List<ResourceTradeOption> resourceTradeOptions;
 
-	public DevelopmentCardBuilding(String displayName, int index, ResourceAmount[] buildResources, ResourceAmount[] instantResources, int activationCost, ResourceTradeOption[] resourceTradeOptions)
+	public DevelopmentCardBuilding(String displayName, int index, List<ResourceCostOption> resourceCostOptions, Reward reward, int activationValue, List<ResourceTradeOption> resourceTradeOptions)
 	{
-		super(displayName, index);
-		this.buildResources = buildResources;
-		this.instantResources = instantResources;
-		this.activationCost = activationCost;
+		super(displayName, index, resourceCostOptions, reward);
+		this.activationValue = activationValue;
 		this.resourceTradeOptions = resourceTradeOptions;
 	}
 
-	public ResourceAmount[] getBuildResources()
+	public int getActivationValue()
 	{
-		return this.buildResources;
+		return this.activationValue;
 	}
 
-	public ResourceAmount[] getInstantResources()
-	{
-		return this.instantResources;
-	}
-
-	public int getActivationCost()
-	{
-		return this.activationCost;
-	}
-
-	public ResourceTradeOption[] getResourceTradeOptions()
+	public List<ResourceTradeOption> getResourceTradeOptions()
 	{
 		return this.resourceTradeOptions;
 	}

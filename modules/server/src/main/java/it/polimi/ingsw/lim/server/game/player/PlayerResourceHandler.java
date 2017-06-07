@@ -82,39 +82,9 @@ public class PlayerResourceHandler
 		return (this.resources.get(ResourceType.COIN) + this.resources.get(ResourceType.WOOD) + this.resources.get(ResourceType.STONE) + this.resources.get(ResourceType.SERVANT)) / 5;
 	}
 
-	public int getResourcesCoin()
+	public int getResources(ResourceType resourceType)
 	{
-		return this.resources.get(ResourceType.COIN);
-	}
-
-	public int getResourcesWood()
-	{
-		return this.resources.get(ResourceType.WOOD);
-	}
-
-	public int getResourcesStone()
-	{
-		return this.resources.get(ResourceType.STONE);
-	}
-
-	public int getResourcesServant()
-	{
-		return this.resources.get(ResourceType.SERVANT);
-	}
-
-	public int getResourcesMilitaryPoint()
-	{
-		return this.resources.get(ResourceType.MILITARY_POINT);
-	}
-
-	public int getResourcesFaithPoint()
-	{
-		return this.resources.get(ResourceType.FAITH_POINT);
-	}
-
-	public int getResourcesVictoryPoint()
-	{
-		return this.resources.get(ResourceType.VICTORY_POINT);
+		return this.resources.get(resourceType);
 	}
 
 	public PlayerInformations getPlayerInformations()

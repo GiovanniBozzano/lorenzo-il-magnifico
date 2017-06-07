@@ -1,29 +1,26 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.server.game.utils.ResourceCostOption;
+import it.polimi.ingsw.lim.server.game.utils.Reward;
 
-public class DevelopmentCardTerritory extends Card
+import java.util.List;
+
+public class DevelopmentCardTerritory extends DevelopmentCard
 {
-	private final ResourceAmount[] instantResources;
-	private final int activationCost;
+	private final int activationValue;
 	private final ResourceAmount[] harvestResources;
 
-	public DevelopmentCardTerritory(String displayName, int index, ResourceAmount[] instantResources, int activationCost, ResourceAmount[] harvestResources)
+	public DevelopmentCardTerritory(String displayName, int index, List<ResourceCostOption> resourceCostOptions, Reward reward, int activationValue, ResourceAmount[] harvestResources)
 	{
-		super(displayName, index);
-		this.instantResources = instantResources;
-		this.activationCost = activationCost;
+		super(displayName, index, resourceCostOptions, reward);
+		this.activationValue = activationValue;
 		this.harvestResources = harvestResources;
 	}
 
-	public ResourceAmount[] getInstantResources()
+	public int getActivationValue()
 	{
-		return this.instantResources;
-	}
-
-	public int getActivationCost()
-	{
-		return this.activationCost;
+		return this.activationValue;
 	}
 
 	public ResourceAmount[] getHarvestResources()

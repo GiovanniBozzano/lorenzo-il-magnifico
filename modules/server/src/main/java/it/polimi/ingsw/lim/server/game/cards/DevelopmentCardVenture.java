@@ -1,30 +1,18 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
-import it.polimi.ingsw.lim.server.game.utils.ResourceTradeOption;
+import it.polimi.ingsw.lim.server.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
 
-public class DevelopmentCardVenture extends Card
+import java.util.List;
+
+public class DevelopmentCardVenture extends DevelopmentCard
 {
-	private final ResourceTradeOption[] resourceTradeOptions;
-	private final Reward instantReward;
 	private final int victoryValue;
 
-	public DevelopmentCardVenture(String displayName, int index, ResourceTradeOption[] resourceTradeOptions, Reward instantReward, int victoryValue)
+	public DevelopmentCardVenture(String displayName, int index, List<ResourceCostOption> resourceCostOptions, Reward reward, int victoryValue)
 	{
-		super(displayName, index);
-		this.resourceTradeOptions = resourceTradeOptions;
-		this.instantReward = instantReward;
+		super(displayName, index, resourceCostOptions, reward);
 		this.victoryValue = victoryValue;
-	}
-
-	public ResourceTradeOption[] getResourceTradeOptions()
-	{
-		return this.resourceTradeOptions;
-	}
-
-	public Reward getInstantReward()
-	{
-		return this.instantReward;
 	}
 
 	public int getVictoryValue()

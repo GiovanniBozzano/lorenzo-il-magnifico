@@ -24,7 +24,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.logging.Level;
 
-public class DevelopmentCardsDeck<T extends Card>
+public class DevelopmentCardsDeck<T extends DevelopmentCard>
 {
 	private final List<T> firstPeriod;
 	private final List<T> secondPeriod;
@@ -65,9 +65,9 @@ public class DevelopmentCardsDeck<T extends Card>
 		return Builder.GSON.toJson(this);
 	}
 
-	public static class Builder<T extends Card>
+	public static class Builder<T extends DevelopmentCard>
 	{
-		private static final Map<Class<? extends Card>, Type> TYPE_TOKENS = new HashMap<>();
+		private static final Map<Class<? extends DevelopmentCard>, Type> TYPE_TOKENS = new HashMap<>();
 
 		static {
 			Builder.TYPE_TOKENS.put(DevelopmentCardBuilding.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardBuilding>>()

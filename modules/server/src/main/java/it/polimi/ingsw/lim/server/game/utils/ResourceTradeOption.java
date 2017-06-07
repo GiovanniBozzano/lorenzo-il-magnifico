@@ -11,12 +11,12 @@ public class ResourceTradeOption
 		this.producedResources = producedResources;
 	}
 
-	public ResourceAmount[] getemployedResources()
+	public ResourceAmount[] getEmployedResources()
 	{
 		return this.employedResources;
 	}
 
-	public ResourceAmount[] getproducedResources()
+	public ResourceAmount[] getProducedResources()
 	{
 		return this.producedResources;
 	}

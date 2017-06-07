@@ -50,7 +50,7 @@
 		]
 	},
 	{
-		"resourceAmounts":	[
+		"resourceAmounts": [
 			{
 				"type": "STANDARD",
 				"resourceType": "PRESTIGE_POINT",

@@ -21,34 +21,27 @@ public class PlayerCardHandler
 
 	public void addDevelopmentCard(DevelopmentCardBuilding developmentCardBuilding)
 	{
-		if (!this.canAddDevelopmentCardBuilding()) {
-			return;
-		}
 		this.developmentCardBuildings.add(developmentCardBuilding);
 	}
 
 	public void addDevelopmentCard(DevelopmentCardCharacter developmentCardCharacter)
 	{
-		if (!this.canAddDevelopmentCardCharacter()) {
-			return;
-		}
 		this.developmentCardCharacters.add(developmentCardCharacter);
 	}
 
 	public void addDevelopmentCard(DevelopmentCardTerritory developmentCardTerritory)
 	{
-		if (!this.canAddDevelopmentCardTerritory()) {
-			return;
-		}
 		this.developmentCardTerritories.add(developmentCardTerritory);
 	}
 
 	public void addDevelopmentCard(DevelopmentCardVenture developmentCardVenture)
 	{
-		if (!this.canAddDevelopmentCardVenture()) {
-			return;
-		}
 		this.developmentCardVentures.add(developmentCardVenture);
+	}
+
+	public void addCardLeader(CardLeader cardLeader)
+	{
+		this.cardsLeader.add(cardLeader);
 	}
 
 	public boolean canAddDevelopmentCardBuilding()
@@ -69,5 +62,15 @@ public class PlayerCardHandler
 	public boolean canAddDevelopmentCardVenture()
 	{
 		return this.developmentCardVentures.size() < 6;
+	}
+
+	public boolean canAddCardLeader()
+	{
+		return this.cardsLeader.size() < 4;
+	}
+
+	public List<CardLeader> getCardsLeader()
+	{
+		return cardsLeader;
 	}
 }
