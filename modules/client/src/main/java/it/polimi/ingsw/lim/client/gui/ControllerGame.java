@@ -9,9 +9,11 @@ import it.polimi.ingsw.lim.common.gui.CustomController;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.Node;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -21,6 +23,7 @@ import java.util.ResourceBundle;
 
 public class ControllerGame extends CustomController
 {
+	@FXML private Pane gameBoard;
 	@FXML private Pane playerBoard1DevelopmentCardsVenture;
 	@FXML private Pane playerBoard2DevelopmentCardsVenture;
 	@FXML private Pane playerBoard3DevelopmentCardsVenture;
@@ -55,13 +58,15 @@ public class ControllerGame extends CustomController
 			}
 		});
 		this.getStackPane().getScene().getRoot().requestFocus();
+		double originalGameBoardWidth = this.gameBoard.getWidth() - 3;
+		double originalGameBoardHeight = this.gameBoard.getHeight() - 3;
 		Screen screen = Screen.getPrimary();
 		Rectangle2D bounds = screen.getVisualBounds();
-		double ratio = bounds.getHeight() / this.getStackPane().getScene().getWindow().getHeight();
+		double ratio = (bounds.getHeight() - bounds.getHeight() / 15) / this.getStackPane().getScene().getWindow().getHeight();
 		this.getStackPane().getScene().getWindow().setWidth(this.getStackPane().getWidth() * ratio);
 		this.getStackPane().getScene().getWindow().setHeight(this.getStackPane().getHeight() * ratio);
 		this.getStackPane().getScene().getWindow().setX(bounds.getWidth() / 2 - this.getStackPane().getScene().getWindow().getWidth() / 2);
-		this.getStackPane().getScene().getWindow().setY(0);
+		this.getStackPane().getScene().getWindow().setY(bounds.getHeight() / 2 - this.getStackPane().getScene().getWindow().getHeight() / 2);
 		this.getStackPane().setPrefWidth(this.getStackPane().getScene().getWindow().getWidth());
 		this.getStackPane().setPrefHeight(this.getStackPane().getScene().getWindow().getHeight());
 		this.getStackPane().getStylesheets().add(Client.getInstance().getClass().getResource("/css/jfoenix-nodes-list-button.css").toExternalForm());
@@ -80,6 +85,23 @@ public class ControllerGame extends CustomController
 		nodesList.addAnimatedNode(button3);
 		this.rightVBox.getChildren().add(nodesList);
 		this.getStackPane().getScene().getWindow().sizeToScene();
+		double gameBoardWidthRatio = this.gameBoard.getWidth() / originalGameBoardWidth;
+		double gameBoardHeightRatio = this.gameBoard.getHeight() / originalGameBoardHeight;
+		DropShadow borderGlow = new DropShadow();
+		borderGlow.setOffsetY(0.0D);
+		borderGlow.setOffsetX(0.0D);
+		borderGlow.setColor(Color.WHITE);
+		borderGlow.setWidth(40.0D);
+		borderGlow.setHeight(40.0D);
+		for (Node node : this.gameBoard.getChildren()) {
+			((Pane) node).setSnapToPixel(false);
+			((Pane) node).setPrefWidth(((Pane) node).getPrefWidth() * ratio);
+			((Pane) node).setPrefHeight(((Pane) node).getPrefHeight() * ratio);
+			node.setLayoutX(node.getLayoutX() * gameBoardWidthRatio);
+			node.setLayoutY(node.getLayoutY() * gameBoardHeightRatio);
+			node.setOnMouseEntered((event) -> node.setEffect(borderGlow));
+			node.setOnMouseExited((event) -> node.effectProperty().set(null));
+		}
 		double oldWidth = this.playerBoard1DevelopmentCardsVenture.getPrefWidth();
 		this.playerBoard1DevelopmentCardsVenture.setPrefWidth(this.playerTabPanel.getWidth());
 		this.playerBoard2DevelopmentCardsVenture.setPrefWidth(this.playerTabPanel.getWidth());
@@ -113,7 +135,6 @@ public class ControllerGame extends CustomController
 		this.playerBoard3.setPrefHeight(this.playerBoard3.getPrefHeight() * this.playerBoard3.getPrefWidth() / oldWidth);
 		this.playerBoard4.setPrefHeight(this.playerBoard4.getPrefHeight() * this.playerBoard4.getPrefWidth() / oldWidth);
 		this.playerBoard5.setPrefHeight(this.playerBoard5.getPrefHeight() * this.playerBoard5.getPrefWidth() / oldWidth);
-		this.getStackPane().getScene().getWindow().sizeToScene();
-		this.playerTabPanel.setPrefHeight(((AnchorPane) this.playerBoard1.getParent().getParent()).getHeight() + 36);
+		this.playerTabPanel.setMaxHeight(((VBox) this.playerBoard1.getParent()).getHeight());
 	}
 }

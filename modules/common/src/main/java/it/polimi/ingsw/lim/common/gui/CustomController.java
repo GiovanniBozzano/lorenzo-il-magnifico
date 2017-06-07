@@ -80,7 +80,7 @@ public abstract class CustomController implements Initializable
 		this.stackPane.getScene().getRoot().setDisable(disable);
 	}
 
-	public StackPane getStackPane()
+	protected StackPane getStackPane()
 	{
 		return this.stackPane;
 	}
