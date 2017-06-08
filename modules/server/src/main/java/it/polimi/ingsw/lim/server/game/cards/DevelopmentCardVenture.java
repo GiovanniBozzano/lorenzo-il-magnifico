@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.server.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
 
@@ -11,7 +12,7 @@ public class DevelopmentCardVenture extends DevelopmentCard
 
 	public DevelopmentCardVenture(String displayName, int index, List<ResourceCostOption> resourceCostOptions, Reward reward, int victoryValue)
 	{
-		super(displayName, index, resourceCostOptions, reward);
+		super(displayName, index, CardType.VENTURE, resourceCostOptions, reward);
 		this.victoryValue = victoryValue;
 	}
 

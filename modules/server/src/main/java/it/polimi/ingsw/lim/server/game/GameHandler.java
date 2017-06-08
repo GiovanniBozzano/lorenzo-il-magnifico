@@ -1,9 +1,6 @@
 package it.polimi.ingsw.lim.server.game;
 
-import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.enums.Round;
+import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
@@ -97,20 +94,20 @@ public class GameHandler
 
 	private void drawCards()
 	{
-		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCardsBuilding().length; index++) {
-			this.cardsHandler.getCurrentDevelopmentCardsBuilding()[index] = this.developmentCardsBuilding.getPeriods().get(this.period).get(index);
+		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCardsBuilding().size(); index++) {
+			this.cardsHandler.addDevelopmentCard(this.developmentCardsBuilding.getPeriods().get(this.period).get(index), Row.getFromIndex(index));
 			this.developmentCardsBuilding.getPeriods().get(this.period).remove(index);
 		}
-		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCardsCharacters().length; index++) {
-			this.cardsHandler.getCurrentDevelopmentCardsCharacters()[index] = this.developmentCardsCharacters.getPeriods().get(this.period).get(index);
+		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCardsCharacter().size(); index++) {
+			this.cardsHandler.addDevelopmentCard(this.developmentCardsCharacters.getPeriods().get(this.period).get(index), Row.getFromIndex(index));
 			this.developmentCardsCharacters.getPeriods().get(this.period).remove(index);
 		}
-		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCardsTerritory().length; index++) {
-			this.cardsHandler.getCurrentDevelopmentCardsTerritory()[index] = this.developmentCardsTerritory.getPeriods().get(this.period).get(index);
+		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCardsTerritory().size(); index++) {
+			this.cardsHandler.addDevelopmentCard(this.developmentCardsTerritory.getPeriods().get(this.period).get(index), Row.getFromIndex(index));
 			this.developmentCardsTerritory.getPeriods().get(this.period).remove(index);
 		}
-		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCardsVenture().length; index++) {
-			this.cardsHandler.getCurrentDevelopmentCardsVenture()[index] = this.developmentCardsVenture.getPeriods().get(this.period).get(index);
+		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCardsVenture().size(); index++) {
+			this.cardsHandler.addDevelopmentCard(this.developmentCardsVenture.getPeriods().get(this.period).get(index), Row.getFromIndex(index));
 			this.developmentCardsVenture.getPeriods().get(this.period).remove(index);
 		}
 	}
@@ -142,7 +139,7 @@ public class GameHandler
 
 	public CardsHandler getCardsHandler()
 	{
-		return cardsHandler;
+		return this.cardsHandler;
 	}
 
 	public Map<FamilyMemberType, Integer> getFamilyMemberTypeValues()

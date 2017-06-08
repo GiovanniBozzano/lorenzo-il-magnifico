@@ -2,12 +2,14 @@ package it.polimi.ingsw.lim.server.game.utils;
 
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
 
+import java.util.List;
+
 public class Reward
 {
 	private final ActionReward actionReward;
-	private final ResourceAmount[] resourceAmounts;
+	private final List<ResourceAmount> resourceAmounts;
 
-	public Reward(ActionReward actionReward, ResourceAmount[] resourceAmounts)
+	public Reward(ActionReward actionReward, List<ResourceAmount> resourceAmounts)
 	{
 		this.actionReward = actionReward;
 		this.resourceAmounts = resourceAmounts;
@@ -18,7 +20,7 @@ public class Reward
 		return this.actionReward;
 	}
 
-	public ResourceAmount[] getResourceAmounts()
+	public List<ResourceAmount> getResourceAmounts()
 	{
 		return this.resourceAmounts;
 	}

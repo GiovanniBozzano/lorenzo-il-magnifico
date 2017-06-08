@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.server.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
@@ -13,7 +14,7 @@ public class DevelopmentCardBuilding extends DevelopmentCard
 
 	public DevelopmentCardBuilding(String displayName, int index, List<ResourceCostOption> resourceCostOptions, Reward reward, int activationValue, List<ResourceTradeOption> resourceTradeOptions)
 	{
-		super(displayName, index, resourceCostOptions, reward);
+		super(displayName, index, CardType.BUILDING, resourceCostOptions, reward);
 		this.activationValue = activationValue;
 		this.resourceTradeOptions = resourceTradeOptions;
 	}

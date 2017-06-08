@@ -1,15 +1,17 @@
 package it.polimi.ingsw.lim.server.game.utils;
 
+import java.util.List;
+
 public class ResourceCostOption
 {
-	private ResourceAmount[] resourcesAmount;
+	private List<ResourceAmount> resourcesAmount;
 
-	public ResourceCostOption(ResourceAmount[] resourcesAmount)
+	public ResourceCostOption(List<ResourceAmount> resourcesAmount)
 	{
 		this.resourcesAmount = resourcesAmount;
 	}
 
-	public ResourceAmount[] getResourcesAmount()
+	public List<ResourceAmount> getResourcesAmount()
 	{
 		return this.resourcesAmount;
 	}

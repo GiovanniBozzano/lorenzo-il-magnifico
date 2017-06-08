@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
+import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.server.enums.WorkSlotType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
@@ -50,7 +51,7 @@ public class ActionHarvestStart implements IAction
 			}
 		}
 		// check if the player has the servants he sent
-		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResourcesServant() < this.effectiveServants) {
+		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResources(ResourceType.SERVANT) < this.effectiveServants) {
 			return false;
 		}
 		// get effective servants value

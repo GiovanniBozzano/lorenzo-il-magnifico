@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.common.enums;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +64,11 @@ public enum BoardPosition
 	public static BoardPosition getDevelopmentCardPosition(CardType cardType, Row row)
 	{
 		return BoardPosition.DEVELOPMENT_CARDS_TYPES.get(cardType).get(row);
+	}
+
+	public static Collection<BoardPosition> getDevelopmentCardsColumnPositions(CardType cardType)
+	{
+		return BoardPosition.DEVELOPMENT_CARDS_TYPES.get(cardType).values();
 	}
 }
 

@@ -5,15 +5,17 @@ import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
+import java.util.List;
+
 public class EventGetDevelopmentCard extends Event
 {
 	private final CardType cardType;
 	private final Row row;
-	private final ResourceAmount[] cost;
+	private final List<ResourceAmount> cost;
 	private int actionValue;
 	private boolean ignoreSlotLock = false;
 
-	public EventGetDevelopmentCard(Connection player, CardType cardType, Row row, ResourceAmount[] cost, int actionValue)
+	public EventGetDevelopmentCard(Connection player, CardType cardType, Row row, List<ResourceAmount> cost, int actionValue)
 	{
 		super(player);
 		this.cardType = cardType;
@@ -32,7 +34,7 @@ public class EventGetDevelopmentCard extends Event
 		return this.row;
 	}
 
-	public ResourceAmount[] getCost()
+	public List<ResourceAmount> getResourceCost()
 	{
 		return this.cost;
 	}

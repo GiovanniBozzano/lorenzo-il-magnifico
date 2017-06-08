@@ -31,7 +31,7 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 	private final List<T> thirdPeriod;
 	private final Map<Period, List<T>> periods = new HashMap<>();
 
-	public DevelopmentCardsDeck(List<T> firstPeriod, List<T> secondPeriod, List<T> thirdPeriod)
+	private DevelopmentCardsDeck(List<T> firstPeriod, List<T> secondPeriod, List<T> thirdPeriod)
 	{
 		this.firstPeriod = new ArrayList<>(firstPeriod);
 		this.secondPeriod = new ArrayList<>(secondPeriod);
@@ -65,7 +65,7 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 		return Builder.GSON.toJson(this);
 	}
 
-	public static class Builder<T extends DevelopmentCard>
+	static class Builder<T extends DevelopmentCard>
 	{
 		private static final Map<Class<? extends DevelopmentCard>, Type> TYPE_TOKENS = new HashMap<>();
 

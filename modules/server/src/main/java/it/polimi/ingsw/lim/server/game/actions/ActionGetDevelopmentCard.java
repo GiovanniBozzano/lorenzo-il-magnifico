@@ -10,6 +10,9 @@ import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.network.Connection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ActionGetDevelopmentCard implements IAction
 {
 	private final Connection player;
@@ -17,7 +20,8 @@ public class ActionGetDevelopmentCard implements IAction
 	private int effectiveServants;
 	private final CardType cardType;
 	private final Row row;
-	private final ResourceCostOption resourceCostOption;
+	private ResourceCostOption resourceCostOption;
+	private boolean columnOccupied = false;
 
 	public ActionGetDevelopmentCard(Connection player, FamilyMemberType familyMemberType, int effectiveServants, CardType cardType, Row row, ResourceCostOption resourceCostOption)
 	{
@@ -47,39 +51,24 @@ public class ActionGetDevelopmentCard implements IAction
 			return false;
 		}
 		// check if the player has developmentcard space available
-		boolean space = false;
-		switch (this.cardType) {
-			case BUILDING:
-				if (this.player.getPlayerInformations().getPlayerCardHandler().canAddDevelopmentCardBuilding()) {
-					space = true;
-				}
-				break;
-			case CHARACTER:
-				if (this.player.getPlayerInformations().getPlayerCardHandler().canAddDevelopmentCardCharacter()) {
-					space = true;
-				}
-				break;
-			case TERRITORY:
-				if (this.player.getPlayerInformations().getPlayerCardHandler().canAddDevelopmentCardTerritory()) {
-					space = true;
-				}
-				break;
-			case VENTURE:
-				if (this.player.getPlayerInformations().getPlayerCardHandler().canAddDevelopmentCardVenture()) {
-					space = true;
-				}
-		}
-		if (!space) {
+		if (!this.player.getPlayerInformations().getPlayerCardHandler().canAddDevelopmentCard(this.cardType)) {
 			return false;
 		}
-		// check if the board slot is occupied and get effective family member value
+		// check if the card is already taken and get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, BoardPosition.getDevelopmentCardPosition(this.cardType, this.row), gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
 		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
-		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
-			for (Connection currentPlayer : room.getPlayers()) {
-				if (currentPlayer.getPlayerInformations().isOccupyingBoardPosition(BoardPosition.getDevelopmentCardPosition(this.cardType, this.row))) {
+		if (room.getGameHandler().getCardsHandler().getDevelopmentCard(this.cardType, this.row) == null) {
+			return false;
+		}
+		// check if the board column is occupied
+		for (Connection currentPlayer : room.getPlayers()) {
+			for (BoardPosition boardPosition : BoardPosition.getDevelopmentCardsColumnPositions(this.cardType)) {
+				if (currentPlayer.getPlayerInformations().getFamilyMembersPositions().get(this.familyMemberType) == boardPosition) {
 					return false;
+				}
+				if (currentPlayer.getPlayerInformations().isOccupyingBoardPosition(boardPosition)) {
+					this.columnOccupied = true;
 				}
 			}
 		}
@@ -95,16 +84,23 @@ public class ActionGetDevelopmentCard implements IAction
 		if ((this.resourceCostOption == null && !room.getGameHandler().getCardsHandler().getDevelopmentCard(this.cardType, this.row).getResourceCostOptions().isEmpty()) || (this.resourceCostOption != null && !room.getGameHandler().getCardsHandler().getDevelopmentCard(this.cardType, this.row).getResourceCostOptions().contains(this.resourceCostOption))) {
 			return false;
 		}
+		if (this.columnOccupied) {
+			if (this.resourceCostOption == null) {
+				List<ResourceAmount> resourcesAmount = new ArrayList<>();
+				resourcesAmount.add(new ResourceAmount(ResourceType.COIN, 3));
+				this.resourceCostOption = new ResourceCostOption(resourcesAmount);
+			} else {
+				this.resourceCostOption.getResourcesAmount().add(new ResourceAmount(ResourceType.COIN, 3));
+			}
+		}
 		// check if the family member and servants value is high enough
-		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, resourceCostOption == null ? null : resourceCostOption.getResourcesAmount(), effectiveFamilyMemberValue + this.effectiveServants);
+		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, this.resourceCostOption == null ? null : this.resourceCostOption.getResourcesAmount(), effectiveFamilyMemberValue + this.effectiveServants);
 		eventGetDevelopmentCard.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
 		// prendo prezzo finale e controllo che il giocatore abbia le risorse necessarie
-		{
-			for (ResourceAmount resourceCost : eventGetDevelopmentCard.getCost()) {
-				int playerResources = this.player.getPlayerInformations().getPlayerResourceHandler().getResources(resourceCost.getResourceType());
-				if (playerResources < resourceCost.getAmount()) {
-					return false;
-				}
+		for (ResourceAmount resourceCost : eventGetDevelopmentCard.getResourceCost()) {
+			int playerResources = this.player.getPlayerInformations().getPlayerResourceHandler().getResources(resourceCost.getResourceType());
+			if (playerResources < resourceCost.getAmount()) {
+				return false;
 			}
 		}
 		return eventGetDevelopmentCard.getActionValue() >= this.row.getValue();
@@ -119,25 +115,5 @@ public class ActionGetDevelopmentCard implements IAction
 	public Connection getPlayer()
 	{
 		return this.player;
-	}
-
-	public FamilyMemberType getFamilyMemberType()
-	{
-		return this.familyMemberType;
-	}
-
-	public int getServants()
-	{
-		return this.effectiveServants;
-	}
-
-	public CardType getCardType()
-	{
-		return this.cardType;
-	}
-
-	public Row getRow()
-	{
-		return this.row;
 	}
 }

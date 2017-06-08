@@ -1,42 +1,56 @@
 package it.polimi.ingsw.lim.server.game.player;
 
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.server.game.cards.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlayerCardHandler
 {
 	private final PlayerInformations playerInformations;
-	private final List<DevelopmentCardBuilding> developmentCardBuildings = new ArrayList<>();
-	private final List<DevelopmentCardCharacter> developmentCardCharacters = new ArrayList<>();
-	private final List<DevelopmentCardTerritory> developmentCardTerritories = new ArrayList<>();
-	private final List<DevelopmentCardVenture> developmentCardVentures = new ArrayList<>();
+	private final Map<CardType, List> developmentCardsLists = new HashMap<>();
+	private final List<DevelopmentCardBuilding> developmentCardsBuilding = new ArrayList<>();
+	private final List<DevelopmentCardCharacter> developmentCardsCharacter = new ArrayList<>();
+	private final List<DevelopmentCardTerritory> developmentCardsTerritory = new ArrayList<>();
+	private final List<DevelopmentCardVenture> developmentCardsVenture = new ArrayList<>();
 	private final List<CardLeader> cardsLeader = new ArrayList<>();
 
-	public PlayerCardHandler(PlayerInformations playerInformations)
+	PlayerCardHandler(PlayerInformations playerInformations)
 	{
 		this.playerInformations = playerInformations;
+		this.developmentCardsLists.put(CardType.BUILDING, this.developmentCardsBuilding);
+		this.developmentCardsLists.put(CardType.CHARACTER, this.developmentCardsCharacter);
+		this.developmentCardsLists.put(CardType.TERRITORY, this.developmentCardsTerritory);
+		this.developmentCardsLists.put(CardType.VENTURE, this.developmentCardsVenture);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void addDevelopmentCard(DevelopmentCard developmentCard)
+	{
+		this.developmentCardsLists.get(developmentCard.getCardType()).add(CardsHandler.DEVELOPMENT_CARDS_TYPES.get(developmentCard.getCardType()).cast(developmentCard));
 	}
 
 	public void addDevelopmentCard(DevelopmentCardBuilding developmentCardBuilding)
 	{
-		this.developmentCardBuildings.add(developmentCardBuilding);
+		this.developmentCardsBuilding.add(developmentCardBuilding);
 	}
 
 	public void addDevelopmentCard(DevelopmentCardCharacter developmentCardCharacter)
 	{
-		this.developmentCardCharacters.add(developmentCardCharacter);
+		this.developmentCardsCharacter.add(developmentCardCharacter);
 	}
 
 	public void addDevelopmentCard(DevelopmentCardTerritory developmentCardTerritory)
 	{
-		this.developmentCardTerritories.add(developmentCardTerritory);
+		this.developmentCardsTerritory.add(developmentCardTerritory);
 	}
 
 	public void addDevelopmentCard(DevelopmentCardVenture developmentCardVenture)
 	{
-		this.developmentCardVentures.add(developmentCardVenture);
+		this.developmentCardsVenture.add(developmentCardVenture);
 	}
 
 	public void addCardLeader(CardLeader cardLeader)
@@ -44,24 +58,9 @@ public class PlayerCardHandler
 		this.cardsLeader.add(cardLeader);
 	}
 
-	public boolean canAddDevelopmentCardBuilding()
+	public boolean canAddDevelopmentCard(CardType cardType)
 	{
-		return this.developmentCardBuildings.size() < 6;
-	}
-
-	public boolean canAddDevelopmentCardCharacter()
-	{
-		return this.developmentCardCharacters.size() < 6;
-	}
-
-	public boolean canAddDevelopmentCardTerritory()
-	{
-		return this.developmentCardTerritories.size() < 6 && this.playerInformations.getPlayerResourceHandler().isTerritorySlotAvailable(this.developmentCardTerritories.size());
-	}
-
-	public boolean canAddDevelopmentCardVenture()
-	{
-		return this.developmentCardVentures.size() < 6;
+		return this.developmentCardsLists.get(cardType).size() < 6 && (cardType != CardType.TERRITORY || this.playerInformations.getPlayerResourceHandler().isTerritorySlotAvailable(this.developmentCardsTerritory.size()));
 	}
 
 	public boolean canAddCardLeader()
@@ -71,6 +70,6 @@ public class PlayerCardHandler
 
 	public List<CardLeader> getCardsLeader()
 	{
-		return cardsLeader;
+		return this.cardsLeader;
 	}
 }

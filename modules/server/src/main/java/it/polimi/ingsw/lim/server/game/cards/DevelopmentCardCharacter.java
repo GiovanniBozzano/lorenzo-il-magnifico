@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.server.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
 
@@ -11,7 +12,7 @@ public class DevelopmentCardCharacter extends DevelopmentCard
 
 	public DevelopmentCardCharacter(String displayName, int index, List<ResourceCostOption> resourceCostOptions, Reward reward, Object permanentBonus)
 	{
-		super(displayName, index, resourceCostOptions, reward);
+		super(displayName, index, CardType.CHARACTER, resourceCostOptions, reward);
 		this.permanentBonus = permanentBonus;
 	}
 

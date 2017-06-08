@@ -1,22 +1,24 @@
 package it.polimi.ingsw.lim.server.game.utils;
 
+import java.util.List;
+
 public class ResourceTradeOption
 {
-	private final ResourceAmount[] employedResources;
-	private final ResourceAmount[] producedResources;
+	private final List<ResourceAmount> employedResources;
+	private final List<ResourceAmount> producedResources;
 
-	public ResourceTradeOption(ResourceAmount[] employedResources, ResourceAmount[] producedResources)
+	public ResourceTradeOption(List<ResourceAmount> employedResources, List<ResourceAmount> producedResources)
 	{
 		this.employedResources = employedResources;
 		this.producedResources = producedResources;
 	}
 
-	public ResourceAmount[] getEmployedResources()
+	public List<ResourceAmount> getEmployedResources()
 	{
 		return this.employedResources;
 	}
 
-	public ResourceAmount[] getProducedResources()
+	public List<ResourceAmount> getProducedResources()
 	{
 		return this.producedResources;
 	}
