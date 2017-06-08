@@ -20,14 +20,11 @@ import it.polimi.ingsw.lim.server.game.utils.CardLeaderConditionsOption;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CardsHandler
 {
-	public static final Map<CardType, Class<? extends DevelopmentCard>> DEVELOPMENT_CARDS_TYPES = new HashMap<>();
+	public static final Map<CardType, Class<? extends DevelopmentCard>> DEVELOPMENT_CARDS_TYPES = new EnumMap<>(CardType.class);
 
 	static {
 		CardsHandler.DEVELOPMENT_CARDS_TYPES.put(CardType.BUILDING, DevelopmentCardBuilding.class);
@@ -326,11 +323,6 @@ public class CardsHandler
 		this.currentDevelopmentCards.put(CardType.VENTURE, this.currentDevelopmentCardsVenture);
 	}
 
-	public DevelopmentCard getDevelopmentCard(CardType cardType, Row row)
-	{
-		return this.currentDevelopmentCards.get(cardType).get(row);
-	}
-
 	public void addDevelopmentCard(DevelopmentCardBuilding developmentCard, Row row)
 	{
 		this.currentDevelopmentCardsBuilding.put(row, developmentCard);
@@ -349,5 +341,10 @@ public class CardsHandler
 	public void addDevelopmentCard(DevelopmentCardVenture developmentCard, Row row)
 	{
 		this.currentDevelopmentCardsVenture.put(row, developmentCard);
+	}
+
+	public Map<CardType, Map<Row, ? extends DevelopmentCard>> getCurrentDevelopmentCards()
+	{
+		return this.currentDevelopmentCards;
 	}
 }

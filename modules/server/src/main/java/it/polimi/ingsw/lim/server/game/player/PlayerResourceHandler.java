@@ -6,6 +6,7 @@ import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PlayerResourceHandler
@@ -48,7 +49,7 @@ public class PlayerResourceHandler
 		this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
 	}
 
-	public void addResources(ResourceAmount[] resourcesAmount)
+	public void addResources(List<ResourceAmount> resourcesAmount)
 	{
 		for (ResourceAmount resourceAmount : resourcesAmount) {
 			this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
@@ -60,7 +61,7 @@ public class PlayerResourceHandler
 		this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
 	}
 
-	public void subtractResources(ResourceAmount[] resourcesAmount)
+	public void subtractResources(List<ResourceAmount> resourcesAmount)
 	{
 		for (ResourceAmount resourceAmount : resourcesAmount) {
 			this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());

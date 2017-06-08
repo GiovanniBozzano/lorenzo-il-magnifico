@@ -22,7 +22,7 @@ public abstract class CardLeader extends Card
 
 	public boolean isPlayed()
 	{
-		return played;
+		return this.played;
 	}
 
 	public void setPlayed(boolean played)

@@ -19,16 +19,16 @@ import java.util.logging.Level;
 
 public class BoardHandler
 {
-	public static final Map<BoardPosition, ResourceAmount[]> BOARD_POSITIONS_INSTANT_REWARDS = new BoardPositionsInstantRewardsBuilder("/json/board_positions_instant_rewards.json").initialize();
+	public static final Map<BoardPosition, List<ResourceAmount>> BOARD_POSITIONS_INSTANT_REWARDS = new BoardPositionsInstantRewardsBuilder("/json/board_positions_instant_rewards.json").initialize();
 	private static final List<CouncilPalaceReward> COUNCIL_PRIVILEGE_REWARDS = new CouncilPrivilegeRewardsBuilder("/json/council_privilege_rewards.json").initialize();
 	private final List<Connection> councilPalaceOrder = new LinkedList<>();
 
-	public ResourceAmount[] getBoardPositionInstantReward(BoardPosition boardPosition)
+	public static List<ResourceAmount> getBoardPositionInstantReward(BoardPosition boardPosition)
 	{
 		if (BoardHandler.BOARD_POSITIONS_INSTANT_REWARDS.containsKey(boardPosition)) {
 			return BoardHandler.BOARD_POSITIONS_INSTANT_REWARDS.get(boardPosition);
 		}
-		return new ResourceAmount[] {};
+		return new ArrayList<>();
 	}
 
 	private static class BoardPositionsInstantRewardsBuilder
@@ -42,7 +42,7 @@ public class BoardHandler
 			this.jsonFile = jsonFile;
 		}
 
-		Map<BoardPosition, ResourceAmount[]> initialize()
+		Map<BoardPosition, List<ResourceAmount>> initialize()
 		{
 			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
 				return BoardPositionsInstantRewardsBuilder.GSON.fromJson(reader, new TypeToken<Map<BoardPosition, ResourceAmount[]>>()

@@ -7,7 +7,6 @@ import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.events.Event;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.player.PlayerInformations;
-import it.polimi.ingsw.lim.server.game.utils.ExpectedAction;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
@@ -19,16 +18,16 @@ public class GameHandler
 	private final CardsHandler cardsHandler = new CardsHandler();
 	private final BoardHandler boardHandler = new BoardHandler();
 	private final Random randomGenerator = new Random(System.nanoTime());
-	private DevelopmentCardsDeck<DevelopmentCardBuilding> developmentCardsBuilding = CardsHandler.DEVELOPMENT_CARDS_BUILDING.clone();
-	private DevelopmentCardsDeck<DevelopmentCardCharacter> developmentCardsCharacters = CardsHandler.DEVELOPMENT_CARDS_CHARACTER.clone();
-	private DevelopmentCardsDeck<DevelopmentCardTerritory> developmentCardsTerritory = CardsHandler.DEVELOPMENT_CARDS_TERRITORY.clone();
-	private DevelopmentCardsDeck<DevelopmentCardVenture> developmentCardsVenture = CardsHandler.DEVELOPMENT_CARDS_VENTURE.clone();
+	private final DevelopmentCardsDeck<DevelopmentCardBuilding> developmentCardsBuilding = new DevelopmentCardsDeck<>(CardsHandler.DEVELOPMENT_CARDS_BUILDING);
+	private final DevelopmentCardsDeck<DevelopmentCardCharacter> developmentCardsCharacters = new DevelopmentCardsDeck<>(CardsHandler.DEVELOPMENT_CARDS_CHARACTER);
+	private final DevelopmentCardsDeck<DevelopmentCardTerritory> developmentCardsTerritory = new DevelopmentCardsDeck<>(CardsHandler.DEVELOPMENT_CARDS_TERRITORY);
+	private final DevelopmentCardsDeck<DevelopmentCardVenture> developmentCardsVenture = new DevelopmentCardsDeck<>(CardsHandler.DEVELOPMENT_CARDS_VENTURE);
 	private final Map<FamilyMemberType, Integer> familyMemberTypeValues = new EnumMap<>(FamilyMemberType.class);
-	private List<Connection> turnOrder = new LinkedList<>();
+	private final List<Connection> turnOrder = new LinkedList<>();
 	private Connection turnPlayer;
 	private Period period;
 	private Round round;
-	private ExpectedAction expectedAction;
+	private ActionType expectedAction;
 
 	GameHandler(Room room)
 	{
@@ -152,8 +151,13 @@ public class GameHandler
 		return this.turnPlayer;
 	}
 
-	public ExpectedAction getExpectedAction()
+	public ActionType getExpectedAction()
 	{
 		return this.expectedAction;
+	}
+
+	public void setExpectedAction(ActionType expectedAction)
+	{
+		this.expectedAction = expectedAction;
 	}
 }

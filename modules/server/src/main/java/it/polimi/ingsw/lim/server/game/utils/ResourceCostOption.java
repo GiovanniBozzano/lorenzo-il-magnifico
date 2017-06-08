@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ResourceCostOption
 {
-	private List<ResourceAmount> resourcesAmount;
+	private final List<ResourceAmount> resourcesAmount;
 
 	public ResourceCostOption(List<ResourceAmount> resourcesAmount)
 	{

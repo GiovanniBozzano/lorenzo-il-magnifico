@@ -10,7 +10,7 @@ public class ActionInformationsCouncilPalace extends ActionInformations
 
 	public ActionInformationsCouncilPalace(FamilyMemberType familyMemberType, int councilPalaceRewardIndex)
 	{
-		super(ActionType.COUNCIL_PALACE);
+		super(ActionType.CHOOSE_COUNCIL_PRIVILEGES_REWARDS);
 		this.familyMemberType = familyMemberType;
 		this.councilPalaceRewardIndex = councilPalaceRewardIndex;
 	}

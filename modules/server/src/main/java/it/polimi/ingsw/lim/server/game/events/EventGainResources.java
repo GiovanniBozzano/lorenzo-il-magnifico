@@ -30,6 +30,6 @@ public class EventGainResources extends Event
 
 	public ResourcesSource getResourcesSource()
 	{
-		return resourcesSource;
+		return this.resourcesSource;
 	}
 }

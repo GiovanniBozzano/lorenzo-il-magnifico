@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actionrewards;
 
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.server.enums.ActionRewardType;
 import it.polimi.ingsw.lim.server.game.utils.DiscountChoice;
 import it.polimi.ingsw.lim.server.network.Connection;
 
@@ -16,7 +16,7 @@ public class ActionRewardGetDevelopmentCard extends ActionReward
 
 	public ActionRewardGetDevelopmentCard(int value, CardType[] cardTypes, List<DiscountChoice> discountChoices)
 	{
-		super(ActionRewardType.GET_DEVELOPMENT_CARD);
+		super(ActionType.CHOOSE_REWARD_GET_DEVELOPMENT_CARD);
 		this.value = value;
 		this.cardTypes = cardTypes;
 		this.discountChoices = new ArrayList<>(discountChoices);

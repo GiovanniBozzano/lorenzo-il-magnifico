@@ -1,21 +1,21 @@
 package it.polimi.ingsw.lim.server.game.actionrewards;
 
-import it.polimi.ingsw.lim.server.enums.ActionRewardType;
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 public abstract class ActionReward
 {
-	private final ActionRewardType actionRewardType;
+	private final ActionType requestedAction;
 
-	public ActionReward(ActionRewardType actionRewardType)
+	ActionReward(ActionType requestedAction)
 	{
-		this.actionRewardType = actionRewardType;
+		this.requestedAction = requestedAction;
 	}
 
 	public abstract void apply(Connection player);
 
-	public ActionRewardType getActionRewardType()
+	public ActionType getRequestedAction()
 	{
-		return this.actionRewardType;
+		return this.requestedAction;
 	}
 }

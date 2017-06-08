@@ -24,7 +24,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.logging.Level;
 
-public class DevelopmentCardsDeck<T extends DevelopmentCard>
+public class DevelopmentCardsDeck<T extends DevelopmentCard> implements Cloneable
 {
 	private final List<T> firstPeriod;
 	private final List<T> secondPeriod;
@@ -41,6 +41,11 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 		this.periods.put(Period.THIRD, this.thirdPeriod);
 	}
 
+	public DevelopmentCardsDeck(DevelopmentCardsDeck<T> developmentCardsDeck)
+	{
+		this(developmentCardsDeck.getPeriods().get(Period.FIRST), developmentCardsDeck.getPeriods().get(Period.SECOND), developmentCardsDeck.getPeriods().get(Period.THIRD));
+	}
+
 	public Map<Period, List<T>> getPeriods()
 	{
 		return this.periods;
@@ -51,12 +56,6 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 		Collections.shuffle(this.firstPeriod);
 		Collections.shuffle(this.secondPeriod);
 		Collections.shuffle(this.thirdPeriod);
-	}
-
-	@Override
-	public DevelopmentCardsDeck<T> clone()
-	{
-		return new DevelopmentCardsDeck<>(this.firstPeriod, this.secondPeriod, this.thirdPeriod);
 	}
 
 	@Override
@@ -92,13 +91,13 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 		private final Class<T> clazz;
 		private final String jsonFile;
 
-		public Builder(Class<T> clazz, String jsonFile)
+		Builder(Class<T> clazz, String jsonFile)
 		{
 			this.clazz = clazz;
 			this.jsonFile = jsonFile;
 		}
 
-		public DevelopmentCardsDeck<T> initialize()
+		DevelopmentCardsDeck<T> initialize()
 		{
 			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
 				return Builder.GSON.fromJson(reader, Builder.TYPE_TOKENS.get(this.clazz));

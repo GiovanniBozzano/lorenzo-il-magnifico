@@ -54,7 +54,7 @@ public class ActionCouncilPalace implements IAction
 		eventUseServants.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
 		this.effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
-		return effectiveFamilyMemberValue + effectiveServants >= 1;
+		return effectiveFamilyMemberValue + this.effectiveServants >= 1;
 	}
 
 	@Override

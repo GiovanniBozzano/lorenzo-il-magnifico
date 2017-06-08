@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.server.game.actionrewards;
 
-import it.polimi.ingsw.lim.server.enums.ActionRewardType;
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionRewardProduction extends ActionReward
@@ -9,7 +9,7 @@ public class ActionRewardProduction extends ActionReward
 
 	public ActionRewardProduction(int value)
 	{
-		super(ActionRewardType.PRODUCTION);
+		super(ActionType.CHOOSE_REWARD_PRODUCTION);
 		this.value = value;
 	}
 
