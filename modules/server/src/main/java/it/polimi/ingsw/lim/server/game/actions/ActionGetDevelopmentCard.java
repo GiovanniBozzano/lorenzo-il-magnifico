@@ -69,15 +69,25 @@ public class ActionGetDevelopmentCard implements IAction
 		if (developmentCard == null) {
 			return false;
 		}
-		// check if the board column is occupied
-		for (Connection currentPlayer : room.getPlayers()) {
-			for (BoardPosition boardPosition : BoardPosition.getDevelopmentCardsColumnPositions(this.cardType)) {
-				if (currentPlayer.getPlayerInformations().getFamilyMembersPositions().get(this.familyMemberType) == boardPosition) {
+		// check whether you have another colored family member in the column
+		if (this.familyMemberType != FamilyMemberType.NEUTRAL) {
+			for (FamilyMemberType currentFamilyMemberType : this.player.getPlayerInformations().getFamilyMembersPositions().keySet()) {
+				if (currentFamilyMemberType != FamilyMemberType.NEUTRAL && BoardPosition.getDevelopmentCardsColumnPositions(this.cardType).contains(this.player.getPlayerInformations().getFamilyMembersPositions().get(currentFamilyMemberType))) {
 					return false;
 				}
-				if (currentPlayer.getPlayerInformations().isOccupyingBoardPosition(boardPosition)) {
-					this.columnOccupied = true;
+			}
+		}
+		// check if the board column is occupied
+		for (Connection currentPlayer : room.getPlayers()) {
+			if (this.columnOccupied) {
+				break;
+			}
+			for (BoardPosition boardPosition : BoardPosition.getDevelopmentCardsColumnPositions(this.cardType)) {
+				if (!currentPlayer.getPlayerInformations().isOccupyingBoardPosition(boardPosition)) {
+					continue;
 				}
+				this.columnOccupied = true;
+				break;
 			}
 		}
 		// check if the player has the servants he sent
