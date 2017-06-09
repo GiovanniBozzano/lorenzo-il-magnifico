@@ -7,6 +7,7 @@ import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.game.utils.BoardPositionInformations;
 import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
@@ -19,16 +20,16 @@ import java.util.logging.Level;
 
 public class BoardHandler
 {
-	public static final Map<BoardPosition, List<ResourceAmount>> BOARD_POSITIONS_INSTANT_REWARDS = new BoardPositionsInstantRewardsBuilder("/json/board_positions_instant_rewards.json").initialize();
+	private static final Map<BoardPosition, BoardPositionInformations> BOARD_POSITIONS_INFORMATIONS = new BoardPositionsInstantRewardsBuilder("/json/board_positions_instant_rewards.json").initialize();
 	private static final List<CouncilPalaceReward> COUNCIL_PRIVILEGE_REWARDS = new CouncilPrivilegeRewardsBuilder("/json/council_privilege_rewards.json").initialize();
 	private final List<Connection> councilPalaceOrder = new LinkedList<>();
 
-	public static List<ResourceAmount> getBoardPositionInstantReward(BoardPosition boardPosition)
+	public static BoardPositionInformations getBoardPositionInformations(BoardPosition boardPosition)
 	{
-		if (BoardHandler.BOARD_POSITIONS_INSTANT_REWARDS.containsKey(boardPosition)) {
-			return BoardHandler.BOARD_POSITIONS_INSTANT_REWARDS.get(boardPosition);
+		if (BoardHandler.BOARD_POSITIONS_INFORMATIONS.containsKey(boardPosition)) {
+			return BoardHandler.BOARD_POSITIONS_INFORMATIONS.get(boardPosition);
 		}
-		return new ArrayList<>();
+		return new BoardPositionInformations(0, new ArrayList<>());
 	}
 
 	private static class BoardPositionsInstantRewardsBuilder
@@ -42,7 +43,7 @@ public class BoardHandler
 			this.jsonFile = jsonFile;
 		}
 
-		Map<BoardPosition, List<ResourceAmount>> initialize()
+		Map<BoardPosition, BoardPositionInformations> initialize()
 		{
 			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
 				return BoardPositionsInstantRewardsBuilder.GSON.fromJson(reader, new TypeToken<Map<BoardPosition, ResourceAmount[]>>()

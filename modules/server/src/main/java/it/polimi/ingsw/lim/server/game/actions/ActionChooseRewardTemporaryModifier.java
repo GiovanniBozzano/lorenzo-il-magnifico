@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
@@ -33,22 +34,15 @@ public class ActionChooseRewardTemporaryModifier implements IAction
 		if (this.player != gameHandler.getTurnPlayer()) {
 			return false;
 		}
+		// check whether the server expects the player to make this action
+		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER) {
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public void apply()
 	{
-	}
-
-	@Override
-	public Connection getPlayer()
-	{
-		return this.player;
-	}
-
-	public FamilyMemberType getFamilyMemberType()
-	{
-		return this.familyMemberType;
 	}
 }

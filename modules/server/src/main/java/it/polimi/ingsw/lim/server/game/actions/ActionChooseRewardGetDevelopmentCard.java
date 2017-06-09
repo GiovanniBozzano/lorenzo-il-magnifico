@@ -57,7 +57,7 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 			return false;
 		}
 		// check whether the server expects the player to make this action
-		if (room.getGameHandler().getExpectedAction() != ActionType.CHOOSE_REWARD_GET_DEVELOPMENT_CARD) {
+		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_GET_DEVELOPMENT_CARD) {
 			return false;
 		}
 		// check if the player has developmentcard space available
@@ -65,7 +65,7 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 			return false;
 		}
 		// check if the card is already taken
-		DevelopmentCard developmentCard = room.getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).get(this.row);
+		DevelopmentCard developmentCard = gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).get(this.row);
 		if (developmentCard == null) {
 			return false;
 		}
@@ -131,7 +131,7 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 				return false;
 			}
 		}
-		return eventGetDevelopmentCard.getActionValue() >= this.row.getValue();
+		return eventGetDevelopmentCard.getActionValue() >= BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.cardType, this.row)).getValue();
 	}
 
 	@Override
@@ -150,8 +150,8 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResource(new ResourceAmount(ResourceType.SERVANT, this.servants));
 		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResources(this.effectiveResourceCost);
 		List<ResourceAmount> resourceReward = new ArrayList<>(developmentCard.getReward().getResourceAmounts());
-		resourceReward.addAll(BoardHandler.BOARD_POSITIONS_INSTANT_REWARDS.get(BoardPosition.getDevelopmentCardPosition(this.cardType, this.instantRewardRow)));
-		this.player.getPlayerInformations().getPlayerResourceHandler().addResources(resourceReward);
+		resourceReward.addAll(BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.cardType, this.row)).getResourceAmounts());
+		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(resourceReward);
 		room.getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).put(this.row, null);
 		// TODO aggiorno tutti
 		if (developmentCard.getReward().getActionReward() != null) {
@@ -167,11 +167,5 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 				// TODO turno del prossimo giocatore
 			}
 		}
-	}
-
-	@Override
-	public Connection getPlayer()
-	{
-		return this.player;
 	}
 }

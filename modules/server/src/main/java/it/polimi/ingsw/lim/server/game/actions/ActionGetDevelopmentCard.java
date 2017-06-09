@@ -54,21 +54,22 @@ public class ActionGetDevelopmentCard implements IAction
 			return false;
 		}
 		// check whether the server expects the player to make this action
-		if (room.getGameHandler().getExpectedAction() != null) {
+		if (gameHandler.getExpectedAction() != null) {
 			return false;
 		}
 		// check if the player has developmentcard space available
 		if (!this.player.getPlayerInformations().getPlayerCardHandler().canAddDevelopmentCard(this.cardType)) {
 			return false;
 		}
-		// check if the card is already taken and get effective family member value
-		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, BoardPosition.getDevelopmentCardPosition(this.cardType, this.row), gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
-		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
-		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
-		DevelopmentCard developmentCard = room.getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).get(this.row);
+		// check if the card is already taken
+		DevelopmentCard developmentCard = gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).get(this.row);
 		if (developmentCard == null) {
 			return false;
 		}
+		// get effective family member value
+		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, BoardPosition.getDevelopmentCardPosition(this.cardType, this.row), gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
+		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
+		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		// check whether you have another colored family member in the column
 		if (this.familyMemberType != FamilyMemberType.NEUTRAL) {
 			for (FamilyMemberType currentFamilyMemberType : this.player.getPlayerInformations().getFamilyMembersPositions().keySet()) {
@@ -121,7 +122,7 @@ public class ActionGetDevelopmentCard implements IAction
 				return false;
 			}
 		}
-		return eventGetDevelopmentCard.getActionValue() >= this.row.getValue();
+		return eventGetDevelopmentCard.getActionValue() >= BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.cardType, this.row)).getValue();
 	}
 
 	@Override
@@ -141,8 +142,8 @@ public class ActionGetDevelopmentCard implements IAction
 		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResources(this.effectiveResourceCost);
 		List<ResourceAmount> resourceReward = new ArrayList<>(developmentCard.getReward().getResourceAmounts());
 		BoardPosition boardPosition = BoardPosition.getDevelopmentCardPosition(this.cardType, this.row);
-		resourceReward.addAll(BoardHandler.BOARD_POSITIONS_INSTANT_REWARDS.get(boardPosition));
-		this.player.getPlayerInformations().getPlayerResourceHandler().addResources(resourceReward);
+		resourceReward.addAll(BoardHandler.getBoardPositionInformations(boardPosition).getResourceAmounts());
+		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(resourceReward);
 		this.player.getPlayerInformations().getFamilyMembersPositions().put(this.familyMemberType, boardPosition);
 		room.getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).put(this.row, null);
 		// TODO aggiorno tutti
@@ -155,15 +156,8 @@ public class ActionGetDevelopmentCard implements IAction
 				room.getGameHandler().setExpectedAction(ActionType.CHOOSE_COUNCIL_PRIVILEGES_REWARDS);
 				// TODO manda scelta di privilegio
 			} else {
-				room.getGameHandler().setExpectedAction(null);
 				// TODO turno del prossimo giocatore
 			}
 		}
-	}
-
-	@Override
-	public Connection getPlayer()
-	{
-		return this.player;
 	}
 }

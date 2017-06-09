@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
@@ -36,6 +37,10 @@ public class ActionChooseRewardHarvest implements IAction
 		if (this.player != gameHandler.getTurnPlayer()) {
 			return false;
 		}
+		// check whether the server expects the player to make this action
+		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_HARVEST) {
+			return false;
+		}
 		// check if the player has the servants he sent
 		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResources(ResourceType.SERVANT) < this.effectiveServants) {
 			return false;
@@ -53,16 +58,5 @@ public class ActionChooseRewardHarvest implements IAction
 	@Override
 	public void apply()
 	{
-	}
-
-	@Override
-	public Connection getPlayer()
-	{
-		return this.player;
-	}
-
-	public int getServant()
-	{
-		return this.effectiveServants;
 	}
 }

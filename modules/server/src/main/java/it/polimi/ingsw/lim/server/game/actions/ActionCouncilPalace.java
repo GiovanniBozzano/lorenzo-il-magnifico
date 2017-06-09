@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
@@ -41,6 +42,10 @@ public class ActionCouncilPalace implements IAction
 		if (this.player != gameHandler.getTurnPlayer()) {
 			return false;
 		}
+		// check whether the server expects the player to make this action
+		if (gameHandler.getExpectedAction() != ActionType.COUNCIL_PALACE) {
+			return false;
+		}
 		// get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, BoardPosition.COUNCIL_PALACE, gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
 		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
@@ -60,21 +65,5 @@ public class ActionCouncilPalace implements IAction
 	@Override
 	public void apply()
 	{
-	}
-
-	@Override
-	public Connection getPlayer()
-	{
-		return this.player;
-	}
-
-	public FamilyMemberType getFamilyMemberType()
-	{
-		return this.familyMemberType;
-	}
-
-	public int getCouncilPalaceRewardIndex()
-	{
-		return this.councilPalaceRewardIndex;
 	}
 }

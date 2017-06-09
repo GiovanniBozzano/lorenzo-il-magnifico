@@ -32,8 +32,9 @@ public class PlayerResourceHandler
 
 	private final PlayerInformations playerInformations;
 	private final Map<ResourceType, Integer> resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Integer> temporaryResources = new EnumMap<>(ResourceType.class);
 
-	public PlayerResourceHandler(PlayerInformations playerInformations, int resourcesServant, int resourcesStone, int resourcesWood)
+	PlayerResourceHandler(PlayerInformations playerInformations, int resourcesServant, int resourcesStone, int resourcesWood)
 	{
 		this.playerInformations = playerInformations;
 		this.resources.put(ResourceType.SERVANT, resourcesServant);
@@ -53,6 +54,18 @@ public class PlayerResourceHandler
 	{
 		for (ResourceAmount resourceAmount : resourcesAmount) {
 			this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
+		}
+	}
+
+	public void addTemporaryResource(ResourceAmount resourceAmount)
+	{
+		this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
+	}
+
+	public void addTemporaryResources(List<ResourceAmount> resourcesAmount)
+	{
+		for (ResourceAmount resourceAmount : resourcesAmount) {
+			this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
 		}
 	}
 

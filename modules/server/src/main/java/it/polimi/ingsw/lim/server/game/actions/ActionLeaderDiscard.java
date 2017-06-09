@@ -33,6 +33,10 @@ public class ActionLeaderDiscard implements IAction
 		if (this.player != gameHandler.getTurnPlayer()) {
 			return false;
 		}
+		// check whether the server expects the player to make this action
+		if (gameHandler.getExpectedAction() != null) {
+			return false;
+		}
 		// check if the player has the leader card
 		boolean owned = false;
 		CardLeader cardLeader = null;
@@ -54,11 +58,5 @@ public class ActionLeaderDiscard implements IAction
 	@Override
 	public void apply()
 	{
-	}
-
-	@Override
-	public Connection getPlayer()
-	{
-		return this.player;
 	}
 }

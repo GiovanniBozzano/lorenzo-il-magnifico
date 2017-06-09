@@ -40,14 +40,7 @@ public class CardsHandler
 	public static final List<CardLeader> CARDS_LEADER = new ArrayList<>();
 
 	static {
-		List<CardLeaderConditionsOption> conditionsOptions = new ArrayList<>();
-		List<CardAmount> conditionsCardsAmount = new ArrayList<>();
-		conditionsCardsAmount.add(new CardAmount(CardType.BUILDING, 3));
-		List<ResourceAmount> conditionsResourcesAmount = new ArrayList<>();
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.COIN, 12));
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.FAITH_POINT, 2));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Cesare Borgia", 0, conditionsOptions, new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class)
+		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Cesare Borgia", 0, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 3))), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 12), new ResourceAmount(ResourceType.FAITH_POINT, 2)))))), new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class)
 		{
 			@Override
 			public void apply(EventGetDevelopmentCard event)
@@ -55,12 +48,7 @@ public class CardsHandler
 				event.setIgnoreSlotLock(true);
 			}
 		}));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.BUILDING, 5));
-		conditionsResourcesAmount.clear();
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Filippo Brunelleschi", 1, conditionsOptions, new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
+		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Filippo Brunelleschi", 1, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 5))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
 		{
 			@Override
 			public void apply(EventPlaceFamilyMember event)
@@ -68,21 +56,7 @@ public class CardsHandler
 				event.setIgnoreOccupiedTax(true);
 			}
 		}));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.BUILDING, 6));
-		conditionsResourcesAmount.clear();
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.CHARACTER, 6));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.TERRITORY, 6));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.VENTURE, 6));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Lucrezia Borgia", 2, conditionsOptions, new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
+		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Lucrezia Borgia", 2, new ArrayList<>(Arrays.asList(new CardLeaderConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 6))), new ArrayList<>()), new CardLeaderConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.CHARACTER, 6))), new ArrayList<>()), new CardLeaderConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.TERRITORY, 6))), new ArrayList<>()), new CardLeaderConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.VENTURE, 6))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
 		{
 			@Override
 			public void apply(EventPlaceFamilyMember event)
@@ -93,18 +67,8 @@ public class CardsHandler
 				event.setFamilyMemberValue(event.getFamilyMemberValue() + 2);
 			}
 		}));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsResourcesAmount.clear();
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.VICTORY_POINT, 35));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Lorenzo de' Medici", 3, conditionsOptions, null));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.CHARACTER, 5));
-		conditionsResourcesAmount.clear();
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Ludovico Ariosto", 4, conditionsOptions, new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
+		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Lorenzo de' Medici", 3, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.VICTORY_POINT, 35)))))), null));
+		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Ludovico Ariosto", 4, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.CHARACTER, 5))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
 		{
 			@Override
 			public void apply(EventPlaceFamilyMember event)
@@ -112,15 +76,7 @@ public class CardsHandler
 				event.setIgnoreOccupied(true);
 			}
 		}));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.BUILDING, 2));
-		conditionsCardsAmount.add(new CardAmount(CardType.CHARACTER, 2));
-		conditionsCardsAmount.add(new CardAmount(CardType.TERRITORY, 2));
-		conditionsCardsAmount.add(new CardAmount(CardType.VENTURE, 2));
-		conditionsResourcesAmount.clear();
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Ludovico Il Moro", 5, conditionsOptions, new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
+		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Ludovico Il Moro", 5, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.BUILDING, 2), new CardAmount(CardType.CHARACTER, 2), new CardAmount(CardType.TERRITORY, 2), new CardAmount(CardType.VENTURE, 2))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
 		{
 			@Override
 			public void apply(EventPlaceFamilyMember event)
@@ -131,13 +87,7 @@ public class CardsHandler
 				event.setFamilyMemberValue(5);
 			}
 		}));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.BUILDING, 2));
-		conditionsCardsAmount.add(new CardAmount(CardType.VENTURE, 4));
-		conditionsResourcesAmount.clear();
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Pico Della Mirandola", 6, conditionsOptions, new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class)
+		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Pico Della Mirandola", 6, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.BUILDING, 2), new CardAmount(CardType.VENTURE, 4))), new ArrayList<>()))), new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class)
 		{
 			@Override
 			public void apply(EventGetDevelopmentCard event)
@@ -150,12 +100,7 @@ public class CardsHandler
 				}
 			}
 		}));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsResourcesAmount.clear();
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.FAITH_POINT, 8));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Santa Rita", 7, conditionsOptions, new Modifier<EventGainResources>(EventGainResources.class)
+		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Santa Rita", 7, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.FAITH_POINT, 8)))))), new Modifier<EventGainResources>(EventGainResources.class)
 		{
 			@Override
 			public void apply(EventGainResources event)
@@ -171,13 +116,7 @@ public class CardsHandler
 				}
 			}
 		}));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsResourcesAmount.clear();
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.FAITH_POINT, 3));
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.MILITARY_POINT, 7));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Sigismondo Malatesta", 8, conditionsOptions, new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
+		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Sigismondo Malatesta", 8, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.FAITH_POINT, 3), new ResourceAmount(ResourceType.MILITARY_POINT, 7)))))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
 		{
 			@Override
 			public void apply(EventPlaceFamilyMember event)
@@ -187,15 +126,7 @@ public class CardsHandler
 				}
 			}
 		}));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsResourcesAmount.clear();
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.COIN, 6));
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.SERVANT, 6));
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.STONE, 6));
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.WOOD, 6));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Sisto IV", 9, conditionsOptions, new Modifier<EventChurchSupport>(EventChurchSupport.class)
+		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Sisto IV", 9, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 6), new ResourceAmount(ResourceType.SERVANT, 6), new ResourceAmount(ResourceType.STONE, 6), new ResourceAmount(ResourceType.WOOD, 6)))))), new Modifier<EventChurchSupport>(EventChurchSupport.class)
 		{
 			@Override
 			public void apply(EventChurchSupport event)
@@ -203,90 +134,16 @@ public class CardsHandler
 				event.setVictoryPoints(event.getVictoryPoints() + 5);
 			}
 		}));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.TERRITORY, 4));
-		conditionsCardsAmount.add(new CardAmount(CardType.VENTURE, 2));
-		conditionsResourcesAmount.clear();
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		List<ResourceAmount> rewardResourcesAmount = new ArrayList<>();
-		rewardResourcesAmount.add(new ResourceAmount(ResourceType.VICTORY_POINT, 4));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Bartolomeo Colleoni", 10, conditionsOptions, new Reward(null, rewardResourcesAmount)));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.BUILDING, 4));
-		conditionsCardsAmount.add(new CardAmount(CardType.CHARACTER, 2));
-		conditionsResourcesAmount.clear();
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		rewardResourcesAmount.clear();
-		rewardResourcesAmount.add(new ResourceAmount(ResourceType.SERVANT, 3));
-		rewardResourcesAmount.add(new ResourceAmount(ResourceType.VICTORY_POINT, 1));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Cosimo de' Medici", 11, conditionsOptions, new Reward(null, rewardResourcesAmount)));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.TERRITORY, 5));
-		conditionsResourcesAmount.clear();
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		rewardResourcesAmount.clear();
-		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Federico da Montefeltro", 12, conditionsOptions, new Reward(new ActionRewardTemporaryModifier(), rewardResourcesAmount)));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.VENTURE, 5));
-		conditionsResourcesAmount.clear();
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		rewardResourcesAmount.clear();
-		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Francesco Sforza", 13, conditionsOptions, new Reward(new ActionRewardHarvest(1), rewardResourcesAmount)));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsResourcesAmount.clear();
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.MILITARY_POINT, 12));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		rewardResourcesAmount.clear();
-		rewardResourcesAmount.add(new ResourceAmount(ResourceType.COIN, 1));
-		rewardResourcesAmount.add(new ResourceAmount(ResourceType.STONE, 1));
-		rewardResourcesAmount.add(new ResourceAmount(ResourceType.WOOD, 1));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Giovanni dalle Bande Nere", 14, conditionsOptions, new Reward(null, rewardResourcesAmount)));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsResourcesAmount.clear();
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.COIN, 18));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		rewardResourcesAmount.clear();
-		rewardResourcesAmount.add(new ResourceAmount(ResourceType.FAITH_POINT, 1));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Girolamo Savonarola", 15, conditionsOptions, new Reward(null, rewardResourcesAmount)));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsCardsAmount.add(new CardAmount(CardType.CHARACTER, 4));
-		conditionsCardsAmount.add(new CardAmount(CardType.TERRITORY, 2));
-		conditionsResourcesAmount.clear();
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		rewardResourcesAmount.clear();
-		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Leonardo da Vinci", 16, conditionsOptions, new Reward(new ActionRewardProduction(0), rewardResourcesAmount)));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsResourcesAmount.clear();
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.SERVANT, 15));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		rewardResourcesAmount.clear();
-		rewardResourcesAmount.add(new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, 1));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Ludovico III Gonzaga", 17, conditionsOptions, new Reward(null, rewardResourcesAmount)));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsResourcesAmount.clear();
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.STONE, 10));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		rewardResourcesAmount.clear();
-		rewardResourcesAmount.add(new ResourceAmount(ResourceType.COIN, 3));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Michelangelo Buonarroti", 18, conditionsOptions, new Reward(null, rewardResourcesAmount)));
-		conditionsOptions.clear();
-		conditionsCardsAmount.clear();
-		conditionsResourcesAmount.clear();
-		conditionsResourcesAmount.add(new ResourceAmount(ResourceType.WOOD, 10));
-		conditionsOptions.add(new CardLeaderConditionsOption(conditionsCardsAmount, conditionsResourcesAmount));
-		rewardResourcesAmount.clear();
-		rewardResourcesAmount.add(new ResourceAmount(ResourceType.MILITARY_POINT, 2));
-		rewardResourcesAmount.add(new ResourceAmount(ResourceType.VICTORY_POINT, 1));
-		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Sandro Botticelli", 19, conditionsOptions, new Reward(null, rewardResourcesAmount)));
+		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Bartolomeo Colleoni", 10, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.TERRITORY, 4), new CardAmount(CardType.VENTURE, 2))), new ArrayList<>()))), new Reward(null, new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.VICTORY_POINT, 4))))));
+		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Cosimo de' Medici", 11, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.BUILDING, 4), new CardAmount(CardType.CHARACTER, 2))), new ArrayList<>()))), new Reward(null, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.SERVANT, 3), new ResourceAmount(ResourceType.VICTORY_POINT, 1))))));
+		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Federico da Montefeltro", 12, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.TERRITORY, 5))), new ArrayList<>()))), new Reward(new ActionRewardTemporaryModifier(), new ArrayList<>())));
+		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Francesco Sforza", 13, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.VENTURE, 5))), new ArrayList<>()))), new Reward(new ActionRewardHarvest(1), new ArrayList<>())));
+		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Giovanni dalle Bande Nere", 14, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.MILITARY_POINT, 12)))))), new Reward(null, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.WOOD, 1))))));
+		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Girolamo Savonarola", 15, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.COIN, 18)))))), new Reward(null, new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.FAITH_POINT, 1))))));
+		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Leonardo da Vinci", 16, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.CHARACTER, 4), new CardAmount(CardType.TERRITORY, 2))), new ArrayList<>()))), new Reward(new ActionRewardProduction(0), new ArrayList<>())));
+		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Ludovico III Gonzaga", 17, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.SERVANT, 15)))))), new Reward(null, new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, 1))))));
+		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Michelangelo Buonarroti", 18, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.STONE, 10)))))), new Reward(null, new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.COIN, 3))))));
+		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Sandro Botticelli", 19, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.WOOD, 10)))))), new Reward(null, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.MILITARY_POINT, 2), new ResourceAmount(ResourceType.VICTORY_POINT, 1))))));
 	}
 
 	public Map<Row, DevelopmentCardBuilding> getCurrentDevelopmentCardsBuilding()

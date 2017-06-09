@@ -6,6 +6,7 @@ import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.server.enums.WorkSlotType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
@@ -28,7 +29,7 @@ public class ActionProductionStart implements IAction
 	@Override
 	public boolean isLegal()
 	{
-		// check if the players is inside a room
+		// check if the player is inside a room
 		Room room = Room.getPlayerRoom(this.player);
 		if (room == null) {
 			return false;
@@ -36,6 +37,14 @@ public class ActionProductionStart implements IAction
 		// check if the game has started
 		GameHandler gameHandler = room.getGameHandler();
 		if (gameHandler == null) {
+			return false;
+		}
+		// check if it is the player's turn
+		if (this.player != gameHandler.getTurnPlayer()) {
+			return false;
+		}
+		// check whether the server expects the player to make this action
+		if (room.getGameHandler().getExpectedAction() != null) {
 			return false;
 		}
 		// check if the board slot is occupied and get effective family member value
@@ -61,22 +70,11 @@ public class ActionProductionStart implements IAction
 		// check if the family member and servants value is high enough
 		EventStartProduction eventStartProduction = new EventStartProduction(this.player, effectiveFamilyMemberValue + this.effectiveServants);
 		eventStartProduction.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
-		return eventStartProduction.getActionValue() >= this.workSlotType.getCost();
+		return eventStartProduction.getActionValue() >= (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformations(BoardPosition.PRODUCTION_BIG).getValue() : BoardHandler.getBoardPositionInformations(BoardPosition.PRODUCTION_SMALL).getValue());
 	}
 
 	@Override
 	public void apply()
 	{
-	}
-
-	@Override
-	public Connection getPlayer()
-	{
-		return this.player;
-	}
-
-	public FamilyMemberType getFamilyMemberType()
-	{
-		return this.familyMemberType;
 	}
 }

@@ -13,7 +13,7 @@ import java.util.Map;
 public class PlayerCardHandler
 {
 	private final PlayerInformations playerInformations;
-	private final Map<CardType, List> developmentCards = new HashMap<>();
+	private final Map<CardType, List<DevelopmentCard>> developmentCards = new HashMap<>();
 	private final List<CardLeader> cardsLeader = new ArrayList<>();
 
 	PlayerCardHandler(PlayerInformations playerInformations)
@@ -25,7 +25,15 @@ public class PlayerCardHandler
 		this.developmentCards.put(CardType.VENTURE, new ArrayList<>());
 	}
 
-	@SuppressWarnings("unchecked")
+	public <T extends DevelopmentCard> List<T> getDevelopmentCards(CardType cardType, Class<T> cardClass)
+	{
+		List<T> cardList = new ArrayList<>();
+		for (DevelopmentCard developmentCard : this.developmentCards.get(cardType)) {
+			cardList.add(cardClass.cast(developmentCard));
+		}
+		return cardList;
+	}
+
 	public void addDevelopmentCard(DevelopmentCard developmentCard)
 	{
 		this.developmentCards.get(developmentCard.getCardType()).add(CardsHandler.DEVELOPMENT_CARDS_TYPES.get(developmentCard.getCardType()).cast(developmentCard));
