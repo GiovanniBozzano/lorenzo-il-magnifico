@@ -1,23 +1,30 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardHarvest;
+import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.server.game.events.EventStartHarvest;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
+import it.polimi.ingsw.lim.server.game.utils.Phase;
+import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActionChooseRewardHarvest implements IAction
 {
 	private final Connection player;
-	private int effectiveServants;
+	private int servants;
 
-	public ActionChooseRewardHarvest(Connection player, int effectiveServants)
+	public ActionChooseRewardHarvest(Connection player, int servants)
 	{
 		this.player = player;
-		this.effectiveServants = effectiveServants;
+		this.servants = servants;
 	}
 
 	@Override
@@ -42,21 +49,47 @@ public class ActionChooseRewardHarvest implements IAction
 			return false;
 		}
 		// check if the player has the servants he sent
-		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResources(ResourceType.SERVANT) < this.effectiveServants) {
-			return false;
-		}
-		// get effective servants value
-		EventUseServants eventUseServants = new EventUseServants(this.player, this.effectiveServants);
-		eventUseServants.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
-		this.effectiveServants = eventUseServants.getServants();
-		// check if the action value and servants value is high enough
-		EventStartHarvest eventStartHarvest = new EventStartHarvest(this.player, ((ActionRewardHarvest) this.player.getPlayerInformations().getCurrentActionReward()).getValue() + this.effectiveServants);
-		eventStartHarvest.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
-		return eventStartHarvest.getActionValue() >= 1;
+		return this.player.getPlayerInformations().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) >= this.servants;
 	}
 
 	@Override
 	public void apply()
 	{
+		Room room = Room.getPlayerRoom(this.player);
+		if (room == null) {
+			return;
+		}
+		GameHandler gameHandler = room.getGameHandler();
+		if (gameHandler == null) {
+			return;
+		}
+		EventUseServants eventUseServants = new EventUseServants(this.player, this.servants);
+		eventUseServants.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
+		EventStartHarvest eventStartHarvest = new EventStartHarvest(this.player, ((ActionRewardHarvest) this.player.getPlayerInformations().getCurrentActionReward()).getValue() + eventUseServants.getServants());
+		eventStartHarvest.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
+		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
+		List<ResourceAmount> rewardResources = new ArrayList<>();
+		for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerInformations().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
+			if (developmentCardTerritory.getActivationValue() > eventStartHarvest.getActionValue()) {
+				continue;
+			}
+			rewardResources.addAll(developmentCardTerritory.getHarvestResources());
+		}
+		rewardResources.addAll(this.player.getPlayerInformations().getPersonalBonusTile().getHarvestInstantResources());
+		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(rewardResources);
+		// TODO aggiorno tutti
+		if (gameHandler.getPhase() == Phase.LEADER) {
+			gameHandler.setExpectedAction(null);
+			gameHandler.setPhase(Phase.FAMILY_MEMBER);
+			// TODO prosegui turno
+		} else {
+			int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+			if (councilPrivilegesCount > 0) {
+				gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+				// TODO manda scelta di privilegio
+			} else {
+				// TODO turno prossimo giocatore
+			}
+		}
 	}
 }

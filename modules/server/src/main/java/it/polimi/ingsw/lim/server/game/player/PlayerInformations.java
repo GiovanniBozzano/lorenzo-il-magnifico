@@ -15,7 +15,7 @@ import java.util.Map;
 public class PlayerInformations
 {
 	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler(this);
-	private final PlayerResourceHandler playerResourceHandler = new PlayerResourceHandler(this, 3, 2, 2);
+	private final PlayerResourceHandler playerResourceHandler = new PlayerResourceHandler(3, 2, 2);
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
 	private final List<Modifier<? extends Event>> activeModifiers = new ArrayList<>();
 	private final PersonalBonusTile personalBonusTile;
@@ -75,6 +75,11 @@ public class PlayerInformations
 	public ActionReward getCurrentActionReward()
 	{
 		return this.currentActionReward;
+	}
+
+	public void setCurrentActionReward(ActionReward actionReward)
+	{
+		this.currentActionReward = actionReward;
 	}
 
 	public int getCurrentProductionValue()

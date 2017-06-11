@@ -4,6 +4,9 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
+import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
+import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionChooseRewardTemporaryModifier implements IAction
@@ -38,11 +41,37 @@ public class ActionChooseRewardTemporaryModifier implements IAction
 		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER) {
 			return false;
 		}
-		return true;
+		// check whether the chosen family member il colored
+		return this.familyMemberType != FamilyMemberType.NEUTRAL;
 	}
 
 	@Override
 	public void apply()
 	{
+		Room room = Room.getPlayerRoom(this.player);
+		if (room == null) {
+			return;
+		}
+		GameHandler gameHandler = room.getGameHandler();
+		if (gameHandler == null) {
+			return;
+		}
+		gameHandler.setPhase(Phase.FAMILY_MEMBER);
+		Modifier<EventPlaceFamilyMember> modifier = new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
+		{
+			@Override
+			public void apply(EventPlaceFamilyMember event)
+			{
+				if (event.getFamilyMemberType() != ActionChooseRewardTemporaryModifier.this.familyMemberType) {
+					return;
+				}
+				event.setFamilyMemberValue(6);
+			}
+		};
+		this.player.getPlayerInformations().getTemporaryModifiers().add(modifier);
+		this.player.getPlayerInformations().getActiveModifiers().add(modifier);
+		gameHandler.setExpectedAction(null);
+		// TODO aggiorno tutti
+		// TODO prosegui turno
 	}
 }

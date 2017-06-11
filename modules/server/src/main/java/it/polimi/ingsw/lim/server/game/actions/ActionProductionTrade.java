@@ -6,6 +6,7 @@ import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
+import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.server.network.Connection;
@@ -74,14 +75,20 @@ public class ActionProductionTrade implements IAction
 		producedResources.addAll(this.player.getPlayerInformations().getPersonalBonusTile().getProductionInstantResources());
 		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResources(employedResources);
 		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(producedResources);
-		// TODO aggiorno tutti
-		int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources(ResourceType.COUNCIL_PRIVILEGE);
-		if (councilPrivilegesCount > 0) {
-			room.getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
-			// TODO manda scelta di privilegio
+		if (gameHandler.getPhase() == Phase.LEADER) {
+			gameHandler.setExpectedAction(null);
+			gameHandler.setPhase(Phase.FAMILY_MEMBER);
+			// TODO aggiorno tutti
+			// TODO prosegui turno
 		} else {
-			room.getGameHandler().setExpectedAction(null);
-			// TODO turno del prossimo giocatore
+			int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+			if (councilPrivilegesCount > 0) {
+				gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+				// TODO aggiorno tutti
+				// TODO manda scelta di privilegio
+			} else {
+				gameHandler.nextTurn();
+			}
 		}
 	}
 }

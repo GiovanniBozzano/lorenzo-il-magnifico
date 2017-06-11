@@ -46,7 +46,7 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE) {
 			return false;
 		}
-		if (this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources(ResourceType.COUNCIL_PRIVILEGE) != this.councilPalaceRewardIndexes.size()) {
+		if (this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE) != this.councilPalaceRewardIndexes.size()) {
 			return false;
 		}
 		// check if all rewards are different
@@ -83,14 +83,12 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		this.player.getPlayerInformations().getPlayerResourceHandler().subtractTemporaryResource(new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, this.councilPalaceRewardIndexes.size()));
+		this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().remove(ResourceType.COUNCIL_PRIVILEGE);
 		List<ResourceAmount> resourceReward = new ArrayList<>();
 		for (int councilPalaceRewardIndex : this.councilPalaceRewardIndexes) {
 			resourceReward.addAll(BoardHandler.COUNCIL_PRIVILEGE_REWARDS.get(councilPalaceRewardIndex).getResourceAmounts());
 		}
 		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(resourceReward);
-		gameHandler.setExpectedAction(null);
-		//TODO aggiorno tutti
-		//TODO turno del prossimo giocatore
+		gameHandler.nextTurn();
 	}
 }

@@ -6,7 +6,7 @@ import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
-import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionMarket implements IAction
@@ -42,7 +42,7 @@ public class ActionMarket implements IAction
 			return false;
 		}
 		// check whether the server expects the player to make this action
-		if (room.getGameHandler().getExpectedAction() != null) {
+		if (gameHandler.getExpectedAction() != null) {
 			return false;
 		}
 		// check if the board slot is occupied and get effective family member value
@@ -58,7 +58,7 @@ public class ActionMarket implements IAction
 			}
 		}
 		// check if the player has the servants he sent
-		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResources(ResourceType.SERVANT) < this.servants) {
+		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.servants) {
 			return false;
 		}
 		// get effective servants value
@@ -80,14 +80,16 @@ public class ActionMarket implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResource(new ResourceAmount(ResourceType.SERVANT, this.servants));
+		gameHandler.setPhase(Phase.FAMILY_MEMBER);
+		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
 		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(BoardHandler.getBoardPositionInformations(BoardPosition.MARKET_POSITIONS.get(this.marketSlot)).getResourceAmounts());
-		int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources(ResourceType.COUNCIL_PRIVILEGE);
+		int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
-			room.getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+			// TODO aggiorno tutti
 			// TODO manda scelta di privilegio
 		} else {
-			// TODO turno del prossimo giocatore
+			gameHandler.nextTurn();
 		}
 	}
 }

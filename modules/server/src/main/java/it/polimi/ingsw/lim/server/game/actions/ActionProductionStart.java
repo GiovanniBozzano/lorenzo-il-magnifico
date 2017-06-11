@@ -11,7 +11,6 @@ import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
-import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionProductionStart implements IAction
@@ -47,7 +46,7 @@ public class ActionProductionStart implements IAction
 			return false;
 		}
 		// check whether the server expects the player to make this action
-		if (room.getGameHandler().getExpectedAction() != null) {
+		if (gameHandler.getExpectedAction() != null) {
 			return false;
 		}
 		// check if the board slot is occupied and get effective family member value
@@ -63,7 +62,7 @@ public class ActionProductionStart implements IAction
 			}
 		}
 		// check if the player has the servants he sent
-		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResources(ResourceType.SERVANT) < this.servants) {
+		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.servants) {
 			return false;
 		}
 		// get effective servants value
@@ -88,11 +87,11 @@ public class ActionProductionStart implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResource(new ResourceAmount(ResourceType.SERVANT, this.servants));
+		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
 		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(this.player.getPlayerInformations().getPersonalBonusTile().getHarvestInstantResources());
-		// TODO aggiorno tutti
 		this.player.getPlayerInformations().setCurrentProductionValue(this.effectiveActionValue);
-		room.getGameHandler().setExpectedAction(ActionType.PRODUCTION_TRADE);
+		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);
+		// TODO aggiorno tutti
 		// TODO mando azione trade
 	}
 }
