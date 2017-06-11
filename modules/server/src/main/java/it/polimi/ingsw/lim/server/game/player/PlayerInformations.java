@@ -21,6 +21,7 @@ public class PlayerInformations
 	private final PersonalBonusTile personalBonusTile;
 	private final List<Modifier<? extends Event>> temporaryModifiers = new ArrayList<>();
 	private ActionReward currentActionReward;
+	private int currentProductionValue = 0;
 
 	public PlayerInformations(PersonalBonusTile personalBonusTile)
 	{
@@ -74,5 +75,15 @@ public class PlayerInformations
 	public ActionReward getCurrentActionReward()
 	{
 		return this.currentActionReward;
+	}
+
+	public int getCurrentProductionValue()
+	{
+		return this.currentProductionValue;
+	}
+
+	public void setCurrentProductionValue(int currentProductionValue)
+	{
+		this.currentProductionValue = currentProductionValue;
 	}
 }

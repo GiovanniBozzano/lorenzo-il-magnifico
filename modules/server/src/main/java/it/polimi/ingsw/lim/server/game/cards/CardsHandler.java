@@ -146,26 +146,6 @@ public class CardsHandler
 		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Sandro Botticelli", 19, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.WOOD, 10)))))), new Reward(null, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.MILITARY_POINT, 2), new ResourceAmount(ResourceType.VICTORY_POINT, 1))))));
 	}
 
-	public Map<Row, DevelopmentCardBuilding> getCurrentDevelopmentCardsBuilding()
-	{
-		return this.currentDevelopmentCardsBuilding;
-	}
-
-	public Map<Row, DevelopmentCardCharacter> getCurrentDevelopmentCardsCharacter()
-	{
-		return this.currentDevelopmentCardsCharacter;
-	}
-
-	public Map<Row, DevelopmentCardTerritory> getCurrentDevelopmentCardsTerritory()
-	{
-		return this.currentDevelopmentCardsTerritory;
-	}
-
-	public Map<Row, DevelopmentCardVenture> getCurrentDevelopmentCardsVenture()
-	{
-		return this.currentDevelopmentCardsVenture;
-	}
-
 	private final Map<Row, DevelopmentCardBuilding> currentDevelopmentCardsBuilding = new HashMap<>();
 	private final Map<Row, DevelopmentCardCharacter> currentDevelopmentCardsCharacter = new HashMap<>();
 	private final Map<Row, DevelopmentCardTerritory> currentDevelopmentCardsTerritory = new HashMap<>();
@@ -198,6 +178,26 @@ public class CardsHandler
 	public void addDevelopmentCard(DevelopmentCardVenture developmentCard, Row row)
 	{
 		this.currentDevelopmentCardsVenture.put(row, developmentCard);
+	}
+
+	public Map<Row, DevelopmentCardBuilding> getCurrentDevelopmentCardsBuilding()
+	{
+		return this.currentDevelopmentCardsBuilding;
+	}
+
+	public Map<Row, DevelopmentCardCharacter> getCurrentDevelopmentCardsCharacter()
+	{
+		return this.currentDevelopmentCardsCharacter;
+	}
+
+	public Map<Row, DevelopmentCardTerritory> getCurrentDevelopmentCardsTerritory()
+	{
+		return this.currentDevelopmentCardsTerritory;
+	}
+
+	public Map<Row, DevelopmentCardVenture> getCurrentDevelopmentCardsVenture()
+	{
+		return this.currentDevelopmentCardsVenture;
 	}
 
 	public Map<CardType, Map<Row, ? extends DevelopmentCard>> getCurrentDevelopmentCards()

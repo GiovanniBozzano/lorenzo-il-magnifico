@@ -105,15 +105,15 @@ public class ActionGetDevelopmentCard implements IAction
 		}
 		if (this.columnOccupied) {
 			if (this.resourceCostOption == null) {
-				List<ResourceAmount> resourcesAmount = new ArrayList<>();
-				resourcesAmount.add(new ResourceAmount(ResourceType.COIN, 3));
-				this.resourceCostOption = new ResourceCostOption(resourcesAmount);
+				List<ResourceAmount> resourceAmounts = new ArrayList<>();
+				resourceAmounts.add(new ResourceAmount(ResourceType.COIN, 3));
+				this.resourceCostOption = new ResourceCostOption(resourceAmounts);
 			} else {
-				this.resourceCostOption.getResourcesAmount().add(new ResourceAmount(ResourceType.COIN, 3));
+				this.resourceCostOption.getResourceAmounts().add(new ResourceAmount(ResourceType.COIN, 3));
 			}
 		}
 		// check if the family member and servants value is high enough
-		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, this.resourceCostOption == null ? null : this.resourceCostOption.getResourcesAmount(), effectiveFamilyMemberValue + effectiveServantsValue);
+		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, this.resourceCostOption == null ? null : this.resourceCostOption.getResourceAmounts(), effectiveFamilyMemberValue + effectiveServantsValue);
 		eventGetDevelopmentCard.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
 		// prendo prezzo finale e controllo che il giocatore abbia le risorse necessarie
 		for (ResourceAmount resourceCost : eventGetDevelopmentCard.getResourceCost()) {
@@ -151,9 +151,9 @@ public class ActionGetDevelopmentCard implements IAction
 			room.getGameHandler().setExpectedAction(developmentCard.getReward().getActionReward().getRequestedAction());
 			// TODO manda azione rimcompensa
 		} else {
-			int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getResources(ResourceType.COUNCIL_PRIVILEGE);
+			int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources(ResourceType.COUNCIL_PRIVILEGE);
 			if (councilPrivilegesCount > 0) {
-				room.getGameHandler().setExpectedAction(ActionType.CHOOSE_COUNCIL_PRIVILEGES_REWARDS);
+				room.getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 				// TODO manda scelta di privilegio
 			} else {
 				// TODO turno del prossimo giocatore

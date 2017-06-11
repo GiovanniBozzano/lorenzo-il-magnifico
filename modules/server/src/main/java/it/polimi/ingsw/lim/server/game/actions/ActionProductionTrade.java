@@ -1,19 +1,29 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
+import it.polimi.ingsw.lim.common.enums.CardType;
+import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
+import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.server.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.server.network.Connection;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ActionProductionTrade implements IAction
 {
 	private final Connection player;
-	private final int developmentCardBuildingIndex;
+	private final Map<Integer, ResourceTradeOption> chosenDevelopmentCardsBuilding;
 
-	public ActionProductionTrade(Connection player, int developmentCardBuildingIndex)
+	public ActionProductionTrade(Connection player, Map<Integer, ResourceTradeOption> chosenDevelopmentCardsBuilding)
 	{
 		this.player = player;
-		this.developmentCardBuildingIndex = developmentCardBuildingIndex;
+		this.chosenDevelopmentCardsBuilding = new HashMap<>(chosenDevelopmentCardsBuilding);
 	}
 
 	@Override
@@ -37,12 +47,41 @@ public class ActionProductionTrade implements IAction
 		if (gameHandler.getExpectedAction() != ActionType.PRODUCTION_TRADE) {
 			return false;
 		}
-		// check if the player has enough resources to activate production trades
 		return true;
 	}
 
 	@Override
 	public void apply()
 	{
+		Room room = Room.getPlayerRoom(this.player);
+		if (room == null) {
+			return;
+		}
+		GameHandler gameHandler = room.getGameHandler();
+		if (gameHandler == null) {
+			return;
+		}
+		List<DevelopmentCardBuilding> developmentCardsBuilding = new ArrayList<>();
+		for (int index : this.chosenDevelopmentCardsBuilding.keySet()) {
+			developmentCardsBuilding.add(this.player.getPlayerInformations().getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, index, DevelopmentCardBuilding.class));
+		}
+		List<ResourceAmount> employedResources = new ArrayList<>();
+		List<ResourceAmount> producedResources = new ArrayList<>();
+		for (DevelopmentCardBuilding developmentCardBuilding : developmentCardsBuilding) {
+			employedResources.addAll(this.chosenDevelopmentCardsBuilding.get(developmentCardBuilding.getIndex()).getEmployedResources());
+			producedResources.addAll(this.chosenDevelopmentCardsBuilding.get(developmentCardBuilding.getIndex()).getProducedResources());
+		}
+		producedResources.addAll(this.player.getPlayerInformations().getPersonalBonusTile().getProductionInstantResources());
+		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResources(employedResources);
+		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(producedResources);
+		// TODO aggiorno tutti
+		int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources(ResourceType.COUNCIL_PRIVILEGE);
+		if (councilPrivilegesCount > 0) {
+			room.getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+			// TODO manda scelta di privilegio
+		} else {
+			room.getGameHandler().setExpectedAction(null);
+			// TODO turno del prossimo giocatore
+		}
 	}
 }

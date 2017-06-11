@@ -50,9 +50,9 @@ public class PlayerResourceHandler
 		this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
 	}
 
-	public void addResources(List<ResourceAmount> resourcesAmount)
+	public void addResources(List<ResourceAmount> resourceAmounts)
 	{
-		for (ResourceAmount resourceAmount : resourcesAmount) {
+		for (ResourceAmount resourceAmount : resourceAmounts) {
 			this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
 		}
 	}
@@ -62,9 +62,9 @@ public class PlayerResourceHandler
 		this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
 	}
 
-	public void addTemporaryResources(List<ResourceAmount> resourcesAmount)
+	public void addTemporaryResources(List<ResourceAmount> resourceAmounts)
 	{
-		for (ResourceAmount resourceAmount : resourcesAmount) {
+		for (ResourceAmount resourceAmount : resourceAmounts) {
 			this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
 		}
 	}
@@ -74,10 +74,22 @@ public class PlayerResourceHandler
 		this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
 	}
 
-	public void subtractResources(List<ResourceAmount> resourcesAmount)
+	public void subtractTemporaryResource(ResourceAmount resourceAmount)
 	{
-		for (ResourceAmount resourceAmount : resourcesAmount) {
+		this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
+	}
+
+	public void subtractResources(List<ResourceAmount> resourceAmounts)
+	{
+		for (ResourceAmount resourceAmount : resourceAmounts) {
 			this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
+		}
+	}
+
+	public void subtractTemporaryResources(List<ResourceAmount> resourceAmounts)
+	{
+		for (ResourceAmount resourceAmount : resourceAmounts) {
+			this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
 		}
 	}
 
@@ -99,6 +111,11 @@ public class PlayerResourceHandler
 	public int getResources(ResourceType resourceType)
 	{
 		return this.resources.get(resourceType);
+	}
+
+	public int getTemporaryResources(ResourceType resourceType)
+	{
+		return this.temporaryResources.get(resourceType);
 	}
 
 	public PlayerInformations getPlayerInformations()

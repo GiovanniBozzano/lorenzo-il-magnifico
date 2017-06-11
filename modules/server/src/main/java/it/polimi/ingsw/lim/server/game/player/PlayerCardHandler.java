@@ -34,6 +34,16 @@ public class PlayerCardHandler
 		return cardList;
 	}
 
+	public <T> T getDevelopmentCardFromIndex(CardType cardType, int index, Class<T> cardClass)
+	{
+		for (DevelopmentCard developmentCard : this.developmentCards.get(cardType)) {
+			if (developmentCard.getIndex() == index) {
+				return cardClass.cast(developmentCard);
+			}
+		}
+		return null;
+	}
+
 	public void addDevelopmentCard(DevelopmentCard developmentCard)
 	{
 		this.developmentCards.get(developmentCard.getCardType()).add(CardsHandler.DEVELOPMENT_CARDS_TYPES.get(developmentCard.getCardType()).cast(developmentCard));

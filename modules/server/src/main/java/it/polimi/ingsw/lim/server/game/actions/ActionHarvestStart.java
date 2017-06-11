@@ -100,12 +100,11 @@ public class ActionHarvestStart implements IAction
 		rewardResources.addAll(this.player.getPlayerInformations().getPersonalBonusTile().getHarvestInstantResources());
 		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(rewardResources);
 		// TODO aggiorno tutti
-		int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getResources(ResourceType.COUNCIL_PRIVILEGE);
+		int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
-			room.getGameHandler().setExpectedAction(ActionType.CHOOSE_COUNCIL_PRIVILEGES_REWARDS);
+			room.getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 			// TODO manda scelta di privilegio
 		} else {
-			room.getGameHandler().setExpectedAction(null);
 			// TODO turno del prossimo giocatore
 		}
 	}

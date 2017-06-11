@@ -141,6 +141,11 @@ public class GameHandler
 		return this.cardsHandler;
 	}
 
+	public BoardHandler getBoardHandler()
+	{
+		return this.boardHandler;
+	}
+
 	public Map<FamilyMemberType, Integer> getFamilyMemberTypeValues()
 	{
 		return this.familyMemberTypeValues;
