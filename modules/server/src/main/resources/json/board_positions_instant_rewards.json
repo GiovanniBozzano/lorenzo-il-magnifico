@@ -3,6 +3,7 @@
 		"MARKET_1",
 		[
 			{
+				"type": "STANDARD",
 				"resourceType": "COIN",
 				"amount": 5
 			}
@@ -12,6 +13,7 @@
 		"MARKET_2",
 		[
 			{
+				"type": "STANDARD",
 				"resourceType": "SERVANT",
 				"amount": 5
 			}
@@ -21,10 +23,12 @@
 		"MARKET_3",
 		[
 			{
+				"type": "STANDARD",
 				"resourceType": "MILITARY_POINT",
 				"amount": 3
 			},
 			{
+				"type": "STANDARD",
 				"resourceType": "COIN",
 				"amount": 2
 			}
@@ -34,10 +38,12 @@
 		"MARKET_4",
 		[
 			{
+				"type": "STANDARD",
 				"resourceType": "COUNCIL_PRIVILEGE",
 				"amount": 1
 			},
 			{
+				"type": "STANDARD",
 				"resourceType": "COUNCIL_PRIVILEGE",
 				"amount": 1
 			}
@@ -47,10 +53,12 @@
 		"MARKET_5",
 		[
 			{
+				"type": "STANDARD",
 				"resourceType": "WOOD",
 				"amount": 2
 			},
 			{
+				"type": "STANDARD",
 				"resourceType": "STONE",
 				"amount": 2
 			}
@@ -60,10 +68,12 @@
 		"MARKET_6",
 		[
 			{
+				"type": "STANDARD",
 				"resourceType": "FAITH_POINT",
 				"amount": 1
 			},
 			{
+				"type": "STANDARD",
 				"resourceType": "PRESTIGE_POINT",
 				"amount": 1
 			}
@@ -73,12 +83,50 @@
 		"COUNCIL_PALACE",
 		[
 			{
+				"type": "STANDARD",
 				"resourceType": "COUNCIL_PRIVILEGE",
 				"amount": 1
 			},
 			{
+				"type": "STANDARD",
 				"resourceType": "COIN",
 				"amount": 1
+			}
+		]
+	],
+	[
+		"HARVEST_SMALL",
+		[
+			{
+				"type": "HARVEST",
+				"value": 1
+			}
+		]
+	],
+	[
+		"PRODUCTION_SMALL",
+		[
+			{
+				"type": "PRODUCTION",
+				"value": 1
+			}
+		]
+	],
+	[
+		"HARVEST_BIG",
+		[
+			{
+				"type": "HARVEST",
+				"value": 1
+			}
+		]
+	],
+	[
+		"PRODUCTION_BIG",
+		[
+			{
+				"type": "PRODUCTION",
+				"value": 1
 			}
 		]
 	]
