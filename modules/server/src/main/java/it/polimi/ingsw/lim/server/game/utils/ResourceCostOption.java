@@ -4,15 +4,15 @@ import java.util.List;
 
 public class ResourceCostOption
 {
-	private final List<ResourceAmount> resourcesAmount;
+	private final List<ResourceAmount> resourceAmounts;
 
-	public ResourceCostOption(List<ResourceAmount> resourcesAmount)
+	public ResourceCostOption(List<ResourceAmount> resourceAmounts)
 	{
-		this.resourcesAmount = resourcesAmount;
+		this.resourceAmounts = resourceAmounts;
 	}
 
-	public List<ResourceAmount> getResourcesAmount()
+	public List<ResourceAmount> getResourceAmounts()
 	{
-		return this.resourcesAmount;
+		return this.resourceAmounts;
 	}
 }

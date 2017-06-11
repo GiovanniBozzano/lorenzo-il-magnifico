@@ -9,6 +9,7 @@ import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.utils.DiscountChoice;
+import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.network.Connection;
@@ -86,7 +87,7 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 			}
 		}
 		// check if the player has the servants he sent
-		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResources(ResourceType.SERVANT) < this.servants) {
+		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.servants) {
 			return false;
 		}
 		// get effective servants value
@@ -99,15 +100,15 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 		}
 		if (this.columnOccupied) {
 			if (this.resourceCostOption == null) {
-				List<ResourceAmount> resourcesAmount = new ArrayList<>();
-				resourcesAmount.add(new ResourceAmount(ResourceType.COIN, 3));
-				this.resourceCostOption = new ResourceCostOption(resourcesAmount);
+				List<ResourceAmount> resourceAmounts = new ArrayList<>();
+				resourceAmounts.add(new ResourceAmount(ResourceType.COIN, 3));
+				this.resourceCostOption = new ResourceCostOption(resourceAmounts);
 			} else {
-				this.resourceCostOption.getResourcesAmount().add(new ResourceAmount(ResourceType.COIN, 3));
+				this.resourceCostOption.getResourceAmounts().add(new ResourceAmount(ResourceType.COIN, 3));
 			}
 		}
 		// check if the family member and servants value is high enough
-		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, this.resourceCostOption == null ? null : this.resourceCostOption.getResourcesAmount(), ((ActionRewardGetDevelopmentCard) this.player.getPlayerInformations().getCurrentActionReward()).getValue() + effectiveServantsValue);
+		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, this.resourceCostOption == null ? null : this.resourceCostOption.getResourceAmounts(), ((ActionRewardGetDevelopmentCard) this.player.getPlayerInformations().getCurrentActionReward()).getValue() + effectiveServantsValue);
 		eventGetDevelopmentCard.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
 		// controlla presenza discountchoice nell'array actionreward
 		if ((this.discount == null && !((ActionRewardGetDevelopmentCard) this.player.getPlayerInformations().getCurrentActionReward()).getDiscountChoices().isEmpty()) || (this.discount != null && !((ActionRewardGetDevelopmentCard) this.player.getPlayerInformations().getCurrentActionReward()).getDiscountChoices().contains(this.discount))) {
@@ -126,7 +127,7 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 		}
 		// prendo prezzo finale e controllo che il giocatore abbia le risorse necessarie
 		for (ResourceAmount resourceCost : this.effectiveResourceCost) {
-			int playerResources = this.player.getPlayerInformations().getPlayerResourceHandler().getResources(resourceCost.getResourceType());
+			int playerResources = this.player.getPlayerInformations().getPlayerResourceHandler().getResources().get(resourceCost.getResourceType());
 			if (playerResources < resourceCost.getAmount()) {
 				return false;
 			}
@@ -145,26 +146,34 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		DevelopmentCard developmentCard = room.getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).get(this.row);
+		DevelopmentCard developmentCard = gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).get(this.row);
 		this.player.getPlayerInformations().getPlayerCardHandler().addDevelopmentCard(developmentCard);
-		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResource(new ResourceAmount(ResourceType.SERVANT, this.servants));
+		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
 		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResources(this.effectiveResourceCost);
 		List<ResourceAmount> resourceReward = new ArrayList<>(developmentCard.getReward().getResourceAmounts());
 		resourceReward.addAll(BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.cardType, this.row)).getResourceAmounts());
 		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(resourceReward);
-		room.getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).put(this.row, null);
-		// TODO aggiorno tutti
+		gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).put(this.row, null);
 		if (developmentCard.getReward().getActionReward() != null) {
-			room.getGameHandler().setExpectedAction(developmentCard.getReward().getActionReward().getRequestedAction());
+			this.player.getPlayerInformations().setCurrentActionReward(developmentCard.getReward().getActionReward());
+			gameHandler.setExpectedAction(developmentCard.getReward().getActionReward().getRequestedAction());
+			// TODO aggiorno tutti
 			// TODO manda azione rimcompensa
 		} else {
-			int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getResources(ResourceType.COUNCIL_PRIVILEGE);
-			if (councilPrivilegesCount > 0) {
-				room.getGameHandler().setExpectedAction(ActionType.CHOOSE_COUNCIL_PRIVILEGES_REWARDS);
-				// TODO manda scelta di privilegio
+			if (gameHandler.getPhase() == Phase.LEADER) {
+				gameHandler.setExpectedAction(null);
+				gameHandler.setPhase(Phase.FAMILY_MEMBER);
+				// TODO aggiorno tutti
+				// TODO prosegui turno
 			} else {
-				room.getGameHandler().setExpectedAction(null);
-				// TODO turno del prossimo giocatore
+				int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+				if (councilPrivilegesCount > 0) {
+					gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+					// TODO aggiorno tutti
+					// TODO manda scelta di privilegio
+				} else {
+					gameHandler.nextTurn();
+				}
 			}
 		}
 	}

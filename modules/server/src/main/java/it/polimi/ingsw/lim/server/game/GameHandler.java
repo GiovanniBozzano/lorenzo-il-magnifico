@@ -7,7 +7,7 @@ import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.events.Event;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.player.PlayerInformations;
-import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.*;
@@ -27,6 +27,7 @@ public class GameHandler
 	private Connection turnPlayer;
 	private Period period;
 	private Round round;
+	private Phase phase;
 	private ActionType expectedAction;
 
 	GameHandler(Room room)
@@ -46,38 +47,46 @@ public class GameHandler
 		Collections.shuffle(this.turnOrder, this.randomGenerator);
 		int startingCoins = 5;
 		for (Connection player : this.turnOrder) {
-			player.getPlayerInformations().getPlayerResourceHandler().addResource(new ResourceAmount(ResourceType.COIN, startingCoins));
+			player.getPlayerInformations().getPlayerResourceHandler().addResource(ResourceType.COIN, startingCoins);
 			startingCoins++;
 		}
 		this.setupRound();
 	}
 
-	private void setupPeriod()
-	{
-		if (this.period == null) {
-			this.period = Period.FIRST;
-		} else {
-			this.period = Period.next(this.period);
-		}
-		if (this.period == null) {
-			this.endGame();
-		} else {
-			this.round = Round.FIRST;
-		}
-	}
-
 	private void setupRound()
 	{
 		if (this.round == null || this.round == Round.SECOND) {
+			// the game is being started
 			this.setupPeriod();
+		} else {
+			this.round = Round.SECOND;
 		}
 		if (this.period == null) {
+			// the game has ended
 			return;
 		}
 		this.setupTurnOrder();
 		this.turnPlayer = this.turnOrder.get(0);
 		this.rollDices();
 		this.drawCards();
+		// TODO aggiorno tutti
+		// TODO turno primo giocatore
+	}
+
+	private void setupPeriod()
+	{
+		if (this.period == null) {
+			// the game is being started
+			this.period = Period.FIRST;
+		} else {
+			this.period = Period.next(this.period);
+		}
+		if (this.period == null) {
+			// the are no more periods to play
+			this.endGame();
+		} else {
+			this.round = Round.FIRST;
+		}
 	}
 
 	private void endGame()
@@ -116,18 +125,34 @@ public class GameHandler
 		if (this.period == Period.FIRST && this.round == Round.FIRST) {
 			return;
 		}
+		List<Connection> newTurnOrder = new LinkedList<>();
+		for (Connection player : this.boardHandler.getCouncilPalaceOrder()) {
+			newTurnOrder.add(player);
+			this.turnOrder.remove(player);
+		}
+		newTurnOrder.addAll(this.turnOrder);
+		this.turnOrder.clear();
+		this.turnOrder.addAll(newTurnOrder);
 	}
 
 	public void nextTurn()
 	{
+		this.phase = Phase.LEADER;
+		this.expectedAction = null;
 		for (Modifier<? extends Event> temporaryModifier : this.turnPlayer.getPlayerInformations().getTemporaryModifiers()) {
 			this.turnPlayer.getPlayerInformations().getActiveModifiers().remove(temporaryModifier);
 		}
 		this.turnPlayer.getPlayerInformations().getTemporaryModifiers().clear();
+		for (ResourceType resourceType : this.turnPlayer.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().keySet()) {
+			this.turnPlayer.getPlayerInformations().getPlayerResourceHandler().addResource(resourceType, this.turnPlayer.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().get(resourceType));
+		}
+		this.turnPlayer.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().clear();
 		this.turnPlayer = this.getNextTurnPlayer();
 		if (this.turnPlayer == null) {
 			this.setupRound();
 		}
+		// TODO aggiorno tutti
+		// TODO turno prossimo giocatore
 	}
 
 	private Connection getNextTurnPlayer()
@@ -141,6 +166,11 @@ public class GameHandler
 		return this.cardsHandler;
 	}
 
+	public BoardHandler getBoardHandler()
+	{
+		return this.boardHandler;
+	}
+
 	public Map<FamilyMemberType, Integer> getFamilyMemberTypeValues()
 	{
 		return this.familyMemberTypeValues;
@@ -149,6 +179,16 @@ public class GameHandler
 	public Connection getTurnPlayer()
 	{
 		return this.turnPlayer;
+	}
+
+	public Phase getPhase()
+	{
+		return this.phase;
+	}
+
+	public void setPhase(Phase phase)
+	{
+		this.phase = phase;
 	}
 
 	public ActionType getExpectedAction()

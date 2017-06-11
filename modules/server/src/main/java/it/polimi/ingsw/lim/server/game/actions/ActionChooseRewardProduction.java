@@ -12,12 +12,12 @@ import it.polimi.ingsw.lim.server.network.Connection;
 public class ActionChooseRewardProduction implements IAction
 {
 	private final Connection player;
-	private int effectiveServants;
+	private int servants;
 
-	public ActionChooseRewardProduction(Connection player, int effectiveServants)
+	public ActionChooseRewardProduction(Connection player, int servants)
 	{
 		this.player = player;
-		this.effectiveServants = effectiveServants;
+		this.servants = servants;
 	}
 
 	@Override
@@ -42,21 +42,29 @@ public class ActionChooseRewardProduction implements IAction
 			return false;
 		}
 		// check if the player has the servants he sent
-		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResources(ResourceType.SERVANT) < this.effectiveServants) {
-			return false;
-		}
-		// get effective servants value
-		EventUseServants eventUseServants = new EventUseServants(this.player, this.effectiveServants);
-		eventUseServants.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
-		this.effectiveServants = eventUseServants.getServants();
-		// check if the action value and servants value is high enough
-		EventStartProduction eventStartProduction = new EventStartProduction(this.player, ((ActionRewardProduction) this.player.getPlayerInformations().getCurrentActionReward()).getValue() + this.effectiveServants);
-		eventStartProduction.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
-		return eventStartProduction.getActionValue() >= 1;
+		return this.player.getPlayerInformations().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) >= this.servants;
 	}
 
 	@Override
 	public void apply()
 	{
+		Room room = Room.getPlayerRoom(this.player);
+		if (room == null) {
+			return;
+		}
+		GameHandler gameHandler = room.getGameHandler();
+		if (gameHandler == null) {
+			return;
+		}
+		EventUseServants eventUseServants = new EventUseServants(this.player, this.servants);
+		eventUseServants.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
+		EventStartProduction eventStartProduction = new EventStartProduction(this.player, ((ActionRewardProduction) this.player.getPlayerInformations().getCurrentActionReward()).getValue() + eventUseServants.getServants());
+		eventStartProduction.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
+		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
+		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(this.player.getPlayerInformations().getPersonalBonusTile().getHarvestInstantResources());
+		// TODO aggiorno tutti
+		this.player.getPlayerInformations().setCurrentProductionValue(eventStartProduction.getActionValue());
+		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);
+		// TODO mando azione trade
 	}
 }

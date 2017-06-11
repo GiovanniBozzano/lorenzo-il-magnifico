@@ -30,13 +30,11 @@ public class PlayerResourceHandler
 		PlayerResourceHandler.EXCOMMUNICATION_CONDITIONS.put(Period.THIRD, 5);
 	}
 
-	private final PlayerInformations playerInformations;
 	private final Map<ResourceType, Integer> resources = new EnumMap<>(ResourceType.class);
 	private final Map<ResourceType, Integer> temporaryResources = new EnumMap<>(ResourceType.class);
 
-	PlayerResourceHandler(PlayerInformations playerInformations, int resourcesServant, int resourcesStone, int resourcesWood)
+	PlayerResourceHandler(int resourcesServant, int resourcesStone, int resourcesWood)
 	{
-		this.playerInformations = playerInformations;
 		this.resources.put(ResourceType.SERVANT, resourcesServant);
 		this.resources.put(ResourceType.STONE, resourcesStone);
 		this.resources.put(ResourceType.WOOD, resourcesWood);
@@ -45,39 +43,51 @@ public class PlayerResourceHandler
 		this.resources.put(ResourceType.VICTORY_POINT, 0);
 	}
 
-	public void addResource(ResourceAmount resourceAmount)
+	public void addResource(ResourceType resourceType, int amount)
 	{
-		this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
+		this.resources.put(resourceType, amount);
 	}
 
-	public void addResources(List<ResourceAmount> resourcesAmount)
+	public void addResources(List<ResourceAmount> resourceAmounts)
 	{
-		for (ResourceAmount resourceAmount : resourcesAmount) {
+		for (ResourceAmount resourceAmount : resourceAmounts) {
 			this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
 		}
 	}
 
-	public void addTemporaryResource(ResourceAmount resourceAmount)
+	public void addTemporaryResource(ResourceType resourceType, int amount)
 	{
-		this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
+		this.temporaryResources.put(resourceType, amount);
 	}
 
-	public void addTemporaryResources(List<ResourceAmount> resourcesAmount)
+	public void addTemporaryResources(List<ResourceAmount> resourceAmounts)
 	{
-		for (ResourceAmount resourceAmount : resourcesAmount) {
+		for (ResourceAmount resourceAmount : resourceAmounts) {
 			this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
 		}
 	}
 
-	public void subtractResource(ResourceAmount resourceAmount)
+	public void subtractResource(ResourceType resourceType, int amount)
 	{
-		this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
+		this.resources.put(resourceType, this.resources.get(resourceType) - amount);
 	}
 
-	public void subtractResources(List<ResourceAmount> resourcesAmount)
+	public void subtractResources(List<ResourceAmount> resourceAmounts)
 	{
-		for (ResourceAmount resourceAmount : resourcesAmount) {
+		for (ResourceAmount resourceAmount : resourceAmounts) {
 			this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
+		}
+	}
+
+	public void subtractTemporaryResource(ResourceType resourceType, int amount)
+	{
+		this.temporaryResources.put(resourceType, this.resources.get(resourceType) - amount);
+	}
+
+	public void subtractTemporaryResources(List<ResourceAmount> resourceAmounts)
+	{
+		for (ResourceAmount resourceAmount : resourceAmounts) {
+			this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
 		}
 	}
 
@@ -96,13 +106,13 @@ public class PlayerResourceHandler
 		return (this.resources.get(ResourceType.COIN) + this.resources.get(ResourceType.WOOD) + this.resources.get(ResourceType.STONE) + this.resources.get(ResourceType.SERVANT)) / 5;
 	}
 
-	public int getResources(ResourceType resourceType)
+	public Map<ResourceType, Integer> getResources()
 	{
-		return this.resources.get(resourceType);
+		return this.resources;
 	}
 
-	public PlayerInformations getPlayerInformations()
+	public Map<ResourceType, Integer> getTemporaryResources()
 	{
-		return this.playerInformations;
+		return this.temporaryResources;
 	}
 }

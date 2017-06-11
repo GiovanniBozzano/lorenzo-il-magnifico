@@ -21,7 +21,7 @@ import java.util.logging.Level;
 public class BoardHandler
 {
 	private static final Map<BoardPosition, BoardPositionInformations> BOARD_POSITIONS_INFORMATIONS = new BoardPositionsInstantRewardsBuilder("/json/board_positions_instant_rewards.json").initialize();
-	private static final List<CouncilPalaceReward> COUNCIL_PRIVILEGE_REWARDS = new CouncilPrivilegeRewardsBuilder("/json/council_privilege_rewards.json").initialize();
+	public static final List<CouncilPalaceReward> COUNCIL_PRIVILEGE_REWARDS = new CouncilPrivilegeRewardsBuilder("/json/council_privilege_rewards.json").initialize();
 	private final List<Connection> councilPalaceOrder = new LinkedList<>();
 
 	public static BoardPositionInformations getBoardPositionInformations(BoardPosition boardPosition)
@@ -30,6 +30,11 @@ public class BoardHandler
 			return BoardHandler.BOARD_POSITIONS_INFORMATIONS.get(boardPosition);
 		}
 		return new BoardPositionInformations(0, new ArrayList<>());
+	}
+
+	public List<Connection> getCouncilPalaceOrder()
+	{
+		return this.councilPalaceOrder;
 	}
 
 	private static class BoardPositionsInstantRewardsBuilder
