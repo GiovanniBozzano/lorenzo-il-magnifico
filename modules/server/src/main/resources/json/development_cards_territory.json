@@ -3,7 +3,16 @@
 		{
 			"displayName": "Commercial Hub",
 			"index": 0,
-			"instantResources": [],
+			"resourceCostOptions": [
+				{
+					"requiredResources": [],
+					"spentResources": []
+				}
+			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [],
+			},
 			"activationCost": 1,
 			"harvestResources": [
 				{
@@ -16,13 +25,22 @@
 		{
 			"displayName": "Woods",
 			"index": 1,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "WOOD",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 2,
 			"harvestResources": [
 				{
@@ -35,7 +53,16 @@
 		{
 			"displayName": "Village",
 			"index": 2,
-			"instantResources": [],
+			"resourceCostOptions": [
+				{
+					"requiredResources": [],
+					"spentResources": []
+				}
+			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": []
+			},
 			"activationCost": 3,
 			"harvestResources": [
 				{
@@ -53,13 +80,22 @@
 		{
 			"displayName": "Gravel Pit",
 			"index": 3,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "STONE",
+						"amount": 2
+					}
+				]
+			},
 			"activationCost": 4,
 			"harvestResources": [
 				{
@@ -72,13 +108,22 @@
 		{
 			"displayName": "Forest",
 			"index": 4,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "WOOD",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 5,
 			"harvestResources": [
 				{
@@ -91,18 +136,27 @@
 		{
 			"displayName": "Monastery",
 			"index": 5,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "MILITARY_POINT",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "SERVANT",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "MILITARY_POINT",
+						"amount": 2
+					},
+					{
+						"type": "STANDARD",
+						"resourceType": "SERVANT",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 6,
 			"harvestResources": [
 				{
@@ -120,7 +174,16 @@
 		{
 			"displayName": "Citadel",
 			"index": 6,
-			"instantResources": [],
+			"resourceCostOptions": [
+				{
+					"requiredResources": [],
+					"spentResources": []
+				}
+			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": []
+			},
 			"activationCost": 5,
 			"harvestResources": [
 				{
@@ -138,13 +201,22 @@
 		{
 			"displayName": "City",
 			"index": 7,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 3
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "COIN",
+						"amount": 3
+					}
+				]
+			},
 			"activationCost": 6,
 			"harvestResources": [
 				{
@@ -159,13 +231,22 @@
 		{
 			"displayName": "Gold Mine",
 			"index": 8,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "COIN",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 1,
 			"harvestResources": [
 				{
@@ -178,13 +259,22 @@
 		{
 			"displayName": "Mountain Town",
 			"index": 9,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "SERVANT",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "SERVANT",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 3,
 			"harvestResources": [
 				{
@@ -202,18 +292,27 @@
 		{
 			"displayName": "Mining Town",
 			"index": 10,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "SERVANT",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "SERVANT",
+						"amount": 2
+					},
+					{
+						"type": "STANDARD",
+						"resourceType": "STONE",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 4,
 			"harvestResources": [
 				{
@@ -231,13 +330,22 @@
 		{
 			"displayName": "Rock Pit",
 			"index": 11,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "WOOD",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 3,
 			"harvestResources": [
 				{
@@ -250,18 +358,27 @@
 		{
 			"displayName": "Estate",
 			"index": 12,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "SERVANT",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "SERVANT",
+						"amount": 2
+					},
+					{
+						"type": "STANDARD",
+						"resourceType": "WOOD",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 4,
 			"harvestResources": [
 				{
@@ -279,13 +396,22 @@
 		{
 			"displayName": "Hermitage",
 			"index": 13,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "FAITH_POINT",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 2,
 			"harvestResources": [
 				{
@@ -298,7 +424,16 @@
 		{
 			"displayName": "Manor House",
 			"index": 14,
-			"instantResources": [],
+			"resourceCostOptions": [
+				{
+					"requiredResources": [],
+					"spentResources": []
+				}
+			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": []
+			},
 			"activationCost": 5,
 			"harvestResources": [
 				{
@@ -316,13 +451,22 @@
 		{
 			"displayName": "Dukedom",
 			"index": 15,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 4
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "COIN",
+						"amount": 4
+					}
+				]
+			},
 			"activationCost": 6,
 			"harvestResources": [
 				{
@@ -347,18 +491,27 @@
 		{
 			"displayName": "Trading Town",
 			"index": 16,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 1
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "SERVANT",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "COIN",
+						"amount": 1
+					},
+					{
+						"type": "STANDARD",
+						"resourceType": "SERVANT",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 1,
 			"harvestResources": [
 				{
@@ -371,18 +524,27 @@
 		{
 			"displayName": "Farm",
 			"index": 17,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 1
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 1
+					},
+					{
+						"type": "STANDARD",
+						"resourceType": "WOOD",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 3,
 			"harvestResources": [
 				{
@@ -400,13 +562,22 @@
 		{
 			"displayName": "Colony",
 			"index": 18,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "MILITARY_POINT",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "MILITARY_POINT",
+						"amount": 2
+					}
+				]
+			},
 			"activationCost": 5,
 			"harvestResources": [
 				{
@@ -424,13 +595,22 @@
 		{
 			"displayName": "Marble Pit",
 			"index": 19,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 3
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 3
+					}
+				]
+			},
 			"activationCost": 2,
 			"harvestResources": [
 				{
@@ -448,18 +628,27 @@
 		{
 			"displayName": "Province",
 			"index": 20,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COUNCIL_PRIVILEGE",
-					"amount": 1
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "COUNCIL_PRIVILEGE",
+						"amount": 1
+					},
+					{
+						"type": "STANDARD",
+						"resourceType": "STONE",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 6,
 			"harvestResources": [
 				{
@@ -477,13 +666,22 @@
 		{
 			"displayName": "Sanctuary",
 			"index": 21,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "FAITH_POINT",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 1,
 			"harvestResources": [
 				{
@@ -501,18 +699,27 @@
 		{
 			"displayName": "Castle",
 			"index": 22,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 2
+					},
+					{
+						"type": "STANDARD",
+						"resourceType": "COIN",
+						"amount": 2
+					}
+				]
+			},
 			"activationCost": 4,
 			"harvestResources": [
 				{
@@ -530,18 +737,27 @@
 		{
 			"displayName": "Fortified Town",
 			"index": 23,
-			"instantResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "MILITARY_POINT",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "SERVANT",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": []
 				}
 			],
+			"reward": {
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "MILITARY_POINT",
+						"amount": 2
+					},
+					{
+						"type": "STANDARD",
+						"resourceType": "SERVANT",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 2,
 			"harvestResources": [
 				{

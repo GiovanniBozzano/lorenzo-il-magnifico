@@ -3,10 +3,10 @@
 		{
 			"displayName": "Hiring Recruits",
 			"index": 0,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "COIN",
@@ -15,7 +15,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -30,10 +30,10 @@
 		{
 			"displayName": "Repairing the Church",
 			"index": 1,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "COIN",
@@ -52,7 +52,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -67,10 +67,10 @@
 		{
 			"displayName": "Buildings the Walls",
 			"index": 2,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "STONE",
@@ -79,7 +79,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -99,10 +99,10 @@
 		{
 			"displayName": "Raising a Statue",
 			"index": 3,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "WOOD",
@@ -116,7 +116,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -131,16 +131,16 @@
 		{
 			"displayName": "Military Campaign",
 			"index": 4,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [
+					"requiredResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
 							"amount": 3
 						}
 					],
-					"producedResources": [
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
@@ -149,7 +149,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -164,10 +164,10 @@
 		{
 			"displayName": "Hosting Panhandlers",
 			"index": 5,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "WOOD",
@@ -176,7 +176,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -191,16 +191,16 @@
 		{
 			"displayName": "Fighting Heresies",
 			"index": 6,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [
+					"requiredResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
 							"amount": 5
 						}
 					],
-					"producedResources": [
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
@@ -209,7 +209,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -224,16 +224,16 @@
 		{
 			"displayName": "Support to the Bishop",
 			"index": 7,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [
+					"requiredResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
 							"amount": 4
 						}
 					],
-					"producedResources": [
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
@@ -242,8 +242,8 @@
 					]
 				},
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "WOOD",
@@ -262,7 +262,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -279,10 +279,10 @@
 		{
 			"displayName": "Hiring Soldiers",
 			"index": 8,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "COIN",
@@ -291,7 +291,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -306,10 +306,10 @@
 		{
 			"displayName": "Repairing the Abbey",
 			"index": 9,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "COIN",
@@ -328,7 +328,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -343,10 +343,10 @@
 		{
 			"displayName": "Building the Bastions",
 			"index": 10,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "STONE",
@@ -355,7 +355,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -375,16 +375,16 @@
 		{
 			"displayName": "Support to the King",
 			"index": 11,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [
+					"requiredResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
 							"amount": 6
 						}
 					],
-					"producedResources": [
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
@@ -393,7 +393,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -413,10 +413,10 @@
 		{
 			"displayName": "Improving the Canals",
 			"index": 12,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "SERVANT",
@@ -430,7 +430,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": {
 					"type": "HARVEST",
 					"value": 4
@@ -442,10 +442,10 @@
 		{
 			"displayName": "Hosting Foreigners",
 			"index": 13,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "WOOD",
@@ -454,7 +454,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -469,16 +469,16 @@
 		{
 			"displayName": "Crusade",
 			"index": 14,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [
+					"requiredResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
 							"amount": 8
 						}
 					],
-					"producedResources": [
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
@@ -487,7 +487,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -507,16 +507,16 @@
 		{
 			"displayName": "Support to the Cardinal",
 			"index": 15,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [
+					"requiredResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
 							"amount": 7
 						}
 					],
-					"producedResources": [
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
@@ -525,8 +525,8 @@
 					]
 				},
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "WOOD",
@@ -545,7 +545,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -562,10 +562,10 @@
 		{
 			"displayName": "Hiring Mercenaries",
 			"index": 16,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "COIN",
@@ -574,7 +574,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -589,10 +589,10 @@
 		{
 			"displayName": "Repairing the Cathedral",
 			"index": 17,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "COIN",
@@ -611,7 +611,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": {
 					"type": "CARD",
 					"value": 7,
@@ -636,10 +636,10 @@
 		{
 			"displayName": "Building the Towers",
 			"index": 18,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "STONE",
@@ -648,7 +648,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -668,17 +668,17 @@
 		{
 			"displayName": "Promoting Sacred Art",
 			"index": 19,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "WOOD",
 							"amount": 6
 						}
 					],
-					"instantReward": {
+					"reward": {
 						"actionReward": null,
 						"resourceAmounts": [
 							{
@@ -695,16 +695,16 @@
 		{
 			"displayName": "Military Conquest",
 			"index": 20,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [
+					"requiredResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
 							"amount": 12
 						}
 					],
-					"producedResources": [
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
@@ -713,7 +713,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -738,10 +738,10 @@
 		{
 			"displayName": "Improving the Roads",
 			"index": 21,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "SERVANT",
@@ -755,7 +755,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": {
 					"type": "PRODUCTION",
 					"value": 3
@@ -767,16 +767,16 @@
 		{
 			"displayName": "Sacred War",
 			"index": 22,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [
+					"requiredResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
 							"amount": 15
 						}
 					],
-					"producedResources": [
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
@@ -785,7 +785,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{
@@ -800,16 +800,16 @@
 		{
 			"displayName": "Support to the Pope",
 			"index": 23,
-			"resourceTradeOptions": [
+			"resourceCostOptions": [
 				{
-					"employedResources": [
+					"requiredResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
 							"amount": 10
 						}
 					],
-					"producedResources": [
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "MILITARY_POINT",
@@ -818,8 +818,8 @@
 					]
 				},
 				{
-					"employedResources": [],
-					"producedResources": [
+					"requiredResources": [],
+					"spentResources": [
 						{
 							"type": "STANDARD",
 							"resourceType": "WOOD",
@@ -838,7 +838,7 @@
 					]
 				}
 			],
-			"instantReward": {
+			"reward": {
 				"actionReward": null,
 				"resourceAmounts": [
 					{

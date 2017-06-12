@@ -3,25 +3,33 @@
 		{
 			"displayName": "Mint",
 			"index": 0,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 1
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 3
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 1
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 3
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 5
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 5
+					}
+				]
+			},
 			"activationCost": 5,
 			"resourceTradeOptions": [
 				{
@@ -40,25 +48,33 @@
 		{
 			"displayName": "Tax Office",
 			"index": 1,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 3
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 3
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 1
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 5
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 5
+					}
+				]
+			},
 			"activationCost": 5,
 			"resourceTradeOptions": [
 				{
@@ -77,25 +93,33 @@
 		{
 			"displayName": "Triumphal Arch",
 			"index": 2,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "COIN",
+							"amount": 2
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 2
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 6
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 6
+					}
+				]
+			},
 			"activationCost": 6,
 			"resourceTradeOptions": [
 				{
@@ -114,25 +138,33 @@
 		{
 			"displayName": "Theater",
 			"index": 3,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "COIN",
+							"amount": 2
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 2
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 6
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 6
+					}
+				]
+			},
 			"activationCost": 6,
 			"resourceTradeOptions": [
 				{
@@ -151,25 +183,33 @@
 		{
 			"displayName": "Carpenter's Shop",
 			"index": 4,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 1
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "COIN",
+							"amount": 1
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 2
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 3
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 3
+					}
+				]
+			},
 			"activationCost": 4,
 			"resourceTradeOptions": [
 				{
@@ -209,25 +249,33 @@
 		{
 			"displayName": "Stonemason's Shop",
 			"index": 5,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 1
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "COIN",
+							"amount": 1
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 2
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 2
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 2
+					}
+				]
+			},
 			"activationCost": 3,
 			"resourceTradeOptions": [
 				{
@@ -267,20 +315,28 @@
 		{
 			"displayName": "Chapel",
 			"index": 6,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 2
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "FAITH_POINT",
-					"amount": 1
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 2,
 			"resourceTradeOptions": [
 				{
@@ -304,20 +360,28 @@
 		{
 			"displayName": "Residence",
 			"index": 7,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 2
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 1
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 1,
 			"resourceTradeOptions": [
 				{
@@ -343,25 +407,33 @@
 		{
 			"displayName": "Marketplace",
 			"index": 8,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 2
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 1
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 3
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 3
+					}
+				]
+			},
 			"activationCost": 3,
 			"resourceTradeOptions": [
 				{
@@ -390,20 +462,28 @@
 		{
 			"displayName": "Treasury",
 			"index": 9,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 3
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 3
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 4
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 4
+					}
+				]
+			},
 			"activationCost": 3,
 			"resourceTradeOptions": [
 				{
@@ -443,20 +523,28 @@
 		{
 			"displayName": "Painters' Guild",
 			"index": 10,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 4
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 4
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 5
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 5
+					}
+				]
+			},
 			"activationCost": 4,
 			"resourceTradeOptions": [
 				{
@@ -496,20 +584,28 @@
 		{
 			"displayName": "Sculptors' Guild",
 			"index": 11,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 4
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 4
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 6
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 6
+					}
+				]
+			},
 			"activationCost": 5,
 			"resourceTradeOptions": [
 				{
@@ -549,25 +645,33 @@
 		{
 			"displayName": "Stonemasons' Guild",
 			"index": 12,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 1
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 1
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 2
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 4
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 4
+					}
+				]
+			},
 			"activationCost": 4,
 			"resourceTradeOptions": [
 				{
@@ -601,25 +705,33 @@
 		{
 			"displayName": "Baptistery",
 			"index": 13,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 3
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 3
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "FAITH_POINT",
-					"amount": 1
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 2
+					},
+					{
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 2,
 			"resourceTradeOptions": [
 				{
@@ -648,25 +760,33 @@
 		{
 			"displayName": "Barracks",
 			"index": 14,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 1
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 1
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 1
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 3
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 3
+					}
+				]
+			},
 			"activationCost": 1,
 			"resourceTradeOptions": [
 				{
@@ -690,30 +810,38 @@
 		{
 			"displayName": "Stronghold",
 			"index": 15,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "COIN",
+							"amount": 2
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 2
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 2
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 8
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 8
+					}
+				]
+			},
 			"activationCost": 6,
 			"resourceTradeOptions": [
 				{
@@ -738,30 +866,38 @@
 		{
 			"displayName": "Bank",
 			"index": 16,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 3
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 1
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 3
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "COIN",
+							"amount": 3
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 1
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 3
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 7
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 7
+					}
+				]
+			},
 			"activationCost": 2,
 			"resourceTradeOptions": [
 				{
@@ -779,25 +915,33 @@
 		{
 			"displayName": "Fair",
 			"index": 17,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 4
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 3
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "COIN",
+							"amount": 4
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 3
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 8
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 8
+					}
+				]
+			},
 			"activationCost": 4,
 			"resourceTradeOptions": [
 				{
@@ -826,30 +970,38 @@
 		{
 			"displayName": "Garden",
 			"index": 18,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "SERVANT",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 4
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "SERVANT",
+							"amount": 2
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 4
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 2
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 10
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 10
+					}
+				]
+			},
 			"activationCost": 1,
 			"resourceTradeOptions": [
 				{
@@ -867,30 +1019,38 @@
 		{
 			"displayName": "Fortress",
 			"index": 19,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 4
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "COIN",
+							"amount": 2
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 2
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 4
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 9
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 9
+					}
+				]
+			},
 			"activationCost": 5,
 			"resourceTradeOptions": [
 				{
@@ -913,30 +1073,38 @@
 		{
 			"displayName": "Palace",
 			"index": 20,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "COIN",
-					"amount": 3
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 3
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 1
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "COIN",
+							"amount": 3
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 3
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 1
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 9
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 9
+					}
+				]
+			},
 			"activationCost": 6,
 			"resourceTradeOptions": [
 				{
@@ -965,30 +1133,38 @@
 		{
 			"displayName": "Church",
 			"index": 21,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 1
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 4
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 1
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 4
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 5
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "FAITH_POINT",
-					"amount": 1
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 5
+					},
+					{
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
+						"amount": 1
+					}
+				]
+			},
 			"activationCost": 1,
 			"resourceTradeOptions": [
 				{
@@ -1028,30 +1204,38 @@
 		{
 			"displayName": "Military Academy",
 			"index": 22,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "SERVANT",
-					"amount": 1
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 2
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 2
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "SERVANT",
+							"amount": 1
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 2
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 2
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 7
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 7
+					}
+				]
+			},
 			"activationCost": 3,
 			"resourceTradeOptions": [
 				{
@@ -1080,30 +1264,38 @@
 		{
 			"displayName": "Cathedral",
 			"index": 23,
-			"buildResources": [
+			"resourceCostOptions": [
 				{
-					"type": "STANDARD",
-					"resourceType": "WOOD",
-					"amount": 4
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "STONE",
-					"amount": 4
+					"requiredResources": [],
+					"spentResources": [
+						{
+							"type": "STANDARD",
+							"resourceType": "WOOD",
+							"amount": 4
+						},
+						{
+							"type": "STANDARD",
+							"resourceType": "STONE",
+							"amount": 4
+						}
+					]
 				}
 			],
-			"instantResources": [
-				{
-					"type": "STANDARD",
-					"resourceType": "VICTORY_POINT",
-					"amount": 7
-				},
-				{
-					"type": "STANDARD",
-					"resourceType": "FAITH_POINT",
-					"amount": 3
-				}
-			],
+			"reward":{
+				"actionReward": null,
+				"resourceAmounts": [
+					{
+						"type": "STANDARD",
+						"resourceType": "VICTORY_POINT",
+						"amount": 7
+					},
+					{
+						"type": "STANDARD",
+						"resourceType": "FAITH_POINT",
+						"amount": 3
+					}
+				]
+			},
 			"activationCost": 2,
 			"resourceTradeOptions": [
 				{
