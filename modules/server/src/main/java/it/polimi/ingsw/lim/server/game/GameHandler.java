@@ -168,7 +168,7 @@ public class GameHandler
 	{
 		do {
 			this.turnPlayer = this.getNextTurnPlayer();
-		} while (this.turnPlayer.getPlayerHandler().getAvailableTurns() > 0);
+		} while (this.turnPlayer.getPlayerHandler().getAvailableTurns() <= 0);
 		if (this.turnPlayer.getPlayerHandler().getAvailableTurns() >= 4) {
 			EventFirstTurn eventFirstTurn = new EventFirstTurn(this.turnPlayer);
 			eventFirstTurn.applyModifiers(this.turnPlayer.getPlayerHandler().getActiveModifiers());
