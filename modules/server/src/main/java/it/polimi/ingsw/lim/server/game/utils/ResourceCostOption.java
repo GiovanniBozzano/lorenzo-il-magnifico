@@ -13,12 +13,12 @@ public class ResourceCostOption
 		this.spentResources = spentResources;
 	}
 
-	public List<ResourceAmount> getrequiredResources()
+	public List<ResourceAmount> getRequiredResources()
 	{
 		return this.requiredResources;
 	}
 
-	public List<ResourceAmount> getspentResources()
+	public List<ResourceAmount> getSpentResources()
 	{
 		return this.spentResources;
 	}

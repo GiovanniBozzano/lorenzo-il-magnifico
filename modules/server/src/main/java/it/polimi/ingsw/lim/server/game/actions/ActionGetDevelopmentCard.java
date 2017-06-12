@@ -107,15 +107,23 @@ public class ActionGetDevelopmentCard implements IAction
 		}
 		if (this.columnOccupied) {
 			if (this.resourceCostOption == null) {
-				List<ResourceAmount> resourceAmounts = new ArrayList<>();
-				resourceAmounts.add(new ResourceAmount(ResourceType.COIN, 3));
-				this.resourceCostOption = new ResourceCostOption(resourceAmounts);
+				List<ResourceAmount> requiredResources = new ArrayList<>();
+				List<ResourceAmount> spentResources = new ArrayList<>();
+				spentResources.add(new ResourceAmount(ResourceType.COIN, 3));
+				this.resourceCostOption = new ResourceCostOption(requiredResources, spentResources);
 			} else {
-				this.resourceCostOption.getResourceAmounts().add(new ResourceAmount(ResourceType.COIN, 3));
+				this.resourceCostOption.getSpentResources().add(new ResourceAmount(ResourceType.COIN, 3));
+			}
+		}
+		// check if the player has the requiredResources
+		for (ResourceAmount requiredResources : this.resourceCostOption.getRequiredResources()) {
+			int playerResources = this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
+			if (playerResources < requiredResources.getAmount()) {
+				return false;
 			}
 		}
 		// check if the family member and servants value is high enough
-		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, this.resourceCostOption == null ? null : this.resourceCostOption.getResourceAmounts(), effectiveFamilyMemberValue + effectiveServantsValue);
+		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, this.resourceCostOption == null ? null : this.resourceCostOption.getSpentResources(), effectiveFamilyMemberValue + effectiveServantsValue);
 		eventGetDevelopmentCard.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.getBoardPositionReward = eventGetDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
