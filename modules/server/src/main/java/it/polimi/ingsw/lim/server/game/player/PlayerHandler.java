@@ -21,6 +21,7 @@ public class PlayerHandler
 	private final List<Modifier<? extends Event>> temporaryModifiers = new ArrayList<>();
 	private final List<Integer> councilPrivileges = new ArrayList<>();
 	private final PersonalBonusTile personalBonusTile;
+	private int availableTurns = 4;
 	private boolean isOnline = true;
 	private ActionReward currentActionReward;
 	private int currentProductionValue = 0;
@@ -77,6 +78,16 @@ public class PlayerHandler
 	public List<Modifier<? extends Event>> getTemporaryModifiers()
 	{
 		return this.temporaryModifiers;
+	}
+
+	public int getAvailableTurns()
+	{
+		return this.availableTurns;
+	}
+
+	public void decreaseAvailableTurns()
+	{
+		this.availableTurns--;
 	}
 
 	public boolean isOnline()

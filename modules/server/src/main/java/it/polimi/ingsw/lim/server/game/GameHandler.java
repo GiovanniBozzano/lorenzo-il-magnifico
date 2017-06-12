@@ -5,6 +5,7 @@ import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.events.Event;
+import it.polimi.ingsw.lim.server.game.events.EventFirstTurn;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
@@ -147,21 +148,46 @@ public class GameHandler
 			this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().addResource(resourceType, this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(resourceType));
 		}
 		this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().clear();
-		this.turnPlayer = this.getNextTurnPlayer();
-		if (this.turnPlayer == null) {
+		boolean endRound = true;
+		for (Connection player : this.room.getPlayers()) {
+			if (player.getPlayerHandler().getAvailableTurns() > 0) {
+				endRound = false;
+				break;
+			}
+		}
+		if (endRound) {
 			this.setupRound();
-		} else if (!this.turnPlayer.getPlayerHandler().isOnline()) {
-			this.nextTurn();
 			return;
 		}
+		this.switchPlayer();
 		// TODO aggiorno tutti
 		// TODO turno prossimo giocatore
+	}
+
+	private void switchPlayer()
+	{
+		do {
+			this.turnPlayer = this.getNextTurnPlayer();
+		} while (this.turnPlayer.getPlayerHandler().getAvailableTurns() > 0);
+		if (this.turnPlayer.getPlayerHandler().getAvailableTurns() >= 4) {
+			EventFirstTurn eventFirstTurn = new EventFirstTurn(this.turnPlayer);
+			eventFirstTurn.applyModifiers(this.turnPlayer.getPlayerHandler().getActiveModifiers());
+			if (eventFirstTurn.isCancelled()) {
+				this.switchPlayer();
+				return;
+			}
+		}
+		this.turnPlayer.getPlayerHandler().decreaseAvailableTurns();
+		if (!this.turnPlayer.getPlayerHandler().isOnline()) {
+			this.turnPlayer.getPlayerHandler().decreaseAvailableTurns();
+			this.switchPlayer();
+		}
 	}
 
 	private Connection getNextTurnPlayer()
 	{
 		int index = this.turnOrder.indexOf(this.turnPlayer);
-		return index + 1 >= this.turnOrder.size() ? null : this.turnOrder.get(index + 1);
+		return index + 1 >= this.turnOrder.size() ? this.turnOrder.get(0) : this.turnOrder.get(index + 1);
 	}
 
 	public CardsHandler getCardsHandler()
