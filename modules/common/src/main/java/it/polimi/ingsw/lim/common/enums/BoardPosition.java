@@ -2,7 +2,6 @@ package it.polimi.ingsw.lim.common.enums;
 
 import java.util.Collection;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 public enum BoardPosition
@@ -33,12 +32,12 @@ public enum BoardPosition
 	VENTURE_3,
 	VENTURE_4,
 	COUNCIL_PALACE;
-	public static final Map<MarketSlot, BoardPosition> MARKET_POSITIONS = new EnumMap<>(MarketSlot.class);
-	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_BUILDING_POSITIONS = new HashMap<>();
-	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_CHARACTER_POSITIONS = new HashMap<>();
-	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_TERRITORY_POSITIONS = new HashMap<>();
-	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_VENTURE_POSITIONS = new HashMap<>();
-	private static final Map<CardType, Map<Row, BoardPosition>> DEVELOPMENT_CARDS_TYPES = new HashMap<>();
+	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_BUILDING_POSITIONS = new EnumMap<>(Row.class);
+	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_CHARACTER_POSITIONS = new EnumMap<>(Row.class);
+	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_TERRITORY_POSITIONS = new EnumMap<>(Row.class);
+	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_VENTURE_POSITIONS = new EnumMap<>(Row.class);
+	private static final Map<CardType, Map<Row, BoardPosition>> DEVELOPMENT_CARDS_TYPES = new EnumMap<>(CardType.class);
+	protected static final Map<MarketSlot, BoardPosition> MARKET_POSITIONS = new EnumMap<>(MarketSlot.class);
 
 	static {
 		BoardPosition.DEVELOPMENT_CARDS_BUILDING_POSITIONS.put(Row.FIRST, BoardPosition.BUILDING_1);

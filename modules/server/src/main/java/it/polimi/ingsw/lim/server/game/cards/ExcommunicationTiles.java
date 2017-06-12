@@ -19,7 +19,9 @@ public enum ExcommunicationTiles
 			}
 		}
 	}),
-	EXCOMMUNICATION_TILES_1_2(1, new Modifier<>(.class)
+	EXCOMMUNICATION_TILES_1_2(1, new Modifier<>(.
+	class)
+
 	{
 		@Override public void apply (event) {}
 	}),
@@ -76,7 +78,7 @@ public enum ExcommunicationTiles
 
 	EXCOMMUNICATION_TILES_2_6(12,new Modifier<>(.class)
 	{
-		@Override public void apply ( event) {}
+		@Override public void apply (event) {}
 	}),
 
 	EXCOMMUNICATION_TILES_2_7(13,new Modifier<>(.class)
@@ -108,11 +110,13 @@ public enum ExcommunicationTiles
 	{
 		@Override public void apply (event) {}
 	});
-EXCOMMUNICATION_TILES_3_6(19,new Modifier<>(.class)
+
+	EXCOMMUNICATION_TILES_3_6(19,new Modifier<>(.class)
 	{
 		@Override public void apply (event) {}
 	}
-EXCOMMUNICATION_TILES_3_7(20,new Modifier<>(.class)
+
+	EXCOMMUNICATION_TILES_3_7(20,new Modifier<>(.class)
 	{
 		@Override public void apply (event) {}
 	}

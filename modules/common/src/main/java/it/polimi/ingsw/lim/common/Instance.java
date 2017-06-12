@@ -7,6 +7,8 @@ public abstract class Instance
 	private static Logger logger;
 	private static Instance instance;
 
+	public abstract void stop();
+
 	public static Logger getLogger()
 	{
 		return Instance.logger;
@@ -26,6 +28,4 @@ public abstract class Instance
 	{
 		Instance.instance = instance;
 	}
-
-	public abstract void stop();
 }

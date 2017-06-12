@@ -12,7 +12,6 @@ import java.util.Map;
 public class PlayerResourceHandler
 {
 	private static final Map<Integer, Integer> TERRITORY_SLOTS_CONDITIONS = new HashMap<>();
-	private static final Map<Period, Integer> EXCOMMUNICATION_CONDITIONS = new EnumMap<>(Period.class);
 
 	static {
 		PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.put(0, 0);
@@ -22,6 +21,8 @@ public class PlayerResourceHandler
 		PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.put(4, 12);
 		PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.put(5, 18);
 	}
+
+	private static final Map<Period, Integer> EXCOMMUNICATION_CONDITIONS = new EnumMap<>(Period.class);
 
 	static {
 		PlayerResourceHandler.EXCOMMUNICATION_CONDITIONS.put(Period.FIRST, 3);
