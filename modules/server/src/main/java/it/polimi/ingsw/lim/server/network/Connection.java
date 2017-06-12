@@ -3,7 +3,7 @@ package it.polimi.ingsw.lim.server.network;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -12,7 +12,7 @@ public abstract class Connection
 {
 	private String username;
 	private final ScheduledExecutorService heartbeat = Executors.newSingleThreadScheduledExecutor();
-	private PlayerInformations playerInformations;
+	private PlayerHandler playerHandler;
 
 	protected Connection()
 	{
@@ -21,6 +21,12 @@ public abstract class Connection
 	protected Connection(String username)
 	{
 		this.username = username;
+	}
+
+	protected Connection(String username, PlayerHandler playerHandler)
+	{
+		this.username = username;
+		this.playerHandler = playerHandler;
 	}
 
 	public static void disconnectAll()
@@ -45,6 +51,9 @@ public abstract class Connection
 	{
 		this.heartbeat.shutdownNow();
 		Server.getInstance().getConnections().remove(this);
+		if (this.playerHandler != null) {
+			this.playerHandler.setOnline(false);
+		}
 		for (Room room : Server.getInstance().getRooms()) {
 			room.removePlayer(this);
 			if (room.getPlayers().isEmpty()) {
@@ -108,13 +117,13 @@ public abstract class Connection
 		return this.heartbeat;
 	}
 
-	public PlayerInformations getPlayerInformations()
+	public PlayerHandler getPlayerHandler()
 	{
-		return this.playerInformations;
+		return this.playerHandler;
 	}
 
-	public void setPlayerInformations(PlayerInformations playerInformations)
+	public void setPlayerHandler(PlayerHandler playerHandler)
 	{
-		this.playerInformations = playerInformations;
+		this.playerHandler = playerHandler;
 	}
 }

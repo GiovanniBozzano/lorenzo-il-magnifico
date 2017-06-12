@@ -76,10 +76,21 @@ public class Room
 	public static Room getPlayerRoom(Connection connection)
 	{
 		for (Room room : Server.getInstance().getRooms()) {
-			if (!room.getPlayers().contains(connection)) {
-				continue;
+			if (room.getPlayers().contains(connection)) {
+				return room;
 			}
-			return room;
+		}
+		return null;
+	}
+
+	public static Room getPlayerRoom(String username)
+	{
+		for (Room room : Server.getInstance().getRooms()) {
+			for (Connection player : room.getPlayers()) {
+				if (player.getUsername().equals(username)) {
+					return room;
+				}
+			}
 		}
 		return null;
 	}

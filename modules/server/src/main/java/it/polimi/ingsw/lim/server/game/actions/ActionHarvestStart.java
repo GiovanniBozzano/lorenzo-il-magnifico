@@ -54,27 +54,27 @@ public class ActionHarvestStart implements IAction
 		}
 		// check if the board slot is occupied and get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, BoardPosition.HARVEST_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
-		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
+		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
 			for (Connection currentPlayer : room.getPlayers()) {
-				if (currentPlayer.getPlayerInformations().isOccupyingBoardPosition(BoardPosition.HARVEST_SMALL)) {
+				if (currentPlayer.getPlayerHandler().isOccupyingBoardPosition(BoardPosition.HARVEST_SMALL)) {
 					this.workSlotType = WorkSlotType.BIG;
 					break;
 				}
 			}
 		}
 		// check if the player has the servants he sent
-		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.servants) {
+		if (this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.servants) {
 			return false;
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.servants);
-		eventUseServants.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
+		eventUseServants.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
 		EventStartHarvest eventStartHarvest = new EventStartHarvest(this.player, effectiveFamilyMemberValue + effectiveServants);
-		eventStartHarvest.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
+		eventStartHarvest.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.effectiveActionValue = eventStartHarvest.getActionValue();
 		return this.effectiveActionValue >= (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformations(BoardPosition.HARVEST_BIG).getValue() : BoardHandler.getBoardPositionInformations(BoardPosition.HARVEST_SMALL).getValue());
 	}
@@ -91,17 +91,17 @@ public class ActionHarvestStart implements IAction
 			return;
 		}
 		gameHandler.setPhase(Phase.FAMILY_MEMBER);
-		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
+		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
 		List<ResourceAmount> rewardResources = new ArrayList<>();
-		for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerInformations().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
+		for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
 			if (developmentCardTerritory.getActivationValue() > this.effectiveActionValue) {
 				continue;
 			}
 			rewardResources.addAll(developmentCardTerritory.getHarvestResources());
 		}
-		rewardResources.addAll(this.player.getPlayerInformations().getPersonalBonusTile().getHarvestInstantResources());
-		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(rewardResources);
-		int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+		rewardResources.addAll(this.player.getPlayerHandler().getPersonalBonusTile().getHarvestInstantResources());
+		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(rewardResources);
+		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
 			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 			// TODO aggiorno tutti

@@ -51,27 +51,27 @@ public class ActionProductionStart implements IAction
 		}
 		// check if the board slot is occupied and get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, BoardPosition.PRODUCTION_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
-		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
+		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
 			for (Connection currentPlayer : room.getPlayers()) {
-				if (currentPlayer.getPlayerInformations().isOccupyingBoardPosition(BoardPosition.PRODUCTION_SMALL)) {
+				if (currentPlayer.getPlayerHandler().isOccupyingBoardPosition(BoardPosition.PRODUCTION_SMALL)) {
 					this.workSlotType = WorkSlotType.BIG;
 					break;
 				}
 			}
 		}
 		// check if the player has the servants he sent
-		if (this.player.getPlayerInformations().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.servants) {
+		if (this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.servants) {
 			return false;
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.servants);
-		eventUseServants.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
+		eventUseServants.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
 		EventStartProduction eventStartProduction = new EventStartProduction(this.player, effectiveFamilyMemberValue + effectiveServants);
-		eventStartProduction.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
+		eventStartProduction.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.effectiveActionValue = eventStartProduction.getActionValue();
 		return this.effectiveActionValue >= (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformations(BoardPosition.PRODUCTION_BIG).getValue() : BoardHandler.getBoardPositionInformations(BoardPosition.PRODUCTION_SMALL).getValue());
 	}
@@ -87,9 +87,9 @@ public class ActionProductionStart implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
-		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(this.player.getPlayerInformations().getPersonalBonusTile().getHarvestInstantResources());
-		this.player.getPlayerInformations().setCurrentProductionValue(this.effectiveActionValue);
+		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
+		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(this.player.getPlayerHandler().getPersonalBonusTile().getHarvestInstantResources());
+		this.player.getPlayerHandler().setCurrentProductionValue(this.effectiveActionValue);
 		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);
 		// TODO aggiorno tutti
 		// TODO mando azione trade

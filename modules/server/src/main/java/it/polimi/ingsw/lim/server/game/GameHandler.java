@@ -6,7 +6,7 @@ import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.events.Event;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
-import it.polimi.ingsw.lim.server.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 
@@ -41,13 +41,13 @@ public class GameHandler
 		for (Connection player : this.room.getPlayers()) {
 			PersonalBonusTile personalBonusTile = personalBonusTiles.get(this.randomGenerator.nextInt(personalBonusTiles.size()));
 			personalBonusTiles.remove(personalBonusTile);
-			player.setPlayerInformations(new PlayerInformations(personalBonusTile));
+			player.setPlayerHandler(new PlayerHandler(personalBonusTile));
 		}
 		this.turnOrder.addAll(this.room.getPlayers());
 		Collections.shuffle(this.turnOrder, this.randomGenerator);
 		int startingCoins = 5;
 		for (Connection player : this.turnOrder) {
-			player.getPlayerInformations().getPlayerResourceHandler().addResource(ResourceType.COIN, startingCoins);
+			player.getPlayerHandler().getPlayerResourceHandler().addResource(ResourceType.COIN, startingCoins);
 			startingCoins++;
 		}
 		this.setupRound();
@@ -139,17 +139,20 @@ public class GameHandler
 	{
 		this.phase = Phase.LEADER;
 		this.expectedAction = null;
-		for (Modifier<? extends Event> temporaryModifier : this.turnPlayer.getPlayerInformations().getTemporaryModifiers()) {
-			this.turnPlayer.getPlayerInformations().getActiveModifiers().remove(temporaryModifier);
+		for (Modifier<? extends Event> temporaryModifier : this.turnPlayer.getPlayerHandler().getTemporaryModifiers()) {
+			this.turnPlayer.getPlayerHandler().getActiveModifiers().remove(temporaryModifier);
 		}
-		this.turnPlayer.getPlayerInformations().getTemporaryModifiers().clear();
-		for (ResourceType resourceType : this.turnPlayer.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().keySet()) {
-			this.turnPlayer.getPlayerInformations().getPlayerResourceHandler().addResource(resourceType, this.turnPlayer.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().get(resourceType));
+		this.turnPlayer.getPlayerHandler().getTemporaryModifiers().clear();
+		for (ResourceType resourceType : this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().keySet()) {
+			this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().addResource(resourceType, this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(resourceType));
 		}
-		this.turnPlayer.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().clear();
+		this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().clear();
 		this.turnPlayer = this.getNextTurnPlayer();
 		if (this.turnPlayer == null) {
 			this.setupRound();
+		} else if (!this.turnPlayer.getPlayerHandler().isOnline()) {
+			this.nextTurn();
+			return;
 		}
 		// TODO aggiorno tutti
 		// TODO turno prossimo giocatore

@@ -99,24 +99,43 @@ class PacketListener extends Thread
 				return false;
 			}
 			this.connectionSocket.setUsername(trimmedUsername);
-			Room targetRoom = null;
-			for (Room room : Server.getInstance().getRooms()) {
-				if (!room.getIsStarted() && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {
-					targetRoom = room;
-					break;
+			Room playerRoom;
+			if ((playerRoom = Room.getPlayerRoom(trimmedUsername)) == null) {
+				Room targetRoom = null;
+				for (Room room : Server.getInstance().getRooms()) {
+					if (!room.getIsStarted() && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {
+						targetRoom = room;
+						break;
+					}
 				}
+				if (targetRoom == null) {
+					targetRoom = new Room(((PacketAuthentication) packet).getRoomType());
+					Server.getInstance().getRooms().add(targetRoom);
+				}
+				targetRoom.addPlayer(this.connectionSocket);
+				List<String> playerUsernames = new ArrayList<>();
+				for (Connection player : targetRoom.getPlayers()) {
+					player.sendRoomEntryOther(trimmedUsername);
+					playerUsernames.add(player.getUsername());
+				}
+				this.connectionSocket.sendAuthenticationConfirmation(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
+			} else {
+				for (Connection player : playerRoom.getPlayers()) {
+					if (player.getUsername().equals(trimmedUsername)) {
+						player.getPlayerHandler().setOnline(true);
+						this.connectionSocket.setPlayerHandler(player.getPlayerHandler());
+						playerRoom.getPlayers().set(playerRoom.getPlayers().indexOf(player), this.connectionSocket);
+						playerRoom.getPlayers().remove(player);
+						break;
+					}
+				}
+				// TODO aggiorno il giocatore
+				List<String> playerUsernames = new ArrayList<>();
+				for (Connection player : playerRoom.getPlayers()) {
+					playerUsernames.add(player.getUsername());
+				}
+				this.connectionSocket.sendAuthenticationConfirmation(new RoomInformations(playerRoom.getRoomType(), playerUsernames));
 			}
-			if (targetRoom == null) {
-				targetRoom = new Room(((PacketAuthentication) packet).getRoomType());
-				Server.getInstance().getRooms().add(targetRoom);
-			}
-			targetRoom.addPlayer(this.connectionSocket);
-			List<String> playerUsernames = new ArrayList<>();
-			for (Connection player : targetRoom.getPlayers()) {
-				player.sendRoomEntryOther(trimmedUsername);
-				playerUsernames.add(player.getUsername());
-			}
-			this.connectionSocket.sendAuthenticationConfirmation(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
 		}
 		return true;
 	}

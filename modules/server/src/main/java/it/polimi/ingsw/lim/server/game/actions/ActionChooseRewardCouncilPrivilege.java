@@ -46,7 +46,7 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE) {
 			return false;
 		}
-		if (this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE) != this.councilPalaceRewardIndexes.size()) {
+		if (this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE) != this.councilPalaceRewardIndexes.size()) {
 			return false;
 		}
 		// check if all rewards are different
@@ -83,12 +83,12 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().remove(ResourceType.COUNCIL_PRIVILEGE);
+		this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().remove(ResourceType.COUNCIL_PRIVILEGE);
 		List<ResourceAmount> resourceReward = new ArrayList<>();
 		for (int councilPalaceRewardIndex : this.councilPalaceRewardIndexes) {
 			resourceReward.addAll(BoardHandler.COUNCIL_PRIVILEGE_REWARDS.get(councilPalaceRewardIndex).getResourceAmounts());
 		}
-		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(resourceReward);
+		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(resourceReward);
 		gameHandler.nextTurn();
 	}
 }

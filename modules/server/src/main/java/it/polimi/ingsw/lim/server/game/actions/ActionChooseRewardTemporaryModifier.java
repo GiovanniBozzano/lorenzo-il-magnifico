@@ -6,7 +6,6 @@ import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
-import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionChooseRewardTemporaryModifier implements IAction
@@ -56,7 +55,6 @@ public class ActionChooseRewardTemporaryModifier implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		gameHandler.setPhase(Phase.FAMILY_MEMBER);
 		Modifier<EventPlaceFamilyMember> modifier = new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
 		{
 			@Override
@@ -68,8 +66,8 @@ public class ActionChooseRewardTemporaryModifier implements IAction
 				event.setFamilyMemberValue(6);
 			}
 		};
-		this.player.getPlayerInformations().getTemporaryModifiers().add(modifier);
-		this.player.getPlayerInformations().getActiveModifiers().add(modifier);
+		this.player.getPlayerHandler().getTemporaryModifiers().add(modifier);
+		this.player.getPlayerHandler().getActiveModifiers().add(modifier);
 		gameHandler.setExpectedAction(null);
 		// TODO aggiorno tutti
 		// TODO prosegui turno

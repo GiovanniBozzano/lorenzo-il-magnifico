@@ -12,18 +12,19 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlayerInformations
+public class PlayerHandler
 {
 	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler(this);
 	private final PlayerResourceHandler playerResourceHandler = new PlayerResourceHandler(3, 2, 2);
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
 	private final List<Modifier<? extends Event>> activeModifiers = new ArrayList<>();
-	private final PersonalBonusTile personalBonusTile;
 	private final List<Modifier<? extends Event>> temporaryModifiers = new ArrayList<>();
+	private final PersonalBonusTile personalBonusTile;
+	private boolean isOnline = true;
 	private ActionReward currentActionReward;
 	private int currentProductionValue = 0;
 
-	public PlayerInformations(PersonalBonusTile personalBonusTile)
+	public PlayerHandler(PersonalBonusTile personalBonusTile)
 	{
 		this.personalBonusTile = personalBonusTile;
 		this.familyMembersPositions.put(FamilyMemberType.BLACK, BoardPosition.NONE);
@@ -70,6 +71,16 @@ public class PlayerInformations
 	public List<Modifier<? extends Event>> getTemporaryModifiers()
 	{
 		return this.temporaryModifiers;
+	}
+
+	public boolean isOnline()
+	{
+		return this.isOnline;
+	}
+
+	public void setOnline(boolean online)
+	{
+		this.isOnline = online;
 	}
 
 	public ActionReward getCurrentActionReward()

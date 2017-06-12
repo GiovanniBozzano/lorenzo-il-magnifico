@@ -40,7 +40,7 @@ public class ActionLeaderDiscard implements IAction
 		// check if the player has the leader card
 		boolean owned = false;
 		CardLeader cardLeader = null;
-		for (CardLeader currentCardLeader : this.player.getPlayerInformations().getPlayerCardHandler().getCardsLeader()) {
+		for (CardLeader currentCardLeader : this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
 			if (this.cardLeaderIndex != currentCardLeader.getIndex()) {
 				continue;
 			}

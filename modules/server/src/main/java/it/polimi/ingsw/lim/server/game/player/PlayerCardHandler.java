@@ -12,13 +12,13 @@ import java.util.Map;
 
 public class PlayerCardHandler
 {
-	private final PlayerInformations playerInformations;
+	private final PlayerHandler playerHandler;
 	private final Map<CardType, List<DevelopmentCard>> developmentCards = new HashMap<>();
 	private final List<CardLeader> cardsLeader = new ArrayList<>();
 
-	PlayerCardHandler(PlayerInformations playerInformations)
+	PlayerCardHandler(PlayerHandler playerHandler)
 	{
-		this.playerInformations = playerInformations;
+		this.playerHandler = playerHandler;
 		this.developmentCards.put(CardType.BUILDING, new ArrayList<>());
 		this.developmentCards.put(CardType.CHARACTER, new ArrayList<>());
 		this.developmentCards.put(CardType.TERRITORY, new ArrayList<>());
@@ -56,7 +56,7 @@ public class PlayerCardHandler
 
 	public boolean canAddDevelopmentCard(CardType cardType)
 	{
-		return this.developmentCards.get(cardType).size() < 6 && (cardType != CardType.TERRITORY || this.playerInformations.getPlayerResourceHandler().isTerritorySlotAvailable(this.developmentCards.get(CardType.TERRITORY).size()));
+		return this.developmentCards.get(cardType).size() < 6 && (cardType != CardType.TERRITORY || this.playerHandler.getPlayerResourceHandler().isTerritorySlotAvailable(this.developmentCards.get(CardType.TERRITORY).size()));
 	}
 
 	public boolean canAddCardLeader()

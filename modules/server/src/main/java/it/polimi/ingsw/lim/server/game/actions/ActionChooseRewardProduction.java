@@ -42,7 +42,7 @@ public class ActionChooseRewardProduction implements IAction
 			return false;
 		}
 		// check if the player has the servants he sent
-		return this.player.getPlayerInformations().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) >= this.servants;
+		return this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) >= this.servants;
 	}
 
 	@Override
@@ -57,13 +57,13 @@ public class ActionChooseRewardProduction implements IAction
 			return;
 		}
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.servants);
-		eventUseServants.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
-		EventStartProduction eventStartProduction = new EventStartProduction(this.player, ((ActionRewardProduction) this.player.getPlayerInformations().getCurrentActionReward()).getValue() + eventUseServants.getServants());
-		eventStartProduction.applyModifiers(this.player.getPlayerInformations().getActiveModifiers());
-		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
-		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(this.player.getPlayerInformations().getPersonalBonusTile().getHarvestInstantResources());
+		eventUseServants.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+		EventStartProduction eventStartProduction = new EventStartProduction(this.player, ((ActionRewardProduction) this.player.getPlayerHandler().getCurrentActionReward()).getValue() + eventUseServants.getServants());
+		eventStartProduction.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
+		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(this.player.getPlayerHandler().getPersonalBonusTile().getHarvestInstantResources());
 		// TODO aggiorno tutti
-		this.player.getPlayerInformations().setCurrentProductionValue(eventStartProduction.getActionValue());
+		this.player.getPlayerHandler().setCurrentProductionValue(eventStartProduction.getActionValue());
 		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);
 		// TODO mando azione trade
 	}

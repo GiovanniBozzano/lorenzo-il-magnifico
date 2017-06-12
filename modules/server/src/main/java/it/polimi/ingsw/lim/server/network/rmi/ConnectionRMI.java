@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.LogFormatter;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
@@ -27,6 +28,14 @@ public class ConnectionRMI extends Connection
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 	}
 
+	ConnectionRMI(String name, IServerSession serverSession, PlayerHandler playerHandler)
+	{
+		super(name);
+		this.serverSession = serverSession;
+		this.setPlayerHandler(playerHandler);
+		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
+	}
+
 	@Override
 	public void disconnect(boolean notifyClient, String message)
 	{
@@ -38,6 +47,7 @@ public class ConnectionRMI extends Connection
 				} catch (NoSuchObjectException exception) {
 					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
 				}
+				Server.getInstance().getConnectionHandler().getLogin().getClientSessions().remove(clientSession);
 				break;
 			}
 		}

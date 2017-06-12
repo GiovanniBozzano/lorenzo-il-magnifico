@@ -64,7 +64,7 @@ public class ActionProductionTrade implements IAction
 		}
 		List<DevelopmentCardBuilding> developmentCardsBuilding = new ArrayList<>();
 		for (int index : this.chosenDevelopmentCardsBuilding.keySet()) {
-			developmentCardsBuilding.add(this.player.getPlayerInformations().getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, index, DevelopmentCardBuilding.class));
+			developmentCardsBuilding.add(this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, index, DevelopmentCardBuilding.class));
 		}
 		List<ResourceAmount> employedResources = new ArrayList<>();
 		List<ResourceAmount> producedResources = new ArrayList<>();
@@ -72,16 +72,16 @@ public class ActionProductionTrade implements IAction
 			employedResources.addAll(this.chosenDevelopmentCardsBuilding.get(developmentCardBuilding.getIndex()).getEmployedResources());
 			producedResources.addAll(this.chosenDevelopmentCardsBuilding.get(developmentCardBuilding.getIndex()).getProducedResources());
 		}
-		producedResources.addAll(this.player.getPlayerInformations().getPersonalBonusTile().getProductionInstantResources());
-		this.player.getPlayerInformations().getPlayerResourceHandler().subtractResources(employedResources);
-		this.player.getPlayerInformations().getPlayerResourceHandler().addTemporaryResources(producedResources);
+		producedResources.addAll(this.player.getPlayerHandler().getPersonalBonusTile().getProductionInstantResources());
+		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResources(employedResources);
+		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(producedResources);
 		if (gameHandler.getPhase() == Phase.LEADER) {
 			gameHandler.setExpectedAction(null);
 			gameHandler.setPhase(Phase.FAMILY_MEMBER);
 			// TODO aggiorno tutti
 			// TODO prosegui turno
 		} else {
-			int councilPrivilegesCount = this.player.getPlayerInformations().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+			int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 			if (councilPrivilegesCount > 0) {
 				gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 				// TODO aggiorno tutti
