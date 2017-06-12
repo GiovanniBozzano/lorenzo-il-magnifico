@@ -56,7 +56,7 @@ public class PlayerCardHandler
 
 	public boolean canAddDevelopmentCard(CardType cardType)
 	{
-		return this.developmentCards.get(cardType).size() < 6 && (cardType != CardType.TERRITORY || this.playerHandler.getPlayerResourceHandler().isTerritorySlotAvailable(this.developmentCards.get(CardType.TERRITORY).size()));
+		return this.developmentCards.get(cardType).size() < 6;
 	}
 
 	public boolean canAddCardLeader()

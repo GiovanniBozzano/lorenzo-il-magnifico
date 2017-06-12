@@ -27,6 +27,28 @@ public class Room
 		this.timer = ServerSettings.getInstance().getRoomTimer();
 	}
 
+	public static Room getPlayerRoom(Connection connection)
+	{
+		for (Room room : Server.getInstance().getRooms()) {
+			if (room.getPlayers().contains(connection)) {
+				return room;
+			}
+		}
+		return null;
+	}
+
+	public static Room getPlayerRoom(String username)
+	{
+		for (Room room : Server.getInstance().getRooms()) {
+			for (Connection player : room.getPlayers()) {
+				if (player.getUsername().equals(username)) {
+					return room;
+				}
+			}
+		}
+		return null;
+	}
+
 	public void addPlayer(Connection player)
 	{
 		this.players.add(player);
@@ -71,28 +93,6 @@ public class Room
 		for (Connection connection : this.players) {
 			connection.sendGameStarted(new RoomInformations(this.roomType, playerUsernames));
 		}
-	}
-
-	public static Room getPlayerRoom(Connection connection)
-	{
-		for (Room room : Server.getInstance().getRooms()) {
-			if (room.getPlayers().contains(connection)) {
-				return room;
-			}
-		}
-		return null;
-	}
-
-	public static Room getPlayerRoom(String username)
-	{
-		for (Room room : Server.getInstance().getRooms()) {
-			for (Connection player : room.getPlayers()) {
-				if (player.getUsername().equals(username)) {
-					return room;
-				}
-			}
-		}
-		return null;
 	}
 
 	public RoomType getRoomType()

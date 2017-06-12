@@ -9,7 +9,6 @@ import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventStartHarvest;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
-import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
@@ -90,19 +89,19 @@ public class ActionHarvestStart implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		gameHandler.setPhase(Phase.FAMILY_MEMBER);
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
 		List<ResourceAmount> rewardResources = new ArrayList<>();
 		for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
-			if (developmentCardTerritory.getActivationValue() > this.effectiveActionValue) {
-				continue;
+			if (developmentCardTerritory.getActivationValue() <= this.effectiveActionValue) {
+				rewardResources.addAll(developmentCardTerritory.getHarvestResources());
 			}
-			rewardResources.addAll(developmentCardTerritory.getHarvestResources());
 		}
 		rewardResources.addAll(this.player.getPlayerHandler().getPersonalBonusTile().getHarvestInstantResources());
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(rewardResources);
 		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
+			this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+			this.player.getPlayerHandler().getCouncilPrivileges().add(councilPrivilegesCount);
 			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 			// TODO aggiorno tutti
 			// TODO manda scelta di privilegio

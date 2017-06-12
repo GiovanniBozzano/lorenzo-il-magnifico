@@ -22,15 +22,20 @@ import java.util.logging.Level;
 
 public class Server extends Instance
 {
+	private final ExecutorService databaseSaver = Executors.newSingleThreadExecutor();
+	private final ScheduledExecutorService databaseKeeper = Executors.newSingleThreadScheduledExecutor();
+	private final ConcurrentLinkedQueue<Connection> connections = new ConcurrentLinkedQueue<>();
+	private final ConcurrentLinkedQueue<Room> rooms = new ConcurrentLinkedQueue<>();
 	private int rmiPort;
 	private int socketPort;
 	private String externalIp;
 	private Database database;
-	private final ExecutorService databaseSaver = Executors.newSingleThreadExecutor();
-	private final ScheduledExecutorService databaseKeeper = Executors.newSingleThreadScheduledExecutor();
 	private ConnectionHandler connectionHandler;
-	private final ConcurrentLinkedQueue<Connection> connections = new ConcurrentLinkedQueue<>();
-	private final ConcurrentLinkedQueue<Room> rooms = new ConcurrentLinkedQueue<>();
+
+	public static Server getInstance()
+	{
+		return (Server) Instance.getInstance();
+	}
 
 	/**
 	 * <p>Initializes RMI and Socket Servers and, if successful, opens the main
@@ -102,11 +107,6 @@ public class Server extends Instance
 			Platform.runLater(() -> WindowFactory.getInstance().closeAllWindows());
 		});
 		executorService.shutdown();
-	}
-
-	public static Server getInstance()
-	{
-		return (Server) Instance.getInstance();
 	}
 
 	public int getRmiPort()

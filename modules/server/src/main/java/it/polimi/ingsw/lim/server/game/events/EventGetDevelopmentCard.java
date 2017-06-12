@@ -13,7 +13,8 @@ public class EventGetDevelopmentCard extends Event
 	private final Row row;
 	private final List<ResourceAmount> cost;
 	private int actionValue;
-	private boolean ignoreSlotLock = false;
+	private boolean ignoreTerritoriesSlotLock = false;
+	private boolean getBoardPositionReward = true;
 
 	public EventGetDevelopmentCard(Connection player, CardType cardType, Row row, List<ResourceAmount> cost, int actionValue)
 	{
@@ -49,13 +50,23 @@ public class EventGetDevelopmentCard extends Event
 		this.actionValue = actionValue <= 0 ? 0 : actionValue;
 	}
 
-	public boolean isIgnoreSlotLock()
+	public boolean isIgnoreTerritoriesSlotLock()
 	{
-		return this.ignoreSlotLock;
+		return this.ignoreTerritoriesSlotLock;
 	}
 
-	public void setIgnoreSlotLock(boolean ignoreSlotLock)
+	public void setIgnoreTerritoriesSlotLock(boolean ignoreSlotLock)
 	{
-		this.ignoreSlotLock = ignoreSlotLock;
+		this.ignoreTerritoriesSlotLock = ignoreSlotLock;
+	}
+
+	public boolean isGetBoardPositionReward()
+	{
+		return this.getBoardPositionReward;
+	}
+
+	public void setGetBoardPositionReward(boolean getBoardPositionReward)
+	{
+		this.getBoardPositionReward = getBoardPositionReward;
 	}
 }

@@ -7,12 +7,10 @@ public class EventVictoryPointsCalculation extends Event
 	private boolean countingTerritories = true;
 	private boolean countingCharacters = true;
 	private boolean countingVentures = true;
-	private int victoryPoints;
 
-	public EventVictoryPointsCalculation(Connection player, int victoryPoints)
+	public EventVictoryPointsCalculation(Connection player)
 	{
 		super(player);
-		this.victoryPoints = victoryPoints;
 	}
 
 	public boolean isCountingTerritories()
@@ -43,15 +41,5 @@ public class EventVictoryPointsCalculation extends Event
 	public void setCountingVentures(boolean countingVentures)
 	{
 		this.countingVentures = countingVentures;
-	}
-
-	public int getVictoryPoints()
-	{
-		return this.victoryPoints;
-	}
-
-	public void setVictoryPoints(int victoryPoints)
-	{
-		this.victoryPoints = victoryPoints <= 0 ? 0 : victoryPoints;
 	}
 }

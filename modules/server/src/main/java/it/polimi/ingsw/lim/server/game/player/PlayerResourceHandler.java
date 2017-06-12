@@ -12,6 +12,7 @@ import java.util.Map;
 public class PlayerResourceHandler
 {
 	private static final Map<Integer, Integer> TERRITORY_SLOTS_CONDITIONS = new HashMap<>();
+	private static final Map<Period, Integer> EXCOMMUNICATION_CONDITIONS = new EnumMap<>(Period.class);
 
 	static {
 		PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.put(0, 0);
@@ -21,8 +22,6 @@ public class PlayerResourceHandler
 		PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.put(4, 12);
 		PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.put(5, 18);
 	}
-
-	private static final Map<Period, Integer> EXCOMMUNICATION_CONDITIONS = new EnumMap<>(Period.class);
 
 	static {
 		PlayerResourceHandler.EXCOMMUNICATION_CONDITIONS.put(Period.FIRST, 3);
@@ -35,12 +34,23 @@ public class PlayerResourceHandler
 
 	PlayerResourceHandler(int resourcesServant, int resourcesStone, int resourcesWood)
 	{
-		this.resources.put(ResourceType.SERVANT, resourcesServant);
-		this.resources.put(ResourceType.STONE, resourcesStone);
-		this.resources.put(ResourceType.WOOD, resourcesWood);
+		this.resources.put(ResourceType.COIN, 0);
 		this.resources.put(ResourceType.FAITH_POINT, 0);
 		this.resources.put(ResourceType.MILITARY_POINT, 0);
+		this.resources.put(ResourceType.PRESTIGE_POINT, 0);
+		this.resources.put(ResourceType.SERVANT, resourcesServant);
+		this.resources.put(ResourceType.STONE, resourcesStone);
 		this.resources.put(ResourceType.VICTORY_POINT, 0);
+		this.resources.put(ResourceType.WOOD, resourcesWood);
+		this.temporaryResources.put(ResourceType.COIN, 0);
+		this.temporaryResources.put(ResourceType.COUNCIL_PRIVILEGE, 0);
+		this.temporaryResources.put(ResourceType.FAITH_POINT, 0);
+		this.temporaryResources.put(ResourceType.MILITARY_POINT, 0);
+		this.temporaryResources.put(ResourceType.PRESTIGE_POINT, 0);
+		this.temporaryResources.put(ResourceType.SERVANT, 0);
+		this.temporaryResources.put(ResourceType.STONE, 0);
+		this.temporaryResources.put(ResourceType.VICTORY_POINT, 0);
+		this.temporaryResources.put(ResourceType.WOOD, 0);
 	}
 
 	public void addResource(ResourceType resourceType, int amount)

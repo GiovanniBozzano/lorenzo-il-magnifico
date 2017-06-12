@@ -34,6 +34,27 @@ public class WindowFactory
 	{
 	}
 
+	public static void setTooltipDelay(Tooltip tooltip, double milliseconds)
+	{
+		try {
+			Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
+			fieldBehavior.setAccessible(true);
+			Object objBehavior = fieldBehavior.get(tooltip);
+			Field fieldTimer = objBehavior.getClass().getDeclaredField("activationTimer");
+			fieldTimer.setAccessible(true);
+			Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
+			objTimer.getKeyFrames().clear();
+			objTimer.getKeyFrames().add(new KeyFrame(new Duration(milliseconds)));
+		} catch (NoSuchFieldException | IllegalAccessException exception) {
+			Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	public static WindowFactory getInstance()
+	{
+		return WindowFactory.INSTANCE;
+	}
+
 	/**
 	 * <p>Opens a new window and closes the current one.
 	 *
@@ -105,27 +126,6 @@ public class WindowFactory
 	{
 		this.openWindows.remove(stage);
 		stage.close();
-	}
-
-	public static void setTooltipDelay(Tooltip tooltip, double milliseconds)
-	{
-		try {
-			Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
-			fieldBehavior.setAccessible(true);
-			Object objBehavior = fieldBehavior.get(tooltip);
-			Field fieldTimer = objBehavior.getClass().getDeclaredField("activationTimer");
-			fieldTimer.setAccessible(true);
-			Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
-			objTimer.getKeyFrames().clear();
-			objTimer.getKeyFrames().add(new KeyFrame(new Duration(milliseconds)));
-		} catch (NoSuchFieldException | IllegalAccessException exception) {
-			Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
-		}
-	}
-
-	public static WindowFactory getInstance()
-	{
-		return WindowFactory.INSTANCE;
 	}
 
 	public WindowInformations getCurrentWindow()

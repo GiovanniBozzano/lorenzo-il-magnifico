@@ -6,6 +6,7 @@ import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
+import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
@@ -17,9 +18,9 @@ import java.util.Set;
 public class ActionChooseRewardCouncilPrivilege implements IAction
 {
 	private final Connection player;
-	private final List<Integer> councilPalaceRewardIndexes;
+	private final List<List<Integer>> councilPalaceRewardIndexes;
 
-	public ActionChooseRewardCouncilPrivilege(Connection player, List<Integer> councilPalaceRewardIndexes)
+	public ActionChooseRewardCouncilPrivilege(Connection player, List<List<Integer>> councilPalaceRewardIndexes)
 	{
 		this.player = player;
 		this.councilPalaceRewardIndexes = new ArrayList<>(councilPalaceRewardIndexes);
@@ -46,27 +47,37 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE) {
 			return false;
 		}
-		if (this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE) != this.councilPalaceRewardIndexes.size()) {
-			return false;
-		}
-		// check if all rewards are different
-		Set<Integer> set = new HashSet<>(this.councilPalaceRewardIndexes);
-		if ((this.councilPalaceRewardIndexes.size() > BoardHandler.COUNCIL_PRIVILEGE_REWARDS.size() && set.size() != BoardHandler.COUNCIL_PRIVILEGE_REWARDS.size()) || set.size() != this.councilPalaceRewardIndexes.size()) {
-			return false;
-		}
-		for (int councilPalaceRewardIndex : this.councilPalaceRewardIndexes) {
-			boolean validIndex = false;
-			for (CouncilPalaceReward councilPalaceReward : BoardHandler.COUNCIL_PRIVILEGE_REWARDS) {
-				if (validIndex) {
+		for (List<Integer> differentIndexes : councilPalaceRewardIndexes) {
+			boolean validIndexes = false;
+			for (Integer councilPrivilegesCount : this.player.getPlayerHandler().getCouncilPrivileges()) {
+				if (councilPrivilegesCount == differentIndexes.size()) {
+					validIndexes = true;
 					break;
 				}
-				if (councilPalaceReward.getIndex() != councilPalaceRewardIndex) {
-					continue;
-				}
-				validIndex = true;
 			}
-			if (!validIndex) {
+			if (!validIndexes) {
 				return false;
+			}
+		}
+		for (List<Integer> differentIndexes : councilPalaceRewardIndexes) {
+			// check if all rewards are different
+			Set<Integer> set = new HashSet<>(differentIndexes);
+			if ((differentIndexes.size() > BoardHandler.COUNCIL_PRIVILEGE_REWARDS.size() && set.size() != BoardHandler.COUNCIL_PRIVILEGE_REWARDS.size()) || set.size() != differentIndexes.size()) {
+				return false;
+			}
+			for (int councilPalaceRewardIndex : differentIndexes) {
+				boolean validIndex = false;
+				for (CouncilPalaceReward councilPalaceReward : BoardHandler.COUNCIL_PRIVILEGE_REWARDS) {
+					if (councilPalaceReward.getIndex() == councilPalaceRewardIndex) {
+						validIndex = true;
+					}
+					if (validIndex) {
+						break;
+					}
+				}
+				if (!validIndex) {
+					return false;
+				}
 			}
 		}
 		return true;
@@ -85,10 +96,17 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		}
 		this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().remove(ResourceType.COUNCIL_PRIVILEGE);
 		List<ResourceAmount> resourceReward = new ArrayList<>();
-		for (int councilPalaceRewardIndex : this.councilPalaceRewardIndexes) {
-			resourceReward.addAll(BoardHandler.COUNCIL_PRIVILEGE_REWARDS.get(councilPalaceRewardIndex).getResourceAmounts());
+		for (List<Integer> differentIndexes : councilPalaceRewardIndexes) {
+			for (int councilPalaceRewardIndex : differentIndexes) {
+				resourceReward.addAll(BoardHandler.COUNCIL_PRIVILEGE_REWARDS.get(councilPalaceRewardIndex).getResourceAmounts());
+			}
 		}
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(resourceReward);
-		gameHandler.nextTurn();
+		if (gameHandler.getPhase() == Phase.LEADER) {
+			// TODO aggiorno tutti
+			// TODO prosegui turno
+		} else {
+			gameHandler.nextTurn();
+		}
 	}
 }

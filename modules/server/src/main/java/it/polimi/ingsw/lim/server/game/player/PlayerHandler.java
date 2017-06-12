@@ -19,6 +19,7 @@ public class PlayerHandler
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
 	private final List<Modifier<? extends Event>> activeModifiers = new ArrayList<>();
 	private final List<Modifier<? extends Event>> temporaryModifiers = new ArrayList<>();
+	private final List<Integer> councilPrivileges = new ArrayList<>();
 	private final PersonalBonusTile personalBonusTile;
 	private boolean isOnline = true;
 	private ActionReward currentActionReward;
@@ -61,6 +62,11 @@ public class PlayerHandler
 	public List<Modifier<? extends Event>> getActiveModifiers()
 	{
 		return this.activeModifiers;
+	}
+
+	public List<Integer> getCouncilPrivileges()
+	{
+		return this.councilPrivileges;
 	}
 
 	public PersonalBonusTile getPersonalBonusTile()

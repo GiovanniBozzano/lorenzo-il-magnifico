@@ -49,6 +49,9 @@ public class ActionMarket implements IAction
 		BoardPosition boardPosition = BoardPosition.MARKET_POSITIONS.get(this.marketSlot);
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, boardPosition, gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
 		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+		if (eventPlaceFamilyMember.isCancelled()) {
+			return false;
+		}
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
 			for (Connection currentPlayer : room.getPlayers()) {
@@ -85,6 +88,8 @@ public class ActionMarket implements IAction
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(BoardHandler.getBoardPositionInformations(BoardPosition.MARKET_POSITIONS.get(this.marketSlot)).getResourceAmounts());
 		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
+			this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+			this.player.getPlayerHandler().getCouncilPrivileges().add(councilPrivilegesCount);
 			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 			// TODO aggiorno tutti
 			// TODO manda scelta di privilegio

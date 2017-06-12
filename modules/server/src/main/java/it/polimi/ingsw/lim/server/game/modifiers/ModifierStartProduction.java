@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
 
 /**
  * <p>Whenever you perform a Production action (through a Family Member or as
- * an efect of another card), increase the value of the action by {@code
+ * an effect of another card), increase the value of the action by {@code
  * value}.
  */
 public class ModifierStartProduction extends Modifier<EventStartProduction>

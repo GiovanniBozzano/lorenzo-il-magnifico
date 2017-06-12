@@ -5,6 +5,7 @@ import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
+import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
@@ -25,6 +26,7 @@ public class ActionGetDevelopmentCard implements IAction
 	private final Row row;
 	private ResourceCostOption resourceCostOption;
 	private boolean columnOccupied = false;
+	private boolean getBoardPositionReward = true;
 	private List<ResourceAmount> effectiveResourceCost;
 
 	public ActionGetDevelopmentCard(Connection player, FamilyMemberType familyMemberType, int servants, CardType cardType, Row row, ResourceCostOption resourceCostOption)
@@ -58,13 +60,13 @@ public class ActionGetDevelopmentCard implements IAction
 		if (gameHandler.getExpectedAction() != null) {
 			return false;
 		}
-		// check if the player has developmentcard space available
-		if (!this.player.getPlayerHandler().getPlayerCardHandler().canAddDevelopmentCard(this.cardType)) {
-			return false;
-		}
 		// check if the card is already taken
 		DevelopmentCard developmentCard = gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).get(this.row);
 		if (developmentCard == null) {
+			return false;
+		}
+		// check if the player has developmentcard space available
+		if (!this.player.getPlayerHandler().getPlayerCardHandler().canAddDevelopmentCard(this.cardType)) {
 			return false;
 		}
 		// get effective family member value
@@ -81,14 +83,13 @@ public class ActionGetDevelopmentCard implements IAction
 		}
 		// check if the board column is occupied
 		for (Connection currentPlayer : room.getPlayers()) {
-			if (this.columnOccupied) {
-				break;
-			}
 			for (BoardPosition boardPosition : BoardPosition.getDevelopmentCardsColumnPositions(this.cardType)) {
-				if (!currentPlayer.getPlayerHandler().isOccupyingBoardPosition(boardPosition)) {
-					continue;
+				if (currentPlayer.getPlayerHandler().isOccupyingBoardPosition(boardPosition)) {
+					this.columnOccupied = true;
+					break;
 				}
-				this.columnOccupied = true;
+			}
+			if (this.columnOccupied) {
 				break;
 			}
 		}
@@ -116,6 +117,11 @@ public class ActionGetDevelopmentCard implements IAction
 		// check if the family member and servants value is high enough
 		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, this.resourceCostOption == null ? null : this.resourceCostOption.getResourceAmounts(), effectiveFamilyMemberValue + effectiveServantsValue);
 		eventGetDevelopmentCard.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+		this.getBoardPositionReward = eventGetDevelopmentCard.isGetBoardPositionReward();
+		// if the card is a territory one, check whether the player has enough military points
+		if (developmentCard.getCardType() == CardType.TERRITORY && !eventGetDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.getPlayerHandler().getPlayerResourceHandler().isTerritorySlotAvailable(this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
+			return false;
+		}
 		// prendo prezzo finale e controllo che il giocatore abbia le risorse necessarie
 		for (ResourceAmount resourceCost : eventGetDevelopmentCard.getResourceCost()) {
 			int playerResources = this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(resourceCost.getResourceType());
@@ -144,7 +150,9 @@ public class ActionGetDevelopmentCard implements IAction
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResources(this.effectiveResourceCost);
 		List<ResourceAmount> resourceReward = new ArrayList<>(developmentCard.getReward().getResourceAmounts());
 		BoardPosition boardPosition = BoardPosition.getDevelopmentCardPosition(this.cardType, this.row);
-		resourceReward.addAll(BoardHandler.getBoardPositionInformations(boardPosition).getResourceAmounts());
+		if (this.getBoardPositionReward) {
+			resourceReward.addAll(BoardHandler.getBoardPositionInformations(boardPosition).getResourceAmounts());
+		}
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(resourceReward);
 		this.player.getPlayerHandler().getFamilyMembersPositions().put(this.familyMemberType, boardPosition);
 		gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).put(this.row, null);
@@ -156,6 +164,8 @@ public class ActionGetDevelopmentCard implements IAction
 		} else {
 			int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 			if (councilPrivilegesCount > 0) {
+				this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+				this.player.getPlayerHandler().getCouncilPrivileges().add(councilPrivilegesCount);
 				gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 				// TODO aggiorno tutti
 				// TODO manda scelta di privilegio

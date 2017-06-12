@@ -75,17 +75,18 @@ public class ActionProductionTrade implements IAction
 		producedResources.addAll(this.player.getPlayerHandler().getPersonalBonusTile().getProductionInstantResources());
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResources(employedResources);
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(producedResources);
-		if (gameHandler.getPhase() == Phase.LEADER) {
-			gameHandler.setExpectedAction(null);
-			gameHandler.setPhase(Phase.FAMILY_MEMBER);
+		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+		if (councilPrivilegesCount > 0) {
+			this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+			this.player.getPlayerHandler().getCouncilPrivileges().add(councilPrivilegesCount);
+			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 			// TODO aggiorno tutti
-			// TODO prosegui turno
+			// TODO manda scelta di privilegio
 		} else {
-			int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
-			if (councilPrivilegesCount > 0) {
-				gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+			if (gameHandler.getPhase() == Phase.LEADER) {
+				gameHandler.setExpectedAction(null);
 				// TODO aggiorno tutti
-				// TODO manda scelta di privilegio
+				// TODO prosegui turno
 			} else {
 				gameHandler.nextTurn();
 			}

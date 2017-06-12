@@ -1,19 +1,19 @@
 package it.polimi.ingsw.lim.server.game.modifiers.excommunicationtiles;
 
-import it.polimi.ingsw.lim.server.game.events.EventEndGame;
+import it.polimi.ingsw.lim.server.game.events.EventPreVictoryPointsCalculation;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 
-public class ModifierEndGame extends Modifier<EventEndGame>
+public class ModifierEndGame extends Modifier<EventPreVictoryPointsCalculation>
 {
 	private static final ModifierEndGame INSTANCE = new ModifierEndGame();
 
 	private ModifierEndGame()
 	{
-		super(EventEndGame.class);
+		super(EventPreVictoryPointsCalculation.class);
 	}
 
 	@Override
-	public void apply(EventEndGame event)
+	public void apply(EventPreVictoryPointsCalculation event)
 	{
 	}
 

@@ -67,6 +67,11 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard> implements Cloneabl
 	static class Builder<T extends DevelopmentCard>
 	{
 		private static final Map<Class<? extends DevelopmentCard>, Type> TYPE_TOKENS = new HashMap<>();
+		private static final RuntimeTypeAdapterFactory<ResourceAmount> RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT = RuntimeTypeAdapterFactory.of(ResourceAmount.class).registerSubtype(ResourceAmount.class, "STANDARD").registerSubtype(ResourceAmountMultiplierCard.class, "MULTIPLIER_CARD").registerSubtype(ResourceAmountMultiplierResource.class, "MULTIPLIER_RESOURCE");
+		private static final RuntimeTypeAdapterFactory<Modifier> RUNTIME_TYPE_ADAPTER_FACTORY_BONUS = RuntimeTypeAdapterFactory.of(Modifier.class).registerSubtype(ModifierGetDevelopmentCard.class, "CARD").registerSubtype(ModifierStartHarvest.class, "HARVEST").registerSubtype(ModifierStartProduction.class, "PRODUCTION").registerSubtype(ModifierGetDevelopmentCardReward.class, "MALUS");
+		private static final RuntimeTypeAdapterFactory<ActionReward> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(ActionReward.class).registerSubtype(ActionRewardGetDevelopmentCard.class, "CARD").registerSubtype(ActionRewardHarvest.class, "HARVEST").registerSubtype(ActionRewardProduction.class, "PRODUCTION");
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT).registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_BONUS).registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_EVENT);
+		private static final Gson GSON = Builder.GSON_BUILDER.create();
 
 		static {
 			Builder.TYPE_TOKENS.put(DevelopmentCardBuilding.class, new TypeToken<DevelopmentCardsDeck<DevelopmentCardBuilding>>()
@@ -83,11 +88,6 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard> implements Cloneabl
 			}.getType());
 		}
 
-		private static final RuntimeTypeAdapterFactory<ResourceAmount> RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT = RuntimeTypeAdapterFactory.of(ResourceAmount.class).registerSubtype(ResourceAmount.class, "STANDARD").registerSubtype(ResourceAmountMultiplierCard.class, "MULTIPLIER_CARD").registerSubtype(ResourceAmountMultiplierResource.class, "MULTIPLIER_RESOURCE");
-		private static final RuntimeTypeAdapterFactory<Modifier> RUNTIME_TYPE_ADAPTER_FACTORY_BONUS = RuntimeTypeAdapterFactory.of(Modifier.class).registerSubtype(ModifierGetDevelopmentCard.class, "CARD").registerSubtype(ModifierStartHarvest.class, "HARVEST").registerSubtype(ModifierStartProduction.class, "PRODUCTION").registerSubtype(ModifierGetDevelopmentCardReward.class, "MALUS");
-		private static final RuntimeTypeAdapterFactory<ActionReward> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(ActionReward.class).registerSubtype(ActionRewardGetDevelopmentCard.class, "CARD").registerSubtype(ActionRewardHarvest.class, "HARVEST").registerSubtype(ActionRewardProduction.class, "PRODUCTION");
-		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT).registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_BONUS).registerTypeAdapterFactory(Builder.RUNTIME_TYPE_ADAPTER_FACTORY_EVENT);
-		private static final Gson GSON = Builder.GSON_BUILDER.create();
 		private final Class<T> clazz;
 		private final String jsonFile;
 

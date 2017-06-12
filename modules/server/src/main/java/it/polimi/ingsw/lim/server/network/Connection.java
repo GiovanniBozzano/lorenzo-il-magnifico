@@ -10,8 +10,8 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public abstract class Connection
 {
-	private String username;
 	private final ScheduledExecutorService heartbeat = Executors.newSingleThreadScheduledExecutor();
+	private String username;
 	private PlayerHandler playerHandler;
 
 	protected Connection()

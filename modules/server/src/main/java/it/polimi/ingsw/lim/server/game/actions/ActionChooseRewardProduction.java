@@ -62,7 +62,6 @@ public class ActionChooseRewardProduction implements IAction
 		eventStartProduction.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(this.player.getPlayerHandler().getPersonalBonusTile().getHarvestInstantResources());
-		// TODO aggiorno tutti
 		this.player.getPlayerHandler().setCurrentProductionValue(eventStartProduction.getActionValue());
 		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);
 		// TODO mando azione trade

@@ -21,6 +21,11 @@ public class Client extends Instance
 	private String username;
 	private ConnectionHandler connectionHandler;
 
+	public static Client getInstance()
+	{
+		return (Client) Instance.getInstance();
+	}
+
 	/**
 	 * <p>Tries to connect to an RMI or Socket Server and, if successful, opens
 	 * the lobby screen.
@@ -83,11 +88,6 @@ public class Client extends Instance
 			}
 		});
 		executorService.shutdown();
-	}
-
-	public static Client getInstance()
-	{
-		return (Client) Instance.getInstance();
 	}
 
 	public String getIp()

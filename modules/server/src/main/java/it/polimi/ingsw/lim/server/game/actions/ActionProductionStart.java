@@ -11,6 +11,7 @@ import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
+import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionProductionStart implements IAction
@@ -87,6 +88,7 @@ public class ActionProductionStart implements IAction
 		if (gameHandler == null) {
 			return;
 		}
+		gameHandler.setPhase(Phase.FAMILY_MEMBER);
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(this.player.getPlayerHandler().getPersonalBonusTile().getHarvestInstantResources());
 		this.player.getPlayerHandler().setCurrentProductionValue(this.effectiveActionValue);
