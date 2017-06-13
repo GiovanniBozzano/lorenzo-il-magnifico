@@ -1,11 +1,13 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.enums.WorkSlotType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
+import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventStartHarvest;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
@@ -90,14 +92,16 @@ public class ActionHarvestStart implements IAction
 			return;
 		}
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
-		List<ResourceAmount> rewardResources = new ArrayList<>();
+		List<ResourceAmount> resourceReward = new ArrayList<>();
 		for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
 			if (developmentCardTerritory.getActivationValue() <= this.effectiveActionValue) {
-				rewardResources.addAll(developmentCardTerritory.getHarvestResources());
+				resourceReward.addAll(developmentCardTerritory.getHarvestResources());
 			}
 		}
-		rewardResources.addAll(this.player.getPlayerHandler().getPersonalBonusTile().getHarvestInstantResources());
-		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(rewardResources);
+		resourceReward.addAll(this.player.getPlayerHandler().getPersonalBonusTile().getHarvestInstantResources());
+		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.WORK);
+		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
 			this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);

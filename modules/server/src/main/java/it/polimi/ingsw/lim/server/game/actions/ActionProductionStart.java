@@ -90,7 +90,6 @@ public class ActionProductionStart implements IAction
 		}
 		gameHandler.setPhase(Phase.FAMILY_MEMBER);
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
-		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(this.player.getPlayerHandler().getPersonalBonusTile().getHarvestInstantResources());
 		this.player.getPlayerHandler().setCurrentProductionValue(this.effectiveActionValue);
 		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);
 		// TODO aggiorno tutti

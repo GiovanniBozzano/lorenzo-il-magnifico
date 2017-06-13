@@ -9,25 +9,18 @@ import java.util.List;
 public class EventGainResources extends Event
 {
 	private final List<ResourceAmount> resourceAmounts;
-	private final int sourcesCount;
 	private final ResourcesSource resourcesSource;
 
-	public EventGainResources(Connection player, List<ResourceAmount> resourceAmounts, int sourcesCount, ResourcesSource resourcesSource)
+	public EventGainResources(Connection player, List<ResourceAmount> resourceAmounts, ResourcesSource resourcesSource)
 	{
 		super(player);
 		this.resourceAmounts = resourceAmounts;
-		this.sourcesCount = sourcesCount;
 		this.resourcesSource = resourcesSource;
 	}
 
 	public List<ResourceAmount> getResourceAmounts()
 	{
 		return this.resourceAmounts;
-	}
-
-	public int getSourcesCount()
-	{
-		return this.sourcesCount;
 	}
 
 	public ResourcesSource getResourcesSource()

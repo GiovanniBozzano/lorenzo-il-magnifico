@@ -1,11 +1,13 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
+import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
@@ -163,7 +165,9 @@ public class ActionGetDevelopmentCard implements IAction
 		if (this.getBoardPositionReward) {
 			resourceReward.addAll(BoardHandler.getBoardPositionInformations(boardPosition).getResourceAmounts());
 		}
-		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(resourceReward);
+		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.DEVELOPMENT_CARDS);
+		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		this.player.getPlayerHandler().getFamilyMembersPositions().put(this.familyMemberType, boardPosition);
 		gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).put(this.row, null);
 		if (developmentCard.getReward().getActionReward() != null) {

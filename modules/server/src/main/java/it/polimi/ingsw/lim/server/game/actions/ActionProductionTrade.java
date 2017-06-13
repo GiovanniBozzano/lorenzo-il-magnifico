@@ -3,9 +3,11 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
+import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.game.utils.ResourceTradeOption;
@@ -73,8 +75,10 @@ public class ActionProductionTrade implements IAction
 			producedResources.addAll(this.chosenDevelopmentCardsBuilding.get(developmentCardBuilding.getIndex()).getProducedResources());
 		}
 		producedResources.addAll(this.player.getPlayerHandler().getPersonalBonusTile().getProductionInstantResources());
+		EventGainResources eventGainResources = new EventGainResources(this.player, producedResources, ResourcesSource.WORK);
+		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResources(employedResources);
-		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(producedResources);
+		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
 			this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
