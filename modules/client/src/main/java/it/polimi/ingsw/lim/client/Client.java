@@ -72,9 +72,10 @@ public class Client extends Instance
 			if (this.connectionHandler != null) {
 				this.connectionHandler.disconnect(notifyServer);
 				this.connectionHandler = null;
-				Client.getLogger().log(Level.INFO, "Connection closed.");
+				Client.getDebugger().log(Level.INFO, "Connection closed.");
 			}
 			if (isStopping) {
+				Client.getCliListener().end();
 				Platform.runLater(() -> WindowFactory.getInstance().closeAllWindows());
 			} else if (WindowFactory.getInstance().isWindowOpen(ControllerConnection.class)) {
 				WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);

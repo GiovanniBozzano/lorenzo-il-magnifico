@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.server.network;
 
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
@@ -43,7 +43,7 @@ public class ConnectionHandler extends Thread
 			this.login = new Authentication();
 			this.registry.rebind("lorenzo-il-magnifico", this.login);
 		} catch (RemoteException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
 			return;
 		}
@@ -70,18 +70,18 @@ public class ConnectionHandler extends Thread
 						Server.getInstance().getConnections().add(new ConnectionSocket(socket));
 					}
 				} catch (IOException exception) {
-					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 					Server.getInstance().stop();
 				}
 			}
 		} catch (IOException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			try {
 				this.registry.unbind("lorenzo-il-magnifico");
 				UnicastRemoteObject.unexportObject(this.registry, true);
 				UnicastRemoteObject.unexportObject(this.login, true);
 			} catch (RemoteException | NotBoundException nestedException) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, nestedException);
+				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, nestedException);
 			}
 			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
 		}

@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
 
@@ -25,7 +25,7 @@ public abstract class ConnectionHandler extends Thread
 		try {
 			this.join();
 		} catch (InterruptedException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
 		this.getHeartbeat().shutdownNow();
@@ -39,7 +39,7 @@ public abstract class ConnectionHandler extends Thread
 		try {
 			this.join();
 		} catch (InterruptedException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
 	}
@@ -57,7 +57,7 @@ public abstract class ConnectionHandler extends Thread
 		try {
 			this.join();
 		} catch (InterruptedException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
 		WindowFactory.getInstance().getCurrentWindow().getController().setDisable(true);
@@ -76,7 +76,7 @@ public abstract class ConnectionHandler extends Thread
 		try {
 			this.join();
 		} catch (InterruptedException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
 		WindowFactory.getInstance().getCurrentWindow().getController().setDisable(true);
@@ -87,7 +87,7 @@ public abstract class ConnectionHandler extends Thread
 		try {
 			this.join();
 		} catch (InterruptedException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
 	}
@@ -97,7 +97,7 @@ public abstract class ConnectionHandler extends Thread
 		try {
 			this.join();
 		} catch (InterruptedException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
 	}
@@ -153,7 +153,7 @@ public abstract class ConnectionHandler extends Thread
 
 	public void handleLogMessage(String text)
 	{
-		Client.getLogger().log(Level.INFO, text);
+		Client.getDebugger().log(Level.INFO, text);
 	}
 
 	protected ScheduledExecutorService getHeartbeat()

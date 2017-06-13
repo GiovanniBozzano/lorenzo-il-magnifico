@@ -46,6 +46,11 @@ public class ControllerMain extends CustomController
 		this.getStackPane().getScene().getRoot().requestFocus();
 	}
 
+	@Override
+	public void showDialog(String message)
+	{
+	}
+
 	public Label getConnectionLabel()
 	{
 		return this.connectionLabel;

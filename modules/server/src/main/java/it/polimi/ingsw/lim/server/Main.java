@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server;
 
 import it.polimi.ingsw.lim.common.Instance;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.utils.Utils;
 import javafx.application.Application;
@@ -15,11 +15,11 @@ public class Main extends Application
 {
 	public static void main(String[] args)
 	{
-		Server.setLogger(Logger.getLogger(Server.class.getSimpleName().toUpperCase()));
-		Server.getLogger().setUseParentHandlers(false);
+		Server.setDebugger(Logger.getLogger(Server.class.getSimpleName().toUpperCase()));
+		Server.getDebugger().setUseParentHandlers(false);
 		ConsoleHandler consoleHandler = new ConsoleHandler();
-		consoleHandler.setFormatter(new LogFormatter());
-		Server.getLogger().addHandler(consoleHandler);
+		consoleHandler.setFormatter(new DebuggerFormatter());
+		Server.getDebugger().addHandler(consoleHandler);
 		Instance.setInstance(new Server());
 		Main.launch(args);
 	}

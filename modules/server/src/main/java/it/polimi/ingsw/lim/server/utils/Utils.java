@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.server.utils;
 
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.database.Database;
@@ -52,7 +52,7 @@ public class Utils
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(myIP.openStream()));
 			return bufferedReader.readLine();
 		} catch (IOException exception) {
-			Server.getLogger().log(Level.INFO, "Cannot retrieve IP address...", exception);
+			Server.getDebugger().log(Level.INFO, "Cannot retrieve IP address...", exception);
 		}
 		return null;
 	}
@@ -101,7 +101,7 @@ public class Utils
 				default:
 			}
 		} catch (IllegalArgumentException exception) {
-			Server.getLogger().log(Level.INFO, "Command does not exist.", exception);
+			Server.getDebugger().log(Level.INFO, "Command does not exist.", exception);
 			Utils.displayToLog("Command does not exist.");
 		}
 	}
@@ -136,7 +136,7 @@ public class Utils
 			}
 			resultSet.getStatement().close();
 		} catch (SQLException | NoSuchAlgorithmException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			throw new AuthenticationFailedException("Server error.");
 		}
 	}
@@ -171,11 +171,11 @@ public class Utils
 				try {
 					Utils.sqlWrite(QueryWrite.INSERT_USERNAME_AND_PASSWORD_AND_SALT, queryArguments);
 				} catch (SQLException exception) {
-					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				}
 			});
 		} catch (SQLException | NoSuchAlgorithmException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			throw new AuthenticationFailedException("Server error.");
 		}
 	}
@@ -197,7 +197,7 @@ public class Utils
 			Utils.fillStatement(preparedStatement, queryArguments);
 			return preparedStatement.executeQuery();
 		} catch (SQLException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			throw exception;
 		}
 	}
@@ -217,7 +217,7 @@ public class Utils
 			Utils.fillStatement(preparedStatement, queryArguments);
 			preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			throw exception;
 		}
 	}

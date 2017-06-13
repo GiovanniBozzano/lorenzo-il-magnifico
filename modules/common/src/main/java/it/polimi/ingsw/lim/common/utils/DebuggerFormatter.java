@@ -7,7 +7,7 @@ import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-public class LogFormatter extends Formatter
+public class DebuggerFormatter extends Formatter
 {
 	public static final String EXCEPTION_MESSAGE = "an exception was thrown";
 	public static final String RMI_ERROR = "RMI connection closed remotely.";
@@ -26,12 +26,12 @@ public class LogFormatter extends Formatter
 		stringBuilder.append("] - ");
 		stringBuilder.append(this.formatMessage(logRecord));
 		if (logRecord.getLevel().intValue() >= Level.WARNING.intValue() && logRecord.getThrown() != null) {
-			stringBuilder.append("\n");
+			stringBuilder.append('\n');
 			stringBuilder.append(logRecord.getThrown());
-			stringBuilder.append("\n");
-			stringBuilder.append(LogFormatter.stackTraceToString(logRecord.getThrown()));
+			stringBuilder.append('\n');
+			stringBuilder.append(DebuggerFormatter.stackTraceToString(logRecord.getThrown()));
 		}
-		stringBuilder.append("\n");
+		stringBuilder.append('\n');
 		return stringBuilder.toString();
 	}
 

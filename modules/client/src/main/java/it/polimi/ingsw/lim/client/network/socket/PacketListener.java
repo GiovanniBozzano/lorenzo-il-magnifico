@@ -43,7 +43,7 @@ class PacketListener extends Thread
 				if (!this.keepGoing) {
 					return;
 				}
-				Client.getLogger().log(Level.INFO, "The Server closed the connection.", exception);
+				Client.getDebugger().log(Level.INFO, "The Server closed the connection.", exception);
 				Client.getInstance().disconnect(false, false);
 				return;
 			}

@@ -55,4 +55,9 @@ public class ControllerStart extends CustomController
 		});
 		this.getStackPane().getScene().getRoot().requestFocus();
 	}
+
+	@Override
+	public void showDialog(String message)
+	{
+	}
 }

@@ -6,7 +6,7 @@ import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.server.*;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
@@ -38,7 +38,7 @@ public class ConnectionSocket extends Connection
 			this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 			Utils.displayToLog("Socket connection accepted from: " + socket.getInetAddress().getHostAddress());
 		} catch (IOException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			this.disconnect(true, null);
 		}
 	}
@@ -57,7 +57,7 @@ public class ConnectionSocket extends Connection
 				}
 				while (packet.getPacketType() != PacketType.DISCONNECTION_ACKNOWLEDGEMENT);
 			} catch (IOException | ClassNotFoundException exception) {
-				Server.getLogger().log(Level.INFO, "Connection acknowledgement failed.", exception);
+				Server.getDebugger().log(Level.INFO, "Connection acknowledgement failed.", exception);
 			}
 		}
 		if (waitPacketListener) {
@@ -68,13 +68,13 @@ public class ConnectionSocket extends Connection
 			this.out.close();
 			this.socket.close();
 		} catch (IOException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 		if (waitPacketListener) {
 			try {
 				this.packetListener.join();
 			} catch (InterruptedException exception) {
-				Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				Thread.currentThread().interrupt();
 			}
 		}

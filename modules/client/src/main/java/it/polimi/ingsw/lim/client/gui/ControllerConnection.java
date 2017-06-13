@@ -100,6 +100,7 @@ public class ControllerConnection extends CustomController
 		this.dialogOkButton.setPrefWidth(((VBox) this.dialogOkButton.getParent()).getWidth());
 	}
 
+	@Override
 	public void showDialog(String message)
 	{
 		this.getStackPane().getScene().getRoot().requestFocus();

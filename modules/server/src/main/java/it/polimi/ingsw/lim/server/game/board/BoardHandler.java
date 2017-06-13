@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.utils.BoardPositionInformations;
 import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
@@ -55,7 +55,7 @@ public class BoardHandler
 				{
 				}.getType());
 			} catch (IOException exception) {
-				Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 			return new HashMap<>();
 		}
@@ -79,7 +79,7 @@ public class BoardHandler
 				{
 				}.getType());
 			} catch (IOException exception) {
-				Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 			return new ArrayList<>();
 		}

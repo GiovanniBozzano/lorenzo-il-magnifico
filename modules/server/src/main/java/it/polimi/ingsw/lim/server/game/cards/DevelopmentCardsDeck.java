@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardGetDevelopmentCard;
@@ -102,7 +102,7 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
 				return Builder.GSON.fromJson(reader, Builder.TYPE_TOKENS.get(this.clazz));
 			} catch (IOException exception) {
-				Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 			return null;
 		}

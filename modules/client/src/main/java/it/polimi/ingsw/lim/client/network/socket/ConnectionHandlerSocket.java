@@ -14,7 +14,7 @@ import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
 
@@ -41,7 +41,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			this.out = new ObjectOutputStream(this.socket.getOutputStream());
 			this.in = new ObjectInputStream(this.socket.getInputStream());
 		} catch (IOException exception) {
-			Client.getLogger().log(Level.INFO, "Could not connect to host.", exception);
+			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
 			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
 			Platform.runLater(() -> ((ControllerConnection) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog("Could not connect to host"));
 			return;
@@ -70,7 +70,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 				this.socket.close();
 			}
 		} catch (IOException exception) {
-			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Client.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 
@@ -100,7 +100,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		try {
 			this.join();
 		} catch (InterruptedException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
 		new Packet(PacketType.DISCONNECTION_ACKNOWLEDGEMENT).send(this.out);
@@ -125,10 +125,10 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		try {
 			this.join();
 		} catch (InterruptedException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
-		Client.getLogger().log(Level.INFO, text);
+		Client.getDebugger().log(Level.INFO, text);
 		this.sendDisconnectionAcknowledgement();
 	}
 

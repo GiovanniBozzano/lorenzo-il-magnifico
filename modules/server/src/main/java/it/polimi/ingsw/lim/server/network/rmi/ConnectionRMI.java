@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.server.network.rmi;
 
 import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
 import it.polimi.ingsw.lim.server.network.Connection;
@@ -45,7 +45,7 @@ public class ConnectionRMI extends Connection
 				try {
 					UnicastRemoteObject.unexportObject(clientSession, true);
 				} catch (NoSuchObjectException exception) {
-					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				}
 				Server.getInstance().getConnectionHandler().getLogin().getClientSessions().remove(clientSession);
 				break;
@@ -58,7 +58,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendDisconnect();
 			} catch (RemoteException exception) {
-				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 			}
 		}
 		this.rmiExecutor.shutdownNow();
@@ -71,7 +71,7 @@ public class ConnectionRMI extends Connection
 		try {
 			this.serverSession.sendHeartbeat();
 		} catch (RemoteException exception) {
-			Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+			Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 			this.disconnect(false, null);
 		}
 	}
@@ -83,7 +83,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendRoomEntryOther(name);
 			} catch (RemoteException exception) {
-				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -96,7 +96,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendRoomExitOther(name);
 			} catch (RemoteException exception) {
-				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -109,7 +109,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendRoomTimer(timer);
 			} catch (RemoteException exception) {
-				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -122,7 +122,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameStarted(roomInformations);
 			} catch (RemoteException exception) {
-				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -135,7 +135,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendLogMessage(text);
 			} catch (RemoteException exception) {
-				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -148,7 +148,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendChatMessage(text);
 			} catch (RemoteException exception) {
-				Server.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});

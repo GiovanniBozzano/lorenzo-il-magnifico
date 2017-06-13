@@ -144,4 +144,9 @@ public class ControllerGame extends CustomController
 		this.playerBoard5.setPrefHeight(this.playerBoard5.getPrefHeight() * this.playerBoard5.getPrefWidth() / oldWidth);
 		this.playerTabPanel.setMaxHeight(((VBox) this.playerBoard1.getParent()).getHeight());
 	}
+
+	@Override
+	public void showDialog(String message)
+	{
+	}
 }

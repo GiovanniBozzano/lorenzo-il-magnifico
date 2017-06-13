@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.common.network.socket.packets;
 
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.PacketType;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -23,7 +23,7 @@ public class Packet implements Serializable
 		try {
 			out.writeObject(this);
 		} catch (IOException exception) {
-			Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 

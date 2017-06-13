@@ -2,7 +2,6 @@ package it.polimi.ingsw.lim.client.network.rmi;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.gui.ControllerAuthentication;
-import it.polimi.ingsw.lim.client.gui.ControllerConnection;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
@@ -12,7 +11,7 @@ import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
 import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
 
@@ -41,9 +40,9 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			this.serverSession = new ServerSession();
 			this.login = (IAuthentication) Naming.lookup("rmi://" + Client.getInstance().getIp() + ":" + Client.getInstance().getPort() + "/lorenzo-il-magnifico");
 		} catch (NotBoundException | MalformedURLException | RemoteException exception) {
-			Client.getLogger().log(Level.INFO, "Could not connect to host.", exception);
-			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
-			Platform.runLater(() -> ((ControllerConnection) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog("Could not connect to host"));
+			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
+			WindowFactory.enableAllWindows();
+			WindowFactory.showDialog("Could not connect to host");
 			return;
 		}
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
@@ -59,13 +58,13 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			try {
 				this.clientSession.sendDisconnect();
 			} catch (RemoteException exception) {
-				Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Client.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		}
 		try {
 			UnicastRemoteObject.unexportObject(this.serverSession, false);
 		} catch (NoSuchObjectException exception) {
-			Client.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Client.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 
@@ -80,7 +79,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				this.login.sendHeartbeat();
 			}
 		} catch (RemoteException exception) {
-			Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 			Client.getInstance().disconnect(false, false);
 		}
 	}
@@ -93,10 +92,10 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			try {
 				this.finalizeAuthentication(username, this.login.sendLogin(CommonUtils.VERSION, username, CommonUtils.encrypt(password), roomType, this.serverSession));
 			} catch (RemoteException exception) {
-				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, false);
 			} catch (AuthenticationFailedException exception) {
-				Client.getLogger().log(Level.INFO, exception.getLocalizedMessage(), exception);
+				Client.getDebugger().log(Level.INFO, exception.getLocalizedMessage(), exception);
 				WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
 				Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog(exception.getLocalizedMessage()));
 			}
@@ -111,10 +110,10 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			try {
 				this.finalizeAuthentication(username, this.login.sendRegistration(CommonUtils.VERSION, username, CommonUtils.encrypt(password), roomType, this.serverSession));
 			} catch (RemoteException exception) {
-				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, false);
 			} catch (AuthenticationFailedException exception) {
-				Client.getLogger().log(Level.INFO, exception.getLocalizedMessage(), exception);
+				Client.getDebugger().log(Level.INFO, exception.getLocalizedMessage(), exception);
 				WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
 				Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog(exception.getLocalizedMessage()));
 			}
@@ -129,7 +128,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			try {
 				this.clientSession.sendRoomTimerRequest();
 			} catch (RemoteException exception) {
-				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, false);
 			}
 		});
@@ -143,7 +142,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			try {
 				this.clientSession.sendChatMessage(text);
 			} catch (RemoteException exception) {
-				Client.getLogger().log(Level.INFO, LogFormatter.RMI_ERROR, exception);
+				Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, false);
 			}
 		});

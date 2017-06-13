@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.server.database;
 
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 
 import java.io.File;
@@ -24,16 +24,16 @@ public class DatabaseSQLite extends Database
 	{
 		try {
 			if (new File(this.databaseLocation).createNewFile()) {
-				Server.getLogger().log(Level.SEVERE, "Database created.");
+				Server.getDebugger().log(Level.SEVERE, "Database created.");
 			}
 		} catch (IOException exception) {
-			Server.getLogger().log(Level.INFO, "Unable to create database.", exception);
+			Server.getDebugger().log(Level.INFO, "Unable to create database.", exception);
 		}
 		try {
 			Class.forName("org.sqlite.JDBC");
 			return DriverManager.getConnection("jdbc:sqlite:" + this.databaseLocation);
 		} catch (ClassNotFoundException | SQLException exception) {
-			Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			return null;
 		}
 	}

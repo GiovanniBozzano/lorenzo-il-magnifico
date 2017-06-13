@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server;
 
 import it.polimi.ingsw.lim.common.Instance;
-import it.polimi.ingsw.lim.common.utils.LogFormatter;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.database.DatabaseSQLite;
@@ -51,7 +51,7 @@ public class Server extends Instance
 				try {
 					this.database.getConnection().prepareStatement("SELECT 1").executeQuery();
 				} catch (SQLException exception) {
-					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				}
 			}, 0L, 60L, TimeUnit.SECONDS);
 			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(true);
@@ -79,19 +79,19 @@ public class Server extends Instance
 						UnicastRemoteObject.unexportObject(this.connectionHandler.getRegistry(), true);
 						UnicastRemoteObject.unexportObject(this.connectionHandler.getLogin(), true);
 					} catch (RemoteException | NotBoundException exception) {
-						Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+						Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 					}
 				}
 				this.connectionHandler.end();
 				try (Socket socket = new Socket("localhost", this.socketPort)) {
 					socket.close();
 				} catch (IOException exception) {
-					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				}
 				try {
 					this.connectionHandler.join();
 				} catch (InterruptedException exception) {
-					Server.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+					Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 					Thread.currentThread().interrupt();
 				}
 				this.databaseSaver.shutdown();

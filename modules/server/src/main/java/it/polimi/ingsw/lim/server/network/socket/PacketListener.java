@@ -52,7 +52,7 @@ class PacketListener extends Thread
 			try {
 				packet = (Packet) this.connectionSocket.getIn().readObject();
 			} catch (ClassNotFoundException | IOException exception) {
-				Server.getLogger().log(Level.INFO, "Socket Client" + (this.connectionSocket.getUsername() != null ? " " + this.connectionSocket.getUsername() : "") + " disconnected.", exception);
+				Server.getDebugger().log(Level.INFO, "Socket Client" + (this.connectionSocket.getUsername() != null ? " " + this.connectionSocket.getUsername() : "") + " disconnected.", exception);
 				if (!this.keepGoing) {
 					return;
 				}
@@ -74,7 +74,7 @@ class PacketListener extends Thread
 			try {
 				packet = (Packet) this.connectionSocket.getIn().readObject();
 			} catch (ClassNotFoundException | IOException exception) {
-				Server.getLogger().log(Level.INFO, "Socket Client disconnected.", exception);
+				Server.getDebugger().log(Level.INFO, "Socket Client disconnected.", exception);
 				if (!this.keepGoing) {
 					return false;
 				}
@@ -94,7 +94,7 @@ class PacketListener extends Thread
 					Utils.displayToLog("Socket Player registerd as: " + trimmedUsername);
 				}
 			} catch (AuthenticationFailedException exception) {
-				Server.getLogger().log(Level.INFO, "Socket Client failed authentication.", exception);
+				Server.getDebugger().log(Level.INFO, "Socket Client failed authentication.", exception);
 				this.connectionSocket.sendAuthenticationFailure(exception.getLocalizedMessage());
 				return false;
 			}

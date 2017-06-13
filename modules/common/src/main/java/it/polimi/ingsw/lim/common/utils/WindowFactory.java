@@ -63,7 +63,7 @@ public class WindowFactory
 			try {
 				parent = fxmlLoader.load();
 			} catch (IOException exception) {
-				Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				return;
 			}
 			Stage stage = new Stage();
@@ -119,18 +119,8 @@ public class WindowFactory
 			objTimer.getKeyFrames().clear();
 			objTimer.getKeyFrames().add(new KeyFrame(new Duration(milliseconds)));
 		} catch (NoSuchFieldException | IllegalAccessException exception) {
-			Instance.getLogger().log(Level.SEVERE, LogFormatter.EXCEPTION_MESSAGE, exception);
+			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
-	}
-
-	public static WindowFactory getInstance()
-	{
-		return WindowFactory.INSTANCE;
-	}
-
-	public WindowInformations getCurrentWindow()
-	{
-		return this.currentWindow.get();
 	}
 
 	public boolean isWindowOpen(Class<? extends CustomController> clazz)
@@ -141,5 +131,43 @@ public class WindowFactory
 			}
 		}
 		return false;
+	}
+
+	public static void disableAllWindows()
+	{
+		for (Stage stage : WindowFactory.getInstance().getOpenWindows().keySet()) {
+			stage.getScene().getRoot().setDisable(true);
+		}
+	}
+
+	public static void enableAllWindows()
+	{
+		for (Stage stage : WindowFactory.getInstance().getOpenWindows().keySet()) {
+			stage.getScene().getRoot().setDisable(false);
+		}
+	}
+
+	public static void showDialog(String message)
+	{
+		if (WindowFactory.getInstance().getCurrentWindow() != null) {
+			Platform.runLater(() -> WindowFactory.getInstance().getCurrentWindow().getController().showDialog(message));
+		} else {
+			Instance.getLogger().log(Level.INFO, message);
+		}
+	}
+
+	public static WindowFactory getInstance()
+	{
+		return WindowFactory.INSTANCE;
+	}
+
+	public ObservableMap<Stage, CustomController> getOpenWindows()
+	{
+		return this.openWindows;
+	}
+
+	public WindowInformations getCurrentWindow()
+	{
+		return this.currentWindow.get();
 	}
 }
