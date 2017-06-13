@@ -16,12 +16,12 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 	private static final Map<Integer, IInputHandler> INPUT_HANDLERS = new HashMap<>();
 
 	static {
-		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(1, (cliHandler) -> {
+		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(1, cliHandler -> {
 			((CLIListenerClient) Client.getCliListener()).setStatus(CLIStatus.NONE);
 			Main.launch(Main.class, Main.getArgs());
 			return true;
 		});
-		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(2, (cliHandler) -> {
+		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(2, cliHandler -> {
 			((CLIListenerClient) Client.getCliListener()).setStatus(CLIStatus.CONNECTION);
 			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
 			Client.getLogger().log(Level.INFO, "1 - RMI");

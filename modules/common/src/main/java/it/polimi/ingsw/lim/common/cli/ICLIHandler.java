@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.common.cli;
 
-public interface ICLIHandler
+@FunctionalInterface public interface ICLIHandler
 {
 	void execute(String string);
 }

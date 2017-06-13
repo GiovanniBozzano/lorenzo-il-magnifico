@@ -15,11 +15,11 @@ public class CLIHandlerConnection implements ICLIHandler
 	private static final Map<Integer, IInputHandler> INPUT_HANDLERS_CONNECTION_TYPE = new HashMap<>();
 
 	static {
-		CLIHandlerConnection.INPUT_HANDLERS_CONNECTION_TYPE.put(1, (cliHandler) -> {
+		CLIHandlerConnection.INPUT_HANDLERS_CONNECTION_TYPE.put(1, cliHandler -> {
 			((CLIHandlerConnection) cliHandler).connectionType = ConnectionType.RMI;
 			return true;
 		});
-		CLIHandlerConnection.INPUT_HANDLERS_CONNECTION_TYPE.put(2, (cliHandler) -> {
+		CLIHandlerConnection.INPUT_HANDLERS_CONNECTION_TYPE.put(2, cliHandler -> {
 			((CLIHandlerConnection) cliHandler).connectionType = ConnectionType.SOCKET;
 			return true;
 		});

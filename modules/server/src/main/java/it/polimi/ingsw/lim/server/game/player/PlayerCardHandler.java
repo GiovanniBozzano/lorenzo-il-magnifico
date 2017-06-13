@@ -12,13 +12,11 @@ import java.util.Map;
 
 public class PlayerCardHandler
 {
-	private final PlayerHandler playerHandler;
 	private final Map<CardType, List<DevelopmentCard>> developmentCards = new EnumMap<>(CardType.class);
 	private final List<CardLeader> cardsLeader = new ArrayList<>();
 
-	PlayerCardHandler(PlayerHandler playerHandler)
+	PlayerCardHandler()
 	{
-		this.playerHandler = playerHandler;
 		this.developmentCards.put(CardType.BUILDING, new ArrayList<>());
 		this.developmentCards.put(CardType.CHARACTER, new ArrayList<>());
 		this.developmentCards.put(CardType.TERRITORY, new ArrayList<>());

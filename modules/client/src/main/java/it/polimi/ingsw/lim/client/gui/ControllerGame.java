@@ -99,8 +99,8 @@ public class ControllerGame extends CustomController
 				((Pane) node).setSnapToPixel(false);
 				((Pane) node).setPrefWidth(((Pane) node).getPrefWidth() * ratio);
 				((Pane) node).setPrefHeight(((Pane) node).getPrefHeight() * ratio);
-				node.setOnMouseEntered((event) -> node.setEffect(borderGlow));
-				node.setOnMouseExited((event) -> node.effectProperty().set(null));
+				node.setOnMouseEntered(event -> node.setEffect(borderGlow));
+				node.setOnMouseExited(event -> node.effectProperty().set(null));
 			} else if (node instanceof Label) {
 				((Label) node).setSnapToPixel(false);
 				((Label) node).setPrefWidth(((Label) node).getPrefWidth() * ratio);

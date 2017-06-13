@@ -146,11 +146,11 @@ public class CardsHandler
 		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Sandro Botticelli", 19, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.WOOD, 10)))))), new Reward(null, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.MILITARY_POINT, 2), new ResourceAmount(ResourceType.VICTORY_POINT, 1))))));
 	}
 
-	private final Map<Row, DevelopmentCardBuilding> currentDevelopmentCardsBuilding = new EnumMap<>(Row.class);
-	private final Map<Row, DevelopmentCardCharacter> currentDevelopmentCardsCharacter = new EnumMap<>(Row.class);
-	private final Map<Row, DevelopmentCardTerritory> currentDevelopmentCardsTerritory = new EnumMap<>(Row.class);
-	private final Map<Row, DevelopmentCardVenture> currentDevelopmentCardsVenture = new EnumMap<>(Row.class);
-	private final Map<CardType, Map<Row, ? extends DevelopmentCard>> currentDevelopmentCards = new EnumMap<>(CardType.class);
+	private final Map<Row, DevelopmentCard> currentDevelopmentCardsBuilding = new EnumMap<>(Row.class);
+	private final Map<Row, DevelopmentCard> currentDevelopmentCardsCharacter = new EnumMap<>(Row.class);
+	private final Map<Row, DevelopmentCard> currentDevelopmentCardsTerritory = new EnumMap<>(Row.class);
+	private final Map<Row, DevelopmentCard> currentDevelopmentCardsVenture = new EnumMap<>(Row.class);
+	private final Map<CardType, Map<Row, DevelopmentCard>> currentDevelopmentCards = new EnumMap<>(CardType.class);
 
 	public CardsHandler()
 	{
@@ -190,27 +190,7 @@ public class CardsHandler
 		return CardsHandler.CARDS_LEADER;
 	}
 
-	public Map<Row, DevelopmentCardBuilding> getCurrentDevelopmentCardsBuilding()
-	{
-		return this.currentDevelopmentCardsBuilding;
-	}
-
-	public Map<Row, DevelopmentCardCharacter> getCurrentDevelopmentCardsCharacter()
-	{
-		return this.currentDevelopmentCardsCharacter;
-	}
-
-	public Map<Row, DevelopmentCardTerritory> getCurrentDevelopmentCardsTerritory()
-	{
-		return this.currentDevelopmentCardsTerritory;
-	}
-
-	public Map<Row, DevelopmentCardVenture> getCurrentDevelopmentCardsVenture()
-	{
-		return this.currentDevelopmentCardsVenture;
-	}
-
-	public Map<CardType, Map<Row, ? extends DevelopmentCard>> getCurrentDevelopmentCards()
+	public Map<CardType, Map<Row, DevelopmentCard>> getCurrentDevelopmentCards()
 	{
 		return this.currentDevelopmentCards;
 	}
