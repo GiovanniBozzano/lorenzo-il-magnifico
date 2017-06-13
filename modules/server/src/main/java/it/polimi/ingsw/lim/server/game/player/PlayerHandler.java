@@ -4,7 +4,6 @@ import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
-import it.polimi.ingsw.lim.server.game.events.Event;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 
 import java.util.ArrayList;
@@ -14,11 +13,11 @@ import java.util.Map;
 
 public class PlayerHandler
 {
-	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler(this);
+	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler();
 	private final PlayerResourceHandler playerResourceHandler = new PlayerResourceHandler(3, 2, 2);
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
-	private final List<Modifier<? extends Event>> activeModifiers = new ArrayList<>();
-	private final List<Modifier<? extends Event>> temporaryModifiers = new ArrayList<>();
+	private final List<Modifier> activeModifiers = new ArrayList<>();
+	private final List<Modifier> temporaryModifiers = new ArrayList<>();
 	private final List<Integer> councilPrivileges = new ArrayList<>();
 	private final PersonalBonusTile personalBonusTile;
 	private int availableTurns = 4;
@@ -60,7 +59,7 @@ public class PlayerHandler
 		return this.familyMembersPositions;
 	}
 
-	public List<Modifier<? extends Event>> getActiveModifiers()
+	public List<Modifier> getActiveModifiers()
 	{
 		return this.activeModifiers;
 	}
@@ -75,7 +74,7 @@ public class PlayerHandler
 		return this.personalBonusTile;
 	}
 
-	public List<Modifier<? extends Event>> getTemporaryModifiers()
+	public List<Modifier> getTemporaryModifiers()
 	{
 		return this.temporaryModifiers;
 	}

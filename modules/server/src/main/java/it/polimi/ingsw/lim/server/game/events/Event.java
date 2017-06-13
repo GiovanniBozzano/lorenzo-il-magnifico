@@ -14,7 +14,7 @@ public abstract class Event
 		this.player = player;
 	}
 
-	public void applyModifiers(List<Modifier<? extends Event>> modifiers)
+	public void applyModifiers(List<Modifier> modifiers)
 	{
 		for (Modifier modifier : modifiers) {
 			modifier.call(this);

@@ -49,12 +49,11 @@ public class ActionLeaderActivation implements IAction
 		// check if the player has the leader card
 		boolean owned = false;
 		for (CardLeader currentCardLeader : this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
-			if (this.cardLeaderIndex != currentCardLeader.getIndex() || !(currentCardLeader instanceof CardLeaderReward)) {
-				continue;
+			if (this.cardLeaderIndex == currentCardLeader.getIndex() && currentCardLeader instanceof CardLeaderReward) {
+				this.cardLeader = currentCardLeader;
+				owned = true;
+				break;
 			}
-			this.cardLeader = currentCardLeader;
-			owned = true;
-			break;
 		}
 		if (!owned) {
 			return false;

@@ -48,12 +48,11 @@ public class ActionLeaderPlay implements IAction
 		// check if the player has the leader card
 		boolean owned = false;
 		for (CardLeader currentCardLeader : this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
-			if (this.cardLeaderIndex != currentCardLeader.getIndex()) {
-				continue;
+			if (this.cardLeaderIndex == currentCardLeader.getIndex()) {
+				this.cardLeader = currentCardLeader;
+				owned = true;
+				break;
 			}
-			this.cardLeader = currentCardLeader;
-			owned = true;
-			break;
 		}
 		if (!owned) {
 			return false;
@@ -75,14 +74,14 @@ public class ActionLeaderPlay implements IAction
 		}
 		gameHandler.setPhase(Phase.LEADER);
 		if (this.cardLeader instanceof CardLeaderModifier) {
-			this.player.getPlayerHandler().getActiveModifiers().add(((CardLeaderModifier) cardLeader).getModifier());
+			this.player.getPlayerHandler().getActiveModifiers().add(((CardLeaderModifier) this.cardLeader).getModifier());
 		} else {
-			((CardLeaderReward) cardLeader).setActivated(true);
-			EventGainResources eventGainResources = new EventGainResources(this.player, ((CardLeaderReward) cardLeader).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
+			((CardLeaderReward) this.cardLeader).setActivated(true);
+			EventGainResources eventGainResources = new EventGainResources(this.player, ((CardLeaderReward) this.cardLeader).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 			eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 			this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-			if (((CardLeaderReward) cardLeader).getReward().getActionReward() != null) {
-				((CardLeaderReward) cardLeader).getReward().getActionReward().apply(this.player);
+			if (((CardLeaderReward) this.cardLeader).getReward().getActionReward() != null) {
+				((CardLeaderReward) this.cardLeader).getReward().getActionReward().apply(this.player);
 			}
 			int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 			if (councilPrivilegesCount > 0) {

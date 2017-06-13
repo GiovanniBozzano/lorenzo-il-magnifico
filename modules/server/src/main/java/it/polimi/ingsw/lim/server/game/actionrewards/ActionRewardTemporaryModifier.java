@@ -10,6 +10,7 @@ public class ActionRewardTemporaryModifier extends ActionReward
 		super(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER);
 	}
 
+	@Override
 	public void apply(Connection player)
 	{
 	}

@@ -104,19 +104,19 @@ public class GameHandler
 
 	private void drawCards()
 	{
-		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCardsBuilding().size(); index++) {
+		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCards().get(CardType.BUILDING).size(); index++) {
 			this.cardsHandler.addDevelopmentCard(this.developmentCardsBuilding.getPeriods().get(this.period).get(index), Row.values()[index]);
 			this.developmentCardsBuilding.getPeriods().get(this.period).remove(index);
 		}
-		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCardsCharacter().size(); index++) {
+		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCards().get(CardType.CHARACTER).size(); index++) {
 			this.cardsHandler.addDevelopmentCard(this.developmentCardsCharacters.getPeriods().get(this.period).get(index), Row.values()[index]);
 			this.developmentCardsCharacters.getPeriods().get(this.period).remove(index);
 		}
-		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCardsTerritory().size(); index++) {
+		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCards().get(CardType.TERRITORY).size(); index++) {
 			this.cardsHandler.addDevelopmentCard(this.developmentCardsTerritory.getPeriods().get(this.period).get(index), Row.values()[index]);
 			this.developmentCardsTerritory.getPeriods().get(this.period).remove(index);
 		}
-		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCardsVenture().size(); index++) {
+		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCards().get(CardType.VENTURE).size(); index++) {
 			this.cardsHandler.addDevelopmentCard(this.developmentCardsVenture.getPeriods().get(this.period).get(index), Row.values()[index]);
 			this.developmentCardsVenture.getPeriods().get(this.period).remove(index);
 		}

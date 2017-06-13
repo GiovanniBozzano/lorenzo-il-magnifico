@@ -17,7 +17,7 @@ public class CardLeaderModifier extends CardLeader
 		this.modifier = modifier;
 	}
 
-	public Modifier<? extends Event> getModifier()
+	public Modifier getModifier()
 	{
 		return this.modifier;
 	}

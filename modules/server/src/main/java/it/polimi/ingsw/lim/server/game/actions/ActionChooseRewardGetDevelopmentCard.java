@@ -8,7 +8,6 @@ import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardGetDevelopmentC
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
-import it.polimi.ingsw.lim.server.game.cards.leaders.CardLeaderReward;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
