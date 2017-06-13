@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.enums.Row;
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardHarvest;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardProduction;
@@ -17,7 +18,6 @@ import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.utils.CardAmount;
 import it.polimi.ingsw.lim.server.game.utils.LeaderCardConditionsOption;
-import it.polimi.ingsw.lim.common.game.ResourceAmount;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
 
 import java.util.*;

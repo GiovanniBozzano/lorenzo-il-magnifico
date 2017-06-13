@@ -4,16 +4,16 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 
 public class ActionInformationsLeaderDiscard extends ActionInformations
 {
-	private final int cardLeaderIndex;
+	private final int leaderCardIndex;
 
-	public ActionInformationsLeaderDiscard(int cardLeaderIndex)
+	public ActionInformationsLeaderDiscard(int leaderCardIndex)
 	{
 		super(ActionType.LEADER_DISCARD);
-		this.cardLeaderIndex = cardLeaderIndex;
+		this.leaderCardIndex = leaderCardIndex;
 	}
 
-	public int getCardLeaderIndex()
+	public int getLeaderCardIndex()
 	{
-		return this.cardLeaderIndex;
+		return this.leaderCardIndex;
 	}
 }

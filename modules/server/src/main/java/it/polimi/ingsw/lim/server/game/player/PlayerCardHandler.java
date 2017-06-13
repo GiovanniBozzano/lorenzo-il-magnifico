@@ -13,7 +13,7 @@ import java.util.Map;
 public class PlayerCardHandler
 {
 	private final Map<CardType, List<DevelopmentCard>> developmentCards = new EnumMap<>(CardType.class);
-	private final List<LeaderCard> cardsLeader = new ArrayList<>();
+	private final List<LeaderCard> leaderCards = new ArrayList<>();
 
 	PlayerCardHandler()
 	{
@@ -47,9 +47,9 @@ public class PlayerCardHandler
 		this.developmentCards.get(developmentCard.getCardType()).add(CardsHandler.getDevelopmentCardsTypes().get(developmentCard.getCardType()).cast(developmentCard));
 	}
 
-	public void addCardLeader(LeaderCard leaderCard)
+	public void addLeaderCard(LeaderCard leaderCard)
 	{
-		this.cardsLeader.add(leaderCard);
+		this.leaderCards.add(leaderCard);
 	}
 
 	public boolean canAddDevelopmentCard(CardType cardType)
@@ -57,13 +57,8 @@ public class PlayerCardHandler
 		return this.developmentCards.get(cardType).size() < 6;
 	}
 
-	public boolean canAddCardLeader()
-	{
-		return this.cardsLeader.size() < 4;
-	}
-
 	public List<LeaderCard> getCardsLeader()
 	{
-		return this.cardsLeader;
+		return this.leaderCards;
 	}
 }
