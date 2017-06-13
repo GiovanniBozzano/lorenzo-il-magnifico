@@ -70,23 +70,23 @@
 				<Pane layoutX="462.0" layoutY="209.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_14.png'); -fx-background-size: stretch;" />
 				<Pane layoutX="462.0" layoutY="326.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_15.png'); -fx-background-size: stretch;" />
 				<Pane layoutX="462.0" layoutY="443.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_16.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="95.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="178.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="198.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="218.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="238.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="383.0" layoutY="888.0" prefHeight="34.0" prefWidth="34.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="443.0" layoutY="888.0" prefHeight="34.0" prefWidth="34.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="504.0" layoutY="888.0" prefHeight="34.0" prefWidth="34.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="517.0" layoutY="786.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="461.0" layoutY="770.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="403.0" layoutY="770.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="559.0" layoutY="829.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="390.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="412.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="434.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="456.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="478.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="productionSmall" layoutX="95.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="productionBig1" layoutX="178.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="productionBig2" layoutX="198.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="productionBig3" layoutX="218.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="productionBig4" layoutX="238.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="diceBlack" layoutX="383.0" layoutY="888.0" prefHeight="34.0" prefWidth="34.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="diceWhite" layoutX="443.0" layoutY="888.0" prefHeight="34.0" prefWidth="34.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="diceOrange" layoutX="504.0" layoutY="888.0" prefHeight="34.0" prefWidth="34.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="market3" layoutX="517.0" layoutY="786.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="market2" layoutX="461.0" layoutY="770.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="market1" layoutX="403.0" layoutY="770.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="market4" layoutX="559.0" layoutY="829.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="councilPalace1" layoutX="390.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="councilPalace2" layoutX="412.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="councilPalace3" layoutX="434.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="councilPalace4" layoutX="456.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="councilPalace5" layoutX="478.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Label layoutX="395.0" layoutY="593.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
@@ -112,7 +112,7 @@
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Pane layoutX="258.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="productionBig5" layoutX="258.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Label layoutX="183.0" layoutY="804.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
@@ -138,12 +138,12 @@
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Pane layoutX="95.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="178.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="198.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="218.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="238.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="258.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="harvestSmall" layoutX="95.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="harvestBig1" layoutX="178.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="harvestBig2" layoutX="198.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="harvestBig3" layoutX="218.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="harvestBig4" layoutX="238.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="harvestBig5" layoutX="258.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Label layoutX="183.0" layoutY="880.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
@@ -169,55 +169,55 @@
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Pane layoutX="168.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="168.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="168.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="168.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="294.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="294.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="294.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="294.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="421.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="421.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="421.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="421.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="547.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="547.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="547.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="547.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="508.0" layoutY="639.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="549.0" layoutY="639.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="549.0" layoutY="605.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="549.0" layoutY="572.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="549.0" layoutY="538.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="316.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="345.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="374.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="402.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="431.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="460.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="489.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="518.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="547.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="575.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="348.0" layoutY="786.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="306.0" layoutY="829.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="83.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="112.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="141.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="178.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="225.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="272.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="309.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="453.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="424.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="396.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="367.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="338.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="540.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="511.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="482.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="568.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="territory1" layoutX="168.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="territory2" layoutX="168.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="territory3" layoutX="168.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="territory4" layoutX="168.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="character1" layoutX="294.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="character2" layoutX="294.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="character3" layoutX="294.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="character4" layoutX="294.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="building1" layoutX="421.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="building2" layoutX="421.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="building3" layoutX="421.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="building4" layoutX="421.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="venture1" layoutX="547.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="venture2" layoutX="547.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="venture3" layoutX="547.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="venture4" layoutX="547.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="roundPosition5" layoutX="508.0" layoutY="639.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="roundPosition4" layoutX="549.0" layoutY="639.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="roundPosition3" layoutX="549.0" layoutY="605.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="roundPosition2" layoutX="549.0" layoutY="572.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="roundPosition1" layoutX="549.0" layoutY="538.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="prestigePoint0" layoutX="316.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="prestigePoint1" layoutX="345.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="prestigePoint2" layoutX="374.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="prestigePoint3" layoutX="402.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="prestigePoint4" layoutX="431.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="prestigePoint5" layoutX="460.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="prestigePoint6" layoutX="489.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="prestigePoint7" layoutX="518.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="prestigePoint8" layoutX="547.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="prestigePoint9" layoutX="575.0" layoutY="674.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="market5" layoutX="348.0" layoutY="786.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="market6" layoutX="306.0" layoutY="829.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="faithPoint0" layoutX="83.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="faithPoint1" layoutX="112.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint2" layoutX="141.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint3" layoutX="178.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint4" layoutX="225.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint5" layoutX="272.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint6" layoutX="309.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint11" layoutX="453.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint10" layoutX="424.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint9" layoutX="396.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint8" layoutX="367.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint7" layoutX="338.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint14" layoutX="540.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint13" layoutX="511.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint12" layoutX="482.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="faithPoint15" layoutX="568.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
             <Pane fx:id="victoryPoint1" layoutX="86.5" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
             <Pane fx:id="victoryPoint0" layoutX="51.0" layoutY="47.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
             <Pane layoutX="538.0" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
@@ -319,32 +319,32 @@
             <Pane layoutX="21.0" layoutY="257.5" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
             <Pane layoutX="21.0" layoutY="287.5" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
             <Pane layoutX="21.0" layoutY="317.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="565.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="598.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="629.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="658.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="690.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="721.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="752.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="782.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="815.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="846.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="888.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="349.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="380.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="411.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="442.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="473.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="503.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="534.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="130.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="162.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="193.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="224.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="256.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="286.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="316.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-            <Pane layoutX="614.0" layoutY="100.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint10" layoutX="614.0" layoutY="565.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint9" layoutX="614.0" layoutY="598.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint8" layoutX="614.0" layoutY="629.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint7" layoutX="614.0" layoutY="658.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint6" layoutX="614.0" layoutY="690.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint5" layoutX="614.0" layoutY="721.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint4" layoutX="614.0" layoutY="752.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint3" layoutX="614.0" layoutY="782.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint2" layoutX="614.0" layoutY="815.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint1" layoutX="614.0" layoutY="846.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint0" layoutX="614.0" layoutY="888.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint17" layoutX="614.0" layoutY="349.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint16" layoutX="614.0" layoutY="380.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint15" layoutX="614.0" layoutY="411.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint14" layoutX="614.0" layoutY="442.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint13" layoutX="614.0" layoutY="473.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint12" layoutX="614.0" layoutY="503.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint11" layoutX="614.0" layoutY="534.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint24" layoutX="614.0" layoutY="130.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint23" layoutX="614.0" layoutY="162.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint22" layoutX="614.0" layoutY="193.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint21" layoutX="614.0" layoutY="224.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint20" layoutX="614.0" layoutY="256.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint19" layoutX="614.0" layoutY="286.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint18" layoutX="614.0" layoutY="316.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane fx:id="militaryPoint25" layoutX="614.0" layoutY="100.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 			</Pane>
 			<VBox fx:id="rightVBox" spacing="5.0" GridPane.columnIndex="1">
 				<JFXTabPane fx:id="playerTabPanel">

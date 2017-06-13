@@ -60,11 +60,11 @@
 		"MARKET_6",
 		[
 			{
-				"resourceType": "FAITH_POINT",
+				"resourceType": "PRESTIGE_POINT",
 				"amount": 1
 			},
 			{
-				"resourceType": "PRESTIGE_POINT",
+				"resourceType": "VICTORY_POINT",
 				"amount": 1
 			}
 		]
