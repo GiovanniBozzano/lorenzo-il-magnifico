@@ -1,4 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.JFXTabPane?><?import com.jfoenix.controls.JFXTextField?><?import javafx.geometry.Insets?><?import javafx.scene.control.*?><?import javafx.scene.image.*?><?import javafx.scene.layout.*?><?import javafx.scene.text.*?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
 <StackPane fx:id="stackPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.client.gui.ControllerGame">
 	<VBox spacing="10.0">
 		<GridPane>
@@ -185,6 +204,40 @@
 				<Pane layoutX="306.0" layoutY="829.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane layoutX="83.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane layoutX="112.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="141.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="178.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="225.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="272.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="309.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="453.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="424.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="396.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="367.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="338.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="540.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="511.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="482.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="568.0" layoutY="723.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="86.0" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="51.0" layoutY="47.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="537.5" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="507.0" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="477.0" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="447.0" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="417.0" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="386.5" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="357.0" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="327.0" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="296.5" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="266.5" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="236.5" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="206.5" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="176.0" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="146.0" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="116.0" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="627.5" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="597.5" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+            <Pane layoutX="567.5" layoutY="19.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 			</Pane>
 			<VBox fx:id="rightVBox" spacing="5.0" GridPane.columnIndex="1">
 				<JFXTabPane fx:id="playerTabPanel">

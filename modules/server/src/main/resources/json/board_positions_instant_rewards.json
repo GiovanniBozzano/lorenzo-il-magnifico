@@ -81,5 +81,77 @@
 				"amount": 1
 			}
 		]
+	],
+	[
+		"BUILDING_3",
+		[
+			{
+				"resourceType": "MILITARY_POINT",
+				"amount": 1
+			}
+		]
+	],
+	[
+		"BUILDING_4",
+		[
+			{
+				"resourceType": "MILITARY_POINT",
+				"amount": 2
+			}
+		]
+	],
+	[
+		"CHARACTER_3",
+		[
+			{
+				"resourceType": "STONE",
+				"amount": 1
+			}
+		]
+	],
+	[
+		"CHARACTER_4",
+		[
+			{
+				"resourceType": "STONE",
+				"amount": 2
+			}
+		]
+	],
+	[
+		"TERRITORY_3",
+		[
+			{
+				"resourceType": "WOOD",
+				"amount": 1
+			}
+		]
+	],
+	[
+		"TERRITORY_4",
+		[
+			{
+				"resourceType": "WOOD",
+				"amount": 2
+			}
+		]
+	],
+	[
+		"VENTURE_3",
+		[
+			{
+				"resourceType": "COIN",
+				"amount": 1
+			}
+		]
+	],
+	[
+		"VENTURE_4",
+		[
+			{
+				"resourceType": "COIN",
+				"amount": 2
+			}
+		]
 	]
 ]
