@@ -1,8 +1,9 @@
 package it.polimi.ingsw.lim.client.network.socket;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.cli.CLIListenerClient;
+import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.gui.ControllerAuthentication;
-import it.polimi.ingsw.lim.client.gui.ControllerConnection;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
@@ -42,8 +43,11 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			this.in = new ObjectInputStream(this.socket.getInputStream());
 		} catch (IOException exception) {
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
-			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
-			Platform.runLater(() -> ((ControllerConnection) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog("Could not connect to host"));
+			WindowFactory.enableAllWindows();
+			WindowFactory.showDialog("Could not connect to host");
+			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
+			Client.getLogger().log(Level.INFO, "1 - RMI");
+			Client.getLogger().log(Level.INFO, "2 - Socket");
 			return;
 		}
 		this.packetListener = new PacketListener();
@@ -134,7 +138,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 
 	void handleAuthenticationConfirmation(String username, RoomInformations roomInformations)
 	{
-		if (!WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
 			return;
 		}
 		Client.getInstance().setUsername(username);
@@ -143,11 +147,11 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 
 	void handleAuthenticationFailure(String text)
 	{
-		if (!WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
 			return;
 		}
-		WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
-		Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog(text));
+		WindowFactory.enableAllWindows();
+		WindowFactory.showDialog(text);
 	}
 
 	ObjectInputStream getIn()

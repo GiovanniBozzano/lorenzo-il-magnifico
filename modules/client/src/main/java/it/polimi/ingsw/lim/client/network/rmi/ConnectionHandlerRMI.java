@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client.network.rmi;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.gui.ControllerAuthentication;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
@@ -43,6 +42,9 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
 			WindowFactory.enableAllWindows();
 			WindowFactory.showDialog("Could not connect to host");
+			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
+			Client.getLogger().log(Level.INFO, "1 - RMI");
+			Client.getLogger().log(Level.INFO, "2 - Socket");
 			return;
 		}
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
@@ -96,8 +98,8 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				Client.getInstance().disconnect(false, false);
 			} catch (AuthenticationFailedException exception) {
 				Client.getDebugger().log(Level.INFO, exception.getLocalizedMessage(), exception);
-				WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
-				Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog(exception.getLocalizedMessage()));
+				WindowFactory.enableAllWindows();
+				WindowFactory.showDialog(exception.getLocalizedMessage());
 			}
 		});
 	}
@@ -114,8 +116,8 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				Client.getInstance().disconnect(false, false);
 			} catch (AuthenticationFailedException exception) {
 				Client.getDebugger().log(Level.INFO, exception.getLocalizedMessage(), exception);
-				WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
-				Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow().getController()).showDialog(exception.getLocalizedMessage()));
+				WindowFactory.enableAllWindows();
+				WindowFactory.showDialog(exception.getLocalizedMessage());
 			}
 		});
 	}
