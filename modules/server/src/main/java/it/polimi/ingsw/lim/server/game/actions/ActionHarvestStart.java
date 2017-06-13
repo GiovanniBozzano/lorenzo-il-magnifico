@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.enums.WorkSlotType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
@@ -11,7 +12,6 @@ import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventStartHarvest;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
-import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.ArrayList;

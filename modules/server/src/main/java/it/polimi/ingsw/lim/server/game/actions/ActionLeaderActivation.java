@@ -7,8 +7,8 @@ import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
-import it.polimi.ingsw.lim.server.game.cards.CardLeader;
-import it.polimi.ingsw.lim.server.game.cards.leaders.CardLeaderReward;
+import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
+import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
@@ -17,7 +17,7 @@ public class ActionLeaderActivation implements IAction
 {
 	private final Connection player;
 	private final int cardLeaderIndex;
-	private CardLeader cardLeader;
+	private LeaderCard leaderCard;
 
 	public ActionLeaderActivation(Connection player, int cardLeaderIndex)
 	{
@@ -48,9 +48,9 @@ public class ActionLeaderActivation implements IAction
 		}
 		// check if the player has the leader card
 		boolean owned = false;
-		for (CardLeader currentCardLeader : this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
-			if (this.cardLeaderIndex == currentCardLeader.getIndex() && currentCardLeader instanceof CardLeaderReward) {
-				this.cardLeader = currentCardLeader;
+		for (LeaderCard currentLeaderCard : this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
+			if (this.cardLeaderIndex == currentLeaderCard.getIndex() && currentLeaderCard instanceof LeaderCardReward) {
+				this.leaderCard = currentLeaderCard;
 				owned = true;
 				break;
 			}
@@ -59,11 +59,11 @@ public class ActionLeaderActivation implements IAction
 			return false;
 		}
 		// check if the leader card has been played
-		if (!this.cardLeader.isPlayed()) {
+		if (!this.leaderCard.isPlayed()) {
 			return false;
 		}
 		// check if the leader card hasn't been already activated
-		return !((CardLeaderReward) this.cardLeader).isActivated();
+		return !((LeaderCardReward) this.leaderCard).isActivated();
 	}
 
 	@Override
@@ -78,12 +78,12 @@ public class ActionLeaderActivation implements IAction
 			return;
 		}
 		gameHandler.setPhase(Phase.LEADER);
-		((CardLeaderReward) this.cardLeader).setActivated(true);
-		EventGainResources eventGainResources = new EventGainResources(this.player, ((CardLeaderReward) cardLeader).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
+		((LeaderCardReward) this.leaderCard).setActivated(true);
+		EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-		if (((CardLeaderReward) cardLeader).getReward().getActionReward() != null) {
-			((CardLeaderReward) cardLeader).getReward().getActionReward().apply(this.player);
+		if (((LeaderCardReward) leaderCard).getReward().getActionReward() != null) {
+			((LeaderCardReward) leaderCard).getReward().getActionReward().apply(this.player);
 		}
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(BoardHandler.getBoardPositionInformations(BoardPosition.COUNCIL_PALACE).getResourceAmounts());
 		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);

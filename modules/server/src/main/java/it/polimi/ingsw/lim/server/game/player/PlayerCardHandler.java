@@ -1,9 +1,9 @@
 package it.polimi.ingsw.lim.server.game.player;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.server.game.cards.CardLeader;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
+import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -13,7 +13,7 @@ import java.util.Map;
 public class PlayerCardHandler
 {
 	private final Map<CardType, List<DevelopmentCard>> developmentCards = new EnumMap<>(CardType.class);
-	private final List<CardLeader> cardsLeader = new ArrayList<>();
+	private final List<LeaderCard> cardsLeader = new ArrayList<>();
 
 	PlayerCardHandler()
 	{
@@ -47,9 +47,9 @@ public class PlayerCardHandler
 		this.developmentCards.get(developmentCard.getCardType()).add(CardsHandler.getDevelopmentCardsTypes().get(developmentCard.getCardType()).cast(developmentCard));
 	}
 
-	public void addCardLeader(CardLeader cardLeader)
+	public void addCardLeader(LeaderCard leaderCard)
 	{
-		this.cardsLeader.add(cardLeader);
+		this.cardsLeader.add(leaderCard);
 	}
 
 	public boolean canAddDevelopmentCard(CardType cardType)
@@ -62,7 +62,7 @@ public class PlayerCardHandler
 		return this.cardsLeader.size() < 4;
 	}
 
-	public List<CardLeader> getCardsLeader()
+	public List<LeaderCard> getCardsLeader()
 	{
 		return this.cardsLeader;
 	}

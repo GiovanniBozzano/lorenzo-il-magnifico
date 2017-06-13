@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.board;
 
 import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
 
 import java.util.ArrayList;
 import java.util.Arrays;

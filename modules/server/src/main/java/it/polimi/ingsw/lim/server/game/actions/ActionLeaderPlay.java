@@ -5,9 +5,9 @@ import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.cards.CardLeader;
-import it.polimi.ingsw.lim.server.game.cards.leaders.CardLeaderModifier;
-import it.polimi.ingsw.lim.server.game.cards.leaders.CardLeaderReward;
+import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
+import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardModifier;
+import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
@@ -16,7 +16,7 @@ public class ActionLeaderPlay implements IAction
 {
 	private final Connection player;
 	private final int cardLeaderIndex;
-	private CardLeader cardLeader;
+	private LeaderCard leaderCard;
 
 	public ActionLeaderPlay(Connection player, int cardLeaderIndex)
 	{
@@ -47,9 +47,9 @@ public class ActionLeaderPlay implements IAction
 		}
 		// check if the player has the leader card
 		boolean owned = false;
-		for (CardLeader currentCardLeader : this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
-			if (this.cardLeaderIndex == currentCardLeader.getIndex()) {
-				this.cardLeader = currentCardLeader;
+		for (LeaderCard currentLeaderCard : this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
+			if (this.cardLeaderIndex == currentLeaderCard.getIndex()) {
+				this.leaderCard = currentLeaderCard;
 				owned = true;
 				break;
 			}
@@ -73,15 +73,15 @@ public class ActionLeaderPlay implements IAction
 			return;
 		}
 		gameHandler.setPhase(Phase.LEADER);
-		if (this.cardLeader instanceof CardLeaderModifier) {
-			this.player.getPlayerHandler().getActiveModifiers().add(((CardLeaderModifier) this.cardLeader).getModifier());
+		if (this.leaderCard instanceof LeaderCardModifier) {
+			this.player.getPlayerHandler().getActiveModifiers().add(((LeaderCardModifier) this.leaderCard).getModifier());
 		} else {
-			((CardLeaderReward) this.cardLeader).setActivated(true);
-			EventGainResources eventGainResources = new EventGainResources(this.player, ((CardLeaderReward) this.cardLeader).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
+			((LeaderCardReward) this.leaderCard).setActivated(true);
+			EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) this.leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 			eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 			this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-			if (((CardLeaderReward) this.cardLeader).getReward().getActionReward() != null) {
-				((CardLeaderReward) this.cardLeader).getReward().getActionReward().apply(this.player);
+			if (((LeaderCardReward) this.leaderCard).getReward().getActionReward() != null) {
+				((LeaderCardReward) this.leaderCard).getReward().getActionReward().apply(this.player);
 			}
 			int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 			if (councilPrivilegesCount > 0) {

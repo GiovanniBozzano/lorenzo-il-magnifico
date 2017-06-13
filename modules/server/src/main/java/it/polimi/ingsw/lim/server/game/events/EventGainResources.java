@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.events;
 
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
-import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.List;

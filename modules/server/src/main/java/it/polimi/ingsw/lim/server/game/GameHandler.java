@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
-import it.polimi.ingsw.lim.server.game.cards.leaders.CardLeaderReward;
+import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.events.Event;
 import it.polimi.ingsw.lim.server.game.events.EventFirstTurn;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
@@ -149,9 +149,9 @@ public class GameHandler
 			this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().addResource(resourceType, this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(resourceType));
 		}
 		this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().clear();
-		for (CardLeader cardLeader : this.turnPlayer.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
-			if (cardLeader instanceof CardLeaderReward) {
-				((CardLeaderReward) cardLeader).setActivated(false);
+		for (LeaderCard leaderCard : this.turnPlayer.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
+			if (leaderCard instanceof LeaderCardReward) {
+				((LeaderCardReward) leaderCard).setActivated(false);
 			}
 		}
 		boolean endRound = true;

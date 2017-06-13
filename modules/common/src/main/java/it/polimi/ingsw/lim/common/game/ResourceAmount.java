@@ -1,8 +1,10 @@
-package it.polimi.ingsw.lim.server.game.utils;
+package it.polimi.ingsw.lim.common.game;
 
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 
-public class ResourceAmount
+import java.io.Serializable;
+
+public class ResourceAmount implements Serializable
 {
 	private final ResourceType resourceType;
 	private int amount;

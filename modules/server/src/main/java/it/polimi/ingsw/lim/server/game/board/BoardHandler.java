@@ -5,11 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.utils.BoardPositionInformations;
 import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
-import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.io.IOException;

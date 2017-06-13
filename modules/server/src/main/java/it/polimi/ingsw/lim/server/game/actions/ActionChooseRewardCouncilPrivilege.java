@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
@@ -9,7 +10,6 @@ import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
-import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.ArrayList;
