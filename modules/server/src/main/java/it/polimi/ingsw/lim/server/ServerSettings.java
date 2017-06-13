@@ -3,7 +3,7 @@ package it.polimi.ingsw.lim.server;
 public class ServerSettings
 {
 	private static final ServerSettings INSTANCE = new ServerSettings();
-	private final int roomTimer = 60;
+	private static final int roomTimer = 60;
 
 	private ServerSettings()
 	{
