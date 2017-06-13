@@ -11,9 +11,9 @@ public class CardLeaderModifier extends CardLeader
 {
 	private final Modifier<? extends Event> modifier;
 
-	public CardLeaderModifier(String displayName, int index, List<CardLeaderConditionsOption> conditionsOptions, Modifier<? extends Event> modifier)
+	public CardLeaderModifier(String displayName, int index, List<CardLeaderConditionsOption> conditionsOptions, String description, Modifier<? extends Event> modifier)
 	{
-		super(displayName, index, conditionsOptions);
+		super(displayName, index, conditionsOptions, description);
 		this.modifier = modifier;
 	}
 

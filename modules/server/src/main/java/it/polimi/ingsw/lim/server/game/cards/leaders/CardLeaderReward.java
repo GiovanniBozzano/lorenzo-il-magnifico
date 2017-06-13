@@ -11,9 +11,9 @@ public class CardLeaderReward extends CardLeader
 	private final Reward reward;
 	private boolean activated = false;
 
-	public CardLeaderReward(String displayName, int index, List<CardLeaderConditionsOption> conditionsOptions, Reward reward)
+	public CardLeaderReward(String displayName, int index, List<CardLeaderConditionsOption> conditionsOptions, String description, Reward reward)
 	{
-		super(displayName, index, conditionsOptions);
+		super(displayName, index, conditionsOptions, description);
 		this.reward = reward;
 	}
 
