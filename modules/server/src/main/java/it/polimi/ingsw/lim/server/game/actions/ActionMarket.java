@@ -46,7 +46,7 @@ public class ActionMarket implements IAction
 			return false;
 		}
 		// check if the board slot is occupied and get effective family member value
-		BoardPosition boardPosition = BoardPosition.MARKET_POSITIONS.get(this.marketSlot);
+		BoardPosition boardPosition = BoardPosition.getMarketPositions().get(this.marketSlot);
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, boardPosition, gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
 		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		if (eventPlaceFamilyMember.isCancelled()) {
@@ -85,7 +85,7 @@ public class ActionMarket implements IAction
 		}
 		gameHandler.setPhase(Phase.FAMILY_MEMBER);
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
-		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(BoardHandler.getBoardPositionInformations(BoardPosition.MARKET_POSITIONS.get(this.marketSlot)).getResourceAmounts());
+		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(BoardHandler.getBoardPositionInformations(BoardPosition.getMarketPositions().get(this.marketSlot)).getResourceAmounts());
 		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
 			this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);

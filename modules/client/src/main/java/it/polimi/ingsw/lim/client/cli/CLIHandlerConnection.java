@@ -12,7 +12,7 @@ import java.util.logging.Level;
 
 public class CLIHandlerConnection implements ICLIHandler
 {
-	private static Map<Integer, IInputHandler> INPUT_HANDLERS_CONNECTION_TYPE = new HashMap<>();
+	private static final Map<Integer, IInputHandler> INPUT_HANDLERS_CONNECTION_TYPE = new HashMap<>();
 
 	static {
 		CLIHandlerConnection.INPUT_HANDLERS_CONNECTION_TYPE.put(1, (cliHandler) -> {
@@ -54,7 +54,7 @@ public class CLIHandlerConnection implements ICLIHandler
 
 	private void askPort()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Port [default " + (this.connectionType == ConnectionType.RMI ? "8080" : "8081") + "]...");
+		Client.getLogger().log(Level.INFO, "Enter Port [default {0}]...", new Object[] { this.connectionType == ConnectionType.RMI ? "8080" : "8081" });
 		String input;
 		do {
 			input = Client.getCliListener().getScanner().next();

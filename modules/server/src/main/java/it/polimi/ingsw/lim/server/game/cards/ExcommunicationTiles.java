@@ -219,7 +219,6 @@ public enum ExcommunicationTiles
 			event.setVictoryPoints(event.getVictoryPoints() - event.getPlayer().getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.WOOD));
 		}
 	});
-
 	private final int index;
 	private final Modifier modifier;
 

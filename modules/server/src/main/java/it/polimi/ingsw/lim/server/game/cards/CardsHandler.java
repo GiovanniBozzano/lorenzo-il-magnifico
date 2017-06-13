@@ -24,7 +24,7 @@ import java.util.*;
 
 public class CardsHandler
 {
-	protected static final Map<CardType, Class<? extends DevelopmentCard>> DEVELOPMENT_CARDS_TYPES = new EnumMap<>(CardType.class);
+	private static final Map<CardType, Class<? extends DevelopmentCard>> DEVELOPMENT_CARDS_TYPES = new EnumMap<>(CardType.class);
 
 	static {
 		CardsHandler.DEVELOPMENT_CARDS_TYPES.put(CardType.BUILDING, DevelopmentCardBuilding.class);
@@ -37,7 +37,7 @@ public class CardsHandler
 	public static final DevelopmentCardsDeck<DevelopmentCardCharacter> DEVELOPMENT_CARDS_CHARACTER = new DevelopmentCardsDeck.Builder<>(DevelopmentCardCharacter.class, "/json/development_cards_character.json").initialize();
 	public static final DevelopmentCardsDeck<DevelopmentCardTerritory> DEVELOPMENT_CARDS_TERRITORY = new DevelopmentCardsDeck.Builder<>(DevelopmentCardTerritory.class, "/json/development_cards_territory.json").initialize();
 	public static final DevelopmentCardsDeck<DevelopmentCardVenture> DEVELOPMENT_CARDS_VENTURE = new DevelopmentCardsDeck.Builder<>(DevelopmentCardVenture.class, "/json/development_cards_venture.json").initialize();
-	public static final List<CardLeader> CARDS_LEADER = new ArrayList<>();
+	private static final List<CardLeader> CARDS_LEADER = new ArrayList<>();
 
 	static {
 		CardsHandler.CARDS_LEADER.add(new CardLeaderModifier("Cesare Borgia", 0, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 3))), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 12), new ResourceAmount(ResourceType.FAITH_POINT, 2)))))), new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class)
@@ -146,11 +146,11 @@ public class CardsHandler
 		CardsHandler.CARDS_LEADER.add(new CardLeaderReward("Sandro Botticelli", 19, new ArrayList<>(Collections.singletonList(new CardLeaderConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.WOOD, 10)))))), new Reward(null, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.MILITARY_POINT, 2), new ResourceAmount(ResourceType.VICTORY_POINT, 1))))));
 	}
 
-	private final Map<Row, DevelopmentCardBuilding> currentDevelopmentCardsBuilding = new HashMap<>();
-	private final Map<Row, DevelopmentCardCharacter> currentDevelopmentCardsCharacter = new HashMap<>();
-	private final Map<Row, DevelopmentCardTerritory> currentDevelopmentCardsTerritory = new HashMap<>();
-	private final Map<Row, DevelopmentCardVenture> currentDevelopmentCardsVenture = new HashMap<>();
-	private final Map<CardType, Map<Row, ? extends DevelopmentCard>> currentDevelopmentCards = new HashMap<>();
+	private final Map<Row, DevelopmentCardBuilding> currentDevelopmentCardsBuilding = new EnumMap<>(Row.class);
+	private final Map<Row, DevelopmentCardCharacter> currentDevelopmentCardsCharacter = new EnumMap<>(Row.class);
+	private final Map<Row, DevelopmentCardTerritory> currentDevelopmentCardsTerritory = new EnumMap<>(Row.class);
+	private final Map<Row, DevelopmentCardVenture> currentDevelopmentCardsVenture = new EnumMap<>(Row.class);
+	private final Map<CardType, Map<Row, ? extends DevelopmentCard>> currentDevelopmentCards = new EnumMap<>(CardType.class);
 
 	public CardsHandler()
 	{
@@ -178,6 +178,16 @@ public class CardsHandler
 	public void addDevelopmentCard(DevelopmentCardVenture developmentCard, Row row)
 	{
 		this.currentDevelopmentCardsVenture.put(row, developmentCard);
+	}
+
+	public static Map<CardType, Class<? extends DevelopmentCard>> getDevelopmentCardsTypes()
+	{
+		return CardsHandler.DEVELOPMENT_CARDS_TYPES;
+	}
+
+	public static List<CardLeader> getCardsLeader()
+	{
+		return CardsHandler.CARDS_LEADER;
 	}
 
 	public Map<Row, DevelopmentCardBuilding> getCurrentDevelopmentCardsBuilding()

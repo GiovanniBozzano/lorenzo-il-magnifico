@@ -116,7 +116,7 @@ public class ActionGetDevelopmentCard implements IAction
 			}
 		}
 		// check if the player has the requiredResources
-		if(this.resourceCostOption.getRequiredResources()!=null) {
+		if (this.resourceCostOption.getRequiredResources() != null) {
 			for (ResourceAmount requiredResources : this.resourceCostOption.getRequiredResources()) {
 				int playerResources = this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
 				if (playerResources < requiredResources.getAmount()) {

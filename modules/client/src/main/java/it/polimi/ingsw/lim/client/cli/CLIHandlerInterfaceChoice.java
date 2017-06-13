@@ -13,7 +13,7 @@ import java.util.logging.Level;
 
 public class CLIHandlerInterfaceChoice implements ICLIHandler
 {
-	private static Map<Integer, IInputHandler> INPUT_HANDLERS = new HashMap<>();
+	private static final Map<Integer, IInputHandler> INPUT_HANDLERS = new HashMap<>();
 
 	static {
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(1, (cliHandler) -> {

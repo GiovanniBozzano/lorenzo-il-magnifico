@@ -112,7 +112,7 @@ public abstract class ConnectionHandler extends Thread
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().add(name));
 		} else {
-			Client.getLogger().log(Level.INFO, name + " connected");
+			Client.getLogger().log(Level.INFO, "{0} connected", new Object[] { name });
 		}
 	}
 
@@ -129,7 +129,7 @@ public abstract class ConnectionHandler extends Thread
 				}
 			});
 		} else {
-			Client.getLogger().log(Level.INFO, name + " disconnected");
+			Client.getLogger().log(Level.INFO, "{0} disconnected", new Object[] { name });
 		}
 	}
 
@@ -141,7 +141,7 @@ public abstract class ConnectionHandler extends Thread
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getTimerLabel().setText("Game starts in: " + timer));
 		} else {
-			Client.getLogger().log(Level.INFO, "Game starts in: " + timer);
+			Client.getLogger().log(Level.INFO, "Game starts in: {0}", new Object[] { Integer.toString(timer) });
 		}
 	}
 

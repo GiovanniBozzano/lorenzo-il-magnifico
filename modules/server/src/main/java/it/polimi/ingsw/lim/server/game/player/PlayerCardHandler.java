@@ -6,14 +6,14 @@ import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 public class PlayerCardHandler
 {
 	private final PlayerHandler playerHandler;
-	private final Map<CardType, List<DevelopmentCard>> developmentCards = new HashMap<>();
+	private final Map<CardType, List<DevelopmentCard>> developmentCards = new EnumMap<>(CardType.class);
 	private final List<CardLeader> cardsLeader = new ArrayList<>();
 
 	PlayerCardHandler(PlayerHandler playerHandler)
@@ -46,7 +46,7 @@ public class PlayerCardHandler
 
 	public void addDevelopmentCard(DevelopmentCard developmentCard)
 	{
-		this.developmentCards.get(developmentCard.getCardType()).add(CardsHandler.DEVELOPMENT_CARDS_TYPES.get(developmentCard.getCardType()).cast(developmentCard));
+		this.developmentCards.get(developmentCard.getCardType()).add(CardsHandler.getDevelopmentCardsTypes().get(developmentCard.getCardType()).cast(developmentCard));
 	}
 
 	public void addCardLeader(CardLeader cardLeader)

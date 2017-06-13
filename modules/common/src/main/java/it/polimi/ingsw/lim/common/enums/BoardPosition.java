@@ -37,7 +37,7 @@ public enum BoardPosition
 	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_TERRITORY_POSITIONS = new EnumMap<>(Row.class);
 	private static final Map<Row, BoardPosition> DEVELOPMENT_CARDS_VENTURE_POSITIONS = new EnumMap<>(Row.class);
 	private static final Map<CardType, Map<Row, BoardPosition>> DEVELOPMENT_CARDS_TYPES = new EnumMap<>(CardType.class);
-	protected static final Map<MarketSlot, BoardPosition> MARKET_POSITIONS = new EnumMap<>(MarketSlot.class);
+	private static final Map<MarketSlot, BoardPosition> MARKET_POSITIONS = new EnumMap<>(MarketSlot.class);
 
 	static {
 		BoardPosition.DEVELOPMENT_CARDS_BUILDING_POSITIONS.put(Row.FIRST, BoardPosition.BUILDING_1);
@@ -74,6 +74,11 @@ public enum BoardPosition
 	public static Collection<BoardPosition> getDevelopmentCardsColumnPositions(CardType cardType)
 	{
 		return BoardPosition.DEVELOPMENT_CARDS_TYPES.get(cardType).values();
+	}
+
+	public static Map<MarketSlot, BoardPosition> getMarketPositions()
+	{
+		return BoardPosition.MARKET_POSITIONS;
 	}
 }
 

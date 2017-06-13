@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class CLIListenerClient extends CLIListener
 {
-	private static Map<CLIStatus, ICLIHandler> CLI_HANDLERS = new EnumMap<>(CLIStatus.class);
+	private static final Map<CLIStatus, ICLIHandler> CLI_HANDLERS = new EnumMap<>(CLIStatus.class);
 
 	static {
 		CLIListenerClient.CLI_HANDLERS.put(CLIStatus.INTERFACE_CHOICE, new CLIHandlerInterfaceChoice());

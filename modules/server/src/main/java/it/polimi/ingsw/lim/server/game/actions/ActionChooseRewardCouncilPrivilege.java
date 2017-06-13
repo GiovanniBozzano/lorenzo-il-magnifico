@@ -47,7 +47,7 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE) {
 			return false;
 		}
-		for (List<Integer> differentIndexes : councilPalaceRewardIndexes) {
+		for (List<Integer> differentIndexes : this.councilPalaceRewardIndexes) {
 			boolean validIndexes = false;
 			for (Integer councilPrivilegesCount : this.player.getPlayerHandler().getCouncilPrivileges()) {
 				if (councilPrivilegesCount == differentIndexes.size()) {
@@ -59,15 +59,15 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 				return false;
 			}
 		}
-		for (List<Integer> differentIndexes : councilPalaceRewardIndexes) {
+		for (List<Integer> differentIndexes : this.councilPalaceRewardIndexes) {
 			// check if all rewards are different
 			Set<Integer> set = new HashSet<>(differentIndexes);
-			if ((differentIndexes.size() > BoardHandler.COUNCIL_PRIVILEGE_REWARDS.size() && set.size() != BoardHandler.COUNCIL_PRIVILEGE_REWARDS.size()) || set.size() != differentIndexes.size()) {
+			if ((differentIndexes.size() > BoardHandler.getCouncilPrivilegeRewards().size() && set.size() != BoardHandler.getCouncilPrivilegeRewards().size()) || set.size() != differentIndexes.size()) {
 				return false;
 			}
 			for (int councilPalaceRewardIndex : differentIndexes) {
 				boolean validIndex = false;
-				for (CouncilPalaceReward councilPalaceReward : BoardHandler.COUNCIL_PRIVILEGE_REWARDS) {
+				for (CouncilPalaceReward councilPalaceReward : BoardHandler.getCouncilPrivilegeRewards()) {
 					if (councilPalaceReward.getIndex() == councilPalaceRewardIndex) {
 						validIndex = true;
 					}
@@ -98,7 +98,7 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		List<ResourceAmount> resourceReward = new ArrayList<>();
 		for (List<Integer> differentIndexes : councilPalaceRewardIndexes) {
 			for (int councilPalaceRewardIndex : differentIndexes) {
-				resourceReward.addAll(BoardHandler.COUNCIL_PRIVILEGE_REWARDS.get(councilPalaceRewardIndex).getResourceAmounts());
+				resourceReward.addAll(BoardHandler.getCouncilPrivilegeRewards().get(councilPalaceRewardIndex).getResourceAmounts());
 			}
 		}
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(resourceReward);
