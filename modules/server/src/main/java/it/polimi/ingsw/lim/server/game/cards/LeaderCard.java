@@ -4,13 +4,13 @@ import it.polimi.ingsw.lim.server.game.utils.CardLeaderConditionsOption;
 
 import java.util.List;
 
-public abstract class CardLeader extends Card
+public abstract class LeaderCard extends Card
 {
 	private final List<CardLeaderConditionsOption> conditionsOptions;
 	private final String description;
 	private boolean played = false;
 
-	public CardLeader(String displayName, int index, List<CardLeaderConditionsOption> conditionsOptions, String description)
+	public LeaderCard(String displayName, int index, List<CardLeaderConditionsOption> conditionsOptions, String description)
 	{
 		super(displayName, index);
 		this.conditionsOptions = conditionsOptions;
