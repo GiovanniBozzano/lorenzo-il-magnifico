@@ -20,7 +20,7 @@ public class CLIHandlerConnection implements ICLIHandler
 			return true;
 		});
 		CLIHandlerConnection.INPUT_HANDLERS_CONNECTION_TYPE.put(2, (cliHandler) -> {
-			((CLIHandlerConnection) cliHandler).connectionType = ConnectionType.RMI;
+			((CLIHandlerConnection) cliHandler).connectionType = ConnectionType.SOCKET;
 			return true;
 		});
 	}
@@ -54,7 +54,7 @@ public class CLIHandlerConnection implements ICLIHandler
 
 	private void askPort()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Port...");
+		Client.getLogger().log(Level.INFO, "Enter Port [default " + (this.connectionType == ConnectionType.RMI ? "8080" : "8081") + "]...");
 		String input;
 		do {
 			input = Client.getCliListener().getScanner().next();

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.lim.client.network;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.cli.CLIListenerClient;
+import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.RoomType;
@@ -104,36 +106,48 @@ public abstract class ConnectionHandler extends Thread
 
 	public void handleRoomEntryOther(String name)
 	{
-		if (!WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
-		Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().add(name));
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().add(name));
+		} else {
+			Client.getLogger().log(Level.INFO, name + " connected");
+		}
 	}
 
 	public void handleRoomExitOther(String name)
 	{
-		if (!WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
-		Platform.runLater(() -> {
-			((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().remove(name);
-			if (((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().size() < 2) {
-				((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getTimerLabel().setText("Waiting for other players...");
-			}
-		});
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> {
+				((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().remove(name);
+				if (((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().size() < 2) {
+					((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getTimerLabel().setText("Waiting for other players...");
+				}
+			});
+		} else {
+			Client.getLogger().log(Level.INFO, name + " disconnected");
+		}
 	}
 
 	public void handleRoomTimer(int timer)
 	{
-		if (!WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
-		Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getTimerLabel().setText("Game starts in: " + timer));
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getTimerLabel().setText("Game starts in: " + timer));
+		} else {
+			Client.getLogger().log(Level.INFO, "Game starts in: " + timer);
+		}
 	}
 
 	public void handleGameStarted(RoomInformations roomInformations)
 	{
-		if (!WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
 		WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, true);
