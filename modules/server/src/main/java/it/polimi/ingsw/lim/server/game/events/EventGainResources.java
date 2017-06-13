@@ -4,13 +4,15 @@ import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
+import java.util.List;
+
 public class EventGainResources extends Event
 {
-	private final ResourceAmount[] resourceAmounts;
+	private final List<ResourceAmount> resourceAmounts;
 	private final int sourcesCount;
 	private final ResourcesSource resourcesSource;
 
-	public EventGainResources(Connection player, ResourceAmount[] resourceAmounts, int sourcesCount, ResourcesSource resourcesSource)
+	public EventGainResources(Connection player, List<ResourceAmount> resourceAmounts, int sourcesCount, ResourcesSource resourcesSource)
 	{
 		super(player);
 		this.resourceAmounts = resourceAmounts;
@@ -18,7 +20,7 @@ public class EventGainResources extends Event
 		this.resourcesSource = resourcesSource;
 	}
 
-	public ResourceAmount[] getResourceAmounts()
+	public List<ResourceAmount> getResourceAmounts()
 	{
 		return this.resourceAmounts;
 	}

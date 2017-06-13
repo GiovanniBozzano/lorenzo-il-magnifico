@@ -110,10 +110,12 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 			}
 		}
 		// check if the player has the requiredResources
-		for (ResourceAmount requiredResources : this.resourceCostOption.getRequiredResources()) {
-			int playerResources = this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
-			if (playerResources < requiredResources.getAmount()) {
-				return false;
+		if(this.resourceCostOption.getRequiredResources()!=null) {
+			for (ResourceAmount requiredResources : this.resourceCostOption.getRequiredResources()) {
+				int playerResources = this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
+				if (playerResources < requiredResources.getAmount()) {
+					return false;
+				}
 			}
 		}
 		// check if the family member and servants value is high enough

@@ -1,14 +1,20 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
+import it.polimi.ingsw.lim.common.enums.ActionType;
+import it.polimi.ingsw.lim.common.enums.BoardPosition;
+import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.CardLeader;
+import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionLeaderDiscard implements IAction
 {
 	private final Connection player;
 	private final int cardLeaderIndex;
+	private CardLeader cardLeader;
 
 	public ActionLeaderDiscard(Connection player, int cardLeaderIndex)
 	{
@@ -39,12 +45,11 @@ public class ActionLeaderDiscard implements IAction
 		}
 		// check if the player has the leader card
 		boolean owned = false;
-		CardLeader cardLeader = null;
 		for (CardLeader currentCardLeader : this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
 			if (this.cardLeaderIndex != currentCardLeader.getIndex()) {
 				continue;
 			}
-			cardLeader = currentCardLeader;
+			this.cardLeader = currentCardLeader;
 			owned = true;
 			break;
 		}
@@ -52,11 +57,33 @@ public class ActionLeaderDiscard implements IAction
 			return false;
 		}
 		// check if the leader card hasn't been played
-		return cardLeader.isPlayed();
+		return this.cardLeader.isPlayed();
 	}
 
 	@Override
 	public void apply()
 	{
+		Room room = Room.getPlayerRoom(this.player);
+		if (room == null) {
+			return;
+		}
+		GameHandler gameHandler = room.getGameHandler();
+		if (gameHandler == null) {
+			return;
+		}
+		gameHandler.setPhase(Phase.LEADER);
+		this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader().remove(this.cardLeader);
+		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(BoardHandler.getBoardPositionInformations(BoardPosition.COUNCIL_PALACE).getResourceAmounts());
+		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+		if (councilPrivilegesCount > 0) {
+			this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+			this.player.getPlayerHandler().getCouncilPrivileges().add(councilPrivilegesCount);
+			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+			// TODO aggiorno tutti
+			// TODO manda scelta di privilegio
+		} else {
+			// TODO aggiorno tutti
+			// TODO prosegui turno
+		}
 	}
 }
