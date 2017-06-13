@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.server.game.utils;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
 
 public class ResourceAmountMultiplierCard extends ResourceAmount
 {

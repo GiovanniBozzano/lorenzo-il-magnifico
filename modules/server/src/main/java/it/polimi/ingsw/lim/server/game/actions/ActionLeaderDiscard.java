@@ -2,13 +2,13 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.cards.CardLeader;
+import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
-import it.polimi.ingsw.lim.server.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.Collections;
@@ -17,7 +17,7 @@ public class ActionLeaderDiscard implements IAction
 {
 	private final Connection player;
 	private final int cardLeaderIndex;
-	private CardLeader cardLeader;
+	private LeaderCard leaderCard;
 
 	public ActionLeaderDiscard(Connection player, int cardLeaderIndex)
 	{
@@ -48,11 +48,11 @@ public class ActionLeaderDiscard implements IAction
 		}
 		// check if the player has the leader card
 		boolean owned = false;
-		for (CardLeader currentCardLeader : this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
-			if (this.cardLeaderIndex != currentCardLeader.getIndex()) {
+		for (LeaderCard currentLeaderCard : this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
+			if (this.cardLeaderIndex != currentLeaderCard.getIndex()) {
 				continue;
 			}
-			this.cardLeader = currentCardLeader;
+			this.leaderCard = currentLeaderCard;
 			owned = true;
 			break;
 		}
@@ -60,7 +60,7 @@ public class ActionLeaderDiscard implements IAction
 			return false;
 		}
 		// check if the leader card hasn't been played
-		return this.cardLeader.isPlayed();
+		return this.leaderCard.isPlayed();
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class ActionLeaderDiscard implements IAction
 			return;
 		}
 		gameHandler.setPhase(Phase.LEADER);
-		this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader().remove(this.cardLeader);
+		this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader().remove(this.leaderCard);
 		EventGainResources eventGainResources = new EventGainResources(this.player, Collections.singletonList(new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, 1)), ResourcesSource.LEADER_CARDS);
 		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());

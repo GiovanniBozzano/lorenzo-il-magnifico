@@ -1,5 +1,26 @@
 package it.polimi.ingsw.lim.common.game;
 
-public class CouncilPalaceRewardInformations
+import java.io.Serializable;
+import java.util.List;
+
+public class CouncilPalaceRewardInformations implements Serializable
 {
+	private final int index;
+	private final List<ResourceAmount> resourceAmounts;
+
+	public CouncilPalaceRewardInformations(int index, List<ResourceAmount> resourceAmounts)
+	{
+		this.index = index;
+		this.resourceAmounts = resourceAmounts;
+	}
+
+	public int getIndex()
+	{
+		return this.index;
+	}
+
+	public List<ResourceAmount> getResourceAmounts()
+	{
+		return this.resourceAmounts;
+	}
 }

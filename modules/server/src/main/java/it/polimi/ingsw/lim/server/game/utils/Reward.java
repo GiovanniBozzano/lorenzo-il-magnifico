@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.game.utils;
 
+import it.polimi.ingsw.lim.common.game.ResourceAmount;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
 
 import java.util.List;
