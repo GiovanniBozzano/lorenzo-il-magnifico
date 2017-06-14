@@ -9,15 +9,15 @@ import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PacketGameUpdate extends Packet
+public class PacketGameUpdateOtherTurn extends Packet
 {
 	private final GameInformations gameInformations;
 	private final List<PlayerInformations> playersInformations;
 	private final List<AvailableAction> availableActions;
 
-	public PacketGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions)
+	public PacketGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions)
 	{
-		super(PacketType.GAME_UPDATE);
+		super(PacketType.GAME_UPDATE_OTHER);
 		this.gameInformations = gameInformations;
 		this.playersInformations = new ArrayList<>(playersInformations);
 		this.availableActions = new ArrayList<>(availableActions);

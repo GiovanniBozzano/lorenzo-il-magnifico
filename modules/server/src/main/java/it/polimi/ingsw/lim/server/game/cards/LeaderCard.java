@@ -12,9 +12,9 @@ public abstract class LeaderCard extends Card
 	private final String description;
 	private boolean played = false;
 
-	public LeaderCard(int index, String displayName, LeaderCardType leaderCardType, List<LeaderCardConditionsOption> conditionsOptions, String description)
+	public LeaderCard(int index, String texturePath, String displayName, LeaderCardType leaderCardType, List<LeaderCardConditionsOption> conditionsOptions, String description)
 	{
-		super(index, displayName);
+		super(index, texturePath, displayName);
 		this.leaderCardType = leaderCardType;
 		this.conditionsOptions = conditionsOptions;
 		this.description = description;

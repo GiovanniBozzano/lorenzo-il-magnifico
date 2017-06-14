@@ -2,13 +2,13 @@ package it.polimi.ingsw.lim.common.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 
-public class ActionInformationsChooseRewardProduction extends ActionInformations
+public class ExpectedActionChooseRewardHarvest extends ExpectedAction
 {
 	private final int servant;
 
-	public ActionInformationsChooseRewardProduction(int servants)
+	public ExpectedActionChooseRewardHarvest(int servants)
 	{
-		super(ActionType.CHOOSE_REWARD_PRODUCTION);
+		super(ActionType.CHOOSE_REWARD_HARVEST);
 		this.servant = servants;
 	}
 

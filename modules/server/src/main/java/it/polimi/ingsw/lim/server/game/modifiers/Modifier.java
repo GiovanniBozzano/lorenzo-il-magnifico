@@ -19,4 +19,9 @@ public abstract class Modifier<T extends Event>
 			this.apply(this.eventClass.cast(event));
 		}
 	}
+
+	public Class<T> getEventClass()
+	{
+		return this.eventClass;
+	}
 }

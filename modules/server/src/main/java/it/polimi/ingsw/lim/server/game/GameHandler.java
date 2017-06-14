@@ -7,6 +7,7 @@ import it.polimi.ingsw.lim.common.game.actions.AvailableActionGetDevelopmentCard
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionMarket;
 import it.polimi.ingsw.lim.common.game.cards.LeaderCardStatus;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.enums.LeaderCardType;
 import it.polimi.ingsw.lim.server.game.actions.*;
@@ -15,7 +16,9 @@ import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.events.EventFirstTurn;
+import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
+import it.polimi.ingsw.lim.server.game.modifiers.ModifierGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
@@ -279,24 +282,37 @@ public class GameHandler
 				break;
 			}
 		}
+		List<List<ResourceAmount>> discountChoices = new ArrayList<>();
+		for (Modifier modifier : player.getPlayerHandler().getActiveModifiers()) {
+			if (modifier.getEventClass() == EventGetDevelopmentCard.class) {
+				discountChoices.addAll(((ModifierGetDevelopmentCard) modifier).getDiscountChoices());
+			}
+		}
 		for (CardType cardType : this.cardsHandler.getCurrentDevelopmentCards().keySet()) {
 			for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).keySet()) {
 				for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
 					boolean validCardAction = false;
+					List<List<ResourceAmount>> availableDiscountChoises = new ArrayList<>();
 					if (player.getPlayerHandler().getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE) {
-						if (this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions().isEmpty() && new ActionGetDevelopmentCard(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, null).isLegal()) {
+						if (this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions().isEmpty() && new ActionGetDevelopmentCard(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, null, null).isLegal()) {
 							validCardAction = true;
 						} else {
 							for (ResourceCostOption resourceCostOption : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions()) {
-								if (new ActionGetDevelopmentCard(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, resourceCostOption).isLegal()) {
-									validCardAction = true;
+								for (List<ResourceAmount> discountChoice : discountChoices) {
+									if (new ActionGetDevelopmentCard(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, discountChoice, resourceCostOption).isLegal()) {
+										validCardAction = true;
+										availableDiscountChoises.add(discountChoice);
+										break;
+									}
+								}
+								if (validCardAction) {
 									break;
 								}
 							}
 						}
 					}
 					if (validCardAction) {
-						availableActions.add(new AvailableActionGetDevelopmentCard(cardType, row));
+						availableActions.add(new AvailableActionGetDevelopmentCard(cardType, row, availableDiscountChoises));
 						break;
 					}
 				}

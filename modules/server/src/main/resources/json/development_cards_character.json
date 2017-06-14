@@ -27,7 +27,7 @@
 				]
 			},
 			"permanentBonus": {
-				"type": "ADDITION_CARD",
+				"type": "CARD",
 				"value": 2,
 				"cardType": "TERRITORY",
 				"discountChoices": []
@@ -54,7 +54,7 @@
 				"resourceAmounts": []
 			},
 			"permanentBonus": {
-				"type": "ADDITION_CARD",
+				"type": "CARD",
 				"value": 2,
 				"cardType": "BUILDING",
 				"discountChoices": [
@@ -100,7 +100,7 @@
 				"resourceAmounts": []
 			},
 			"permanentBonus": {
-				"type": "ADDITION_CARD",
+				"type": "CARD",
 				"value": 2,
 				"cardType": "CHARACTER",
 				"discountChoices": [
@@ -143,7 +143,7 @@
 				]
 			},
 			"permanentBonus": {
-				"type": "ADDITION_CARD",
+				"type": "CARD",
 				"value": 2,
 				"cardType": "VENTURE",
 				"discountChoices": []

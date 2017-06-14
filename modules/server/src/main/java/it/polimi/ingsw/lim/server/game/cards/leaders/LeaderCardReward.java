@@ -12,9 +12,9 @@ public class LeaderCardReward extends LeaderCard
 	private final Reward reward;
 	private boolean activated = false;
 
-	public LeaderCardReward(int index, String displayName, List<LeaderCardConditionsOption> conditionsOptions, String description, Reward reward)
+	public LeaderCardReward(int index, String texturePath, String displayName, List<LeaderCardConditionsOption> conditionsOptions, String description, Reward reward)
 	{
-		super(index, displayName, LeaderCardType.REWARD, conditionsOptions, description);
+		super(index, texturePath, displayName, LeaderCardType.REWARD, conditionsOptions, description);
 		this.reward = reward;
 	}
 

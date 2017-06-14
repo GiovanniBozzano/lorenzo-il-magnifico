@@ -12,9 +12,9 @@ public class LeaderCardModifier extends LeaderCard
 {
 	private final Modifier<? extends Event> modifier;
 
-	public LeaderCardModifier(int index, String displayName, List<LeaderCardConditionsOption> conditionsOptions, String description, Modifier<? extends Event> modifier)
+	public LeaderCardModifier(int index, String texturePath, String displayName, List<LeaderCardConditionsOption> conditionsOptions, String description, Modifier<? extends Event> modifier)
 	{
-		super(index, displayName, LeaderCardType.MODIFIER, conditionsOptions, description);
+		super(index, texturePath, displayName, LeaderCardType.MODIFIER, conditionsOptions, description);
 		this.modifier = modifier;
 	}
 

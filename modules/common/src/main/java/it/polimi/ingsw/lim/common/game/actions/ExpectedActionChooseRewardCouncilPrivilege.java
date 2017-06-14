@@ -2,9 +2,9 @@ package it.polimi.ingsw.lim.common.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 
-public class ActionInformationsChooseRewardCouncilPrivilege extends ActionInformations
+public class ExpectedActionChooseRewardCouncilPrivilege extends ExpectedAction
 {
-	public ActionInformationsChooseRewardCouncilPrivilege()
+	public ExpectedActionChooseRewardCouncilPrivilege()
 	{
 		super(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 	}

@@ -12,9 +12,9 @@ public class DevelopmentCardBuilding extends DevelopmentCard
 	private final int activationValue;
 	private final List<ResourceTradeOption> resourceTradeOptions;
 
-	public DevelopmentCardBuilding(int index, String displayName, List<ResourceCostOption> resourceCostOptions, Reward reward, int activationValue, List<ResourceTradeOption> resourceTradeOptions)
+	public DevelopmentCardBuilding(int index, String texturePath, String displayName, List<ResourceCostOption> resourceCostOptions, Reward reward, int activationValue, List<ResourceTradeOption> resourceTradeOptions)
 	{
-		super(index, displayName, CardType.BUILDING, resourceCostOptions, reward);
+		super(index, texturePath, displayName, CardType.BUILDING, resourceCostOptions, reward);
 		this.activationValue = activationValue;
 		this.resourceTradeOptions = resourceTradeOptions;
 	}

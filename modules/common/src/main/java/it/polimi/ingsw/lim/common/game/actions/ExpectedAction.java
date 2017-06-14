@@ -4,11 +4,11 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 
 import java.io.Serializable;
 
-public abstract class ActionInformations implements Serializable
+public abstract class ExpectedAction implements Serializable
 {
 	private final ActionType actionType;
 
-	ActionInformations(ActionType actionType)
+	ExpectedAction(ActionType actionType)
 	{
 		this.actionType = actionType;
 	}

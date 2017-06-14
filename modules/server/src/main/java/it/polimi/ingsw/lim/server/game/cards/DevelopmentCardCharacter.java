@@ -10,9 +10,9 @@ public class DevelopmentCardCharacter extends DevelopmentCard
 {
 	private final Object permanentBonus;
 
-	public DevelopmentCardCharacter(int index, String displayName, List<ResourceCostOption> resourceCostOptions, Reward reward, Object permanentBonus)
+	public DevelopmentCardCharacter(int index, String texturePath, String displayName, List<ResourceCostOption> resourceCostOptions, Reward reward, Object permanentBonus)
 	{
-		super(index, displayName, CardType.CHARACTER, resourceCostOptions, reward);
+		super(index, texturePath, displayName, CardType.CHARACTER, resourceCostOptions, reward);
 		this.permanentBonus = permanentBonus;
 	}
 

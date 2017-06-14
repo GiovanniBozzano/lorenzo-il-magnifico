@@ -1,8 +1,10 @@
 package it.polimi.ingsw.lim.server.game.modifiers;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
-import it.polimi.ingsw.lim.server.game.utils.DiscountChoice;
+
+import java.util.List;
 
 /**
  * <p>Whenever you perform an action to take a {@code cardType} card (through a
@@ -14,9 +16,9 @@ public class ModifierGetDevelopmentCard extends Modifier<EventGetDevelopmentCard
 {
 	private final int value;
 	private final CardType cardType;
-	private final DiscountChoice[] discoutChoices;
+	private final List<List<ResourceAmount>> discoutChoices;
 
-	public ModifierGetDevelopmentCard(int value, CardType cardType, DiscountChoice[] discountChoices)
+	public ModifierGetDevelopmentCard(int value, CardType cardType, List<List<ResourceAmount>> discountChoices)
 	{
 		super(EventGetDevelopmentCard.class);
 		this.value = value;
@@ -27,5 +29,10 @@ public class ModifierGetDevelopmentCard extends Modifier<EventGetDevelopmentCard
 	@Override
 	public void apply(EventGetDevelopmentCard event)
 	{
+	}
+
+	public List<List<ResourceAmount>> getDiscountChoices()
+	{
+		return this.discoutChoices;
 	}
 }

@@ -13,9 +13,9 @@ public abstract class DevelopmentCard extends Card
 	private final List<ResourceCostOption> resourceCostOptions;
 	private final Reward reward;
 
-	DevelopmentCard(int index, String displayName, CardType cardType, List<ResourceCostOption> resourceCostOptions, Reward reward)
+	DevelopmentCard(int index, String texturePath, String displayName, CardType cardType, List<ResourceCostOption> resourceCostOptions, Reward reward)
 	{
-		super(index, displayName);
+		super(index, texturePath, displayName);
 		this.cardType = cardType;
 		this.resourceCostOptions = new ArrayList<>(resourceCostOptions);
 		this.reward = reward;

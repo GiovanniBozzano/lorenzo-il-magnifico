@@ -13,6 +13,8 @@ import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
+import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
+import it.polimi.ingsw.lim.server.game.modifiers.ModifierGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 
@@ -26,18 +28,20 @@ public class ActionGetDevelopmentCard implements IAction
 	private final int servants;
 	private final CardType cardType;
 	private final Row row;
+	private final List<ResourceAmount> discountChoice;
 	private ResourceCostOption resourceCostOption;
 	private boolean columnOccupied = false;
 	private boolean getBoardPositionReward = true;
 	private List<ResourceAmount> effectiveResourceCost;
 
-	public ActionGetDevelopmentCard(Connection player, FamilyMemberType familyMemberType, int servants, CardType cardType, Row row, ResourceCostOption resourceCostOption)
+	public ActionGetDevelopmentCard(Connection player, FamilyMemberType familyMemberType, int servants, CardType cardType, Row row, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption)
 	{
 		this.player = player;
 		this.familyMemberType = familyMemberType;
 		this.servants = servants;
 		this.cardType = cardType;
 		this.row = row;
+		this.discountChoice = discountChoice;
 		this.resourceCostOption = resourceCostOption;
 	}
 
@@ -107,16 +111,6 @@ public class ActionGetDevelopmentCard implements IAction
 		if ((this.resourceCostOption == null && !developmentCard.getResourceCostOptions().isEmpty()) || (this.resourceCostOption != null && !developmentCard.getResourceCostOptions().contains(this.resourceCostOption))) {
 			return false;
 		}
-		if (this.columnOccupied) {
-			if (this.resourceCostOption == null) {
-				List<ResourceAmount> requiredResources = new ArrayList<>();
-				List<ResourceAmount> spentResources = new ArrayList<>();
-				spentResources.add(new ResourceAmount(ResourceType.COIN, 3));
-				this.resourceCostOption = new ResourceCostOption(requiredResources, spentResources);
-			} else {
-				this.resourceCostOption.getSpentResources().add(new ResourceAmount(ResourceType.COIN, 3));
-			}
-		}
 		// check if the player has the requiredResources
 		if (this.resourceCostOption.getRequiredResources() != null) {
 			for (ResourceAmount requiredResources : this.resourceCostOption.getRequiredResources()) {
@@ -129,13 +123,61 @@ public class ActionGetDevelopmentCard implements IAction
 		// check if the family member and servants value is high enough
 		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, this.resourceCostOption == null ? null : this.resourceCostOption.getSpentResources(), effectiveFamilyMemberValue + effectiveServantsValue);
 		eventGetDevelopmentCard.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+		this.effectiveResourceCost = eventGetDevelopmentCard.getResourceCost();
 		this.getBoardPositionReward = eventGetDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
 		if (developmentCard.getCardType() == CardType.TERRITORY && !eventGetDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.getPlayerHandler().getPlayerResourceHandler().isTerritorySlotAvailable(this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
 			return false;
 		}
+		if (this.resourceCostOption == null && this.discountChoice != null) {
+			return false;
+		}
+		if (this.resourceCostOption != null) {
+			if (this.discountChoice == null) {
+				boolean validDiscountChoice = true;
+				for (Modifier modifier : this.player.getPlayerHandler().getActiveModifiers()) {
+					if (modifier.getEventClass() == EventGetDevelopmentCard.class && !((ModifierGetDevelopmentCard) modifier).getDiscountChoices().isEmpty()) {
+						validDiscountChoice = false;
+						break;
+					}
+				}
+				if (!validDiscountChoice) {
+					return false;
+				}
+			} else {
+				boolean validDiscountChoice = false;
+				for (Modifier modifier : this.player.getPlayerHandler().getActiveModifiers()) {
+					if (modifier.getEventClass() == EventGetDevelopmentCard.class && ((ModifierGetDevelopmentCard) modifier).getDiscountChoices().contains(this.discountChoice)) {
+						validDiscountChoice = true;
+						break;
+					}
+				}
+				if (!validDiscountChoice) {
+					return false;
+				}
+			}
+		}
+		if (this.discountChoice != null) {
+			for (ResourceAmount effectiveResourceAmount : this.effectiveResourceCost) {
+				for (ResourceAmount discountResourceAmount : this.discountChoice) {
+					if (discountResourceAmount.getResourceType() == effectiveResourceAmount.getResourceType()) {
+						effectiveResourceAmount.setAmount(effectiveResourceAmount.getAmount() - discountResourceAmount.getAmount());
+					}
+				}
+			}
+		}
+		if (this.columnOccupied) {
+			if (this.resourceCostOption == null) {
+				List<ResourceAmount> requiredResources = new ArrayList<>();
+				List<ResourceAmount> spentResources = new ArrayList<>();
+				spentResources.add(new ResourceAmount(ResourceType.COIN, 3));
+				this.resourceCostOption = new ResourceCostOption(requiredResources, spentResources);
+			} else {
+				this.resourceCostOption.getSpentResources().add(new ResourceAmount(ResourceType.COIN, 3));
+			}
+		}
 		// prendo prezzo finale e controllo che il giocatore abbia le risorse necessarie
-		for (ResourceAmount resourceCost : eventGetDevelopmentCard.getResourceCost()) {
+		for (ResourceAmount resourceCost : this.effectiveResourceCost) {
 			int playerResources = this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(resourceCost.getResourceType());
 			if (playerResources < resourceCost.getAmount()) {
 				return false;

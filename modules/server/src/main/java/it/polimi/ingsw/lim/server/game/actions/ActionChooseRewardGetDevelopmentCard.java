@@ -13,7 +13,8 @@ import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
-import it.polimi.ingsw.lim.server.game.utils.DiscountChoice;
+import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
+import it.polimi.ingsw.lim.server.game.modifiers.ModifierGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 
@@ -27,20 +28,22 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 	private final CardType cardType;
 	private final Row row;
 	private final Row instantRewardRow;
-	private final DiscountChoice discount;
+	private final List<ResourceAmount> instantDiscountChoice;
+	private final List<ResourceAmount> discountChoice;
 	private ResourceCostOption resourceCostOption;
 	private boolean columnOccupied = false;
 	private boolean getBoardPositionReward = true;
 	private List<ResourceAmount> effectiveResourceCost;
 
-	public ActionChooseRewardGetDevelopmentCard(Connection player, int servants, CardType cardType, Row row, Row instantRewardRow, DiscountChoice discount, ResourceCostOption resourceCostOption)
+	public ActionChooseRewardGetDevelopmentCard(Connection player, int servants, CardType cardType, Row row, Row instantRewardRow, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption)
 	{
 		this.player = player;
 		this.servants = servants;
 		this.cardType = cardType;
 		this.row = row;
 		this.instantRewardRow = instantRewardRow;
-		this.discount = discount;
+		this.instantDiscountChoice = instantDiscountChoice;
+		this.discountChoice = discountChoice;
 		this.resourceCostOption = resourceCostOption;
 	}
 
@@ -101,16 +104,6 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 		if ((this.resourceCostOption == null && !developmentCard.getResourceCostOptions().isEmpty()) || (this.resourceCostOption != null && !developmentCard.getResourceCostOptions().contains(this.resourceCostOption))) {
 			return false;
 		}
-		if (this.columnOccupied) {
-			if (this.resourceCostOption == null) {
-				List<ResourceAmount> requiredResources = new ArrayList<>();
-				List<ResourceAmount> spentResources = new ArrayList<>();
-				spentResources.add(new ResourceAmount(ResourceType.COIN, 3));
-				this.resourceCostOption = new ResourceCostOption(requiredResources, spentResources);
-			} else {
-				this.resourceCostOption.getSpentResources().add(new ResourceAmount(ResourceType.COIN, 3));
-			}
-		}
 		// check if the player has the requiredResources
 		if (this.resourceCostOption.getRequiredResources() != null) {
 			for (ResourceAmount requiredResources : this.resourceCostOption.getRequiredResources()) {
@@ -123,24 +116,71 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 		// check if the family member and servants value is high enough
 		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, this.resourceCostOption == null ? null : this.resourceCostOption.getSpentResources(), ((ActionRewardGetDevelopmentCard) this.player.getPlayerHandler().getCurrentActionReward()).getValue() + effectiveServantsValue);
 		eventGetDevelopmentCard.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+		this.effectiveResourceCost = eventGetDevelopmentCard.getResourceCost();
 		this.getBoardPositionReward = eventGetDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
 		if (developmentCard.getCardType() == CardType.TERRITORY && !eventGetDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.getPlayerHandler().getPlayerResourceHandler().isTerritorySlotAvailable(this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
 			return false;
 		}
 		// controlla presenza discountchoice nell'array actionreward
-		if ((this.discount == null && !((ActionRewardGetDevelopmentCard) this.player.getPlayerHandler().getCurrentActionReward()).getDiscountChoices().isEmpty()) || (this.discount != null && !((ActionRewardGetDevelopmentCard) this.player.getPlayerHandler().getCurrentActionReward()).getDiscountChoices().contains(this.discount))) {
+		if ((this.instantDiscountChoice == null && !((ActionRewardGetDevelopmentCard) this.player.getPlayerHandler().getCurrentActionReward()).getDiscountChoices().isEmpty()) || (this.instantDiscountChoice != null && !((ActionRewardGetDevelopmentCard) this.player.getPlayerHandler().getCurrentActionReward()).getDiscountChoices().contains(this.instantDiscountChoice))) {
 			return false;
 		}
-		this.effectiveResourceCost = eventGetDevelopmentCard.getResourceCost();
+		if (this.resourceCostOption == null && this.discountChoice != null) {
+			return false;
+		}
+		if (this.resourceCostOption != null) {
+			if (this.discountChoice == null) {
+				boolean validDiscountChoice = true;
+				for (Modifier modifier : this.player.getPlayerHandler().getActiveModifiers()) {
+					if (modifier.getEventClass() == EventGetDevelopmentCard.class && !((ModifierGetDevelopmentCard) modifier).getDiscountChoices().isEmpty()) {
+						validDiscountChoice = false;
+						break;
+					}
+				}
+				if (!validDiscountChoice) {
+					return false;
+				}
+			} else {
+				boolean validDiscountChoice = false;
+				for (Modifier modifier : this.player.getPlayerHandler().getActiveModifiers()) {
+					if (modifier.getEventClass() == EventGetDevelopmentCard.class && ((ModifierGetDevelopmentCard) modifier).getDiscountChoices().contains(this.discountChoice)) {
+						validDiscountChoice = true;
+						break;
+					}
+				}
+				if (!validDiscountChoice) {
+					return false;
+				}
+			}
+		}
 		// getcardprice e togli discountchoice
-		if (this.discount != null) {
+		if (this.instantDiscountChoice != null) {
 			for (ResourceAmount resourceCost : this.effectiveResourceCost) {
-				for (ResourceAmount resourceDiscount : this.discount.getResourceAmounts()) {
+				for (ResourceAmount resourceDiscount : this.instantDiscountChoice) {
 					if (resourceCost.getResourceType() == resourceDiscount.getResourceType()) {
 						resourceCost.setAmount(resourceCost.getAmount() - resourceDiscount.getAmount());
 					}
 				}
+			}
+		}
+		if (this.discountChoice != null) {
+			for (ResourceAmount resourceCost : this.effectiveResourceCost) {
+				for (ResourceAmount resourceDiscount : this.discountChoice) {
+					if (resourceCost.getResourceType() == resourceDiscount.getResourceType()) {
+						resourceCost.setAmount(resourceCost.getAmount() - resourceDiscount.getAmount());
+					}
+				}
+			}
+		}
+		if (this.columnOccupied) {
+			if (this.resourceCostOption == null) {
+				List<ResourceAmount> requiredResources = new ArrayList<>();
+				List<ResourceAmount> spentResources = new ArrayList<>();
+				spentResources.add(new ResourceAmount(ResourceType.COIN, 3));
+				this.resourceCostOption = new ResourceCostOption(requiredResources, spentResources);
+			} else {
+				this.resourceCostOption.getSpentResources().add(new ResourceAmount(ResourceType.COIN, 3));
 			}
 		}
 		// prendo prezzo finale e controllo che il giocatore abbia le risorse necessarie

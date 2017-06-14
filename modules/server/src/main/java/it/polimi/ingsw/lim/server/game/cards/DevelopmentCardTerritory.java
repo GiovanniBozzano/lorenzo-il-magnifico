@@ -12,9 +12,9 @@ public class DevelopmentCardTerritory extends DevelopmentCard
 	private final int activationValue;
 	private final List<ResourceAmount> harvestResources;
 
-	public DevelopmentCardTerritory(int index, String displayName, List<ResourceCostOption> resourceCostOptions, Reward reward, int activationValue, List<ResourceAmount> harvestResources)
+	public DevelopmentCardTerritory(int index, String texturePath, String displayName, List<ResourceCostOption> resourceCostOptions, Reward reward, int activationValue, List<ResourceAmount> harvestResources)
 	{
-		super(index, displayName, CardType.TERRITORY, resourceCostOptions, reward);
+		super(index, texturePath, displayName, CardType.TERRITORY, resourceCostOptions, reward);
 		this.activationValue = activationValue;
 		this.harvestResources = harvestResources;
 	}

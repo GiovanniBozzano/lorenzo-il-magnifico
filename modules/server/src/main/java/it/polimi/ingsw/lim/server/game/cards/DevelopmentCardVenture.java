@@ -10,9 +10,9 @@ public class DevelopmentCardVenture extends DevelopmentCard
 {
 	private final int victoryValue;
 
-	public DevelopmentCardVenture(int index, String displayName, List<ResourceCostOption> resourceCostOptions, Reward reward, int victoryValue)
+	public DevelopmentCardVenture(int index, String texturePath, String displayName, List<ResourceCostOption> resourceCostOptions, Reward reward, int victoryValue)
 	{
-		super(index, displayName, CardType.VENTURE, resourceCostOptions, reward);
+		super(index, texturePath, displayName, CardType.VENTURE, resourceCostOptions, reward);
 		this.victoryValue = victoryValue;
 	}
 
