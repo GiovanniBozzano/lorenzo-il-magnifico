@@ -6,7 +6,9 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.game.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmountMultiplierCard;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmountMultiplierResource;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
@@ -14,8 +16,6 @@ import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardGetDevelopmentC
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardHarvest;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardProduction;
 import it.polimi.ingsw.lim.server.game.modifiers.*;
-import it.polimi.ingsw.lim.server.game.utils.ResourceAmountMultiplierCard;
-import it.polimi.ingsw.lim.server.game.utils.ResourceAmountMultiplierResource;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,7 +43,7 @@ public class DevelopmentCardsDeck<T extends DevelopmentCard>
 
 	public DevelopmentCardsDeck(DevelopmentCardsDeck<T> developmentCardsDeck)
 	{
-		this(developmentCardsDeck.getPeriods().get(Period.FIRST), developmentCardsDeck.getPeriods().get(Period.SECOND), developmentCardsDeck.getPeriods().get(Period.THIRD));
+		this(developmentCardsDeck.periods.get(Period.FIRST), developmentCardsDeck.periods.get(Period.SECOND), developmentCardsDeck.periods.get(Period.THIRD));
 	}
 
 	public Map<Period, List<T>> getPeriods()

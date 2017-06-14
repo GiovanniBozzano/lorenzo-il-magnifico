@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
-import it.polimi.ingsw.lim.common.game.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.utils.BoardPositionInformations;
@@ -56,7 +56,7 @@ public class BoardHandler
 		Map<BoardPosition, BoardPositionInformations> initialize()
 		{
 			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
-				return BoardPositionsInstantRewardsBuilder.GSON.fromJson(reader, new TypeToken<Map<BoardPosition, ResourceAmount[]>>()
+				return BoardPositionsInstantRewardsBuilder.GSON.fromJson(reader, new TypeToken<Map<BoardPosition, List<ResourceAmount>>>()
 				{
 				}.getType());
 			} catch (IOException exception) {

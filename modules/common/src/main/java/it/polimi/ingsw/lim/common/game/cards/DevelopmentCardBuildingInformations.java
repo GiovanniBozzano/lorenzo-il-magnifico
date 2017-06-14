@@ -1,22 +1,22 @@
-package it.polimi.ingsw.lim.server.game.cards;
+package it.polimi.ingsw.lim.common.game.cards;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
-import it.polimi.ingsw.lim.server.game.utils.Reward;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DevelopmentCardBuilding extends DevelopmentCard
+public class DevelopmentCardBuildingInformations extends DevelopmentCardInformations
 {
 	private final int activationValue;
 	private final List<ResourceTradeOption> resourceTradeOptions;
 
-	public DevelopmentCardBuilding(String displayName, int index, List<ResourceCostOption> resourceCostOptions, Reward reward, int activationValue, List<ResourceTradeOption> resourceTradeOptions)
+	public DevelopmentCardBuildingInformations(int index, String displayName, String texturePath, List<ResourceCostOption> resourceCostOptions, int activationValue, List<ResourceTradeOption> resourceTradeOptions)
 	{
-		super(displayName, index, CardType.BUILDING, resourceCostOptions, reward);
+		super(index, displayName, texturePath, CardType.BUILDING, resourceCostOptions);
 		this.activationValue = activationValue;
-		this.resourceTradeOptions = resourceTradeOptions;
+		this.resourceTradeOptions = new ArrayList<>(resourceTradeOptions);
 	}
 
 	public int getActivationValue()

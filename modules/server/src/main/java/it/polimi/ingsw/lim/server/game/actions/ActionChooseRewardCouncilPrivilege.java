@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.game.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
@@ -98,7 +98,7 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		}
 		this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().remove(ResourceType.COUNCIL_PRIVILEGE);
 		List<ResourceAmount> resourceReward = new ArrayList<>();
-		for (List<Integer> differentIndexes : councilPalaceRewardIndexes) {
+		for (List<Integer> differentIndexes : this.councilPalaceRewardIndexes) {
 			for (int councilPalaceRewardIndex : differentIndexes) {
 				resourceReward.addAll(BoardHandler.getCouncilPrivilegeRewards().get(councilPalaceRewardIndex).getResourceAmounts());
 			}

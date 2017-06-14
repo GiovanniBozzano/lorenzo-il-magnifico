@@ -6,7 +6,7 @@ public abstract class Modifier<T extends Event>
 {
 	private final Class<T> eventClass;
 
-	public Modifier(Class<T> eventClass)
+	protected Modifier(Class<T> eventClass)
 	{
 		this.eventClass = eventClass;
 	}

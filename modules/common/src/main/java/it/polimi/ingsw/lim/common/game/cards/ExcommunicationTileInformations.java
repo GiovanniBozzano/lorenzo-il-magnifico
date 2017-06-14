@@ -1,14 +1,14 @@
-package it.polimi.ingsw.lim.common.game;
+package it.polimi.ingsw.lim.common.game.cards;
 
 import java.io.Serializable;
 
-public class LeaderCardInformations implements Serializable
+public class ExcommunicationTileInformations implements Serializable
 {
 	private final int index;
 	private final String texturePath;
 	private final String description;
 
-	public LeaderCardInformations(int index, String texturePath, String description)
+	public ExcommunicationTileInformations(int index, String texturePath, String description)
 	{
 		this.index = index;
 		this.texturePath = texturePath;

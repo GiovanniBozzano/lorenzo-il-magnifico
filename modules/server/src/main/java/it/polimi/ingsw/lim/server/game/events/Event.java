@@ -9,7 +9,7 @@ public abstract class Event
 {
 	private final Connection player;
 
-	public Event(Connection player)
+	Event(Connection player)
 	{
 		this.player = player;
 	}

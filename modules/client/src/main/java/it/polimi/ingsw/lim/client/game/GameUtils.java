@@ -1,12 +1,24 @@
 package it.polimi.ingsw.lim.client.game;
 
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.game.*;
+import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
+import it.polimi.ingsw.lim.common.game.cards.*;
+import it.polimi.ingsw.lim.common.game.player.PlayerData;
 
 import java.util.*;
 
 public class GameUtils
 {
+	private static final Map<CardType, Class<? extends DevelopmentCardInformations>> DEVELOPMENT_CARDS_TYPES = new EnumMap<>(CardType.class);
+
+	static {
+		GameUtils.DEVELOPMENT_CARDS_TYPES.put(CardType.BUILDING, DevelopmentCardBuildingInformations.class);
+		GameUtils.DEVELOPMENT_CARDS_TYPES.put(CardType.CHARACTER, DevelopmentCardCharacterInformations.class);
+		GameUtils.DEVELOPMENT_CARDS_TYPES.put(CardType.TERRITORY, DevelopmentCardTerritoryInformations.class);
+		GameUtils.DEVELOPMENT_CARDS_TYPES.put(CardType.VENTURE, DevelopmentCardVentureInformations.class);
+	}
+
 	private static final List<DevelopmentCardInformations> DEVELOPMENT_CARDS_BUILDING = new ArrayList<>();
 	private static final List<DevelopmentCardInformations> DEVELOPMENT_CARDS_CHARACTER = new ArrayList<>();
 	private static final List<DevelopmentCardInformations> DEVELOPMENT_CARDS_TERRITORY = new ArrayList<>();

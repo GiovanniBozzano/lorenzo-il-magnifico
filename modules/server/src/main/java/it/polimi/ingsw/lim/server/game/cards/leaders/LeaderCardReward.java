@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.cards.leaders;
 
+import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
-import it.polimi.ingsw.lim.server.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
 
 import java.util.List;

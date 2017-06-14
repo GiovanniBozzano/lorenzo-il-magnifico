@@ -1,4 +1,4 @@
-package it.polimi.ingsw.lim.common.game;
+package it.polimi.ingsw.lim.common.game.cards;
 
 import java.io.Serializable;
 

@@ -1,8 +1,9 @@
-package it.polimi.ingsw.lim.common.game;
+package it.polimi.ingsw.lim.common.game.player;
 
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardStatus;
 
 import java.io.Serializable;
 import java.util.EnumMap;

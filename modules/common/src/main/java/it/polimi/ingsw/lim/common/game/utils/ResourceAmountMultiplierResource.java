@@ -1,7 +1,6 @@
-package it.polimi.ingsw.lim.server.game.utils;
+package it.polimi.ingsw.lim.common.game.utils;
 
 import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.game.ResourceAmount;
 
 public class ResourceAmountMultiplierResource extends ResourceAmount
 {

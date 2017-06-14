@@ -1,6 +1,4 @@
-package it.polimi.ingsw.lim.server.game.utils;
-
-import it.polimi.ingsw.lim.common.game.ResourceAmount;
+package it.polimi.ingsw.lim.common.game.utils;
 
 import java.util.List;
 

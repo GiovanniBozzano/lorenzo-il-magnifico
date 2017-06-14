@@ -1,5 +1,7 @@
 package it.polimi.ingsw.lim.common.game;
 
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
+
 import java.io.Serializable;
 import java.util.List;
 

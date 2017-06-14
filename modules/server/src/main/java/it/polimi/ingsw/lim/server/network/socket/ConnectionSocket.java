@@ -118,7 +118,6 @@ public class ConnectionSocket extends Connection
 	@Override
 	public void sendGameStarted(RoomInformations roomInformations)
 	{
-		new PacketGameStarted(roomInformations).send(this.out);
 	}
 
 	@Override

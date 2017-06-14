@@ -3,10 +3,10 @@ package it.polimi.ingsw.lim.server.game.cards;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.game.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.game.events.*;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
-import it.polimi.ingsw.lim.server.game.utils.ResourceCostOption;
 
 public enum ExcommunicationTiles
 {
@@ -242,6 +242,6 @@ public enum ExcommunicationTiles
 
 	public String getDescription()
 	{
-		return description;
+		return this.description;
 	}
 }

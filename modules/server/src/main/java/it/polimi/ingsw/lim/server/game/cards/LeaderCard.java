@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
-import it.polimi.ingsw.lim.server.game.utils.LeaderCardConditionsOption;
+import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 
 import java.util.List;
 
