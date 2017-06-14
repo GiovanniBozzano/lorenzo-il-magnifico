@@ -1,8 +1,9 @@
 {
 	"firstPeriod": [
 		{
-			"displayName": "Hiring Recruits",
 			"index": 0,
+			"texturePath": "/images/.png",
+			"displayName": "Hiring Recruits",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -28,8 +29,9 @@
 			"victoryValue": 4
 		},
 		{
-			"displayName": "Repairing the Church",
 			"index": 1,
+			"texturePath": "/images/.png",
+			"displayName": "Repairing the Church",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -65,8 +67,9 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "Buildings the Walls",
 			"index": 2,
+			"texturePath": "/images/.png",
+			"displayName": "Buildings the Walls",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -97,8 +100,9 @@
 			"victoryValue": 3
 		},
 		{
-			"displayName": "Raising a Statue",
 			"index": 3,
+			"texturePath": "/images/.png",
+			"displayName": "Raising a Statue",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -129,8 +133,9 @@
 			"victoryValue": 4
 		},
 		{
-			"displayName": "Military Campaign",
 			"index": 4,
+			"texturePath": "/images/.png",
+			"displayName": "Military Campaign",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -162,8 +167,9 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "Hosting Panhandlers",
 			"index": 5,
+			"texturePath": "/images/.png",
+			"displayName": "Hosting Panhandlers",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -189,8 +195,9 @@
 			"victoryValue": 4
 		},
 		{
-			"displayName": "Fighting Heresies",
 			"index": 6,
+			"texturePath": "/images/.png",
+			"displayName": "Fighting Heresies",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -222,8 +229,9 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "Support to the Bishop",
 			"index": 7,
+			"texturePath": "/images/.png",
+			"displayName": "Support to the Bishop",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -277,8 +285,9 @@
 	],
 	"secondPeriod": [
 		{
-			"displayName": "Hiring Soldiers",
 			"index": 8,
+			"texturePath": "/images/.png",
+			"displayName": "Hiring Soldiers",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -304,8 +313,9 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "Repairing the Abbey",
 			"index": 9,
+			"texturePath": "/images/.png",
+			"displayName": "Repairing the Abbey",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -341,8 +351,9 @@
 			"victoryValue": 6
 		},
 		{
-			"displayName": "Building the Bastions",
 			"index": 10,
+			"texturePath": "/images/.png",
+			"displayName": "Building the Bastions",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -373,8 +384,9 @@
 			"victoryValue": 2
 		},
 		{
-			"displayName": "Support to the King",
 			"index": 11,
+			"texturePath": "/images/.png",
+			"displayName": "Support to the King",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -411,8 +423,9 @@
 			"victoryValue": 3
 		},
 		{
-			"displayName": "Improving the Canals",
 			"index": 12,
+			"texturePath": "/images/.png",
+			"displayName": "Improving the Canals",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -440,8 +453,9 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "Hosting Foreigners",
 			"index": 13,
+			"texturePath": "/images/.png",
+			"displayName": "Hosting Foreigners",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -467,8 +481,9 @@
 			"victoryValue": 4
 		},
 		{
-			"displayName": "Crusade",
 			"index": 14,
+			"texturePath": "/images/.png",
+			"displayName": "Crusade",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -505,8 +520,9 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "Support to the Cardinal",
 			"index": 15,
+			"texturePath": "/images/.png",
+			"displayName": "Support to the Cardinal",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -560,8 +576,9 @@
 	],
 	"thirdPeriod": [
 		{
-			"displayName": "Hiring Mercenaries",
 			"index": 16,
+			"texturePath": "/images/.png",
+			"displayName": "Hiring Mercenaries",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -587,8 +604,9 @@
 			"victoryValue": 6
 		},
 		{
-			"displayName": "Repairing the Cathedral",
 			"index": 17,
+			"texturePath": "/images/.png",
+			"displayName": "Repairing the Cathedral",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -634,8 +652,9 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "Building the Towers",
 			"index": 18,
+			"texturePath": "/images/.png",
+			"displayName": "Building the Towers",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -666,8 +685,9 @@
 			"victoryValue": 4
 		},
 		{
-			"displayName": "Promoting Sacred Art",
 			"index": 19,
+			"texturePath": "/images/.png",
+			"displayName": "Promoting Sacred Art",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -693,8 +713,9 @@
 			"victoryValue": 3
 		},
 		{
-			"displayName": "Military Conquest",
 			"index": 20,
+			"texturePath": "/images/.png",
+			"displayName": "Military Conquest",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -736,8 +757,9 @@
 			"victoryValue": 7
 		},
 		{
-			"displayName": "Improving the Roads",
 			"index": 21,
+			"texturePath": "/images/.png",
+			"displayName": "Improving the Roads",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -765,8 +787,9 @@
 			"victoryValue": 5
 		},
 		{
-			"displayName": "Sacred War",
 			"index": 22,
+			"texturePath": "/images/.png",
+			"displayName": "Sacred War",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -798,8 +821,9 @@
 			"victoryValue": 8
 		},
 		{
-			"displayName": "Support to the Pope",
 			"index": 23,
+			"texturePath": "/images/.png",
+			"displayName": "Support to the Pope",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [

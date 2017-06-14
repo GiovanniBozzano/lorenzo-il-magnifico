@@ -1,8 +1,9 @@
 {
 	"firstPeriod": [
 		{
-			"displayName": "Warlord",
 			"index": 0,
+			"texturePath": "/images/.png",
+			"displayName": "Warlord",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -33,8 +34,9 @@
 			}
 		},
 		{
-			"displayName": "Stonemason",
 			"index": 1,
+			"texturePath": "/images/.png",
+			"displayName": "Stonemason",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -78,8 +80,9 @@
 			}
 		},
 		{
-			"displayName": "Dame",
 			"index": 2,
+			"texturePath": "/images/.png",
+			"displayName": "Dame",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -114,8 +117,9 @@
 			}
 		},
 		{
-			"displayName": "Knight",
 			"index": 3,
+			"texturePath": "/images/.png",
+			"displayName": "Knight",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -146,8 +150,9 @@
 			}
 		},
 		{
-			"displayName": "Farmer",
 			"index": 4,
+			"texturePath": "/images/.png",
+			"displayName": "Farmer",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -170,8 +175,9 @@
 			}
 		},
 		{
-			"displayName": "Artisan",
 			"index": 5,
+			"texturePath": "/images/.png",
+			"displayName": "Artisan",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -194,8 +200,9 @@
 			}
 		},
 		{
-			"displayName": "Preacher",
 			"index": 6,
+			"texturePath": "/images/.png",
+			"displayName": "Preacher",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -227,8 +234,9 @@
 			}
 		},
 		{
-			"displayName": "Abbess",
 			"index": 7,
+			"texturePath": "/images/.png",
+			"displayName": "Abbess",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -266,8 +274,9 @@
 	],
 	"secondPeriod": [
 		{
-			"displayName": "Captain",
 			"index": 8,
+			"texturePath": "/images/.png",
+			"displayName": "Captain",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -300,8 +309,9 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "Architect",
 			"index": 9,
+			"texturePath": "/images/.png",
+			"displayName": "Architect",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -347,8 +357,9 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "Patron",
 			"index": 10,
+			"texturePath": "/images/.png",
+			"displayName": "Patron",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -385,8 +396,9 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "Hero",
 			"index": 11,
+			"texturePath": "/images/.png",
+			"displayName": "Hero",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -419,8 +431,9 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "Peasant",
 			"index": 12,
+			"texturePath": "/images/.png",
+			"displayName": "Peasant",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -443,8 +456,9 @@
 			}
 		},
 		{
-			"displayName": "Scholar",
 			"index": 13,
+			"texturePath": "/images/.png",
+			"displayName": "Scholar",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -467,8 +481,9 @@
 			}
 		},
 		{
-			"displayName": "Papal Messenger",
 			"index": 14,
+			"texturePath": "/images/.png",
+			"displayName": "Papal Messenger",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -494,8 +509,9 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "Royal Messenger",
 			"index": 15,
+			"texturePath": "/images/.png",
+			"displayName": "Royal Messenger",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -523,8 +539,9 @@
 	],
 	"thirdPeriod": [
 		{
-			"displayName": "Noble",
 			"index": 16,
+			"texturePath": "/images/.png",
+			"displayName": "Noble",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -551,8 +568,9 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "Governor",
 			"index": 17,
+			"texturePath": "/images/.png",
+			"displayName": "Governor",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -579,8 +597,9 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "Paramour",
 			"index": 18,
+			"texturePath": "/images/.png",
+			"displayName": "Paramour",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -607,8 +626,9 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "Herald",
 			"index": 19,
+			"texturePath": "/images/.png",
+			"displayName": "Herald",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -635,8 +655,9 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "Cardinal",
 			"index": 20,
+			"texturePath": "/images/.png",
+			"displayName": "Cardinal",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -665,8 +686,9 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "Bishop",
 			"index": 21,
+			"texturePath": "/images/.png",
+			"displayName": "Bishop",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -695,8 +717,9 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "General",
 			"index": 22,
+			"texturePath": "/images/.png",
+			"displayName": "General",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -724,8 +747,9 @@
 			"permanentBonus": null
 		},
 		{
-			"displayName": "Ambassador",
 			"index": 23,
+			"texturePath": "/images/.png",
+			"displayName": "Ambassador",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],

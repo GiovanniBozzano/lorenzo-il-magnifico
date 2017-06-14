@@ -1,8 +1,9 @@
 {
 	"firstPeriod": [
 		{
-			"displayName": "Commercial Hub",
 			"index": 0,
+			"texturePath": "/images/.png",
+			"displayName": "Commercial Hub",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -23,8 +24,9 @@
 			]
 		},
 		{
-			"displayName": "Woods",
 			"index": 1,
+			"texturePath": "/images/.png",
+			"displayName": "Woods",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -51,8 +53,9 @@
 			]
 		},
 		{
-			"displayName": "Village",
 			"index": 2,
+			"texturePath": "/images/.png",
+			"displayName": "Village",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -78,8 +81,9 @@
 			]
 		},
 		{
-			"displayName": "Gravel Pit",
 			"index": 3,
+			"texturePath": "/images/.png",
+			"displayName": "Gravel Pit",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -106,8 +110,9 @@
 			]
 		},
 		{
-			"displayName": "Forest",
 			"index": 4,
+			"texturePath": "/images/.png",
+			"displayName": "Forest",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -134,8 +139,9 @@
 			]
 		},
 		{
-			"displayName": "Monastery",
 			"index": 5,
+			"texturePath": "/images/.png",
+			"displayName": "Monastery",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -172,8 +178,9 @@
 			]
 		},
 		{
-			"displayName": "Citadel",
 			"index": 6,
+			"texturePath": "/images/.png",
+			"displayName": "Citadel",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -199,8 +206,9 @@
 			]
 		},
 		{
-			"displayName": "City",
 			"index": 7,
+			"texturePath": "/images/.png",
+			"displayName": "City",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -229,8 +237,9 @@
 	],
 	"secondPeriod": [
 		{
-			"displayName": "Gold Mine",
 			"index": 8,
+			"texturePath": "/images/.png",
+			"displayName": "Gold Mine",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -257,8 +266,9 @@
 			]
 		},
 		{
-			"displayName": "Mountain Town",
 			"index": 9,
+			"texturePath": "/images/.png",
+			"displayName": "Mountain Town",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -290,8 +300,9 @@
 			]
 		},
 		{
-			"displayName": "Mining Town",
 			"index": 10,
+			"texturePath": "/images/.png",
+			"displayName": "Mining Town",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -328,8 +339,9 @@
 			]
 		},
 		{
-			"displayName": "Rock Pit",
 			"index": 11,
+			"texturePath": "/images/.png",
+			"displayName": "Rock Pit",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -356,8 +368,9 @@
 			]
 		},
 		{
-			"displayName": "Estate",
 			"index": 12,
+			"texturePath": "/images/.png",
+			"displayName": "Estate",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -394,8 +407,9 @@
 			]
 		},
 		{
-			"displayName": "Hermitage",
 			"index": 13,
+			"texturePath": "/images/.png",
+			"displayName": "Hermitage",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -422,8 +436,9 @@
 			]
 		},
 		{
-			"displayName": "Manor House",
 			"index": 14,
+			"texturePath": "/images/.png",
+			"displayName": "Manor House",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -449,8 +464,9 @@
 			]
 		},
 		{
-			"displayName": "Dukedom",
 			"index": 15,
+			"texturePath": "/images/.png",
+			"displayName": "Dukedom",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -489,8 +505,9 @@
 	],
 	"thirdPeriod": [
 		{
-			"displayName": "Trading Town",
 			"index": 16,
+			"texturePath": "/images/.png",
+			"displayName": "Trading Town",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -522,8 +539,9 @@
 			]
 		},
 		{
-			"displayName": "Farm",
 			"index": 17,
+			"texturePath": "/images/.png",
+			"displayName": "Farm",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -560,8 +578,9 @@
 			]
 		},
 		{
-			"displayName": "Colony",
 			"index": 18,
+			"texturePath": "/images/.png",
+			"displayName": "Colony",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -593,8 +612,9 @@
 			]
 		},
 		{
-			"displayName": "Marble Pit",
 			"index": 19,
+			"texturePath": "/images/.png",
+			"displayName": "Marble Pit",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -626,8 +646,9 @@
 			]
 		},
 		{
-			"displayName": "Province",
 			"index": 20,
+			"texturePath": "/images/.png",
+			"displayName": "Province",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -664,8 +685,9 @@
 			]
 		},
 		{
-			"displayName": "Sanctuary",
 			"index": 21,
+			"texturePath": "/images/.png",
+			"displayName": "Sanctuary",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -697,8 +719,9 @@
 			]
 		},
 		{
-			"displayName": "Castle",
 			"index": 22,
+			"texturePath": "/images/.png",
+			"displayName": "Castle",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -735,8 +758,9 @@
 			]
 		},
 		{
-			"displayName": "Fortified Town",
 			"index": 23,
+			"texturePath": "/images/.png",
+			"displayName": "Fortified Town",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
