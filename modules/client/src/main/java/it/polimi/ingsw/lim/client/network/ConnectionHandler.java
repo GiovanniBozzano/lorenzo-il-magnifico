@@ -3,14 +3,22 @@ package it.polimi.ingsw.lim.client.network;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.cli.CLIListenerClient;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
+import it.polimi.ingsw.lim.client.gui.ControllerGame;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.utils.Utils;
+import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.RoomType;
-import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
+import it.polimi.ingsw.lim.common.game.player.PlayerData;
+import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Level;
@@ -145,14 +153,6 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
-	public void handleGameStarted(RoomInformations roomInformations)
-	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
-			return;
-		}
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, true);
-	}
-
 	public void handleChatMessage(String text)
 	{
 		if (!WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
@@ -168,6 +168,35 @@ public abstract class ConnectionHandler extends Thread
 	public void handleLogMessage(String text)
 	{
 		Client.getDebugger().log(Level.INFO, text);
+	}
+
+	public void handleGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerData> playersData)
+	{
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+			return;
+		}
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, true);
+	}
+
+	public void handleGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions)
+	{
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+			return;
+		}
+	}
+
+	public void handleGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, ExpectedAction expectedAction)
+	{
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+			return;
+		}
+	}
+
+	public void handleGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations)
+	{
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+			return;
+		}
 	}
 
 	protected ScheduledExecutorService getHeartbeat()

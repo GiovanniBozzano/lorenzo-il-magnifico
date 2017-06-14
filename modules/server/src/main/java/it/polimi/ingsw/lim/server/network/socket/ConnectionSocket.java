@@ -1,7 +1,17 @@
 package it.polimi.ingsw.lim.server.network.socket;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
+import it.polimi.ingsw.lim.common.enums.Period;
+import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
+import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
+import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
+import it.polimi.ingsw.lim.common.game.cards.ExcommunicationTileInformations;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
+import it.polimi.ingsw.lim.common.game.player.PlayerData;
+import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.server.*;
@@ -15,6 +25,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -87,9 +99,9 @@ public class ConnectionSocket extends Connection
 		new Packet(PacketType.HEARTBEAT).send(this.out);
 	}
 
-	void sendAuthenticationConfirmation(RoomInformations roomInformations)
+	void sendAuthenticationConfirmation(List<DevelopmentCardInformations> developmentCardsInformations, List<LeaderCardInformations> leaderCardsInformations, List<ExcommunicationTileInformations> excommunicationTilesInformations, List<CouncilPalaceRewardInformations> councilPalaceRewardInformations, RoomInformations roomInformations)
 	{
-		new PacketAuthenticationConfirmation(this.getUsername(), roomInformations).send(this.out);
+		new PacketAuthenticationConfirmation(developmentCardsInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardInformations, this.getUsername(), roomInformations).send(this.out);
 	}
 
 	void sendAuthenticationFailure(String text)
@@ -116,11 +128,6 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void sendGameStarted(RoomInformations roomInformations)
-	{
-	}
-
-	@Override
 	public void sendLogMessage(String text)
 	{
 		new PacketLogMessage(text).send(this.out);
@@ -135,6 +142,30 @@ public class ConnectionSocket extends Connection
 	public void sendChatMessage(String text)
 	{
 		new PacketChatMessage(text.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "")).send(this.out);
+	}
+
+	@Override
+	public void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerData> playersData)
+	{
+		new PacketGameStarted(excommunicationTiles, playersData).send(this.out);
+	}
+
+	@Override
+	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions)
+	{
+		new PacketGameUpdate(gameInformations, playersInformations, availableActions).send(this.out);
+	}
+
+	@Override
+	public void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, ExpectedAction expectedAction)
+	{
+		new PacketGameUpdateExpectedAction(gameInformations, playersInformations, expectedAction).send(this.out);
+	}
+
+	@Override
+	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations)
+	{
+		new PacketGameUpdateOtherTurn(gameInformations, playersInformations).send(this.out);
 	}
 
 	ObjectInputStream getIn()

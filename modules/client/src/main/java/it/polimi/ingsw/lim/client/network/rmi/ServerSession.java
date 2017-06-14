@@ -1,11 +1,18 @@
 package it.polimi.ingsw.lim.client.network.rmi;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.common.enums.Period;
+import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
+import it.polimi.ingsw.lim.common.game.player.PlayerData;
+import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
+import java.util.Map;
 
 public class ServerSession extends UnicastRemoteObject implements IServerSession
 {
@@ -45,12 +52,6 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
-	public void sendGameStarted(RoomInformations roomInformations) throws RemoteException
-	{
-		Client.getInstance().getConnectionHandler().handleGameStarted(roomInformations);
-	}
-
-	@Override
 	public void sendLogMessage(String text) throws RemoteException
 	{
 		Client.getInstance().getConnectionHandler().handleLogMessage(text);
@@ -60,5 +61,29 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	public void sendChatMessage(String text) throws RemoteException
 	{
 		Client.getInstance().getConnectionHandler().handleChatMessage(text);
+	}
+
+	@Override
+	public void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerData> playersData) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGameStarted(excommunicationTiles, playersData);
+	}
+
+	@Override
+	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGameUpdate(gameInformations, playersInformations, availableActions);
+	}
+
+	@Override
+	public void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, ExpectedAction expectedAction) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGameUpdateExpectedAction(gameInformations, playersInformations, expectedAction);
+	}
+
+	@Override
+	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGameUpdateOtherTurn(gameInformations, playersInformations);
 	}
 }

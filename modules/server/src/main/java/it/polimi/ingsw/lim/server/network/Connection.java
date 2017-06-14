@@ -1,10 +1,17 @@
 package it.polimi.ingsw.lim.server.network;
 
-import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.common.enums.Period;
+import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
+import it.polimi.ingsw.lim.common.game.player.PlayerData;
+import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -74,11 +81,17 @@ public abstract class Connection
 
 	public abstract void sendRoomTimer(int timer);
 
-	public abstract void sendGameStarted(RoomInformations roomInformations);
-
 	public abstract void sendLogMessage(String text);
 
 	public abstract void sendChatMessage(String text);
+
+	public abstract void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerData> playersData);
+
+	public abstract void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions);
+
+	public abstract void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, ExpectedAction expectedAction);
+
+	public abstract void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations);
 
 	public void handleRoomTimerRequest()
 	{

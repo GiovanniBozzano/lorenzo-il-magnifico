@@ -15,7 +15,7 @@ public class PacketGameUpdateOtherTurn extends Packet
 
 	public PacketGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations)
 	{
-		super(PacketType.GAME_UPDATE_OTHER);
+		super(PacketType.GAME_UPDATE_OTHER_TURN);
 		this.gameInformations = gameInformations;
 		this.playersInformations = new ArrayList<>(playersInformations);
 	}

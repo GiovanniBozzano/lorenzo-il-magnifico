@@ -219,8 +219,8 @@ public class ActionGetDevelopmentCard implements IAction
 		if (developmentCard.getReward().getActionReward() != null) {
 			this.player.getPlayerHandler().setCurrentActionReward(developmentCard.getReward().getActionReward());
 			gameHandler.setExpectedAction(developmentCard.getReward().getActionReward().getRequestedAction());
+			this.player.sendGameUpdateExpectedAction(gameHandler.generateGameInformations(), gameHandler.generatePlayersInformations(), developmentCard.getReward().getActionReward().createExpectedAction(gameHandler, this.player));
 			// TODO aggiorno tutti
-			// TODO manda azione rimcompensa
 		} else {
 			int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 			if (councilPrivilegesCount > 0) {

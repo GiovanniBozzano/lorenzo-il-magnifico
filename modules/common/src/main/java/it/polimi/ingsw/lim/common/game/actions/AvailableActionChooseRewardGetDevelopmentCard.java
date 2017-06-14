@@ -2,7 +2,6 @@ package it.polimi.ingsw.lim.common.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
@@ -15,14 +14,16 @@ public class AvailableActionChooseRewardGetDevelopmentCard extends AvailableActi
 	private final CardType cardType;
 	private final Row row;
 	private final List<ResourceCostOption> resourceCostOptions;
+	private final List<List<ResourceAmount>> instantDiscountChoices;
 	private final List<List<ResourceAmount>> discountChoices;
 
-	public AvailableActionChooseRewardGetDevelopmentCard(CardType cardType, Row row, List<ResourceCostOption> resourceCostOptions, List<List<ResourceAmount>> discountChoices)
+	public AvailableActionChooseRewardGetDevelopmentCard(CardType cardType, Row row, List<ResourceCostOption> resourceCostOptions, List<List<ResourceAmount>> instantDiscountChoices, List<List<ResourceAmount>> discountChoices)
 	{
 		super(ActionType.GET_DEVELOPMENT_CARD);
 		this.cardType = cardType;
 		this.row = row;
 		this.resourceCostOptions = new ArrayList<>(resourceCostOptions);
+		this.instantDiscountChoices = new ArrayList<>(instantDiscountChoices);
 		this.discountChoices = new ArrayList<>(discountChoices);
 	}
 
@@ -39,6 +40,11 @@ public class AvailableActionChooseRewardGetDevelopmentCard extends AvailableActi
 	public List<ResourceCostOption> getResourceCostOptions()
 	{
 		return this.resourceCostOptions;
+	}
+
+	public List<List<ResourceAmount>> getInstantDiscountChoices()
+	{
+		return this.instantDiscountChoices;
 	}
 
 	public List<List<ResourceAmount>> getDiscountChoices()

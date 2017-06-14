@@ -1,6 +1,11 @@
 package it.polimi.ingsw.lim.server.network.rmi;
 
-import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.common.enums.Period;
+import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
+import it.polimi.ingsw.lim.common.game.player.PlayerData;
+import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
@@ -11,6 +16,8 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -116,19 +123,6 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGameStarted(RoomInformations roomInformations)
-	{
-		this.rmiExecutor.execute(() -> {
-			try {
-				this.serverSession.sendGameStarted(roomInformations);
-			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
-				this.disconnect(false, null);
-			}
-		});
-	}
-
-	@Override
 	public void sendLogMessage(String text)
 	{
 		this.rmiExecutor.execute(() -> {
@@ -147,6 +141,58 @@ public class ConnectionRMI extends Connection
 		this.rmiExecutor.execute(() -> {
 			try {
 				this.serverSession.sendChatMessage(text);
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
+	public void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerData> playersData)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameStarted(excommunicationTiles, playersData);
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
+	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameUpdate(gameInformations, playersInformations, availableActions);
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
+	public void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, ExpectedAction expectedAction)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameUpdateExpectedAction(gameInformations, playersInformations, expectedAction);
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
+	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameUpdateOtherTurn(gameInformations, playersInformations);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);

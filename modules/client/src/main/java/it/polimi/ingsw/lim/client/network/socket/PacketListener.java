@@ -27,6 +27,10 @@ class PacketListener extends Thread
 		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_TIMER, packet -> Client.getInstance().getConnectionHandler().handleRoomTimer(((PacketRoomTimer) packet).getTimer()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.LOG_MESSAGE, packet -> Client.getInstance().getConnectionHandler().handleLogMessage(((PacketLogMessage) packet).getText()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, packet -> Client.getInstance().getConnectionHandler().handleChatMessage(((PacketChatMessage) packet).getText()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_STARTED, packet -> Client.getInstance().getConnectionHandler().handleGameStarted(((PacketGameStarted) packet).getExcommunicationTiles(), ((PacketGameStarted) packet).getPlayersData()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_UPDATE, packet -> Client.getInstance().getConnectionHandler().handleGameUpdate(((PacketGameUpdate) packet).getGameInformations(), ((PacketGameUpdate) packet).getPlayersInformations(), ((PacketGameUpdate) packet).getAvailableActions()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_UPDATE_EXPECTED_ACTION, packet -> Client.getInstance().getConnectionHandler().handleGameUpdateExpectedAction(((PacketGameUpdateExpectedAction) packet).getGameInformations(), ((PacketGameUpdateExpectedAction) packet).getPlayersInformations(), ((PacketGameUpdateExpectedAction) packet).getExpectedAction()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_UPDATE_OTHER_TURN, packet -> Client.getInstance().getConnectionHandler().handleGameUpdateOtherTurn(((PacketGameUpdateOtherTurn) packet).getGameInformations(), ((PacketGameUpdateOtherTurn) packet).getPlayersInformations()));
 	}
 
 	private volatile boolean keepGoing = true;

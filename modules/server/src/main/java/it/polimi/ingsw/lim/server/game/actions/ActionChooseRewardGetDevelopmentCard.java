@@ -115,7 +115,7 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 			}
 		}
 		// check if the family member and servants value is high enough
-		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, this.resourceCostOption == null ? null : this.resourceCostOption.getSpentResources(), ((ActionRewardGetDevelopmentCard) this.player.getPlayerHandler().getCurrentActionReward()).getValue() + effectiveServantsValue);
+		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.cardType, this.row, this.resourceCostOption == null ? null : this.resourceCostOption.getSpentResources(), BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(cardType, row)).getValue() + effectiveServantsValue);
 		eventGetDevelopmentCard.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.effectiveResourceCost = eventGetDevelopmentCard.getResourceCost();
 		this.getBoardPositionReward = eventGetDevelopmentCard.isGetBoardPositionReward();
@@ -124,7 +124,7 @@ public class ActionChooseRewardGetDevelopmentCard implements IAction
 			return false;
 		}
 		// controlla presenza discountchoice nell'array actionreward
-		if ((this.instantDiscountChoice == null && !((ActionRewardGetDevelopmentCard) this.player.getPlayerHandler().getCurrentActionReward()).getDiscountChoices().isEmpty()) || (this.instantDiscountChoice != null && !((ActionRewardGetDevelopmentCard) this.player.getPlayerHandler().getCurrentActionReward()).getDiscountChoices().contains(this.instantDiscountChoice))) {
+		if ((this.instantDiscountChoice == null && !((ActionRewardGetDevelopmentCard) this.player.getPlayerHandler().getCurrentActionReward()).getInstantDiscountChoices().isEmpty()) || (this.instantDiscountChoice != null && !((ActionRewardGetDevelopmentCard) this.player.getPlayerHandler().getCurrentActionReward()).getInstantDiscountChoices().contains(this.instantDiscountChoice))) {
 			return false;
 		}
 		if (this.resourceCostOption == null && this.discountChoice != null) {
