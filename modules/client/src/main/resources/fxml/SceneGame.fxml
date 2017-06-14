@@ -262,7 +262,6 @@
 				<Pane fx:id="victoryPoint44" layoutX="695.0" layoutY="760.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="victoryPoint43" layoutX="695.0" layoutY="730.5" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="victoryPoint48" layoutX="695.0" layoutY="878.5" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane layoutX="700.0" layoutY="733.0" prefHeight="0.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="victoryPoint49" layoutX="695.0" layoutY="908.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="victoryPoint70" layoutX="51.0" layoutY="940.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="victoryPoint50" layoutX="664.0" layoutY="940.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
