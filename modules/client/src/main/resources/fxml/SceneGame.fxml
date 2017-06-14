@@ -1,4 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.JFXTabPane?><?import com.jfoenix.controls.JFXTextField?><?import javafx.geometry.Insets?><?import javafx.scene.control.*?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?><?import javafx.scene.text.*?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
 <StackPane fx:id="stackPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.client.gui.ControllerGame">
 	<VBox spacing="10.0">
 		<GridPane>
@@ -322,50 +341,280 @@
 				<Pane fx:id="militaryPoint18" layoutX="614.0" layoutY="316.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="militaryPoint25" layoutX="614.0" layoutY="100.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 			</Pane>
-			<VBox fx:id="rightVBox" spacing="5.0" GridPane.columnIndex="1">
+			<VBox fx:id="rightVBox" prefWidth="500.0" spacing="5.0" GridPane.columnIndex="1">
 				<JFXTabPane fx:id="playerTabPanel">
 					<Tab text="Player 1">
 						<AnchorPane>
 							<VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-								<Pane fx:id="playerBoard1DevelopmentCardsVenture" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;" />
-								<Pane fx:id="playerBoard1DevelopmentCardsCharacter" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;" />
-								<Pane fx:id="playerBoard1" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;" />
+								<Pane fx:id="playerBoard1DevelopmentCardsVenture" prefHeight="128.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;">
+                           <children>
+                              <Pane fx:id="player1Venture1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Venture2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Venture3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Venture4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Venture5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Venture6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+                           </children></Pane>
+								<Pane fx:id="playerBoard1DevelopmentCardsCharacter" prefHeight="128.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;">
+                           <children>
+                              <Pane fx:id="player1Character1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Character2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Character3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Character4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Character5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Character6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+                           </children></Pane>
+								<Pane fx:id="playerBoard1" prefHeight="352.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
+                           <children>
+                              <Pane fx:id="player1Building1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Building2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Building3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Building4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Building5" layoutX="346.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Building6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Territory1" layoutX="33.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Territory2" layoutX="114.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Territory3" layoutX="192.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Territory4" layoutX="270.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Territory5" layoutX="346.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player1Territory6" layoutX="423.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+                              <Label fx:id="player1Coin" layoutX="13.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player1Wood" layoutX="95.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player1Stone" layoutX="175.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player1Servant" layoutX="248.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                           </children></Pane>
 							</VBox>
 						</AnchorPane>
 					</Tab>
 					<Tab text="Player 2">
 						<AnchorPane>
 							<VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-								<Pane fx:id="playerBoard2DevelopmentCardsVenture" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;" />
-								<Pane fx:id="playerBoard2DevelopmentCardsCharacter" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;" />
-								<Pane fx:id="playerBoard2" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;" />
+								<Pane fx:id="playerBoard2DevelopmentCardsVenture" prefHeight="128.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;">
+                           <children>
+                              <ImageView fitHeight="128.0" fitWidth="500.0">
+                                 <image>
+                                    <Image url="@../images/player_board_development_cards_venture.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="player2Venture1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Venture2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Venture3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Venture4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Venture5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Venture6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                           </children></Pane>
+								<Pane fx:id="playerBoard2DevelopmentCardsCharacter" prefHeight="128.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;">
+                           <children>
+                              <ImageView fitHeight="128.0" fitWidth="500.0">
+                                 <image>
+                                    <Image url="@../images/player_board_development_cards_character.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="player2Character1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Character2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Character3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Character4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Character5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Character6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                           </children></Pane>
+								<Pane fx:id="playerBoard2" prefHeight="352.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
+                           <children>
+                              <ImageView fitHeight="352.0" fitWidth="500.0">
+                                 <image>
+                                    <Image url="@../images/player_board.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="player2Building1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Building2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Building3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Building4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Building5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Building6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Territory1" layoutX="33.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Territory2" layoutX="114.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Territory3" layoutX="192.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Territory4" layoutX="270.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Territory5" layoutX="347.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player2Territory6" layoutX="423.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Label fx:id="player2Coin" layoutX="13.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player2Wood" layoutX="95.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player2Stone" layoutX="175.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player2Servant" layoutX="248.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                           </children></Pane>
 							</VBox>
 						</AnchorPane>
 					</Tab>
 					<Tab text="Player 3">
 						<AnchorPane>
 							<VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-								<Pane fx:id="playerBoard3DevelopmentCardsVenture" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;" />
-								<Pane fx:id="playerBoard3DevelopmentCardsCharacter" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;" />
-								<Pane fx:id="playerBoard3" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;" />
+								<Pane fx:id="playerBoard3DevelopmentCardsVenture" prefHeight="128.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;">
+                           <children>
+                              <ImageView fitHeight="128.0" fitWidth="500.0">
+                                 <image>
+                                    <Image url="@../images/player_board_development_cards_venture.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="player3Venture1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Venture2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Venture3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Venture4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Venture5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Venture6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                           </children></Pane>
+								<Pane fx:id="playerBoard3DevelopmentCardsCharacter" prefHeight="128.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;">
+                           <children>
+                              <ImageView fitHeight="128.0" fitWidth="500.0">
+                                 <image>
+                                    <Image url="@../images/player_board_development_cards_character.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="player3Character1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Character2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Character3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Character4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Character5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Character6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                           </children></Pane>
+								<Pane fx:id="playerBoard3" prefHeight="352.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
+                           <children>
+                              <ImageView fitHeight="352.0" fitWidth="500.0">
+                                 <image>
+                                    <Image url="@../images/player_board.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="player3Building1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Building2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Building3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Building4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Building5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Building6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Territory1" layoutX="33.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Territory2" layoutX="114.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Territory3" layoutX="192.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Territory4" layoutX="270.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Territory5" layoutX="347.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player3Territory6" layoutX="423.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Label fx:id="player3Coin" layoutX="13.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player3Wood" layoutX="95.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player3Stone" layoutX="175.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player3Servant" layoutX="248.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                           </children></Pane>
 							</VBox>
 						</AnchorPane>
 					</Tab>
 					<Tab text="Player 4">
 						<AnchorPane>
 							<VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-								<Pane fx:id="playerBoard4DevelopmentCardsVenture" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;" />
-								<Pane fx:id="playerBoard4DevelopmentCardsCharacter" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;" />
-								<Pane fx:id="playerBoard4" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;" />
+								<Pane fx:id="playerBoard4DevelopmentCardsVenture" prefHeight="128.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;">
+                           <children>
+                              <ImageView fitHeight="128.0" fitWidth="500.0">
+                                 <image>
+                                    <Image url="@../images/player_board_development_cards_venture.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="player4Venture1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Venture2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Venture3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Venture4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Venture5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Venture6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                           </children></Pane>
+								<Pane fx:id="playerBoard4DevelopmentCardsCharacter" prefHeight="128.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;">
+                           <children>
+                              <ImageView fitHeight="128.0" fitWidth="500.0">
+                                 <image>
+                                    <Image url="@../images/player_board_development_cards_character.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="player4Character1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Character2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Character3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Character4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Character5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Character6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                           </children></Pane>
+								<Pane fx:id="playerBoard4" prefHeight="352.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
+                           <children>
+                              <ImageView fitHeight="352.0" fitWidth="500.0">
+                                 <image>
+                                    <Image url="@../images/player_board.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="player4Building1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Building2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Building3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Building4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Building5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Building6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Territory1" layoutX="33.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Territory2" layoutX="114.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Territory3" layoutX="192.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Territory4" layoutX="270.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Territory5" layoutX="347.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player4Territory6" layoutX="423.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Label fx:id="player4Coin" layoutX="14.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player4Wood" layoutX="95.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player4Stone" layoutX="175.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player4Coin" layoutX="248.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                           </children></Pane>
 							</VBox>
 						</AnchorPane>
 					</Tab>
 					<Tab text="Player 5">
 						<AnchorPane>
 							<VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-								<Pane fx:id="playerBoard5DevelopmentCardsVenture" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;" />
-								<Pane fx:id="playerBoard5DevelopmentCardsCharacter" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;" />
-								<Pane fx:id="playerBoard5" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;" />
+								<Pane fx:id="playerBoard5DevelopmentCardsVenture" prefHeight="128.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;">
+                           <children>
+                              <ImageView fitHeight="128.0" fitWidth="500.0">
+                                 <image>
+                                    <Image url="@../images/player_board_development_cards_venture.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="player5Venture1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Venture2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Venture3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Venture4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Venture5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Venture6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                           </children></Pane>
+								<Pane fx:id="playerBoard5DevelopmentCardsCharacter" prefHeight="128.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;">
+                           <children>
+                              <ImageView fitHeight="128.0" fitWidth="500.0">
+                                 <image>
+                                    <Image url="@../images/player_board_development_cards_character.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="player5Character1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Character2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Character3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Character4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Character5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Character6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                           </children></Pane>
+								<Pane fx:id="playerBoard5" prefHeight="352.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
+                           <children>
+                              <ImageView fitHeight="352.0" fitWidth="500.0">
+                                 <image>
+                                    <Image url="@../images/player_board.png" />
+                                 </image>
+                              </ImageView>
+                              <Pane fx:id="player5Building1" layoutX="33.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Building2" layoutX="114.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Building3" layoutX="192.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Building4" layoutX="270.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Building5" layoutX="347.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Building6" layoutX="423.0" layoutY="14.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Territory1" layoutX="33.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Territory2" layoutX="114.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Territory3" layoutX="192.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Territory4" layoutX="270.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Territory5" layoutX="347.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Pane fx:id="player5Territory6" layoutX="423.0" layoutY="162.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+                              <Label fx:id="player5Coin" layoutX="14.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player5Wood" layoutX="95.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player5Stone" layoutX="175.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player5Servant" layoutX="248.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                           </children></Pane>
 							</VBox>
 						</AnchorPane>
 					</Tab>
