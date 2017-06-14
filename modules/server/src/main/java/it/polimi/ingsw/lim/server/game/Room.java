@@ -64,13 +64,6 @@ public class Room
 		this.timerExecutor.shutdownNow();
 		this.isStarted = true;
 		this.gameHandler = new GameHandler(this);
-		List<String> playerUsernames = new ArrayList<>();
-		for (Connection connection : this.players) {
-			playerUsernames.add(connection.getUsername());
-		}
-		for (Connection connection : this.players) {
-			connection.sendGameStarted(new RoomInformations(this.roomType, playerUsernames));
-		}
 	}
 
 	public static Room getPlayerRoom(Connection connection)
