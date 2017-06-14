@@ -2,7 +2,6 @@ package it.polimi.ingsw.lim.common.network.socket.packets.server;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.game.GameInformations;
-import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 
@@ -13,14 +12,12 @@ public class PacketGameUpdateOtherTurn extends Packet
 {
 	private final GameInformations gameInformations;
 	private final List<PlayerInformations> playersInformations;
-	private final List<AvailableAction> availableActions;
 
-	public PacketGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions)
+	public PacketGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations)
 	{
 		super(PacketType.GAME_UPDATE_OTHER);
 		this.gameInformations = gameInformations;
 		this.playersInformations = new ArrayList<>(playersInformations);
-		this.availableActions = new ArrayList<>(availableActions);
 	}
 
 	public GameInformations getGameInformations()
@@ -31,10 +28,5 @@ public class PacketGameUpdateOtherTurn extends Packet
 	public List<PlayerInformations> getPlayersInformations()
 	{
 		return this.playersInformations;
-	}
-
-	public List<AvailableAction> getAvailableActions()
-	{
-		return this.availableActions;
 	}
 }

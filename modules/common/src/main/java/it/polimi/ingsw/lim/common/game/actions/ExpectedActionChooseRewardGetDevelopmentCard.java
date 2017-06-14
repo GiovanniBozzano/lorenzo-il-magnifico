@@ -12,15 +12,15 @@ public class ExpectedActionChooseRewardGetDevelopmentCard extends ExpectedAction
 {
 	private final List<CardType> cardTypes;
 	private final Row maximumRow;
-	private final List<AvailableActionGetDevelopmentCard> availableActionsGetDevelopmentCard;
+	private final List<AvailableActionChooseRewardGetDevelopmentCard> availableActions;
 	private final List<List<ResourceAmount>> discountChoices;
 
-	public ExpectedActionChooseRewardGetDevelopmentCard(List<CardType> cardTypes, Row maximumRow, List<AvailableActionGetDevelopmentCard> availableActionsGetDevelopmentCard, List<List<ResourceAmount>> discountChoices)
+	public ExpectedActionChooseRewardGetDevelopmentCard(List<CardType> cardTypes, Row maximumRow, List<AvailableActionChooseRewardGetDevelopmentCard> availableActions, List<List<ResourceAmount>> discountChoices)
 	{
 		super(ActionType.CHOOSE_REWARD_GET_DEVELOPMENT_CARD);
 		this.cardTypes = new ArrayList<>(cardTypes);
 		this.maximumRow = maximumRow;
-		this.availableActionsGetDevelopmentCard = new ArrayList<>(availableActionsGetDevelopmentCard);
+		this.availableActions = new ArrayList<>(availableActions);
 		this.discountChoices = new ArrayList<>(discountChoices);
 	}
 
@@ -34,9 +34,9 @@ public class ExpectedActionChooseRewardGetDevelopmentCard extends ExpectedAction
 		return this.maximumRow;
 	}
 
-	public List<AvailableActionGetDevelopmentCard> getAvailableActionsGetDevelopmentCard()
+	public List<AvailableActionChooseRewardGetDevelopmentCard> getAvailableActions()
 	{
-		return this.availableActionsGetDevelopmentCard;
+		return this.availableActions;
 	}
 
 	public List<List<ResourceAmount>> getDiscountChoices()

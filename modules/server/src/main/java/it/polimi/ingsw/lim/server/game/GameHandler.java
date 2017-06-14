@@ -290,40 +290,55 @@ public class GameHandler
 		}
 		for (CardType cardType : this.cardsHandler.getCurrentDevelopmentCards().keySet()) {
 			for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).keySet()) {
+				List<FamilyMemberType> availableFamilyMemberTypes = new ArrayList<>();
+				List<ResourceCostOption> availableResourceCostOptions = new ArrayList<>();
+				List<List<ResourceAmount>> availableDiscountChoises = new ArrayList<>();
 				for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
-					boolean validCardAction = false;
-					List<List<ResourceAmount>> availableDiscountChoises = new ArrayList<>();
+					boolean validFamilyMember = false;
 					if (player.getPlayerHandler().getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE) {
-						if (this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions().isEmpty() && new ActionGetDevelopmentCard(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, null, null).isLegal()) {
-							validCardAction = true;
-						} else {
-							for (ResourceCostOption resourceCostOption : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions()) {
+						continue;
+					}
+					if (this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions().isEmpty()) {
+						if (new ActionGetDevelopmentCard(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, null, null).isLegal()) {
+							validFamilyMember = true;
+						}
+					} else {
+						for (ResourceCostOption resourceCostOption : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions()) {
+							if (discountChoices.isEmpty()) {
+								if (new ActionGetDevelopmentCard(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, null, resourceCostOption).isLegal()) {
+									validFamilyMember = true;
+								}
+							} else {
 								for (List<ResourceAmount> discountChoice : discountChoices) {
 									if (new ActionGetDevelopmentCard(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, discountChoice, resourceCostOption).isLegal()) {
-										validCardAction = true;
-										availableDiscountChoises.add(discountChoice);
-										break;
+										validFamilyMember = true;
+										if (!availableDiscountChoises.contains(discountChoice)) {
+											availableDiscountChoises.add(discountChoice);
+										}
 									}
 								}
-								if (validCardAction) {
-									break;
+							}
+							if (validFamilyMember) {
+								if (!availableResourceCostOptions.contains(resourceCostOption)) {
+									availableResourceCostOptions.add(resourceCostOption);
 								}
 							}
 						}
 					}
-					if (validCardAction) {
-						availableActions.add(new AvailableActionGetDevelopmentCard(cardType, row, availableDiscountChoises));
-						break;
+					if (validFamilyMember) {
+						availableFamilyMemberTypes.add(familyMemberType);
 					}
 				}
+				if (availableFamilyMemberTypes.size() > 0) {
+					availableActions.add(new AvailableActionGetDevelopmentCard(cardType, row, availableFamilyMemberTypes, availableResourceCostOptions, availableDiscountChoises));
+				}
 			}
+		} for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
+		if (player.getPlayerHandler().getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionHarvestStart(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT)).isLegal()) {
+			availableActions.add(new AvailableAction(ActionType.HARVEST_START));
+			break;
 		}
-		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
-			if (player.getPlayerHandler().getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionHarvestStart(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT)).isLegal()) {
-				availableActions.add(new AvailableAction(ActionType.HARVEST_START));
-				break;
-			}
-		}
+	}
 		for (MarketSlot marketSlot : MarketSlot.values()) {
 			for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
 				if (player.getPlayerHandler().getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionMarket(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), marketSlot).isLegal()) {

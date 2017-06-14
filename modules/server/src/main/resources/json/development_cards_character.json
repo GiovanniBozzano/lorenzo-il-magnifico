@@ -26,7 +26,7 @@
 					}
 				]
 			},
-			"permanentBonus": {
+			"modifier": {
 				"type": "CARD",
 				"value": 2,
 				"cardType": "TERRITORY",
@@ -53,7 +53,7 @@
 				"actionReward": null,
 				"resourceAmounts": []
 			},
-			"permanentBonus": {
+			"modifier": {
 				"type": "CARD",
 				"value": 2,
 				"cardType": "BUILDING",
@@ -99,7 +99,7 @@
 				"actionReward": null,
 				"resourceAmounts": []
 			},
-			"permanentBonus": {
+			"modifier": {
 				"type": "CARD",
 				"value": 2,
 				"cardType": "CHARACTER",
@@ -142,7 +142,7 @@
 					}
 				]
 			},
-			"permanentBonus": {
+			"modifier": {
 				"type": "CARD",
 				"value": 2,
 				"cardType": "VENTURE",
@@ -169,7 +169,7 @@
 				"actionReward": null,
 				"resourceAmounts": []
 			},
-			"permanentBonus": {
+			"modifier": {
 				"type": "HARVEST",
 				"value": 2
 			}
@@ -194,7 +194,7 @@
 				"actionReward": null,
 				"resourceAmounts": []
 			},
-			"permanentBonus": {
+			"modifier": {
 				"type": "PRODUCTION",
 				"value": 2
 			}
@@ -225,7 +225,7 @@
 					}
 				]
 			},
-			"permanentBonus": {
+			"modifier": {
 				"type": "MALUS",
 				"rows": [
 					"THIRD",
@@ -269,7 +269,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		}
 	],
 	"secondPeriod": [
@@ -306,7 +306,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		},
 		{
 			"index": 9,
@@ -354,7 +354,7 @@
 				},
 				"resourceAmounts": []
 			},
-			"permanentBonus": null
+			"modifier": null
 		},
 		{
 			"index": 10,
@@ -393,7 +393,7 @@
 				},
 				"resourceAmounts": []
 			},
-			"permanentBonus": null
+			"modifier": null
 		},
 		{
 			"index": 11,
@@ -428,7 +428,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		},
 		{
 			"index": 12,
@@ -450,7 +450,7 @@
 				"actionReward": null,
 				"resourceAmounts": []
 			},
-			"permanentBonus": {
+			"modifier": {
 				"type": "HARVEST",
 				"value": 3
 			}
@@ -475,7 +475,7 @@
 				"actionReward": null,
 				"resourceAmounts": []
 			},
-			"permanentBonus": {
+			"modifier": {
 				"type": "PRODUCTION",
 				"value": 3
 			}
@@ -506,7 +506,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		},
 		{
 			"index": 15,
@@ -534,7 +534,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		}
 	],
 	"thirdPeriod": [
@@ -565,7 +565,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		},
 		{
 			"index": 17,
@@ -594,7 +594,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		},
 		{
 			"index": 18,
@@ -623,7 +623,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		},
 		{
 			"index": 19,
@@ -652,7 +652,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		},
 		{
 			"index": 20,
@@ -683,7 +683,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		},
 		{
 			"index": 21,
@@ -714,7 +714,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		},
 		{
 			"index": 22,
@@ -744,7 +744,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		},
 		{
 			"index": 23,
@@ -782,7 +782,7 @@
 					}
 				]
 			},
-			"permanentBonus": null
+			"modifier": null
 		}
 	]
 }

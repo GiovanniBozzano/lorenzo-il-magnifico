@@ -8,6 +8,7 @@ import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
+import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardCharacter;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
@@ -210,6 +211,9 @@ public class ActionGetDevelopmentCard implements IAction
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.DEVELOPMENT_CARDS);
 		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+		if (developmentCard.getCardType() == CardType.CHARACTER && ((DevelopmentCardCharacter) developmentCard).getModifier() != null) {
+			this.player.getPlayerHandler().getActiveModifiers().add(((DevelopmentCardCharacter) developmentCard).getModifier());
+		}
 		this.player.getPlayerHandler().getFamilyMembersPositions().put(this.familyMemberType, boardPosition);
 		gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).put(this.row, null);
 		if (developmentCard.getReward().getActionReward() != null) {
