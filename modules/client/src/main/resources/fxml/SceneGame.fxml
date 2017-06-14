@@ -49,22 +49,22 @@
 				<RowConstraints fillHeight="false" valignment="TOP" vgrow="SOMETIMES" />
 			</rowConstraints>
 			<Pane fx:id="gameBoard" prefHeight="1008.0" prefWidth="734.0" style="-fx-background-image: url('/images/game_board_5_players.png'); -fx-background-size: stretch;">
-				<Pane layoutX="84.0" layoutY="92.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="84.0" layoutY="209.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_2.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="84.0" layoutY="326.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_3.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="84.0" layoutY="443.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_4.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="210.0" layoutY="92.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_5.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="210.0" layoutY="209.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="210.0" layoutY="326.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_7.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="210.0" layoutY="443.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_8.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="336.0" layoutY="92.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_9.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="336.0" layoutY="209.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_10.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="336.0" layoutY="326.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="336.0" layoutY="443.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_12.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="462.0" layoutY="92.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_13.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="462.0" layoutY="209.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_14.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="462.0" layoutY="326.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_15.png'); -fx-background-size: stretch;" />
-				<Pane layoutX="462.0" layoutY="443.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_16.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="territory4" layoutX="84.0" layoutY="92.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="territory3" layoutX="84.0" layoutY="209.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_2.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="territory2" layoutX="84.0" layoutY="326.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_3.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="territory1" layoutX="84.0" layoutY="443.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_4.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="character4" layoutX="210.0" layoutY="92.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_5.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="character3" layoutX="210.0" layoutY="209.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="character2" layoutX="210.0" layoutY="326.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_7.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="character1" layoutX="210.0" layoutY="443.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_8.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="building4" layoutX="336.0" layoutY="92.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_9.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="building3" layoutX="336.0" layoutY="209.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_10.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="building2" layoutX="336.0" layoutY="326.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="building1" layoutX="336.0" layoutY="443.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_12.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="venture4" layoutX="462.0" layoutY="92.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_13.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="venture3" layoutX="462.0" layoutY="209.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_14.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="venture2" layoutX="462.0" layoutY="326.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_15.png'); -fx-background-size: stretch;" />
+				<Pane fx:id="venture1" layoutX="462.0" layoutY="443.0" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_16.png'); -fx-background-size: stretch;" />
 				<Pane fx:id="productionSmall" layoutX="95.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="productionBig1" layoutX="178.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="productionBig2" layoutX="198.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
@@ -164,22 +164,22 @@
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Pane fx:id="territory1" layoutX="168.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="territory2" layoutX="168.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="territory3" layoutX="168.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="territory4" layoutX="168.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="character1" layoutX="294.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="character2" layoutX="294.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="character3" layoutX="294.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="character4" layoutX="294.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="building1" layoutX="421.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="building2" layoutX="421.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="building3" layoutX="421.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="building4" layoutX="421.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="venture1" layoutX="547.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="venture2" layoutX="547.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="venture3" layoutX="547.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="venture4" layoutX="547.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotTerritory1" layoutX="168.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotTerritory2" layoutX="168.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotTerritory3" layoutX="168.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotTerritory4" layoutX="168.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotCharacter1" layoutX="294.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotCharacter2" layoutX="294.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotCharacter3" layoutX="294.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotCharacter4" layoutX="294.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotBuilding1" layoutX="421.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotBuilding2" layoutX="421.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotBuilding3" layoutX="421.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotBuilding4" layoutX="421.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotVenture1" layoutX="547.0" layoutY="452.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotVenture2" layoutX="547.0" layoutY="334.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotVenture3" layoutX="547.0" layoutY="216.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="slotVenture4" layoutX="547.0" layoutY="98.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="roundPosition5" layoutX="508.0" layoutY="639.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="roundPosition4" layoutX="549.0" layoutY="639.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="roundPosition3" layoutX="549.0" layoutY="605.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
