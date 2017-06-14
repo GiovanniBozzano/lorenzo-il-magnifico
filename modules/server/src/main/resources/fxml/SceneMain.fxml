@@ -9,33 +9,25 @@
 			<rowConstraints>
 				<RowConstraints vgrow="SOMETIMES" />
 			</rowConstraints>
-			<children>
-				<HBox alignment="TOP_RIGHT" GridPane.columnIndex="1">
-					<children>
-						<ImageView fitHeight="12.0" fitWidth="12.0" onMouseClicked="#handleMinimizeImageViewMouseClicked" onMouseEntered="#handleMinimizeImageViewMouseEntered" onMouseExited="#handleMinimizeImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
-							<image>
-								<Image url="@/images/icon_minimize.png" />
-							</image>
-							<HBox.margin>
-								<Insets />
-							</HBox.margin>
-						</ImageView>
-						<ImageView fitHeight="12.0" fitWidth="12.0" onMouseClicked="#handleQuitImageViewMouseClicked" onMouseEntered="#handleQuitImageViewMouseEntered" onMouseExited="#handleQuitImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
-							<image>
-								<Image url="@/images/icon_quit.png" />
-							</image>
-							<HBox.margin>
-								<Insets left="10.0" />
-							</HBox.margin>
-						</ImageView>
-					</children>
-				</HBox>
-				<Label fx:id="connectionLabel" minWidth="-Infinity">
-					<font>
-						<Font name="Roboto" size="12.0" />
-					</font>
-				</Label>
-			</children>
+			<HBox alignment="TOP_RIGHT" GridPane.columnIndex="1">
+				<ImageView fitHeight="12.0" fitWidth="12.0" onMouseClicked="#handleMinimizeImageViewMouseClicked" onMouseEntered="#handleMinimizeImageViewMouseEntered" onMouseExited="#handleMinimizeImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
+					<Image url="@/images/icon_minimize.png" />
+					<HBox.margin>
+						<Insets />
+					</HBox.margin>
+				</ImageView>
+				<ImageView fitHeight="12.0" fitWidth="12.0" onMouseClicked="#handleQuitImageViewMouseClicked" onMouseEntered="#handleQuitImageViewMouseEntered" onMouseExited="#handleQuitImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
+					<Image url="@/images/icon_quit.png" />
+					<HBox.margin>
+						<Insets left="10.0" />
+					</HBox.margin>
+				</ImageView>
+			</HBox>
+			<Label fx:id="connectionLabel" minWidth="-Infinity">
+				<font>
+					<Font name="Roboto" size="12.0" />
+				</font>
+			</Label>
 		</GridPane>
 		<TextArea fx:id="logTextArea" editable="false" prefHeight="280.0">
 			<font>

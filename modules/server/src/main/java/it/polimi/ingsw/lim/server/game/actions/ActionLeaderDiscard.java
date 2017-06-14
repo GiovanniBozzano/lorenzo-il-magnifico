@@ -48,7 +48,7 @@ public class ActionLeaderDiscard implements IAction
 		}
 		// check if the player has the leader card
 		boolean owned = false;
-		for (LeaderCard currentLeaderCard : this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
+		for (LeaderCard currentLeaderCard : this.player.getPlayerHandler().getPlayerCardHandler().getLeaderCards()) {
 			if (this.cardLeaderIndex != currentLeaderCard.getIndex()) {
 				continue;
 			}
@@ -75,7 +75,7 @@ public class ActionLeaderDiscard implements IAction
 			return;
 		}
 		gameHandler.setPhase(Phase.LEADER);
-		this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader().remove(this.leaderCard);
+		this.player.getPlayerHandler().getPlayerCardHandler().getLeaderCards().remove(this.leaderCard);
 		EventGainResources eventGainResources = new EventGainResources(this.player, Collections.singletonList(new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, 1)), ResourcesSource.LEADER_CARDS);
 		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());

@@ -13,20 +13,22 @@ import java.util.Map;
 
 public class PlayerHandler
 {
+	private final int index;
+	private final PersonalBonusTile personalBonusTile;
 	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler();
 	private final PlayerResourceHandler playerResourceHandler = new PlayerResourceHandler(3, 2, 2);
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
 	private final List<Modifier> activeModifiers = new ArrayList<>();
 	private final List<Modifier> temporaryModifiers = new ArrayList<>();
 	private final List<Integer> councilPrivileges = new ArrayList<>();
-	private final PersonalBonusTile personalBonusTile;
 	private int availableTurns = 4;
 	private boolean isOnline = true;
 	private ActionReward currentActionReward;
 	private int currentProductionValue = 0;
 
-	public PlayerHandler(PersonalBonusTile personalBonusTile)
+	public PlayerHandler(int index, PersonalBonusTile personalBonusTile)
 	{
+		this.index = index;
 		this.personalBonusTile = personalBonusTile;
 		this.familyMembersPositions.put(FamilyMemberType.BLACK, BoardPosition.NONE);
 		this.familyMembersPositions.put(FamilyMemberType.ORANGE, BoardPosition.NONE);
@@ -42,6 +44,16 @@ public class PlayerHandler
 			}
 		}
 		return false;
+	}
+
+	public int getIndex()
+	{
+		return this.index;
+	}
+
+	public PersonalBonusTile getPersonalBonusTile()
+	{
+		return this.personalBonusTile;
 	}
 
 	public PlayerCardHandler getPlayerCardHandler()
@@ -67,11 +79,6 @@ public class PlayerHandler
 	public List<Integer> getCouncilPrivileges()
 	{
 		return this.councilPrivileges;
-	}
-
-	public PersonalBonusTile getPersonalBonusTile()
-	{
-		return this.personalBonusTile;
 	}
 
 	public List<Modifier> getTemporaryModifiers()

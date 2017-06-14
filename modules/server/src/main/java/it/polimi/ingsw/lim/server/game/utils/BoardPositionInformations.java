@@ -7,8 +7,8 @@ import java.util.List;
 
 public class BoardPositionInformations
 {
-	private int value;
-	private List<ResourceAmount> resourceAmounts;
+	private final int value;
+	private final List<ResourceAmount> resourceAmounts;
 
 	public BoardPositionInformations(int value, List<ResourceAmount> resourceAmounts)
 	{

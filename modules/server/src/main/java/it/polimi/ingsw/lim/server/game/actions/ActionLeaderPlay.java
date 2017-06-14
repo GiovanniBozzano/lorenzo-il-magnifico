@@ -47,7 +47,7 @@ public class ActionLeaderPlay implements IAction
 		}
 		// check if the player has the leader card
 		boolean owned = false;
-		for (LeaderCard currentLeaderCard : this.player.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
+		for (LeaderCard currentLeaderCard : this.player.getPlayerHandler().getPlayerCardHandler().getLeaderCards()) {
 			if (this.cardLeaderIndex == currentLeaderCard.getIndex()) {
 				this.leaderCard = currentLeaderCard;
 				owned = true;

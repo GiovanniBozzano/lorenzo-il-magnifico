@@ -1,8 +1,8 @@
 package it.polimi.ingsw.lim.common.network.socket.packets.server;
 
-import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 
@@ -14,15 +14,15 @@ public class PacketGameUpdate extends Packet
 	private final boolean ownTurn;
 	private final GameInformations gameInformations;
 	private final List<PlayerInformations> playersInformations;
-	private final List<ActionType> availableActions;
+	private final List<AvailableAction> availableActions;
 
-	public PacketGameUpdate(boolean ownTurn, GameInformations gameInformations, List<PlayerInformations> playersInformations, List<ActionType> availableActions)
+	public PacketGameUpdate(boolean ownTurn, GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions)
 	{
 		super(PacketType.GAME_UPDATE);
 		this.ownTurn = ownTurn;
 		this.gameInformations = gameInformations;
 		this.playersInformations = new ArrayList<>(playersInformations);
-		this.availableActions = availableActions;
+		this.availableActions = new ArrayList<>(availableActions);
 	}
 
 	public boolean isOwnTurn()
@@ -40,7 +40,7 @@ public class PacketGameUpdate extends Packet
 		return this.playersInformations;
 	}
 
-	public List<ActionType> getAvailableActions()
+	public List<AvailableAction> getAvailableActions()
 	{
 		return this.availableActions;
 	}

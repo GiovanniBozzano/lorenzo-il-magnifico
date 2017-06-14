@@ -2,24 +2,18 @@
 <StackPane fx:id="stackPane" onMouseDragged="#handleStackPaneMouseDragged" onMousePressed="#handleStackPaneMousePressed" style="-fx-border-color: #757575; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.client.gui.ControllerAuthentication">
 	<VBox spacing="10.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
 		<HBox alignment="TOP_RIGHT">
-			<children>
-				<ImageView fitHeight="12.0" fitWidth="12.0" onMouseClicked="#handleMinimizeImageViewMouseClicked" onMouseEntered="#handleMinimizeImageViewMouseEntered" onMouseExited="#handleMinimizeImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
-					<image>
-						<Image url="@/images/icon_minimize.png" />
-					</image>
-					<HBox.margin>
-						<Insets />
-					</HBox.margin>
-				</ImageView>
-				<ImageView fitHeight="12.0" fitWidth="12.0" onMouseClicked="#handleQuitImageViewMouseClicked" onMouseEntered="#handleQuitImageViewMouseEntered" onMouseExited="#handleQuitImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
-					<image>
-						<Image url="@/images/icon_quit.png" />
-					</image>
-					<HBox.margin>
-						<Insets left="10.0" />
-					</HBox.margin>
-				</ImageView>
-			</children>
+			<ImageView fitHeight="12.0" fitWidth="12.0" onMouseClicked="#handleMinimizeImageViewMouseClicked" onMouseEntered="#handleMinimizeImageViewMouseEntered" onMouseExited="#handleMinimizeImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
+				<Image url="@/images/icon_minimize.png" />
+				<HBox.margin>
+					<Insets />
+				</HBox.margin>
+			</ImageView>
+			<ImageView fitHeight="12.0" fitWidth="12.0" onMouseClicked="#handleQuitImageViewMouseClicked" onMouseEntered="#handleQuitImageViewMouseEntered" onMouseExited="#handleQuitImageViewMouseExited" pickOnBounds="true" preserveRatio="true">
+				<Image url="@/images/icon_quit.png" />
+				<HBox.margin>
+					<Insets left="10.0" />
+				</HBox.margin>
+			</ImageView>
 		</HBox>
 		<JFXTextField fx:id="usernameTextField" labelFloat="true" promptText="Enter valid username...">
 			<VBox.margin>

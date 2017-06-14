@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.game.cards.leaders;
 
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
+import it.polimi.ingsw.lim.server.enums.LeaderCardType;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
 
@@ -11,9 +12,9 @@ public class LeaderCardReward extends LeaderCard
 	private final Reward reward;
 	private boolean activated = false;
 
-	public LeaderCardReward(String displayName, int index, List<LeaderCardConditionsOption> conditionsOptions, String description, Reward reward)
+	public LeaderCardReward(int index, String displayName, List<LeaderCardConditionsOption> conditionsOptions, String description, Reward reward)
 	{
-		super(displayName, index, conditionsOptions, description);
+		super(index, displayName, LeaderCardType.REWARD, conditionsOptions, description);
 		this.reward = reward;
 	}
 

@@ -1,10 +1,11 @@
-package it.polimi.ingsw.lim.server.game.cards;
+package it.polimi.ingsw.lim.server.game.board;
 
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
+import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.events.*;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 

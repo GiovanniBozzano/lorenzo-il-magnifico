@@ -18,7 +18,7 @@ public class ActionProductionStart implements IAction
 {
 	private final Connection player;
 	private final FamilyMemberType familyMemberType;
-	private int servants;
+	private final int servants;
 	private WorkSlotType workSlotType;
 	private int effectiveActionValue;
 

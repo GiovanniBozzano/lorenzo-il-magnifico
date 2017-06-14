@@ -21,7 +21,7 @@ import java.util.List;
 public class ActionChooseRewardHarvest implements IAction
 {
 	private final Connection player;
-	private int servants;
+	private final int servants;
 
 	public ActionChooseRewardHarvest(Connection player, int servants)
 	{

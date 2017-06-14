@@ -2,22 +2,22 @@ package it.polimi.ingsw.lim.server.game.cards;
 
 public abstract class Card
 {
-	private final String displayName;
 	private final int index;
+	private final String displayName;
 
-	Card(String displayName, int index)
+	Card(int index, String displayName)
 	{
-		this.displayName = displayName;
 		this.index = index;
-	}
-
-	public String getDisplayName()
-	{
-		return this.displayName;
+		this.displayName = displayName;
 	}
 
 	public int getIndex()
 	{
 		return this.index;
+	}
+
+	public String getDisplayName()
+	{
+		return this.displayName;
 	}
 }

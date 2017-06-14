@@ -1,11 +1,19 @@
 package it.polimi.ingsw.lim.server.game;
 
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
+import it.polimi.ingsw.lim.common.game.actions.AvailableActionGetDevelopmentCard;
+import it.polimi.ingsw.lim.common.game.actions.AvailableActionMarket;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardStatus;
+import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
+import it.polimi.ingsw.lim.server.enums.LeaderCardType;
+import it.polimi.ingsw.lim.server.game.actions.*;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
-import it.polimi.ingsw.lim.server.game.events.Event;
 import it.polimi.ingsw.lim.server.game.events.EventFirstTurn;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
@@ -39,17 +47,17 @@ public class GameHandler
 		this.developmentCardsCharacters.shuffle();
 		this.developmentCardsTerritory.shuffle();
 		this.developmentCardsVenture.shuffle();
-		List<PersonalBonusTile> personalBonusTiles = Arrays.asList(PersonalBonusTile.values());
-		for (Connection player : this.room.getPlayers()) {
-			PersonalBonusTile personalBonusTile = personalBonusTiles.get(this.randomGenerator.nextInt(personalBonusTiles.size()));
-			personalBonusTiles.remove(personalBonusTile);
-			player.setPlayerHandler(new PlayerHandler(personalBonusTile));
-		}
 		this.turnOrder.addAll(this.room.getPlayers());
 		Collections.shuffle(this.turnOrder, this.randomGenerator);
+		List<PersonalBonusTile> personalBonusTiles = Arrays.asList(PersonalBonusTile.values());
+		int currentIndex = 0;
 		int startingCoins = 5;
 		for (Connection player : this.turnOrder) {
+			PersonalBonusTile personalBonusTile = personalBonusTiles.get(this.randomGenerator.nextInt(personalBonusTiles.size()));
+			personalBonusTiles.remove(personalBonusTile);
+			player.setPlayerHandler(new PlayerHandler(currentIndex, personalBonusTile));
 			player.getPlayerHandler().getPlayerResourceHandler().addResource(ResourceType.COIN, startingCoins);
+			currentIndex++;
 			startingCoins++;
 		}
 		this.setupRound();
@@ -141,7 +149,7 @@ public class GameHandler
 	{
 		this.phase = Phase.LEADER;
 		this.expectedAction = null;
-		for (Modifier<? extends Event> temporaryModifier : this.turnPlayer.getPlayerHandler().getTemporaryModifiers()) {
+		for (Modifier temporaryModifier : this.turnPlayer.getPlayerHandler().getTemporaryModifiers()) {
 			this.turnPlayer.getPlayerHandler().getActiveModifiers().remove(temporaryModifier);
 		}
 		this.turnPlayer.getPlayerHandler().getTemporaryModifiers().clear();
@@ -149,7 +157,7 @@ public class GameHandler
 			this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().addResource(resourceType, this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(resourceType));
 		}
 		this.turnPlayer.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().clear();
-		for (LeaderCard leaderCard : this.turnPlayer.getPlayerHandler().getPlayerCardHandler().getCardsLeader()) {
+		for (LeaderCard leaderCard : this.turnPlayer.getPlayerHandler().getPlayerCardHandler().getLeaderCards()) {
 			if (leaderCard instanceof LeaderCardReward) {
 				((LeaderCardReward) leaderCard).setActivated(false);
 			}
@@ -194,6 +202,127 @@ public class GameHandler
 	{
 		int index = this.turnOrder.indexOf(this.turnPlayer);
 		return index + 1 >= this.turnOrder.size() ? this.turnOrder.get(0) : this.turnOrder.get(index + 1);
+	}
+
+	private GameInformations generateGameInformations()
+	{
+		Map<Row, Integer> developmentCardsBuildingInformations = new EnumMap<>(Row.class);
+		for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(CardType.BUILDING).keySet()) {
+			DevelopmentCard developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.BUILDING).get(row);
+			developmentCardsBuildingInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
+		}
+		Map<Row, Integer> developmentCardsCharacterInformations = new EnumMap<>(Row.class);
+		for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(CardType.CHARACTER).keySet()) {
+			DevelopmentCard developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.CHARACTER).get(row);
+			developmentCardsCharacterInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
+		}
+		Map<Row, Integer> developmentCardsTerritoryInformations = new EnumMap<>(Row.class);
+		for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(CardType.TERRITORY).keySet()) {
+			DevelopmentCard developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.TERRITORY).get(row);
+			developmentCardsTerritoryInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
+		}
+		Map<Row, Integer> developmentCardsVentureInformations = new EnumMap<>(Row.class);
+		for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(CardType.VENTURE).keySet()) {
+			DevelopmentCard developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.VENTURE).get(row);
+			developmentCardsVentureInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
+		}
+		Map<Integer, Integer> turnOrderInformations = new HashMap<>();
+		int currentPlace = 0;
+		for (Connection player : this.turnOrder) {
+			turnOrderInformations.put(currentPlace, player.getPlayerHandler().getIndex());
+			currentPlace++;
+		}
+		Map<Integer, Integer> councilPalaceOrderInformations = new HashMap<>();
+		currentPlace = 0;
+		for (Connection player : this.boardHandler.getCouncilPalaceOrder()) {
+			councilPalaceOrderInformations.put(currentPlace, player.getPlayerHandler().getIndex());
+			currentPlace++;
+		}
+		return new GameInformations(developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, turnOrderInformations, councilPalaceOrderInformations);
+	}
+
+	private List<PlayerInformations> generatePlayersInformations()
+	{
+		List<PlayerInformations> playersInformations = new ArrayList<>();
+		for (Connection player : this.room.getPlayers()) {
+			List<Integer> developmentCardsBuildingInformations = new ArrayList<>();
+			for (DevelopmentCardBuilding developmentCardBuilding : player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.BUILDING, DevelopmentCardBuilding.class)) {
+				developmentCardsBuildingInformations.add(developmentCardBuilding.getIndex());
+			}
+			List<Integer> developmentCardsCharacterInformations = new ArrayList<>();
+			for (DevelopmentCardCharacter developmentCardCharacter : player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.CHARACTER, DevelopmentCardCharacter.class)) {
+				developmentCardsCharacterInformations.add(developmentCardCharacter.getIndex());
+			}
+			List<Integer> developmentCardsTerritoryInformations = new ArrayList<>();
+			for (DevelopmentCardTerritory developmentCardTerritory : player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
+				developmentCardsTerritoryInformations.add(developmentCardTerritory.getIndex());
+			}
+			List<Integer> developmentCardsVentureInformations = new ArrayList<>();
+			for (DevelopmentCardVenture developmentCardVenture : player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.VENTURE, DevelopmentCardVenture.class)) {
+				developmentCardsVentureInformations.add(developmentCardVenture.getIndex());
+			}
+			Map<Integer, LeaderCardStatus> leaderCardsStatuses = new HashMap<>();
+			for (LeaderCard leaderCard : player.getPlayerHandler().getPlayerCardHandler().getLeaderCards()) {
+				leaderCardsStatuses.put(leaderCard.getIndex(), new LeaderCardStatus(leaderCard.isPlayed(), leaderCard.getLeaderCardType() == LeaderCardType.MODIFIER ? leaderCard.isPlayed() : ((LeaderCardReward) leaderCard).isActivated()));
+			}
+			playersInformations.add(new PlayerInformations(player.getPlayerHandler().getIndex(), developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, leaderCardsStatuses, player.getPlayerHandler().getPlayerResourceHandler().getResources(), player.getPlayerHandler().getFamilyMembersPositions()));
+		}
+		return playersInformations;
+	}
+
+	private List<AvailableAction> generateAvailableActions(Connection player)
+	{
+		List<AvailableAction> availableActions = new ArrayList<>();
+		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
+			if (player.getPlayerHandler().getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionCouncilPalace(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT)).isLegal()) {
+				availableActions.add(new AvailableAction(ActionType.COUNCIL_PALACE));
+				break;
+			}
+		}
+		for (CardType cardType : this.cardsHandler.getCurrentDevelopmentCards().keySet()) {
+			for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).keySet()) {
+				for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
+					boolean validCardAction = false;
+					if (player.getPlayerHandler().getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE) {
+						if (this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions().isEmpty() && new ActionGetDevelopmentCard(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, null).isLegal()) {
+							validCardAction = true;
+						} else {
+							for (ResourceCostOption resourceCostOption : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions()) {
+								if (new ActionGetDevelopmentCard(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, resourceCostOption).isLegal()) {
+									validCardAction = true;
+									break;
+								}
+							}
+						}
+					}
+					if (validCardAction) {
+						availableActions.add(new AvailableActionGetDevelopmentCard(cardType, row));
+						break;
+					}
+				}
+			}
+		}
+		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
+			if (player.getPlayerHandler().getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionHarvestStart(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT)).isLegal()) {
+				availableActions.add(new AvailableAction(ActionType.HARVEST_START));
+				break;
+			}
+		}
+		for (MarketSlot marketSlot : MarketSlot.values()) {
+			for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
+				if (player.getPlayerHandler().getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionMarket(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), marketSlot).isLegal()) {
+					availableActions.add(new AvailableActionMarket(marketSlot));
+					break;
+				}
+			}
+		}
+		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
+			if (player.getPlayerHandler().getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionProductionStart(player, familyMemberType, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT)).isLegal()) {
+				availableActions.add(new AvailableAction(ActionType.PRODUCTION_START));
+				break;
+			}
+		}
+		return availableActions;
 	}
 
 	public CardsHandler getCardsHandler()

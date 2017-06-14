@@ -16,6 +16,6 @@ public class ServerSettings
 
 	public int getRoomTimer()
 	{
-		return this.roomTimer;
+		return ServerSettings.roomTimer;
 	}
 }

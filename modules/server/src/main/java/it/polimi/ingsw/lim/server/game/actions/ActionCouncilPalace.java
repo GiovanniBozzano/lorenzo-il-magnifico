@@ -17,7 +17,7 @@ public class ActionCouncilPalace implements IAction
 {
 	private final Connection player;
 	private final FamilyMemberType familyMemberType;
-	private int servants;
+	private final int servants;
 
 	public ActionCouncilPalace(Connection player, FamilyMemberType familyMemberType, int servants)
 	{

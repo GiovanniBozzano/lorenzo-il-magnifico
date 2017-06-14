@@ -57,7 +57,7 @@ public class PlayerCardHandler
 		return this.developmentCards.get(cardType).size() < 6;
 	}
 
-	public List<LeaderCard> getCardsLeader()
+	public List<LeaderCard> getLeaderCards()
 	{
 		return this.leaderCards;
 	}

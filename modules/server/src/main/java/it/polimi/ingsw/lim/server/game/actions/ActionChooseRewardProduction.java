@@ -12,7 +12,7 @@ import it.polimi.ingsw.lim.server.network.Connection;
 public class ActionChooseRewardProduction implements IAction
 {
 	private final Connection player;
-	private int servants;
+	private final int servants;
 
 	public ActionChooseRewardProduction(Connection player, int servants)
 	{

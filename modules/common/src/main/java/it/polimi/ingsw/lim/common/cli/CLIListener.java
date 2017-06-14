@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public abstract class CLIListener extends Thread
 {
-	private Scanner scanner = new Scanner(System.in);
+	private final Scanner scanner = new Scanner(System.in);
 	private boolean keepGoing = true;
 
 	@Override
