@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.server.enums.LeaderCardType;
 
@@ -12,12 +13,19 @@ public abstract class LeaderCard extends Card
 	private final String description;
 	private boolean played = false;
 
-	public LeaderCard(int index, String texturePath, String displayName, LeaderCardType leaderCardType, List<LeaderCardConditionsOption> conditionsOptions, String description)
+	public LeaderCard(int index, String texturePath, String displayName, String description, LeaderCardType leaderCardType, List<LeaderCardConditionsOption> conditionsOptions)
 	{
 		super(index, texturePath, displayName);
+		this.description = description;
 		this.leaderCardType = leaderCardType;
 		this.conditionsOptions = conditionsOptions;
-		this.description = description;
+	}
+
+	public abstract LeaderCardInformations getInformations();
+
+	public String getDescription()
+	{
+		return this.description;
 	}
 
 	public LeaderCardType getLeaderCardType()
@@ -28,11 +36,6 @@ public abstract class LeaderCard extends Card
 	public List<LeaderCardConditionsOption> getConditionsOptions()
 	{
 		return this.conditionsOptions;
-	}
-
-	public String getDescription()
-	{
-		return this.description;
 	}
 
 	public boolean isPlayed()

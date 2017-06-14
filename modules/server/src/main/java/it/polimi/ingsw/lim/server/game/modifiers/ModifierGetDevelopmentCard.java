@@ -18,9 +18,9 @@ public class ModifierGetDevelopmentCard extends Modifier<EventGetDevelopmentCard
 	private final CardType cardType;
 	private final List<List<ResourceAmount>> discoutChoices;
 
-	public ModifierGetDevelopmentCard(int value, CardType cardType, List<List<ResourceAmount>> discountChoices)
+	public ModifierGetDevelopmentCard(String description, int value, CardType cardType, List<List<ResourceAmount>> discountChoices)
 	{
-		super(EventGetDevelopmentCard.class);
+		super(EventGetDevelopmentCard.class, description);
 		this.value = value;
 		this.cardType = cardType;
 		this.discoutChoices = discountChoices;

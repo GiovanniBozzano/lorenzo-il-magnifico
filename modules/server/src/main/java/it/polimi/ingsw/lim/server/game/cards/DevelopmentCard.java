@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
+import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
 
@@ -20,6 +21,8 @@ public abstract class DevelopmentCard extends Card
 		this.resourceCostOptions = new ArrayList<>(resourceCostOptions);
 		this.reward = reward;
 	}
+
+	public abstract DevelopmentCardInformations getInformations();
 
 	public CardType getCardType()
 	{

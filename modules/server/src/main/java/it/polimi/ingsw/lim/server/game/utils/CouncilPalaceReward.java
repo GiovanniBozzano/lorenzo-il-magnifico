@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.game.utils;
 
+import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 
 import java.util.List;
@@ -13,6 +14,11 @@ public class CouncilPalaceReward
 	{
 		this.index = index;
 		this.resourceAmounts = resourceAmounts;
+	}
+
+	public CouncilPalaceRewardInformations getInformations()
+	{
+		return new CouncilPalaceRewardInformations(this.index, this.resourceAmounts);
 	}
 
 	public int getIndex()

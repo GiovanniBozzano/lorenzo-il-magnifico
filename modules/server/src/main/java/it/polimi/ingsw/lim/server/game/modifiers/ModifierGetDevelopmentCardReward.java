@@ -14,9 +14,9 @@ public class ModifierGetDevelopmentCardReward extends Modifier<EventGetDevelopme
 	private final CardType cardType;
 	private final Row[] rows;
 
-	public ModifierGetDevelopmentCardReward(CardType cardType, Row[] rows)
+	public ModifierGetDevelopmentCardReward(String description, CardType cardType, Row[] rows)
 	{
-		super(EventGetDevelopmentCard.class);
+		super(EventGetDevelopmentCard.class, description);
 		this.cardType = cardType;
 		this.rows = rows;
 	}

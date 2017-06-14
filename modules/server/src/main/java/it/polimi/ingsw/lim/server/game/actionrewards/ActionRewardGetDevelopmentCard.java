@@ -26,9 +26,9 @@ public class ActionRewardGetDevelopmentCard extends ActionReward
 	private final Map<CardType, Row> maximumRows;
 	private final List<List<ResourceAmount>> instantDiscountChoices;
 
-	public ActionRewardGetDevelopmentCard(Map<CardType, Row> maximumRows, List<List<ResourceAmount>> instantDiscountChoices)
+	public ActionRewardGetDevelopmentCard(String description, Map<CardType, Row> maximumRows, List<List<ResourceAmount>> instantDiscountChoices)
 	{
-		super(ActionType.CHOOSE_REWARD_GET_DEVELOPMENT_CARD);
+		super(description, ActionType.CHOOSE_REWARD_GET_DEVELOPMENT_CARD);
 		this.maximumRows = new HashMap<>(maximumRows);
 		this.instantDiscountChoices = new ArrayList<>(instantDiscountChoices);
 	}

@@ -11,9 +11,9 @@ public class ModifierStartProduction extends Modifier<EventStartProduction>
 {
 	private final int value;
 
-	public ModifierStartProduction(int value)
+	public ModifierStartProduction(String description, int value)
 	{
-		super(EventStartProduction.class);
+		super(EventStartProduction.class, description);
 		this.value = value;
 	}
 

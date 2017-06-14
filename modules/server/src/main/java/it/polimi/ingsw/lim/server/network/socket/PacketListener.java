@@ -1,8 +1,13 @@
 package it.polimi.ingsw.lim.server.network.socket;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
+import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
+import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
+import it.polimi.ingsw.lim.common.game.cards.ExcommunicationTileInformations;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketAuthentication;
@@ -11,6 +16,12 @@ import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistrati
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.game.board.BoardHandler;
+import it.polimi.ingsw.lim.server.game.board.ExcommunicationTile;
+import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
+import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
+import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
+import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
@@ -99,6 +110,33 @@ class PacketListener extends Thread
 				return false;
 			}
 			this.connectionSocket.setUsername(trimmedUsername);
+			List<DevelopmentCardInformations> developmentCardsInformations = new ArrayList<>();
+			for (Period period : Period.values()) {
+				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_BUILDING.getPeriods().get(period)) {
+					developmentCardsInformations.add(developmentCard.getInformations());
+				}
+				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.getPeriods().get(period)) {
+					developmentCardsInformations.add(developmentCard.getInformations());
+				}
+				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.getPeriods().get(period)) {
+					developmentCardsInformations.add(developmentCard.getInformations());
+				}
+				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_VENTURE.getPeriods().get(period)) {
+					developmentCardsInformations.add(developmentCard.getInformations());
+				}
+			}
+			List<LeaderCardInformations> leaderCardsInformations = new ArrayList<>();
+			for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
+				leaderCardsInformations.add(leaderCard.getInformations());
+			}
+			List<ExcommunicationTileInformations> excommunicationTilesInformations = new ArrayList<>();
+			for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
+				excommunicationTilesInformations.add(new ExcommunicationTileInformations(excommunicationTile.getIndex(), excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
+			}
+			List<CouncilPalaceRewardInformations> councilPalaceRewardsInformations = new ArrayList<>();
+			for (CouncilPalaceReward councilPalaceReward : BoardHandler.getCouncilPrivilegeRewards()) {
+				councilPalaceRewardsInformations.add(councilPalaceReward.getInformations());
+			}
 			Room playerRoom;
 			if ((playerRoom = Room.getPlayerRoom(trimmedUsername)) == null) {
 				Room targetRoom = null;
@@ -118,7 +156,7 @@ class PacketListener extends Thread
 					player.sendRoomEntryOther(trimmedUsername);
 					playerUsernames.add(player.getUsername());
 				}
-				this.connectionSocket.sendAuthenticationConfirmation(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
+				this.connectionSocket.sendAuthenticationConfirmation(developmentCardsInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, new RoomInformations(targetRoom.getRoomType(), playerUsernames));
 			} else {
 				for (Connection player : playerRoom.getPlayers()) {
 					if (player.getUsername().equals(trimmedUsername)) {
@@ -134,7 +172,7 @@ class PacketListener extends Thread
 				for (Connection player : playerRoom.getPlayers()) {
 					playerUsernames.add(player.getUsername());
 				}
-				this.connectionSocket.sendAuthenticationConfirmation(new RoomInformations(playerRoom.getRoomType(), playerUsernames));
+				this.connectionSocket.sendAuthenticationConfirmation(developmentCardsInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, new RoomInformations(playerRoom.getRoomType(), playerUsernames));
 			}
 		}
 		return true;

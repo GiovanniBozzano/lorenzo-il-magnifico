@@ -55,7 +55,7 @@ public class ActionChooseRewardTemporaryModifier implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		Modifier<EventPlaceFamilyMember> modifier = new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class)
+		Modifier<EventPlaceFamilyMember> modifier = new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "")
 		{
 			@Override
 			public void apply(EventPlaceFamilyMember event)

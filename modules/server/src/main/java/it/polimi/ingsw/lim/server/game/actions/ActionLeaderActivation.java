@@ -83,7 +83,8 @@ public class ActionLeaderActivation implements IAction
 		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		if (((LeaderCardReward) this.leaderCard).getReward().getActionReward() != null) {
-			((LeaderCardReward) this.leaderCard).getReward().getActionReward().apply(this.player);
+			// TODO aggiorno tutti
+			// TODO manda azione reward
 		}
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(BoardHandler.getBoardPositionInformations(BoardPosition.COUNCIL_PALACE).getResourceAmounts());
 		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);

@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeaderCardInformations extends CardInformations
+public abstract class LeaderCardInformations extends CardInformations
 {
 	private final List<LeaderCardConditionsOption> conditionsOptions;
 

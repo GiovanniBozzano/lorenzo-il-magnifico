@@ -5,10 +5,12 @@ import it.polimi.ingsw.lim.server.game.events.Event;
 public abstract class Modifier<T extends Event>
 {
 	private final Class<T> eventClass;
+	private final String description;
 
-	protected Modifier(Class<T> eventClass)
+	protected Modifier(Class<T> eventClass, String description)
 	{
 		this.eventClass = eventClass;
+		this.description = description;
 	}
 
 	public abstract void apply(T event);
@@ -23,5 +25,10 @@ public abstract class Modifier<T extends Event>
 	public Class<T> getEventClass()
 	{
 		return this.eventClass;
+	}
+
+	public String getDescription()
+	{
+		return this.description;
 	}
 }

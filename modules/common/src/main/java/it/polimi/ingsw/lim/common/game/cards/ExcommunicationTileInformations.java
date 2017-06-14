@@ -6,13 +6,13 @@ public class ExcommunicationTileInformations implements Serializable
 {
 	private final int index;
 	private final String texturePath;
-	private final String description;
+	private final String modifier;
 
-	public ExcommunicationTileInformations(int index, String texturePath, String description)
+	public ExcommunicationTileInformations(int index, String texturePath, String modifier)
 	{
 		this.index = index;
 		this.texturePath = texturePath;
-		this.description = description;
+		this.modifier = modifier;
 	}
 
 	public int getIndex()
@@ -25,8 +25,8 @@ public class ExcommunicationTileInformations implements Serializable
 		return this.texturePath;
 	}
 
-	public String getDescription()
+	public String getModifier()
 	{
-		return this.description;
+		return this.modifier;
 	}
 }

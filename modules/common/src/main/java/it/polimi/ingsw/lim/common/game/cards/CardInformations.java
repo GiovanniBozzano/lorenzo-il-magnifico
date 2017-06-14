@@ -5,14 +5,14 @@ import java.io.Serializable;
 public abstract class CardInformations implements Serializable
 {
 	private final int index;
-	private final String displayName;
 	private final String texturePath;
+	private final String displayName;
 
-	CardInformations(int index, String displayName, String texturePath)
+	CardInformations(int index, String texturePath, String displayName)
 	{
 		this.index = index;
-		this.displayName = displayName;
 		this.texturePath = texturePath;
+		this.displayName = displayName;
 	}
 
 	public int getIndex()
@@ -20,13 +20,13 @@ public abstract class CardInformations implements Serializable
 		return this.index;
 	}
 
-	public String getDisplayName()
-	{
-		return this.displayName;
-	}
-
 	public String getTexturePath()
 	{
 		return this.texturePath;
+	}
+
+	public String getDisplayName()
+	{
+		return this.displayName;
 	}
 }

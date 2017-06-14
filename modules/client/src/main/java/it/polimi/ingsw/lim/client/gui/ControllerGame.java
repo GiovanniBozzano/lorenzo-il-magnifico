@@ -398,8 +398,6 @@ public class ControllerGame extends CustomController
 	@FXML private Label player5Stone;
 	@FXML private Label player5Servant;
 
-
-
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{

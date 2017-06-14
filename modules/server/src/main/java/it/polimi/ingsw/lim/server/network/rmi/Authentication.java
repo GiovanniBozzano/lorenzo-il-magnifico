@@ -1,14 +1,25 @@
 package it.polimi.ingsw.lim.server.network.rmi;
 
+import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
+import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
+import it.polimi.ingsw.lim.common.game.cards.ExcommunicationTileInformations;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
 import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.game.board.BoardHandler;
+import it.polimi.ingsw.lim.server.game.board.ExcommunicationTile;
+import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
+import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
+import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
+import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
@@ -75,6 +86,33 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 
 	private AuthenticationInformations finalizeAuthentication(String username, RoomType roomType, IServerSession serverSession) throws RemoteException
 	{
+		List<DevelopmentCardInformations> developmentCardsInformations = new ArrayList<>();
+		for (Period period : Period.values()) {
+			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_BUILDING.getPeriods().get(period)) {
+				developmentCardsInformations.add(developmentCard.getInformations());
+			}
+			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.getPeriods().get(period)) {
+				developmentCardsInformations.add(developmentCard.getInformations());
+			}
+			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.getPeriods().get(period)) {
+				developmentCardsInformations.add(developmentCard.getInformations());
+			}
+			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_VENTURE.getPeriods().get(period)) {
+				developmentCardsInformations.add(developmentCard.getInformations());
+			}
+		}
+		List<LeaderCardInformations> leaderCardsInformations = new ArrayList<>();
+		for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
+			leaderCardsInformations.add(leaderCard.getInformations());
+		}
+		List<ExcommunicationTileInformations> excommunicationTilesInformations = new ArrayList<>();
+		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
+			excommunicationTilesInformations.add(new ExcommunicationTileInformations(excommunicationTile.getIndex(), excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
+		}
+		List<CouncilPalaceRewardInformations> councilPalaceRewardsInformations = new ArrayList<>();
+		for (CouncilPalaceReward councilPalaceReward : BoardHandler.getCouncilPrivilegeRewards()) {
+			councilPalaceRewardsInformations.add(councilPalaceReward.getInformations());
+		}
 		Room playerRoom;
 		if ((playerRoom = Room.getPlayerRoom(username)) == null) {
 			ConnectionRMI connectionRmi = new ConnectionRMI(username, serverSession);
@@ -98,7 +136,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 				player.sendRoomEntryOther(username);
 				playerUsernames.add(player.getUsername());
 			}
-			return new AuthenticationInformations(clientSession, new RoomInformations(targetRoom.getRoomType(), playerUsernames));
+			return new AuthenticationInformations(developmentCardsInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, clientSession, new RoomInformations(targetRoom.getRoomType(), playerUsernames));
 		} else {
 			ConnectionRMI connectionRmi = null;
 			for (Connection player : playerRoom.getPlayers()) {
@@ -118,7 +156,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			for (Connection player : playerRoom.getPlayers()) {
 				playerUsernames.add(player.getUsername());
 			}
-			return new AuthenticationInformations(clientSession, new RoomInformations(playerRoom.getRoomType(), playerUsernames));
+			return new AuthenticationInformations(developmentCardsInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, clientSession, new RoomInformations(playerRoom.getRoomType(), playerUsernames));
 		}
 	}
 

@@ -2,21 +2,22 @@ package it.polimi.ingsw.lim.common.game.cards;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
+import it.polimi.ingsw.lim.common.game.utils.RewardInformations;
 
 import java.util.List;
 
 public class DevelopmentCardCharacterInformations extends DevelopmentCardInformations
 {
-	private final String permanentBonusInformations;
+	private final String modifierInformations;
 
-	public DevelopmentCardCharacterInformations(int index, String displayName, String texturePath, List<ResourceCostOption> resourceCostOptions, String permanentBonusInformations)
+	public DevelopmentCardCharacterInformations(int index, String displayName, String texturePath, List<ResourceCostOption> resourceCostOptions, RewardInformations reward, String modifierInformations)
 	{
-		super(index, displayName, texturePath, CardType.CHARACTER, resourceCostOptions);
-		this.permanentBonusInformations = permanentBonusInformations;
+		super(index, displayName, texturePath, CardType.CHARACTER, resourceCostOptions, reward);
+		this.modifierInformations = modifierInformations;
 	}
 
-	public String getPermanentBonusInformations()
+	public String getModifierInformations()
 	{
-		return this.permanentBonusInformations;
+		return this.modifierInformations;
 	}
 }

@@ -11,9 +11,9 @@ public class ModifierStartHarvest extends Modifier<EventStartHarvest>
 {
 	private final int value;
 
-	public ModifierStartHarvest(int value)
+	public ModifierStartHarvest(String description, int value)
 	{
-		super(EventStartHarvest.class);
+		super(EventStartHarvest.class, description);
 		this.value = value;
 	}
 
