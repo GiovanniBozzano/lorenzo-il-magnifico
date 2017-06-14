@@ -555,7 +555,7 @@
                               <Label fx:id="player4Coin" layoutX="14.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
                               <Label fx:id="player4Wood" layoutX="95.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
                               <Label fx:id="player4Stone" layoutX="175.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
-                              <Label fx:id="player4Coin" layoutX="248.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+                              <Label fx:id="player4Servant" layoutX="248.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
                            </children></Pane>
 							</VBox>
 						</AnchorPane>
