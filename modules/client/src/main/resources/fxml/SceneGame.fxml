@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.*?><?import javafx.geometry.Insets?><?import javafx.scene.control.*?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?><?import javafx.scene.text.*?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
 <StackPane fx:id="stackPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.client.gui.ControllerGame">
 	<VBox spacing="10.0">
 		<GridPane>
@@ -327,7 +349,7 @@
 						<AnchorPane>
 							<VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 								<Pane fx:id="playerBoard1DevelopmentCardsVenture" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player1Venture1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player1Venture1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Venture2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Venture3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Venture4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
@@ -335,7 +357,7 @@
 									<Pane fx:id="player1Venture6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
 								</Pane>
 								<Pane fx:id="playerBoard1DevelopmentCardsCharacter" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player1Character1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player1Character1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Character2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Character3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Character4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
@@ -343,13 +365,13 @@
 									<Pane fx:id="player1Character6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_6.png'); -fx-background-size: stretch;" />
 								</Pane>
 								<Pane fx:id="playerBoard1" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player1Building1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player1Building1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Building2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Building3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Building4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Building5" layoutX="346.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Building6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
-									<Pane fx:id="player1Territory1" layoutX="33.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player1Territory1" layoutX="36.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Territory2" layoutX="114.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Territory3" layoutX="192.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player1Territory4" layoutX="270.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_11.png'); -fx-background-size: stretch;" />
@@ -367,7 +389,7 @@
 						<AnchorPane>
 							<VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 								<Pane fx:id="playerBoard2DevelopmentCardsVenture" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player2Venture1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player2Venture1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Venture2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Venture3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Venture4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
@@ -375,7 +397,7 @@
 									<Pane fx:id="player2Venture6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 								</Pane>
 								<Pane fx:id="playerBoard2DevelopmentCardsCharacter" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player2Character1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player2Character1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Character2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Character3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Character4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
@@ -383,13 +405,13 @@
 									<Pane fx:id="player2Character6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 								</Pane>
 								<Pane fx:id="playerBoard2" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player2Building1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player2Building1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Building2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Building3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Building4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Building5" layoutX="347.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Building6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
-									<Pane fx:id="player2Territory1" layoutX="33.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player2Territory1" layoutX="36.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Territory2" layoutX="114.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Territory3" layoutX="192.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player2Territory4" layoutX="270.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
@@ -407,7 +429,7 @@
 						<AnchorPane>
 							<VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 								<Pane fx:id="playerBoard3DevelopmentCardsVenture" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player3Venture1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player3Venture1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Venture2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Venture3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Venture4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
@@ -415,7 +437,7 @@
 									<Pane fx:id="player3Venture6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 								</Pane>
 								<Pane fx:id="playerBoard3DevelopmentCardsCharacter" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player3Character1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player3Character1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Character2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Character3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Character4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
@@ -423,13 +445,13 @@
 									<Pane fx:id="player3Character6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 								</Pane>
 								<Pane fx:id="playerBoard3" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player3Building1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player3Building1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Building2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Building3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Building4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Building5" layoutX="347.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Building6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
-									<Pane fx:id="player3Territory1" layoutX="33.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player3Territory1" layoutX="36.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Territory2" layoutX="114.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Territory3" layoutX="192.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player3Territory4" layoutX="270.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
@@ -447,7 +469,7 @@
 						<AnchorPane>
 							<VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 								<Pane fx:id="playerBoard4DevelopmentCardsVenture" prefHeight="128.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player4Venture1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player4Venture1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Venture2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Venture3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Venture4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
@@ -455,7 +477,7 @@
 									<Pane fx:id="player4Venture6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 								</Pane>
 								<Pane fx:id="playerBoard4DevelopmentCardsCharacter" prefHeight="128.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player4Character1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player4Character1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Character2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Character3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Character4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
@@ -463,13 +485,13 @@
 									<Pane fx:id="player4Character6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 								</Pane>
 								<Pane fx:id="playerBoard4" prefHeight="352.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player4Building1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player4Building1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Building2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Building3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Building4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Building5" layoutX="347.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Building6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
-									<Pane fx:id="player4Territory1" layoutX="33.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player4Territory1" layoutX="36.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Territory2" layoutX="114.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Territory3" layoutX="192.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player4Territory4" layoutX="270.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
@@ -487,7 +509,7 @@
 						<AnchorPane>
 							<VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 								<Pane fx:id="playerBoard5DevelopmentCardsVenture" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_venture.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player5Venture1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player5Venture1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Venture2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Venture3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Venture4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
@@ -495,7 +517,7 @@
 									<Pane fx:id="player5Venture6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 								</Pane>
 								<Pane fx:id="playerBoard5DevelopmentCardsCharacter" prefHeight="128.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board_development_cards_character.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player5Character1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player5Character1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Character2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Character3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Character4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
@@ -503,13 +525,13 @@
 									<Pane fx:id="player5Character6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 								</Pane>
 								<Pane fx:id="playerBoard5" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
-									<Pane fx:id="player5Building1" layoutX="33.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player5Building1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Building2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Building3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Building4" layoutX="270.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Building5" layoutX="347.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Building6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
-									<Pane fx:id="player5Territory1" layoutX="33.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player5Territory1" layoutX="36.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Territory2" layoutX="114.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Territory3" layoutX="192.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
 									<Pane fx:id="player5Territory4" layoutX="270.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-background-image: url('/images/development_cards_venture_1.png'); -fx-background-size: stretch;" />
