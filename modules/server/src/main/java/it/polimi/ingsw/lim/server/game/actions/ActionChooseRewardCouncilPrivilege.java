@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
-import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
@@ -96,7 +95,7 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().remove(ResourceType.COUNCIL_PRIVILEGE);
+		this.player.getPlayerHandler().getCouncilPrivileges().clear();
 		List<ResourceAmount> resourceReward = new ArrayList<>();
 		for (List<Integer> differentIndexes : this.councilPalaceRewardIndexes) {
 			for (int councilPalaceRewardIndex : differentIndexes) {
@@ -107,10 +106,9 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		if (gameHandler.getPhase() == Phase.LEADER) {
-			// TODO aggiorno tutti
-			// TODO prosegui turno
-		} else {
-			gameHandler.nextTurn();
+			gameHandler.sendGameUpdate(this.player);
+			return;
 		}
+		gameHandler.nextTurn();
 	}
 }

@@ -2,18 +2,21 @@ package it.polimi.ingsw.lim.common.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExpectedActionProductionTrade extends ExpectedAction
 {
-	private final int developmentCardBuildingIndex;
+	private final List<Integer> availableCards;
 
-	public ExpectedActionProductionTrade(int developmentCardBuildingIndex)
+	public ExpectedActionProductionTrade(List<Integer> availableCards)
 	{
 		super(ActionType.PRODUCTION_TRADE);
-		this.developmentCardBuildingIndex = developmentCardBuildingIndex;
+		this.availableCards = new ArrayList<>(availableCards);
 	}
 
-	public int getDevelopmentCardBuildingIndex()
+	public List<Integer> getAvailableCards()
 	{
-		return this.developmentCardBuildingIndex;
+		return this.availableCards;
 	}
 }

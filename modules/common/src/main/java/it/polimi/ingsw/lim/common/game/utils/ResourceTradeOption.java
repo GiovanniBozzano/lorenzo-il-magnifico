@@ -1,8 +1,9 @@
 package it.polimi.ingsw.lim.common.game.utils;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ResourceTradeOption
+public class ResourceTradeOption implements Serializable
 {
 	private final List<ResourceAmount> employedResources;
 	private final List<ResourceAmount> producedResources;

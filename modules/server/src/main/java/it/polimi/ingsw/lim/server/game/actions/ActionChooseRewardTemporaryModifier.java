@@ -69,7 +69,6 @@ public class ActionChooseRewardTemporaryModifier implements IAction
 		this.player.getPlayerHandler().getTemporaryModifiers().add(modifier);
 		this.player.getPlayerHandler().getActiveModifiers().add(modifier);
 		gameHandler.setExpectedAction(null);
-		// TODO aggiorno tutti
-		// TODO prosegui turno
+		gameHandler.sendGameUpdate(this.player);
 	}
 }

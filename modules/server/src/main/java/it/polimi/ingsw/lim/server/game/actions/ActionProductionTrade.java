@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
@@ -84,16 +85,14 @@ public class ActionProductionTrade implements IAction
 			this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
 			this.player.getPlayerHandler().getCouncilPrivileges().add(councilPrivilegesCount);
 			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
-			// TODO aggiorno tutti
-			// TODO manda scelta di privilegio
-		} else {
-			if (gameHandler.getPhase() == Phase.LEADER) {
-				gameHandler.setExpectedAction(null);
-				// TODO aggiorno tutti
-				// TODO prosegui turno
-			} else {
-				gameHandler.nextTurn();
-			}
+			gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
+			return;
 		}
+		if (gameHandler.getPhase() == Phase.LEADER) {
+			gameHandler.setExpectedAction(null);
+			gameHandler.sendGameUpdate(this.player);
+			return;
+		}
+		gameHandler.nextTurn();
 	}
 }

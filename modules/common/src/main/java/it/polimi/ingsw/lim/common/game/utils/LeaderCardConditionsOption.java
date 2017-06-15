@@ -1,8 +1,9 @@
 package it.polimi.ingsw.lim.common.game.utils;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class LeaderCardConditionsOption
+public class LeaderCardConditionsOption implements Serializable
 {
 	private final List<CardAmount> cardAmounts;
 	private final List<ResourceAmount> resourceAmounts;

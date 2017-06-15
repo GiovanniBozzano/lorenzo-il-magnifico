@@ -1,8 +1,9 @@
 package it.polimi.ingsw.lim.common.game.utils;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ResourceCostOption
+public class ResourceCostOption implements Serializable
 {
 	private final List<ResourceAmount> requiredResources;
 	private final List<ResourceAmount> spentResources;

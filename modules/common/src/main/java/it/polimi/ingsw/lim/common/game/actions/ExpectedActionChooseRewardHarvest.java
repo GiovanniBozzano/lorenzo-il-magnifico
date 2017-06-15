@@ -4,16 +4,16 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 
 public class ExpectedActionChooseRewardHarvest extends ExpectedAction
 {
-	private final int servant;
+	private final int value;
 
-	public ExpectedActionChooseRewardHarvest(int servants)
+	public ExpectedActionChooseRewardHarvest(int value)
 	{
 		super(ActionType.CHOOSE_REWARD_HARVEST);
-		this.servant = servants;
+		this.value = value;
 	}
 
-	public int getServant()
+	public int getValue()
 	{
-		return this.servant;
+		return this.value;
 	}
 }

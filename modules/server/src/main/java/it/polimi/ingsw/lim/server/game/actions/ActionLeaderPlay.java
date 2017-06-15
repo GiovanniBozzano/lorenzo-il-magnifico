@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
@@ -81,20 +82,18 @@ public class ActionLeaderPlay implements IAction
 			eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 			this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 			if (((LeaderCardReward) this.leaderCard).getReward().getActionReward() != null) {
-				// TODO aggiorno tutti
-				// TODO manda azione reward
+				gameHandler.sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) this.leaderCard).getReward().getActionReward().createExpectedAction(gameHandler, this.player));
+				return;
 			}
 			int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 			if (councilPrivilegesCount > 0) {
 				this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
 				this.player.getPlayerHandler().getCouncilPrivileges().add(councilPrivilegesCount);
 				gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
-				// TODO aggiorno tutti
-				// TODO manda scelta di privilegio
+				gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
 				return;
 			}
 		}
-		// TODO aggiorno tutti
-		// TODO prosegui turno
+		gameHandler.sendGameUpdate(this.player);
 	}
 }

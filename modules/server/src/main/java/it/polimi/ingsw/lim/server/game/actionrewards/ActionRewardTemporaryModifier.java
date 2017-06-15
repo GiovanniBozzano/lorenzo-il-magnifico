@@ -15,6 +15,6 @@ public class ActionRewardTemporaryModifier extends ActionReward
 	@Override
 	public ExpectedAction createExpectedAction(GameHandler gameHandler, Connection player)
 	{
-		return null;
+		return new ExpectedAction(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER);
 	}
 }

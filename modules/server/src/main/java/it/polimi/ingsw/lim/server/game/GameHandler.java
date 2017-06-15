@@ -5,6 +5,7 @@ import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionGetDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionMarket;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.cards.LeaderCardStatus;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
@@ -82,8 +83,7 @@ public class GameHandler
 		this.turnPlayer = this.turnOrder.get(0);
 		this.rollDices();
 		this.drawCards();
-		// TODO aggiorno tutti
-		// TODO turno primo giocatore
+		this.sendGameUpdate(this.turnPlayer);
 	}
 
 	private void setupPeriod()
@@ -177,8 +177,7 @@ public class GameHandler
 			return;
 		}
 		this.switchPlayer();
-		// TODO aggiorno tutti
-		// TODO turno prossimo giocatore
+		this.sendGameUpdate(this.turnPlayer);
 	}
 
 	private void switchPlayer()
@@ -207,7 +206,28 @@ public class GameHandler
 		return index + 1 >= this.turnOrder.size() ? this.turnOrder.get(0) : this.turnOrder.get(index + 1);
 	}
 
-	public GameInformations generateGameInformations()
+	public void sendGameUpdate(Connection player)
+	{
+		player.sendGameUpdate(this.generateGameInformations(), this.generatePlayersInformations(), this.generateAvailableActions(player));
+		this.sendGameUpdateOtherTurn(player);
+	}
+
+	public void sendGameUpdateExpectedAction(Connection player, ExpectedAction expectedAction)
+	{
+		player.sendGameUpdateExpectedAction(this.generateGameInformations(), this.generatePlayersInformations(), expectedAction);
+		this.sendGameUpdateOtherTurn(player);
+	}
+
+	private void sendGameUpdateOtherTurn(Connection player)
+	{
+		for (Connection otherPlayer : this.room.getPlayers()) {
+			if (otherPlayer != player) {
+				player.sendGameUpdateOtherTurn(this.generateGameInformations(), this.generatePlayersInformations());
+			}
+		}
+	}
+
+	private GameInformations generateGameInformations()
 	{
 		Map<Row, Integer> developmentCardsBuildingInformations = new EnumMap<>(Row.class);
 		for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(CardType.BUILDING).keySet()) {
@@ -244,7 +264,7 @@ public class GameHandler
 		return new GameInformations(developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, turnOrderInformations, councilPalaceOrderInformations);
 	}
 
-	public List<PlayerInformations> generatePlayersInformations()
+	private List<PlayerInformations> generatePlayersInformations()
 	{
 		List<PlayerInformations> playersInformations = new ArrayList<>();
 		for (Connection player : this.room.getPlayers()) {
@@ -273,7 +293,7 @@ public class GameHandler
 		return playersInformations;
 	}
 
-	public List<AvailableAction> generateAvailableActions(Connection player)
+	private List<AvailableAction> generateAvailableActions(Connection player)
 	{
 		List<AvailableAction> availableActions = new ArrayList<>();
 		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
@@ -329,7 +349,7 @@ public class GameHandler
 						availableFamilyMemberTypes.add(familyMemberType);
 					}
 				}
-				if (availableFamilyMemberTypes.size() > 0) {
+				if (!availableFamilyMemberTypes.isEmpty()) {
 					availableActions.add(new AvailableActionGetDevelopmentCard(cardType, row, availableFamilyMemberTypes, availableResourceCostOptions, availableDiscountChoises));
 				}
 			}

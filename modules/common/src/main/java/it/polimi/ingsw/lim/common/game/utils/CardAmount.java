@@ -2,7 +2,9 @@ package it.polimi.ingsw.lim.common.game.utils;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
 
-public class CardAmount
+import java.io.Serializable;
+
+public class CardAmount implements Serializable
 {
 	private final CardType cardType;
 	private final int amount;

@@ -1,18 +1,20 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
-import it.polimi.ingsw.lim.common.enums.ActionType;
-import it.polimi.ingsw.lim.common.enums.BoardPosition;
-import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedActionProductionTrade;
 import it.polimi.ingsw.lim.server.enums.WorkSlotType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
+import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActionProductionStart implements IAction
 {
@@ -92,7 +94,12 @@ public class ActionProductionStart implements IAction
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
 		this.player.getPlayerHandler().setCurrentProductionValue(this.effectiveActionValue);
 		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);
-		// TODO aggiorno tutti
-		// TODO mando azione trade
+		List<Integer> availableCards = new ArrayList<>();
+		for (DevelopmentCardBuilding developmentCardBuilding : this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.BUILDING, DevelopmentCardBuilding.class)) {
+			if (developmentCardBuilding.getActivationValue() <= this.effectiveActionValue) {
+				availableCards.add(developmentCardBuilding.getIndex());
+			}
+		}
+		gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionProductionTrade(availableCards));
 	}
 }

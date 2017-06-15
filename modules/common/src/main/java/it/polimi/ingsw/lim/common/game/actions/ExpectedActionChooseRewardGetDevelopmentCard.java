@@ -6,7 +6,7 @@ import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +19,7 @@ public class ExpectedActionChooseRewardGetDevelopmentCard extends ExpectedAction
 	public ExpectedActionChooseRewardGetDevelopmentCard(Map<CardType, Row> maximumRow, List<AvailableActionChooseRewardGetDevelopmentCard> availableActions, List<List<ResourceAmount>> discountChoices)
 	{
 		super(ActionType.CHOOSE_REWARD_GET_DEVELOPMENT_CARD);
-		this.maximumRows = new HashMap<>(maximumRow);
+		this.maximumRows = new EnumMap<>(maximumRow);
 		this.availableActions = new ArrayList<>(availableActions);
 		this.discountChoices = new ArrayList<>(discountChoices);
 	}
