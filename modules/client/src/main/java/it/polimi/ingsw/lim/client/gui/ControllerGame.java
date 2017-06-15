@@ -5,6 +5,10 @@ import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.utils.Utils;
+import it.polimi.ingsw.lim.common.enums.CardType;
+import it.polimi.ingsw.lim.common.enums.Period;
+import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
@@ -21,7 +25,7 @@ import javafx.stage.Stage;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ControllerGame extends CustomController
 {
@@ -405,6 +409,32 @@ public class ControllerGame extends CustomController
 	@FXML private JFXDialog cardDialog;
 	@FXML private JFXDialogLayout cardDialogLayout;
 	@FXML private Pane cardDialogPane;
+	private final Map<Period, Pane> excommunicationTilesPanes = new EnumMap<>(Period.class);
+	private final Map<Integer, Pane> victoryPointsPanes = new HashMap<>();
+	private final Map<Integer, Pane> militaryPointsPanes = new HashMap<>();
+	private final Map<Integer, Pane> faithPointsPanes = new HashMap<>();
+	private final Map<Integer, Pane> privilegePointsPanes = new HashMap<>();
+	private final Map<Integer, Pane> councilPalacePositionsPanes = new HashMap<>();
+	private final Map<Pane, Label> councilPalacePositionsLabels = new HashMap<>();
+	private final Map<Integer, Pane> turnOrderPositionsPanes = new HashMap<>();
+	private final List<Pane> harvestBigPositionsPanes = new LinkedList<>();
+	private final Map<Pane, Label> harvestBigPositionsLabels = new HashMap<>();
+	private final List<Pane> productionBigPositionsPanes = new LinkedList<>();
+	private final Map<Pane, Label> productionBigPositionsLabels = new HashMap<>();
+	private final Map<Row, Pane> developmentCardsBuildingPanes = new EnumMap<>(Row.class);
+	private final Map<Row, Pane> developmentCardsCharacterPanes = new EnumMap<>(Row.class);
+	private final Map<Row, Pane> developmentCardsTerritoryPanes = new EnumMap<>(Row.class);
+	private final Map<Row, Pane> developmentCardsVenturePanes = new EnumMap<>(Row.class);
+	private final Map<CardType, List<Pane>> player1DevelopmentCards = new EnumMap<>(CardType.class);
+	private final Map<CardType, List<Pane>> player2DevelopmentCards = new EnumMap<>(CardType.class);
+	private final Map<CardType, List<Pane>> player3DevelopmentCards = new EnumMap<>(CardType.class);
+	private final Map<CardType, List<Pane>> player4DevelopmentCards = new EnumMap<>(CardType.class);
+	private final Map<CardType, List<Pane>> player5DevelopmentCards = new EnumMap<>(CardType.class);
+	private final Map<ResourceType, Pane> player1Resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Pane> player2Resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Pane> player3Resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Pane> player4Resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Pane> player5Resources = new EnumMap<>(ResourceType.class);
 
 	@FXML
 	private void boardDevelopmentCardPaneMouseClicked(MouseEvent event)
@@ -692,5 +722,8 @@ public class ControllerGame extends CustomController
 	@Override
 	public void showDialog(String message)
 	{
+		this.getStackPane().getScene().getRoot().requestFocus();
+		this.dialogLabel.setText(message);
+		this.dialog.show();
 	}
 }
