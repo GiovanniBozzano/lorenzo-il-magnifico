@@ -13,9 +13,9 @@ public class PersonalBonusTileInformations extends ObjectInformations
 	private final int harvestActivationCost;
 	private final List<ResourceAmount> harvestInstantResources;
 
-	public PersonalBonusTileInformations(int index, String texture, int productionActivationCost, List<ResourceAmount> productionInstantResources, int harvestActivationCost, List<ResourceAmount> harvestInstantResources)
+	public PersonalBonusTileInformations(String texture, int productionActivationCost, List<ResourceAmount> productionInstantResources, int harvestActivationCost, List<ResourceAmount> harvestInstantResources)
 	{
-		super(index, texture);
+		super(texture);
 		this.productionActivationCost = productionActivationCost;
 		this.productionInstantResources = new ArrayList<>(productionInstantResources);
 		this.harvestActivationCost = harvestActivationCost;

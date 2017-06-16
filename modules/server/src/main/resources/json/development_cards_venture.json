@@ -2,7 +2,7 @@
 	"FIRST": [
 		{
 			"index": 0,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_0.png",
 			"displayName": "Hiring Recruits",
 			"resourceCostOptions": [
 				{
@@ -30,7 +30,7 @@
 		},
 		{
 			"index": 1,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_1.png",
 			"displayName": "Repairing the Church",
 			"resourceCostOptions": [
 				{
@@ -68,7 +68,7 @@
 		},
 		{
 			"index": 2,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_2.png",
 			"displayName": "Buildings the Walls",
 			"resourceCostOptions": [
 				{
@@ -101,7 +101,7 @@
 		},
 		{
 			"index": 3,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_3.png",
 			"displayName": "Raising a Statue",
 			"resourceCostOptions": [
 				{
@@ -134,7 +134,7 @@
 		},
 		{
 			"index": 4,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_4.png",
 			"displayName": "Military Campaign",
 			"resourceCostOptions": [
 				{
@@ -168,7 +168,7 @@
 		},
 		{
 			"index": 5,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_5.png",
 			"displayName": "Hosting Panhandlers",
 			"resourceCostOptions": [
 				{
@@ -196,7 +196,7 @@
 		},
 		{
 			"index": 6,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_6.png",
 			"displayName": "Fighting Heresies",
 			"resourceCostOptions": [
 				{
@@ -230,7 +230,7 @@
 		},
 		{
 			"index": 7,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_7.png",
 			"displayName": "Support to the Bishop",
 			"resourceCostOptions": [
 				{
@@ -286,7 +286,7 @@
 	"SECOND": [
 		{
 			"index": 8,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_8.png",
 			"displayName": "Hiring Soldiers",
 			"resourceCostOptions": [
 				{
@@ -314,7 +314,7 @@
 		},
 		{
 			"index": 9,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_9.png",
 			"displayName": "Repairing the Abbey",
 			"resourceCostOptions": [
 				{
@@ -352,7 +352,7 @@
 		},
 		{
 			"index": 10,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_10.png",
 			"displayName": "Building the Bastions",
 			"resourceCostOptions": [
 				{
@@ -385,7 +385,7 @@
 		},
 		{
 			"index": 11,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_11.png",
 			"displayName": "Support to the King",
 			"resourceCostOptions": [
 				{
@@ -424,7 +424,7 @@
 		},
 		{
 			"index": 12,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_12.png",
 			"displayName": "Improving the Canals",
 			"resourceCostOptions": [
 				{
@@ -454,7 +454,7 @@
 		},
 		{
 			"index": 13,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_13.png",
 			"displayName": "Hosting Foreigners",
 			"resourceCostOptions": [
 				{
@@ -482,7 +482,7 @@
 		},
 		{
 			"index": 14,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_14.png",
 			"displayName": "Crusade",
 			"resourceCostOptions": [
 				{
@@ -521,7 +521,7 @@
 		},
 		{
 			"index": 15,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_15.png",
 			"displayName": "Support to the Cardinal",
 			"resourceCostOptions": [
 				{
@@ -577,7 +577,7 @@
 	"THIRD": [
 		{
 			"index": 16,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_16.png",
 			"displayName": "Hiring Mercenaries",
 			"resourceCostOptions": [
 				{
@@ -605,7 +605,7 @@
 		},
 		{
 			"index": 17,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_17.png",
 			"displayName": "Repairing the Cathedral",
 			"resourceCostOptions": [
 				{
@@ -653,7 +653,7 @@
 		},
 		{
 			"index": 18,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_18.png",
 			"displayName": "Building the Towers",
 			"resourceCostOptions": [
 				{
@@ -686,7 +686,7 @@
 		},
 		{
 			"index": 19,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_19.png",
 			"displayName": "Promoting Sacred Art",
 			"resourceCostOptions": [
 				{
@@ -714,7 +714,7 @@
 		},
 		{
 			"index": 20,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_20.png",
 			"displayName": "Military Conquest",
 			"resourceCostOptions": [
 				{
@@ -758,7 +758,7 @@
 		},
 		{
 			"index": 21,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_21.png",
 			"displayName": "Improving the Roads",
 			"resourceCostOptions": [
 				{
@@ -788,7 +788,7 @@
 		},
 		{
 			"index": 22,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_22.png",
 			"displayName": "Sacred War",
 			"resourceCostOptions": [
 				{
@@ -822,7 +822,7 @@
 		},
 		{
 			"index": 23,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/venture/development_card_venture_23.png",
 			"displayName": "Support to the Pope",
 			"resourceCostOptions": [
 				{

@@ -10,9 +10,9 @@ public class DevelopmentCardCharacterInformations extends DevelopmentCardInforma
 {
 	private final String modifierInformations;
 
-	public DevelopmentCardCharacterInformations(int index, String displayName, String texturePath, List<ResourceCostOption> resourceCostOptions, RewardInformations reward, String modifierInformations)
+	public DevelopmentCardCharacterInformations(String displayName, String texturePath, List<ResourceCostOption> resourceCostOptions, RewardInformations reward, String modifierInformations)
 	{
-		super(index, displayName, texturePath, CardType.CHARACTER, resourceCostOptions, reward);
+		super(displayName, texturePath, CardType.CHARACTER, resourceCostOptions, reward);
 		this.modifierInformations = modifierInformations;
 	}
 

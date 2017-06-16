@@ -13,9 +13,9 @@ public class DevelopmentCardTerritoryInformations extends DevelopmentCardInforma
 	private final int activationValue;
 	private final List<ResourceAmount> harvestResources;
 
-	public DevelopmentCardTerritoryInformations(int index, String displayName, String texturePath, List<ResourceCostOption> resourceCostOptions, RewardInformations reward, int activationValue, List<ResourceAmount> harvestResources)
+	public DevelopmentCardTerritoryInformations(String displayName, String texturePath, List<ResourceCostOption> resourceCostOptions, RewardInformations reward, int activationValue, List<ResourceAmount> harvestResources)
 	{
-		super(index, displayName, texturePath, CardType.TERRITORY, resourceCostOptions, reward);
+		super(displayName, texturePath, CardType.TERRITORY, resourceCostOptions, reward);
 		this.activationValue = activationValue;
 		this.harvestResources = new ArrayList<>(harvestResources);
 	}

@@ -2,7 +2,6 @@ package it.polimi.ingsw.lim.server.game.cards;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardCharacterInformations;
-import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.RewardInformations;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
@@ -21,9 +20,9 @@ public class DevelopmentCardCharacter extends DevelopmentCard
 	}
 
 	@Override
-	public DevelopmentCardInformations getInformations()
+	public DevelopmentCardCharacterInformations getInformations()
 	{
-		return new DevelopmentCardCharacterInformations(this.getIndex(), this.getTexturePath(), this.getDisplayName(), this.getResourceCostOptions(), new RewardInformations(this.getReward().getActionReward().getDescription(), this.getReward().getResourceAmounts()), this.modifier.getDescription());
+		return new DevelopmentCardCharacterInformations(this.getTexturePath(), this.getDisplayName(), this.getResourceCostOptions(), this.getReward() == null ? null : new RewardInformations(this.getReward().getActionReward() == null ? null : this.getReward().getActionReward().getDescription(), this.getReward().getResourceAmounts()), this.modifier == null ? null : this.modifier.getDescription());
 	}
 
 	public Modifier getModifier()

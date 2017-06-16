@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
 import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardVentureInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.RewardInformations;
@@ -20,9 +19,9 @@ public class DevelopmentCardVenture extends DevelopmentCard
 	}
 
 	@Override
-	public DevelopmentCardInformations getInformations()
+	public DevelopmentCardVentureInformations getInformations()
 	{
-		return new DevelopmentCardVentureInformations(this.getIndex(), this.getTexturePath(), this.getDisplayName(), this.getResourceCostOptions(), new RewardInformations(this.getReward().getActionReward().getDescription(), this.getReward().getResourceAmounts()), this.victoryValue);
+		return new DevelopmentCardVentureInformations(this.getTexturePath(), this.getDisplayName(), this.getResourceCostOptions(), this.getReward() == null ? null : new RewardInformations(this.getReward().getActionReward() == null ? null : this.getReward().getActionReward().getDescription(), this.getReward().getResourceAmounts()), this.victoryValue);
 	}
 
 	public int getVictoryValue()

@@ -7,7 +7,7 @@ import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
-import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformations;
+import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsRMI;
 import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
 import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -165,9 +165,9 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		});
 	}
 
-	private void finalizeAuthentication(String username, AuthenticationInformations authenticationInformations)
+	private void finalizeAuthentication(String username, AuthenticationInformationsRMI authenticationInformations)
 	{
-		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getCouncilPalaceRewardInformations());
+		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getCouncilPalaceRewardsInformations(), authenticationInformations.getPersonalBonusTilesInformations());
 		this.clientSession = authenticationInformations.getClientSession();
 		Client.getInstance().setUsername(username);
 		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, true, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));

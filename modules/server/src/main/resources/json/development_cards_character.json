@@ -2,7 +2,7 @@
 	"FIRST": [
 		{
 			"index": 0,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_0.png",
 			"displayName": "Warlord",
 			"resourceCostOptions": [
 				{
@@ -35,7 +35,7 @@
 		},
 		{
 			"index": 1,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_1.png",
 			"displayName": "Stonemason",
 			"resourceCostOptions": [
 				{
@@ -81,7 +81,7 @@
 		},
 		{
 			"index": 2,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_2.png",
 			"displayName": "Dame",
 			"resourceCostOptions": [
 				{
@@ -118,7 +118,7 @@
 		},
 		{
 			"index": 3,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_3.png",
 			"displayName": "Knight",
 			"resourceCostOptions": [
 				{
@@ -151,7 +151,7 @@
 		},
 		{
 			"index": 4,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_4.png",
 			"displayName": "Farmer",
 			"resourceCostOptions": [
 				{
@@ -176,7 +176,7 @@
 		},
 		{
 			"index": 5,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_5.png",
 			"displayName": "Artisan",
 			"resourceCostOptions": [
 				{
@@ -201,7 +201,7 @@
 		},
 		{
 			"index": 6,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_6.png",
 			"displayName": "Preacher",
 			"resourceCostOptions": [
 				{
@@ -235,7 +235,7 @@
 		},
 		{
 			"index": 7,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_7.png",
 			"displayName": "Abbess",
 			"resourceCostOptions": [
 				{
@@ -252,6 +252,7 @@
 			"reward": {
 				"actionReward": {
 					"type": "CARD",
+					"description": "",
 					"value": 4,
 					"cardTypes": [
 						"CHARACTER",
@@ -275,7 +276,7 @@
 	"SECOND": [
 		{
 			"index": 8,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_8.png",
 			"displayName": "Captain",
 			"resourceCostOptions": [
 				{
@@ -292,6 +293,7 @@
 			"reward": {
 				"actionReward": {
 					"type": "CARD",
+					"description": "",
 					"value": 6,
 					"cardTypes": [
 						"TERRITORY"
@@ -310,7 +312,7 @@
 		},
 		{
 			"index": 9,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_9.png",
 			"displayName": "Architect",
 			"resourceCostOptions": [
 				{
@@ -327,6 +329,7 @@
 			"reward": {
 				"actionReward": {
 					"type": "CARD",
+					"description": "",
 					"value": 6,
 					"cardTypes": [
 						"BUILDING"
@@ -358,7 +361,7 @@
 		},
 		{
 			"index": 10,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_10.png",
 			"displayName": "Patron",
 			"resourceCostOptions": [
 				{
@@ -375,6 +378,7 @@
 			"reward": {
 				"actionReward": {
 					"type": "CARD",
+					"description": "",
 					"value": 6,
 					"cardTypes": [
 						"CHARACTER"
@@ -397,7 +401,7 @@
 		},
 		{
 			"index": 11,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_11.png",
 			"displayName": "Hero",
 			"resourceCostOptions": [
 				{
@@ -414,6 +418,7 @@
 			"reward": {
 				"actionReward": {
 					"type": "CARD",
+					"description": "",
 					"value": 6,
 					"cardTypes": [
 						"VENTURE"
@@ -432,7 +437,7 @@
 		},
 		{
 			"index": 12,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_12.png",
 			"displayName": "Peasant",
 			"resourceCostOptions": [
 				{
@@ -457,7 +462,7 @@
 		},
 		{
 			"index": 13,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_13.png",
 			"displayName": "Scholar",
 			"resourceCostOptions": [
 				{
@@ -482,7 +487,7 @@
 		},
 		{
 			"index": 14,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_14.png",
 			"displayName": "Papal Messenger",
 			"resourceCostOptions": [
 				{
@@ -510,7 +515,7 @@
 		},
 		{
 			"index": 15,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_15.png",
 			"displayName": "Royal Messenger",
 			"resourceCostOptions": [
 				{
@@ -540,7 +545,7 @@
 	"THIRD": [
 		{
 			"index": 16,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_16.png",
 			"displayName": "Noble",
 			"resourceCostOptions": [
 				{
@@ -569,7 +574,7 @@
 		},
 		{
 			"index": 17,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_17.png",
 			"displayName": "Governor",
 			"resourceCostOptions": [
 				{
@@ -598,7 +603,7 @@
 		},
 		{
 			"index": 18,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_18.png",
 			"displayName": "Paramour",
 			"resourceCostOptions": [
 				{
@@ -627,7 +632,7 @@
 		},
 		{
 			"index": 19,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_19.png",
 			"displayName": "Herald",
 			"resourceCostOptions": [
 				{
@@ -656,7 +661,7 @@
 		},
 		{
 			"index": 20,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_20.png",
 			"displayName": "Cardinal",
 			"resourceCostOptions": [
 				{
@@ -673,6 +678,7 @@
 			"reward": {
 				"actionReward": {
 					"type": "HARVEST",
+					"description": "",
 					"value": 4
 				},
 				"resourceAmounts": [
@@ -687,7 +693,7 @@
 		},
 		{
 			"index": 21,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_21.png",
 			"displayName": "Bishop",
 			"resourceCostOptions": [
 				{
@@ -704,6 +710,7 @@
 			"reward": {
 				"actionReward": {
 					"type": "PRODUCTION",
+					"description": "",
 					"value": 4
 				},
 				"resourceAmounts": [
@@ -718,7 +725,7 @@
 		},
 		{
 			"index": 22,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_22.png",
 			"displayName": "General",
 			"resourceCostOptions": [
 				{
@@ -748,7 +755,7 @@
 		},
 		{
 			"index": 23,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/character/development_card_character_23.png",
 			"displayName": "Ambassador",
 			"resourceCostOptions": [
 				{
@@ -765,6 +772,7 @@
 			"reward": {
 				"actionReward": {
 					"type": "CARD",
+					"description": "",
 					"value": 7,
 					"cardTypes": [
 						"CHARACTER",

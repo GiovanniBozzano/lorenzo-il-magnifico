@@ -4,34 +4,48 @@ import com.jfoenix.controls.*;
 import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.game.GameStatus;
+import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.enums.Row;
-import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
-import javafx.application.Platform;
+import it.polimi.ingsw.lim.common.utils.WindowFactory;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class ControllerGame extends CustomController
 {
+	private static final Map<Integer, String> BOARD_IMAGES = new HashMap<>();
+
+	static {
+		ControllerGame.BOARD_IMAGES.put(2, "/images/game_board_2_players.png");
+		ControllerGame.BOARD_IMAGES.put(3, "/images/game_board_3_players.png");
+		ControllerGame.BOARD_IMAGES.put(4, "/images/game_board_4_players.png");
+		ControllerGame.BOARD_IMAGES.put(5, "/images/game_board_5_players.png");
+	}
+
 	private static final Map<ResourceType, String> RESOURCES_NAMES = new EnumMap<>(ResourceType.class);
 
 	static {
@@ -62,8 +76,6 @@ public class ControllerGame extends CustomController
 	@FXML private Pane playerBoard3;
 	@FXML private Pane playerBoard4;
 	@FXML private Pane playerBoard5;
-	@FXML private VBox rightVBox;
-	@FXML private JFXTabPane playerTabPanel;
 	@FXML private Pane diceBlack;
 	@FXML private Pane diceWhite;
 	@FXML private Pane diceOrange;
@@ -419,6 +431,18 @@ public class ControllerGame extends CustomController
 	@FXML private Label player5Wood;
 	@FXML private Label player5Stone;
 	@FXML private Label player5Servant;
+	@FXML private Tab player1Tab;
+	@FXML private Tab player2Tab;
+	@FXML private Tab player3Tab;
+	@FXML private Tab player4Tab;
+	@FXML private Tab player5Tab;
+	@FXML private VBox rightVBox;
+	@FXML private JFXTabPane playersTabPane;
+	@FXML private JFXTabPane chatTabPane;
+	@FXML private TextArea chatTextArea;
+	@FXML private TextArea gameLogTextArea;
+	@FXML private JFXNodesList actionsNodesList;
+	@FXML private JFXButton actionsButton;
 	@FXML private JFXDialog dialog;
 	@FXML private JFXDialogLayout dialogLayout;
 	@FXML private Label dialogLabel;
@@ -429,7 +453,7 @@ public class ControllerGame extends CustomController
 	@FXML private JFXDialog personalBonusTileDialog;
 	@FXML private JFXDialogLayout personalBonusTileDialogLayout;
 	@FXML private HBox personalBonusTileDialogHBox;
-	@FXML private JFXButton actionsButton;
+	private final Map<Integer, Tab> playersTabs = new HashMap<>();
 	private final Map<Period, Pane> excommunicationTilesPanes = new EnumMap<>(Period.class);
 	private final Map<Integer, Pane> victoryPointsPanes = new HashMap<>();
 	private final Map<Integer, Pane> militaryPointsPanes = new HashMap<>();
@@ -446,16 +470,19 @@ public class ControllerGame extends CustomController
 	private final Map<Row, Pane> developmentCardsCharacterPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsTerritoryPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsVenturePanes = new EnumMap<>(Row.class);
+	private final Map<CardType, Map<Row, Pane>> developmentCardsPanes = new HashMap<>();
 	private final Map<CardType, List<Pane>> player1DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player2DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player3DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player4DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player5DevelopmentCards = new EnumMap<>(CardType.class);
-	private final Map<ResourceType, Pane> player1Resources = new EnumMap<>(ResourceType.class);
-	private final Map<ResourceType, Pane> player2Resources = new EnumMap<>(ResourceType.class);
-	private final Map<ResourceType, Pane> player3Resources = new EnumMap<>(ResourceType.class);
-	private final Map<ResourceType, Pane> player4Resources = new EnumMap<>(ResourceType.class);
-	private final Map<ResourceType, Pane> player5Resources = new EnumMap<>(ResourceType.class);
+	private final Map<Integer, Map<CardType, List<Pane>>> playersDevelopmentCards = new HashMap<>();
+	private final Map<ResourceType, Label> player1Resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Label> player2Resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Label> player3Resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Label> player4Resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Label> player5Resources = new EnumMap<>(ResourceType.class);
+	private final Map<Integer, Map<ResourceType, Label>> playersResources = new HashMap<>();
 	private final DropShadow borderGlow = new DropShadow();
 
 	@FXML
@@ -465,6 +492,8 @@ public class ControllerGame extends CustomController
 			this.getStage().getScene().getRoot().requestFocus();
 			if (((Pane) event.getSource()).getBackground() != null) {
 				this.cardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
+				this.cardDialog.layout();
+				this.getStage().getScene().getRoot().requestFocus();
 				this.cardDialog.show();
 			}
 		}
@@ -483,6 +512,22 @@ public class ControllerGame extends CustomController
 	}
 
 	@FXML
+	private void handleChatTextAreaAction(ActionEvent event)
+	{
+		String text = ((TextField) event.getSource()).getText().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
+		if (text.length() < 1) {
+			return;
+		}
+		((TextField) event.getSource()).clear();
+		Client.getInstance().getConnectionHandler().sendChatMessage(text);
+		if (this.chatTextArea.getText().length() < 1) {
+			this.chatTextArea.appendText("[ME]: " + text);
+		} else {
+			this.chatTextArea.appendText("\n[ME]: " + text);
+		}
+	}
+
+	@FXML
 	public void handleDialogOkButtonAction()
 	{
 		this.dialog.close();
@@ -492,6 +537,81 @@ public class ControllerGame extends CustomController
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{
+		this.playersTabs.put(0, this.player1Tab);
+		this.playersTabs.put(1, this.player2Tab);
+		this.playersTabs.put(2, this.player3Tab);
+		this.playersTabs.put(3, this.player4Tab);
+		this.playersTabs.put(4, this.player5Tab);
+		this.developmentCardsBuildingPanes.put(Row.FIRST, this.building1);
+		this.developmentCardsBuildingPanes.put(Row.SECOND, this.building2);
+		this.developmentCardsBuildingPanes.put(Row.THIRD, this.building3);
+		this.developmentCardsBuildingPanes.put(Row.FOURTH, this.building4);
+		this.developmentCardsCharacterPanes.put(Row.FIRST, this.character1);
+		this.developmentCardsCharacterPanes.put(Row.SECOND, this.character2);
+		this.developmentCardsCharacterPanes.put(Row.THIRD, this.character3);
+		this.developmentCardsCharacterPanes.put(Row.FOURTH, this.character4);
+		this.developmentCardsTerritoryPanes.put(Row.FIRST, this.territory1);
+		this.developmentCardsTerritoryPanes.put(Row.SECOND, this.territory2);
+		this.developmentCardsTerritoryPanes.put(Row.THIRD, this.territory3);
+		this.developmentCardsTerritoryPanes.put(Row.FOURTH, this.territory4);
+		this.developmentCardsVenturePanes.put(Row.FIRST, this.venture1);
+		this.developmentCardsVenturePanes.put(Row.SECOND, this.venture2);
+		this.developmentCardsVenturePanes.put(Row.THIRD, this.venture3);
+		this.developmentCardsVenturePanes.put(Row.FOURTH, this.venture4);
+		this.developmentCardsPanes.put(CardType.BUILDING, this.developmentCardsBuildingPanes);
+		this.developmentCardsPanes.put(CardType.CHARACTER, this.developmentCardsCharacterPanes);
+		this.developmentCardsPanes.put(CardType.TERRITORY, this.developmentCardsTerritoryPanes);
+		this.developmentCardsPanes.put(CardType.VENTURE, this.developmentCardsVenturePanes);
+		this.player1DevelopmentCards.put(CardType.BUILDING, Arrays.asList(this.player1Building1, this.player1Building2, this.player1Building3, this.player1Building4, this.player1Building5, this.player1Building6));
+		this.player1DevelopmentCards.put(CardType.CHARACTER, Arrays.asList(this.player1Character1, this.player1Character2, this.player1Character3, this.player1Character4, this.player1Character5, this.player1Character6));
+		this.player1DevelopmentCards.put(CardType.TERRITORY, Arrays.asList(this.player1Territory1, this.player1Territory2, this.player1Territory3, this.player1Territory4, this.player1Territory5, this.player1Territory6));
+		this.player1DevelopmentCards.put(CardType.VENTURE, Arrays.asList(this.player1Venture1, this.player1Venture2, this.player1Venture3, this.player1Venture4, this.player1Venture5, this.player1Venture6));
+		this.player2DevelopmentCards.put(CardType.BUILDING, Arrays.asList(this.player2Building1, this.player2Building2, this.player2Building3, this.player2Building4, this.player2Building5, this.player2Building6));
+		this.player2DevelopmentCards.put(CardType.CHARACTER, Arrays.asList(this.player2Character1, this.player2Character2, this.player2Character3, this.player2Character4, this.player2Character5, this.player2Character6));
+		this.player2DevelopmentCards.put(CardType.TERRITORY, Arrays.asList(this.player2Territory1, this.player2Territory2, this.player2Territory3, this.player2Territory4, this.player2Territory5, this.player2Territory6));
+		this.player2DevelopmentCards.put(CardType.VENTURE, Arrays.asList(this.player2Venture1, this.player2Venture2, this.player2Venture3, this.player2Venture4, this.player2Venture5, this.player2Venture6));
+		this.player2DevelopmentCards.put(CardType.BUILDING, Arrays.asList(this.player2Building1, this.player2Building2, this.player2Building3, this.player2Building4, this.player2Building5, this.player2Building6));
+		this.player3DevelopmentCards.put(CardType.CHARACTER, Arrays.asList(this.player3Character1, this.player3Character2, this.player3Character3, this.player3Character4, this.player3Character5, this.player3Character6));
+		this.player3DevelopmentCards.put(CardType.TERRITORY, Arrays.asList(this.player3Territory1, this.player3Territory2, this.player3Territory3, this.player3Territory4, this.player3Territory5, this.player3Territory6));
+		this.player3DevelopmentCards.put(CardType.VENTURE, Arrays.asList(this.player3Venture1, this.player3Venture2, this.player3Venture3, this.player3Venture4, this.player3Venture5, this.player3Venture6));
+		this.player3DevelopmentCards.put(CardType.BUILDING, Arrays.asList(this.player3Building1, this.player3Building2, this.player3Building3, this.player3Building4, this.player3Building5, this.player3Building6));
+		this.player4DevelopmentCards.put(CardType.CHARACTER, Arrays.asList(this.player4Character1, this.player4Character2, this.player4Character3, this.player4Character4, this.player4Character5, this.player4Character6));
+		this.player4DevelopmentCards.put(CardType.TERRITORY, Arrays.asList(this.player4Territory1, this.player4Territory2, this.player4Territory3, this.player4Territory4, this.player4Territory5, this.player4Territory6));
+		this.player4DevelopmentCards.put(CardType.VENTURE, Arrays.asList(this.player4Venture1, this.player4Venture2, this.player4Venture3, this.player4Venture4, this.player4Venture5, this.player4Venture6));
+		this.player5DevelopmentCards.put(CardType.BUILDING, Arrays.asList(this.player5Building1, this.player5Building2, this.player5Building3, this.player5Building4, this.player5Building5, this.player5Building6));
+		this.player5DevelopmentCards.put(CardType.CHARACTER, Arrays.asList(this.player5Character1, this.player5Character2, this.player5Character3, this.player5Character4, this.player5Character5, this.player5Character6));
+		this.player5DevelopmentCards.put(CardType.TERRITORY, Arrays.asList(this.player5Territory1, this.player5Territory2, this.player5Territory3, this.player5Territory4, this.player5Territory5, this.player5Territory6));
+		this.player5DevelopmentCards.put(CardType.VENTURE, Arrays.asList(this.player5Venture1, this.player5Venture2, this.player5Venture3, this.player5Venture4, this.player5Venture5, this.player5Venture6));
+		this.playersDevelopmentCards.put(0, this.player1DevelopmentCards);
+		this.playersDevelopmentCards.put(1, this.player2DevelopmentCards);
+		this.playersDevelopmentCards.put(2, this.player3DevelopmentCards);
+		this.playersDevelopmentCards.put(3, this.player4DevelopmentCards);
+		this.playersDevelopmentCards.put(4, this.player5DevelopmentCards);
+		this.player1Resources.put(ResourceType.COIN, this.player1Coin);
+		this.player1Resources.put(ResourceType.SERVANT, this.player1Servant);
+		this.player1Resources.put(ResourceType.STONE, this.player1Stone);
+		this.player1Resources.put(ResourceType.WOOD, this.player1Wood);
+		this.player2Resources.put(ResourceType.COIN, this.player2Coin);
+		this.player2Resources.put(ResourceType.SERVANT, this.player2Servant);
+		this.player2Resources.put(ResourceType.STONE, this.player2Stone);
+		this.player2Resources.put(ResourceType.WOOD, this.player2Wood);
+		this.player3Resources.put(ResourceType.COIN, this.player3Coin);
+		this.player3Resources.put(ResourceType.SERVANT, this.player3Servant);
+		this.player3Resources.put(ResourceType.STONE, this.player3Stone);
+		this.player3Resources.put(ResourceType.WOOD, this.player3Wood);
+		this.player4Resources.put(ResourceType.COIN, this.player4Coin);
+		this.player4Resources.put(ResourceType.SERVANT, this.player4Servant);
+		this.player4Resources.put(ResourceType.STONE, this.player4Stone);
+		this.player4Resources.put(ResourceType.WOOD, this.player4Wood);
+		this.player5Resources.put(ResourceType.COIN, this.player5Coin);
+		this.player5Resources.put(ResourceType.SERVANT, this.player5Servant);
+		this.player5Resources.put(ResourceType.STONE, this.player5Stone);
+		this.player5Resources.put(ResourceType.WOOD, this.player5Wood);
+		this.playersResources.put(0, this.player1Resources);
+		this.playersResources.put(1, this.player2Resources);
+		this.playersResources.put(2, this.player3Resources);
+		this.playersResources.put(3, this.player4Resources);
+		this.playersResources.put(4, this.player5Resources);
 		this.getStackPane().getChildren().remove(this.dialog);
 		this.dialog.setTransitionType(DialogTransition.CENTER);
 		this.dialog.setDialogContainer(this.getStackPane());
@@ -502,6 +622,7 @@ public class ControllerGame extends CustomController
 		this.personalBonusTileDialog.setTransitionType(DialogTransition.CENTER);
 		this.personalBonusTileDialog.setDialogContainer(this.getStackPane());
 		this.personalBonusTileDialog.setOverlayClose(false);
+		this.getStackPane().getStylesheets().add(Client.getInstance().getClass().getResource("/css/jfoenix-nodes-list-button.css").toExternalForm());
 		this.borderGlow.setOffsetY(0.0D);
 		this.borderGlow.setOffsetX(0.0D);
 		this.borderGlow.setColor(Color.BLACK);
@@ -643,6 +764,23 @@ public class ControllerGame extends CustomController
 		Utils.setEffect(this.player5Venture4, this.borderGlow);
 		Utils.setEffect(this.player5Venture5, this.borderGlow);
 		Utils.setEffect(this.player5Venture6, this.borderGlow);
+		this.gameBoard.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(ControllerGame.BOARD_IMAGES.get(GameStatus.getInstance().getCurrentPlayersData().size())).toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+		for (Entry<Integer, Tab> tab : this.playersTabs.entrySet()) {
+			if (!GameStatus.getInstance().getCurrentPlayersData().keySet().contains(tab.getKey())) {
+				this.playersTabPane.getTabs().remove(tab.getValue());
+			} else {
+				tab.getValue().setText((GameStatus.getInstance().getOwnPlayerIndex() == tab.getKey() ? "[ME] " : "") + GameStatus.getInstance().getCurrentPlayersData().get(tab.getKey()).getUsername());
+			}
+		}
+		JFXButton button2 = new JFXButton("R2");
+		button2.setButtonType(ButtonType.RAISED);
+		button2.getStyleClass().addAll("animated-option-button");
+		JFXButton button3 = new JFXButton("R3");
+		button3.setButtonType(ButtonType.RAISED);
+		button3.getStyleClass().addAll("animated-option-button");
+		this.actionsNodesList.addAnimatedNode(this.actionsButton);
+		this.actionsNodesList.addAnimatedNode(button2);
+		this.actionsNodesList.addAnimatedNode(button3);
 	}
 
 	@Override
@@ -650,92 +788,64 @@ public class ControllerGame extends CustomController
 	public void setupGui()
 	{
 		this.getStage().getScene().getRoot().requestFocus();
-		double originalGameBoardWidth = this.gameBoard.getWidth();
-		double originalGameBoardHeight = this.gameBoard.getHeight();
 		Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
 		double ratio = (bounds.getHeight() - bounds.getHeight() / 15) / this.getStage().getHeight();
-		this.getStage().setWidth(this.getStackPane().getWidth() * ratio);
-		this.getStage().setHeight(this.getStackPane().getHeight() * ratio);
+		this.gameBoard.setPrefWidth(this.gameBoard.getWidth() * ratio);
+		this.gameBoard.setPrefHeight(this.gameBoard.getHeight() * ratio);
+		this.playersTabPane.setPrefWidth(this.playersTabPane.getWidth() * ratio);
+		this.playersTabPane.setPrefHeight(this.playersTabPane.getHeight() * ratio);
+		this.playerBoard1.setPrefWidth(this.playerBoard1.getWidth() * ratio);
+		this.playerBoard1.setPrefHeight(this.playerBoard1.getHeight() * ratio);
+		this.playerBoard1DevelopmentCardsVenture.setPrefWidth(this.playerBoard1DevelopmentCardsVenture.getWidth() * ratio);
+		this.playerBoard1DevelopmentCardsVenture.setPrefHeight(this.playerBoard1DevelopmentCardsVenture.getHeight() * ratio);
+		this.playerBoard1DevelopmentCardsCharacter.setPrefWidth(this.playerBoard1DevelopmentCardsCharacter.getWidth() * ratio);
+		this.playerBoard1DevelopmentCardsCharacter.setPrefHeight(this.playerBoard1DevelopmentCardsCharacter.getHeight() * ratio);
+		this.playerBoard2.setPrefWidth(this.playerBoard2.getWidth() * ratio);
+		this.playerBoard2.setPrefHeight(this.playerBoard2.getHeight() * ratio);
+		this.playerBoard2DevelopmentCardsVenture.setPrefWidth(this.playerBoard2DevelopmentCardsVenture.getWidth() * ratio);
+		this.playerBoard2DevelopmentCardsVenture.setPrefHeight(this.playerBoard2DevelopmentCardsVenture.getHeight() * ratio);
+		this.playerBoard2DevelopmentCardsCharacter.setPrefWidth(this.playerBoard2DevelopmentCardsCharacter.getWidth() * ratio);
+		this.playerBoard2DevelopmentCardsCharacter.setPrefHeight(this.playerBoard2DevelopmentCardsCharacter.getHeight() * ratio);
+		this.playerBoard3.setPrefWidth(this.playerBoard3.getWidth() * ratio);
+		this.playerBoard3.setPrefHeight(this.playerBoard3.getHeight() * ratio);
+		this.playerBoard3DevelopmentCardsVenture.setPrefWidth(this.playerBoard3DevelopmentCardsVenture.getWidth() * ratio);
+		this.playerBoard3DevelopmentCardsVenture.setPrefHeight(this.playerBoard3DevelopmentCardsVenture.getHeight() * ratio);
+		this.playerBoard3DevelopmentCardsCharacter.setPrefWidth(this.playerBoard3DevelopmentCardsCharacter.getWidth() * ratio);
+		this.playerBoard3DevelopmentCardsCharacter.setPrefHeight(this.playerBoard3DevelopmentCardsCharacter.getHeight() * ratio);
+		this.playerBoard4.setPrefWidth(this.playerBoard4.getWidth() * ratio);
+		this.playerBoard4.setPrefHeight(this.playerBoard4.getHeight() * ratio);
+		this.playerBoard4DevelopmentCardsVenture.setPrefWidth(this.playerBoard4DevelopmentCardsVenture.getWidth() * ratio);
+		this.playerBoard4DevelopmentCardsVenture.setPrefHeight(this.playerBoard4DevelopmentCardsVenture.getHeight() * ratio);
+		this.playerBoard4DevelopmentCardsCharacter.setPrefWidth(this.playerBoard4DevelopmentCardsCharacter.getWidth() * ratio);
+		this.playerBoard4DevelopmentCardsCharacter.setPrefHeight(this.playerBoard4DevelopmentCardsCharacter.getHeight() * ratio);
+		this.playerBoard5.setPrefWidth(this.playerBoard5.getWidth() * ratio);
+		this.playerBoard5.setPrefHeight(this.playerBoard5.getHeight() * ratio);
+		this.playerBoard5DevelopmentCardsVenture.setPrefWidth(this.playerBoard5DevelopmentCardsVenture.getWidth() * ratio);
+		this.playerBoard5DevelopmentCardsVenture.setPrefHeight(this.playerBoard5DevelopmentCardsVenture.getHeight() * ratio);
+		this.playerBoard5DevelopmentCardsCharacter.setPrefWidth(this.playerBoard5DevelopmentCardsCharacter.getWidth() * ratio);
+		this.playerBoard5DevelopmentCardsCharacter.setPrefHeight(this.playerBoard5DevelopmentCardsCharacter.getHeight() * ratio);
+		this.rightVBox.setMaxWidth(this.rightVBox.getWidth() * ratio);
+		this.getStage().sizeToScene();
+		this.chatTabPane.setMaxHeight(this.chatTabPane.getHeight() - (this.rightVBox.getHeight() - this.gameBoard.getHeight()));
+		this.getStage().sizeToScene();
+		Utils.resizeChildrenNode(this.gameBoard, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard1, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard1DevelopmentCardsVenture, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard1DevelopmentCardsCharacter, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard2, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard2DevelopmentCardsVenture, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard2DevelopmentCardsCharacter, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard3, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard3DevelopmentCardsVenture, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard3DevelopmentCardsCharacter, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard4, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard4DevelopmentCardsVenture, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard4DevelopmentCardsCharacter, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard5, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsVenture, ratio, ratio);
+		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsCharacter, ratio, ratio);
 		this.getStage().setX(bounds.getWidth() / 2 - this.getStage().getWidth() / 2);
 		this.getStage().setY(bounds.getHeight() / 2 - this.getStage().getHeight() / 2);
-		this.getStackPane().setPrefWidth(this.getStage().getWidth());
-		this.getStackPane().setPrefHeight(this.getStage().getHeight());
-		this.getStackPane().getStylesheets().add(Client.getInstance().getClass().getResource("/css/jfoenix-nodes-list-button.css").toExternalForm());
-		this.actionsButton = new JFXButton("R1");
-		this.actionsButton.setDisable(true);
-		this.actionsButton.setButtonType(ButtonType.RAISED);
-		this.actionsButton.getStyleClass().addAll("animated-option-button");
-		JFXButton button2 = new JFXButton("R2");
-		button2.setButtonType(ButtonType.RAISED);
-		button2.getStyleClass().addAll("animated-option-button");
-		JFXButton button3 = new JFXButton("R3");
-		button3.setButtonType(ButtonType.RAISED);
-		button3.getStyleClass().addAll("animated-option-button");
-		JFXNodesList nodesList = new JFXNodesList();
-		nodesList.addAnimatedNode(this.actionsButton);
-		nodesList.addAnimatedNode(button2);
-		nodesList.addAnimatedNode(button3);
-		this.rightVBox.getChildren().add(nodesList);
-		this.getStage().sizeToScene();
-		double gameBoardWidthRatio = this.gameBoard.getWidth() / originalGameBoardWidth;
-		double gameBoardHeightRatio = this.gameBoard.getHeight() / originalGameBoardHeight;
-		Utils.resizeChildrenNode(this.gameBoard, gameBoardWidthRatio, gameBoardHeightRatio);
-		this.playerTabPanel.setMaxHeight(((VBox) this.playerBoard1.getParent()).getHeight());
-		this.cardDialogLayout.setPrefWidth(this.territory1.getWidth() * 5);
-		this.cardDialogLayout.setPrefHeight(this.territory1.getHeight() * 5);
-		this.cardDialogPane.setPrefWidth(this.territory1.getWidth() * 5);
-		this.cardDialogPane.setPrefHeight(this.territory1.getHeight() * 5);
-		double oldWidth = this.playerBoard1DevelopmentCardsVenture.getPrefWidth();
-		this.playerBoard1DevelopmentCardsVenture.setPrefWidth(this.playerTabPanel.getWidth());
-		this.playerBoard2DevelopmentCardsVenture.setPrefWidth(this.playerTabPanel.getWidth());
-		this.playerBoard3DevelopmentCardsVenture.setPrefWidth(this.playerTabPanel.getWidth());
-		this.playerBoard4DevelopmentCardsVenture.setPrefWidth(this.playerTabPanel.getWidth());
-		this.playerBoard5DevelopmentCardsVenture.setPrefWidth(this.playerTabPanel.getWidth());
-		ratio = this.playerBoard1DevelopmentCardsVenture.getPrefWidth() / oldWidth;
-		this.playerBoard1DevelopmentCardsVenture.setPrefHeight(this.playerBoard1DevelopmentCardsVenture.getPrefHeight() * ratio);
-		this.playerBoard2DevelopmentCardsVenture.setPrefHeight(this.playerBoard2DevelopmentCardsVenture.getPrefHeight() * ratio);
-		this.playerBoard3DevelopmentCardsVenture.setPrefHeight(this.playerBoard3DevelopmentCardsVenture.getPrefHeight() * ratio);
-		this.playerBoard4DevelopmentCardsVenture.setPrefHeight(this.playerBoard4DevelopmentCardsVenture.getPrefHeight() * ratio);
-		this.playerBoard5DevelopmentCardsVenture.setPrefHeight(this.playerBoard5DevelopmentCardsVenture.getPrefHeight() * ratio);
-		Utils.resizeChildrenNode(this.playerBoard1DevelopmentCardsVenture, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard2DevelopmentCardsVenture, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard3DevelopmentCardsVenture, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard4DevelopmentCardsVenture, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsVenture, ratio, ratio);
-		oldWidth = this.playerBoard1DevelopmentCardsCharacter.getPrefWidth();
-		this.playerBoard1DevelopmentCardsCharacter.setPrefWidth(this.playerTabPanel.getWidth());
-		this.playerBoard2DevelopmentCardsCharacter.setPrefWidth(this.playerTabPanel.getWidth());
-		this.playerBoard3DevelopmentCardsCharacter.setPrefWidth(this.playerTabPanel.getWidth());
-		this.playerBoard4DevelopmentCardsCharacter.setPrefWidth(this.playerTabPanel.getWidth());
-		this.playerBoard5DevelopmentCardsCharacter.setPrefWidth(this.playerTabPanel.getWidth());
-		ratio = this.playerBoard1DevelopmentCardsCharacter.getPrefWidth() / oldWidth;
-		this.playerBoard1DevelopmentCardsCharacter.setPrefHeight(this.playerBoard1DevelopmentCardsCharacter.getPrefHeight() * this.playerBoard1DevelopmentCardsCharacter.getPrefWidth() / oldWidth);
-		this.playerBoard2DevelopmentCardsCharacter.setPrefHeight(this.playerBoard2DevelopmentCardsCharacter.getPrefHeight() * this.playerBoard2DevelopmentCardsCharacter.getPrefWidth() / oldWidth);
-		this.playerBoard3DevelopmentCardsCharacter.setPrefHeight(this.playerBoard3DevelopmentCardsCharacter.getPrefHeight() * this.playerBoard3DevelopmentCardsCharacter.getPrefWidth() / oldWidth);
-		this.playerBoard4DevelopmentCardsCharacter.setPrefHeight(this.playerBoard4DevelopmentCardsCharacter.getPrefHeight() * this.playerBoard4DevelopmentCardsCharacter.getPrefWidth() / oldWidth);
-		this.playerBoard5DevelopmentCardsCharacter.setPrefHeight(this.playerBoard5DevelopmentCardsCharacter.getPrefHeight() * this.playerBoard5DevelopmentCardsCharacter.getPrefWidth() / oldWidth);
-		Utils.resizeChildrenNode(this.playerBoard1DevelopmentCardsCharacter, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard2DevelopmentCardsCharacter, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard3DevelopmentCardsCharacter, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard4DevelopmentCardsCharacter, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsCharacter, ratio, ratio);
-		oldWidth = this.playerBoard1.getPrefWidth();
-		this.playerBoard1.setPrefWidth(this.playerTabPanel.getWidth());
-		this.playerBoard2.setPrefWidth(this.playerTabPanel.getWidth());
-		this.playerBoard3.setPrefWidth(this.playerTabPanel.getWidth());
-		this.playerBoard4.setPrefWidth(this.playerTabPanel.getWidth());
-		this.playerBoard5.setPrefWidth(this.playerTabPanel.getWidth());
-		ratio = this.playerBoard1.getPrefWidth() / oldWidth;
-		this.playerBoard1.setPrefHeight(this.playerBoard1.getPrefHeight() * this.playerBoard1.getPrefWidth() / oldWidth);
-		this.playerBoard2.setPrefHeight(this.playerBoard2.getPrefHeight() * this.playerBoard2.getPrefWidth() / oldWidth);
-		this.playerBoard3.setPrefHeight(this.playerBoard3.getPrefHeight() * this.playerBoard3.getPrefWidth() / oldWidth);
-		this.playerBoard4.setPrefHeight(this.playerBoard4.getPrefHeight() * this.playerBoard4.getPrefWidth() / oldWidth);
-		this.playerBoard5.setPrefHeight(this.playerBoard5.getPrefHeight() * this.playerBoard5.getPrefWidth() / oldWidth);
-		Utils.resizeChildrenNode(this.playerBoard1, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard2, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard3, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard4, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard5, ratio, ratio);
 		this.runTests();
 	}
 
@@ -749,44 +859,115 @@ public class ControllerGame extends CustomController
 
 	private void runTests()
 	{
-		List<PersonalBonusTileInformations> personalBonusTileInformations = new ArrayList<>();
-		List<ResourceAmount> resourceAmounts = new ArrayList<>();
-		resourceAmounts.add(new ResourceAmount(ResourceType.MILITARY_POINT, 5));
-		resourceAmounts.add(new ResourceAmount(ResourceType.WOOD, 15));
-		personalBonusTileInformations.add(new PersonalBonusTileInformations(0, "", 2, resourceAmounts, 2, resourceAmounts));
-		personalBonusTileInformations.add(new PersonalBonusTileInformations(0, "", 2, resourceAmounts, 2, resourceAmounts));
-		personalBonusTileInformations.add(new PersonalBonusTileInformations(0, "", 2, resourceAmounts, 2, resourceAmounts));
-		personalBonusTileInformations.add(new PersonalBonusTileInformations(0, "", 2, resourceAmounts, 2, resourceAmounts));
-		personalBonusTileInformations.add(new PersonalBonusTileInformations(0, "", 2, resourceAmounts, 2, resourceAmounts));
-		this.showPersonalBonusTileDialog(personalBonusTileInformations);
 	}
 
-	public void showPersonalBonusTileDialog(List<PersonalBonusTileInformations> personalBonusTilesInformations)
+	public void setOwnTurn()
+	{
+		this.updateGame();
+		this.actionsButton.setDisable(false);
+		((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + "Your turn");
+	}
+
+	public void setOtherTurn(int turnPlayerIndex)
+	{
+		this.updateGame();
+		this.actionsButton.setDisable(true);
+		((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() + "'s turn");
+	}
+
+	private void updateGame()
+	{
+		for (Row row : Row.values()) {
+			this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(null);
+			Integer currentDevelopmentCardBuildingIndex = GameStatus.getInstance().getCurrentDevelopmentCardsBuilding().get(row);
+			if (currentDevelopmentCardBuildingIndex != null) {
+				this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsBuilding().get(currentDevelopmentCardBuildingIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			}
+			this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBackground(null);
+
+			/*
+			Integer currentDevelopmentCardCharacterIndex = GameStatus.getInstance().getCurrentDevelopmentCardsCharacter().get(row);
+			if (currentDevelopmentCardCharacterIndex != null) {
+				this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsCharacter().get(currentDevelopmentCardCharacterIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			}
+			*/
+			this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBackground(null);
+			Integer currentDevelopmentCardTerritoryIndex = GameStatus.getInstance().getCurrentDevelopmentCardsTerritory().get(row);
+			if (currentDevelopmentCardTerritoryIndex != null) {
+				this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsTerritory().get(currentDevelopmentCardTerritoryIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			}
+			this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBackground(null);
+
+			/*
+			Integer currentDevelopmentCardVentureIndex = GameStatus.getInstance().getCurrentDevelopmentCardsVenture().get(row);
+			if (currentDevelopmentCardVentureIndex != null) {
+				this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsVenture().get(currentDevelopmentCardVentureIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			}
+			*/
+		}
+		for (Entry<Integer, PlayerData> playerData : GameStatus.getInstance().getCurrentPlayersData().entrySet()) {
+			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING)) {
+				pane.setBackground(null);
+			}
+			for (int index = 0; index < playerData.getValue().getDevelopmentCardsBuilding().size(); index++) {
+				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsBuilding().get(playerData.getValue().getDevelopmentCardsBuilding().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			}
+			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER)) {
+				pane.setBackground(null);
+			}
+			/*
+			for (int index = 0; index < playerData.getValue().getDevelopmentCardsCharacter().size(); index++) {
+				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsCharacter().get(playerData.getValue().getDevelopmentCardsCharacter().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			}
+			*/
+			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY)) {
+				pane.setBackground(null);
+			}
+			for (int index = 0; index < playerData.getValue().getDevelopmentCardsTerritory().size(); index++) {
+				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsTerritory().get(playerData.getValue().getDevelopmentCardsTerritory().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			}
+			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE)) {
+				pane.setBackground(null);
+			}
+			/*
+			for (Integer developmentCardVentureIndex : playerData.getValue().getDevelopmentCardsBuilding()) {
+				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsVenture().get(playerData.getValue().getDevelopmentCardsVenture().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			}
+			*/
+			for (Entry<ResourceType, Integer> resourceAmount : playerData.getValue().getResourceAmounts().entrySet()) {
+				if (this.playersResources.get(playerData.getKey()).containsKey(resourceAmount.getKey())) {
+					this.playersResources.get(playerData.getKey()).get(resourceAmount.getKey()).setText(Integer.toString(resourceAmount.getValue()));
+				}
+			}
+		}
+	}
+
+	public void showPersonalBonusTileDialog()
 	{
 		this.dialog.close();
 		this.cardDialog.close();
-		for (PersonalBonusTileInformations personalBonusTileInformations : personalBonusTilesInformations) {
+		for (Integer personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
 			Pane pane = new Pane();
 			Label label = new Label();
 			label.setFont(CommonUtils.ROBOTO_REGULAR);
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("Production activation cost: ");
-			stringBuilder.append(personalBonusTileInformations.getProductionActivationCost());
-			if (!personalBonusTileInformations.getProductionInstantResources().isEmpty()) {
+			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getProductionActivationCost());
+			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getProductionInstantResources().isEmpty()) {
 				stringBuilder.append("\n\nProduction bonus resources:");
 			}
-			for (ResourceAmount resourceAmount : personalBonusTileInformations.getProductionInstantResources()) {
+			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getProductionInstantResources()) {
 				stringBuilder.append('\n');
 				stringBuilder.append(ControllerGame.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
 			stringBuilder.append("\n\nHarvest activation cost: ");
-			stringBuilder.append(personalBonusTileInformations.getProductionActivationCost());
-			if (!personalBonusTileInformations.getHarvestInstantResources().isEmpty()) {
+			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getProductionActivationCost());
+			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getHarvestInstantResources().isEmpty()) {
 				stringBuilder.append("\n\nHarvest bonus resources:");
 			}
-			for (ResourceAmount resourceAmount : personalBonusTileInformations.getHarvestInstantResources()) {
+			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getHarvestInstantResources()) {
 				stringBuilder.append('\n');
 				stringBuilder.append(ControllerGame.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
@@ -796,20 +977,24 @@ public class ControllerGame extends CustomController
 			pane.getChildren().add(label);
 			Utils.setEffect(pane, this.borderGlow);
 			pane.setOnMouseClicked(event -> {
-				Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileInformations.getIndex());
+				Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex);
 				this.personalBonusTileDialog.close();
 			});
 			this.personalBonusTileDialogHBox.getChildren().add(pane);
 		}
-		Platform.runLater(() -> {
-			this.personalBonusTileDialogLayout.setPrefWidth(((Pane) this.personalBonusTileDialogHBox.getChildren().get(0)).getWidth() * this.personalBonusTileDialogHBox.getChildren().size() + this.personalBonusTileDialogHBox.getSpacing() * (this.personalBonusTileDialogHBox.getChildren().size() - 1) + 48);
-			this.getStage().getScene().getRoot().requestFocus();
-			this.personalBonusTileDialog.show();
-		});
+		this.getStage().sizeToScene();
+		this.personalBonusTileDialogLayout.setPrefWidth(((Pane) this.personalBonusTileDialogHBox.getChildren().get(0)).getWidth() * this.personalBonusTileDialogHBox.getChildren().size() + this.personalBonusTileDialogHBox.getSpacing() * (this.personalBonusTileDialogHBox.getChildren().size() - 1) + 48);
+		this.getStage().getScene().getRoot().requestFocus();
+		this.personalBonusTileDialog.show();
 	}
 
-	public JFXButton getActionsButton()
+	public TextArea getChatTextArea()
 	{
-		return this.actionsButton;
+		return this.chatTextArea;
+	}
+
+	public TextArea getGameLogTextArea()
+	{
+		return this.gameLogTextArea;
 	}
 }

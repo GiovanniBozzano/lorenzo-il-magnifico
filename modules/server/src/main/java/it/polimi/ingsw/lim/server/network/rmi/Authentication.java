@@ -6,9 +6,9 @@ import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
-import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
-import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformations;
+import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
+import it.polimi.ingsw.lim.common.game.cards.*;
+import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsRMI;
 import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -16,18 +16,15 @@ import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.board.ExcommunicationTile;
-import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
-import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
-import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
+import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
+import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Authentication extends UnicastRemoteObject implements IAuthentication
 {
@@ -39,7 +36,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	}
 
 	@Override
-	public AuthenticationInformations sendLogin(String version, String username, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
+	public AuthenticationInformationsRMI sendLogin(String version, String username, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
 	{
 		String trimmedUsername = username.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		Utils.checkLogin(version, trimmedUsername, password);
@@ -48,7 +45,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	}
 
 	@Override
-	public AuthenticationInformations sendRegistration(String version, String username, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
+	public AuthenticationInformationsRMI sendRegistration(String version, String username, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
 	{
 		String trimmedUsername = username.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		Utils.checkRegistration(version, trimmedUsername, password);
@@ -84,34 +81,41 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 		return Objects.hash(super.hashCode(), this.clientSessions);
 	}
 
-	private AuthenticationInformations finalizeAuthentication(String username, RoomType roomType, IServerSession serverSession) throws RemoteException
+	private AuthenticationInformationsRMI finalizeAuthentication(String username, RoomType roomType, IServerSession serverSession) throws RemoteException
 	{
-		List<DevelopmentCardInformations> developmentCardsInformations = new ArrayList<>();
+		Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuildingsInformations = new HashMap<>();
+		Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacterInformations = new HashMap<>();
+		Map<Integer, DevelopmentCardTerritoryInformations> developmentsCardTerritoryInformations = new HashMap<>();
+		Map<Integer, DevelopmentCardVentureInformations> developmentCardsVentureInformations = new HashMap<>();
 		for (Period period : Period.values()) {
-			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_BUILDING.get(period)) {
-				developmentCardsInformations.add(developmentCard.getInformations());
+			for (DevelopmentCardBuilding developmentCardBuilding : CardsHandler.DEVELOPMENT_CARDS_BUILDING.get(period)) {
+				developmentCardsBuildingsInformations.put(developmentCardBuilding.getIndex(), developmentCardBuilding.getInformations());
 			}
-			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.get(period)) {
-				developmentCardsInformations.add(developmentCard.getInformations());
+			for (DevelopmentCardCharacter developmentCardCharacter : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.get(period)) {
+				developmentCardsCharacterInformations.put(developmentCardCharacter.getIndex(), developmentCardCharacter.getInformations());
 			}
-			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.get(period)) {
-				developmentCardsInformations.add(developmentCard.getInformations());
+			for (DevelopmentCardTerritory developmentCardTerritory : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.get(period)) {
+				developmentsCardTerritoryInformations.put(developmentCardTerritory.getIndex(), developmentCardTerritory.getInformations());
 			}
-			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_VENTURE.get(period)) {
-				developmentCardsInformations.add(developmentCard.getInformations());
+			for (DevelopmentCardVenture developmentCardVenture : CardsHandler.DEVELOPMENT_CARDS_VENTURE.get(period)) {
+				developmentCardsVentureInformations.put(developmentCardVenture.getIndex(), developmentCardVenture.getInformations());
 			}
 		}
-		List<LeaderCardInformations> leaderCardsInformations = new ArrayList<>();
+		Map<Integer, LeaderCardInformations> leaderCardsInformations = new HashMap<>();
 		for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
-			leaderCardsInformations.add(leaderCard.getInformations());
+			leaderCardsInformations.put(leaderCard.getIndex(), leaderCard.getInformations());
 		}
-		List<ExcommunicationTileInformations> excommunicationTilesInformations = new ArrayList<>();
+		Map<Integer, ExcommunicationTileInformations> excommunicationTilesInformations = new HashMap<>();
 		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
-			excommunicationTilesInformations.add(new ExcommunicationTileInformations(excommunicationTile.getIndex(), excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
+			excommunicationTilesInformations.put(excommunicationTile.getIndex(), new ExcommunicationTileInformations(excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
 		}
-		List<CouncilPalaceRewardInformations> councilPalaceRewardsInformations = new ArrayList<>();
+		Map<Integer, CouncilPalaceRewardInformations> councilPalaceRewardsInformations = new HashMap<>();
 		for (CouncilPalaceReward councilPalaceReward : BoardHandler.getCouncilPrivilegeRewards()) {
-			councilPalaceRewardsInformations.add(councilPalaceReward.getInformations());
+			councilPalaceRewardsInformations.put(councilPalaceReward.getIndex(), councilPalaceReward.getInformations());
+		}
+		Map<Integer, PersonalBonusTileInformations> personalBonusTilesInformations = new HashMap<>();
+		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
+			personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
 		}
 		Room playerRoom;
 		if ((playerRoom = Room.getPlayerRoom(username)) == null) {
@@ -136,7 +140,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 				player.sendRoomEntryOther(username);
 				playerUsernames.add(player.getUsername());
 			}
-			return new AuthenticationInformations(developmentCardsInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, clientSession, new RoomInformations(targetRoom.getRoomType(), playerUsernames));
+			return new AuthenticationInformationsRMI(developmentCardsBuildingsInformations, developmentCardsCharacterInformations, developmentsCardTerritoryInformations, developmentCardsVentureInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, personalBonusTilesInformations, new RoomInformations(targetRoom.getRoomType(), playerUsernames), clientSession);
 		} else {
 			ConnectionRMI connectionRmi = null;
 			for (Connection player : playerRoom.getPlayers()) {
@@ -156,7 +160,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			for (Connection player : playerRoom.getPlayers()) {
 				playerUsernames.add(player.getUsername());
 			}
-			return new AuthenticationInformations(developmentCardsInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, clientSession, new RoomInformations(playerRoom.getRoomType(), playerUsernames));
+			return new AuthenticationInformationsRMI(developmentCardsBuildingsInformations, developmentCardsCharacterInformations, developmentsCardTerritoryInformations, developmentCardsVentureInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, personalBonusTilesInformations, new RoomInformations(playerRoom.getRoomType(), playerUsernames), clientSession);
 		}
 	}
 

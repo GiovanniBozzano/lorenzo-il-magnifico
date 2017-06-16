@@ -6,7 +6,6 @@ import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionGetDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionMarket;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
-import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.LeaderCardStatus;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
@@ -46,7 +45,7 @@ public class GameHandler
 	private Round round;
 	private Phase phase;
 	private ActionType expectedAction;
-	private final List<PersonalBonusTileInformations> personalBonusTilesInformations = new ArrayList<>();
+	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private int personalBonusTileChoicePlayerIndex = 0;
 
 	GameHandler(Room room)
@@ -101,7 +100,7 @@ public class GameHandler
 			player.sendGameStarted(excommunicationTilesIndexes, playersIdentifications, player.getPlayerHandler().getIndex());
 		}
 		for (PersonalBonusTile personalBonusTile : Arrays.asList(PersonalBonusTile.values())) {
-			this.personalBonusTilesInformations.add(new PersonalBonusTileInformations(personalBonusTile.getIndex(), personalBonusTile.getTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
+			this.availablePersonalBonusTiles.add(personalBonusTile.getIndex());
 		}
 		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(0));
 	}
@@ -164,21 +163,15 @@ public class GameHandler
 
 	private void drawCards()
 	{
-		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCards().get(CardType.BUILDING).size(); index++) {
-			this.cardsHandler.addDevelopmentCard(this.developmentCardsBuilding.get(this.period).get(index), Row.values()[index]);
-			this.developmentCardsBuilding.get(this.period).remove(index);
-		}
-		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCards().get(CardType.CHARACTER).size(); index++) {
-			this.cardsHandler.addDevelopmentCard(this.developmentCardsCharacters.get(this.period).get(index), Row.values()[index]);
-			this.developmentCardsCharacters.get(this.period).remove(index);
-		}
-		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCards().get(CardType.TERRITORY).size(); index++) {
-			this.cardsHandler.addDevelopmentCard(this.developmentCardsTerritory.get(this.period).get(index), Row.values()[index]);
-			this.developmentCardsTerritory.get(this.period).remove(index);
-		}
-		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCards().get(CardType.VENTURE).size(); index++) {
-			this.cardsHandler.addDevelopmentCard(this.developmentCardsVenture.get(this.period).get(index), Row.values()[index]);
-			this.developmentCardsVenture.get(this.period).remove(index);
+		for (Row row : Row.values()) {
+			this.cardsHandler.addDevelopmentCard(row, this.developmentCardsBuilding.get(this.period).get(0));
+			this.cardsHandler.addDevelopmentCard(row, this.developmentCardsCharacters.get(this.period).get(0));
+			this.cardsHandler.addDevelopmentCard(row, this.developmentCardsTerritory.get(this.period).get(0));
+			this.cardsHandler.addDevelopmentCard(row, this.developmentCardsVenture.get(this.period).get(0));
+			this.developmentCardsBuilding.get(this.period).remove(0);
+			this.developmentCardsCharacters.get(this.period).remove(0);
+			this.developmentCardsTerritory.get(this.period).remove(0);
+			this.developmentCardsVenture.get(this.period).remove(0);
 		}
 	}
 
@@ -257,7 +250,7 @@ public class GameHandler
 
 	private void sendGamePersonalBonusTileChoiceRequest(Connection player)
 	{
-		player.sendGamePersonalBonusTileChoiceRequest(this.personalBonusTilesInformations);
+		player.sendGamePersonalBonusTileChoiceRequest(this.availablePersonalBonusTiles);
 		this.sendGamePersonalBonusTileChoiceOther(player);
 	}
 
@@ -265,7 +258,7 @@ public class GameHandler
 	{
 		for (Connection otherPlayer : this.room.getPlayers()) {
 			if (otherPlayer != player) {
-				player.sendGamePersonalBonusTileChoiceOther(player.getPlayerHandler().getIndex());
+				otherPlayer.sendGamePersonalBonusTileChoiceOther(player.getPlayerHandler().getIndex());
 			}
 		}
 	}
@@ -286,7 +279,7 @@ public class GameHandler
 	{
 		for (Connection otherPlayer : this.room.getPlayers()) {
 			if (otherPlayer != player) {
-				player.sendGameUpdateOtherTurn(this.generateGameInformations(), this.generatePlayersInformations(), player.getPlayerHandler().getIndex());
+				otherPlayer.sendGameUpdateOtherTurn(this.generateGameInformations(), this.generatePlayersInformations(), player.getPlayerHandler().getIndex());
 			}
 		}
 	}
@@ -294,23 +287,17 @@ public class GameHandler
 	private GameInformations generateGameInformations()
 	{
 		Map<Row, Integer> developmentCardsBuildingInformations = new EnumMap<>(Row.class);
-		for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(CardType.BUILDING).keySet()) {
+		Map<Row, Integer> developmentCardsCharacterInformations = new EnumMap<>(Row.class);
+		Map<Row, Integer> developmentCardsTerritoryInformations = new EnumMap<>(Row.class);
+		Map<Row, Integer> developmentCardsVentureInformations = new EnumMap<>(Row.class);
+		for (Row row : Row.values()) {
 			DevelopmentCard developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.BUILDING).get(row);
 			developmentCardsBuildingInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
-		}
-		Map<Row, Integer> developmentCardsCharacterInformations = new EnumMap<>(Row.class);
-		for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(CardType.CHARACTER).keySet()) {
-			DevelopmentCard developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.CHARACTER).get(row);
+			developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.CHARACTER).get(row);
 			developmentCardsCharacterInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
-		}
-		Map<Row, Integer> developmentCardsTerritoryInformations = new EnumMap<>(Row.class);
-		for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(CardType.TERRITORY).keySet()) {
-			DevelopmentCard developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.TERRITORY).get(row);
+			developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.TERRITORY).get(row);
 			developmentCardsTerritoryInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
-		}
-		Map<Row, Integer> developmentCardsVentureInformations = new EnumMap<>(Row.class);
-		for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(CardType.VENTURE).keySet()) {
-			DevelopmentCard developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.VENTURE).get(row);
+			developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.VENTURE).get(row);
 			developmentCardsVentureInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
 		}
 		Map<Integer, Integer> turnOrderInformations = new HashMap<>();
@@ -481,8 +468,8 @@ public class GameHandler
 		this.expectedAction = expectedAction;
 	}
 
-	public List<PersonalBonusTileInformations> getPersonalBonusTilesInformations()
+	public List<Integer> getAvailablePersonalBonusTiles()
 	{
-		return this.personalBonusTilesInformations;
+		return this.availablePersonalBonusTiles;
 	}
 }

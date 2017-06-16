@@ -6,9 +6,9 @@ public class ExcommunicationTileInformations extends ObjectInformations
 {
 	private final String modifier;
 
-	public ExcommunicationTileInformations(int index, String texturePath, String modifier)
+	public ExcommunicationTileInformations(String texturePath, String modifier)
 	{
-		super(index, texturePath);
+		super(texturePath);
 		this.modifier = modifier;
 	}
 

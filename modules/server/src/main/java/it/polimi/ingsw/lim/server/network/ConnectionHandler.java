@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.server.network;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.rmi.Authentication;
 import it.polimi.ingsw.lim.server.network.socket.ConnectionSocket;
@@ -54,10 +53,6 @@ public class ConnectionHandler extends Thread
 				Platform.runLater(() -> ((ControllerMain) WindowFactory.getInstance().getCurrentWindow().getController()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));
 				if (Server.getInstance().getExternalIp() != null) {
 					Utils.displayToLog("Your external IP address is: " + Server.getInstance().getExternalIp());
-					Utils.displayToLog(CardsHandler.DEVELOPMENT_CARDS_BUILDING.toString());
-					Utils.displayToLog(CardsHandler.DEVELOPMENT_CARDS_CHARACTER.toString());
-					Utils.displayToLog(CardsHandler.DEVELOPMENT_CARDS_TERRITORY.toString());
-					Utils.displayToLog(CardsHandler.DEVELOPMENT_CARDS_VENTURE.toString());
 				}
 			});
 			while (this.keepGoing) {

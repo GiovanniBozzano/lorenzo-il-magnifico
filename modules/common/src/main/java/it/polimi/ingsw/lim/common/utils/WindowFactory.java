@@ -23,11 +23,13 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 
 public class WindowFactory
 {
 	private static final WindowFactory INSTANCE = new WindowFactory();
+	public static final Semaphore WINDOW_OPENING_SEMAPHORE = new Semaphore(1);
 	private final ObservableMap<Stage, CustomController> openWindows = FXCollections.observableHashMap();
 	private final ObjectProperty<WindowInformations> currentWindow = new SimpleObjectProperty<>(null);
 
@@ -58,6 +60,12 @@ public class WindowFactory
 	 */
 	public void setNewWindow(String fxmlFileLocation, boolean closeOthers, Runnable postShowing)
 	{
+		try {
+			WindowFactory.WINDOW_OPENING_SEMAPHORE.acquire();
+		} catch (InterruptedException exception) {
+			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Thread.currentThread().interrupt();
+		}
 		Platform.runLater(() -> {
 			FXMLLoader fxmlLoader = new FXMLLoader(Instance.getInstance().getClass().getResource(fxmlFileLocation));
 			Parent parent;
@@ -77,7 +85,6 @@ public class WindowFactory
 				}
 			});
 			stage.setScene(new Scene(parent));
-			stage.sizeToScene();
 			Platform.runLater(() -> ((CustomController) fxmlLoader.getController()).setupGui());
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setResizable(false);
@@ -96,6 +103,7 @@ public class WindowFactory
 				executorService.execute(postShowing);
 				executorService.shutdown();
 			}
+			WindowFactory.WINDOW_OPENING_SEMAPHORE.release();
 		});
 	}
 

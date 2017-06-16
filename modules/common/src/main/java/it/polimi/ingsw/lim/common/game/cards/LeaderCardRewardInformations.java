@@ -9,9 +9,9 @@ public class LeaderCardRewardInformations extends LeaderCardInformations
 {
 	private final RewardInformations reward;
 
-	public LeaderCardRewardInformations(int index, String texturePath, String description, List<LeaderCardConditionsOption> conditionsOptions, RewardInformations reward)
+	public LeaderCardRewardInformations(String texturePath, String description, List<LeaderCardConditionsOption> conditionsOptions, RewardInformations reward)
 	{
-		super(index, texturePath, description, conditionsOptions);
+		super(texturePath, description, conditionsOptions);
 		this.reward = reward;
 	}
 

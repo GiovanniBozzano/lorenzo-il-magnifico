@@ -4,7 +4,6 @@ import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
-import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 
@@ -31,7 +30,7 @@ public interface IServerSession extends Remote
 
 	void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex) throws RemoteException;
 
-	void sendGamePersonalBonusTileChoiceRequest(List<PersonalBonusTileInformations> personalBonusTilesInformations) throws RemoteException;
+	void sendGamePersonalBonusTileChoiceRequest(List<Integer> personalBonusTilesInformations) throws RemoteException;
 
 	void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex) throws RemoteException;
 

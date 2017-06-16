@@ -9,9 +9,9 @@ public abstract class LeaderCardInformations extends CardInformations
 {
 	private final List<LeaderCardConditionsOption> conditionsOptions;
 
-	public LeaderCardInformations(int index, String texturePath, String description, List<LeaderCardConditionsOption> conditionsOptions)
+	public LeaderCardInformations(String texturePath, String description, List<LeaderCardConditionsOption> conditionsOptions)
 	{
-		super(index, texturePath, description);
+		super(texturePath, description);
 		this.conditionsOptions = new ArrayList<>(conditionsOptions);
 	}
 

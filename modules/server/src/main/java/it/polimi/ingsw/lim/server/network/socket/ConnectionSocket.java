@@ -2,17 +2,12 @@ package it.polimi.ingsw.lim.server.network.socket;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.GameInformations;
-import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
-import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
-import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
-import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsSocket;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.server.*;
@@ -100,9 +95,9 @@ public class ConnectionSocket extends Connection
 		new Packet(PacketType.HEARTBEAT).send(this.out);
 	}
 
-	void sendAuthenticationConfirmation(List<DevelopmentCardInformations> developmentCardsInformations, List<LeaderCardInformations> leaderCardsInformations, List<ExcommunicationTileInformations> excommunicationTilesInformations, List<CouncilPalaceRewardInformations> councilPalaceRewardInformations, RoomInformations roomInformations)
+	void sendAuthenticationConfirmation(AuthenticationInformationsSocket authenticationInformations)
 	{
-		new PacketAuthenticationConfirmation(developmentCardsInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardInformations, this.getUsername(), roomInformations).send(this.out);
+		new PacketAuthenticationConfirmation(authenticationInformations).send(this.out);
 	}
 
 	void sendAuthenticationFailure(String text)
@@ -152,7 +147,7 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChoiceRequest(List<PersonalBonusTileInformations> personalBonusTilesInformations)
+	public void sendGamePersonalBonusTileChoiceRequest(List<Integer> personalBonusTilesInformations)
 	{
 		new PacketGamePersonalBonusTileChoiceRequest(personalBonusTilesInformations).send(this.out);
 	}

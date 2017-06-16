@@ -13,9 +13,9 @@ public class DevelopmentCardBuildingInformations extends DevelopmentCardInformat
 	private final int activationValue;
 	private final List<ResourceTradeOption> resourceTradeOptions;
 
-	public DevelopmentCardBuildingInformations(int index, String displayName, String texturePath, List<ResourceCostOption> resourceCostOptions, RewardInformations reward, int activationValue, List<ResourceTradeOption> resourceTradeOptions)
+	public DevelopmentCardBuildingInformations(String displayName, String texturePath, List<ResourceCostOption> resourceCostOptions, RewardInformations reward, int activationValue, List<ResourceTradeOption> resourceTradeOptions)
 	{
-		super(index, displayName, texturePath, CardType.BUILDING, resourceCostOptions, reward);
+		super(displayName, texturePath, CardType.BUILDING, resourceCostOptions, reward);
 		this.activationValue = activationValue;
 		this.resourceTradeOptions = new ArrayList<>(resourceTradeOptions);
 	}

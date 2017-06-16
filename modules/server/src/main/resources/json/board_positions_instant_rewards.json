@@ -1,112 +1,205 @@
 {
-	"MARKET_1": [
-		{
-			"resourceType": "COIN",
-			"amount": 5
-		}
-	],
-	"MARKET_2": [
-		{
-			"resourceType": "SERVANT",
-			"amount": 5
-		}
-	],
-	"MARKET_3": [
-		{
-			"resourceType": "MILITARY_POINT",
-			"amount": 3
-		},
-		{
-			"resourceType": "COIN",
-			"amount": 2
-		}
-	],
-	"MARKET_4": [
-		{
-			"resourceType": "COUNCIL_PRIVILEGE",
-			"amount": 1
-		},
-		{
-			"resourceType": "COUNCIL_PRIVILEGE",
-			"amount": 1
-		}
-	],
-	"MARKET_5": [
-		{
-			"resourceType": "WOOD",
-			"amount": 2
-		},
-		{
-			"resourceType": "STONE",
-			"amount": 2
-		}
-	],
-	"MARKET_6": [
-		{
-			"resourceType": "PRESTIGE_POINT",
-			"amount": 1
-		},
-		{
-			"resourceType": "VICTORY_POINT",
-			"amount": 1
-		}
-	],
-	"COUNCIL_PALACE": [
-		{
-			"resourceType": "COUNCIL_PRIVILEGE",
-			"amount": 1
-		},
-		{
-			"resourceType": "COIN",
-			"amount": 1
-		}
-	],
-	"BUILDING_3": [
-		{
-			"resourceType": "MILITARY_POINT",
-			"amount": 1
-		}
-	],
-	"BUILDING_4": [
-		{
-			"resourceType": "MILITARY_POINT",
-			"amount": 2
-		}
-	],
-	"CHARACTER_3": [
-		{
-			"resourceType": "STONE",
-			"amount": 1
-		}
-	],
-	"CHARACTER_4": [
-		{
-			"resourceType": "STONE",
-			"amount": 2
-		}
-	],
-	"TERRITORY_3": [
-		{
-			"resourceType": "WOOD",
-			"amount": 1
-		}
-	],
-	"TERRITORY_4": [
-		{
-			"resourceType": "WOOD",
-			"amount": 2
-		}
-	],
-	"VENTURE_3": [
-		{
-			"resourceType": "COIN",
-			"amount": 1
-		}
-	],
-	"VENTURE_4": [
-		{
-			"resourceType": "COIN",
-			"amount": 2
-		}
-	]
+	"PRODUCTION_BIG": {
+		"value": 1,
+		"resourceAmounts": []
+	},
+	"PRODUCTION_SMALL": {
+		"value": 1,
+		"resourceAmounts": []
+	},
+	"HARVEST_BIG": {
+		"value": 1,
+		"resourceAmounts": []
+	},
+	"HARVEST_SMALL": {
+		"value": 1,
+		"resourceAmounts": []
+	},
+	"MARKET_1": {
+		"value": 1,
+		"resourceAmounts": [
+			{
+				"resourceType": "COIN",
+				"amount": 5
+			}
+		]
+	},
+	"MARKET_2": {
+		"value": 1,
+		"resourceAmounts": [
+			{
+				"resourceType": "SERVANT",
+				"amount": 5
+			}
+		]
+	},
+	"MARKET_3": {
+		"value": 1,
+		"resourceAmounts": [
+			{
+				"resourceType": "MILITARY_POINT",
+				"amount": 3
+			},
+			{
+				"resourceType": "COIN",
+				"amount": 2
+			}
+		]
+	},
+	"MARKET_4": {
+		"value": 1,
+		"resourceAmounts": [
+			{
+				"resourceType": "COUNCIL_PRIVILEGE",
+				"amount": 1
+			},
+			{
+				"resourceType": "COUNCIL_PRIVILEGE",
+				"amount": 1
+			}
+		]
+	},
+	"MARKET_5": {
+		"value": 1,
+		"resourceAmounts": [
+			{
+				"resourceType": "WOOD",
+				"amount": 2
+			},
+			{
+				"resourceType": "STONE",
+				"amount": 2
+			}
+		]
+	},
+	"MARKET_6": {
+		"value": 1,
+		"resourceAmounts": [
+			{
+				"resourceType": "PRESTIGE_POINT",
+				"amount": 1
+			},
+			{
+				"resourceType": "VICTORY_POINT",
+				"amount": 1
+			}
+		]
+	},
+	"COUNCIL_PALACE": {
+		"value": 1,
+		"resourceAmounts": [
+			{
+				"resourceType": "COUNCIL_PRIVILEGE",
+				"amount": 1
+			},
+			{
+				"resourceType": "COIN",
+				"amount": 1
+			}
+		]
+	},
+	"BUILDING_1": {
+		"value": 1,
+		"resourceAmounts": []
+	},
+	"BUILDING_2": {
+		"value": 3,
+		"resourceAmounts": []
+	},
+	"BUILDING_3": {
+		"value": 5,
+		"resourceAmounts": [
+			{
+				"resourceType": "MILITARY_POINT",
+				"amount": 1
+			}
+		]
+	},
+	"BUILDING_4": {
+		"value": 6,
+		"resourceAmounts": [
+			{
+				"resourceType": "MILITARY_POINT",
+				"amount": 2
+			}
+		]
+	},
+	"CHARACTER_1": {
+		"value": 1,
+		"resourceAmounts": []
+	},
+	"CHARACTER_2": {
+		"value": 3,
+		"resourceAmounts": []
+	},
+	"CHARACTER_3": {
+		"value": 4,
+		"resourceAmounts": [
+			{
+				"resourceType": "STONE",
+				"amount": 1
+			}
+		]
+	},
+	"CHARACTER_4": {
+		"value": 5,
+		"resourceAmounts": [
+			{
+				"resourceType": "STONE",
+				"amount": 2
+			}
+		]
+	},
+	"TERRITORY_1": {
+		"value": 1,
+		"resourceAmounts": []
+	},
+	"TERRITORY_2": {
+		"value": 3,
+		"resourceAmounts": []
+	},
+	"TERRITORY_3": {
+		"value": 5,
+		"resourceAmounts": [
+			{
+				"resourceType": "WOOD",
+				"amount": 1
+			}
+		]
+	},
+	"TERRITORY_4": {
+		"value": 7,
+		"resourceAmounts": [
+			{
+				"resourceType": "WOOD",
+				"amount": 2
+			}
+		]
+	},
+	"VENTURE_1": {
+		"value": 1,
+		"resourceAmounts": []
+	},
+	"VENTURE_2": {
+		"value": 3,
+		"resourceAmounts": []
+	},
+	"VENTURE_3": {
+		"value": 5,
+		"resourceAmounts": [
+			{
+				"resourceType": "COIN",
+				"amount": 1
+			}
+		]
+	},
+	"VENTURE_4": {
+		"value": 7,
+		"resourceAmounts": [
+			{
+				"resourceType": "COIN",
+				"amount": 2
+			}
+		]
+	}
 }

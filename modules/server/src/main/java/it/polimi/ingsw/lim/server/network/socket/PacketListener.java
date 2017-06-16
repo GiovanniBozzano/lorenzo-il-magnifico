@@ -6,8 +6,9 @@ import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
-import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
+import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
+import it.polimi.ingsw.lim.common.game.cards.*;
+import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsSocket;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketAuthentication;
@@ -19,18 +20,14 @@ import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.board.ExcommunicationTile;
-import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
-import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
-import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
+import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
+import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 class PacketListener extends Thread
@@ -76,6 +73,7 @@ class PacketListener extends Thread
 				this.connectionSocket.disconnect(false, null);
 				return;
 			}
+			Server.getDebugger().log(Level.INFO, packet.getPacketType().name());
 			PacketListener.PACKET_HANDLERS.get(packet.getPacketType()).execute(this.connectionSocket, packet);
 		}
 	}
@@ -112,32 +110,39 @@ class PacketListener extends Thread
 				return false;
 			}
 			this.connectionSocket.setUsername(trimmedUsername);
-			List<DevelopmentCardInformations> developmentCardsInformations = new ArrayList<>();
+			Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuildingsInformations = new HashMap<>();
+			Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacterInformations = new HashMap<>();
+			Map<Integer, DevelopmentCardTerritoryInformations> developmentsCardTerritoryInformations = new HashMap<>();
+			Map<Integer, DevelopmentCardVentureInformations> developmentCardsVentureInformations = new HashMap<>();
 			for (Period period : Period.values()) {
-				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_BUILDING.get(period)) {
-					developmentCardsInformations.add(developmentCard.getInformations());
+				for (DevelopmentCardBuilding developmentCardBuilding : CardsHandler.DEVELOPMENT_CARDS_BUILDING.get(period)) {
+					developmentCardsBuildingsInformations.put(developmentCardBuilding.getIndex(), developmentCardBuilding.getInformations());
 				}
-				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.get(period)) {
-					developmentCardsInformations.add(developmentCard.getInformations());
+				for (DevelopmentCardCharacter developmentCardCharacter : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.get(period)) {
+					developmentCardsCharacterInformations.put(developmentCardCharacter.getIndex(), developmentCardCharacter.getInformations());
 				}
-				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.get(period)) {
-					developmentCardsInformations.add(developmentCard.getInformations());
+				for (DevelopmentCardTerritory developmentCardTerritory : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.get(period)) {
+					developmentsCardTerritoryInformations.put(developmentCardTerritory.getIndex(), developmentCardTerritory.getInformations());
 				}
-				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_VENTURE.get(period)) {
-					developmentCardsInformations.add(developmentCard.getInformations());
+				for (DevelopmentCardVenture developmentCardVenture : CardsHandler.DEVELOPMENT_CARDS_VENTURE.get(period)) {
+					developmentCardsVentureInformations.put(developmentCardVenture.getIndex(), developmentCardVenture.getInformations());
 				}
 			}
-			List<LeaderCardInformations> leaderCardsInformations = new ArrayList<>();
+			Map<Integer, LeaderCardInformations> leaderCardsInformations = new HashMap<>();
 			for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
-				leaderCardsInformations.add(leaderCard.getInformations());
+				leaderCardsInformations.put(leaderCard.getIndex(), leaderCard.getInformations());
 			}
-			List<ExcommunicationTileInformations> excommunicationTilesInformations = new ArrayList<>();
+			Map<Integer, ExcommunicationTileInformations> excommunicationTilesInformations = new HashMap<>();
 			for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
-				excommunicationTilesInformations.add(new ExcommunicationTileInformations(excommunicationTile.getIndex(), excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
+				excommunicationTilesInformations.put(excommunicationTile.getIndex(), new ExcommunicationTileInformations(excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
 			}
-			List<CouncilPalaceRewardInformations> councilPalaceRewardsInformations = new ArrayList<>();
+			Map<Integer, CouncilPalaceRewardInformations> councilPalaceRewardsInformations = new HashMap<>();
 			for (CouncilPalaceReward councilPalaceReward : BoardHandler.getCouncilPrivilegeRewards()) {
-				councilPalaceRewardsInformations.add(councilPalaceReward.getInformations());
+				councilPalaceRewardsInformations.put(councilPalaceReward.getIndex(), councilPalaceReward.getInformations());
+			}
+			Map<Integer, PersonalBonusTileInformations> personalBonusTilesInformations = new HashMap<>();
+			for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
+				personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
 			}
 			Room playerRoom;
 			if ((playerRoom = Room.getPlayerRoom(trimmedUsername)) == null) {
@@ -158,7 +163,7 @@ class PacketListener extends Thread
 					player.sendRoomEntryOther(trimmedUsername);
 					playerUsernames.add(player.getUsername());
 				}
-				this.connectionSocket.sendAuthenticationConfirmation(developmentCardsInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, new RoomInformations(targetRoom.getRoomType(), playerUsernames));
+				this.connectionSocket.sendAuthenticationConfirmation(new AuthenticationInformationsSocket(developmentCardsBuildingsInformations, developmentCardsCharacterInformations, developmentsCardTerritoryInformations, developmentCardsVentureInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, personalBonusTilesInformations, new RoomInformations(targetRoom.getRoomType(), playerUsernames), trimmedUsername));
 			} else {
 				for (Connection player : playerRoom.getPlayers()) {
 					if (player.getUsername().equals(trimmedUsername)) {
@@ -174,7 +179,7 @@ class PacketListener extends Thread
 				for (Connection player : playerRoom.getPlayers()) {
 					playerUsernames.add(player.getUsername());
 				}
-				this.connectionSocket.sendAuthenticationConfirmation(developmentCardsInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, new RoomInformations(playerRoom.getRoomType(), playerUsernames));
+				this.connectionSocket.sendAuthenticationConfirmation(new AuthenticationInformationsSocket(developmentCardsBuildingsInformations, developmentCardsCharacterInformations, developmentsCardTerritoryInformations, developmentCardsVentureInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, personalBonusTilesInformations, new RoomInformations(playerRoom.getRoomType(), playerUsernames), trimmedUsername));
 			}
 		}
 		return true;

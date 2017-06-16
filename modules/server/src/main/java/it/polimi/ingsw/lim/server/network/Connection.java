@@ -4,7 +4,6 @@ import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
-import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.server.Server;
@@ -89,7 +88,7 @@ public abstract class Connection
 
 	public abstract void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex);
 
-	public abstract void sendGamePersonalBonusTileChoiceRequest(List<PersonalBonusTileInformations> personalBonusTilesInformations);
+	public abstract void sendGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles);
 
 	public abstract void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex);
 
@@ -134,15 +133,17 @@ public abstract class Connection
 			return;
 		}
 		boolean valid = false;
-		for (PersonalBonusTileInformations personalBonusTileInformations : gameHandler.getPersonalBonusTilesInformations()) {
-			if (personalBonusTileInformations.getIndex() == personalBonusTileIndex) {
+		for (Integer availablePersonalBonusTileIndex : gameHandler.getAvailablePersonalBonusTiles()) {
+			if (availablePersonalBonusTileIndex == personalBonusTileIndex) {
 				valid = true;
+				break;
 			}
 		}
 		if (!valid) {
-			this.sendGamePersonalBonusTileChoiceRequest(gameHandler.getPersonalBonusTilesInformations());
+			this.sendGamePersonalBonusTileChoiceRequest(gameHandler.getAvailablePersonalBonusTiles());
 			return;
 		}
+		gameHandler.getAvailablePersonalBonusTiles().remove(gameHandler.getAvailablePersonalBonusTiles().indexOf(personalBonusTileIndex));
 		for (Connection player : room.getPlayers()) {
 			player.sendGamePersonalBonusTileChosen(this.getPlayerHandler().getIndex());
 		}

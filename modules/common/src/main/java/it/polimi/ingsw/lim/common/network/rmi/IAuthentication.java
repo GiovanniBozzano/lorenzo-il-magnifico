@@ -8,9 +8,9 @@ import java.rmi.RemoteException;
 
 public interface IAuthentication extends Remote
 {
-	AuthenticationInformations sendLogin(String version, String name, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException;
+	AuthenticationInformationsRMI sendLogin(String version, String name, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException;
 
-	AuthenticationInformations sendRegistration(String version, String name, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException;
+	AuthenticationInformationsRMI sendRegistration(String version, String name, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException;
 
 	void sendHeartbeat() throws RemoteException;
 }

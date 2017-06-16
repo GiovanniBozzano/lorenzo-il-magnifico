@@ -71,7 +71,7 @@ public class CardsHandler
 				event.setFamilyMemberValue(event.getFamilyMemberValue() + 2);
 			}
 		}));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(3, "", "Lorenzo de' Medici", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.VICTORY_POINT, 35)))))), null));
+		//CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(3, "", "Lorenzo de' Medici", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.VICTORY_POINT, 35)))))), null));
 		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(4, "", "Ludovico Ariosto", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.CHARACTER, 5))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "You can place your Family Members in occupied action spaces.")
 		{
 			@Override
@@ -164,22 +164,22 @@ public class CardsHandler
 		this.currentDevelopmentCards.put(CardType.VENTURE, this.currentDevelopmentCardsVenture);
 	}
 
-	public void addDevelopmentCard(DevelopmentCardBuilding developmentCard, Row row)
+	public void addDevelopmentCard(Row row, DevelopmentCardBuilding developmentCard)
 	{
 		this.currentDevelopmentCardsBuilding.put(row, developmentCard);
 	}
 
-	public void addDevelopmentCard(DevelopmentCardCharacter developmentCard, Row row)
+	public void addDevelopmentCard(Row row, DevelopmentCardCharacter developmentCard)
 	{
 		this.currentDevelopmentCardsCharacter.put(row, developmentCard);
 	}
 
-	public void addDevelopmentCard(DevelopmentCardTerritory developmentCard, Row row)
+	public void addDevelopmentCard(Row row, DevelopmentCardTerritory developmentCard)
 	{
 		this.currentDevelopmentCardsTerritory.put(row, developmentCard);
 	}
 
-	public void addDevelopmentCard(DevelopmentCardVenture developmentCard, Row row)
+	public void addDevelopmentCard(Row row, DevelopmentCardVenture developmentCard)
 	{
 		this.currentDevelopmentCardsVenture.put(row, developmentCard);
 	}

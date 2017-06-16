@@ -6,7 +6,6 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.utils.BoardPositionInformations;
@@ -21,7 +20,7 @@ import java.util.logging.Level;
 
 public class BoardHandler
 {
-	public static final Map<BoardPosition, BoardPositionInformations> BOARD_POSITIONS_INFORMATIONS = new BoardPositionsInstantRewardsBuilder("/json/board_positions_instant_rewards.json").initialize();
+	public static final Map<BoardPosition, BoardPositionInformations> BOARD_POSITIONS_INFORMATIONS = new BoardPositionsInformationsBuilder("/json/board_positions_instant_rewards.json").initialize();
 	private static final List<CouncilPalaceReward> COUNCIL_PRIVILEGE_REWARDS = new CouncilPrivilegeRewardsBuilder("/json/council_privilege_rewards.json").initialize();
 	private final Map<Period, ExcommunicationTile> excommunicationTiles;
 	private final List<Connection> councilPalaceOrder = new LinkedList<>();
@@ -54,13 +53,13 @@ public class BoardHandler
 		return this.councilPalaceOrder;
 	}
 
-	private static class BoardPositionsInstantRewardsBuilder
+	private static class BoardPositionsInformationsBuilder
 	{
 		private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
-		private static final Gson GSON = BoardPositionsInstantRewardsBuilder.GSON_BUILDER.create();
+		private static final Gson GSON = BoardPositionsInformationsBuilder.GSON_BUILDER.create();
 		private final String jsonFile;
 
-		BoardPositionsInstantRewardsBuilder(String jsonFile)
+		BoardPositionsInformationsBuilder(String jsonFile)
 		{
 			this.jsonFile = jsonFile;
 		}
@@ -68,7 +67,7 @@ public class BoardHandler
 		Map<BoardPosition, BoardPositionInformations> initialize()
 		{
 			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
-				return BoardPositionsInstantRewardsBuilder.GSON.fromJson(reader, new TypeToken<Map<BoardPosition, List<ResourceAmount>>>()
+				return BoardPositionsInformationsBuilder.GSON.fromJson(reader, new TypeToken<Map<BoardPosition, BoardPositionInformations>>()
 				{
 				}.getType());
 			} catch (IOException exception) {

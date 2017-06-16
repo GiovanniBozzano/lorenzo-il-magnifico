@@ -6,9 +6,9 @@ public abstract class CardInformations extends ObjectInformations
 {
 	private final String displayName;
 
-	CardInformations(int index, String texturePath, String displayName)
+	CardInformations(String texturePath, String displayName)
 	{
-		super(index, texturePath);
+		super(texturePath);
 		this.displayName = displayName;
 	}
 

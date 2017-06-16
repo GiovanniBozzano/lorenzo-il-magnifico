@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
 import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardTerritoryInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
@@ -23,9 +22,9 @@ public class DevelopmentCardTerritory extends DevelopmentCard
 	}
 
 	@Override
-	public DevelopmentCardInformations getInformations()
+	public DevelopmentCardTerritoryInformations getInformations()
 	{
-		return new DevelopmentCardTerritoryInformations(this.getIndex(), this.getTexturePath(), this.getDisplayName(), this.getResourceCostOptions(), new RewardInformations(this.getReward().getActionReward().getDescription(), this.getReward().getResourceAmounts()), this.activationValue, this.harvestResources);
+		return new DevelopmentCardTerritoryInformations(this.getTexturePath(), this.getDisplayName(), this.getResourceCostOptions(), this.getReward() == null ? null : new RewardInformations(this.getReward().getActionReward() == null ? null : this.getReward().getActionReward().getDescription(), this.getReward().getResourceAmounts()), this.activationValue, this.harvestResources);
 	}
 
 	public int getActivationValue()

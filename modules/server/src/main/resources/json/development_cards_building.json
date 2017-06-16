@@ -2,7 +2,7 @@
 	"FIRST": [
 		{
 			"index": 0,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_0.png",
 			"displayName": "Mint",
 			"resourceCostOptions": [
 				{
@@ -48,7 +48,7 @@
 		},
 		{
 			"index": 1,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_1.png",
 			"displayName": "Tax Office",
 			"resourceCostOptions": [
 				{
@@ -94,7 +94,7 @@
 		},
 		{
 			"index": 2,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_2.png",
 			"displayName": "Triumphal Arch",
 			"resourceCostOptions": [
 				{
@@ -140,7 +140,7 @@
 		},
 		{
 			"index": 3,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_3.png",
 			"displayName": "Theater",
 			"resourceCostOptions": [
 				{
@@ -186,7 +186,7 @@
 		},
 		{
 			"index": 4,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_4.png",
 			"displayName": "Carpenter's Shop",
 			"resourceCostOptions": [
 				{
@@ -253,7 +253,7 @@
 		},
 		{
 			"index": 5,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_5.png",
 			"displayName": "Stonemason's Shop",
 			"resourceCostOptions": [
 				{
@@ -320,7 +320,7 @@
 		},
 		{
 			"index": 6,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_6.png",
 			"displayName": "Chapel",
 			"resourceCostOptions": [
 				{
@@ -366,7 +366,7 @@
 		},
 		{
 			"index": 7,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_7.png",
 			"displayName": "Residence",
 			"resourceCostOptions": [
 				{
@@ -414,7 +414,7 @@
 	"SECOND": [
 		{
 			"index": 8,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_8.png",
 			"displayName": "Marketplace",
 			"resourceCostOptions": [
 				{
@@ -470,7 +470,7 @@
 		},
 		{
 			"index": 9,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_9.png",
 			"displayName": "Treasury",
 			"resourceCostOptions": [
 				{
@@ -532,7 +532,7 @@
 		},
 		{
 			"index": 10,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_10.png",
 			"displayName": "Painters' Guild",
 			"resourceCostOptions": [
 				{
@@ -594,7 +594,7 @@
 		},
 		{
 			"index": 11,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_11.png",
 			"displayName": "Sculptors' Guild",
 			"resourceCostOptions": [
 				{
@@ -656,7 +656,7 @@
 		},
 		{
 			"index": 12,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_12.png",
 			"displayName": "Stonemasons' Guild",
 			"resourceCostOptions": [
 				{
@@ -717,7 +717,7 @@
 		},
 		{
 			"index": 13,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_13.png",
 			"displayName": "Baptistery",
 			"resourceCostOptions": [
 				{
@@ -773,7 +773,7 @@
 		},
 		{
 			"index": 14,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_14.png",
 			"displayName": "Barracks",
 			"resourceCostOptions": [
 				{
@@ -824,7 +824,7 @@
 		},
 		{
 			"index": 15,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_15.png",
 			"displayName": "Stronghold",
 			"resourceCostOptions": [
 				{
@@ -881,7 +881,7 @@
 	"THIRD": [
 		{
 			"index": 16,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_16.png",
 			"displayName": "Bank",
 			"resourceCostOptions": [
 				{
@@ -931,7 +931,7 @@
 		},
 		{
 			"index": 17,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_17.png",
 			"displayName": "Fair",
 			"resourceCostOptions": [
 				{
@@ -987,7 +987,7 @@
 		},
 		{
 			"index": 18,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_18.png",
 			"displayName": "Garden",
 			"resourceCostOptions": [
 				{
@@ -1037,7 +1037,7 @@
 		},
 		{
 			"index": 19,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_19.png",
 			"displayName": "Fortress",
 			"resourceCostOptions": [
 				{
@@ -1092,7 +1092,7 @@
 		},
 		{
 			"index": 20,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_20.png",
 			"displayName": "Palace",
 			"resourceCostOptions": [
 				{
@@ -1153,7 +1153,7 @@
 		},
 		{
 			"index": 21,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_21.png",
 			"displayName": "Church",
 			"resourceCostOptions": [
 				{
@@ -1225,7 +1225,7 @@
 		},
 		{
 			"index": 22,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_22.png",
 			"displayName": "Military Academy",
 			"resourceCostOptions": [
 				{
@@ -1286,7 +1286,7 @@
 		},
 		{
 			"index": 23,
-			"texturePath": "/images/.png",
+			"texturePath": "/images/development_cards/building/development_card_building_23.png",
 			"displayName": "Cathedral",
 			"resourceCostOptions": [
 				{
