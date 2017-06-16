@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
@@ -67,22 +68,29 @@ public class WindowFactory
 				return;
 			}
 			Stage stage = new Stage();
+			((CustomController) fxmlLoader.getController()).setStage(stage);
 			stage.addEventHandler(WindowEvent.WINDOW_SHOWN, event -> this.openWindows.put(stage, fxmlLoader.getController()));
 			stage.addEventHandler(WindowEvent.WINDOW_HIDDEN, event -> this.openWindows.remove(stage));
-			stage.focusedProperty().addListener((observable, wasFocused, isNowFocused) -> {
-				if (isNowFocused) {
+			stage.focusedProperty().addListener((observable, oldValue, newValue) -> {
+				if (newValue) {
 					this.currentWindow.set(new WindowInformations(fxmlLoader.getController(), stage));
 				}
 			});
 			stage.setScene(new Scene(parent));
 			stage.sizeToScene();
+			Platform.runLater(() -> ((CustomController) fxmlLoader.getController()).setupGui());
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setResizable(false);
+			stage.iconifiedProperty().addListener((observable, oldValue, newValue) -> {
+				if (!newValue) {
+					stage.getScene().setCursor(Cursor.HAND);
+					stage.getScene().setCursor(Cursor.DEFAULT);
+				}
+			});
 			if (closeOthers) {
 				this.closeAllWindows();
 			}
 			stage.show();
-			((CustomController) fxmlLoader.getController()).setupGui();
 			if (postShowing != null) {
 				ExecutorService executorService = Executors.newSingleThreadExecutor();
 				executorService.execute(postShowing);

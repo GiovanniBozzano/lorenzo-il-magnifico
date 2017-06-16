@@ -15,6 +15,8 @@ public enum BoardPosition
 	MARKET_2,
 	MARKET_3,
 	MARKET_4,
+	MARKET_5,
+	MARKET_6,
 	TERRITORY_1,
 	TERRITORY_2,
 	TERRITORY_3,

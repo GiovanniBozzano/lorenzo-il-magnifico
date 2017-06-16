@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.client.network.rmi;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
@@ -150,8 +151,23 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		});
 	}
 
+	@Override
+	public synchronized void sendGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex)
+	{
+		super.sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex);
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.clientSession.sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex);
+			} catch (RemoteException exception) {
+				Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, false);
+			}
+		});
+	}
+
 	private void finalizeAuthentication(String username, AuthenticationInformations authenticationInformations)
 	{
+		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getCouncilPalaceRewardInformations());
 		this.clientSession = authenticationInformations.getClientSession();
 		Client.getInstance().setUsername(username);
 		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, true, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));

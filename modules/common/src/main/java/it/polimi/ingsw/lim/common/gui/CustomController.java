@@ -15,6 +15,8 @@ import java.util.ResourceBundle;
 public abstract class CustomController implements Initializable
 {
 	@FXML private StackPane stackPane;
+	private Stage stage;
+	private boolean initialized = false;
 	private double xOffset;
 	private double yOffset;
 
@@ -80,6 +82,26 @@ public abstract class CustomController implements Initializable
 	public void setDisable(boolean disable)
 	{
 		this.stackPane.getScene().getRoot().setDisable(disable);
+	}
+
+	public Stage getStage()
+	{
+		return this.stage;
+	}
+
+	public void setStage(Stage stage)
+	{
+		this.stage = stage;
+	}
+
+	public boolean isInitialized()
+	{
+		return this.initialized;
+	}
+
+	public void setInitialized(boolean initialized)
+	{
+		this.initialized = initialized;
 	}
 
 	protected StackPane getStackPane()

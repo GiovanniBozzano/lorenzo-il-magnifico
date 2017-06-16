@@ -1,5 +1,5 @@
 {
-	"firstPeriod": [
+	"FIRST": [
 		{
 			"index": 0,
 			"texturePath": "/images/.png",
@@ -272,7 +272,7 @@
 			"modifier": null
 		}
 	],
-	"secondPeriod": [
+	"SECOND": [
 		{
 			"index": 8,
 			"texturePath": "/images/.png",
@@ -537,7 +537,7 @@
 			"modifier": null
 		}
 	],
-	"thirdPeriod": [
+	"THIRD": [
 		{
 			"index": 16,
 			"texturePath": "/images/.png",

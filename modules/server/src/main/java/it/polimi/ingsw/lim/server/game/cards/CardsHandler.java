@@ -1,26 +1,30 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
-import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.enums.Row;
-import it.polimi.ingsw.lim.common.game.utils.CardAmount;
-import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
-import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.lim.common.Instance;
+import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.game.utils.*;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
+import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
-import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardHarvest;
-import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardProduction;
-import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardTemporaryModifier;
+import it.polimi.ingsw.lim.server.game.actionrewards.*;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardModifier;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.events.EventChurchSupport;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
-import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
+import it.polimi.ingsw.lim.server.game.modifiers.*;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.*;
+import java.util.logging.Level;
 
 public class CardsHandler
 {
@@ -33,10 +37,10 @@ public class CardsHandler
 		CardsHandler.DEVELOPMENT_CARDS_TYPES.put(CardType.VENTURE, DevelopmentCardVenture.class);
 	}
 
-	public static final DevelopmentCardsDeck<DevelopmentCardBuilding> DEVELOPMENT_CARDS_BUILDING = new DevelopmentCardsDeck.Builder<>(DevelopmentCardBuilding.class, "/json/development_cards_building.json").initialize();
-	public static final DevelopmentCardsDeck<DevelopmentCardCharacter> DEVELOPMENT_CARDS_CHARACTER = new DevelopmentCardsDeck.Builder<>(DevelopmentCardCharacter.class, "/json/development_cards_character.json").initialize();
-	public static final DevelopmentCardsDeck<DevelopmentCardTerritory> DEVELOPMENT_CARDS_TERRITORY = new DevelopmentCardsDeck.Builder<>(DevelopmentCardTerritory.class, "/json/development_cards_territory.json").initialize();
-	public static final DevelopmentCardsDeck<DevelopmentCardVenture> DEVELOPMENT_CARDS_VENTURE = new DevelopmentCardsDeck.Builder<>(DevelopmentCardVenture.class, "/json/development_cards_venture.json").initialize();
+	public static final Map<Period, List<DevelopmentCardBuilding>> DEVELOPMENT_CARDS_BUILDING = new DevelopmentCardsBuildingBuilder("/json/development_cards_building.json").initialize();
+	public static final Map<Period, List<DevelopmentCardCharacter>> DEVELOPMENT_CARDS_CHARACTER = new DevelopmentCardsCharacterBuilder("/json/development_cards_character.json").initialize();
+	public static final Map<Period, List<DevelopmentCardTerritory>> DEVELOPMENT_CARDS_TERRITORY = new DevelopmentCardsTerritoryBuilder("/json/development_cards_territory.json").initialize();
+	public static final Map<Period, List<DevelopmentCardVenture>> DEVELOPMENT_CARDS_VENTURE = new DevelopmentCardsVentureBuilder("/json/development_cards_venture.json").initialize();
 	private static final List<LeaderCard> LEADER_CARDS = new ArrayList<>();
 
 	static {
@@ -193,5 +197,113 @@ public class CardsHandler
 	public Map<CardType, Map<Row, DevelopmentCard>> getCurrentDevelopmentCards()
 	{
 		return this.currentDevelopmentCards;
+	}
+
+	private static class DevelopmentCardsBuildingBuilder
+	{
+		private static final RuntimeTypeAdapterFactory<ResourceAmount> RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT = RuntimeTypeAdapterFactory.of(ResourceAmount.class).registerSubtype(ResourceAmount.class, "STANDARD").registerSubtype(ResourceAmountMultiplierCard.class, "MULTIPLIER_CARD").registerSubtype(ResourceAmountMultiplierResource.class, "MULTIPLIER_RESOURCE");
+		private static final RuntimeTypeAdapterFactory<Modifier> RUNTIME_TYPE_ADAPTER_FACTORY_MODIFIER = RuntimeTypeAdapterFactory.of(Modifier.class).registerSubtype(ModifierGetDevelopmentCard.class, "CARD").registerSubtype(ModifierStartHarvest.class, "HARVEST").registerSubtype(ModifierStartProduction.class, "PRODUCTION").registerSubtype(ModifierGetDevelopmentCardReward.class, "MALUS");
+		private static final RuntimeTypeAdapterFactory<ActionReward> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(ActionReward.class).registerSubtype(ActionRewardGetDevelopmentCard.class, "CARD").registerSubtype(ActionRewardHarvest.class, "HARVEST").registerSubtype(ActionRewardProduction.class, "PRODUCTION");
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapterFactory(DevelopmentCardsBuildingBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT).registerTypeAdapterFactory(DevelopmentCardsBuildingBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_MODIFIER).registerTypeAdapterFactory(DevelopmentCardsBuildingBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_EVENT);
+		private static final Gson GSON = DevelopmentCardsBuildingBuilder.GSON_BUILDER.create();
+		private final String jsonFile;
+
+		DevelopmentCardsBuildingBuilder(String jsonFile)
+		{
+			this.jsonFile = jsonFile;
+		}
+
+		Map<Period, List<DevelopmentCardBuilding>> initialize()
+		{
+			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
+				return DevelopmentCardsBuildingBuilder.GSON.fromJson(reader, new TypeToken<Map<Period, List<DevelopmentCardBuilding>>>()
+				{
+				}.getType());
+			} catch (IOException exception) {
+				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+			return new HashMap<>();
+		}
+	}
+
+	private static class DevelopmentCardsCharacterBuilder
+	{
+		private static final RuntimeTypeAdapterFactory<ResourceAmount> RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT = RuntimeTypeAdapterFactory.of(ResourceAmount.class).registerSubtype(ResourceAmount.class, "STANDARD").registerSubtype(ResourceAmountMultiplierCard.class, "MULTIPLIER_CARD").registerSubtype(ResourceAmountMultiplierResource.class, "MULTIPLIER_RESOURCE");
+		private static final RuntimeTypeAdapterFactory<Modifier> RUNTIME_TYPE_ADAPTER_FACTORY_MODIFIER = RuntimeTypeAdapterFactory.of(Modifier.class).registerSubtype(ModifierGetDevelopmentCard.class, "CARD").registerSubtype(ModifierStartHarvest.class, "HARVEST").registerSubtype(ModifierStartProduction.class, "PRODUCTION").registerSubtype(ModifierGetDevelopmentCardReward.class, "MALUS");
+		private static final RuntimeTypeAdapterFactory<ActionReward> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(ActionReward.class).registerSubtype(ActionRewardGetDevelopmentCard.class, "CARD").registerSubtype(ActionRewardHarvest.class, "HARVEST").registerSubtype(ActionRewardProduction.class, "PRODUCTION");
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapterFactory(DevelopmentCardsCharacterBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT).registerTypeAdapterFactory(DevelopmentCardsCharacterBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_MODIFIER).registerTypeAdapterFactory(DevelopmentCardsCharacterBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_EVENT);
+		private static final Gson GSON = DevelopmentCardsCharacterBuilder.GSON_BUILDER.create();
+		private final String jsonFile;
+
+		DevelopmentCardsCharacterBuilder(String jsonFile)
+		{
+			this.jsonFile = jsonFile;
+		}
+
+		Map<Period, List<DevelopmentCardCharacter>> initialize()
+		{
+			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
+				return DevelopmentCardsCharacterBuilder.GSON.fromJson(reader, new TypeToken<Map<Period, List<DevelopmentCardCharacter>>>()
+				{
+				}.getType());
+			} catch (IOException exception) {
+				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+			return new HashMap<>();
+		}
+	}
+
+	private static class DevelopmentCardsTerritoryBuilder
+	{
+		private static final RuntimeTypeAdapterFactory<ResourceAmount> RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT = RuntimeTypeAdapterFactory.of(ResourceAmount.class).registerSubtype(ResourceAmount.class, "STANDARD").registerSubtype(ResourceAmountMultiplierCard.class, "MULTIPLIER_CARD").registerSubtype(ResourceAmountMultiplierResource.class, "MULTIPLIER_RESOURCE");
+		private static final RuntimeTypeAdapterFactory<Modifier> RUNTIME_TYPE_ADAPTER_FACTORY_MODIFIER = RuntimeTypeAdapterFactory.of(Modifier.class).registerSubtype(ModifierGetDevelopmentCard.class, "CARD").registerSubtype(ModifierStartHarvest.class, "HARVEST").registerSubtype(ModifierStartProduction.class, "PRODUCTION").registerSubtype(ModifierGetDevelopmentCardReward.class, "MALUS");
+		private static final RuntimeTypeAdapterFactory<ActionReward> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(ActionReward.class).registerSubtype(ActionRewardGetDevelopmentCard.class, "CARD").registerSubtype(ActionRewardHarvest.class, "HARVEST").registerSubtype(ActionRewardProduction.class, "PRODUCTION");
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapterFactory(DevelopmentCardsTerritoryBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT).registerTypeAdapterFactory(DevelopmentCardsTerritoryBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_MODIFIER).registerTypeAdapterFactory(DevelopmentCardsTerritoryBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_EVENT);
+		private static final Gson GSON = DevelopmentCardsTerritoryBuilder.GSON_BUILDER.create();
+		private final String jsonFile;
+
+		DevelopmentCardsTerritoryBuilder(String jsonFile)
+		{
+			this.jsonFile = jsonFile;
+		}
+
+		Map<Period, List<DevelopmentCardTerritory>> initialize()
+		{
+			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
+				return DevelopmentCardsTerritoryBuilder.GSON.fromJson(reader, new TypeToken<Map<Period, List<DevelopmentCardTerritory>>>()
+				{
+				}.getType());
+			} catch (IOException exception) {
+				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+			return new HashMap<>();
+		}
+	}
+
+	private static class DevelopmentCardsVentureBuilder
+	{
+		private static final RuntimeTypeAdapterFactory<ResourceAmount> RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT = RuntimeTypeAdapterFactory.of(ResourceAmount.class).registerSubtype(ResourceAmount.class, "STANDARD").registerSubtype(ResourceAmountMultiplierCard.class, "MULTIPLIER_CARD").registerSubtype(ResourceAmountMultiplierResource.class, "MULTIPLIER_RESOURCE");
+		private static final RuntimeTypeAdapterFactory<Modifier> RUNTIME_TYPE_ADAPTER_FACTORY_MODIFIER = RuntimeTypeAdapterFactory.of(Modifier.class).registerSubtype(ModifierGetDevelopmentCard.class, "CARD").registerSubtype(ModifierStartHarvest.class, "HARVEST").registerSubtype(ModifierStartProduction.class, "PRODUCTION").registerSubtype(ModifierGetDevelopmentCardReward.class, "MALUS");
+		private static final RuntimeTypeAdapterFactory<ActionReward> RUNTIME_TYPE_ADAPTER_FACTORY_EVENT = RuntimeTypeAdapterFactory.of(ActionReward.class).registerSubtype(ActionRewardGetDevelopmentCard.class, "CARD").registerSubtype(ActionRewardHarvest.class, "HARVEST").registerSubtype(ActionRewardProduction.class, "PRODUCTION");
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapterFactory(DevelopmentCardsVentureBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_RESOURCE_AMOUNT).registerTypeAdapterFactory(DevelopmentCardsVentureBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_MODIFIER).registerTypeAdapterFactory(DevelopmentCardsVentureBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_EVENT);
+		private static final Gson GSON = DevelopmentCardsVentureBuilder.GSON_BUILDER.create();
+		private final String jsonFile;
+
+		DevelopmentCardsVentureBuilder(String jsonFile)
+		{
+			this.jsonFile = jsonFile;
+		}
+
+		Map<Period, List<DevelopmentCardVenture>> initialize()
+		{
+			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
+				return DevelopmentCardsVentureBuilder.GSON.fromJson(reader, new TypeToken<Map<Period, List<DevelopmentCardVenture>>>()
+				{
+				}.getType());
+			} catch (IOException exception) {
+				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+			return new HashMap<>();
+		}
 	}
 }

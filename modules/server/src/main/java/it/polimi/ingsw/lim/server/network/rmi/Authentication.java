@@ -5,8 +5,8 @@ import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
-import it.polimi.ingsw.lim.common.game.cards.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
 import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
@@ -88,16 +88,16 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	{
 		List<DevelopmentCardInformations> developmentCardsInformations = new ArrayList<>();
 		for (Period period : Period.values()) {
-			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_BUILDING.getPeriods().get(period)) {
+			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_BUILDING.get(period)) {
 				developmentCardsInformations.add(developmentCard.getInformations());
 			}
-			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.getPeriods().get(period)) {
+			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.get(period)) {
 				developmentCardsInformations.add(developmentCard.getInformations());
 			}
-			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.getPeriods().get(period)) {
+			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.get(period)) {
 				developmentCardsInformations.add(developmentCard.getInformations());
 			}
-			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_VENTURE.getPeriods().get(period)) {
+			for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_VENTURE.get(period)) {
 				developmentCardsInformations.add(developmentCard.getInformations());
 			}
 		}

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.common.utils;
 
 import it.polimi.ingsw.lim.common.Instance;
+import javafx.scene.text.Font;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -21,6 +22,23 @@ public class CommonUtils
 	public static final String REGEX_USERNAME = "^[\\w\\-]{4,16}$";
 	private static final byte[] IV = { 120, 7, 71, 53, 82, 112, 20, 8, 1, 19, 68, 26, 35, 56, 118, 23 };
 	private static final byte[] CRYPT_KEY = { 55, 78, 54, 102, 106, 89, 70, 69, 112, 83, 71, 88, 80, 98, 55, 108 };
+	public static final Font ROBOTO_BLACK = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-Black.ttf"), 12);
+	public static final Font ROBOTO_BOLD = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-Bold.ttf"), 12);
+	public static final Font ROBOTO_BOLD_ITALIC = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-BoldItalic.ttf"), 12);
+	public static final Font ROBOTO_ITALIC = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-Italic.ttf"), 12);
+	public static final Font ROBOTO_LIGHT = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-Light.ttf"), 12);
+	public static final Font ROBOTO_LIGHT_ITALIC = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-LightItalic.ttf"), 12);
+	public static final Font ROBOTO_MEDIUM = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-Medium.ttf"), 12);
+	public static final Font ROBOTO_MEDIUM_ITALIC = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-MediumItalic.ttf"), 12);
+	public static final Font ROBOTO_REGULAR = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-Regular.ttf"), 12);
+	public static final Font ROBOTO_THIN = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-Thin.ttf"), 12);
+	public static final Font ROBOTO_THIN_ITALIC = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-ThinItalic.ttf"), 12);
+	public static final Font ROBOTO_CONDENSED_BOLD = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/RobotoCondensed-Bold.ttf"), 12);
+	public static final Font ROBOTO_CONDENSED_BOLD_ITALIC = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/RobotoCondensed-BoldItalic.ttf"), 12);
+	public static final Font ROBOTO_CONDENSED_ITALIC = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/RobotoCondensed-Italic.ttf"), 12);
+	public static final Font ROBOTO_CONDENSED_LIGHT = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/RobotoCondensed-Light.ttf"), 12);
+	public static final Font ROBOTO_CONDENSED_LIGHT_ITALIC = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/RobotoCondensed-LightItalic.ttf"), 12);
+	public static final Font ROBOTO_CONDENSED_REGULAR = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/RobotoCondensed-Regular.ttf"), 12);
 
 	private CommonUtils()
 	{

@@ -4,9 +4,11 @@ import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
-import it.polimi.ingsw.lim.common.game.player.PlayerData;
+import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
+import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
 
@@ -85,13 +87,19 @@ public abstract class Connection
 
 	public abstract void sendChatMessage(String text);
 
-	public abstract void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerData> playersData);
+	public abstract void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex);
+
+	public abstract void sendGamePersonalBonusTileChoiceRequest(List<PersonalBonusTileInformations> personalBonusTilesInformations);
+
+	public abstract void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex);
+
+	public abstract void sendGamePersonalBonusTileChosen(int choicePlayerIndex);
 
 	public abstract void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions);
 
 	public abstract void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, ExpectedAction expectedAction);
 
-	public abstract void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations);
+	public abstract void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, int turnPlayerIndex);
 
 	public void handleRoomTimerRequest()
 	{
@@ -113,6 +121,32 @@ public abstract class Connection
 				otherConnection.sendChatMessage("[" + this.getUsername() + "]: " + text);
 			}
 		}
+	}
+
+	public void handleGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex)
+	{
+		Room room = Room.getPlayerRoom(this);
+		if (room == null) {
+			return;
+		}
+		GameHandler gameHandler = room.getGameHandler();
+		if (gameHandler == null) {
+			return;
+		}
+		boolean valid = false;
+		for (PersonalBonusTileInformations personalBonusTileInformations : gameHandler.getPersonalBonusTilesInformations()) {
+			if (personalBonusTileInformations.getIndex() == personalBonusTileIndex) {
+				valid = true;
+			}
+		}
+		if (!valid) {
+			this.sendGamePersonalBonusTileChoiceRequest(gameHandler.getPersonalBonusTilesInformations());
+			return;
+		}
+		for (Connection player : room.getPlayers()) {
+			player.sendGamePersonalBonusTileChosen(this.getPlayerHandler().getIndex());
+		}
+		gameHandler.receivedPersonalBonusTileChoice();
 	}
 
 	public String getUsername()

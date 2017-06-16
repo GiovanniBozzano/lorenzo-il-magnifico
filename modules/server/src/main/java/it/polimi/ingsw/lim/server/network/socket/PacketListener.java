@@ -5,14 +5,15 @@ import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
-import it.polimi.ingsw.lim.common.game.cards.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketAuthentication;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
+import it.polimi.ingsw.lim.common.network.socket.packets.server.PacketGamePersonalBonusTilePlayerChoice;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
@@ -42,6 +43,7 @@ class PacketListener extends Thread
 		});
 		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_TIMER_REQUEST, (connectionSocket, packet) -> connectionSocket.handleRoomTimerRequest());
 		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, (connectionSocket, packet) -> connectionSocket.handleChatMessage(((PacketChatMessage) packet).getText()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_PERSONAL_BONUS_TILE_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGamePersonalBonusTilePlayerChoice(((PacketGamePersonalBonusTilePlayerChoice) packet).getPersonalBonusTileIndex()));
 	}
 
 	private final ConnectionSocket connectionSocket;
@@ -112,16 +114,16 @@ class PacketListener extends Thread
 			this.connectionSocket.setUsername(trimmedUsername);
 			List<DevelopmentCardInformations> developmentCardsInformations = new ArrayList<>();
 			for (Period period : Period.values()) {
-				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_BUILDING.getPeriods().get(period)) {
+				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_BUILDING.get(period)) {
 					developmentCardsInformations.add(developmentCard.getInformations());
 				}
-				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.getPeriods().get(period)) {
+				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.get(period)) {
 					developmentCardsInformations.add(developmentCard.getInformations());
 				}
-				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.getPeriods().get(period)) {
+				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.get(period)) {
 					developmentCardsInformations.add(developmentCard.getInformations());
 				}
-				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_VENTURE.getPeriods().get(period)) {
+				for (DevelopmentCard developmentCard : CardsHandler.DEVELOPMENT_CARDS_VENTURE.get(period)) {
 					developmentCardsInformations.add(developmentCard.getInformations());
 				}
 			}

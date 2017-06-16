@@ -41,6 +41,12 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	}
 
 	@Override
+	public void sendGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex) throws RemoteException
+	{
+		this.connectionRmi.handleGamePersonalBonusTilePlayerChoice(personalBonusTileIndex);
+	}
+
+	@Override
 	public boolean equals(Object object)
 	{
 		if (this == object) {

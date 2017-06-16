@@ -7,10 +7,11 @@ import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
+import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
+import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
-import it.polimi.ingsw.lim.common.game.cards.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
-import it.polimi.ingsw.lim.common.game.player.PlayerData;
+import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
@@ -145,9 +146,27 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerData> playersData)
+	public void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex)
 	{
-		new PacketGameStarted(excommunicationTiles, playersData).send(this.out);
+		new PacketGameStarted(excommunicationTiles, playersData, ownPlayerIndex).send(this.out);
+	}
+
+	@Override
+	public void sendGamePersonalBonusTileChoiceRequest(List<PersonalBonusTileInformations> personalBonusTilesInformations)
+	{
+		new PacketGamePersonalBonusTileChoiceRequest(personalBonusTilesInformations).send(this.out);
+	}
+
+	@Override
+	public void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex)
+	{
+		new PacketGamePersonalBonusTileChoiceOther(choicePlayerIndex).send(this.out);
+	}
+
+	@Override
+	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex)
+	{
+		new PacketGamePersonalBonusTileChosen(choicePlayerIndex);
 	}
 
 	@Override
@@ -163,9 +182,9 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations)
+	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, int turnPlayerIndex)
 	{
-		new PacketGameUpdateOtherTurn(gameInformations, playersInformations).send(this.out);
+		new PacketGameUpdateOtherTurn(gameInformations, playersInformations, turnPlayerIndex).send(this.out);
 	}
 
 	ObjectInputStream getIn()

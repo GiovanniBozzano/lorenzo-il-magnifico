@@ -3,17 +3,23 @@ package it.polimi.ingsw.lim.client.network.socket;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.cli.CLIListenerClient;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
+import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.gui.ControllerAuthentication;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
+import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
+import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
+import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
+import it.polimi.ingsw.lim.common.network.socket.packets.server.PacketGamePersonalBonusTilePlayerChoice;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
@@ -23,6 +29,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -124,6 +131,13 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		new PacketChatMessage(text).send(this.out);
 	}
 
+	@Override
+	public synchronized void sendGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex)
+	{
+		super.sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex);
+		new PacketGamePersonalBonusTilePlayerChoice(personalBonusTileIndex).send(this.out);
+	}
+
 	void handleDisconnectionLogMessage(String text)
 	{
 		try {
@@ -136,11 +150,12 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		this.sendDisconnectionAcknowledgement();
 	}
 
-	void handleAuthenticationConfirmation(String username, RoomInformations roomInformations)
+	void handleAuthenticationConfirmation(List<DevelopmentCardInformations> developmentCardsInformations, List<LeaderCardInformations> leaderCardsInformations, List<ExcommunicationTileInformations> excommunicationTilesInformations, List<CouncilPalaceRewardInformations> councilPalaceRewardInformations, String username, RoomInformations roomInformations)
 	{
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
 			return;
 		}
+		GameStatus.getInstance().setup(developmentCardsInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardInformations);
 		Client.getInstance().setUsername(username);
 		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, true, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).setRoomInformations(roomInformations.getRoomType(), roomInformations.getPlayerNames())));
 	}

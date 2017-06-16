@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
+import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
@@ -20,9 +21,15 @@ import java.util.logging.Level;
 
 public class BoardHandler
 {
-	private static final Map<BoardPosition, BoardPositionInformations> BOARD_POSITIONS_INFORMATIONS = new BoardPositionsInstantRewardsBuilder("/json/board_positions_instant_rewards.json").initialize();
+	public static final Map<BoardPosition, BoardPositionInformations> BOARD_POSITIONS_INFORMATIONS = new BoardPositionsInstantRewardsBuilder("/json/board_positions_instant_rewards.json").initialize();
 	private static final List<CouncilPalaceReward> COUNCIL_PRIVILEGE_REWARDS = new CouncilPrivilegeRewardsBuilder("/json/council_privilege_rewards.json").initialize();
+	private final Map<Period, ExcommunicationTile> excommunicationTiles;
 	private final List<Connection> councilPalaceOrder = new LinkedList<>();
+
+	public BoardHandler(Map<Period, ExcommunicationTile> excommunicationTiles)
+	{
+		this.excommunicationTiles = new EnumMap<>(excommunicationTiles);
+	}
 
 	public static BoardPositionInformations getBoardPositionInformations(BoardPosition boardPosition)
 	{
@@ -35,6 +42,11 @@ public class BoardHandler
 	public static List<CouncilPalaceReward> getCouncilPrivilegeRewards()
 	{
 		return BoardHandler.COUNCIL_PRIVILEGE_REWARDS;
+	}
+
+	public Map<Period, ExcommunicationTile> getExcommunicationTiles()
+	{
+		return this.excommunicationTiles;
 	}
 
 	public List<Connection> getCouncilPalaceOrder()

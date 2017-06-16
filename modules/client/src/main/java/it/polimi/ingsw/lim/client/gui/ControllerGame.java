@@ -9,19 +9,22 @@ import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.enums.Row;
+import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.gui.CustomController;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -29,6 +32,20 @@ import java.util.*;
 
 public class ControllerGame extends CustomController
 {
+	private static final Map<ResourceType, String> RESOURCES_NAMES = new EnumMap<>(ResourceType.class);
+
+	static {
+		ControllerGame.RESOURCES_NAMES.put(ResourceType.COIN, "Coins");
+		ControllerGame.RESOURCES_NAMES.put(ResourceType.COUNCIL_PRIVILEGE, "Council privileges");
+		ControllerGame.RESOURCES_NAMES.put(ResourceType.FAITH_POINT, "Faith points");
+		ControllerGame.RESOURCES_NAMES.put(ResourceType.MILITARY_POINT, "Military points");
+		ControllerGame.RESOURCES_NAMES.put(ResourceType.PRESTIGE_POINT, "Prestige points");
+		ControllerGame.RESOURCES_NAMES.put(ResourceType.SERVANT, "Servants");
+		ControllerGame.RESOURCES_NAMES.put(ResourceType.STONE, "Stone");
+		ControllerGame.RESOURCES_NAMES.put(ResourceType.VICTORY_POINT, "Victory points");
+		ControllerGame.RESOURCES_NAMES.put(ResourceType.WOOD, "Wood");
+	}
+
 	@FXML private Pane gameBoard;
 	@FXML private Pane playerBoard1DevelopmentCardsVenture;
 	@FXML private Pane playerBoard2DevelopmentCardsVenture;
@@ -409,6 +426,10 @@ public class ControllerGame extends CustomController
 	@FXML private JFXDialog cardDialog;
 	@FXML private JFXDialogLayout cardDialogLayout;
 	@FXML private Pane cardDialogPane;
+	@FXML private JFXDialog personalBonusTileDialog;
+	@FXML private JFXDialogLayout personalBonusTileDialogLayout;
+	@FXML private HBox personalBonusTileDialogHBox;
+	@FXML private JFXButton actionsButton;
 	private final Map<Period, Pane> excommunicationTilesPanes = new EnumMap<>(Period.class);
 	private final Map<Integer, Pane> victoryPointsPanes = new HashMap<>();
 	private final Map<Integer, Pane> militaryPointsPanes = new HashMap<>();
@@ -435,12 +456,13 @@ public class ControllerGame extends CustomController
 	private final Map<ResourceType, Pane> player3Resources = new EnumMap<>(ResourceType.class);
 	private final Map<ResourceType, Pane> player4Resources = new EnumMap<>(ResourceType.class);
 	private final Map<ResourceType, Pane> player5Resources = new EnumMap<>(ResourceType.class);
+	private final DropShadow borderGlow = new DropShadow();
 
 	@FXML
 	private void boardDevelopmentCardPaneMouseClicked(MouseEvent event)
 	{
 		if (event.getButton() == MouseButton.SECONDARY) {
-			this.getStackPane().getScene().getRoot().requestFocus();
+			this.getStage().getScene().getRoot().requestFocus();
 			if (((Pane) event.getSource()).getBackground() != null) {
 				this.cardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
 				this.cardDialog.show();
@@ -452,7 +474,7 @@ public class ControllerGame extends CustomController
 	private void playerDevelopmentCardPaneMouseClicked(MouseEvent event)
 	{
 		if (event.getButton() == MouseButton.SECONDARY) {
-			this.getStackPane().getScene().getRoot().requestFocus();
+			this.getStage().getScene().getRoot().requestFocus();
 			if (((Pane) event.getSource()).getBackground() != null) {
 				this.cardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
 				this.cardDialog.show();
@@ -464,7 +486,7 @@ public class ControllerGame extends CustomController
 	public void handleDialogOkButtonAction()
 	{
 		this.dialog.close();
-		this.getStackPane().getScene().getRoot().requestFocus();
+		this.getStage().getScene().getRoot().requestFocus();
 	}
 
 	@Override
@@ -476,176 +498,173 @@ public class ControllerGame extends CustomController
 		this.getStackPane().getChildren().remove(this.cardDialog);
 		this.cardDialog.setTransitionType(DialogTransition.CENTER);
 		this.cardDialog.setDialogContainer(this.getStackPane());
-		DropShadow borderGlow = new DropShadow();
-		borderGlow.setOffsetY(0.0D);
-		borderGlow.setOffsetX(0.0D);
-		borderGlow.setColor(Color.WHITE);
-		borderGlow.setWidth(40.0D);
-		borderGlow.setHeight(40.0D);
-		Utils.setEffect(this.building1, borderGlow);
-		Utils.setEffect(this.building2, borderGlow);
-		Utils.setEffect(this.building3, borderGlow);
-		Utils.setEffect(this.building4, borderGlow);
-		Utils.setEffect(this.character1, borderGlow);
-		Utils.setEffect(this.character2, borderGlow);
-		Utils.setEffect(this.character3, borderGlow);
-		Utils.setEffect(this.character4, borderGlow);
-		Utils.setEffect(this.territory1, borderGlow);
-		Utils.setEffect(this.territory2, borderGlow);
-		Utils.setEffect(this.territory3, borderGlow);
-		Utils.setEffect(this.territory4, borderGlow);
-		Utils.setEffect(this.venture1, borderGlow);
-		Utils.setEffect(this.venture2, borderGlow);
-		Utils.setEffect(this.venture3, borderGlow);
-		Utils.setEffect(this.venture4, borderGlow);
-		Utils.setEffect(this.player1Building1, borderGlow);
-		Utils.setEffect(this.player1Building2, borderGlow);
-		Utils.setEffect(this.player1Building3, borderGlow);
-		Utils.setEffect(this.player1Building4, borderGlow);
-		Utils.setEffect(this.player1Building5, borderGlow);
-		Utils.setEffect(this.player1Building6, borderGlow);
-		Utils.setEffect(this.player1Character1, borderGlow);
-		Utils.setEffect(this.player1Character2, borderGlow);
-		Utils.setEffect(this.player1Character3, borderGlow);
-		Utils.setEffect(this.player1Character4, borderGlow);
-		Utils.setEffect(this.player1Character5, borderGlow);
-		Utils.setEffect(this.player1Character6, borderGlow);
-		Utils.setEffect(this.player1Territory1, borderGlow);
-		Utils.setEffect(this.player1Territory2, borderGlow);
-		Utils.setEffect(this.player1Territory3, borderGlow);
-		Utils.setEffect(this.player1Territory4, borderGlow);
-		Utils.setEffect(this.player1Territory5, borderGlow);
-		Utils.setEffect(this.player1Territory6, borderGlow);
-		Utils.setEffect(this.player1Venture1, borderGlow);
-		Utils.setEffect(this.player1Venture2, borderGlow);
-		Utils.setEffect(this.player1Venture3, borderGlow);
-		Utils.setEffect(this.player1Venture4, borderGlow);
-		Utils.setEffect(this.player1Venture5, borderGlow);
-		Utils.setEffect(this.player1Venture6, borderGlow);
-		Utils.setEffect(this.player2Building1, borderGlow);
-		Utils.setEffect(this.player2Building2, borderGlow);
-		Utils.setEffect(this.player2Building3, borderGlow);
-		Utils.setEffect(this.player2Building4, borderGlow);
-		Utils.setEffect(this.player2Building5, borderGlow);
-		Utils.setEffect(this.player2Building6, borderGlow);
-		Utils.setEffect(this.player2Character1, borderGlow);
-		Utils.setEffect(this.player2Character2, borderGlow);
-		Utils.setEffect(this.player2Character3, borderGlow);
-		Utils.setEffect(this.player2Character4, borderGlow);
-		Utils.setEffect(this.player2Character5, borderGlow);
-		Utils.setEffect(this.player2Character6, borderGlow);
-		Utils.setEffect(this.player2Territory1, borderGlow);
-		Utils.setEffect(this.player2Territory2, borderGlow);
-		Utils.setEffect(this.player2Territory3, borderGlow);
-		Utils.setEffect(this.player2Territory4, borderGlow);
-		Utils.setEffect(this.player2Territory5, borderGlow);
-		Utils.setEffect(this.player2Territory6, borderGlow);
-		Utils.setEffect(this.player2Venture1, borderGlow);
-		Utils.setEffect(this.player2Venture2, borderGlow);
-		Utils.setEffect(this.player2Venture3, borderGlow);
-		Utils.setEffect(this.player2Venture4, borderGlow);
-		Utils.setEffect(this.player2Venture5, borderGlow);
-		Utils.setEffect(this.player2Venture6, borderGlow);
-		Utils.setEffect(this.player3Building1, borderGlow);
-		Utils.setEffect(this.player3Building2, borderGlow);
-		Utils.setEffect(this.player3Building3, borderGlow);
-		Utils.setEffect(this.player3Building4, borderGlow);
-		Utils.setEffect(this.player3Building5, borderGlow);
-		Utils.setEffect(this.player3Building6, borderGlow);
-		Utils.setEffect(this.player3Character1, borderGlow);
-		Utils.setEffect(this.player3Character2, borderGlow);
-		Utils.setEffect(this.player3Character3, borderGlow);
-		Utils.setEffect(this.player3Character4, borderGlow);
-		Utils.setEffect(this.player3Character5, borderGlow);
-		Utils.setEffect(this.player3Character6, borderGlow);
-		Utils.setEffect(this.player3Territory1, borderGlow);
-		Utils.setEffect(this.player3Territory2, borderGlow);
-		Utils.setEffect(this.player3Territory3, borderGlow);
-		Utils.setEffect(this.player3Territory4, borderGlow);
-		Utils.setEffect(this.player3Territory5, borderGlow);
-		Utils.setEffect(this.player3Territory6, borderGlow);
-		Utils.setEffect(this.player3Venture1, borderGlow);
-		Utils.setEffect(this.player3Venture2, borderGlow);
-		Utils.setEffect(this.player3Venture3, borderGlow);
-		Utils.setEffect(this.player3Venture4, borderGlow);
-		Utils.setEffect(this.player3Venture5, borderGlow);
-		Utils.setEffect(this.player3Venture6, borderGlow);
-		Utils.setEffect(this.player4Building1, borderGlow);
-		Utils.setEffect(this.player4Building2, borderGlow);
-		Utils.setEffect(this.player4Building3, borderGlow);
-		Utils.setEffect(this.player4Building4, borderGlow);
-		Utils.setEffect(this.player4Building5, borderGlow);
-		Utils.setEffect(this.player4Building6, borderGlow);
-		Utils.setEffect(this.player4Character1, borderGlow);
-		Utils.setEffect(this.player4Character2, borderGlow);
-		Utils.setEffect(this.player4Character3, borderGlow);
-		Utils.setEffect(this.player4Character4, borderGlow);
-		Utils.setEffect(this.player4Character5, borderGlow);
-		Utils.setEffect(this.player4Character6, borderGlow);
-		Utils.setEffect(this.player4Territory1, borderGlow);
-		Utils.setEffect(this.player4Territory2, borderGlow);
-		Utils.setEffect(this.player4Territory3, borderGlow);
-		Utils.setEffect(this.player4Territory4, borderGlow);
-		Utils.setEffect(this.player4Territory5, borderGlow);
-		Utils.setEffect(this.player4Territory6, borderGlow);
-		Utils.setEffect(this.player4Venture1, borderGlow);
-		Utils.setEffect(this.player4Venture2, borderGlow);
-		Utils.setEffect(this.player4Venture3, borderGlow);
-		Utils.setEffect(this.player4Venture4, borderGlow);
-		Utils.setEffect(this.player4Venture5, borderGlow);
-		Utils.setEffect(this.player4Venture6, borderGlow);
-		Utils.setEffect(this.player5Building1, borderGlow);
-		Utils.setEffect(this.player5Building2, borderGlow);
-		Utils.setEffect(this.player5Building3, borderGlow);
-		Utils.setEffect(this.player5Building4, borderGlow);
-		Utils.setEffect(this.player5Building5, borderGlow);
-		Utils.setEffect(this.player5Building6, borderGlow);
-		Utils.setEffect(this.player5Character1, borderGlow);
-		Utils.setEffect(this.player5Character2, borderGlow);
-		Utils.setEffect(this.player5Character3, borderGlow);
-		Utils.setEffect(this.player5Character4, borderGlow);
-		Utils.setEffect(this.player5Character5, borderGlow);
-		Utils.setEffect(this.player5Character6, borderGlow);
-		Utils.setEffect(this.player5Territory1, borderGlow);
-		Utils.setEffect(this.player5Territory2, borderGlow);
-		Utils.setEffect(this.player5Territory3, borderGlow);
-		Utils.setEffect(this.player5Territory4, borderGlow);
-		Utils.setEffect(this.player5Territory5, borderGlow);
-		Utils.setEffect(this.player5Territory6, borderGlow);
-		Utils.setEffect(this.player5Venture1, borderGlow);
-		Utils.setEffect(this.player5Venture2, borderGlow);
-		Utils.setEffect(this.player5Venture3, borderGlow);
-		Utils.setEffect(this.player5Venture4, borderGlow);
-		Utils.setEffect(this.player5Venture5, borderGlow);
-		Utils.setEffect(this.player5Venture6, borderGlow);
+		this.getStackPane().getChildren().remove(this.personalBonusTileDialog);
+		this.personalBonusTileDialog.setTransitionType(DialogTransition.CENTER);
+		this.personalBonusTileDialog.setDialogContainer(this.getStackPane());
+		this.personalBonusTileDialog.setOverlayClose(false);
+		this.borderGlow.setOffsetY(0.0D);
+		this.borderGlow.setOffsetX(0.0D);
+		this.borderGlow.setColor(Color.BLACK);
+		this.borderGlow.setWidth(40.0D);
+		this.borderGlow.setHeight(40.0D);
+		Utils.setEffect(this.building1, this.borderGlow);
+		Utils.setEffect(this.building2, this.borderGlow);
+		Utils.setEffect(this.building3, this.borderGlow);
+		Utils.setEffect(this.building4, this.borderGlow);
+		Utils.setEffect(this.character1, this.borderGlow);
+		Utils.setEffect(this.character2, this.borderGlow);
+		Utils.setEffect(this.character3, this.borderGlow);
+		Utils.setEffect(this.character4, this.borderGlow);
+		Utils.setEffect(this.territory1, this.borderGlow);
+		Utils.setEffect(this.territory2, this.borderGlow);
+		Utils.setEffect(this.territory3, this.borderGlow);
+		Utils.setEffect(this.territory4, this.borderGlow);
+		Utils.setEffect(this.venture1, this.borderGlow);
+		Utils.setEffect(this.venture2, this.borderGlow);
+		Utils.setEffect(this.venture3, this.borderGlow);
+		Utils.setEffect(this.venture4, this.borderGlow);
+		Utils.setEffect(this.player1Building1, this.borderGlow);
+		Utils.setEffect(this.player1Building2, this.borderGlow);
+		Utils.setEffect(this.player1Building3, this.borderGlow);
+		Utils.setEffect(this.player1Building4, this.borderGlow);
+		Utils.setEffect(this.player1Building5, this.borderGlow);
+		Utils.setEffect(this.player1Building6, this.borderGlow);
+		Utils.setEffect(this.player1Character1, this.borderGlow);
+		Utils.setEffect(this.player1Character2, this.borderGlow);
+		Utils.setEffect(this.player1Character3, this.borderGlow);
+		Utils.setEffect(this.player1Character4, this.borderGlow);
+		Utils.setEffect(this.player1Character5, this.borderGlow);
+		Utils.setEffect(this.player1Character6, this.borderGlow);
+		Utils.setEffect(this.player1Territory1, this.borderGlow);
+		Utils.setEffect(this.player1Territory2, this.borderGlow);
+		Utils.setEffect(this.player1Territory3, this.borderGlow);
+		Utils.setEffect(this.player1Territory4, this.borderGlow);
+		Utils.setEffect(this.player1Territory5, this.borderGlow);
+		Utils.setEffect(this.player1Territory6, this.borderGlow);
+		Utils.setEffect(this.player1Venture1, this.borderGlow);
+		Utils.setEffect(this.player1Venture2, this.borderGlow);
+		Utils.setEffect(this.player1Venture3, this.borderGlow);
+		Utils.setEffect(this.player1Venture4, this.borderGlow);
+		Utils.setEffect(this.player1Venture5, this.borderGlow);
+		Utils.setEffect(this.player1Venture6, this.borderGlow);
+		Utils.setEffect(this.player2Building1, this.borderGlow);
+		Utils.setEffect(this.player2Building2, this.borderGlow);
+		Utils.setEffect(this.player2Building3, this.borderGlow);
+		Utils.setEffect(this.player2Building4, this.borderGlow);
+		Utils.setEffect(this.player2Building5, this.borderGlow);
+		Utils.setEffect(this.player2Building6, this.borderGlow);
+		Utils.setEffect(this.player2Character1, this.borderGlow);
+		Utils.setEffect(this.player2Character2, this.borderGlow);
+		Utils.setEffect(this.player2Character3, this.borderGlow);
+		Utils.setEffect(this.player2Character4, this.borderGlow);
+		Utils.setEffect(this.player2Character5, this.borderGlow);
+		Utils.setEffect(this.player2Character6, this.borderGlow);
+		Utils.setEffect(this.player2Territory1, this.borderGlow);
+		Utils.setEffect(this.player2Territory2, this.borderGlow);
+		Utils.setEffect(this.player2Territory3, this.borderGlow);
+		Utils.setEffect(this.player2Territory4, this.borderGlow);
+		Utils.setEffect(this.player2Territory5, this.borderGlow);
+		Utils.setEffect(this.player2Territory6, this.borderGlow);
+		Utils.setEffect(this.player2Venture1, this.borderGlow);
+		Utils.setEffect(this.player2Venture2, this.borderGlow);
+		Utils.setEffect(this.player2Venture3, this.borderGlow);
+		Utils.setEffect(this.player2Venture4, this.borderGlow);
+		Utils.setEffect(this.player2Venture5, this.borderGlow);
+		Utils.setEffect(this.player2Venture6, this.borderGlow);
+		Utils.setEffect(this.player3Building1, this.borderGlow);
+		Utils.setEffect(this.player3Building2, this.borderGlow);
+		Utils.setEffect(this.player3Building3, this.borderGlow);
+		Utils.setEffect(this.player3Building4, this.borderGlow);
+		Utils.setEffect(this.player3Building5, this.borderGlow);
+		Utils.setEffect(this.player3Building6, this.borderGlow);
+		Utils.setEffect(this.player3Character1, this.borderGlow);
+		Utils.setEffect(this.player3Character2, this.borderGlow);
+		Utils.setEffect(this.player3Character3, this.borderGlow);
+		Utils.setEffect(this.player3Character4, this.borderGlow);
+		Utils.setEffect(this.player3Character5, this.borderGlow);
+		Utils.setEffect(this.player3Character6, this.borderGlow);
+		Utils.setEffect(this.player3Territory1, this.borderGlow);
+		Utils.setEffect(this.player3Territory2, this.borderGlow);
+		Utils.setEffect(this.player3Territory3, this.borderGlow);
+		Utils.setEffect(this.player3Territory4, this.borderGlow);
+		Utils.setEffect(this.player3Territory5, this.borderGlow);
+		Utils.setEffect(this.player3Territory6, this.borderGlow);
+		Utils.setEffect(this.player3Venture1, this.borderGlow);
+		Utils.setEffect(this.player3Venture2, this.borderGlow);
+		Utils.setEffect(this.player3Venture3, this.borderGlow);
+		Utils.setEffect(this.player3Venture4, this.borderGlow);
+		Utils.setEffect(this.player3Venture5, this.borderGlow);
+		Utils.setEffect(this.player3Venture6, this.borderGlow);
+		Utils.setEffect(this.player4Building1, this.borderGlow);
+		Utils.setEffect(this.player4Building2, this.borderGlow);
+		Utils.setEffect(this.player4Building3, this.borderGlow);
+		Utils.setEffect(this.player4Building4, this.borderGlow);
+		Utils.setEffect(this.player4Building5, this.borderGlow);
+		Utils.setEffect(this.player4Building6, this.borderGlow);
+		Utils.setEffect(this.player4Character1, this.borderGlow);
+		Utils.setEffect(this.player4Character2, this.borderGlow);
+		Utils.setEffect(this.player4Character3, this.borderGlow);
+		Utils.setEffect(this.player4Character4, this.borderGlow);
+		Utils.setEffect(this.player4Character5, this.borderGlow);
+		Utils.setEffect(this.player4Character6, this.borderGlow);
+		Utils.setEffect(this.player4Territory1, this.borderGlow);
+		Utils.setEffect(this.player4Territory2, this.borderGlow);
+		Utils.setEffect(this.player4Territory3, this.borderGlow);
+		Utils.setEffect(this.player4Territory4, this.borderGlow);
+		Utils.setEffect(this.player4Territory5, this.borderGlow);
+		Utils.setEffect(this.player4Territory6, this.borderGlow);
+		Utils.setEffect(this.player4Venture1, this.borderGlow);
+		Utils.setEffect(this.player4Venture2, this.borderGlow);
+		Utils.setEffect(this.player4Venture3, this.borderGlow);
+		Utils.setEffect(this.player4Venture4, this.borderGlow);
+		Utils.setEffect(this.player4Venture5, this.borderGlow);
+		Utils.setEffect(this.player4Venture6, this.borderGlow);
+		Utils.setEffect(this.player5Building1, this.borderGlow);
+		Utils.setEffect(this.player5Building2, this.borderGlow);
+		Utils.setEffect(this.player5Building3, this.borderGlow);
+		Utils.setEffect(this.player5Building4, this.borderGlow);
+		Utils.setEffect(this.player5Building5, this.borderGlow);
+		Utils.setEffect(this.player5Building6, this.borderGlow);
+		Utils.setEffect(this.player5Character1, this.borderGlow);
+		Utils.setEffect(this.player5Character2, this.borderGlow);
+		Utils.setEffect(this.player5Character3, this.borderGlow);
+		Utils.setEffect(this.player5Character4, this.borderGlow);
+		Utils.setEffect(this.player5Character5, this.borderGlow);
+		Utils.setEffect(this.player5Character6, this.borderGlow);
+		Utils.setEffect(this.player5Territory1, this.borderGlow);
+		Utils.setEffect(this.player5Territory2, this.borderGlow);
+		Utils.setEffect(this.player5Territory3, this.borderGlow);
+		Utils.setEffect(this.player5Territory4, this.borderGlow);
+		Utils.setEffect(this.player5Territory5, this.borderGlow);
+		Utils.setEffect(this.player5Territory6, this.borderGlow);
+		Utils.setEffect(this.player5Venture1, this.borderGlow);
+		Utils.setEffect(this.player5Venture2, this.borderGlow);
+		Utils.setEffect(this.player5Venture3, this.borderGlow);
+		Utils.setEffect(this.player5Venture4, this.borderGlow);
+		Utils.setEffect(this.player5Venture5, this.borderGlow);
+		Utils.setEffect(this.player5Venture6, this.borderGlow);
 	}
 
 	@Override
 	@PostConstruct
 	public void setupGui()
 	{
-		((Stage) this.getStackPane().getScene().getWindow()).iconifiedProperty().addListener((observable, oldValue, newValue) -> {
-			if (!newValue) {
-				this.getStackPane().getScene().setCursor(Cursor.HAND);
-				this.getStackPane().getScene().setCursor(Cursor.DEFAULT);
-			}
-		});
-		this.getStackPane().getScene().getRoot().requestFocus();
+		this.getStage().getScene().getRoot().requestFocus();
 		double originalGameBoardWidth = this.gameBoard.getWidth();
 		double originalGameBoardHeight = this.gameBoard.getHeight();
-		Screen screen = Screen.getPrimary();
-		Rectangle2D bounds = screen.getVisualBounds();
-		double ratio = (bounds.getHeight() - bounds.getHeight() / 15) / this.getStackPane().getScene().getWindow().getHeight();
-		this.getStackPane().getScene().getWindow().setWidth(this.getStackPane().getWidth() * ratio);
-		this.getStackPane().getScene().getWindow().setHeight(this.getStackPane().getHeight() * ratio);
-		this.getStackPane().getScene().getWindow().setX(bounds.getWidth() / 2 - this.getStackPane().getScene().getWindow().getWidth() / 2);
-		this.getStackPane().getScene().getWindow().setY(bounds.getHeight() / 2 - this.getStackPane().getScene().getWindow().getHeight() / 2);
-		this.getStackPane().setPrefWidth(this.getStackPane().getScene().getWindow().getWidth());
-		this.getStackPane().setPrefHeight(this.getStackPane().getScene().getWindow().getHeight());
+		Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+		double ratio = (bounds.getHeight() - bounds.getHeight() / 15) / this.getStage().getHeight();
+		this.getStage().setWidth(this.getStackPane().getWidth() * ratio);
+		this.getStage().setHeight(this.getStackPane().getHeight() * ratio);
+		this.getStage().setX(bounds.getWidth() / 2 - this.getStage().getWidth() / 2);
+		this.getStage().setY(bounds.getHeight() / 2 - this.getStage().getHeight() / 2);
+		this.getStackPane().setPrefWidth(this.getStage().getWidth());
+		this.getStackPane().setPrefHeight(this.getStage().getHeight());
 		this.getStackPane().getStylesheets().add(Client.getInstance().getClass().getResource("/css/jfoenix-nodes-list-button.css").toExternalForm());
-		JFXButton button1 = new JFXButton("R1");
-		button1.setButtonType(ButtonType.RAISED);
-		button1.getStyleClass().addAll("animated-option-button");
+		this.actionsButton = new JFXButton("R1");
+		this.actionsButton.setDisable(true);
+		this.actionsButton.setButtonType(ButtonType.RAISED);
+		this.actionsButton.getStyleClass().addAll("animated-option-button");
 		JFXButton button2 = new JFXButton("R2");
 		button2.setButtonType(ButtonType.RAISED);
 		button2.getStyleClass().addAll("animated-option-button");
@@ -653,11 +672,11 @@ public class ControllerGame extends CustomController
 		button3.setButtonType(ButtonType.RAISED);
 		button3.getStyleClass().addAll("animated-option-button");
 		JFXNodesList nodesList = new JFXNodesList();
-		nodesList.addAnimatedNode(button1);
+		nodesList.addAnimatedNode(this.actionsButton);
 		nodesList.addAnimatedNode(button2);
 		nodesList.addAnimatedNode(button3);
 		this.rightVBox.getChildren().add(nodesList);
-		this.getStackPane().getScene().getWindow().sizeToScene();
+		this.getStage().sizeToScene();
 		double gameBoardWidthRatio = this.gameBoard.getWidth() / originalGameBoardWidth;
 		double gameBoardHeightRatio = this.gameBoard.getHeight() / originalGameBoardHeight;
 		Utils.resizeChildrenNode(this.gameBoard, gameBoardWidthRatio, gameBoardHeightRatio);
@@ -717,13 +736,80 @@ public class ControllerGame extends CustomController
 		Utils.resizeChildrenNode(this.playerBoard3, ratio, ratio);
 		Utils.resizeChildrenNode(this.playerBoard4, ratio, ratio);
 		Utils.resizeChildrenNode(this.playerBoard5, ratio, ratio);
+		this.runTests();
 	}
 
 	@Override
 	public void showDialog(String message)
 	{
-		this.getStackPane().getScene().getRoot().requestFocus();
+		this.getStage().getScene().getRoot().requestFocus();
 		this.dialogLabel.setText(message);
 		this.dialog.show();
+	}
+
+	private void runTests()
+	{
+		List<PersonalBonusTileInformations> personalBonusTileInformations = new ArrayList<>();
+		List<ResourceAmount> resourceAmounts = new ArrayList<>();
+		resourceAmounts.add(new ResourceAmount(ResourceType.MILITARY_POINT, 5));
+		resourceAmounts.add(new ResourceAmount(ResourceType.WOOD, 15));
+		personalBonusTileInformations.add(new PersonalBonusTileInformations(0, "", 2, resourceAmounts, 2, resourceAmounts));
+		personalBonusTileInformations.add(new PersonalBonusTileInformations(0, "", 2, resourceAmounts, 2, resourceAmounts));
+		personalBonusTileInformations.add(new PersonalBonusTileInformations(0, "", 2, resourceAmounts, 2, resourceAmounts));
+		personalBonusTileInformations.add(new PersonalBonusTileInformations(0, "", 2, resourceAmounts, 2, resourceAmounts));
+		personalBonusTileInformations.add(new PersonalBonusTileInformations(0, "", 2, resourceAmounts, 2, resourceAmounts));
+		this.showPersonalBonusTileDialog(personalBonusTileInformations);
+	}
+
+	public void showPersonalBonusTileDialog(List<PersonalBonusTileInformations> personalBonusTilesInformations)
+	{
+		this.dialog.close();
+		this.cardDialog.close();
+		for (PersonalBonusTileInformations personalBonusTileInformations : personalBonusTilesInformations) {
+			Pane pane = new Pane();
+			Label label = new Label();
+			label.setFont(CommonUtils.ROBOTO_REGULAR);
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("Production activation cost: ");
+			stringBuilder.append(personalBonusTileInformations.getProductionActivationCost());
+			if (!personalBonusTileInformations.getProductionInstantResources().isEmpty()) {
+				stringBuilder.append("\n\nProduction bonus resources:");
+			}
+			for (ResourceAmount resourceAmount : personalBonusTileInformations.getProductionInstantResources()) {
+				stringBuilder.append('\n');
+				stringBuilder.append(ControllerGame.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(": ");
+				stringBuilder.append(resourceAmount.getAmount());
+			}
+			stringBuilder.append("\n\nHarvest activation cost: ");
+			stringBuilder.append(personalBonusTileInformations.getProductionActivationCost());
+			if (!personalBonusTileInformations.getHarvestInstantResources().isEmpty()) {
+				stringBuilder.append("\n\nHarvest bonus resources:");
+			}
+			for (ResourceAmount resourceAmount : personalBonusTileInformations.getHarvestInstantResources()) {
+				stringBuilder.append('\n');
+				stringBuilder.append(ControllerGame.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(": ");
+				stringBuilder.append(resourceAmount.getAmount());
+			}
+			label.setText(stringBuilder.toString());
+			pane.getChildren().add(label);
+			Utils.setEffect(pane, this.borderGlow);
+			pane.setOnMouseClicked(event -> {
+				Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileInformations.getIndex());
+				this.personalBonusTileDialog.close();
+			});
+			this.personalBonusTileDialogHBox.getChildren().add(pane);
+		}
+		Platform.runLater(() -> {
+			this.personalBonusTileDialogLayout.setPrefWidth(((Pane) this.personalBonusTileDialogHBox.getChildren().get(0)).getWidth() * this.personalBonusTileDialogHBox.getChildren().size() + this.personalBonusTileDialogHBox.getSpacing() * (this.personalBonusTileDialogHBox.getChildren().size() - 1) + 48);
+			this.getStage().getScene().getRoot().requestFocus();
+			this.personalBonusTileDialog.show();
+		});
+	}
+
+	public JFXButton getActionsButton()
+	{
+		return this.actionsButton;
 	}
 }

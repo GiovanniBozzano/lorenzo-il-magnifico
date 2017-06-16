@@ -12,12 +12,14 @@ public class PacketGameUpdateOtherTurn extends Packet
 {
 	private final GameInformations gameInformations;
 	private final List<PlayerInformations> playersInformations;
+	private final int turnPlayerIndex;
 
-	public PacketGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations)
+	public PacketGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, int turnPlayerIndex)
 	{
 		super(PacketType.GAME_UPDATE_OTHER_TURN);
 		this.gameInformations = gameInformations;
 		this.playersInformations = new ArrayList<>(playersInformations);
+		this.turnPlayerIndex = turnPlayerIndex;
 	}
 
 	public GameInformations getGameInformations()
@@ -28,5 +30,10 @@ public class PacketGameUpdateOtherTurn extends Packet
 	public List<PlayerInformations> getPlayersInformations()
 	{
 		return this.playersInformations;
+	}
+
+	public int getTurnPlayerIndex()
+	{
+		return this.turnPlayerIndex;
 	}
 }

@@ -8,12 +8,10 @@ import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -82,12 +80,6 @@ public class ControllerConnection extends CustomController
 	@PostConstruct
 	public void setupGui()
 	{
-		((Stage) this.getStackPane().getScene().getWindow()).iconifiedProperty().addListener((observable, oldValue, newValue) -> {
-			if (!newValue) {
-				this.getStackPane().getScene().setCursor(Cursor.HAND);
-				this.getStackPane().getScene().setCursor(Cursor.DEFAULT);
-			}
-		});
 		this.getStackPane().getScene().getRoot().requestFocus();
 		((StackPane) ((JFXRippler) ((AnchorPane) this.rmiRadioButton.getChildrenUnmodifiable().get(1)).getChildren().get(0)).getChildren().get(0)).setPadding(new Insets(0.0D));
 		this.rmiRadioButton.getChildrenUnmodifiable().get(0).setTranslateX(10.0D);

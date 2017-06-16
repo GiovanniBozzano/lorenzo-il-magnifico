@@ -6,13 +6,16 @@ import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionGetDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionMarket;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
+import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.LeaderCardStatus;
+import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.enums.LeaderCardType;
 import it.polimi.ingsw.lim.server.game.actions.*;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
+import it.polimi.ingsw.lim.server.game.board.ExcommunicationTile;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
@@ -30,12 +33,12 @@ public class GameHandler
 {
 	private final Room room;
 	private final CardsHandler cardsHandler = new CardsHandler();
-	private final BoardHandler boardHandler = new BoardHandler();
+	private final BoardHandler boardHandler;
 	private final Random randomGenerator = new Random(System.nanoTime());
-	private final DevelopmentCardsDeck<DevelopmentCardBuilding> developmentCardsBuilding = new DevelopmentCardsDeck<>(CardsHandler.DEVELOPMENT_CARDS_BUILDING);
-	private final DevelopmentCardsDeck<DevelopmentCardCharacter> developmentCardsCharacters = new DevelopmentCardsDeck<>(CardsHandler.DEVELOPMENT_CARDS_CHARACTER);
-	private final DevelopmentCardsDeck<DevelopmentCardTerritory> developmentCardsTerritory = new DevelopmentCardsDeck<>(CardsHandler.DEVELOPMENT_CARDS_TERRITORY);
-	private final DevelopmentCardsDeck<DevelopmentCardVenture> developmentCardsVenture = new DevelopmentCardsDeck<>(CardsHandler.DEVELOPMENT_CARDS_VENTURE);
+	private final Map<Period, List<DevelopmentCardBuilding>> developmentCardsBuilding = new EnumMap<>(CardsHandler.DEVELOPMENT_CARDS_BUILDING);
+	private final Map<Period, List<DevelopmentCardCharacter>> developmentCardsCharacters = new EnumMap<>(CardsHandler.DEVELOPMENT_CARDS_CHARACTER);
+	private final Map<Period, List<DevelopmentCardTerritory>> developmentCardsTerritory = new EnumMap<>(CardsHandler.DEVELOPMENT_CARDS_TERRITORY);
+	private final Map<Period, List<DevelopmentCardVenture>> developmentCardsVenture = new EnumMap<>(CardsHandler.DEVELOPMENT_CARDS_VENTURE);
 	private final Map<FamilyMemberType, Integer> familyMemberTypeValues = new EnumMap<>(FamilyMemberType.class);
 	private final List<Connection> turnOrder = new LinkedList<>();
 	private Connection turnPlayer;
@@ -43,28 +46,74 @@ public class GameHandler
 	private Round round;
 	private Phase phase;
 	private ActionType expectedAction;
+	private final List<PersonalBonusTileInformations> personalBonusTilesInformations = new ArrayList<>();
+	private int personalBonusTileChoicePlayerIndex = 0;
 
 	GameHandler(Room room)
 	{
 		this.room = room;
-		this.developmentCardsBuilding.shuffle();
-		this.developmentCardsCharacters.shuffle();
-		this.developmentCardsTerritory.shuffle();
-		this.developmentCardsVenture.shuffle();
+		List<ExcommunicationTile> firstPeriodExcommunicationTiles = new ArrayList<>();
+		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
+			if (excommunicationTile.getPeriod() == Period.FIRST) {
+				firstPeriodExcommunicationTiles.add(excommunicationTile);
+			}
+		}
+		List<ExcommunicationTile> secondPeriodExcommunicationTiles = new ArrayList<>();
+		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
+			if (excommunicationTile.getPeriod() == Period.SECOND) {
+				secondPeriodExcommunicationTiles.add(excommunicationTile);
+			}
+		}
+		List<ExcommunicationTile> thirdPeriodExcommunicationTiles = new ArrayList<>();
+		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
+			if (excommunicationTile.getPeriod() == Period.THIRD) {
+				thirdPeriodExcommunicationTiles.add(excommunicationTile);
+			}
+		}
+		Map<Period, ExcommunicationTile> excommunicationTiles = new EnumMap<>(Period.class);
+		excommunicationTiles.put(Period.FIRST, firstPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(firstPeriodExcommunicationTiles.size())));
+		excommunicationTiles.put(Period.SECOND, firstPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(secondPeriodExcommunicationTiles.size())));
+		excommunicationTiles.put(Period.THIRD, firstPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(thirdPeriodExcommunicationTiles.size())));
+		this.boardHandler = new BoardHandler(excommunicationTiles);
+		Map<Period, Integer> excommunicationTilesIndexes = new EnumMap<>(Period.class);
+		excommunicationTilesIndexes.put(Period.FIRST, excommunicationTiles.get(Period.FIRST).getIndex());
+		excommunicationTilesIndexes.put(Period.SECOND, excommunicationTiles.get(Period.SECOND).getIndex());
+		excommunicationTilesIndexes.put(Period.THIRD, excommunicationTiles.get(Period.THIRD).getIndex());
+		for (Period period : Period.values()) {
+			Collections.shuffle(this.developmentCardsBuilding.get(period), this.randomGenerator);
+			Collections.shuffle(this.developmentCardsCharacters.get(period), this.randomGenerator);
+			Collections.shuffle(this.developmentCardsTerritory.get(period), this.randomGenerator);
+			Collections.shuffle(this.developmentCardsVenture.get(period), this.randomGenerator);
+		}
 		this.turnOrder.addAll(this.room.getPlayers());
 		Collections.shuffle(this.turnOrder, this.randomGenerator);
-		List<PersonalBonusTile> personalBonusTiles = Arrays.asList(PersonalBonusTile.values());
+		Map<Integer, PlayerIdentification> playersIdentifications = new HashMap<>();
 		int currentIndex = 0;
 		int startingCoins = 5;
 		for (Connection player : this.turnOrder) {
-			PersonalBonusTile personalBonusTile = personalBonusTiles.get(this.randomGenerator.nextInt(personalBonusTiles.size()));
-			personalBonusTiles.remove(personalBonusTile);
-			player.setPlayerHandler(new PlayerHandler(currentIndex, personalBonusTile));
+			player.setPlayerHandler(new PlayerHandler(currentIndex));
 			player.getPlayerHandler().getPlayerResourceHandler().addResource(ResourceType.COIN, startingCoins);
-			currentIndex++;
 			startingCoins++;
+			playersIdentifications.put(currentIndex, new PlayerIdentification(player.getUsername(), Color.values()[currentIndex]));
+			currentIndex++;
 		}
-		this.setupRound();
+		for (Connection player : this.turnOrder) {
+			player.sendGameStarted(excommunicationTilesIndexes, playersIdentifications, player.getPlayerHandler().getIndex());
+		}
+		for (PersonalBonusTile personalBonusTile : Arrays.asList(PersonalBonusTile.values())) {
+			this.personalBonusTilesInformations.add(new PersonalBonusTileInformations(personalBonusTile.getIndex(), personalBonusTile.getTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
+		}
+		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(0));
+	}
+
+	public void receivedPersonalBonusTileChoice()
+	{
+		this.personalBonusTileChoicePlayerIndex++;
+		if (this.personalBonusTileChoicePlayerIndex >= this.turnOrder.size()) {
+			this.setupRound();
+			return;
+		}
+		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerIndex));
 	}
 
 	private void setupRound()
@@ -116,20 +165,20 @@ public class GameHandler
 	private void drawCards()
 	{
 		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCards().get(CardType.BUILDING).size(); index++) {
-			this.cardsHandler.addDevelopmentCard(this.developmentCardsBuilding.getPeriods().get(this.period).get(index), Row.values()[index]);
-			this.developmentCardsBuilding.getPeriods().get(this.period).remove(index);
+			this.cardsHandler.addDevelopmentCard(this.developmentCardsBuilding.get(this.period).get(index), Row.values()[index]);
+			this.developmentCardsBuilding.get(this.period).remove(index);
 		}
 		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCards().get(CardType.CHARACTER).size(); index++) {
-			this.cardsHandler.addDevelopmentCard(this.developmentCardsCharacters.getPeriods().get(this.period).get(index), Row.values()[index]);
-			this.developmentCardsCharacters.getPeriods().get(this.period).remove(index);
+			this.cardsHandler.addDevelopmentCard(this.developmentCardsCharacters.get(this.period).get(index), Row.values()[index]);
+			this.developmentCardsCharacters.get(this.period).remove(index);
 		}
 		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCards().get(CardType.TERRITORY).size(); index++) {
-			this.cardsHandler.addDevelopmentCard(this.developmentCardsTerritory.getPeriods().get(this.period).get(index), Row.values()[index]);
-			this.developmentCardsTerritory.getPeriods().get(this.period).remove(index);
+			this.cardsHandler.addDevelopmentCard(this.developmentCardsTerritory.get(this.period).get(index), Row.values()[index]);
+			this.developmentCardsTerritory.get(this.period).remove(index);
 		}
 		for (int index = 0; index < this.cardsHandler.getCurrentDevelopmentCards().get(CardType.VENTURE).size(); index++) {
-			this.cardsHandler.addDevelopmentCard(this.developmentCardsVenture.getPeriods().get(this.period).get(index), Row.values()[index]);
-			this.developmentCardsVenture.getPeriods().get(this.period).remove(index);
+			this.cardsHandler.addDevelopmentCard(this.developmentCardsVenture.get(this.period).get(index), Row.values()[index]);
+			this.developmentCardsVenture.get(this.period).remove(index);
 		}
 	}
 
@@ -206,6 +255,21 @@ public class GameHandler
 		return index + 1 >= this.turnOrder.size() ? this.turnOrder.get(0) : this.turnOrder.get(index + 1);
 	}
 
+	private void sendGamePersonalBonusTileChoiceRequest(Connection player)
+	{
+		player.sendGamePersonalBonusTileChoiceRequest(this.personalBonusTilesInformations);
+		this.sendGamePersonalBonusTileChoiceOther(player);
+	}
+
+	private void sendGamePersonalBonusTileChoiceOther(Connection player)
+	{
+		for (Connection otherPlayer : this.room.getPlayers()) {
+			if (otherPlayer != player) {
+				player.sendGamePersonalBonusTileChoiceOther(player.getPlayerHandler().getIndex());
+			}
+		}
+	}
+
 	public void sendGameUpdate(Connection player)
 	{
 		player.sendGameUpdate(this.generateGameInformations(), this.generatePlayersInformations(), this.generateAvailableActions(player));
@@ -222,7 +286,7 @@ public class GameHandler
 	{
 		for (Connection otherPlayer : this.room.getPlayers()) {
 			if (otherPlayer != player) {
-				player.sendGameUpdateOtherTurn(this.generateGameInformations(), this.generatePlayersInformations());
+				player.sendGameUpdateOtherTurn(this.generateGameInformations(), this.generatePlayersInformations(), player.getPlayerHandler().getIndex());
 			}
 		}
 	}
@@ -415,5 +479,10 @@ public class GameHandler
 	public void setExpectedAction(ActionType expectedAction)
 	{
 		this.expectedAction = expectedAction;
+	}
+
+	public List<PersonalBonusTileInformations> getPersonalBonusTilesInformations()
+	{
+		return this.personalBonusTilesInformations;
 	}
 }

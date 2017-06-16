@@ -1,9 +1,9 @@
 {
-	"firstPeriod": [
+	"FIRST": [
 		{
 			"index": 0,
-			"displayName": "Mint",
 			"texturePath": "/images/.png",
+			"displayName": "Mint",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -31,7 +31,7 @@
 					}
 				]
 			},
-			"activationCost": 5,
+			"activationValue": 5,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -48,8 +48,8 @@
 		},
 		{
 			"index": 1,
-			"displayName": "Tax Office",
 			"texturePath": "/images/.png",
+			"displayName": "Tax Office",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -77,7 +77,7 @@
 					}
 				]
 			},
-			"activationCost": 5,
+			"activationValue": 5,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -123,7 +123,7 @@
 					}
 				]
 			},
-			"activationCost": 6,
+			"activationValue": 6,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -169,7 +169,7 @@
 					}
 				]
 			},
-			"activationCost": 6,
+			"activationValue": 6,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -215,7 +215,7 @@
 					}
 				]
 			},
-			"activationCost": 4,
+			"activationValue": 4,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -282,7 +282,7 @@
 					}
 				]
 			},
-			"activationCost": 3,
+			"activationValue": 3,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -344,7 +344,7 @@
 					}
 				]
 			},
-			"activationCost": 2,
+			"activationValue": 2,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -390,7 +390,7 @@
 					}
 				]
 			},
-			"activationCost": 1,
+			"activationValue": 1,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -411,7 +411,7 @@
 			]
 		}
 	],
-	"secondPeriod": [
+	"SECOND": [
 		{
 			"index": 8,
 			"texturePath": "/images/.png",
@@ -443,7 +443,7 @@
 					}
 				]
 			},
-			"activationCost": 3,
+			"activationValue": 3,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -494,7 +494,7 @@
 					}
 				]
 			},
-			"activationCost": 3,
+			"activationValue": 3,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -556,7 +556,7 @@
 					}
 				]
 			},
-			"activationCost": 4,
+			"activationValue": 4,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -618,7 +618,7 @@
 					}
 				]
 			},
-			"activationCost": 5,
+			"activationValue": 5,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -685,7 +685,7 @@
 					}
 				]
 			},
-			"activationCost": 4,
+			"activationValue": 4,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -746,7 +746,7 @@
 					}
 				]
 			},
-			"activationCost": 2,
+			"activationValue": 2,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -802,7 +802,7 @@
 					}
 				]
 			},
-			"activationCost": 1,
+			"activationValue": 1,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -858,7 +858,7 @@
 					}
 				]
 			},
-			"activationCost": 6,
+			"activationValue": 6,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -878,7 +878,7 @@
 			]
 		}
 	],
-	"thirdPeriod": [
+	"THIRD": [
 		{
 			"index": 16,
 			"texturePath": "/images/.png",
@@ -915,7 +915,7 @@
 					}
 				]
 			},
-			"activationCost": 2,
+			"activationValue": 2,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -960,7 +960,7 @@
 					}
 				]
 			},
-			"activationCost": 4,
+			"activationValue": 4,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -1021,7 +1021,7 @@
 					}
 				]
 			},
-			"activationCost": 1,
+			"activationValue": 1,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -1071,7 +1071,7 @@
 					}
 				]
 			},
-			"activationCost": 5,
+			"activationValue": 5,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],
@@ -1126,7 +1126,7 @@
 					}
 				]
 			},
-			"activationCost": 6,
+			"activationValue": 6,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -1187,7 +1187,7 @@
 					}
 				]
 			},
-			"activationCost": 1,
+			"activationValue": 1,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -1259,7 +1259,7 @@
 					}
 				]
 			},
-			"activationCost": 3,
+			"activationValue": 3,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [
@@ -1320,7 +1320,7 @@
 					}
 				]
 			},
-			"activationCost": 2,
+			"activationValue": 2,
 			"resourceTradeOptions": [
 				{
 					"employedResources": [],

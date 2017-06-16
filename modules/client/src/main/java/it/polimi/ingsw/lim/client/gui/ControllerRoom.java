@@ -8,11 +8,9 @@ import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -88,12 +86,6 @@ public class ControllerRoom extends CustomController
 	@PostConstruct
 	public void setupGui()
 	{
-		((Stage) this.getStackPane().getScene().getWindow()).iconifiedProperty().addListener((observable, oldValue, newValue) -> {
-			if (!newValue) {
-				this.getStackPane().getScene().setCursor(Cursor.HAND);
-				this.getStackPane().getScene().setCursor(Cursor.DEFAULT);
-			}
-		});
 		this.getStackPane().getScene().getRoot().requestFocus();
 		this.gameRulesButton.setPrefWidth(((VBox) this.gameRulesButton.getParent()).getWidth());
 	}

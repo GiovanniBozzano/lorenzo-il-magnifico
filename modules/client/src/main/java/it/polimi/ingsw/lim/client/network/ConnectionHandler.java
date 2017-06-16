@@ -3,6 +3,8 @@ package it.polimi.ingsw.lim.client.network;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.cli.CLIListenerClient;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
+import it.polimi.ingsw.lim.client.game.GameStatus;
+import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.client.gui.ControllerGame;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.utils.Utils;
@@ -11,14 +13,17 @@ import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
-import it.polimi.ingsw.lim.common.game.player.PlayerData;
+import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
+import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Level;
@@ -112,6 +117,16 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
+	public synchronized void sendGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex)
+	{
+		try {
+			this.join();
+		} catch (InterruptedException exception) {
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Thread.currentThread().interrupt();
+		}
+	}
+
 	public void handleRoomEntryOther(String name)
 	{
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
@@ -170,18 +185,53 @@ public abstract class ConnectionHandler extends Thread
 		Client.getDebugger().log(Level.INFO, text);
 	}
 
-	public void handleGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerData> playersData)
+	public void handleGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersIdentifications, int ownPlayerIndex)
 	{
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
+		GameStatus.getInstance().setCurrentExcommunicationTiles(excommunicationTiles);
+		Map<Integer, PlayerData> playersData = new HashMap<>();
+		for (Entry<Integer, PlayerIdentification> entry : playersIdentifications.entrySet()) {
+			playersData.put(entry.getKey(), new PlayerData(entry.getValue().getUsername(), entry.getValue().getColor()));
+		}
+		GameStatus.getInstance().setCurrentPlayerData(playersData);
+		GameStatus.getInstance().setOwnPlayerIndex(ownPlayerIndex);
 		WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, true);
+	}
+
+	public void handleGamePersonalBonusTileChoiceRequest(List<PersonalBonusTileInformations> personalBonusTilesInformations)
+	{
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+			return;
+		}
+	}
+
+	public void handleGamePersonalBonusTileChoiceOther(int choicePlayerIndex)
+	{
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+			return;
+		}
+	}
+
+	public void handleGamePersonalBonusTileChosen(int choicePlayerIndex)
+	{
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+			return;
+		}
 	}
 
 	public void handleGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions)
 	{
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
+		}
+		GameStatus.updateGameStatus(gameInformations, playersInformations);
+		GameStatus.getInstance().setCurrentAvailableActions(availableActions);
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getActionsButton().setDisable(false));
+		} else {
+			Client.getLogger().log(Level.INFO, "Your turn...");
 		}
 	}
 
@@ -190,12 +240,20 @@ public abstract class ConnectionHandler extends Thread
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
+		GameStatus.updateGameStatus(gameInformations, playersInformations);
 	}
 
-	public void handleGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations)
+	public void handleGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, int turnPlayerIndex)
 	{
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
+		}
+		GameStatus.updateGameStatus(gameInformations, playersInformations);
+		GameStatus.getInstance().setCurrentTurnPlayerIndex(turnPlayerIndex);
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getActionsButton().setDisable(true));
+		} else {
+			Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() });
 		}
 	}
 
