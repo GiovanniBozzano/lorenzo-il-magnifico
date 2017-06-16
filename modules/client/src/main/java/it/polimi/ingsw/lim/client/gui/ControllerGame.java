@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client.gui;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
@@ -436,13 +435,20 @@ public class ControllerGame extends CustomController
 	@FXML private Tab player3Tab;
 	@FXML private Tab player4Tab;
 	@FXML private Tab player5Tab;
+	@FXML private Tab leaderCardsPlayer1Tab;
+	@FXML private Tab leaderCardsPlayer2Tab;
+	@FXML private Tab leaderCardsPlayer3Tab;
+	@FXML private Tab leaderCardsPlayer4Tab;
+	@FXML private Tab leaderCardsPlayer5Tab;
 	@FXML private VBox rightVBox;
 	@FXML private JFXTabPane playersTabPane;
 	@FXML private JFXTabPane chatTabPane;
+	@FXML private JFXTabPane leaderCardsTabPane;
 	@FXML private TextArea chatTextArea;
 	@FXML private TextArea gameLogTextArea;
 	@FXML private JFXNodesList actionsNodesList;
 	@FXML private JFXButton actionsButton;
+	@FXML private JFXButton leaderCardsButton;
 	@FXML private JFXDialog dialog;
 	@FXML private JFXDialogLayout dialogLayout;
 	@FXML private Label dialogLabel;
@@ -453,7 +459,10 @@ public class ControllerGame extends CustomController
 	@FXML private JFXDialog personalBonusTileDialog;
 	@FXML private JFXDialogLayout personalBonusTileDialogLayout;
 	@FXML private HBox personalBonusTileDialogHBox;
+	@FXML private JFXDialog leaderCardsDialog;
+	@FXML private JFXDialogLayout leaderCardsDialogLayout;
 	private final Map<Integer, Tab> playersTabs = new HashMap<>();
+	private final Map<Integer, Tab> leaderCardsTabs = new HashMap<>();
 	private final Map<Period, Pane> excommunicationTilesPanes = new EnumMap<>(Period.class);
 	private final Map<Integer, Pane> victoryPointsPanes = new HashMap<>();
 	private final Map<Integer, Pane> militaryPointsPanes = new HashMap<>();
@@ -492,7 +501,6 @@ public class ControllerGame extends CustomController
 			this.getStage().getScene().getRoot().requestFocus();
 			if (((Pane) event.getSource()).getBackground() != null) {
 				this.cardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
-				this.cardDialog.layout();
 				this.getStage().getScene().getRoot().requestFocus();
 				this.cardDialog.show();
 			}
@@ -506,6 +514,7 @@ public class ControllerGame extends CustomController
 			this.getStage().getScene().getRoot().requestFocus();
 			if (((Pane) event.getSource()).getBackground() != null) {
 				this.cardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
+				this.getStage().getScene().getRoot().requestFocus();
 				this.cardDialog.show();
 			}
 		}
@@ -528,6 +537,13 @@ public class ControllerGame extends CustomController
 	}
 
 	@FXML
+	private void handleLeaderCardsButtonAction()
+	{
+		this.getStage().getScene().getRoot().requestFocus();
+		this.leaderCardsDialog.show();
+	}
+
+	@FXML
 	public void handleDialogOkButtonAction()
 	{
 		this.dialog.close();
@@ -542,6 +558,11 @@ public class ControllerGame extends CustomController
 		this.playersTabs.put(2, this.player3Tab);
 		this.playersTabs.put(3, this.player4Tab);
 		this.playersTabs.put(4, this.player5Tab);
+		this.leaderCardsTabs.put(0, this.leaderCardsPlayer1Tab);
+		this.leaderCardsTabs.put(1, this.leaderCardsPlayer2Tab);
+		this.leaderCardsTabs.put(2, this.leaderCardsPlayer3Tab);
+		this.leaderCardsTabs.put(3, this.leaderCardsPlayer4Tab);
+		this.leaderCardsTabs.put(4, this.leaderCardsPlayer5Tab);
 		this.developmentCardsBuildingPanes.put(Row.FIRST, this.building1);
 		this.developmentCardsBuildingPanes.put(Row.SECOND, this.building2);
 		this.developmentCardsBuildingPanes.put(Row.THIRD, this.building3);
@@ -622,6 +643,9 @@ public class ControllerGame extends CustomController
 		this.personalBonusTileDialog.setTransitionType(DialogTransition.CENTER);
 		this.personalBonusTileDialog.setDialogContainer(this.getStackPane());
 		this.personalBonusTileDialog.setOverlayClose(false);
+		this.getStackPane().getChildren().remove(this.leaderCardsDialog);
+		this.leaderCardsDialog.setTransitionType(DialogTransition.CENTER);
+		this.leaderCardsDialog.setDialogContainer(this.getStackPane());
 		this.getStackPane().getStylesheets().add(Client.getInstance().getClass().getResource("/css/jfoenix-nodes-list-button.css").toExternalForm());
 		this.borderGlow.setOffsetY(0.0D);
 		this.borderGlow.setOffsetX(0.0D);
@@ -772,15 +796,14 @@ public class ControllerGame extends CustomController
 				tab.getValue().setText((GameStatus.getInstance().getOwnPlayerIndex() == tab.getKey() ? "[ME] " : "") + GameStatus.getInstance().getCurrentPlayersData().get(tab.getKey()).getUsername());
 			}
 		}
-		JFXButton button2 = new JFXButton("R2");
-		button2.setButtonType(ButtonType.RAISED);
-		button2.getStyleClass().addAll("animated-option-button");
-		JFXButton button3 = new JFXButton("R3");
-		button3.setButtonType(ButtonType.RAISED);
-		button3.getStyleClass().addAll("animated-option-button");
+		for (Entry<Integer, Tab> tab : this.leaderCardsTabs.entrySet()) {
+			if (!GameStatus.getInstance().getCurrentPlayersData().keySet().contains(tab.getKey())) {
+				this.leaderCardsTabPane.getTabs().remove(tab.getValue());
+			} else {
+				tab.getValue().setText((GameStatus.getInstance().getOwnPlayerIndex() == tab.getKey() ? "[ME] " : "") + GameStatus.getInstance().getCurrentPlayersData().get(tab.getKey()).getUsername());
+			}
+		}
 		this.actionsNodesList.addAnimatedNode(this.actionsButton);
-		this.actionsNodesList.addAnimatedNode(button2);
-		this.actionsNodesList.addAnimatedNode(button3);
 	}
 
 	@Override
@@ -844,6 +867,7 @@ public class ControllerGame extends CustomController
 		Utils.resizeChildrenNode(this.playerBoard5, ratio, ratio);
 		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsVenture, ratio, ratio);
 		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsCharacter, ratio, ratio);
+		this.leaderCardsButton.setPrefWidth(((VBox) this.leaderCardsButton.getParent()).getWidth());
 		this.getStage().setX(bounds.getWidth() / 2 - this.getStage().getWidth() / 2);
 		this.getStage().setY(bounds.getHeight() / 2 - this.getStage().getHeight() / 2);
 		this.runTests();

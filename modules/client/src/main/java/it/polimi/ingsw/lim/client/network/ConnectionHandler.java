@@ -174,9 +174,9 @@ public abstract class ConnectionHandler extends Thread
 			return;
 		}
 		if (WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
-			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + text));
+			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().appendText((((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().getText().length() < 1 ? "" : '\n') + text));
 		} else {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + text));
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().getText().length() < 1 ? "" : '\n') + text));
 		}
 	}
 

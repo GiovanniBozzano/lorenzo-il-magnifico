@@ -395,10 +395,26 @@
 									<Pane fx:id="player2Territory4" layoutX="270.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player2Territory5" layoutX="347.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player2Territory6" layoutX="423.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-									<Label fx:id="player2Coin" layoutX="13.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
-									<Label fx:id="player2Wood" layoutX="95.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
-									<Label fx:id="player2Stone" layoutX="175.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
-									<Label fx:id="player2Servant" layoutX="248.0" layoutY="293.0" prefHeight="41.0" prefWidth="45.0" style="-fx-background-color: blue;" />
+									<Label fx:id="player2Coin" alignment="CENTER" layoutX="24.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player2Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player2Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player2Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
 								</Pane>
 							</VBox>
 						</AnchorPane>
@@ -552,12 +568,33 @@
 						</AnchorPane>
 					</Tab>
 				</JFXTabPane>
-				<JFXNodesList fx:id="actionsNodesList" alignment="TOP_RIGHT" />
-				<JFXButton fx:id="actionsButton" buttonType="RAISED" disable="true" styleClass="animated-option-button" stylesheets="@../css/jfoenix-nodes-list-button.css">
-					<font>
-						<Font name="Roboto" size="12.0" />
-					</font>
-				</JFXButton>
+				<HBox spacing="20.0" />
+				<GridPane>
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES" />
+						<ColumnConstraints hgrow="SOMETIMES" percentWidth="85.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints vgrow="SOMETIMES" />
+					</rowConstraints>
+					<children>
+						<JFXNodesList fx:id="actionsNodesList" alignment="TOP_RIGHT" />
+						<JFXButton fx:id="actionsButton" buttonType="RAISED" disable="true" prefWidth="95.0" styleClass="animated-option-button" stylesheets="@../css/jfoenix-nodes-list-button.css" text="A">
+							<font>
+								<Font name="Roboto Bold" size="18.0" />
+							</font>
+						</JFXButton>
+						<VBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+							<children>
+								<JFXButton fx:id="leaderCardsButton" onAction="#handleLeaderCardsButtonAction" style="-fx-background-color: #03A9F4;" text="Leader Cards" textFill="WHITE">
+									<font>
+										<Font name="Roboto Bold" size="14.0" />
+									</font>
+								</JFXButton>
+							</children>
+						</VBox>
+					</children>
+				</GridPane>
 			</VBox>
 		</GridPane>
 		<StackPane.margin>
@@ -603,6 +640,54 @@
 		<JFXDialogLayout fx:id="personalBonusTileDialogLayout">
 			<body>
 				<HBox fx:id="personalBonusTileDialogHBox" spacing="40.0" />
+			</body>
+		</JFXDialogLayout>
+	</JFXDialog>
+	<JFXDialog fx:id="leaderCardsDialog">
+		<JFXDialogLayout fx:id="leaderCardsDialogLayout">
+			<body>
+				<JFXTabPane fx:id="leaderCardsTabPane">
+					<Tab fx:id="leaderCardsPlayer1Tab">
+						<AnchorPane>
+							<VBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+								<HBox fx:id="leaderCardsPlayer1Hand" spacing="40.0" />
+								<HBox fx:id="leaderCardsPlayer1Played" spacing="40.0" />
+							</VBox>
+						</AnchorPane>
+					</Tab>
+					<Tab fx:id="leaderCardsPlayer2Tab">
+						<AnchorPane>
+							<VBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+								<HBox fx:id="leaderCardsPlayer2Hand" spacing="40.0" />
+								<HBox fx:id="leaderCardsPlayer2Played" spacing="40.0" />
+							</VBox>
+						</AnchorPane>
+					</Tab>
+					<Tab fx:id="leaderCardsPlayer3Tab">
+						<AnchorPane>
+							<VBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+								<HBox fx:id="leaderCardsPlayer3Hand" spacing="40.0" />
+								<HBox fx:id="leaderCardsPlayer3Played" spacing="40.0" />
+							</VBox>
+						</AnchorPane>
+					</Tab>
+					<Tab fx:id="leaderCardsPlayer4Tab">
+						<AnchorPane>
+							<VBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+								<HBox fx:id="leaderCardsPlayer4Hand" spacing="40.0" />
+								<HBox fx:id="leaderCardsPlayer4Played" spacing="40.0" />
+							</VBox>
+						</AnchorPane>
+					</Tab>
+					<Tab fx:id="leaderCardsPlayer5Tab">
+						<AnchorPane>
+							<VBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+								<HBox fx:id="leaderCardsPlayer5Hand" spacing="40.0" />
+								<HBox fx:id="leaderCardsPlayer5Played" spacing="40.0" />
+							</VBox>
+						</AnchorPane>
+					</Tab>
+				</JFXTabPane>
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
