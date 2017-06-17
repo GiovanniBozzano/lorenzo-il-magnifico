@@ -30,7 +30,8 @@
 				"type": "CARD",
 				"value": 2,
 				"cardType": "TERRITORY",
-				"discountChoices": []
+				"discountChoices": [],
+				"description": "Whenever you perform an action\nto take a TERRITORY CARD (through\na Family Member or as an effect of\nanother card), increase the VALUE of\nthe action by 2."
 			}
 		},
 		{
@@ -76,7 +77,8 @@
 							}
 						]
 					}
-				]
+				],
+				"description": "Whenever you perform an action\nto take a BUILDING CARD (through\na Family Member or as an effect of\nanother card), increase the VALUE of\nthe action by 2. In addition, the COST of\nthe card you take is reduced by 1 WOOD\nOR 1 STONE."
 			}
 		},
 		{
@@ -113,7 +115,8 @@
 							}
 						]
 					}
-				]
+				],
+				"description": "Whenever you perform an action\nto take a CHARACTER CARD (through\na Family Member or as an effect of\nanother card), increase the VALUE of\nthe action by 2. In addition, the COST of\nthe card you take is reduced by 1 COIN."
 			}
 		},
 		{
@@ -146,7 +149,8 @@
 				"type": "CARD",
 				"value": 2,
 				"cardType": "VENTURE",
-				"discountChoices": []
+				"discountChoices": [],
+				"description": "Whenever you perform an action\nto take a VENTURE card (through\na Family Member or as an effect of\nanother card), increase the value of\nthe action by 2."
 			}
 		},
 		{
@@ -171,7 +175,8 @@
 			},
 			"modifier": {
 				"type": "HARVEST",
-				"value": 2
+				"value": 2,
+				"description": "Whenever you perform a HARVEST\nACTION (through a Family Member or\nas an effect of another card), increase\nthe VALUE of the action by 2."
 			}
 		},
 		{
@@ -196,7 +201,8 @@
 			},
 			"modifier": {
 				"type": "PRODUCTION",
-				"value": 2
+				"value": 2,
+				"description": "Whenever you perform a PRODUCTION\nACTION (through a Family Member or\nas an effect of another card), increase\nthe VALUE of the action by 2."
 			}
 		},
 		{
@@ -230,7 +236,8 @@
 				"rows": [
 					"THIRD",
 					"FOURTH"
-				]
+				],
+				"description": "You don’t take the BONUSES when\nyou take a Development Card from\nthe THIRD and the FOURTH FLOOR of the\ntowers (through a Family Member or\nas an effect of another card)."
 			}
 		},
 		{
@@ -457,7 +464,8 @@
 			},
 			"modifier": {
 				"type": "HARVEST",
-				"value": 3
+				"value": 3,
+				"description": "Whenever you perform a HARVEST\nACTION (through a Family Member or\nas an effect of another card), increase\nthe VALUE of the action by 3."
 			}
 		},
 		{
@@ -482,7 +490,8 @@
 			},
 			"modifier": {
 				"type": "PRODUCTION",
-				"value": 3
+				"value": 3,
+				"description": "Whenever you perform a PRODUCTION\nACTION (through a Family Member or\nas an effect of another card), increase\nthe VALUE of the action by 3."
 			}
 		},
 		{
