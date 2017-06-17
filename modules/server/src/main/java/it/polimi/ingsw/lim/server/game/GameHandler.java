@@ -126,7 +126,7 @@ public class GameHandler
 				for (Connection player : this.availableLeaderCards.keySet()) {
 					this.leaderCardsChoosingPlayers.put(player, true);
 				}
-				this.sendLeaderCardsChoice();
+				this.sendLeaderCardsChoiceRequest();
 				return;
 			}
 		}
@@ -165,20 +165,7 @@ public class GameHandler
 			}
 			this.availableLeaderCards.clear();
 			this.availableLeaderCards = newlyAvailableLeaderCards;
-			this.sendLeaderCardsChoice();
-		}
-	}
-
-	private void sendLeaderCardsChoice()
-	{
-		for (Connection currentPlayer : this.availableLeaderCards.keySet()) {
-			if (!currentPlayer.getPlayerHandler().isOnline()) {
-				int currentLeaderCardIndex = this.availableLeaderCards.get(currentPlayer).get(this.randomGenerator.nextInt(this.availableLeaderCards.get(currentPlayer).size()));
-				currentPlayer.getPlayerHandler().getPlayerCardHandler().addLeaderCard(Utils.getLeaderCardFromIndex(currentLeaderCardIndex));
-				this.availableLeaderCards.get(currentPlayer).remove(new Integer(currentLeaderCardIndex));
-				this.receivedLeaderCardChoice(currentPlayer, currentLeaderCardIndex);
-			}
-			currentPlayer.sendGameLeaderCardChoiceRequest(this.availableLeaderCards.get(currentPlayer));
+			this.sendLeaderCardsChoiceRequest();
 		}
 	}
 
@@ -341,6 +328,19 @@ public class GameHandler
 			if (otherPlayer != player && otherPlayer.getPlayerHandler().isOnline()) {
 				otherPlayer.sendGamePersonalBonusTileChoiceOther(player.getPlayerHandler().getIndex());
 			}
+		}
+	}
+
+	private void sendLeaderCardsChoiceRequest()
+	{
+		for (Connection currentPlayer : this.availableLeaderCards.keySet()) {
+			if (!currentPlayer.getPlayerHandler().isOnline()) {
+				int currentLeaderCardIndex = this.availableLeaderCards.get(currentPlayer).get(this.randomGenerator.nextInt(this.availableLeaderCards.get(currentPlayer).size()));
+				currentPlayer.getPlayerHandler().getPlayerCardHandler().addLeaderCard(Utils.getLeaderCardFromIndex(currentLeaderCardIndex));
+				this.availableLeaderCards.get(currentPlayer).remove(new Integer(currentLeaderCardIndex));
+				this.receivedLeaderCardChoice(currentPlayer, currentLeaderCardIndex);
+			}
+			currentPlayer.sendGameLeaderCardChoiceRequest(this.availableLeaderCards.get(currentPlayer));
 		}
 	}
 
