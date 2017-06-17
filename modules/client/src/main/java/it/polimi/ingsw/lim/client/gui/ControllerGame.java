@@ -501,6 +501,8 @@ public class ControllerGame extends CustomController
 			this.getStage().getScene().getRoot().requestFocus();
 			if (((Pane) event.getSource()).getBackground() != null) {
 				this.cardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
+				this.cardDialogPane.setPrefWidth(((Pane) event.getSource()).getWidth() * 5);
+				this.cardDialogPane.setPrefHeight(((Pane) event.getSource()).getHeight() * 5);
 				this.getStage().getScene().getRoot().requestFocus();
 				this.cardDialog.show();
 			}

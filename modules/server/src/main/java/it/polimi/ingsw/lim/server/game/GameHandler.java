@@ -128,7 +128,15 @@ public class GameHandler
 			return;
 		}
 		this.setupTurnOrder();
-		this.turnPlayer = this.turnOrder.get(0);
+		int playerCounter = 0;
+		do {
+			if (playerCounter >= this.turnOrder.size() - 1) {
+				this.endGame();
+				return;
+			}
+			this.turnPlayer = this.turnOrder.get(playerCounter);
+			playerCounter++;
+		} while (!this.turnPlayer.getPlayerHandler().isOnline());
 		this.rollDices();
 		this.drawCards();
 		this.sendGameUpdate(this.turnPlayer);
@@ -224,8 +232,14 @@ public class GameHandler
 
 	private void switchPlayer()
 	{
+		int playerCounter = 0;
 		do {
+			if (playerCounter >= this.turnOrder.size() - 1) {
+				this.endGame();
+				return;
+			}
 			this.turnPlayer = this.getNextTurnPlayer();
+			playerCounter++;
 		} while (this.turnPlayer.getPlayerHandler().getAvailableTurns() <= 0);
 		if (this.turnPlayer.getPlayerHandler().getAvailableTurns() >= 4) {
 			EventFirstTurn eventFirstTurn = new EventFirstTurn(this.turnPlayer);
@@ -257,7 +271,7 @@ public class GameHandler
 	private void sendGamePersonalBonusTileChoiceOther(Connection player)
 	{
 		for (Connection otherPlayer : this.room.getPlayers()) {
-			if (otherPlayer != player) {
+			if (otherPlayer != player && otherPlayer.getPlayerHandler().isOnline()) {
 				otherPlayer.sendGamePersonalBonusTileChoiceOther(player.getPlayerHandler().getIndex());
 			}
 		}
@@ -278,13 +292,13 @@ public class GameHandler
 	private void sendGameUpdateOtherTurn(Connection player)
 	{
 		for (Connection otherPlayer : this.room.getPlayers()) {
-			if (otherPlayer != player) {
+			if (otherPlayer != player && otherPlayer.getPlayerHandler().isOnline()) {
 				otherPlayer.sendGameUpdateOtherTurn(this.generateGameInformations(), this.generatePlayersInformations(), player.getPlayerHandler().getIndex());
 			}
 		}
 	}
 
-	private GameInformations generateGameInformations()
+	public GameInformations generateGameInformations()
 	{
 		Map<Row, Integer> developmentCardsBuildingInformations = new EnumMap<>(Row.class);
 		Map<Row, Integer> developmentCardsCharacterInformations = new EnumMap<>(Row.class);
@@ -315,7 +329,7 @@ public class GameHandler
 		return new GameInformations(developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, turnOrderInformations, councilPalaceOrderInformations);
 	}
 
-	private List<PlayerInformations> generatePlayersInformations()
+	public List<PlayerInformations> generatePlayersInformations()
 	{
 		List<PlayerInformations> playersInformations = new ArrayList<>();
 		for (Connection player : this.room.getPlayers()) {
@@ -438,6 +452,11 @@ public class GameHandler
 		return this.boardHandler;
 	}
 
+	public Random getRandomGenerator()
+	{
+		return this.randomGenerator;
+	}
+
 	public Map<FamilyMemberType, Integer> getFamilyMemberTypeValues()
 	{
 		return this.familyMemberTypeValues;
@@ -471,5 +490,10 @@ public class GameHandler
 	public List<Integer> getAvailablePersonalBonusTiles()
 	{
 		return this.availablePersonalBonusTiles;
+	}
+
+	public int getPersonalBonusTileChoicePlayerIndex()
+	{
+		return this.personalBonusTileChoicePlayerIndex;
 	}
 }

@@ -31,6 +31,16 @@ public enum PersonalBonusTile
 		this.harvestInstantResources = harvestInstantResources;
 	}
 
+	public static PersonalBonusTile fromIndex(int index)
+	{
+		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
+			if (personalBonusTile.getIndex() == index) {
+				return personalBonusTile;
+			}
+		}
+		return null;
+	}
+
 	public int getIndex()
 	{
 		return this.index;

@@ -81,7 +81,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 		return Objects.hash(super.hashCode(), this.clientSessions);
 	}
 
-	private AuthenticationInformationsRMI finalizeAuthentication(String username, RoomType roomType, IServerSession serverSession) throws RemoteException
+	private AuthenticationInformationsRMI finalizeAuthentication(String username, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
 	{
 		Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuildingsInformations = new HashMap<>();
 		Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacterInformations = new HashMap<>();
@@ -125,7 +125,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			Server.getInstance().getConnections().add(connectionRmi);
 			Room targetRoom = null;
 			for (Room room : Server.getInstance().getRooms()) {
-				if (!room.getIsStarted() && room.getRoomType() == roomType && room.getPlayers().size() < roomType.getPlayersNumber()) {
+				if (room.getGameHandler() == null && room.getRoomType() == roomType && room.getPlayers().size() < roomType.getPlayersNumber()) {
 					targetRoom = room;
 					break;
 				}
@@ -151,6 +151,9 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 					playerRoom.getPlayers().remove(player);
 					break;
 				}
+			}
+			if (connectionRmi == null) {
+				throw new AuthenticationFailedException("Server error.");
 			}
 			ClientSession clientSession = new ClientSession(connectionRmi);
 			this.clientSessions.add(clientSession);

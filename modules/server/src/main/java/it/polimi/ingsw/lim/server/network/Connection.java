@@ -9,6 +9,7 @@ import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
 
 import java.util.List;
@@ -48,10 +49,9 @@ public abstract class Connection
 	public static void broadcastChatMessage(String text)
 	{
 		for (Connection connection : Server.getInstance().getConnections()) {
-			if (connection.getUsername() == null) {
-				continue;
+			if (connection.getUsername() != null && (connection.getPlayerHandler() == null || connection.getPlayerHandler().isOnline())) {
+				connection.sendChatMessage(text);
 			}
-			connection.sendChatMessage(text);
 		}
 	}
 
@@ -62,16 +62,11 @@ public abstract class Connection
 		if (this.playerHandler != null) {
 			this.playerHandler.setOnline(false);
 		}
-		for (Room room : Server.getInstance().getRooms()) {
-			room.removePlayer(this);
-			if (room.getPlayers().isEmpty()) {
-				Server.getInstance().getRooms().remove(room);
-			} else {
-				for (Connection connection : room.getPlayers()) {
-					connection.sendRoomExitOther(this.username);
-				}
-			}
+		Room room = Room.getPlayerRoom(this);
+		if (room == null) {
+			return;
 		}
+		room.handlePlayerDisconnection(this);
 	}
 
 	public abstract void sendHeartbeat();
@@ -87,6 +82,8 @@ public abstract class Connection
 	public abstract void sendChatMessage(String text);
 
 	public abstract void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex);
+
+	public abstract void sendGameDisconnectionOther(int playerIndex);
 
 	public abstract void sendGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles);
 
@@ -116,7 +113,7 @@ public abstract class Connection
 			return;
 		}
 		for (Connection otherConnection : room.getPlayers()) {
-			if (otherConnection != this) {
+			if (otherConnection != this && (otherConnection.getPlayerHandler() == null || otherConnection.getPlayerHandler().isOnline())) {
 				otherConnection.sendChatMessage("[" + this.getUsername() + "]: " + text);
 			}
 		}
@@ -132,6 +129,9 @@ public abstract class Connection
 		if (gameHandler == null) {
 			return;
 		}
+		if (gameHandler.getPersonalBonusTileChoicePlayerIndex() != this.playerHandler.getIndex()) {
+			return;
+		}
 		boolean valid = false;
 		for (Integer availablePersonalBonusTileIndex : gameHandler.getAvailablePersonalBonusTiles()) {
 			if (availablePersonalBonusTileIndex == personalBonusTileIndex) {
@@ -143,9 +143,12 @@ public abstract class Connection
 			this.sendGamePersonalBonusTileChoiceRequest(gameHandler.getAvailablePersonalBonusTiles());
 			return;
 		}
+		this.playerHandler.setPersonalBonusTile(PersonalBonusTile.fromIndex(personalBonusTileIndex));
 		gameHandler.getAvailablePersonalBonusTiles().remove(gameHandler.getAvailablePersonalBonusTiles().indexOf(personalBonusTileIndex));
 		for (Connection player : room.getPlayers()) {
-			player.sendGamePersonalBonusTileChosen(this.getPlayerHandler().getIndex());
+			if (player.getPlayerHandler().isOnline()) {
+				player.sendGamePersonalBonusTileChosen(this.playerHandler.getIndex());
+			}
 		}
 		gameHandler.receivedPersonalBonusTileChoice();
 	}

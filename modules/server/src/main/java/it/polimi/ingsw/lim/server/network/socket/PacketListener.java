@@ -148,7 +148,7 @@ class PacketListener extends Thread
 			if ((playerRoom = Room.getPlayerRoom(trimmedUsername)) == null) {
 				Room targetRoom = null;
 				for (Room room : Server.getInstance().getRooms()) {
-					if (!room.getIsStarted() && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {
+					if (room.getGameHandler() != null && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {
 						targetRoom = room;
 						break;
 					}

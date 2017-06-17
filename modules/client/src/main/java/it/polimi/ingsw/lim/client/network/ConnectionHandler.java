@@ -200,6 +200,13 @@ public abstract class ConnectionHandler extends Thread
 		WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, true);
 	}
 
+	public void handleGameDisconnectionOther(int playerIndex)
+	{
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+			return;
+		}
+	}
+
 	public void handleGamePersonalBonusTileChoiceRequest(List<Integer> personalBonusTilesInformations)
 	{
 		try {

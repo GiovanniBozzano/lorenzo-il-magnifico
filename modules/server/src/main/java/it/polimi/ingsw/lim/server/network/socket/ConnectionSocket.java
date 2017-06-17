@@ -147,6 +147,12 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
+	public void sendGameDisconnectionOther(int playerIndex)
+	{
+		new PacketGameDisconnectionOther(playerIndex).send(this.out);
+	}
+
+	@Override
 	public void sendGamePersonalBonusTileChoiceRequest(List<Integer> personalBonusTilesInformations)
 	{
 		new PacketGamePersonalBonusTileChoiceRequest(personalBonusTilesInformations).send(this.out);

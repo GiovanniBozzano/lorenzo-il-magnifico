@@ -85,6 +85,11 @@ public class PlayerHandler
 		return this.personalBonusTile;
 	}
 
+	public void setPersonalBonusTile(PersonalBonusTile personalBonusTile)
+	{
+		this.personalBonusTile = personalBonusTile;
+	}
+
 	public int getAvailableTurns()
 	{
 		return this.availableTurns;
