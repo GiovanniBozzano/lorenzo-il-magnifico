@@ -8,16 +8,16 @@ import java.util.List;
 
 public class PacketGamePersonalBonusTileChoiceRequest extends Packet
 {
-	private List<Integer> personalBonusTilesInformations;
+	private List<Integer> availablePersonalBonusTilesIndexes;
 
-	public PacketGamePersonalBonusTileChoiceRequest(List<Integer> personalBonusTilesInformations)
+	public PacketGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTilesIndexes)
 	{
 		super(PacketType.GAME_PERSONAL_BONUS_TILE_CHOICE_REQUEST);
-		this.personalBonusTilesInformations = new ArrayList<>(personalBonusTilesInformations);
+		this.availablePersonalBonusTilesIndexes = new ArrayList<>(availablePersonalBonusTilesIndexes);
 	}
 
-	public List<Integer> getPersonalBonusTilesInformations()
+	public List<Integer> getAvailablePersonalBonusTilesIndexes()
 	{
-		return this.personalBonusTilesInformations;
+		return this.availablePersonalBonusTilesIndexes;
 	}
 }

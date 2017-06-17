@@ -73,7 +73,7 @@ public class ActionLeaderPlay implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		gameHandler.setPhase(Phase.LEADER);
+		gameHandler.setCurrentPhase(Phase.LEADER);
 		if (this.leaderCard instanceof LeaderCardModifier) {
 			this.player.getPlayerHandler().getActiveModifiers().add(((LeaderCardModifier) this.leaderCard).getModifier());
 		} else {

@@ -70,9 +70,15 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChoiceRequest(List<Integer> personalBonusTilesInformations) throws RemoteException
+	public void sendGameDisconnectionOther(int playerIndex)
 	{
-		Client.getInstance().getConnectionHandler().handleGamePersonalBonusTileChoiceRequest(personalBonusTilesInformations);
+		Client.getInstance().getConnectionHandler().handleGameDisconnectionOther(playerIndex);
+	}
+
+	@Override
+	public void sendGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGamePersonalBonusTileChoiceRequest(availablePersonalBonusTiles);
 	}
 
 	@Override
@@ -85,6 +91,18 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex) throws RemoteException
 	{
 		Client.getInstance().getConnectionHandler().handleGamePersonalBonusTileChosen(choicePlayerIndex);
+	}
+
+	@Override
+	public void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGameLeaderCardChoiceRequest(availableLeaderCards);
+	}
+
+	@Override
+	public void sendGameLeaderCardChosen(int choicePlayerIndex) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGameLeaderCardChosen(choicePlayerIndex);
 	}
 
 	@Override

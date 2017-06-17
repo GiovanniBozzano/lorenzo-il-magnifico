@@ -10,6 +10,7 @@ import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.enums.Row;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardStatus;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -17,10 +18,7 @@ import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
@@ -453,14 +451,57 @@ public class ControllerGame extends CustomController
 	@FXML private JFXDialogLayout dialogLayout;
 	@FXML private Label dialogLabel;
 	@FXML private JFXButton dialogOkButton;
+	@FXML private JFXDialog personalBonusTilesChoiceDialog;
+	@FXML private JFXDialogLayout personalBonusTilesChoiceDialogLayout;
+	@FXML private HBox personalBonusTilesChoiceDialogHBox;
+	@FXML private JFXDialog leaderCardsChoiceDialog;
+	@FXML private JFXDialogLayout leaderCardsChoiceDialogLayout;
+	@FXML private HBox leaderCardsChoiceDialogHBox;
 	@FXML private JFXDialog cardDialog;
 	@FXML private JFXDialogLayout cardDialogLayout;
 	@FXML private Pane cardDialogPane;
-	@FXML private JFXDialog personalBonusTileDialog;
-	@FXML private JFXDialogLayout personalBonusTileDialogLayout;
-	@FXML private HBox personalBonusTileDialogHBox;
 	@FXML private JFXDialog leaderCardsDialog;
 	@FXML private JFXDialogLayout leaderCardsDialogLayout;
+	@FXML private Pane player1LeaderCard1Hand;
+	@FXML private Pane player1LeaderCard2Hand;
+	@FXML private Pane player1LeaderCard3Hand;
+	@FXML private Pane player1LeaderCard4Hand;
+	@FXML private Pane player2LeaderCard1Hand;
+	@FXML private Pane player2LeaderCard2Hand;
+	@FXML private Pane player2LeaderCard3Hand;
+	@FXML private Pane player2LeaderCard4Hand;
+	@FXML private Pane player3LeaderCard1Hand;
+	@FXML private Pane player3LeaderCard2Hand;
+	@FXML private Pane player3LeaderCard3Hand;
+	@FXML private Pane player3LeaderCard4Hand;
+	@FXML private Pane player4LeaderCard1Hand;
+	@FXML private Pane player4LeaderCard2Hand;
+	@FXML private Pane player4LeaderCard3Hand;
+	@FXML private Pane player4LeaderCard4Hand;
+	@FXML private Pane player5LeaderCard1Hand;
+	@FXML private Pane player5LeaderCard2Hand;
+	@FXML private Pane player5LeaderCard3Hand;
+	@FXML private Pane player5LeaderCard4Hand;
+	@FXML private Pane player1LeaderCard1Played;
+	@FXML private Pane player1LeaderCard2Played;
+	@FXML private Pane player1LeaderCard3Played;
+	@FXML private Pane player1LeaderCard4Played;
+	@FXML private Pane player2LeaderCard1Played;
+	@FXML private Pane player2LeaderCard2Played;
+	@FXML private Pane player2LeaderCard3Played;
+	@FXML private Pane player2LeaderCard4Played;
+	@FXML private Pane player3LeaderCard1Played;
+	@FXML private Pane player3LeaderCard2Played;
+	@FXML private Pane player3LeaderCard3Played;
+	@FXML private Pane player3LeaderCard4Played;
+	@FXML private Pane player4LeaderCard1Played;
+	@FXML private Pane player4LeaderCard2Played;
+	@FXML private Pane player4LeaderCard3Played;
+	@FXML private Pane player4LeaderCard4Played;
+	@FXML private Pane player5LeaderCard1Played;
+	@FXML private Pane player5LeaderCard2Played;
+	@FXML private Pane player5LeaderCard3Played;
+	@FXML private Pane player5LeaderCard4Played;
 	private final Map<Integer, Tab> playersTabs = new HashMap<>();
 	private final Map<Integer, Tab> leaderCardsTabs = new HashMap<>();
 	private final Map<Period, Pane> excommunicationTilesPanes = new EnumMap<>(Period.class);
@@ -479,13 +520,15 @@ public class ControllerGame extends CustomController
 	private final Map<Row, Pane> developmentCardsCharacterPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsTerritoryPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsVenturePanes = new EnumMap<>(Row.class);
-	private final Map<CardType, Map<Row, Pane>> developmentCardsPanes = new HashMap<>();
+	private final Map<CardType, Map<Row, Pane>> developmentCardsPanes = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player1DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player2DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player3DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player4DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player5DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<Integer, Map<CardType, List<Pane>>> playersDevelopmentCards = new HashMap<>();
+	private final Map<Integer, List<Pane>> playersLeaderCardsHand = new HashMap<>();
+	private final Map<Integer, List<Pane>> playersLeaderCardsPlayed = new HashMap<>();
 	private final Map<ResourceType, Label> player1Resources = new EnumMap<>(ResourceType.class);
 	private final Map<ResourceType, Label> player2Resources = new EnumMap<>(ResourceType.class);
 	private final Map<ResourceType, Label> player3Resources = new EnumMap<>(ResourceType.class);
@@ -501,6 +544,8 @@ public class ControllerGame extends CustomController
 			this.getStage().getScene().getRoot().requestFocus();
 			if (((Pane) event.getSource()).getBackground() != null) {
 				this.cardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
+				this.cardDialogPane.setPrefWidth(((Pane) event.getSource()).getWidth() * 5);
+				this.cardDialogPane.setPrefHeight(((Pane) event.getSource()).getHeight() * 5);
 				this.getStage().getScene().getRoot().requestFocus();
 				this.cardDialog.show();
 			}
@@ -608,6 +653,16 @@ public class ControllerGame extends CustomController
 		this.playersDevelopmentCards.put(2, this.player3DevelopmentCards);
 		this.playersDevelopmentCards.put(3, this.player4DevelopmentCards);
 		this.playersDevelopmentCards.put(4, this.player5DevelopmentCards);
+		this.playersLeaderCardsHand.put(0, Arrays.asList(this.player1LeaderCard1Hand, this.player1LeaderCard2Hand, this.player1LeaderCard3Hand, this.player1LeaderCard4Hand));
+		this.playersLeaderCardsHand.put(1, Arrays.asList(this.player2LeaderCard1Hand, this.player2LeaderCard2Hand, this.player2LeaderCard3Hand, this.player2LeaderCard4Hand));
+		this.playersLeaderCardsHand.put(2, Arrays.asList(this.player3LeaderCard1Hand, this.player3LeaderCard2Hand, this.player3LeaderCard3Hand, this.player3LeaderCard4Hand));
+		this.playersLeaderCardsHand.put(3, Arrays.asList(this.player4LeaderCard1Hand, this.player4LeaderCard2Hand, this.player4LeaderCard3Hand, this.player4LeaderCard4Hand));
+		this.playersLeaderCardsHand.put(4, Arrays.asList(this.player5LeaderCard1Hand, this.player5LeaderCard2Hand, this.player5LeaderCard3Hand, this.player5LeaderCard4Hand));
+		this.playersLeaderCardsPlayed.put(0, Arrays.asList(this.player1LeaderCard1Played, this.player1LeaderCard2Played, this.player1LeaderCard3Played, this.player1LeaderCard4Played));
+		this.playersLeaderCardsPlayed.put(1, Arrays.asList(this.player2LeaderCard1Played, this.player2LeaderCard2Played, this.player2LeaderCard3Played, this.player2LeaderCard4Played));
+		this.playersLeaderCardsPlayed.put(2, Arrays.asList(this.player3LeaderCard1Played, this.player3LeaderCard2Played, this.player3LeaderCard3Played, this.player3LeaderCard4Played));
+		this.playersLeaderCardsPlayed.put(3, Arrays.asList(this.player4LeaderCard1Played, this.player4LeaderCard2Played, this.player4LeaderCard3Played, this.player4LeaderCard4Played));
+		this.playersLeaderCardsPlayed.put(4, Arrays.asList(this.player5LeaderCard1Played, this.player5LeaderCard2Played, this.player5LeaderCard3Played, this.player5LeaderCard4Played));
 		this.player1Resources.put(ResourceType.COIN, this.player1Coin);
 		this.player1Resources.put(ResourceType.SERVANT, this.player1Servant);
 		this.player1Resources.put(ResourceType.STONE, this.player1Stone);
@@ -639,10 +694,10 @@ public class ControllerGame extends CustomController
 		this.getStackPane().getChildren().remove(this.cardDialog);
 		this.cardDialog.setTransitionType(DialogTransition.CENTER);
 		this.cardDialog.setDialogContainer(this.getStackPane());
-		this.getStackPane().getChildren().remove(this.personalBonusTileDialog);
-		this.personalBonusTileDialog.setTransitionType(DialogTransition.CENTER);
-		this.personalBonusTileDialog.setDialogContainer(this.getStackPane());
-		this.personalBonusTileDialog.setOverlayClose(false);
+		this.getStackPane().getChildren().remove(this.personalBonusTilesChoiceDialog);
+		this.personalBonusTilesChoiceDialog.setTransitionType(DialogTransition.CENTER);
+		this.personalBonusTilesChoiceDialog.setDialogContainer(this.getStackPane());
+		this.personalBonusTilesChoiceDialog.setOverlayClose(false);
 		this.getStackPane().getChildren().remove(this.leaderCardsDialog);
 		this.leaderCardsDialog.setTransitionType(DialogTransition.CENTER);
 		this.leaderCardsDialog.setDialogContainer(this.getStackPane());
@@ -901,6 +956,7 @@ public class ControllerGame extends CustomController
 
 	private void updateGame()
 	{
+		this.leaderCardsButton.setDisable(false);
 		for (Row row : Row.values()) {
 			this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(null);
 			Integer currentDevelopmentCardBuildingIndex = GameStatus.getInstance().getCurrentDevelopmentCardsBuilding().get(row);
@@ -908,26 +964,20 @@ public class ControllerGame extends CustomController
 				this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsBuilding().get(currentDevelopmentCardBuildingIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
 			this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBackground(null);
-
-			/*
 			Integer currentDevelopmentCardCharacterIndex = GameStatus.getInstance().getCurrentDevelopmentCardsCharacter().get(row);
 			if (currentDevelopmentCardCharacterIndex != null) {
 				this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsCharacter().get(currentDevelopmentCardCharacterIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
-			*/
 			this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBackground(null);
 			Integer currentDevelopmentCardTerritoryIndex = GameStatus.getInstance().getCurrentDevelopmentCardsTerritory().get(row);
 			if (currentDevelopmentCardTerritoryIndex != null) {
 				this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsTerritory().get(currentDevelopmentCardTerritoryIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
 			this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBackground(null);
-
-			/*
 			Integer currentDevelopmentCardVentureIndex = GameStatus.getInstance().getCurrentDevelopmentCardsVenture().get(row);
 			if (currentDevelopmentCardVentureIndex != null) {
 				this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsVenture().get(currentDevelopmentCardVentureIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
-			*/
 		}
 		for (Entry<Integer, PlayerData> playerData : GameStatus.getInstance().getCurrentPlayersData().entrySet()) {
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING)) {
@@ -939,11 +989,9 @@ public class ControllerGame extends CustomController
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER)) {
 				pane.setBackground(null);
 			}
-			/*
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsCharacter().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsCharacter().get(playerData.getValue().getDevelopmentCardsCharacter().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
-			*/
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY)) {
 				pane.setBackground(null);
 			}
@@ -953,11 +1001,26 @@ public class ControllerGame extends CustomController
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE)) {
 				pane.setBackground(null);
 			}
-			/*
-			for (Integer developmentCardVentureIndex : playerData.getValue().getDevelopmentCardsBuilding()) {
+			for (int index = 0; index < playerData.getValue().getDevelopmentCardsVenture().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsVenture().get(playerData.getValue().getDevelopmentCardsVenture().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
-			*/
+			for (Pane pane : this.playersLeaderCardsHand.get(playerData.getKey())) {
+				pane.setBackground(null);
+			}
+			for (Pane pane : this.playersLeaderCardsPlayed.get(playerData.getKey())) {
+				pane.setBackground(null);
+			}
+			int playedIndex = 0;
+			int handIndex = 0;
+			for (Entry<Integer, LeaderCardStatus> leaderCard : playerData.getValue().getLeaderCardsStatuses().entrySet()) {
+				if (leaderCard.getValue().isPlayed()) {
+					this.playersLeaderCardsPlayed.get(playerData.getKey()).get(playedIndex).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+					playedIndex++;
+				} else {
+					this.playersLeaderCardsPlayed.get(playerData.getKey()).get(handIndex).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+					handIndex++;
+				}
+			}
 			for (Entry<ResourceType, Integer> resourceAmount : playerData.getValue().getResourceAmounts().entrySet()) {
 				if (this.playersResources.get(playerData.getKey()).containsKey(resourceAmount.getKey())) {
 					this.playersResources.get(playerData.getKey()).get(resourceAmount.getKey()).setText(Integer.toString(resourceAmount.getValue()));
@@ -966,13 +1029,12 @@ public class ControllerGame extends CustomController
 		}
 	}
 
-	public void showPersonalBonusTileDialog()
+	public void showPersonalBonusTilesChoiceDialog()
 	{
-		this.dialog.close();
-		this.cardDialog.close();
 		for (Integer personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
 			Pane pane = new Pane();
 			Label label = new Label();
+			label.setMinWidth(Control.USE_PREF_SIZE);
 			label.setFont(CommonUtils.ROBOTO_REGULAR);
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("Production activation cost: ");
@@ -1002,14 +1064,31 @@ public class ControllerGame extends CustomController
 			Utils.setEffect(pane, this.borderGlow);
 			pane.setOnMouseClicked(event -> {
 				Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex);
-				this.personalBonusTileDialog.close();
+				this.personalBonusTilesChoiceDialog.close();
+				this.getStage().getScene().getRoot().requestFocus();
 			});
-			this.personalBonusTileDialogHBox.getChildren().add(pane);
+			this.personalBonusTilesChoiceDialogHBox.getChildren().add(pane);
 		}
-		this.getStage().sizeToScene();
-		this.personalBonusTileDialogLayout.setPrefWidth(((Pane) this.personalBonusTileDialogHBox.getChildren().get(0)).getWidth() * this.personalBonusTileDialogHBox.getChildren().size() + this.personalBonusTileDialogHBox.getSpacing() * (this.personalBonusTileDialogHBox.getChildren().size() - 1) + 48);
+		this.personalBonusTilesChoiceDialogLayout.setPrefWidth(((Pane) this.personalBonusTilesChoiceDialogHBox.getChildren().get(0)).getWidth() * this.personalBonusTilesChoiceDialogHBox.getChildren().size() + this.personalBonusTilesChoiceDialogHBox.getSpacing() * (this.personalBonusTilesChoiceDialogHBox.getChildren().size() - 1) + 48);
 		this.getStage().getScene().getRoot().requestFocus();
-		this.personalBonusTileDialog.show();
+		this.personalBonusTilesChoiceDialog.show();
+	}
+
+	public void showLeaderCardsChoiceDialog()
+	{
+		for (Integer leaderCardIndex : GameStatus.getInstance().getAvailableLeaderCards()) {
+			Pane pane = new Pane();
+			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			Utils.setEffect(pane, this.borderGlow);
+			pane.setOnMouseClicked(event -> {
+				Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCardIndex);
+				this.personalBonusTilesChoiceDialog.close();
+				this.getStage().getScene().getRoot().requestFocus();
+			});
+			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
+		}
+		this.getStage().getScene().getRoot().requestFocus();
+		this.leaderCardsChoiceDialog.show();
 	}
 
 	public TextArea getChatTextArea()

@@ -25,6 +25,7 @@ public class PlayerHandler
 	private boolean isOnline = true;
 	private ActionReward currentActionReward;
 	private int currentProductionValue = 0;
+	private List<Integer> availableLeaderCards = new ArrayList<>();
 
 	public PlayerHandler(int index)
 	{
@@ -85,6 +86,11 @@ public class PlayerHandler
 		return this.personalBonusTile;
 	}
 
+	public void setPersonalBonusTile(PersonalBonusTile personalBonusTile)
+	{
+		this.personalBonusTile = personalBonusTile;
+	}
+
 	public int getAvailableTurns()
 	{
 		return this.availableTurns;
@@ -123,5 +129,16 @@ public class PlayerHandler
 	public void setCurrentProductionValue(int currentProductionValue)
 	{
 		this.currentProductionValue = currentProductionValue;
+	}
+
+	public List<Integer> getAvailableLeaderCards()
+	{
+		return this.availableLeaderCards;
+	}
+
+	public void setAvailableLeaderCards(List<Integer> availableLeaderCards)
+	{
+		this.availableLeaderCards.clear();
+		this.availableLeaderCards.addAll(availableLeaderCards);
 	}
 }

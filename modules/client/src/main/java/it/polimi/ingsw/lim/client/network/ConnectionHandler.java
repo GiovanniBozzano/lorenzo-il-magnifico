@@ -127,6 +127,16 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
+	public synchronized void sendGameLeaderCardPlayerChoice(int leaderCardIndex)
+	{
+		try {
+			this.join();
+		} catch (InterruptedException exception) {
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Thread.currentThread().interrupt();
+		}
+	}
+
 	public void handleRoomEntryOther(String name)
 	{
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
@@ -200,7 +210,14 @@ public abstract class ConnectionHandler extends Thread
 		WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, true);
 	}
 
-	public void handleGamePersonalBonusTileChoiceRequest(List<Integer> personalBonusTilesInformations)
+	public void handleGameDisconnectionOther(int playerIndex)
+	{
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+			return;
+		}
+	}
+
+	public void handleGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles)
 	{
 		try {
 			WindowFactory.WINDOW_OPENING_SEMAPHORE.acquire();
@@ -212,9 +229,9 @@ public abstract class ConnectionHandler extends Thread
 			return;
 		}
 		WindowFactory.WINDOW_OPENING_SEMAPHORE.release();
-		GameStatus.getInstance().setAvailablePersonalBonusTiles(personalBonusTilesInformations);
+		GameStatus.getInstance().setAvailablePersonalBonusTiles(availablePersonalBonusTiles);
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).showPersonalBonusTileDialog());
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).showPersonalBonusTilesChoiceDialog());
 		}
 	}
 
@@ -227,6 +244,24 @@ public abstract class ConnectionHandler extends Thread
 	}
 
 	public void handleGamePersonalBonusTileChosen(int choicePlayerIndex)
+	{
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+			return;
+		}
+	}
+
+	public void handleGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards)
+	{
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+			return;
+		}
+		GameStatus.getInstance().setAvailableLeaderCards(availableLeaderCards);
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).showLeaderCardsChoiceDialog());
+		}
+	}
+
+	public void handleGameLeaderCardChosen(int choicePlayerIndex)
 	{
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;

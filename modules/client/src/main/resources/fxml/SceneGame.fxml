@@ -627,19 +627,26 @@
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
+	<JFXDialog fx:id="personalBonusTilesChoiceDialog">
+		<JFXDialogLayout fx:id="personalBonusTilesChoiceDialogLayout">
+			<body>
+				<HBox fx:id="personalBonusTilesChoiceDialogHBox" spacing="40.0" />
+			</body>
+		</JFXDialogLayout>
+	</JFXDialog>
+	<JFXDialog fx:id="leaderCardsChoiceDialog">
+		<JFXDialogLayout fx:id="leaderCardsChoiceDialogLayout">
+			<body>
+				<HBox fx:id="leaderCardsChoiceDialogHBox" spacing="40.0" />
+			</body>
+		</JFXDialogLayout>
+	</JFXDialog>
 	<JFXDialog fx:id="cardDialog" prefWidth="0.0">
 		<JFXDialogLayout fx:id="cardDialogLayout">
 			<body>
 				<HBox spacing="10.0">
 					<Pane fx:id="cardDialogPane" />
 				</HBox>
-			</body>
-		</JFXDialogLayout>
-	</JFXDialog>
-	<JFXDialog fx:id="personalBonusTileDialog">
-		<JFXDialogLayout fx:id="personalBonusTileDialogLayout">
-			<body>
-				<HBox fx:id="personalBonusTileDialogHBox" spacing="40.0" />
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
@@ -650,40 +657,90 @@
 					<Tab fx:id="leaderCardsPlayer1Tab">
 						<AnchorPane>
 							<VBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-								<HBox fx:id="leaderCardsPlayer1Hand" spacing="40.0" />
-								<HBox fx:id="leaderCardsPlayer1Played" spacing="40.0" />
+								<HBox spacing="40.0">
+									<Pane fx:id="player1LeaderCard1Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player1LeaderCard2Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player1LeaderCard3Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player1LeaderCard4Hand" prefHeight="297.0" prefWidth="198.0" />
+								</HBox>
+								<HBox spacing="40.0">
+									<Pane fx:id="player1LeaderCard1Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player1LeaderCard2Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player1LeaderCard3Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player1LeaderCard4Played" prefHeight="297.0" prefWidth="198.0" />
+								</HBox>
 							</VBox>
 						</AnchorPane>
 					</Tab>
 					<Tab fx:id="leaderCardsPlayer2Tab">
 						<AnchorPane>
 							<VBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-								<HBox fx:id="leaderCardsPlayer2Hand" spacing="40.0" />
-								<HBox fx:id="leaderCardsPlayer2Played" spacing="40.0" />
+								<HBox spacing="40.0">
+									<Pane fx:id="player2LeaderCard1Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player2LeaderCard2Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player2LeaderCard3Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player2LeaderCard4Hand" prefHeight="297.0" prefWidth="198.0" />
+								</HBox>
+								<HBox spacing="40.0">
+									<Pane fx:id="player2LeaderCard1Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player2LeaderCard2Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player2LeaderCard3Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player2LeaderCard4Played" prefHeight="297.0" prefWidth="198.0" />
+								</HBox>
 							</VBox>
 						</AnchorPane>
 					</Tab>
 					<Tab fx:id="leaderCardsPlayer3Tab">
 						<AnchorPane>
 							<VBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-								<HBox fx:id="leaderCardsPlayer3Hand" spacing="40.0" />
-								<HBox fx:id="leaderCardsPlayer3Played" spacing="40.0" />
+								<HBox spacing="40.0">
+									<Pane fx:id="player3LeaderCard1Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player3LeaderCard2Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player3LeaderCard3Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player3LeaderCard4Hand" prefHeight="297.0" prefWidth="198.0" />
+								</HBox>
+								<HBox spacing="40.0">
+									<Pane fx:id="player3LeaderCard1Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player3LeaderCard2Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player3LeaderCard3Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player3LeaderCard4Played" prefHeight="297.0" prefWidth="198.0" />
+								</HBox>
 							</VBox>
 						</AnchorPane>
 					</Tab>
 					<Tab fx:id="leaderCardsPlayer4Tab">
 						<AnchorPane>
 							<VBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-								<HBox fx:id="leaderCardsPlayer4Hand" spacing="40.0" />
-								<HBox fx:id="leaderCardsPlayer4Played" spacing="40.0" />
+								<HBox spacing="40.0">
+									<Pane fx:id="player4LeaderCard1Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player4LeaderCard2Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player4LeaderCard3Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player4LeaderCard4Hand" prefHeight="297.0" prefWidth="198.0" />
+								</HBox>
+								<HBox spacing="40.0">
+									<Pane fx:id="player4LeaderCard1Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player4LeaderCard2Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player4LeaderCard3Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player4LeaderCard4Played" prefHeight="297.0" prefWidth="198.0" />
+								</HBox>
 							</VBox>
 						</AnchorPane>
 					</Tab>
 					<Tab fx:id="leaderCardsPlayer5Tab">
 						<AnchorPane>
 							<VBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-								<HBox fx:id="leaderCardsPlayer5Hand" spacing="40.0" />
-								<HBox fx:id="leaderCardsPlayer5Played" spacing="40.0" />
+								<HBox spacing="40.0">
+									<Pane fx:id="player5LeaderCard1Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player5LeaderCard2Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player5LeaderCard3Hand" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player5LeaderCard4Hand" prefHeight="297.0" prefWidth="198.0" />
+								</HBox>
+								<HBox spacing="40.0">
+									<Pane fx:id="player5LeaderCard1Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player5LeaderCard2Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player5LeaderCard3Played" prefHeight="297.0" prefWidth="198.0" />
+									<Pane fx:id="player5LeaderCard4Played" prefHeight="297.0" prefWidth="198.0" />
+								</HBox>
 							</VBox>
 						</AnchorPane>
 					</Tab>

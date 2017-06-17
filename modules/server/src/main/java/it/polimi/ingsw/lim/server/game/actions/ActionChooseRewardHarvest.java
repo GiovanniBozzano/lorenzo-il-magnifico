@@ -90,7 +90,7 @@ public class ActionChooseRewardHarvest implements IAction
 			gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
 			return;
 		}
-		if (gameHandler.getPhase() == Phase.LEADER) {
+		if (gameHandler.getCurrentPhase() == Phase.LEADER) {
 			gameHandler.setExpectedAction(null);
 			gameHandler.sendGameUpdate(this.player);
 			return;

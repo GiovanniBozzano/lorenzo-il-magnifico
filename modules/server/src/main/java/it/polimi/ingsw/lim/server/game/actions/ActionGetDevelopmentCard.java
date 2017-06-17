@@ -199,7 +199,7 @@ public class ActionGetDevelopmentCard implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		gameHandler.setPhase(Phase.FAMILY_MEMBER);
+		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
 		DevelopmentCard developmentCard = gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.cardType).get(this.row);
 		this.player.getPlayerHandler().getPlayerCardHandler().addDevelopmentCard(developmentCard);
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);

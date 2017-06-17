@@ -76,7 +76,7 @@ public class ActionLeaderActivation implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		gameHandler.setPhase(Phase.LEADER);
+		gameHandler.setCurrentPhase(Phase.LEADER);
 		((LeaderCardReward) this.leaderCard).setActivated(true);
 		EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) this.leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());

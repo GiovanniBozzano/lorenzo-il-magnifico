@@ -147,9 +147,15 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChoiceRequest(List<Integer> personalBonusTilesInformations)
+	public void sendGameDisconnectionOther(int playerIndex)
 	{
-		new PacketGamePersonalBonusTileChoiceRequest(personalBonusTilesInformations).send(this.out);
+		new PacketGameDisconnectionOther(playerIndex).send(this.out);
+	}
+
+	@Override
+	public void sendGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles)
+	{
+		new PacketGamePersonalBonusTileChoiceRequest(availablePersonalBonusTiles).send(this.out);
 	}
 
 	@Override
@@ -162,6 +168,18 @@ public class ConnectionSocket extends Connection
 	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex)
 	{
 		new PacketGamePersonalBonusTileChosen(choicePlayerIndex);
+	}
+
+	@Override
+	public void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards)
+	{
+		new PacketGameLeaderCardChoiceRequest(availableLeaderCards).send(this.out);
+	}
+
+	@Override
+	public void sendGameLeaderCardChosen(int choicePlayerIndex)
+	{
+		new PacketGameLeaderCardChosen(choicePlayerIndex);
 	}
 
 	@Override

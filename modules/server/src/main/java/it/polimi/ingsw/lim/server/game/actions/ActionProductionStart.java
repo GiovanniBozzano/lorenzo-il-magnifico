@@ -90,7 +90,7 @@ public class ActionProductionStart implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		gameHandler.setPhase(Phase.FAMILY_MEMBER);
+		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
 		this.player.getPlayerHandler().setCurrentProductionValue(this.effectiveActionValue);
 		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);

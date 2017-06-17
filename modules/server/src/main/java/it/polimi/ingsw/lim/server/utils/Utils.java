@@ -10,6 +10,8 @@ import it.polimi.ingsw.lim.server.enums.Command;
 import it.polimi.ingsw.lim.server.enums.QueryRead;
 import it.polimi.ingsw.lim.server.enums.QueryValueType;
 import it.polimi.ingsw.lim.server.enums.QueryWrite;
+import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
+import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.Connection;
 import javafx.application.Platform;
@@ -178,6 +180,16 @@ public class Utils
 			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			throw new AuthenticationFailedException("Server error.");
 		}
+	}
+
+	public static LeaderCard getLeaderCardFromIndex(int leaderCardIndex)
+	{
+		for (LeaderCard leaderCard : CardsHandler.LEADER_CARDS) {
+			if (leaderCard.getIndex() == leaderCardIndex) {
+				return leaderCard;
+			}
+		}
+		return null;
 	}
 
 	/**

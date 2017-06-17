@@ -162,11 +162,24 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChoiceRequest(List<Integer> personalBonusTilesInformations)
+	public void sendGameDisconnectionOther(int playerIndex)
 	{
 		this.rmiExecutor.execute(() -> {
 			try {
-				this.serverSession.sendGamePersonalBonusTileChoiceRequest(personalBonusTilesInformations);
+				this.serverSession.sendGameDisconnectionOther(playerIndex);
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
+	public void sendGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGamePersonalBonusTileChoiceRequest(availablePersonalBonusTiles);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
@@ -193,6 +206,32 @@ public class ConnectionRMI extends Connection
 		this.rmiExecutor.execute(() -> {
 			try {
 				this.serverSession.sendGamePersonalBonusTileChosen(choicePlayerIndex);
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
+	public void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameLeaderCardChoiceRequest(availableLeaderCards);
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
+	public void sendGameLeaderCardChosen(int choicePlayerIndex)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameLeaderCardChosen(choicePlayerIndex);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);

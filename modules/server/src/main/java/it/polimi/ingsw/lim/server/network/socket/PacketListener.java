@@ -12,9 +12,9 @@ import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsSocke
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketAuthentication;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketGamePersonalBonusTilePlayerChoice;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
-import it.polimi.ingsw.lim.common.network.socket.packets.server.PacketGamePersonalBonusTilePlayerChoice;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
@@ -73,7 +73,6 @@ class PacketListener extends Thread
 				this.connectionSocket.disconnect(false, null);
 				return;
 			}
-			Server.getDebugger().log(Level.INFO, packet.getPacketType().name());
 			PacketListener.PACKET_HANDLERS.get(packet.getPacketType()).execute(this.connectionSocket, packet);
 		}
 	}
@@ -148,7 +147,7 @@ class PacketListener extends Thread
 			if ((playerRoom = Room.getPlayerRoom(trimmedUsername)) == null) {
 				Room targetRoom = null;
 				for (Room room : Server.getInstance().getRooms()) {
-					if (!room.getIsStarted() && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {
+					if (room.getGameHandler() != null && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {
 						targetRoom = room;
 						break;
 					}

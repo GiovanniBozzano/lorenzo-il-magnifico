@@ -105,7 +105,7 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.COUNCIL_PRIVILEGE);
 		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-		if (gameHandler.getPhase() == Phase.LEADER) {
+		if (gameHandler.getCurrentPhase() == Phase.LEADER) {
 			gameHandler.sendGameUpdate(this.player);
 			return;
 		}
