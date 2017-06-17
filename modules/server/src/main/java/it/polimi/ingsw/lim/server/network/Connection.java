@@ -141,7 +141,7 @@ public abstract class Connection
 			return;
 		}
 		this.playerHandler.setPersonalBonusTile(PersonalBonusTile.fromIndex(personalBonusTileIndex));
-		gameHandler.getAvailablePersonalBonusTiles().remove(new Integer(personalBonusTileIndex));
+		gameHandler.getAvailablePersonalBonusTiles().remove((Integer) personalBonusTileIndex);
 		for (Connection player : room.getPlayers()) {
 			if (player.getPlayerHandler().isOnline()) {
 				player.sendGamePersonalBonusTileChosen(this.playerHandler.getIndex());

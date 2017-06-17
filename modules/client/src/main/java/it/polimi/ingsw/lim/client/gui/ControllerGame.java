@@ -520,7 +520,7 @@ public class ControllerGame extends CustomController
 	private final Map<Row, Pane> developmentCardsCharacterPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsTerritoryPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsVenturePanes = new EnumMap<>(Row.class);
-	private final Map<CardType, Map<Row, Pane>> developmentCardsPanes = new HashMap<>();
+	private final Map<CardType, Map<Row, Pane>> developmentCardsPanes = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player1DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player2DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player3DevelopmentCards = new EnumMap<>(CardType.class);

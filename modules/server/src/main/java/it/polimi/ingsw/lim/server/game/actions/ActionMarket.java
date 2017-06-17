@@ -86,7 +86,7 @@ public class ActionMarket implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		gameHandler.setPhase(Phase.FAMILY_MEMBER);
+		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
 		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
 		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformations(BoardPosition.getMarketPositions().get(this.marketSlot)).getResourceAmounts(), ResourcesSource.MARKET);
 		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());

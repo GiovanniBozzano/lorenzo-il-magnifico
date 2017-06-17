@@ -28,6 +28,7 @@ import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 public class GameHandler
 {
@@ -42,9 +43,9 @@ public class GameHandler
 	private final Map<FamilyMemberType, Integer> familyMemberTypeValues = new EnumMap<>(FamilyMemberType.class);
 	private final List<Connection> turnOrder = new LinkedList<>();
 	private Connection turnPlayer;
-	private Period period;
-	private Round round;
-	private Phase phase;
+	private Period currentPeriod;
+	private Round currentRound;
+	private Phase currentPhase;
 	private ActionType expectedAction;
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private int personalBonusTileChoicePlayerIndex = 0;
@@ -145,7 +146,7 @@ public class GameHandler
 		}
 		this.leaderCardsChoosingPlayers.put(player, false);
 		player.getPlayerHandler().getPlayerCardHandler().addLeaderCard(Utils.getLeaderCardFromIndex(leaderCardIndex));
-		this.availableLeaderCards.get(player).remove(new Integer(leaderCardIndex));
+		this.availableLeaderCards.get(player).remove((Integer) leaderCardIndex);
 		for (Connection currentPlayer : this.room.getPlayers()) {
 			if (currentPlayer.getPlayerHandler().isOnline()) {
 				currentPlayer.sendGameLeaderCardChosen(player.getPlayerHandler().getIndex());
@@ -171,13 +172,13 @@ public class GameHandler
 
 	private void setupRound()
 	{
-		if (this.round == null || this.round == Round.SECOND) {
+		if (this.currentRound == null || this.currentRound == Round.SECOND) {
 			// the game is being started
 			this.setupPeriod();
 		} else {
-			this.round = Round.SECOND;
+			this.currentRound = Round.SECOND;
 		}
-		if (this.period == null) {
+		if (this.currentPeriod == null) {
 			// the game has ended
 			return;
 		}
@@ -198,17 +199,17 @@ public class GameHandler
 
 	private void setupPeriod()
 	{
-		if (this.period == null) {
+		if (this.currentPeriod == null) {
 			// the game is being started
-			this.period = Period.FIRST;
+			this.currentPeriod = Period.FIRST;
 		} else {
-			this.period = Period.next(this.period);
+			this.currentPeriod = Period.next(this.currentPeriod);
 		}
-		if (this.period == null) {
+		if (this.currentPeriod == null) {
 			// the are no more periods to play
 			this.endGame();
 		} else {
-			this.round = Round.FIRST;
+			this.currentRound = Round.FIRST;
 		}
 	}
 
@@ -226,20 +227,20 @@ public class GameHandler
 	private void drawCards()
 	{
 		for (Row row : Row.values()) {
-			this.cardsHandler.addDevelopmentCard(row, this.developmentCardsBuilding.get(this.period).get(0));
-			this.cardsHandler.addDevelopmentCard(row, this.developmentCardsCharacters.get(this.period).get(0));
-			this.cardsHandler.addDevelopmentCard(row, this.developmentCardsTerritory.get(this.period).get(0));
-			this.cardsHandler.addDevelopmentCard(row, this.developmentCardsVenture.get(this.period).get(0));
-			this.developmentCardsBuilding.get(this.period).remove(0);
-			this.developmentCardsCharacters.get(this.period).remove(0);
-			this.developmentCardsTerritory.get(this.period).remove(0);
-			this.developmentCardsVenture.get(this.period).remove(0);
+			this.cardsHandler.addDevelopmentCard(row, this.developmentCardsBuilding.get(this.currentPeriod).get(0));
+			this.cardsHandler.addDevelopmentCard(row, this.developmentCardsCharacters.get(this.currentPeriod).get(0));
+			this.cardsHandler.addDevelopmentCard(row, this.developmentCardsTerritory.get(this.currentPeriod).get(0));
+			this.cardsHandler.addDevelopmentCard(row, this.developmentCardsVenture.get(this.currentPeriod).get(0));
+			this.developmentCardsBuilding.get(this.currentPeriod).remove(0);
+			this.developmentCardsCharacters.get(this.currentPeriod).remove(0);
+			this.developmentCardsTerritory.get(this.currentPeriod).remove(0);
+			this.developmentCardsVenture.get(this.currentPeriod).remove(0);
 		}
 	}
 
 	private void setupTurnOrder()
 	{
-		if (this.period == Period.FIRST && this.round == Round.FIRST) {
+		if (this.currentPeriod == Period.FIRST && this.currentRound == Round.FIRST) {
 			return;
 		}
 		List<Connection> newTurnOrder = new LinkedList<>();
@@ -254,7 +255,7 @@ public class GameHandler
 
 	public void nextTurn()
 	{
-		this.phase = Phase.LEADER;
+		this.currentPhase = Phase.LEADER;
 		this.expectedAction = null;
 		for (Modifier temporaryModifier : this.turnPlayer.getPlayerHandler().getTemporaryModifiers()) {
 			this.turnPlayer.getPlayerHandler().getActiveModifiers().remove(temporaryModifier);
@@ -333,14 +334,14 @@ public class GameHandler
 
 	private void sendLeaderCardsChoiceRequest()
 	{
-		for (Connection currentPlayer : this.availableLeaderCards.keySet()) {
-			if (!currentPlayer.getPlayerHandler().isOnline()) {
-				int currentLeaderCardIndex = this.availableLeaderCards.get(currentPlayer).get(this.randomGenerator.nextInt(this.availableLeaderCards.get(currentPlayer).size()));
-				currentPlayer.getPlayerHandler().getPlayerCardHandler().addLeaderCard(Utils.getLeaderCardFromIndex(currentLeaderCardIndex));
-				this.availableLeaderCards.get(currentPlayer).remove(new Integer(currentLeaderCardIndex));
-				this.receivedLeaderCardChoice(currentPlayer, currentLeaderCardIndex);
+		for (Entry<Connection, List<Integer>> playerAvailableLeaderCards : this.availableLeaderCards.entrySet()) {
+			if (!playerAvailableLeaderCards.getKey().getPlayerHandler().isOnline()) {
+				int currentLeaderCardIndex = playerAvailableLeaderCards.getValue().get(this.randomGenerator.nextInt(playerAvailableLeaderCards.getValue().size()));
+				playerAvailableLeaderCards.getKey().getPlayerHandler().getPlayerCardHandler().addLeaderCard(Utils.getLeaderCardFromIndex(currentLeaderCardIndex));
+				this.availableLeaderCards.get(playerAvailableLeaderCards.getKey()).remove((Integer) currentLeaderCardIndex);
+				this.receivedLeaderCardChoice(playerAvailableLeaderCards.getKey(), currentLeaderCardIndex);
 			}
-			currentPlayer.sendGameLeaderCardChoiceRequest(this.availableLeaderCards.get(currentPlayer));
+			playerAvailableLeaderCards.getKey().sendGameLeaderCardChoiceRequest(playerAvailableLeaderCards.getValue());
 		}
 	}
 
@@ -534,14 +535,14 @@ public class GameHandler
 		return this.turnPlayer;
 	}
 
-	public Phase getPhase()
+	public Phase getCurrentPhase()
 	{
-		return this.phase;
+		return this.currentPhase;
 	}
 
-	public void setPhase(Phase phase)
+	public void setCurrentPhase(Phase currentPhase)
 	{
-		this.phase = phase;
+		this.currentPhase = currentPhase;
 	}
 
 	public ActionType getExpectedAction()

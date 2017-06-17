@@ -73,7 +73,6 @@ class PacketListener extends Thread
 				this.connectionSocket.disconnect(false, null);
 				return;
 			}
-			Server.getDebugger().log(Level.INFO, packet.getPacketType().name());
 			PacketListener.PACKET_HANDLERS.get(packet.getPacketType()).execute(this.connectionSocket, packet);
 		}
 	}

@@ -17,7 +17,7 @@ public class PlayerData
 	private final List<Integer> developmentCardsTerritory = new ArrayList<>();
 	private final List<Integer> developmentCardsVenture = new ArrayList<>();
 	private final Map<Integer, LeaderCardStatus> leaderCardsStatuses = new HashMap<>();
-	private final Map<ResourceType, Integer> resourceAmounts = new HashMap<>();
+	private final Map<ResourceType, Integer> resourceAmounts = new EnumMap<>(ResourceType.class);
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
 
 	public PlayerData(String username, Color color)

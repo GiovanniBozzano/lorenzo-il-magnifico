@@ -75,7 +75,7 @@ public class ActionLeaderDiscard implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		gameHandler.setPhase(Phase.LEADER);
+		gameHandler.setCurrentPhase(Phase.LEADER);
 		this.player.getPlayerHandler().getPlayerCardHandler().getLeaderCards().remove(this.leaderCard);
 		EventGainResources eventGainResources = new EventGainResources(this.player, Collections.singletonList(new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, 1)), ResourcesSource.LEADER_CARDS);
 		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
