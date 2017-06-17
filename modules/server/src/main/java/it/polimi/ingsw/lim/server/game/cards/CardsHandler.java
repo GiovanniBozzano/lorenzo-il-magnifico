@@ -41,38 +41,11 @@ public class CardsHandler
 	public static final Map<Period, List<DevelopmentCardCharacter>> DEVELOPMENT_CARDS_CHARACTER = new DevelopmentCardsCharacterBuilder("/json/development_cards_character.json").initialize();
 	public static final Map<Period, List<DevelopmentCardTerritory>> DEVELOPMENT_CARDS_TERRITORY = new DevelopmentCardsTerritoryBuilder("/json/development_cards_territory.json").initialize();
 	public static final Map<Period, List<DevelopmentCardVenture>> DEVELOPMENT_CARDS_VENTURE = new DevelopmentCardsVentureBuilder("/json/development_cards_venture.json").initialize();
-	private static final List<LeaderCard> LEADER_CARDS = new ArrayList<>();
+	public static final List<LeaderCard> LEADER_CARDS = new ArrayList<>();
 
 	static {
-		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(0, "", "Cesare Borgia", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 3))), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 12), new ResourceAmount(ResourceType.FAITH_POINT, 2)))))), new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class, "You don’t need to satisfy the Military Points requirement when\nyou take Territory Cards.")
-		{
-			@Override
-			public void apply(EventGetDevelopmentCard event)
-			{
-				event.setIgnoreTerritoriesSlotLock(true);
-			}
-		}));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(1, "", "Filippo Brunelleschi", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 5))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "You don't have to spend 3 coins when you place your Family\nMembers in a Tower that is already occupied.")
-		{
-			@Override
-			public void apply(EventPlaceFamilyMember event)
-			{
-				event.setIgnoreOccupiedTax(true);
-			}
-		}));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(2, "", "Lucrezia Borgia", "", new ArrayList<>(Arrays.asList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 6))), new ArrayList<>()), new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.CHARACTER, 6))), new ArrayList<>()), new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.TERRITORY, 6))), new ArrayList<>()), new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.VENTURE, 6))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "Your colored Family Members have a bonus of +2 on their value. (You can increase their\nvalue by spending servants or if you have Character\nCards with this effect).")
-		{
-			@Override
-			public void apply(EventPlaceFamilyMember event)
-			{
-				if (event.getFamilyMemberType() == FamilyMemberType.NEUTRAL) {
-					return;
-				}
-				event.setFamilyMemberValue(event.getFamilyMemberValue() + 2);
-			}
-		}));
-		//CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(3, "", "Lorenzo de' Medici", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.VICTORY_POINT, 35)))))), null));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(4, "", "Ludovico Ariosto", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.CHARACTER, 5))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "You can place your Family Members in occupied action spaces.")
+		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(0, "/images/leader_cards/leader_card_0.png", "Francesco Sforza", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.VENTURE, 5))), new ArrayList<>()))), new Reward(new ActionRewardHarvest("Perform a Harvest action at value 1. (You can increase\nthis action value only by spending servants; you can’t increase it with Farmer or Peasant\nDevelopment Cards.", 1), new ArrayList<>())));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(1, "/images/leader_cards/leader_card_1.png", "Ludovico Ariosto", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.CHARACTER, 5))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "You can place your Family Members in occupied action spaces.")
 		{
 			@Override
 			public void apply(EventPlaceFamilyMember event)
@@ -80,18 +53,22 @@ public class CardsHandler
 				event.setIgnoreOccupied(true);
 			}
 		}));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(5, "", "Ludovico Il Moro", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.BUILDING, 2), new CardAmount(CardType.CHARACTER, 2), new CardAmount(CardType.TERRITORY, 2), new CardAmount(CardType.VENTURE, 2))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "Your colored Family Members has a value of 5, regardless of\ntheir related dice. (You can increase their value by spending servants or if you have\nCharacter Cards with this effect).")
+		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(2, "/images/leader_cards/leader_card_2.png", "Filippo Brunelleschi", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 5))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "You don't have to spend 3 coins when you place your Family\nMembers in a Tower that is already occupied.")
 		{
 			@Override
 			public void apply(EventPlaceFamilyMember event)
 			{
-				if (event.getFamilyMemberType() == FamilyMemberType.NEUTRAL) {
-					return;
-				}
-				event.setFamilyMemberValue(5);
+				event.setIgnoreOccupiedTax(true);
 			}
 		}));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(6, "", "Pico Della Mirandola", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.BUILDING, 2), new CardAmount(CardType.VENTURE, 4))), new ArrayList<>()))), new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class, "When you take Development Cards, you get a discount of\n3 coins (if the card you are taking has coins in its cost.) This is not a discount on the\ncoins you must spend if you take a Development Card from a Tower that’s already\noccupied.")
+		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(3, "/images/leader_cards/leader_card_3.png", "Federico da Montefeltro", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.TERRITORY, 5))), new ArrayList<>()))), new Reward(new ActionRewardTemporaryModifier("One of your colored Family Members has a value of 6,\nregardless of its related die."), new ArrayList<>())));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(4, "/images/leader_cards/leader_card_4.png", "Girolamo Savonarola", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.COIN, 18)))))), new Reward(null, new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.FAITH_POINT, 1))))));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(5, "/images/leader_cards/leader_card_5.png", "Giovanni dalle Bande Nere", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.MILITARY_POINT, 12)))))), new Reward(null, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.WOOD, 1))))));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(6, "/images/leader_cards/leader_card_6.png", "Sandro Botticelli", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.WOOD, 10)))))), new Reward(null, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.MILITARY_POINT, 2), new ResourceAmount(ResourceType.VICTORY_POINT, 1))))));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(7, "/images/leader_cards/leader_card_7.png", "Michelangelo Buonarroti", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.STONE, 10)))))), new Reward(null, new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.COIN, 3))))));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(8, "/images/leader_cards/leader_card_8.png", "Ludovico III Gonzaga", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.SERVANT, 15)))))), new Reward(null, new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, 1))))));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(9, "/images/leader_cards/leader_card_9.png", "Leonardo da Vinci", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.CHARACTER, 4), new CardAmount(CardType.TERRITORY, 2))), new ArrayList<>()))), new Reward(new ActionRewardProduction("Perform a Production action at value 0. (You can increase\nthis action value only by spending servants; you can’t increase it with Artisan or Scholar\nDevelopment Cards.)", 0), new ArrayList<>())));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(10, "/images/leader_cards/leader_card_10.png", "Pico Della Mirandola", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.BUILDING, 2), new CardAmount(CardType.VENTURE, 4))), new ArrayList<>()))), new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class, "When you take Development Cards, you get a discount of\n3 coins (if the card you are taking has coins in its cost.) This is not a discount on the\ncoins you must spend if you take a Development Card from a Tower that’s already\noccupied.")
 		{
 			@Override
 			public void apply(EventGetDevelopmentCard event)
@@ -104,7 +81,56 @@ public class CardsHandler
 				}
 			}
 		}));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(7, "", "Santa Rita", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.FAITH_POINT, 8)))))), new Modifier<EventGainResources>(EventGainResources.class, "Each time you receive wood, stone, coins, or servants as an\nimmediate effect from Development Cards (not from an action space), you receive the\nresources twice.")
+		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(11, "/images/leader_cards/leader_card_11.png", "Sisto IV", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 6), new ResourceAmount(ResourceType.SERVANT, 6), new ResourceAmount(ResourceType.STONE, 6), new ResourceAmount(ResourceType.WOOD, 6)))))), new Modifier<EventChurchSupport>(EventChurchSupport.class, "You gain 5 additional Victory Points when you support the\nChurch in a Vatican Report phase.")
+		{
+			@Override
+			public void apply(EventChurchSupport event)
+			{
+				event.setVictoryPoints(event.getVictoryPoints() + 5);
+			}
+		}));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(12, "/images/leader_cards/leader_card_12.png", "Lucrezia Borgia", "", new ArrayList<>(Arrays.asList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 6))), new ArrayList<>()), new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.CHARACTER, 6))), new ArrayList<>()), new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.TERRITORY, 6))), new ArrayList<>()), new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.VENTURE, 6))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "Your colored Family Members have a bonus of +2 on their value. (You can increase their\nvalue by spending servants or if you have Character\nCards with this effect).")
+		{
+			@Override
+			public void apply(EventPlaceFamilyMember event)
+			{
+				if (event.getFamilyMemberType() == FamilyMemberType.NEUTRAL) {
+					return;
+				}
+				event.setFamilyMemberValue(event.getFamilyMemberValue() + 2);
+			}
+		}));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(13, "/images/leader_cards/leader_card_13.png", "Sigismondo Malatesta", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.FAITH_POINT, 3), new ResourceAmount(ResourceType.MILITARY_POINT, 7)))))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "Your uncolored Family Member has a bonus of +3 on its value.\n(You can increase its value by spending servants or if you have Character Cards with\nthis effect).")
+		{
+			@Override
+			public void apply(EventPlaceFamilyMember event)
+			{
+				if (event.getFamilyMemberType() == FamilyMemberType.NEUTRAL) {
+					event.setFamilyMemberValue(event.getFamilyMemberValue() + 3);
+				}
+			}
+		}));
+		//CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(14, "", "Lorenzo de' Medici", "/images/leader_cards/leader_card_14.png", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.VICTORY_POINT, 35)))))), null));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(15, "/images/leader_cards/leader_card_15.png", "Ludovico Il Moro", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.BUILDING, 2), new CardAmount(CardType.CHARACTER, 2), new CardAmount(CardType.TERRITORY, 2), new CardAmount(CardType.VENTURE, 2))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "Your colored Family Members has a value of 5, regardless of\ntheir related dice. (You can increase their value by spending servants or if you have\nCharacter Cards with this effect).")
+		{
+			@Override
+			public void apply(EventPlaceFamilyMember event)
+			{
+				if (event.getFamilyMemberType() == FamilyMemberType.NEUTRAL) {
+					return;
+				}
+				event.setFamilyMemberValue(5);
+			}
+		}));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(16, "/images/leader_cards/leader_card_16.png", "Cesare Borgia", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 3))), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 12), new ResourceAmount(ResourceType.FAITH_POINT, 2)))))), new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class, "You don’t need to satisfy the Military Points requirement when\nyou take Territory Cards.")
+		{
+			@Override
+			public void apply(EventGetDevelopmentCard event)
+			{
+				event.setIgnoreTerritoriesSlotLock(true);
+			}
+		}));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(17, "/images/leader_cards/leader_card_17.png", "Santa Rita", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.FAITH_POINT, 8)))))), new Modifier<EventGainResources>(EventGainResources.class, "Each time you receive wood, stone, coins, or servants as an\nimmediate effect from Development Cards (not from an action space), you receive the\nresources twice.")
 		{
 			@Override
 			public void apply(EventGainResources event)
@@ -120,34 +146,8 @@ public class CardsHandler
 				}
 			}
 		}));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(8, "", "Sigismondo Malatesta", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.FAITH_POINT, 3), new ResourceAmount(ResourceType.MILITARY_POINT, 7)))))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "Your uncolored Family Member has a bonus of +3 on its value.\n(You can increase its value by spending servants or if you have Character Cards with\nthis effect).")
-		{
-			@Override
-			public void apply(EventPlaceFamilyMember event)
-			{
-				if (event.getFamilyMemberType() == FamilyMemberType.NEUTRAL) {
-					event.setFamilyMemberValue(event.getFamilyMemberValue() + 3);
-				}
-			}
-		}));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(9, "", "Sisto IV", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 6), new ResourceAmount(ResourceType.SERVANT, 6), new ResourceAmount(ResourceType.STONE, 6), new ResourceAmount(ResourceType.WOOD, 6)))))), new Modifier<EventChurchSupport>(EventChurchSupport.class, "You gain 5 additional Victory Points when you support the\nChurch in a Vatican Report phase.")
-		{
-			@Override
-			public void apply(EventChurchSupport event)
-			{
-				event.setVictoryPoints(event.getVictoryPoints() + 5);
-			}
-		}));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(10, "", "Bartolomeo Colleoni", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.TERRITORY, 4), new CardAmount(CardType.VENTURE, 2))), new ArrayList<>()))), new Reward(null, new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.VICTORY_POINT, 4))))));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(11, "", "Cosimo de' Medici", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.BUILDING, 4), new CardAmount(CardType.CHARACTER, 2))), new ArrayList<>()))), new Reward(null, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.SERVANT, 3), new ResourceAmount(ResourceType.VICTORY_POINT, 1))))));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(12, "", "Federico da Montefeltro", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.TERRITORY, 5))), new ArrayList<>()))), new Reward(new ActionRewardTemporaryModifier("One of your colored Family Members has a value of 6,\nregardless of its related die."), new ArrayList<>())));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(13, "", "Francesco Sforza", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.VENTURE, 5))), new ArrayList<>()))), new Reward(new ActionRewardHarvest("Perform a Harvest action at value 1. (You can increase\nthis action value only by spending servants; you can’t increase it with Farmer or Peasant\nDevelopment Cards.", 1), new ArrayList<>())));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(14, "", "Giovanni dalle Bande Nere", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.MILITARY_POINT, 12)))))), new Reward(null, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.WOOD, 1))))));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(15, "", "Girolamo Savonarola", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.COIN, 18)))))), new Reward(null, new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.FAITH_POINT, 1))))));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(16, "", "Leonardo da Vinci", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.CHARACTER, 4), new CardAmount(CardType.TERRITORY, 2))), new ArrayList<>()))), new Reward(new ActionRewardProduction("Perform a Production action at value 0. (You can increase\nthis action value only by spending servants; you can’t increase it with Artisan or Scholar\nDevelopment Cards.)", 0), new ArrayList<>())));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(17, "", "Ludovico III Gonzaga", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.SERVANT, 15)))))), new Reward(null, new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, 1))))));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(18, "", "Michelangelo Buonarroti", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.STONE, 10)))))), new Reward(null, new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.COIN, 3))))));
-		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(19, "", "Sandro Botticelli", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.WOOD, 10)))))), new Reward(null, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.MILITARY_POINT, 2), new ResourceAmount(ResourceType.VICTORY_POINT, 1))))));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(18, "/images/leader_cards/leader_card_18.png", "Cosimo de' Medici", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.BUILDING, 4), new CardAmount(CardType.CHARACTER, 2))), new ArrayList<>()))), new Reward(null, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.SERVANT, 3), new ResourceAmount(ResourceType.VICTORY_POINT, 1))))));
+		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(19, "/images/leader_cards/leader_card_19.png", "Bartolomeo Colleoni", "", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.TERRITORY, 4), new CardAmount(CardType.VENTURE, 2))), new ArrayList<>()))), new Reward(null, new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.VICTORY_POINT, 4))))));
 	}
 
 	private final Map<Row, DevelopmentCard> currentDevelopmentCardsBuilding = new EnumMap<>(Row.class);

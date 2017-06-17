@@ -91,6 +91,10 @@ public abstract class Connection
 
 	public abstract void sendGamePersonalBonusTileChosen(int choicePlayerIndex);
 
+	public abstract void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards);
+
+	public abstract void sendGameLeaderCardChosen(int choicePlayerIndex);
+
 	public abstract void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions);
 
 	public abstract void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, ExpectedAction expectedAction);
@@ -132,25 +136,31 @@ public abstract class Connection
 		if (gameHandler.getPersonalBonusTileChoicePlayerIndex() != this.playerHandler.getIndex()) {
 			return;
 		}
-		boolean valid = false;
-		for (Integer availablePersonalBonusTileIndex : gameHandler.getAvailablePersonalBonusTiles()) {
-			if (availablePersonalBonusTileIndex == personalBonusTileIndex) {
-				valid = true;
-				break;
-			}
-		}
-		if (!valid) {
+		if (gameHandler.getAvailablePersonalBonusTiles().contains(personalBonusTileIndex)) {
 			this.sendGamePersonalBonusTileChoiceRequest(gameHandler.getAvailablePersonalBonusTiles());
 			return;
 		}
 		this.playerHandler.setPersonalBonusTile(PersonalBonusTile.fromIndex(personalBonusTileIndex));
-		gameHandler.getAvailablePersonalBonusTiles().remove(gameHandler.getAvailablePersonalBonusTiles().indexOf(personalBonusTileIndex));
+		gameHandler.getAvailablePersonalBonusTiles().remove(new Integer(personalBonusTileIndex));
 		for (Connection player : room.getPlayers()) {
 			if (player.getPlayerHandler().isOnline()) {
 				player.sendGamePersonalBonusTileChosen(this.playerHandler.getIndex());
 			}
 		}
 		gameHandler.receivedPersonalBonusTileChoice();
+	}
+
+	public void handleGameLeaderCardPlayerChoice(int leaderCardIndex)
+	{
+		Room room = Room.getPlayerRoom(this);
+		if (room == null) {
+			return;
+		}
+		GameHandler gameHandler = room.getGameHandler();
+		if (gameHandler == null) {
+			return;
+		}
+		gameHandler.receivedLeaderCardChoice(this, leaderCardIndex);
 	}
 
 	public String getUsername()

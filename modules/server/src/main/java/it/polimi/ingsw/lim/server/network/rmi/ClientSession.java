@@ -47,6 +47,12 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	}
 
 	@Override
+	public void sendGameLeaderCardPlayerChoice(int leaderCardIndex) throws RemoteException
+	{
+		this.connectionRmi.handleGameLeaderCardPlayerChoice(leaderCardIndex);
+	}
+
+	@Override
 	public boolean equals(Object object)
 	{
 		if (this == object) {

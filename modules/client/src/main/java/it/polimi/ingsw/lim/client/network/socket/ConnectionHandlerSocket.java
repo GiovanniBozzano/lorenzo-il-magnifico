@@ -13,9 +13,10 @@ import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsSocket;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketGameLeaderCardPlayerChoice;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketGamePersonalBonusTilePlayerChoice;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
-import it.polimi.ingsw.lim.common.network.socket.packets.server.PacketGamePersonalBonusTilePlayerChoice;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
@@ -131,6 +132,13 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 	{
 		super.sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex);
 		new PacketGamePersonalBonusTilePlayerChoice(personalBonusTileIndex).send(this.out);
+	}
+
+	@Override
+	public synchronized void sendGameLeaderCardPlayerChoice(int leaderCardIndex)
+	{
+		super.sendGameLeaderCardPlayerChoice(leaderCardIndex);
+		new PacketGameLeaderCardPlayerChoice(leaderCardIndex).send(this.out);
 	}
 
 	void handleDisconnectionLogMessage(String text)

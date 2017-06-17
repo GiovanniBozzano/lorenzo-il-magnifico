@@ -41,6 +41,12 @@ public class Room
 			}
 			return;
 		}
+		player.getPlayerHandler().setOnline(false);
+		for (Connection otherPlayer : this.players) {
+			if (otherPlayer != player && otherPlayer.getPlayerHandler().isOnline()) {
+				otherPlayer.sendGameDisconnectionOther(player.getPlayerHandler().getIndex());
+			}
+		}
 		if (this.gameHandler.getPersonalBonusTileChoicePlayerIndex() == player.getPlayerHandler().getIndex()) {
 			int personalBonusTileIndex = this.gameHandler.getAvailablePersonalBonusTiles().get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailablePersonalBonusTiles().size()));
 			player.getPlayerHandler().setPersonalBonusTile(PersonalBonusTile.fromIndex(personalBonusTileIndex));
@@ -51,12 +57,10 @@ public class Room
 				}
 			}
 			this.gameHandler.receivedPersonalBonusTileChoice();
+			return;
 		}
-		player.getPlayerHandler().setOnline(false);
-		for (Connection otherPlayer : this.players) {
-			if (otherPlayer != player && otherPlayer.getPlayerHandler().isOnline()) {
-				otherPlayer.sendGameDisconnectionOther(player.getPlayerHandler().getIndex());
-			}
+		if (this.gameHandler.getTurnPlayer() == player) {
+			this.gameHandler.nextTurn();
 		}
 	}
 

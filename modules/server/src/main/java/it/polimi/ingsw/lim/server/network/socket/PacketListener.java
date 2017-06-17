@@ -12,9 +12,9 @@ import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsSocke
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketAuthentication;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketGamePersonalBonusTilePlayerChoice;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
-import it.polimi.ingsw.lim.common.network.socket.packets.server.PacketGamePersonalBonusTilePlayerChoice;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;

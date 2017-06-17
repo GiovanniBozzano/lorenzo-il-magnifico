@@ -14,4 +14,6 @@ public interface IClientSession extends Remote
 	void sendChatMessage(String text) throws RemoteException;
 
 	void sendGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex) throws RemoteException;
+
+	void sendGameLeaderCardPlayerChoice(int leaderCardIndex) throws RemoteException;
 }

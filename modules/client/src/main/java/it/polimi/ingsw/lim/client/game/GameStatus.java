@@ -34,8 +34,9 @@ public class GameStatus
 	private final Map<Integer, Integer> currentTurnOrder = new HashMap<>();
 	private final Map<Integer, Integer> currentCouncilPalaceOrder = new HashMap<>();
 	private int currentTurnPlayerIndex;
-	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private final List<AvailableAction> currentAvailableActions = new ArrayList<>();
+	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
+	private final List<Integer> availableLeaderCards = new ArrayList<>();
 
 	private GameStatus()
 	{
@@ -255,5 +256,16 @@ public class GameStatus
 	{
 		this.availablePersonalBonusTiles.clear();
 		this.availablePersonalBonusTiles.addAll(availablePersonalBonusTiles);
+	}
+
+	public List<Integer> getAvailableLeaderCards()
+	{
+		return this.availableLeaderCards;
+	}
+
+	public void setAvailableLeaderCards(List<Integer> availableLeaderCards)
+	{
+		this.availableLeaderCards.clear();
+		this.availableLeaderCards.addAll(availableLeaderCards);
 	}
 }

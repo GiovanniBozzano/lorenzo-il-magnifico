@@ -25,6 +25,7 @@ import it.polimi.ingsw.lim.server.game.modifiers.ModifierGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.*;
 
@@ -47,6 +48,8 @@ public class GameHandler
 	private ActionType expectedAction;
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private int personalBonusTileChoicePlayerIndex = 0;
+	private Map<Connection, List<Integer>> availableLeaderCards = new HashMap<>();
+	private Map<Connection, Boolean> leaderCardsChoosingPlayers = new HashMap<>();
 
 	GameHandler(Room room)
 	{
@@ -102,17 +105,81 @@ public class GameHandler
 		for (PersonalBonusTile personalBonusTile : Arrays.asList(PersonalBonusTile.values())) {
 			this.availablePersonalBonusTiles.add(personalBonusTile.getIndex());
 		}
+		List<LeaderCard> leaderCards = new ArrayList<>(CardsHandler.LEADER_CARDS);
+		for (Connection player : room.getPlayers()) {
+			List<Integer> playerAvailableLeaderCards = new ArrayList<>();
+			for (int index = 0; index < 4; index++) {
+				LeaderCard leaderCard = leaderCards.get(this.randomGenerator.nextInt(leaderCards.size()));
+				leaderCards.remove(leaderCard);
+				playerAvailableLeaderCards.add(leaderCard.getIndex());
+			}
+			this.availableLeaderCards.put(player, playerAvailableLeaderCards);
+		}
 		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(0));
 	}
 
 	public void receivedPersonalBonusTileChoice()
 	{
-		this.personalBonusTileChoicePlayerIndex++;
-		if (this.personalBonusTileChoicePlayerIndex >= this.turnOrder.size()) {
-			this.setupRound();
+		do {
+			this.personalBonusTileChoicePlayerIndex++;
+			if (this.personalBonusTileChoicePlayerIndex >= this.turnOrder.size()) {
+				for (Connection player : this.availableLeaderCards.keySet()) {
+					this.leaderCardsChoosingPlayers.put(player, true);
+				}
+				this.sendLeaderCardsChoice();
+				return;
+			}
+		}
+		while (!this.turnOrder.get(this.personalBonusTileChoicePlayerIndex).getPlayerHandler().isOnline());
+		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerIndex));
+	}
+
+	public void receivedLeaderCardChoice(Connection player, int leaderCardIndex)
+	{
+		if (!this.leaderCardsChoosingPlayers.get(player)) {
 			return;
 		}
-		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerIndex));
+		if (this.availableLeaderCards.get(player).contains(leaderCardIndex)) {
+			player.sendGameLeaderCardChoiceRequest(this.availableLeaderCards.get(player));
+			return;
+		}
+		this.leaderCardsChoosingPlayers.put(player, false);
+		player.getPlayerHandler().getPlayerCardHandler().addLeaderCard(Utils.getLeaderCardFromIndex(leaderCardIndex));
+		this.availableLeaderCards.get(player).remove(new Integer(leaderCardIndex));
+		for (Connection currentPlayer : this.room.getPlayers()) {
+			if (currentPlayer.getPlayerHandler().isOnline()) {
+				currentPlayer.sendGameLeaderCardChosen(player.getPlayerHandler().getIndex());
+			}
+		}
+		if (!this.leaderCardsChoosingPlayers.containsValue(true)) {
+			Map<Connection, List<Integer>> newlyAvailableLeaderCards = new HashMap<>();
+			List<List<Integer>> oldAvailableLeaderCards = new ArrayList<>(this.availableLeaderCards.values());
+			int currentListIndex = 0;
+			for (Connection currentPlayer : this.availableLeaderCards.keySet()) {
+				this.leaderCardsChoosingPlayers.put(currentPlayer, true);
+				if (currentListIndex + 1 >= this.availableLeaderCards.size()) {
+					newlyAvailableLeaderCards.put(currentPlayer, oldAvailableLeaderCards.get(0));
+				} else {
+					newlyAvailableLeaderCards.put(currentPlayer, oldAvailableLeaderCards.get(++currentListIndex));
+				}
+			}
+			this.availableLeaderCards.clear();
+			this.availableLeaderCards = newlyAvailableLeaderCards;
+			this.sendLeaderCardsChoice();
+		}
+	}
+
+	private void sendLeaderCardsChoice()
+	{
+		for (Connection currentPlayer : this.availableLeaderCards.keySet()) {
+			if (!currentPlayer.getPlayerHandler().isOnline()) {
+				int currentLeaderCardIndex = this.availableLeaderCards.get(currentPlayer).get(this.randomGenerator.nextInt(this.availableLeaderCards.get(currentPlayer).size()));
+				currentPlayer.getPlayerHandler().getPlayerCardHandler().addLeaderCard(Utils.getLeaderCardFromIndex(currentLeaderCardIndex));
+				this.availableLeaderCards.get(currentPlayer).remove(new Integer(currentLeaderCardIndex));
+				this.receivedLeaderCardChoice(currentPlayer, currentLeaderCardIndex);
+			}
+			currentPlayer.sendGameLeaderCardChoiceRequest(this.availableLeaderCards.get(currentPlayer));
+		}
 	}
 
 	private void setupRound()
@@ -130,7 +197,7 @@ public class GameHandler
 		this.setupTurnOrder();
 		int playerCounter = 0;
 		do {
-			if (playerCounter >= this.turnOrder.size() - 1) {
+			if (playerCounter >= this.turnOrder.size()) {
 				this.endGame();
 				return;
 			}
@@ -234,7 +301,7 @@ public class GameHandler
 	{
 		int playerCounter = 0;
 		do {
-			if (playerCounter >= this.turnOrder.size() - 1) {
+			if (playerCounter >= this.turnOrder.size()) {
 				this.endGame();
 				return;
 			}
@@ -495,5 +562,10 @@ public class GameHandler
 	public int getPersonalBonusTileChoicePlayerIndex()
 	{
 		return this.personalBonusTileChoicePlayerIndex;
+	}
+
+	public Map<Connection, List<Integer>> getAvailableLeaderCards()
+	{
+		return this.availableLeaderCards;
 	}
 }
