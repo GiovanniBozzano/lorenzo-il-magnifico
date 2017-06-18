@@ -30,7 +30,8 @@
 				"type": "CARD",
 				"value": 2,
 				"cardType": "TERRITORY",
-				"discountChoices": []
+				"discountChoices": [],
+				"description": "Whenever you perform an action\nto take a TERRITORY CARD (through\na Family Member or as an effect of\nanother card), increase the VALUE of\nthe action by 2."
 			}
 		},
 		{
@@ -76,7 +77,8 @@
 							}
 						]
 					}
-				]
+				],
+				"description": "Whenever you perform an action\nto take a BUILDING CARD (through\na Family Member or as an effect of\nanother card), increase the VALUE of\nthe action by 2. In addition, the COST of\nthe card you take is reduced by 1 WOOD\nOR 1 STONE."
 			}
 		},
 		{
@@ -113,7 +115,8 @@
 							}
 						]
 					}
-				]
+				],
+				"description": "Whenever you perform an action\nto take a CHARACTER CARD (through\na Family Member or as an effect of\nanother card), increase the VALUE of\nthe action by 2. In addition, the COST of\nthe card you take is reduced by 1 COIN."
 			}
 		},
 		{
@@ -146,7 +149,8 @@
 				"type": "CARD",
 				"value": 2,
 				"cardType": "VENTURE",
-				"discountChoices": []
+				"discountChoices": [],
+				"description": "Whenever you perform an action\nto take a VENTURE CARD (through\na Family Member or as an effect of\nanother card), increase the VALUE of\nthe action by 2."
 			}
 		},
 		{
@@ -171,7 +175,8 @@
 			},
 			"modifier": {
 				"type": "HARVEST",
-				"value": 2
+				"value": 2,
+				"description": "Whenever you perform a HARVEST\nACTION (through a Family Member or\nas an effect of another card), increase\nthe VALUE of the action by 2."
 			}
 		},
 		{
@@ -196,7 +201,8 @@
 			},
 			"modifier": {
 				"type": "PRODUCTION",
-				"value": 2
+				"value": 2,
+				"description": "Whenever you perform a PRODUCTION\nACTION (through a Family Member or\nas an effect of another card), increase\nthe VALUE of the action by 2."
 			}
 		},
 		{
@@ -230,7 +236,8 @@
 				"rows": [
 					"THIRD",
 					"FOURTH"
-				]
+				],
+				"description": "You don’t take the BONUSES when\nyou take a Development Card from\nthe THIRD and the FOURTH FLOOR of the\ntowers (through a Family Member or\nas an effect of another card)."
 			}
 		},
 		{
@@ -251,8 +258,8 @@
 			],
 			"reward": {
 				"actionReward": {
+					"description": "You can perform an action\nat VALUE 4 to take a CARD of ANY TYPE\nwithout placing a Family Member\n(you can change the action value with\nservants and cards effects). Pay 3\nadditional coins if the tower is already\noccupied and take the bonus resources from\nthe third/fourth floor.",
 					"type": "CARD",
-					"description": "",
 					"value": 4,
 					"cardTypes": [
 						"CHARACTER",
@@ -292,8 +299,8 @@
 			],
 			"reward": {
 				"actionReward": {
+					"description": "Perform an action at VALUE 6 to take a\nTERRITORY CARD without placing a Family\nMember (you can change the action\nvalue with servants and cards effects).\nPay 3 additional coins if the tower is\nalready occupied and take the bonus resources\nfrom the third/fourth floor.",
 					"type": "CARD",
-					"description": "",
 					"value": 6,
 					"cardTypes": [
 						"TERRITORY"
@@ -328,8 +335,8 @@
 			],
 			"reward": {
 				"actionReward": {
+					"description": "Perform an action at VALUE 6 to take a\nBUILDING CARD without placing a Family\nMember (you can change the action\nvalue with servants and cards effects).\nThe COST of the card you take is reduced\nby 1 WOOD AND 1 STONE. Pay 3 additional\ncoins if the tower is already occupied and\ntake the bonus resources from the third/\nfourth floor.",					
 					"type": "CARD",
-					"description": "",
 					"value": 6,
 					"cardTypes": [
 						"BUILDING"
@@ -377,8 +384,8 @@
 			],
 			"reward": {
 				"actionReward": {
+					"description": "Perform an action at VALUE 6 to take a\nCHARACTER CARD without placing a Family\nMember (you can change the action\nvalue with servants and cards effects).\nThe COST of the card you take is reduced\nby 2 COIN. Pay 3 additional coins if the\ntower is already occupied and take the\nbonus resources from the third/fourth\nfloor.",
 					"type": "CARD",
-					"description": "",
 					"value": 6,
 					"cardTypes": [
 						"CHARACTER"
@@ -417,8 +424,8 @@
 			],
 			"reward": {
 				"actionReward": {
+					"description": "Perform an action at VALUE 6 to take a\nVENTURE CARD without placing a Family\nMember (you can change the action\nvalue with servants and cards effects).\nPay 3 additional coins if the tower is\nalready occupied and take the bonus resources\nfrom the third/fourth floor.",
 					"type": "CARD",
-					"description": "",
 					"value": 6,
 					"cardTypes": [
 						"VENTURE"
@@ -457,7 +464,8 @@
 			},
 			"modifier": {
 				"type": "HARVEST",
-				"value": 3
+				"value": 3,
+				"description": "Whenever you perform a HARVEST\nACTION (through a Family Member or\nas an effect of another card), increase\nthe VALUE of the action by 3."
 			}
 		},
 		{
@@ -482,7 +490,8 @@
 			},
 			"modifier": {
 				"type": "PRODUCTION",
-				"value": 3
+				"value": 3,
+				"description": "Whenever you perform a PRODUCTION\nACTION (through a Family Member or\nas an effect of another card), increase\nthe VALUE of the action by 3."
 			}
 		},
 		{
@@ -677,8 +686,8 @@
 			],
 			"reward": {
 				"actionReward": {
+					"description": "You can perform a HARVEST ACTION at\nVALUE 4 without placing a Family Member.\nYou can pay servants to increase the\naction value (if you have cards that modify\nthe Harvest value, calculate that bonus).",
 					"type": "HARVEST",
-					"description": "",
 					"value": 4
 				},
 				"resourceAmounts": [
@@ -709,8 +718,8 @@
 			],
 			"reward": {
 				"actionReward": {
+					"description": "You can perform a PRODUCTION ACTION at\nVALUE 4 without placing a Family Member.\nYou can pay servants to increase the\naction value (if you have cards that modify\nthe Production value, calculate that\nbonus).",
 					"type": "PRODUCTION",
-					"description": "",
 					"value": 4
 				},
 				"resourceAmounts": [
@@ -771,8 +780,8 @@
 			],
 			"reward": {
 				"actionReward": {
+					"description": "You can perform an action\nat VALUE 7 to take a CARD of ANY TYPE\nwithout placing a Family Member\n(you can change the action value with\nservants and cards effects). Pay 3\nadditional coins if the tower is already\noccupied and take the bonus resources from\nthe third/fourth floor.",
 					"type": "CARD",
-					"description": "",
 					"value": 7,
 					"cardTypes": [
 						"CHARACTER",
