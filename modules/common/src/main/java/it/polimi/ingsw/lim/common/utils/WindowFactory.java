@@ -7,8 +7,6 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
@@ -16,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -30,7 +27,6 @@ public class WindowFactory
 {
 	private static final WindowFactory INSTANCE = new WindowFactory();
 	public static final Semaphore WINDOW_OPENING_SEMAPHORE = new Semaphore(1);
-	private final ObservableMap<Stage, CustomController> openWindows = FXCollections.observableHashMap();
 	private final ObjectProperty<WindowInformations> currentWindow = new SimpleObjectProperty<>(null);
 
 	private WindowFactory()
@@ -75,52 +71,48 @@ public class WindowFactory
 				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				return;
 			}
-			Stage stage = new Stage();
+			Stage stage;
+			if (this.currentWindow.get() == null) {
+				stage = new Stage();
+				stage.initStyle(StageStyle.UNDECORATED);
+				stage.setResizable(false);
+				stage.iconifiedProperty().addListener((observable, oldValue, newValue) -> {
+					if (!newValue) {
+						stage.getScene().setCursor(Cursor.HAND);
+						stage.getScene().setCursor(Cursor.DEFAULT);
+					}
+				});
+			} else {
+				stage = this.currentWindow.get().getStage();
+			}
+			this.currentWindow.set(new WindowInformations(fxmlLoader.getController(), stage));
 			((CustomController) fxmlLoader.getController()).setStage(stage);
-			stage.addEventHandler(WindowEvent.WINDOW_SHOWN, event -> this.openWindows.put(stage, fxmlLoader.getController()));
-			stage.addEventHandler(WindowEvent.WINDOW_HIDDEN, event -> this.openWindows.remove(stage));
-			stage.focusedProperty().addListener((observable, oldValue, newValue) -> {
-				if (newValue) {
-					this.currentWindow.set(new WindowInformations(fxmlLoader.getController(), stage));
-				}
-			});
 			stage.setScene(new Scene(parent));
-			Platform.runLater(() -> ((CustomController) fxmlLoader.getController()).setupGui());
-			stage.initStyle(StageStyle.UNDECORATED);
-			stage.setResizable(false);
-			stage.iconifiedProperty().addListener((observable, oldValue, newValue) -> {
-				if (!newValue) {
-					stage.getScene().setCursor(Cursor.HAND);
-					stage.getScene().setCursor(Cursor.DEFAULT);
+			stage.centerOnScreen();
+			if (closeOthers) {
+				this.closeWindow();
+			}
+			Platform.runLater(() -> {
+				stage.show();
+				((CustomController) fxmlLoader.getController()).setupGui();
+				if (postShowing != null) {
+					ExecutorService executorService = Executors.newSingleThreadExecutor();
+					executorService.execute(postShowing);
+					executorService.shutdown();
 				}
 			});
-			if (closeOthers) {
-				this.closeAllWindows();
-			}
-			stage.show();
-			if (postShowing != null) {
-				ExecutorService executorService = Executors.newSingleThreadExecutor();
-				executorService.execute(postShowing);
-				executorService.shutdown();
-			}
 			WindowFactory.WINDOW_OPENING_SEMAPHORE.release();
 		});
 	}
 
 	/**
-	 * <p>Closes the given window and all the parent ones.
+	 * <p>Closes the current window.
 	 */
-	public void closeAllWindows()
+	public void closeWindow()
 	{
-		for (Stage closingStage : this.openWindows.keySet()) {
-			this.closeWindow(closingStage);
+		if (this.currentWindow.get() != null) {
+			this.currentWindow.get().getStage().close();
 		}
-	}
-
-	private void closeWindow(Stage stage)
-	{
-		this.openWindows.remove(stage);
-		stage.close();
 	}
 
 	public static void setTooltipDelay(Tooltip tooltip, double milliseconds)
@@ -141,32 +133,27 @@ public class WindowFactory
 
 	public boolean isWindowOpen(Class<? extends CustomController> clazz)
 	{
-		for (CustomController controller : this.openWindows.values()) {
-			if (controller.getClass() == clazz) {
-				return true;
-			}
-		}
-		return false;
+		return this.currentWindow.get().getController().getClass() == clazz;
 	}
 
-	public static void disableAllWindows()
+	public void disableWindow()
 	{
-		for (Stage stage : WindowFactory.getInstance().getOpenWindows().keySet()) {
-			stage.getScene().getRoot().setDisable(true);
+		if (this.currentWindow.get() != null) {
+			this.currentWindow.get().getStage().getScene().getRoot().setDisable(true);
 		}
 	}
 
-	public static void enableAllWindows()
+	public void enableWindow()
 	{
-		for (Stage stage : WindowFactory.getInstance().getOpenWindows().keySet()) {
-			stage.getScene().getRoot().setDisable(false);
+		if (this.currentWindow.get() != null) {
+			this.currentWindow.get().getStage().getScene().getRoot().setDisable(false);
 		}
 	}
 
-	public static void showDialog(String message)
+	public void showDialog(String message)
 	{
-		if (WindowFactory.getInstance().getCurrentWindow() != null) {
-			Platform.runLater(() -> WindowFactory.getInstance().getCurrentWindow().getController().showDialog(message));
+		if (this.currentWindow.get() != null) {
+			Platform.runLater(() -> this.currentWindow.get().getController().showDialog(message));
 		} else {
 			Instance.getLogger().log(Level.INFO, message);
 		}
@@ -175,11 +162,6 @@ public class WindowFactory
 	public static WindowFactory getInstance()
 	{
 		return WindowFactory.INSTANCE;
-	}
-
-	public ObservableMap<Stage, CustomController> getOpenWindows()
-	{
-		return this.openWindows;
 	}
 
 	public WindowInformations getCurrentWindow()

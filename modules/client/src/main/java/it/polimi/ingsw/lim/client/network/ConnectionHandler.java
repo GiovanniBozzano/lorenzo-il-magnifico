@@ -248,6 +248,9 @@ public abstract class ConnectionHandler extends Thread
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex()) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).closePersonalBonusTilesChoiceDialog());
+		}
 	}
 
 	public void handleGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards)
@@ -261,10 +264,13 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
-	public void handleGameLeaderCardChosen(int choicePlayerIndex)
+	public void handleGameLeaderCardChosen(int choicePlayerIndex, boolean closeDialog)
 	{
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
+		}
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex() && closeDialog) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).closeLeaderCardsChoiceDialog());
 		}
 	}
 

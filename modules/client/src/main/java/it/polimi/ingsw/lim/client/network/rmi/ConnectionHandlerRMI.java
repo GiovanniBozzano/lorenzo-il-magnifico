@@ -41,8 +41,8 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			this.login = (IAuthentication) Naming.lookup("rmi://" + Client.getInstance().getIp() + ":" + Client.getInstance().getPort() + "/lorenzo-il-magnifico");
 		} catch (NotBoundException | MalformedURLException | RemoteException exception) {
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
-			WindowFactory.enableAllWindows();
-			WindowFactory.showDialog("Could not connect to host");
+			WindowFactory.getInstance().enableWindow();
+			WindowFactory.getInstance().showDialog("Could not connect to host");
 			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
 			Client.getLogger().log(Level.INFO, "1 - RMI");
 			Client.getLogger().log(Level.INFO, "2 - Socket");
@@ -99,8 +99,8 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				Client.getInstance().disconnect(false, false);
 			} catch (AuthenticationFailedException exception) {
 				Client.getDebugger().log(Level.INFO, exception.getLocalizedMessage(), exception);
-				WindowFactory.enableAllWindows();
-				WindowFactory.showDialog(exception.getLocalizedMessage());
+				WindowFactory.getInstance().enableWindow();
+				WindowFactory.getInstance().showDialog(exception.getLocalizedMessage());
 			}
 		});
 	}
@@ -117,8 +117,8 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				Client.getInstance().disconnect(false, false);
 			} catch (AuthenticationFailedException exception) {
 				Client.getDebugger().log(Level.INFO, exception.getLocalizedMessage(), exception);
-				WindowFactory.enableAllWindows();
-				WindowFactory.showDialog(exception.getLocalizedMessage());
+				WindowFactory.getInstance().enableWindow();
+				WindowFactory.getInstance().showDialog(exception.getLocalizedMessage());
 			}
 		});
 	}

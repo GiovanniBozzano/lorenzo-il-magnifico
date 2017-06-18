@@ -227,11 +227,11 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGameLeaderCardChosen(int choicePlayerIndex)
+	public void sendGameLeaderCardChosen(int choicePlayerIndex, boolean closeDialog)
 	{
 		this.rmiExecutor.execute(() -> {
 			try {
-				this.serverSession.sendGameLeaderCardChosen(choicePlayerIndex);
+				this.serverSession.sendGameLeaderCardChosen(choicePlayerIndex, closeDialog);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);

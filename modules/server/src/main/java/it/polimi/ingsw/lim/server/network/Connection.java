@@ -9,7 +9,6 @@ import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
 
 import java.util.List;
@@ -93,7 +92,7 @@ public abstract class Connection
 
 	public abstract void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards);
 
-	public abstract void sendGameLeaderCardChosen(int choicePlayerIndex);
+	public abstract void sendGameLeaderCardChosen(int choicePlayerIndex, boolean closeDialog);
 
 	public abstract void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions);
 
@@ -133,21 +132,7 @@ public abstract class Connection
 		if (gameHandler == null) {
 			return;
 		}
-		if (gameHandler.getPersonalBonusTileChoicePlayerIndex() != this.playerHandler.getIndex()) {
-			return;
-		}
-		if (gameHandler.getAvailablePersonalBonusTiles().contains(personalBonusTileIndex)) {
-			this.sendGamePersonalBonusTileChoiceRequest(gameHandler.getAvailablePersonalBonusTiles());
-			return;
-		}
-		this.playerHandler.setPersonalBonusTile(PersonalBonusTile.fromIndex(personalBonusTileIndex));
-		gameHandler.getAvailablePersonalBonusTiles().remove((Integer) personalBonusTileIndex);
-		for (Connection player : room.getPlayers()) {
-			if (player.getPlayerHandler().isOnline()) {
-				player.sendGamePersonalBonusTileChosen(this.playerHandler.getIndex());
-			}
-		}
-		gameHandler.receivedPersonalBonusTileChoice();
+		gameHandler.receivePersonalBonusTileChoice(this, personalBonusTileIndex);
 	}
 
 	public void handleGameLeaderCardPlayerChoice(int leaderCardIndex)
@@ -160,7 +145,7 @@ public abstract class Connection
 		if (gameHandler == null) {
 			return;
 		}
-		gameHandler.receivedLeaderCardChoice(this, leaderCardIndex);
+		gameHandler.receiveLeaderCardChoice(this, leaderCardIndex);
 	}
 
 	public String getUsername()

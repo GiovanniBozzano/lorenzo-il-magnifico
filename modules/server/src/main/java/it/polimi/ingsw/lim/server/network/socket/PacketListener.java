@@ -11,10 +11,7 @@ import it.polimi.ingsw.lim.common.game.cards.*;
 import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsSocket;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketAuthentication;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketGamePersonalBonusTilePlayerChoice;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.*;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
@@ -41,6 +38,7 @@ class PacketListener extends Thread
 		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_TIMER_REQUEST, (connectionSocket, packet) -> connectionSocket.handleRoomTimerRequest());
 		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, (connectionSocket, packet) -> connectionSocket.handleChatMessage(((PacketChatMessage) packet).getText()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_PERSONAL_BONUS_TILE_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGamePersonalBonusTilePlayerChoice(((PacketGamePersonalBonusTilePlayerChoice) packet).getPersonalBonusTileIndex()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_LEADER_CARD_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGameLeaderCardPlayerChoice(((PacketGameLeaderCardPlayerChoice) packet).getLeaderCardIndex()));
 	}
 
 	private final ConnectionSocket connectionSocket;
@@ -147,7 +145,7 @@ class PacketListener extends Thread
 			if ((playerRoom = Room.getPlayerRoom(trimmedUsername)) == null) {
 				Room targetRoom = null;
 				for (Room room : Server.getInstance().getRooms()) {
-					if (room.getGameHandler() != null && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {
+					if (room.getGameHandler() == null && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {
 						targetRoom = room;
 						break;
 					}

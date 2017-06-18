@@ -80,6 +80,7 @@ public class ControllerConnection extends CustomController
 	@PostConstruct
 	public void setupGui()
 	{
+		this.getStage().show();
 		this.getStackPane().getScene().getRoot().requestFocus();
 		((StackPane) ((JFXRippler) ((AnchorPane) this.rmiRadioButton.getChildrenUnmodifiable().get(1)).getChildren().get(0)).getChildren().get(0)).setPadding(new Insets(0.0D));
 		this.rmiRadioButton.getChildrenUnmodifiable().get(0).setTranslateX(10.0D);

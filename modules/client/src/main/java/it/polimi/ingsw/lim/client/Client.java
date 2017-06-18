@@ -76,7 +76,7 @@ public class Client extends Instance
 			}
 			if (isStopping) {
 				Client.getCliListener().end();
-				Platform.runLater(() -> WindowFactory.getInstance().closeAllWindows());
+				Platform.runLater(() -> WindowFactory.getInstance().closeWindow());
 			} else if (WindowFactory.getInstance().isWindowOpen(ControllerConnection.class)) {
 				WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
 			} else {

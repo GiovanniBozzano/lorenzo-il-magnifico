@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.server.game;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.ServerSettings;
-import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.ArrayList;
@@ -47,16 +46,17 @@ public class Room
 				otherPlayer.sendGameDisconnectionOther(player.getPlayerHandler().getIndex());
 			}
 		}
-		if (this.gameHandler.getPersonalBonusTileChoicePlayerIndex() == player.getPlayerHandler().getIndex()) {
-			int personalBonusTileIndex = this.gameHandler.getAvailablePersonalBonusTiles().get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailablePersonalBonusTiles().size()));
-			player.getPlayerHandler().setPersonalBonusTile(PersonalBonusTile.fromIndex(personalBonusTileIndex));
-			this.gameHandler.getAvailablePersonalBonusTiles().remove(this.gameHandler.getAvailablePersonalBonusTiles().indexOf(personalBonusTileIndex));
-			for (Connection otherPlayer : this.getPlayers()) {
-				if (otherPlayer != player && otherPlayer.getPlayerHandler().isOnline()) {
-					player.sendGamePersonalBonusTileChosen(player.getPlayerHandler().getIndex());
-				}
+		if (this.gameHandler.getCurrentPeriod() == null && this.gameHandler.getCurrentRound() == null) {
+			if (this.gameHandler.getPersonalBonusTileChoicePlayerIndex() == player.getPlayerHandler().getIndex()) {
+				int personalBonusTileIndex = this.gameHandler.getAvailablePersonalBonusTiles().get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailablePersonalBonusTiles().size()));
+				this.gameHandler.applyPersonalBonusTileChoice(player, personalBonusTileIndex);
+				return;
 			}
-			this.gameHandler.receivedPersonalBonusTileChoice();
+			if (!this.gameHandler.getLeaderCardsChoosingPlayers().isEmpty() && this.gameHandler.getLeaderCardsChoosingPlayers().get(player)) {
+				int leaderCardIndex = this.gameHandler.getAvailableLeaderCards().get(player).get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailableLeaderCards().get(player).size()));
+				this.gameHandler.applyLeaderCardChoice(player, leaderCardIndex);
+				return;
+			}
 			return;
 		}
 		if (this.gameHandler.getTurnPlayer() == player) {

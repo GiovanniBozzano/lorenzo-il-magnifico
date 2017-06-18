@@ -46,8 +46,8 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			this.in = new ObjectInputStream(this.socket.getInputStream());
 		} catch (IOException exception) {
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
-			WindowFactory.enableAllWindows();
-			WindowFactory.showDialog("Could not connect to host");
+			WindowFactory.getInstance().enableWindow();
+			WindowFactory.getInstance().showDialog("Could not connect to host");
 			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
 			Client.getLogger().log(Level.INFO, "1 - RMI");
 			Client.getLogger().log(Level.INFO, "2 - Socket");
@@ -168,8 +168,8 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
 			return;
 		}
-		WindowFactory.enableAllWindows();
-		WindowFactory.showDialog(text);
+		WindowFactory.getInstance().enableWindow();
+		WindowFactory.getInstance().showDialog(text);
 	}
 
 	ObjectInputStream getIn()
