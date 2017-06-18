@@ -14,9 +14,9 @@ import it.polimi.ingsw.lim.common.game.cards.LeaderCardStatus;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
-import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -451,10 +451,6 @@ public class ControllerGame extends CustomController
 	@FXML private JFXNodesList actionsNodesList;
 	@FXML private JFXButton actionsButton;
 	@FXML private JFXButton leaderCardsButton;
-	@FXML private JFXDialog dialog;
-	@FXML private JFXDialogLayout dialogLayout;
-	@FXML private Label dialogLabel;
-	@FXML private JFXButton dialogOkButton;
 	@FXML private JFXDialog personalBonusTilesChoiceDialog;
 	@FXML private JFXDialogLayout personalBonusTilesChoiceDialogLayout;
 	@FXML private HBox personalBonusTilesChoiceDialogHBox;
@@ -464,6 +460,7 @@ public class ControllerGame extends CustomController
 	@FXML private JFXDialog cardDialog;
 	@FXML private JFXDialogLayout cardDialogLayout;
 	@FXML private Pane cardDialogPane;
+	@FXML private Text cardDialogText;
 	@FXML private JFXDialog leaderCardsDialog;
 	@FXML private JFXDialogLayout leaderCardsDialogLayout;
 	@FXML private Pane player1LeaderCard1Hand;
@@ -540,6 +537,7 @@ public class ControllerGame extends CustomController
 	private final Map<ResourceType, Label> player5Resources = new EnumMap<>(ResourceType.class);
 	private final Map<Integer, Map<ResourceType, Label>> playersResources = new HashMap<>();
 	private final DropShadow borderGlow = new DropShadow();
+	@FXML private HBox cardDialogHBox;
 
 	@FXML
 	private void boardDevelopmentCardPaneMouseClicked(MouseEvent event)
@@ -547,6 +545,8 @@ public class ControllerGame extends CustomController
 		if (event.getButton() == MouseButton.SECONDARY) {
 			if (((Pane) event.getSource()).getBackground() != null) {
 				this.cardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
+				this.cardDialogLayout.setPrefWidth(this.territory1.getWidth() * 4 + this.cardDialogHBox.getSpacing() + this.cardDialogText.getLayoutBounds().getWidth() + this.cardDialogLayout.getInsets().getLeft() + this.cardDialogLayout.getInsets().getRight());
+				this.cardDialogLayout.setPrefHeight(this.territory1.getHeight() * 4 + this.cardDialogLayout.getInsets().getTop() + this.cardDialogLayout.getInsets().getBottom() + 20.0D);
 				this.cardDialog.show();
 			}
 		}
@@ -582,13 +582,9 @@ public class ControllerGame extends CustomController
 	@FXML
 	private void handleLeaderCardsButtonAction()
 	{
+		//this.leaderCardsDialogLayout.setPrefWidth(this.leaderCardsTabPane.getWidth() + this.cardDialogLayout.getInsets().getLeft() + this.cardDialogLayout.getInsets().getRight());
+		//this.leaderCardsDialogLayout.setPrefHeight(this.leaderCardsTabPane.getHeight() + this.cardDialogLayout.getInsets().getTop() + this.cardDialogLayout.getInsets().getBottom() + 20.0D);
 		this.leaderCardsDialog.show();
-	}
-
-	@FXML
-	public void handleDialogOkButtonAction()
-	{
-		this.dialog.close();
 	}
 
 	@Override
@@ -684,23 +680,24 @@ public class ControllerGame extends CustomController
 		this.playersResources.put(2, this.player3Resources);
 		this.playersResources.put(3, this.player4Resources);
 		this.playersResources.put(4, this.player5Resources);
-		this.getStackPane().getChildren().remove(this.dialog);
-		this.dialog.setTransitionType(DialogTransition.CENTER);
-		this.dialog.setDialogContainer(this.getStackPane());
 		this.getStackPane().getChildren().remove(this.personalBonusTilesChoiceDialog);
 		this.personalBonusTilesChoiceDialog.setTransitionType(DialogTransition.CENTER);
 		this.personalBonusTilesChoiceDialog.setDialogContainer(this.getStackPane());
 		this.personalBonusTilesChoiceDialog.setOverlayClose(false);
+		this.personalBonusTilesChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.leaderCardsChoiceDialog);
 		this.leaderCardsChoiceDialog.setTransitionType(DialogTransition.CENTER);
 		this.leaderCardsChoiceDialog.setDialogContainer(this.getStackPane());
 		this.leaderCardsChoiceDialog.setOverlayClose(false);
+		this.leaderCardsChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.cardDialog);
 		this.cardDialog.setTransitionType(DialogTransition.CENTER);
 		this.cardDialog.setDialogContainer(this.getStackPane());
+		this.cardDialogLayout.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.leaderCardsDialog);
 		this.leaderCardsDialog.setTransitionType(DialogTransition.CENTER);
 		this.leaderCardsDialog.setDialogContainer(this.getStackPane());
+		this.leaderCardsDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getStylesheets().add(Client.getInstance().getClass().getResource("/css/jfoenix-nodes-list-button.css").toExternalForm());
 		this.borderGlow.setOffsetY(0.0D);
 		this.borderGlow.setOffsetX(0.0D);
@@ -920,42 +917,36 @@ public class ControllerGame extends CustomController
 		Utils.resizeChildrenNode(this.playerBoard5, ratio, ratio);
 		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsVenture, ratio, ratio);
 		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsCharacter, ratio, ratio);
-		this.leaderCardsButton.setPrefWidth(((VBox) this.leaderCardsButton.getParent()).getWidth());
+		this.cardDialogPane.setPrefWidth(this.territory1.getWidth() * 4);
+		this.cardDialogPane.setPrefHeight(this.territory1.getHeight() * 4);
 		for (Integer playerIndex : GameStatus.getInstance().getCurrentPlayersData().keySet()) {
 			for (Pane pane : this.playersLeaderCardsHand.get(playerIndex)) {
-				pane.setPrefWidth(this.building1.getWidth() * 3);
-				pane.setPrefHeight(this.building1.getHeight() * 3);
+				pane.setPrefWidth(this.territory1.getWidth() * 2.5);
+				pane.setPrefHeight(this.territory1.getHeight() * 2.5);
 			}
 			for (Pane pane : this.playersLeaderCardsPlayed.get(playerIndex)) {
-				pane.setPrefWidth(this.building1.getWidth() * 3);
-				pane.setPrefHeight(this.building1.getHeight() * 3);
+				pane.setPrefWidth(this.territory1.getWidth() * 2.5);
+				pane.setPrefHeight(this.territory1.getHeight() * 2.5);
 			}
 		}
-		this.cardDialogPane.setPrefWidth(this.building1.getWidth() * 4);
-		this.cardDialogPane.setPrefHeight(this.building1.getHeight() * 4);
+		this.leaderCardsTabPane.requestLayout();
+		this.leaderCardsButton.setPrefWidth(((VBox) this.leaderCardsButton.getParent()).getWidth());
 		this.getStage().setX(bounds.getWidth() / 2 - this.getStage().getWidth() / 2);
 		this.getStage().setY(bounds.getHeight() / 2 - this.getStage().getHeight() / 2);
-	}
-
-	@Override
-	public void showDialog(String message)
-	{
-		this.dialogLabel.setText(message);
-		this.dialog.show();
 	}
 
 	public void setOwnTurn()
 	{
 		this.updateGame();
 		this.actionsButton.setDisable(false);
-		((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + "Your turn");
+		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "Your turn");
 	}
 
 	public void setOtherTurn(int turnPlayerIndex)
 	{
 		this.updateGame();
 		this.actionsButton.setDisable(true);
-		((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() + "'s turn");
+		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() + "'s turn");
 	}
 
 	private void updateGame()
@@ -1081,13 +1072,15 @@ public class ControllerGame extends CustomController
 		this.leaderCardsChoiceDialogHBox.getChildren().clear();
 		for (Integer leaderCardIndex : GameStatus.getInstance().getAvailableLeaderCards()) {
 			Pane pane = new Pane();
-			pane.setPrefWidth(this.building1.getWidth() * 3);
-			pane.setPrefHeight(this.building1.getHeight() * 3);
+			pane.setPrefWidth(this.territory1.getWidth() * 3);
+			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			Utils.setEffect(pane, this.borderGlow);
 			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCardIndex));
 			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
 		}
+		this.leaderCardsChoiceDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsChoiceDialogHBox.getChildren().size() + this.leaderCardsChoiceDialogHBox.getSpacing() * (this.leaderCardsChoiceDialogHBox.getChildren().size() - 1) + this.leaderCardsChoiceDialogLayout.getInsets().getLeft() + this.leaderCardsChoiceDialogLayout.getInsets().getRight());
+		this.leaderCardsChoiceDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + 20.0D);
 		this.leaderCardsChoiceDialog.show();
 	}
 

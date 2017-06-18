@@ -78,7 +78,7 @@ public class Client extends Instance
 				Client.getCliListener().end();
 				Platform.runLater(() -> WindowFactory.getInstance().closeWindow());
 			} else if (WindowFactory.getInstance().isWindowOpen(ControllerConnection.class)) {
-				WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
+				WindowFactory.getInstance().enableWindow();
 			} else {
 				WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, true);
 			}

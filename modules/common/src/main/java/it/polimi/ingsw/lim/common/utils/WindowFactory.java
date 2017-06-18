@@ -27,7 +27,7 @@ public class WindowFactory
 {
 	private static final WindowFactory INSTANCE = new WindowFactory();
 	public static final Semaphore WINDOW_OPENING_SEMAPHORE = new Semaphore(1);
-	private final ObjectProperty<WindowInformations> currentWindow = new SimpleObjectProperty<>(null);
+	private final ObjectProperty<CustomController> currentWindow = new SimpleObjectProperty<>(null);
 
 	private WindowFactory()
 	{
@@ -85,7 +85,7 @@ public class WindowFactory
 			} else {
 				stage = this.currentWindow.get().getStage();
 			}
-			this.currentWindow.set(new WindowInformations(fxmlLoader.getController(), stage));
+			this.currentWindow.set(fxmlLoader.getController());
 			((CustomController) fxmlLoader.getController()).setStage(stage);
 			stage.setScene(new Scene(parent));
 			stage.centerOnScreen();
@@ -133,7 +133,7 @@ public class WindowFactory
 
 	public boolean isWindowOpen(Class<? extends CustomController> clazz)
 	{
-		return this.currentWindow.get().getController().getClass() == clazz;
+		return this.currentWindow.get().getClass() == clazz;
 	}
 
 	public void disableWindow()
@@ -150,21 +150,12 @@ public class WindowFactory
 		}
 	}
 
-	public void showDialog(String message)
-	{
-		if (this.currentWindow.get() != null) {
-			Platform.runLater(() -> this.currentWindow.get().getController().showDialog(message));
-		} else {
-			Instance.getLogger().log(Level.INFO, message);
-		}
-	}
-
 	public static WindowFactory getInstance()
 	{
 		return WindowFactory.INSTANCE;
 	}
 
-	public WindowInformations getCurrentWindow()
+	public CustomController getCurrentWindow()
 	{
 		return this.currentWindow.get();
 	}

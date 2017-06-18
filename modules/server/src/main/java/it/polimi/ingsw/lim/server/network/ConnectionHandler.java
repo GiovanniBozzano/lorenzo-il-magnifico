@@ -43,14 +43,14 @@ public class ConnectionHandler extends Thread
 			this.registry.rebind("lorenzo-il-magnifico", this.login);
 		} catch (RemoteException exception) {
 			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
+			WindowFactory.getInstance().enableWindow();
 			return;
 		}
 		try (ServerSocket serverSocket = new ServerSocket(this.socketPort)) {
 			WindowFactory.getInstance().setNewWindow(Utils.SCENE_MAIN, true, () -> {
 				Utils.displayToLog("Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
 				Server.getInstance().setExternalIp(Utils.getExternalIpAddress());
-				Platform.runLater(() -> ((ControllerMain) WindowFactory.getInstance().getCurrentWindow().getController()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));
+				Platform.runLater(() -> ((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));
 				if (Server.getInstance().getExternalIp() != null) {
 					Utils.displayToLog("Your external IP address is: " + Server.getInstance().getExternalIp());
 				}
@@ -78,7 +78,7 @@ public class ConnectionHandler extends Thread
 			} catch (RemoteException | NotBoundException nestedException) {
 				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, nestedException);
 			}
-			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(false);
+			WindowFactory.getInstance().enableWindow();
 		}
 	}
 

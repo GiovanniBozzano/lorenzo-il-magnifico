@@ -1,7 +1,10 @@
 package it.polimi.ingsw.lim.client.network.rmi;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.cli.CLIListenerClient;
+import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
+import it.polimi.ingsw.lim.client.gui.ControllerAuthentication;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
@@ -39,13 +42,9 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		try {
 			this.serverSession = new ServerSession();
 			this.login = (IAuthentication) Naming.lookup("rmi://" + Client.getInstance().getIp() + ":" + Client.getInstance().getPort() + "/lorenzo-il-magnifico");
-		} catch (NotBoundException | MalformedURLException | RemoteException exception) {
+		} catch (NotBoundException | MalformedURLException | RemoteException | IllegalArgumentException exception) {
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
-			WindowFactory.getInstance().enableWindow();
-			WindowFactory.getInstance().showDialog("Could not connect to host");
-			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
-			Client.getLogger().log(Level.INFO, "1 - RMI");
-			Client.getLogger().log(Level.INFO, "2 - Socket");
+			ConnectionHandler.printConnectionError();
 			return;
 		}
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
@@ -100,7 +99,11 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			} catch (AuthenticationFailedException exception) {
 				Client.getDebugger().log(Level.INFO, exception.getLocalizedMessage(), exception);
 				WindowFactory.getInstance().enableWindow();
-				WindowFactory.getInstance().showDialog(exception.getLocalizedMessage());
+				if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+					Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
+				} else {
+					Client.getLogger().log(Level.INFO, exception.getLocalizedMessage());
+				}
 			}
 		});
 	}
@@ -118,7 +121,11 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			} catch (AuthenticationFailedException exception) {
 				Client.getDebugger().log(Level.INFO, exception.getLocalizedMessage(), exception);
 				WindowFactory.getInstance().enableWindow();
-				WindowFactory.getInstance().showDialog(exception.getLocalizedMessage());
+				if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+					Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
+				} else {
+					Client.getLogger().log(Level.INFO, exception.getLocalizedMessage());
+				}
 			}
 		});
 	}
@@ -184,6 +191,6 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getCouncilPalaceRewardsInformations(), authenticationInformations.getPersonalBonusTilesInformations());
 		this.clientSession = authenticationInformations.getClientSession();
 		Client.getInstance().setUsername(username);
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, true, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, true, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));
 	}
 }

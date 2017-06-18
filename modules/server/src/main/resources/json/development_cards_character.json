@@ -335,7 +335,7 @@
 			],
 			"reward": {
 				"actionReward": {
-					"description": "Perform an action at VALUE 6 to take a\nBUILDING CARD without placing a Family\nMember (you can change the action\nvalue with servants and cards effects).\nThe COST of the card you take is reduced\nby 1 WOOD AND 1 STONE. Pay 3 additional\ncoins if the tower is already occupied and\ntake the bonus resources from the third/\nfourth floor.",					
+					"description": "Perform an action at VALUE 6 to take a\nBUILDING CARD without placing a Family\nMember (you can change the action\nvalue with servants and cards effects).\nThe COST of the card you take is reduced\nby 1 WOOD AND 1 STONE. Pay 3 additional\ncoins if the tower is already occupied and\ntake the bonus resources from the third/\nfourth floor.",
 					"type": "CARD",
 					"value": 6,
 					"cardTypes": [

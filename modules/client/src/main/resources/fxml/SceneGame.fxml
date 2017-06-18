@@ -38,14 +38,14 @@
 				<Pane fx:id="character3" layoutX="210.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 				<Pane fx:id="character2" layoutX="210.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 				<Pane fx:id="character1" layoutX="210.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="building4" layoutX="336.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="building3" layoutX="336.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="building2" layoutX="336.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="building1" layoutX="336.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="venture4" layoutX="462.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="venture3" layoutX="462.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="venture2" layoutX="462.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="venture1" layoutX="462.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
+				<Pane fx:id="building4" layoutX="337.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
+				<Pane fx:id="building3" layoutX="337.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
+				<Pane fx:id="building2" layoutX="337.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
+				<Pane fx:id="building1" layoutX="337.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
+				<Pane fx:id="venture4" layoutX="464.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
+				<Pane fx:id="venture3" layoutX="464.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
+				<Pane fx:id="venture2" layoutX="464.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
+				<Pane fx:id="venture1" layoutX="464.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 				<Pane fx:id="productionSmall" layoutX="95.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="productionBig1" layoutX="178.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="productionBig2" layoutX="198.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
@@ -568,7 +568,6 @@
 						</AnchorPane>
 					</Tab>
 				</JFXTabPane>
-				<HBox spacing="20.0" />
 				<GridPane>
 					<columnConstraints>
 						<ColumnConstraints hgrow="SOMETIMES" />
@@ -597,156 +596,125 @@
 			<Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
 		</StackPane.margin>
 	</VBox>
-	<JFXDialog fx:id="dialog" prefWidth="0.0">
-		<JFXDialogLayout fx:id="dialogLayout">
-			<body>
-				<VBox spacing="10.0">
-					<Label text="Connection Failed">
-						<font>
-							<Font name="Roboto Bold" size="12.0" />
-						</font>
-					</Label>
-					<Label fx:id="dialogLabel" textAlignment="JUSTIFY" wrapText="true">
-						<font>
-							<Font name="Roboto" size="12.0" />
-						</font>
-					</Label>
-					<JFXButton fx:id="dialogOkButton" onAction="#handleDialogOkButtonAction" style="-fx-background-color: #F44336;" text="Dismiss" textFill="WHITE">
-						<font>
-							<Font name="Roboto Bold" size="12.0" />
-						</font>
-						<VBox.margin>
-							<Insets top="5.0" />
-						</VBox.margin>
-					</JFXButton>
-				</VBox>
-			</body>
-		</JFXDialogLayout>
-	</JFXDialog>
-	<JFXDialog fx:id="personalBonusTilesChoiceDialog" prefWidth="0.0">
+	<JFXDialog fx:id="personalBonusTilesChoiceDialog" style="-fx-border-color: #757575; -fx-border-width: 2px;">
 		<JFXDialogLayout fx:id="personalBonusTilesChoiceDialogLayout">
 			<body>
-				<VBox>
-					<HBox fx:id="personalBonusTilesChoiceDialogHBox" spacing="30.0" />
-				</VBox>
+				<HBox fx:id="personalBonusTilesChoiceDialogHBox" spacing="30.0" />
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="leaderCardsChoiceDialog" prefWidth="0.0">
-		<JFXDialogLayout fx:id="leaderCardsChoiceDialogLayout">
+	<JFXDialog fx:id="leaderCardsChoiceDialog">
+		<JFXDialogLayout fx:id="leaderCardsChoiceDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
-				<VBox>
-					<HBox fx:id="leaderCardsChoiceDialogHBox" spacing="20.0" />
-				</VBox>
+				<HBox fx:id="leaderCardsChoiceDialogHBox" spacing="20.0" />
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="cardDialog" prefWidth="0.0">
-		<JFXDialogLayout fx:id="cardDialogLayout">
+	<JFXDialog fx:id="cardDialog">
+		<JFXDialogLayout fx:id="cardDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
-				<VBox>
+				<HBox fx:id="cardDialogHBox" alignment="CENTER_LEFT" spacing="20.0">
 					<Pane fx:id="cardDialogPane" />
-				</VBox>
+					<Text fx:id="cardDialogText" text="asdasdasdasdadasdasdasdasdasdasdasdasdasd" />
+				</HBox>
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="leaderCardsDialog" prefWidth="0.0">
-		<JFXDialogLayout fx:id="leaderCardsDialogLayout">
+	<JFXDialog fx:id="leaderCardsDialog">
+		<JFXDialogLayout fx:id="leaderCardsDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
-				<VBox>
-					<JFXTabPane fx:id="leaderCardsTabPane">
-						<Tab fx:id="leaderCardsPlayer1Tab">
-							<AnchorPane>
-								<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-									<HBox spacing="5.0">
-										<Pane fx:id="player1LeaderCard1Hand" />
-										<Pane fx:id="player1LeaderCard2Hand" />
-										<Pane fx:id="player1LeaderCard3Hand" />
-										<Pane fx:id="player1LeaderCard4Hand" />
-									</HBox>
-									<HBox spacing="5.0">
-										<Pane fx:id="player1LeaderCard1Played" />
-										<Pane fx:id="player1LeaderCard2Played" />
-										<Pane fx:id="player1LeaderCard3Played" />
-										<Pane fx:id="player1LeaderCard4Played" />
-									</HBox>
-								</VBox>
-							</AnchorPane>
-						</Tab>
-						<Tab fx:id="leaderCardsPlayer2Tab">
-							<AnchorPane>
-								<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-									<HBox spacing="5.0">
-										<Pane fx:id="player2LeaderCard1Hand" />
-										<Pane fx:id="player2LeaderCard2Hand" />
-										<Pane fx:id="player2LeaderCard3Hand" />
-										<Pane fx:id="player2LeaderCard4Hand" />
-									</HBox>
-									<HBox spacing="5.0">
-										<Pane fx:id="player2LeaderCard1Played" />
-										<Pane fx:id="player2LeaderCard2Played" />
-										<Pane fx:id="player2LeaderCard3Played" />
-										<Pane fx:id="player2LeaderCard4Played" />
-									</HBox>
-								</VBox>
-							</AnchorPane>
-						</Tab>
-						<Tab fx:id="leaderCardsPlayer3Tab">
-							<AnchorPane>
-								<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-									<HBox spacing="5.0">
-										<Pane fx:id="player3LeaderCard1Hand" />
-										<Pane fx:id="player3LeaderCard2Hand" />
-										<Pane fx:id="player3LeaderCard3Hand" />
-										<Pane fx:id="player3LeaderCard4Hand" />
-									</HBox>
-									<HBox spacing="5.0">
-										<Pane fx:id="player3LeaderCard1Played" />
-										<Pane fx:id="player3LeaderCard2Played" />
-										<Pane fx:id="player3LeaderCard3Played" />
-										<Pane fx:id="player3LeaderCard4Played" />
-									</HBox>
-								</VBox>
-							</AnchorPane>
-						</Tab>
-						<Tab fx:id="leaderCardsPlayer4Tab">
-							<AnchorPane>
-								<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-									<HBox spacing="5.0">
-										<Pane fx:id="player4LeaderCard1Hand" />
-										<Pane fx:id="player4LeaderCard2Hand" />
-										<Pane fx:id="player4LeaderCard3Hand" />
-										<Pane fx:id="player4LeaderCard4Hand" />
-									</HBox>
-									<HBox spacing="5.0">
-										<Pane fx:id="player4LeaderCard1Played" />
-										<Pane fx:id="player4LeaderCard2Played" />
-										<Pane fx:id="player4LeaderCard3Played" />
-										<Pane fx:id="player4LeaderCard4Played" />
-									</HBox>
-								</VBox>
-							</AnchorPane>
-						</Tab>
-						<Tab fx:id="leaderCardsPlayer5Tab">
-							<AnchorPane>
-								<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-									<HBox spacing="5.0">
-										<Pane fx:id="player5LeaderCard1Hand" />
-										<Pane fx:id="player5LeaderCard2Hand" />
-										<Pane fx:id="player5LeaderCard3Hand" />
-										<Pane fx:id="player5LeaderCard4Hand" />
-									</HBox>
-									<HBox spacing="5.0">
-										<Pane fx:id="player5LeaderCard1Played" />
-										<Pane fx:id="player5LeaderCard2Played" />
-										<Pane fx:id="player5LeaderCard3Played" />
-										<Pane fx:id="player5LeaderCard4Played" />
-									</HBox>
-								</VBox>
-							</AnchorPane>
-						</Tab>
-					</JFXTabPane>
-				</VBox>
+				<JFXTabPane fx:id="leaderCardsTabPane">
+					<Tab fx:id="leaderCardsPlayer1Tab">
+						<AnchorPane>
+							<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+								<HBox spacing="5.0">
+									<Pane fx:id="player1LeaderCard1Hand" />
+									<Pane fx:id="player1LeaderCard2Hand" />
+									<Pane fx:id="player1LeaderCard3Hand" />
+									<Pane fx:id="player1LeaderCard4Hand" />
+								</HBox>
+								<HBox spacing="5.0">
+									<Pane fx:id="player1LeaderCard1Played" />
+									<Pane fx:id="player1LeaderCard2Played" />
+									<Pane fx:id="player1LeaderCard3Played" />
+									<Pane fx:id="player1LeaderCard4Played" />
+								</HBox>
+							</VBox>
+						</AnchorPane>
+					</Tab>
+					<Tab fx:id="leaderCardsPlayer2Tab">
+						<AnchorPane>
+							<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+								<HBox spacing="5.0">
+									<Pane fx:id="player2LeaderCard1Hand" />
+									<Pane fx:id="player2LeaderCard2Hand" />
+									<Pane fx:id="player2LeaderCard3Hand" />
+									<Pane fx:id="player2LeaderCard4Hand" />
+								</HBox>
+								<HBox spacing="5.0">
+									<Pane fx:id="player2LeaderCard1Played" />
+									<Pane fx:id="player2LeaderCard2Played" />
+									<Pane fx:id="player2LeaderCard3Played" />
+									<Pane fx:id="player2LeaderCard4Played" />
+								</HBox>
+							</VBox>
+						</AnchorPane>
+					</Tab>
+					<Tab fx:id="leaderCardsPlayer3Tab">
+						<AnchorPane>
+							<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+								<HBox spacing="5.0">
+									<Pane fx:id="player3LeaderCard1Hand" />
+									<Pane fx:id="player3LeaderCard2Hand" />
+									<Pane fx:id="player3LeaderCard3Hand" />
+									<Pane fx:id="player3LeaderCard4Hand" />
+								</HBox>
+								<HBox spacing="5.0">
+									<Pane fx:id="player3LeaderCard1Played" />
+									<Pane fx:id="player3LeaderCard2Played" />
+									<Pane fx:id="player3LeaderCard3Played" />
+									<Pane fx:id="player3LeaderCard4Played" />
+								</HBox>
+							</VBox>
+						</AnchorPane>
+					</Tab>
+					<Tab fx:id="leaderCardsPlayer4Tab">
+						<AnchorPane>
+							<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+								<HBox spacing="5.0">
+									<Pane fx:id="player4LeaderCard1Hand" />
+									<Pane fx:id="player4LeaderCard2Hand" />
+									<Pane fx:id="player4LeaderCard3Hand" />
+									<Pane fx:id="player4LeaderCard4Hand" />
+								</HBox>
+								<HBox spacing="5.0">
+									<Pane fx:id="player4LeaderCard1Played" />
+									<Pane fx:id="player4LeaderCard2Played" />
+									<Pane fx:id="player4LeaderCard3Played" />
+									<Pane fx:id="player4LeaderCard4Played" />
+								</HBox>
+							</VBox>
+						</AnchorPane>
+					</Tab>
+					<Tab fx:id="leaderCardsPlayer5Tab">
+						<AnchorPane>
+							<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+								<HBox spacing="5.0">
+									<Pane fx:id="player5LeaderCard1Hand" />
+									<Pane fx:id="player5LeaderCard2Hand" />
+									<Pane fx:id="player5LeaderCard3Hand" />
+									<Pane fx:id="player5LeaderCard4Hand" />
+								</HBox>
+								<HBox spacing="5.0">
+									<Pane fx:id="player5LeaderCard1Played" />
+									<Pane fx:id="player5LeaderCard2Played" />
+									<Pane fx:id="player5LeaderCard3Played" />
+									<Pane fx:id="player5LeaderCard4Played" />
+								</HBox>
+							</VBox>
+						</AnchorPane>
+					</Tab>
+				</JFXTabPane>
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>

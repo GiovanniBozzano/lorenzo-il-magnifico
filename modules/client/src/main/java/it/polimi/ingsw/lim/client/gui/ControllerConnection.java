@@ -39,7 +39,7 @@ public class ControllerConnection extends CustomController
 			this.portTextField.setPromptText("Insert a valid port");
 			return;
 		}
-		this.setDisable(true);
+		this.getStage().getScene().getRoot().setDisable(true);
 		Client.getInstance().setup(this.rmiRadioButton.isSelected() ? ConnectionType.RMI : ConnectionType.SOCKET, ip, Integer.parseInt(port));
 	}
 
@@ -93,7 +93,6 @@ public class ControllerConnection extends CustomController
 		this.dialogOkButton.setPrefWidth(((VBox) this.dialogOkButton.getParent()).getWidth());
 	}
 
-	@Override
 	public void showDialog(String message)
 	{
 		this.getStackPane().getScene().getRoot().requestFocus();

@@ -46,11 +46,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			this.in = new ObjectInputStream(this.socket.getInputStream());
 		} catch (IOException exception) {
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
-			WindowFactory.getInstance().enableWindow();
-			WindowFactory.getInstance().showDialog("Could not connect to host");
-			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
-			Client.getLogger().log(Level.INFO, "1 - RMI");
-			Client.getLogger().log(Level.INFO, "2 - Socket");
+			ConnectionHandler.printConnectionError();
 			return;
 		}
 		this.packetListener = new PacketListener();
@@ -160,7 +156,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		}
 		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getCouncilPalaceRewardsInformations(), authenticationInformations.getPersonalBonusTilesInformations());
 		Client.getInstance().setUsername(authenticationInformations.getUsername());
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, true, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, true, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));
 	}
 
 	void handleAuthenticationFailure(String text)
@@ -169,7 +165,11 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			return;
 		}
 		WindowFactory.getInstance().enableWindow();
-		WindowFactory.getInstance().showDialog(text);
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+			((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(text);
+		} else {
+			Client.getLogger().log(Level.INFO, text);
+		}
 	}
 
 	ObjectInputStream getIn()

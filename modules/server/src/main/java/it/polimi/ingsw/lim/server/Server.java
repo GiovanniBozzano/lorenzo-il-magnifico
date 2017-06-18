@@ -54,7 +54,7 @@ public class Server extends Instance
 					Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				}
 			}, 0L, 60L, TimeUnit.SECONDS);
-			WindowFactory.getInstance().getCurrentWindow().getController().setDisable(true);
+			WindowFactory.getInstance().disableWindow();
 			this.connectionHandler = new ConnectionHandler(rmiPort, socketPort);
 			this.connectionHandler.start();
 		});

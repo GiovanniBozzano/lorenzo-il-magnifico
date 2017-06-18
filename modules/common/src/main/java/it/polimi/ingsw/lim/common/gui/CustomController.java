@@ -38,6 +38,7 @@ public abstract class CustomController implements Initializable
 	@FXML
 	private void handleQuitImageViewMouseClicked()
 	{
+		this.getStage().getScene().getRoot().setDisable(true);
 		Instance.getInstance().stop();
 	}
 
@@ -76,13 +77,6 @@ public abstract class CustomController implements Initializable
 
 	@PostConstruct
 	public abstract void setupGui();
-
-	public abstract void showDialog(String message);
-
-	public void setDisable(boolean disable)
-	{
-		this.stackPane.getScene().getRoot().setDisable(disable);
-	}
 
 	public Stage getStage()
 	{

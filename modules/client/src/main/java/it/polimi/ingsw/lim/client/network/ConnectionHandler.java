@@ -5,6 +5,7 @@ import it.polimi.ingsw.lim.client.cli.CLIListenerClient;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
+import it.polimi.ingsw.lim.client.gui.ControllerConnection;
 import it.polimi.ingsw.lim.client.gui.ControllerGame;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.utils.Utils;
@@ -34,6 +35,21 @@ public abstract class ConnectionHandler extends Thread
 
 	@Override
 	public abstract void run();
+
+	public static void printConnectionError()
+	{
+		WindowFactory.getInstance().enableWindow();
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerConnection) WindowFactory.getInstance().getCurrentWindow()).showDialog("Could not connect to host"));
+		} else {
+			Client.getLogger().log(Level.INFO, "Could not connect to host");
+		}
+		if (((CLIListenerClient) Client.getCliListener()).getStatus() != CLIStatus.NONE) {
+			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
+			Client.getLogger().log(Level.INFO, "1 - RMI");
+			Client.getLogger().log(Level.INFO, "2 - Socket");
+		}
+	}
 
 	public void disconnect(boolean notifyServer)
 	{
@@ -75,7 +91,7 @@ public abstract class ConnectionHandler extends Thread
 			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
-		WindowFactory.getInstance().getCurrentWindow().getController().setDisable(true);
+		WindowFactory.getInstance().disableWindow();
 	}
 
 	/**
@@ -94,7 +110,7 @@ public abstract class ConnectionHandler extends Thread
 			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
-		WindowFactory.getInstance().getCurrentWindow().getController().setDisable(true);
+		WindowFactory.getInstance().disableWindow();
 	}
 
 	public synchronized void sendRoomTimerRequest()
@@ -143,7 +159,7 @@ public abstract class ConnectionHandler extends Thread
 			return;
 		}
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().add(name));
+			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).getPlayersListView().getItems().add(name));
 		} else {
 			Client.getLogger().log(Level.INFO, "{0} connected", new Object[] { name });
 		}
@@ -156,9 +172,9 @@ public abstract class ConnectionHandler extends Thread
 		}
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> {
-				((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().remove(name);
-				if (((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getPlayersListView().getItems().size() < 2) {
-					((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getTimerLabel().setText("Waiting for other players...");
+				((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).getPlayersListView().getItems().remove(name);
+				if (((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).getPlayersListView().getItems().size() < 2) {
+					((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).getTimerLabel().setText("Waiting for other players...");
 				}
 			});
 		} else {
@@ -172,7 +188,7 @@ public abstract class ConnectionHandler extends Thread
 			return;
 		}
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getTimerLabel().setText("Game starts in: " + timer));
+			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).getTimerLabel().setText("Game starts in: " + timer));
 		} else {
 			Client.getLogger().log(Level.INFO, "Game starts in: {0}", new Object[] { Integer.toString(timer) });
 		}
@@ -184,9 +200,9 @@ public abstract class ConnectionHandler extends Thread
 			return;
 		}
 		if (WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
-			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().appendText((((ControllerRoom) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().getText().length() < 1 ? "" : '\n') + text));
+			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).getChatTextArea().appendText((((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).getChatTextArea().getText().length() < 1 ? "" : '\n') + text));
 		} else {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getChatTextArea().getText().length() < 1 ? "" : '\n') + text));
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getChatTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getChatTextArea().getText().length() < 1 ? "" : '\n') + text));
 		}
 	}
 
@@ -231,7 +247,7 @@ public abstract class ConnectionHandler extends Thread
 		WindowFactory.WINDOW_OPENING_SEMAPHORE.release();
 		GameStatus.getInstance().setAvailablePersonalBonusTiles(availablePersonalBonusTiles);
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).showPersonalBonusTilesChoiceDialog());
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showPersonalBonusTilesChoiceDialog());
 		}
 	}
 
@@ -240,7 +256,7 @@ public abstract class ConnectionHandler extends Thread
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
-		Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(choicePlayerIndex).getUsername() + " is choosing a personal bonus tile"));
+		Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(choicePlayerIndex).getUsername() + " is choosing a personal bonus tile"));
 	}
 
 	public void handleGamePersonalBonusTileChosen(int choicePlayerIndex)
@@ -249,7 +265,7 @@ public abstract class ConnectionHandler extends Thread
 			return;
 		}
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex()) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).closePersonalBonusTilesChoiceDialog());
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).closePersonalBonusTilesChoiceDialog());
 		}
 	}
 
@@ -260,7 +276,7 @@ public abstract class ConnectionHandler extends Thread
 		}
 		GameStatus.getInstance().setAvailableLeaderCards(availableLeaderCards);
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).showLeaderCardsChoiceDialog());
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showLeaderCardsChoiceDialog());
 		}
 	}
 
@@ -270,7 +286,7 @@ public abstract class ConnectionHandler extends Thread
 			return;
 		}
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex() && closeDialog) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).closeLeaderCardsChoiceDialog());
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).closeLeaderCardsChoiceDialog());
 		}
 	}
 
@@ -282,7 +298,7 @@ public abstract class ConnectionHandler extends Thread
 		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations);
 		GameStatus.getInstance().setCurrentAvailableActions(availableActions);
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).setOwnTurn());
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurn());
 		} else {
 			Client.getLogger().log(Level.INFO, "Your turn...");
 		}
@@ -304,7 +320,7 @@ public abstract class ConnectionHandler extends Thread
 		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations);
 		GameStatus.getInstance().setCurrentTurnPlayerIndex(turnPlayerIndex);
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow().getController()).setOtherTurn(turnPlayerIndex));
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn(turnPlayerIndex));
 		} else {
 			Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() });
 		}

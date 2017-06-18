@@ -20,7 +20,7 @@ public class ControllerStart extends CustomController
 	@FXML
 	private void handleStartButtonAction()
 	{
-		this.setDisable(true);
+		this.getStage().getScene().getRoot().setDisable(true);
 		Server.getInstance().setup(Integer.parseInt(this.rmiPortTextField.getText()), Integer.parseInt(this.socketPortTextField.getText()));
 	}
 
@@ -46,10 +46,5 @@ public class ControllerStart extends CustomController
 	public void setupGui()
 	{
 		this.getStackPane().getScene().getRoot().requestFocus();
-	}
-
-	@Override
-	public void showDialog(String message)
-	{
 	}
 }
