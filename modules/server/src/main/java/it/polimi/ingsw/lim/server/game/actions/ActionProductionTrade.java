@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionTrade;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
@@ -15,19 +16,17 @@ import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ActionProductionTrade implements IAction
+public class ActionProductionTrade extends ActionInformationsProductionTrade implements IAction
 {
 	private final Connection player;
-	private final Map<Integer, ResourceTradeOption> chosenDevelopmentCardsBuilding;
 
-	public ActionProductionTrade(Connection player, Map<Integer, ResourceTradeOption> chosenDevelopmentCardsBuilding)
+	public ActionProductionTrade(Map<Integer, ResourceTradeOption> chosenDevelopmentCardsBuilding, Connection player)
 	{
+		super(chosenDevelopmentCardsBuilding);
 		this.player = player;
-		this.chosenDevelopmentCardsBuilding = new HashMap<>(chosenDevelopmentCardsBuilding);
 	}
 
 	@Override
@@ -66,14 +65,14 @@ public class ActionProductionTrade implements IAction
 			return;
 		}
 		List<DevelopmentCardBuilding> developmentCardsBuilding = new ArrayList<>();
-		for (int index : this.chosenDevelopmentCardsBuilding.keySet()) {
+		for (int index : this.getChosenDevelopmentCardsBuilding().keySet()) {
 			developmentCardsBuilding.add(this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, index, DevelopmentCardBuilding.class));
 		}
 		List<ResourceAmount> employedResources = new ArrayList<>();
 		List<ResourceAmount> producedResources = new ArrayList<>();
 		for (DevelopmentCardBuilding developmentCardBuilding : developmentCardsBuilding) {
-			employedResources.addAll(this.chosenDevelopmentCardsBuilding.get(developmentCardBuilding.getIndex()).getEmployedResources());
-			producedResources.addAll(this.chosenDevelopmentCardsBuilding.get(developmentCardBuilding.getIndex()).getProducedResources());
+			employedResources.addAll(this.getChosenDevelopmentCardsBuilding().get(developmentCardBuilding.getIndex()).getEmployedResources());
+			producedResources.addAll(this.getChosenDevelopmentCardsBuilding().get(developmentCardBuilding.getIndex()).getProducedResources());
 		}
 		producedResources.addAll(this.player.getPlayerHandler().getPersonalBonusTile().getProductionInstantResources());
 		EventGainResources eventGainResources = new EventGainResources(this.player, producedResources, ResourcesSource.WORK);

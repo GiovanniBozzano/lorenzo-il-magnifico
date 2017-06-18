@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderPlay;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
@@ -13,16 +14,15 @@ import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionLeaderPlay implements IAction
+public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IAction
 {
 	private final Connection player;
-	private final int cardLeaderIndex;
 	private LeaderCard leaderCard;
 
-	public ActionLeaderPlay(Connection player, int cardLeaderIndex)
+	public ActionLeaderPlay(int leaderCardIndex, Connection player)
 	{
+		super(leaderCardIndex);
 		this.player = player;
-		this.cardLeaderIndex = cardLeaderIndex;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class ActionLeaderPlay implements IAction
 		// check if the player has the leader card
 		boolean owned = false;
 		for (LeaderCard currentLeaderCard : this.player.getPlayerHandler().getPlayerCardHandler().getLeaderCards()) {
-			if (this.cardLeaderIndex == currentLeaderCard.getIndex()) {
+			if (this.getLeaderCardIndex() == currentLeaderCard.getIndex()) {
 				this.leaderCard = currentLeaderCard;
 				owned = true;
 				break;

@@ -1,12 +1,16 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionStart;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionProductionTrade;
+import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.enums.WorkSlotType;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
+import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
@@ -16,19 +20,16 @@ import it.polimi.ingsw.lim.server.network.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionProductionStart implements IAction
+public class ActionProductionStart extends ActionInformationsProductionStart implements IAction
 {
 	private final Connection player;
-	private final FamilyMemberType familyMemberType;
-	private final int servants;
 	private WorkSlotType workSlotType;
 	private int effectiveActionValue;
 
-	public ActionProductionStart(Connection player, FamilyMemberType familyMemberType, int servants)
+	public ActionProductionStart(FamilyMemberType familyMemberType, int servants, Connection player)
 	{
+		super(familyMemberType, servants);
 		this.player = player;
-		this.familyMemberType = familyMemberType;
-		this.servants = servants;
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class ActionProductionStart implements IAction
 			return false;
 		}
 		// check if the board slot is occupied and get effective family member value
-		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, BoardPosition.PRODUCTION_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
+		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.PRODUCTION_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
 		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
@@ -65,11 +66,11 @@ public class ActionProductionStart implements IAction
 			}
 		}
 		// check if the player has the servants he sent
-		if (this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.servants) {
+		if (this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
 			return false;
 		}
 		// get effective servants value
-		EventUseServants eventUseServants = new EventUseServants(this.player, this.servants);
+		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
 		eventUseServants.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
@@ -91,7 +92,7 @@ public class ActionProductionStart implements IAction
 			return;
 		}
 		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
-		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
+		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		this.player.getPlayerHandler().setCurrentProductionValue(this.effectiveActionValue);
 		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);
 		List<Integer> availableCards = new ArrayList<>();
@@ -99,6 +100,25 @@ public class ActionProductionStart implements IAction
 			if (developmentCardBuilding.getActivationValue() <= this.effectiveActionValue) {
 				availableCards.add(developmentCardBuilding.getIndex());
 			}
+		}
+		if (availableCards.isEmpty()) {
+			EventGainResources eventGainResources = new EventGainResources(this.player, this.player.getPlayerHandler().getPersonalBonusTile().getProductionInstantResources(), ResourcesSource.WORK);
+			eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+			this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+			int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+			if (councilPrivilegesCount > 0) {
+				this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+				this.player.getPlayerHandler().getCouncilPrivileges().add(councilPrivilegesCount);
+				gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+				gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
+				return;
+			}
+			if (gameHandler.getCurrentPhase() == Phase.LEADER) {
+				gameHandler.setExpectedAction(null);
+				gameHandler.sendGameUpdate(this.player);
+				return;
+			}
+			gameHandler.nextTurn();
 		}
 		gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionProductionTrade(availableCards));
 	}

@@ -9,11 +9,13 @@ import it.polimi.ingsw.lim.server.network.Connection;
 public class ActionRewardHarvest extends ActionReward
 {
 	private final int value;
+	private final boolean applyModifiers;
 
-	public ActionRewardHarvest(String description, int value)
+	public ActionRewardHarvest(String description, int value, boolean applyModifiers)
 	{
 		super(description, ActionType.CHOOSE_REWARD_HARVEST);
 		this.value = value;
+		this.applyModifiers = applyModifiers;
 	}
 
 	@Override
@@ -25,5 +27,10 @@ public class ActionRewardHarvest extends ActionReward
 	public int getValue()
 	{
 		return this.value;
+	}
+
+	public boolean isApplyModifiers()
+	{
+		return this.applyModifiers;
 	}
 }

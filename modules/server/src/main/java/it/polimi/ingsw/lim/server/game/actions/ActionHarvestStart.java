@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsHarvestStart;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
@@ -18,19 +19,16 @@ import it.polimi.ingsw.lim.server.network.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionHarvestStart implements IAction
+public class ActionHarvestStart extends ActionInformationsHarvestStart implements IAction
 {
 	private final Connection player;
-	private final FamilyMemberType familyMemberType;
-	private final int servants;
 	private WorkSlotType workSlotType;
 	private int effectiveActionValue;
 
-	public ActionHarvestStart(Connection player, FamilyMemberType familyMemberType, int servants)
+	public ActionHarvestStart(FamilyMemberType familyMemberType, int servants, Connection player)
 	{
+		super(familyMemberType, servants);
 		this.player = player;
-		this.familyMemberType = familyMemberType;
-		this.servants = servants;
 	}
 
 	@Override
@@ -55,7 +53,7 @@ public class ActionHarvestStart implements IAction
 			return false;
 		}
 		// check if the board slot is occupied and get effective family member value
-		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, BoardPosition.HARVEST_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
+		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.HARVEST_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
 		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
@@ -67,11 +65,11 @@ public class ActionHarvestStart implements IAction
 			}
 		}
 		// check if the player has the servants he sent
-		if (this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.servants) {
+		if (this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
 			return false;
 		}
 		// get effective servants value
-		EventUseServants eventUseServants = new EventUseServants(this.player, this.servants);
+		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
 		eventUseServants.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
@@ -92,7 +90,7 @@ public class ActionHarvestStart implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
+		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		List<ResourceAmount> resourceReward = new ArrayList<>();
 		for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
 			if (developmentCardTerritory.getActivationValue() <= this.effectiveActionValue) {

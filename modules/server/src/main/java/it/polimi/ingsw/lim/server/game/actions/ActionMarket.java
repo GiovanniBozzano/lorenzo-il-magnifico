@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsMarket;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
@@ -12,19 +13,14 @@ import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionMarket implements IAction
+public class ActionMarket extends ActionInformationsMarket implements IAction
 {
 	private final Connection player;
-	private final FamilyMemberType familyMemberType;
-	private final int servants;
-	private final MarketSlot marketSlot;
 
-	public ActionMarket(Connection player, FamilyMemberType familyMemberType, int servants, MarketSlot marketSlot)
+	public ActionMarket(FamilyMemberType familyMemberType, int servants, MarketSlot marketSlot, Connection player)
 	{
+		super(familyMemberType, servants, marketSlot);
 		this.player = player;
-		this.familyMemberType = familyMemberType;
-		this.servants = servants;
-		this.marketSlot = marketSlot;
 	}
 
 	@Override
@@ -49,8 +45,8 @@ public class ActionMarket implements IAction
 			return false;
 		}
 		// check if the board slot is occupied and get effective family member value
-		BoardPosition boardPosition = BoardPosition.getMarketPositions().get(this.marketSlot);
-		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, boardPosition, gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
+		BoardPosition boardPosition = BoardPosition.getMarketPositions().get(this.getMarketSlot());
+		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), boardPosition, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
 		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		if (eventPlaceFamilyMember.isCancelled()) {
 			return false;
@@ -64,11 +60,11 @@ public class ActionMarket implements IAction
 			}
 		}
 		// check if the player has the servants he sent
-		if (this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.servants) {
+		if (this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
 			return false;
 		}
 		// get effective servants value
-		EventUseServants eventUseServants = new EventUseServants(this.player, this.servants);
+		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
 		eventUseServants.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
@@ -87,8 +83,8 @@ public class ActionMarket implements IAction
 			return;
 		}
 		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
-		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
-		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformations(BoardPosition.getMarketPositions().get(this.marketSlot)).getResourceAmounts(), ResourcesSource.MARKET);
+		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
+		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformations(BoardPosition.getMarketPositions().get(this.getMarketSlot())).getResourceAmounts(), ResourcesSource.MARKET);
 		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);

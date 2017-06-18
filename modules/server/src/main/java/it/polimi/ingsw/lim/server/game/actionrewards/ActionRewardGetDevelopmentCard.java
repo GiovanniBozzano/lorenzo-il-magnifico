@@ -57,19 +57,19 @@ public class ActionRewardGetDevelopmentCard extends ActionReward
 				List<List<ResourceAmount>> availableInstantDiscountChoices = new ArrayList<>();
 				List<List<ResourceAmount>> availableDiscountChoises = new ArrayList<>();
 				if (gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(entry.getKey()).get(row).getResourceCostOptions().isEmpty()) {
-					if (new ActionChooseRewardGetDevelopmentCard(player, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, null, null, null).isLegal()) {
+					if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, null, null, null, player).isLegal()) {
 						validCard = true;
 					}
 				} else {
 					for (ResourceCostOption resourceCostOption : gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(entry.getKey()).get(row).getResourceCostOptions()) {
 						if (this.instantDiscountChoices.isEmpty()) {
 							if (discountChoices.isEmpty()) {
-								if (new ActionChooseRewardGetDevelopmentCard(player, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, null, null, resourceCostOption).isLegal()) {
+								if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, null, null, resourceCostOption, player).isLegal()) {
 									validCard = true;
 								}
 							} else {
 								for (List<ResourceAmount> discountChoice : discountChoices) {
-									if (new ActionChooseRewardGetDevelopmentCard(player, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, null, discountChoice, resourceCostOption).isLegal()) {
+									if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, null, discountChoice, resourceCostOption, player).isLegal()) {
 										validCard = true;
 										if (!availableDiscountChoises.contains(discountChoice)) {
 											availableDiscountChoises.add(discountChoice);
@@ -80,7 +80,7 @@ public class ActionRewardGetDevelopmentCard extends ActionReward
 						} else {
 							if (discountChoices.isEmpty()) {
 								for (List<ResourceAmount> instantDiscountChoice : this.instantDiscountChoices) {
-									if (new ActionChooseRewardGetDevelopmentCard(player, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, instantDiscountChoice, null, resourceCostOption).isLegal()) {
+									if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, instantDiscountChoice, null, resourceCostOption, player).isLegal()) {
 										validCard = true;
 										if (!availableInstantDiscountChoices.contains(instantDiscountChoice)) {
 											availableInstantDiscountChoices.add(instantDiscountChoice);
@@ -90,7 +90,7 @@ public class ActionRewardGetDevelopmentCard extends ActionReward
 							} else {
 								for (List<ResourceAmount> instantDiscountChoice : this.instantDiscountChoices) {
 									for (List<ResourceAmount> discountChoice : discountChoices) {
-										if (new ActionChooseRewardGetDevelopmentCard(player, player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, instantDiscountChoice, discountChoice, resourceCostOption).isLegal()) {
+										if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, instantDiscountChoice, discountChoice, resourceCostOption, player).isLegal()) {
 											validCard = true;
 											if (!availableInstantDiscountChoices.contains(instantDiscountChoice)) {
 												availableInstantDiscountChoices.add(instantDiscountChoice);

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
@@ -16,15 +17,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ActionChooseRewardCouncilPrivilege implements IAction
+public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChooseRewardCouncilPrivilege implements IAction
 {
 	private final Connection player;
-	private final List<List<Integer>> councilPalaceRewardIndexes;
 
-	public ActionChooseRewardCouncilPrivilege(Connection player, List<List<Integer>> councilPalaceRewardIndexes)
+	public ActionChooseRewardCouncilPrivilege(List<List<Integer>> councilPalaceRewardIndexes, Connection player)
 	{
+		super(councilPalaceRewardIndexes);
 		this.player = player;
-		this.councilPalaceRewardIndexes = new ArrayList<>(councilPalaceRewardIndexes);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE) {
 			return false;
 		}
-		for (List<Integer> differentIndexes : this.councilPalaceRewardIndexes) {
+		for (List<Integer> differentIndexes : this.getCouncilPalaceRewardIndexes()) {
 			boolean validIndexes = false;
 			for (Integer councilPrivilegesCount : this.player.getPlayerHandler().getCouncilPrivileges()) {
 				if (councilPrivilegesCount == differentIndexes.size()) {
@@ -60,7 +60,7 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 				return false;
 			}
 		}
-		for (List<Integer> differentIndexes : this.councilPalaceRewardIndexes) {
+		for (List<Integer> differentIndexes : this.getCouncilPalaceRewardIndexes()) {
 			// check if all rewards are different
 			Set<Integer> set = new HashSet<>(differentIndexes);
 			if ((differentIndexes.size() > BoardHandler.getCouncilPrivilegeRewards().size() && set.size() != BoardHandler.getCouncilPrivilegeRewards().size()) || set.size() != differentIndexes.size()) {
@@ -97,7 +97,7 @@ public class ActionChooseRewardCouncilPrivilege implements IAction
 		}
 		this.player.getPlayerHandler().getCouncilPrivileges().clear();
 		List<ResourceAmount> resourceReward = new ArrayList<>();
-		for (List<Integer> differentIndexes : this.councilPalaceRewardIndexes) {
+		for (List<Integer> differentIndexes : this.getCouncilPalaceRewardIndexes()) {
 			for (int councilPalaceRewardIndex : differentIndexes) {
 				resourceReward.addAll(BoardHandler.getCouncilPrivilegeRewards().get(councilPalaceRewardIndex).getResourceAmounts());
 			}

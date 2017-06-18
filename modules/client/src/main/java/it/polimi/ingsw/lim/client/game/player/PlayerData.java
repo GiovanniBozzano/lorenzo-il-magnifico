@@ -4,7 +4,6 @@ import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.Color;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardStatus;
 
 import java.util.*;
 
@@ -16,7 +15,8 @@ public class PlayerData
 	private final List<Integer> developmentCardsCharacter = new ArrayList<>();
 	private final List<Integer> developmentCardsTerritory = new ArrayList<>();
 	private final List<Integer> developmentCardsVenture = new ArrayList<>();
-	private final Map<Integer, LeaderCardStatus> leaderCardsStatuses = new HashMap<>();
+	private final Map<Integer, Boolean> leaderCardsPlayed = new HashMap<>();
+	private int leaderCardsInHandNumber;
 	private final Map<ResourceType, Integer> resourceAmounts = new EnumMap<>(ResourceType.class);
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
 
@@ -80,15 +80,25 @@ public class PlayerData
 		this.developmentCardsVenture.addAll(developmentCardsVenture);
 	}
 
-	public Map<Integer, LeaderCardStatus> getLeaderCardsStatuses()
+	public Map<Integer, Boolean> getLeaderCardsPlayed()
 	{
-		return this.leaderCardsStatuses;
+		return this.leaderCardsPlayed;
 	}
 
-	public void setLeaderCardsStatuses(Map<Integer, LeaderCardStatus> leaderCardsStatuses)
+	public void setLeaderCardsPlayed(Map<Integer, Boolean> leaderCardsStatuses)
 	{
-		this.leaderCardsStatuses.clear();
-		this.leaderCardsStatuses.putAll(leaderCardsStatuses);
+		this.leaderCardsPlayed.clear();
+		this.leaderCardsPlayed.putAll(leaderCardsStatuses);
+	}
+
+	public int getLeaderCardsInHandNumber()
+	{
+		return this.leaderCardsInHandNumber;
+	}
+
+	public void setLeaderCardsInHandNumber(int leaderCardsInHandNumber)
+	{
+		this.leaderCardsInHandNumber = leaderCardsInHandNumber;
 	}
 
 	public Map<ResourceType, Integer> getResourceAmounts()

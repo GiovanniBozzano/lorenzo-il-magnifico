@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsCouncilPalace;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
@@ -14,17 +15,14 @@ import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionCouncilPalace implements IAction
+public class ActionCouncilPalace extends ActionInformationsCouncilPalace implements IAction
 {
 	private final Connection player;
-	private final FamilyMemberType familyMemberType;
-	private final int servants;
 
-	public ActionCouncilPalace(Connection player, FamilyMemberType familyMemberType, int servants)
+	public ActionCouncilPalace(FamilyMemberType familyMemberType, int servants, Connection player)
 	{
+		super(familyMemberType, servants);
 		this.player = player;
-		this.familyMemberType = familyMemberType;
-		this.servants = servants;
 	}
 
 	@Override
@@ -49,15 +47,15 @@ public class ActionCouncilPalace implements IAction
 			return false;
 		}
 		// get effective family member value
-		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.familyMemberType, BoardPosition.COUNCIL_PALACE, gameHandler.getFamilyMemberTypeValues().get(this.familyMemberType));
+		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.COUNCIL_PALACE, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
 		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		// check if the player has the servants he sent
-		if (this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.servants) {
+		if (this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
 			return false;
 		}
 		// get effective servants value
-		EventUseServants eventUseServants = new EventUseServants(this.player, this.servants);
+		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
 		eventUseServants.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.lim.server.utils;
 
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
+import it.polimi.ingsw.lim.common.game.actions.*;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
@@ -10,6 +12,7 @@ import it.polimi.ingsw.lim.server.enums.Command;
 import it.polimi.ingsw.lim.server.enums.QueryRead;
 import it.polimi.ingsw.lim.server.enums.QueryValueType;
 import it.polimi.ingsw.lim.server.enums.QueryWrite;
+import it.polimi.ingsw.lim.server.game.actions.*;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
@@ -27,15 +30,34 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.logging.Level;
 
 public class Utils
 {
 	public static final String SCENE_MAIN = "/fxml/SceneMain.fxml";
 	public static final String SCENE_START = "/fxml/SceneStart.fxml";
+	public static final Map<ActionType, IActionTransformer> ACTIONS_TRANSFORMERS = new EnumMap<>(ActionType.class);
+
+	static {
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, (actionInformations, player) -> new ActionChooseLorenzoDeMediciLeader(((ActionInformationsChooseLorenzoDeMediciLeader) actionInformations).getLeaderCardIndex(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE, (actionInformations, player) -> new ActionChooseRewardCouncilPrivilege(((ActionInformationsChooseRewardCouncilPrivilege) actionInformations).getCouncilPalaceRewardIndexes(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_GET_DEVELOPMENT_CARD, (actionInformations, player) -> new ActionChooseRewardGetDevelopmentCard(((ActionInformationsChooseRewardGetDevelopmentCard) actionInformations).getServants(), ((ActionInformationsChooseRewardGetDevelopmentCard) actionInformations).getCardType(), ((ActionInformationsChooseRewardGetDevelopmentCard) actionInformations).getRow(), ((ActionInformationsChooseRewardGetDevelopmentCard) actionInformations).getInstantRewardRow(), ((ActionInformationsChooseRewardGetDevelopmentCard) actionInformations).getInstantDiscountChoice(), ((ActionInformationsChooseRewardGetDevelopmentCard) actionInformations).getDiscountChoice(), ((ActionInformationsChooseRewardGetDevelopmentCard) actionInformations).getResourceCostOption(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_HARVEST, (actionInformations, player) -> new ActionChooseRewardHarvest(((ActionInformationsChooseRewardHarvest) actionInformations).getServants(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_PRODUCTION, (actionInformations, player) -> new ActionChooseRewardProduction(((ActionInformationsChooseRewardProduction) actionInformations).getServants(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER, (actionInformations, player) -> new ActionChooseRewardTemporaryModifier(((ActionInformationsChooseRewardTemporaryModifier) actionInformations).getFamilyMemberType(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.COUNCIL_PALACE, (actionInformations, player) -> new ActionCouncilPalace(((ActionInformationsCouncilPalace) actionInformations).getFamilyMemberType(), ((ActionInformationsCouncilPalace) actionInformations).getServants(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.GET_DEVELOPMENT_CARD, (actionInformations, player) -> new ActionGetDevelopmentCard(((ActionInformationsGetDevelopmentCard) actionInformations).getFamilyMemberType(), ((ActionInformationsGetDevelopmentCard) actionInformations).getServants(), ((ActionInformationsGetDevelopmentCard) actionInformations).getCardType(), ((ActionInformationsGetDevelopmentCard) actionInformations).getRow(), ((ActionInformationsGetDevelopmentCard) actionInformations).getDiscountChoice(), ((ActionInformationsGetDevelopmentCard) actionInformations).getResourceCostOption(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.HARVEST_START, (actionInformations, player) -> new ActionHarvestStart(((ActionInformationsHarvestStart) actionInformations).getFamilyMemberType(), ((ActionInformationsHarvestStart) actionInformations).getServants(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.LEADER_ACTIVATION, (actionInformations, player) -> new ActionLeaderActivation(((ActionInformationsLeaderActivation) actionInformations).getLeaderCardIndex(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.LEADER_DISCARD, (actionInformations, player) -> new ActionLeaderDiscard(((ActionInformationsLeaderDiscard) actionInformations).getLeaderCardIndex(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.LEADER_PLAY, (actionInformations, player) -> new ActionLeaderPlay(((ActionInformationsLeaderPlay) actionInformations).getLeaderCardIndex(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.MARKET, (actionInformations, player) -> new ActionMarket(((ActionInformationsMarket) actionInformations).getFamilyMemberType(), ((ActionInformationsMarket) actionInformations).getServants(), ((ActionInformationsMarket) actionInformations).getMarketSlot(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.PASS_TURN, (actionInformations, player) -> new ActionPassTurn(player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.PRODUCTION_START, (actionInformations, player) -> new ActionProductionStart(((ActionInformationsProductionStart) actionInformations).getFamilyMemberType(), ((ActionInformationsProductionStart) actionInformations).getServants(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.PRODUCTION_TRADE, (actionInformations, player) -> new ActionProductionTrade(((ActionInformationsProductionTrade) actionInformations).getChosenDevelopmentCardsBuilding(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.REFUSE_REWARD, (actionInformations, player) -> new ActionRefuseReward(player));
+	}
 
 	private Utils()
 	{

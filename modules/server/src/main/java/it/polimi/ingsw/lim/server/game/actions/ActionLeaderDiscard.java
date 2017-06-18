@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderDiscard;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
@@ -14,16 +15,15 @@ import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.Collections;
 
-public class ActionLeaderDiscard implements IAction
+public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard implements IAction
 {
 	private final Connection player;
-	private final int cardLeaderIndex;
 	private LeaderCard leaderCard;
 
-	public ActionLeaderDiscard(Connection player, int cardLeaderIndex)
+	public ActionLeaderDiscard(int leaderCardIndex, Connection player)
 	{
+		super(leaderCardIndex);
 		this.player = player;
-		this.cardLeaderIndex = cardLeaderIndex;
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class ActionLeaderDiscard implements IAction
 		// check if the player has the leader card
 		boolean owned = false;
 		for (LeaderCard currentLeaderCard : this.player.getPlayerHandler().getPlayerCardHandler().getLeaderCards()) {
-			if (this.cardLeaderIndex != currentLeaderCard.getIndex()) {
+			if (this.getLeaderCardIndex() != currentLeaderCard.getIndex()) {
 				continue;
 			}
 			this.leaderCard = currentLeaderCard;

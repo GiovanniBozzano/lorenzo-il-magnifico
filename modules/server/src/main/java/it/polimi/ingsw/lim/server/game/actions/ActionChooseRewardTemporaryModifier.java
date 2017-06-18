@@ -2,21 +2,21 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardTemporaryModifier;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionChooseRewardTemporaryModifier implements IAction
+public class ActionChooseRewardTemporaryModifier extends ActionInformationsChooseRewardTemporaryModifier implements IAction
 {
 	private final Connection player;
-	private final FamilyMemberType familyMemberType;
 
-	public ActionChooseRewardTemporaryModifier(Connection player, FamilyMemberType familyMemberType)
+	public ActionChooseRewardTemporaryModifier(FamilyMemberType familyMemberType, Connection player)
 	{
+		super(familyMemberType);
 		this.player = player;
-		this.familyMemberType = familyMemberType;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class ActionChooseRewardTemporaryModifier implements IAction
 			return false;
 		}
 		// check whether the chosen family member il colored
-		return this.familyMemberType != FamilyMemberType.NEUTRAL;
+		return this.getFamilyMemberType() != FamilyMemberType.NEUTRAL;
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class ActionChooseRewardTemporaryModifier implements IAction
 			@Override
 			public void apply(EventPlaceFamilyMember event)
 			{
-				if (event.getFamilyMemberType() != ActionChooseRewardTemporaryModifier.this.familyMemberType) {
+				if (event.getFamilyMemberType() != ActionChooseRewardTemporaryModifier.this.getFamilyMemberType()) {
 					return;
 				}
 				event.setFamilyMemberValue(6);

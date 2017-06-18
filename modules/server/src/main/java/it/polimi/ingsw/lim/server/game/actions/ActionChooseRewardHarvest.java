@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardHarvest;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
@@ -19,15 +20,14 @@ import it.polimi.ingsw.lim.server.network.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionChooseRewardHarvest implements IAction
+public class ActionChooseRewardHarvest extends ActionInformationsChooseRewardHarvest implements IAction
 {
 	private final Connection player;
-	private final int servants;
 
-	public ActionChooseRewardHarvest(Connection player, int servants)
+	public ActionChooseRewardHarvest(int servants, Connection player)
 	{
+		super(servants);
 		this.player = player;
-		this.servants = servants;
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class ActionChooseRewardHarvest implements IAction
 			return false;
 		}
 		// check if the player has the servants he sent
-		return this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) >= this.servants;
+		return this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) >= this.getServants();
 	}
 
 	@Override
@@ -66,17 +66,26 @@ public class ActionChooseRewardHarvest implements IAction
 		if (gameHandler == null) {
 			return;
 		}
-		EventUseServants eventUseServants = new EventUseServants(this.player, this.servants);
+		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
 		eventUseServants.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
-		EventStartHarvest eventStartHarvest = new EventStartHarvest(this.player, ((ActionRewardHarvest) this.player.getPlayerHandler().getCurrentActionReward()).getValue() + eventUseServants.getServants());
-		eventStartHarvest.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
-		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.servants);
+		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		List<ResourceAmount> resourceReward = new ArrayList<>();
-		for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
-			if (developmentCardTerritory.getActivationValue() > eventStartHarvest.getActionValue()) {
-				continue;
+		if (((ActionRewardHarvest) this.player.getPlayerHandler().getCurrentActionReward()).isApplyModifiers()) {
+			EventStartHarvest eventStartHarvest = new EventStartHarvest(this.player, ((ActionRewardHarvest) this.player.getPlayerHandler().getCurrentActionReward()).getValue() + eventUseServants.getServants());
+			eventStartHarvest.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+			for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
+				if (developmentCardTerritory.getActivationValue() > eventStartHarvest.getActionValue()) {
+					continue;
+				}
+				resourceReward.addAll(developmentCardTerritory.getHarvestResources());
 			}
-			resourceReward.addAll(developmentCardTerritory.getHarvestResources());
+		} else {
+			for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
+				if (developmentCardTerritory.getActivationValue() > ((ActionRewardHarvest) this.player.getPlayerHandler().getCurrentActionReward()).getValue() + eventUseServants.getServants()) {
+					continue;
+				}
+				resourceReward.addAll(developmentCardTerritory.getHarvestResources());
+			}
 		}
 		resourceReward.addAll(this.player.getPlayerHandler().getPersonalBonusTile().getHarvestInstantResources());
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.WORK);

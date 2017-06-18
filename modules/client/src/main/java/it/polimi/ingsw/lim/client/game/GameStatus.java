@@ -76,7 +76,8 @@ public class GameStatus
 				this.currentPlayerData.get(playerInformations.getIndex()).setDevelopmentCardsCharacter(playerInformations.getDevelopmentCardsCharacter());
 				this.currentPlayerData.get(playerInformations.getIndex()).setDevelopmentCardsTerritory(playerInformations.getDevelopmentCardsTerritory());
 				this.currentPlayerData.get(playerInformations.getIndex()).setDevelopmentCardsVenture(playerInformations.getDevelopmentCardsVenture());
-				this.currentPlayerData.get(playerInformations.getIndex()).setLeaderCardsStatuses(playerInformations.getLeaderCardsStatuses());
+				this.currentPlayerData.get(playerInformations.getIndex()).setLeaderCardsPlayed(playerInformations.getLeaderCardsPlayed());
+				this.currentPlayerData.get(playerInformations.getIndex()).setLeaderCardsInHandNumber(playerInformations.getLeaderCardsInHandNumber());
 				this.currentPlayerData.get(playerInformations.getIndex()).setResourceAmounts(playerInformations.getResourceAmounts());
 				this.currentPlayerData.get(playerInformations.getIndex()).setFamilyMembersPositions(playerInformations.getFamilyMembersPositions());
 			}
