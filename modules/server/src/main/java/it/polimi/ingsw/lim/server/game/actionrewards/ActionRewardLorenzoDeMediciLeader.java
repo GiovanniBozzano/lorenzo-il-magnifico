@@ -4,9 +4,8 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseLorenzoDeMediciLeader;
 import it.polimi.ingsw.lim.server.game.GameHandler;
-import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,17 +18,13 @@ public class ActionRewardLorenzoDeMediciLeader extends ActionReward
 	}
 
 	@Override
-	public ExpectedAction createExpectedAction(GameHandler gameHandler, Connection player)
+	public ExpectedAction createExpectedAction(GameHandler gameHandler, Player player)
 	{
 		Map<Integer, Integer> availableLeaderCards = new HashMap<>();
-		Room room = Room.getPlayerRoom(player);
-		if (room == null) {
-			return null;
-		}
-		for(Connection currentPlayer : room.getPlayers()){
-			for(LeaderCard leaderCard : currentPlayer.getPlayerHandler().getPlayerCardHandler().getLeaderCards()){
-				if(leaderCard.isPlayed()){
-					availableLeaderCards.put(currentPlayer.getPlayerHandler().getIndex(), leaderCard.getIndex());
+		for (Player currentPlayer : gameHandler.getTurnOrder()) {
+			for (LeaderCard leaderCard : currentPlayer.getPlayerCardHandler().getLeaderCards()) {
+				if (leaderCard.isPlayed()) {
+					availableLeaderCards.put(currentPlayer.getIndex(), leaderCard.getIndex());
 				}
 			}
 		}
