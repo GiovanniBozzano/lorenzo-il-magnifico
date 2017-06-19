@@ -1010,8 +1010,16 @@ public class ControllerGame extends CustomController
 				}
 				index++;
 			}
-			for (index = 0; index < playerData.getValue().getLeaderCardsInHandNumber(); index++) {
-				this.playersLeaderCardsHand.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("/images/leader_cards/leader_card_back.png").toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			if (playerData.getKey() == GameStatus.getInstance().getOwnPlayerIndex()) {
+				index = 0;
+				for (int leaderCardIndex : GameStatus.getInstance().getCurrentOwnLeaderCardsHand()) {
+					this.playersLeaderCardsHand.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+					index++;
+				}
+			} else {
+				for (index = 0; index < playerData.getValue().getLeaderCardsInHandNumber(); index++) {
+					this.playersLeaderCardsHand.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("/images/leader_cards/leader_card_back.png").toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				}
 			}
 			for (Entry<ResourceType, Integer> resourceAmount : playerData.getValue().getResourceAmounts().entrySet()) {
 				if (this.playersResources.get(playerData.getKey()).containsKey(resourceAmount.getKey())) {

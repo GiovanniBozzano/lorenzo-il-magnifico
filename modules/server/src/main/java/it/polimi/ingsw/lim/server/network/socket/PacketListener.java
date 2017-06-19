@@ -78,8 +78,8 @@ class PacketListener extends Thread
 
 	private boolean waitAuthentication()
 	{
-		while (this.connectionSocket.getUsername() == null) {
-			Packet packet;
+		Packet packet;
+		do {
 			try {
 				packet = (Packet) this.connectionSocket.getIn().readObject();
 			} catch (ClassNotFoundException | IOException exception) {
@@ -108,109 +108,110 @@ class PacketListener extends Thread
 				return false;
 			}
 			this.connectionSocket.setUsername(trimmedUsername);
-			Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuildingsInformations = new HashMap<>();
-			Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacterInformations = new HashMap<>();
-			Map<Integer, DevelopmentCardTerritoryInformations> developmentsCardTerritoryInformations = new HashMap<>();
-			Map<Integer, DevelopmentCardVentureInformations> developmentCardsVentureInformations = new HashMap<>();
-			for (Period period : Period.values()) {
-				for (DevelopmentCardBuilding developmentCardBuilding : CardsHandler.DEVELOPMENT_CARDS_BUILDING.get(period)) {
-					developmentCardsBuildingsInformations.put(developmentCardBuilding.getIndex(), developmentCardBuilding.getInformations());
-				}
-				for (DevelopmentCardCharacter developmentCardCharacter : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.get(period)) {
-					developmentCardsCharacterInformations.put(developmentCardCharacter.getIndex(), developmentCardCharacter.getInformations());
-				}
-				for (DevelopmentCardTerritory developmentCardTerritory : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.get(period)) {
-					developmentsCardTerritoryInformations.put(developmentCardTerritory.getIndex(), developmentCardTerritory.getInformations());
-				}
-				for (DevelopmentCardVenture developmentCardVenture : CardsHandler.DEVELOPMENT_CARDS_VENTURE.get(period)) {
-					developmentCardsVentureInformations.put(developmentCardVenture.getIndex(), developmentCardVenture.getInformations());
+		} while (this.connectionSocket.getUsername() == null);
+		Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuildingsInformations = new HashMap<>();
+		Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacterInformations = new HashMap<>();
+		Map<Integer, DevelopmentCardTerritoryInformations> developmentsCardTerritoryInformations = new HashMap<>();
+		Map<Integer, DevelopmentCardVentureInformations> developmentCardsVentureInformations = new HashMap<>();
+		for (Period period : Period.values()) {
+			for (DevelopmentCardBuilding developmentCardBuilding : CardsHandler.DEVELOPMENT_CARDS_BUILDING.get(period)) {
+				developmentCardsBuildingsInformations.put(developmentCardBuilding.getIndex(), developmentCardBuilding.getInformations());
+			}
+			for (DevelopmentCardCharacter developmentCardCharacter : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.get(period)) {
+				developmentCardsCharacterInformations.put(developmentCardCharacter.getIndex(), developmentCardCharacter.getInformations());
+			}
+			for (DevelopmentCardTerritory developmentCardTerritory : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.get(period)) {
+				developmentsCardTerritoryInformations.put(developmentCardTerritory.getIndex(), developmentCardTerritory.getInformations());
+			}
+			for (DevelopmentCardVenture developmentCardVenture : CardsHandler.DEVELOPMENT_CARDS_VENTURE.get(period)) {
+				developmentCardsVentureInformations.put(developmentCardVenture.getIndex(), developmentCardVenture.getInformations());
+			}
+		}
+		Map<Integer, LeaderCardInformations> leaderCardsInformations = new HashMap<>();
+		for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
+			leaderCardsInformations.put(leaderCard.getIndex(), leaderCard.getInformations());
+		}
+		Map<Integer, ExcommunicationTileInformations> excommunicationTilesInformations = new HashMap<>();
+		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
+			excommunicationTilesInformations.put(excommunicationTile.getIndex(), new ExcommunicationTileInformations(excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
+		}
+		Map<Integer, CouncilPalaceRewardInformations> councilPalaceRewardsInformations = new HashMap<>();
+		for (CouncilPalaceReward councilPalaceReward : BoardHandler.getCouncilPrivilegeRewards()) {
+			councilPalaceRewardsInformations.put(councilPalaceReward.getIndex(), councilPalaceReward.getInformations());
+		}
+		Map<Integer, PersonalBonusTileInformations> personalBonusTilesInformations = new HashMap<>();
+		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
+			personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
+		}
+		Room playerRoom;
+		if ((playerRoom = Room.getPlayerRoom(this.connectionSocket.getUsername())) == null) {
+			Room targetRoom = null;
+			for (Room room : Server.getInstance().getRooms()) {
+				if (room.getGameHandler() == null && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {
+					targetRoom = room;
+					break;
 				}
 			}
-			Map<Integer, LeaderCardInformations> leaderCardsInformations = new HashMap<>();
-			for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
-				leaderCardsInformations.put(leaderCard.getIndex(), leaderCard.getInformations());
+			if (targetRoom == null) {
+				targetRoom = new Room(((PacketAuthentication) packet).getRoomType());
+				Server.getInstance().getRooms().add(targetRoom);
 			}
-			Map<Integer, ExcommunicationTileInformations> excommunicationTilesInformations = new HashMap<>();
-			for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
-				excommunicationTilesInformations.put(excommunicationTile.getIndex(), new ExcommunicationTileInformations(excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
+			targetRoom.addPlayer(this.connectionSocket);
+			List<String> playerUsernames = new ArrayList<>();
+			for (Connection player : targetRoom.getPlayers()) {
+				player.sendRoomEntryOther(this.connectionSocket.getUsername());
+				playerUsernames.add(player.getUsername());
 			}
-			Map<Integer, CouncilPalaceRewardInformations> councilPalaceRewardsInformations = new HashMap<>();
-			for (CouncilPalaceReward councilPalaceReward : BoardHandler.getCouncilPrivilegeRewards()) {
-				councilPalaceRewardsInformations.put(councilPalaceReward.getIndex(), councilPalaceReward.getInformations());
-			}
-			Map<Integer, PersonalBonusTileInformations> personalBonusTilesInformations = new HashMap<>();
-			for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
-				personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
-			}
-			Room playerRoom;
-			if ((playerRoom = Room.getPlayerRoom(trimmedUsername)) == null) {
-				Room targetRoom = null;
-				for (Room room : Server.getInstance().getRooms()) {
-					if (room.getGameHandler() == null && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {
-						targetRoom = room;
-						break;
-					}
+			AuthenticationInformationsLobbySocket authenticationInformations = new AuthenticationInformationsLobbySocket();
+			authenticationInformations.setDevelopmentCardsBuildingInformations(developmentCardsBuildingsInformations);
+			authenticationInformations.setDevelopmentCardsCharacterInformations(developmentCardsCharacterInformations);
+			authenticationInformations.setDevelopmentCardsTerritoryInformations(developmentsCardTerritoryInformations);
+			authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
+			authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
+			authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
+			authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
+			authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
+			authenticationInformations.setGameStarted(true);
+			authenticationInformations.setRoomInformations(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
+			authenticationInformations.setUsername(this.connectionSocket.getUsername());
+			this.connectionSocket.sendAuthenticationConfirmation(authenticationInformations);
+		} else {
+			for (Connection player : playerRoom.getPlayers()) {
+				if (player.getUsername().equals(this.connectionSocket.getUsername())) {
+					this.connectionSocket.setPlayer(player.getPlayer());
+					this.connectionSocket.getPlayer().setConnection(this.connectionSocket);
+					this.connectionSocket.getPlayer().setOnline(true);
+					playerRoom.getPlayers().set(playerRoom.getPlayers().indexOf(player), this.connectionSocket);
+					playerRoom.getPlayers().remove(player);
+					break;
 				}
-				if (targetRoom == null) {
-					targetRoom = new Room(((PacketAuthentication) packet).getRoomType());
-					Server.getInstance().getRooms().add(targetRoom);
+			}
+			AuthenticationInformationsGame authenticationInformations = new AuthenticationInformationsGame();
+			authenticationInformations.setDevelopmentCardsBuildingInformations(developmentCardsBuildingsInformations);
+			authenticationInformations.setDevelopmentCardsCharacterInformations(developmentCardsCharacterInformations);
+			authenticationInformations.setDevelopmentCardsTerritoryInformations(developmentsCardTerritoryInformations);
+			authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
+			authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
+			authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
+			authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
+			authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
+			authenticationInformations.setGameStarted(true);
+			authenticationInformations.setExcommunicationTiles(playerRoom.getGameHandler().getExcommunicationTilesIndexes());
+			authenticationInformations.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
+			authenticationInformations.setOwnPlayerIndex(this.connectionSocket.getPlayer().getIndex());
+			if (playerRoom.getGameHandler().getCurrentPeriod() != null && playerRoom.getGameHandler().getCurrentRound() != null) {
+				authenticationInformations.setGameInitialized(true);
+				authenticationInformations.setGameInformations(playerRoom.getGameHandler().generateGameInformations());
+				authenticationInformations.setPlayersInformations(playerRoom.getGameHandler().generatePlayersInformations());
+				authenticationInformations.setOwnLeaderCardsHand(playerRoom.getGameHandler().generateLeaderCardsHand(this.connectionSocket.getPlayer()));
+				authenticationInformations.setTurnPlayerIndex(playerRoom.getGameHandler().getTurnPlayer().getIndex());
+				if (playerRoom.getGameHandler().getTurnPlayer().getIndex() != this.connectionSocket.getPlayer().getIndex()) {
+					authenticationInformations.setAvailableActions(playerRoom.getGameHandler().generateAvailableActions(this.connectionSocket.getPlayer()));
 				}
-				targetRoom.addPlayer(this.connectionSocket);
-				List<String> playerUsernames = new ArrayList<>();
-				for (Connection player : targetRoom.getPlayers()) {
-					player.sendRoomEntryOther(trimmedUsername);
-					playerUsernames.add(player.getUsername());
-				}
-				AuthenticationInformationsLobbySocket authenticationInformations = new AuthenticationInformationsLobbySocket();
-				authenticationInformations.setDevelopmentCardsBuildingInformations(developmentCardsBuildingsInformations);
-				authenticationInformations.setDevelopmentCardsCharacterInformations(developmentCardsCharacterInformations);
-				authenticationInformations.setDevelopmentCardsTerritoryInformations(developmentsCardTerritoryInformations);
-				authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
-				authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
-				authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
-				authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
-				authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
-				authenticationInformations.setGameStarted(true);
-				authenticationInformations.setRoomInformations(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
-				authenticationInformations.setUsername(trimmedUsername);
-				this.connectionSocket.sendAuthenticationConfirmation(authenticationInformations);
 			} else {
-				for (Connection player : playerRoom.getPlayers()) {
-					if (player.getUsername().equals(trimmedUsername)) {
-						this.connectionSocket.setPlayer(player.getPlayer());
-						this.connectionSocket.getPlayer().setConnection(this.connectionSocket);
-						this.connectionSocket.getPlayer().setOnline(true);
-						playerRoom.getPlayers().set(playerRoom.getPlayers().indexOf(player), this.connectionSocket);
-						playerRoom.getPlayers().remove(player);
-						break;
-					}
-				}
-				AuthenticationInformationsGame authenticationInformations = new AuthenticationInformationsGame();
-				authenticationInformations.setDevelopmentCardsBuildingInformations(developmentCardsBuildingsInformations);
-				authenticationInformations.setDevelopmentCardsCharacterInformations(developmentCardsCharacterInformations);
-				authenticationInformations.setDevelopmentCardsTerritoryInformations(developmentsCardTerritoryInformations);
-				authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
-				authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
-				authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
-				authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
-				authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
-				authenticationInformations.setGameStarted(true);
-				authenticationInformations.setExcommunicationTiles(playerRoom.getGameHandler().getExcommunicationTilesIndexes());
-				authenticationInformations.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
-				authenticationInformations.setOwnPlayerIndex(this.connectionSocket.getPlayer().getIndex());
-				if (playerRoom.getGameHandler().getLeaderCardsChoosingPlayers().isEmpty()) {
-					authenticationInformations.setGameInitialized(true);
-					authenticationInformations.setGameInformations(playerRoom.getGameHandler().generateGameInformations());
-					authenticationInformations.setPlayersInformations(playerRoom.getGameHandler().generatePlayersInformations());
-					authenticationInformations.setTurnPlayerIndex(playerRoom.getGameHandler().getTurnPlayer().getIndex());
-					if (playerRoom.getGameHandler().getTurnPlayer().getIndex() != this.connectionSocket.getPlayer().getIndex()) {
-						authenticationInformations.setAvailableActions(playerRoom.getGameHandler().generateAvailableActions(this.connectionSocket.getPlayer()));
-					}
-				} else {
-					authenticationInformations.setGameInitialized(false);
-				}
-				this.connectionSocket.sendAuthenticationConfirmation(authenticationInformations);
+				authenticationInformations.setGameInitialized(false);
 			}
+			this.connectionSocket.sendAuthenticationConfirmation(authenticationInformations);
 		}
 		return true;
 	}

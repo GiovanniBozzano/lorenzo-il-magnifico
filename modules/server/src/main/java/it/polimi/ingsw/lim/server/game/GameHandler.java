@@ -35,10 +35,10 @@ public class GameHandler
 	private final CardsHandler cardsHandler = new CardsHandler();
 	private final BoardHandler boardHandler;
 	private final Random randomGenerator = new Random(System.nanoTime());
-	private final Map<Period, List<DevelopmentCardBuilding>> developmentCardsBuilding = new EnumMap<>(CardsHandler.DEVELOPMENT_CARDS_BUILDING);
-	private final Map<Period, List<DevelopmentCardCharacter>> developmentCardsCharacters = new EnumMap<>(CardsHandler.DEVELOPMENT_CARDS_CHARACTER);
-	private final Map<Period, List<DevelopmentCardTerritory>> developmentCardsTerritory = new EnumMap<>(CardsHandler.DEVELOPMENT_CARDS_TERRITORY);
-	private final Map<Period, List<DevelopmentCardVenture>> developmentCardsVenture = new EnumMap<>(CardsHandler.DEVELOPMENT_CARDS_VENTURE);
+	private final Map<Period, List<DevelopmentCardBuilding>> developmentCardsBuilding = Utils.deepCopyDevelopmentCards(CardsHandler.DEVELOPMENT_CARDS_BUILDING);
+	private final Map<Period, List<DevelopmentCardCharacter>> developmentCardsCharacters = Utils.deepCopyDevelopmentCards(CardsHandler.DEVELOPMENT_CARDS_CHARACTER);
+	private final Map<Period, List<DevelopmentCardTerritory>> developmentCardsTerritory = Utils.deepCopyDevelopmentCards(CardsHandler.DEVELOPMENT_CARDS_TERRITORY);
+	private final Map<Period, List<DevelopmentCardVenture>> developmentCardsVenture = Utils.deepCopyDevelopmentCards(CardsHandler.DEVELOPMENT_CARDS_VENTURE);
 	private final Map<Period, Integer> excommunicationTilesIndexes = new EnumMap<>(Period.class);
 	private final Map<Integer, PlayerIdentification> playersIdentifications = new HashMap<>();
 	private final Map<FamilyMemberType, Integer> familyMemberTypeValues = new EnumMap<>(FamilyMemberType.class);
@@ -108,7 +108,7 @@ public class GameHandler
 		for (PersonalBonusTile personalBonusTile : Arrays.asList(PersonalBonusTile.values())) {
 			this.availablePersonalBonusTiles.add(personalBonusTile.getIndex());
 		}
-		List<LeaderCard> leaderCards = new ArrayList<>(CardsHandler.LEADER_CARDS);
+		List<LeaderCard> leaderCards = Utils.deepCopyLeaderCards(CardsHandler.LEADER_CARDS);
 		for (Player player : this.turnOrder) {
 			List<Integer> playerAvailableLeaderCards = new ArrayList<>();
 			for (int index = 0; index < 4; index++) {
@@ -399,13 +399,13 @@ public class GameHandler
 
 	public void sendGameUpdate(Player player)
 	{
-		player.getConnection().sendGameUpdate(this.generateGameInformations(), this.generatePlayersInformations(), this.generateAvailableActions(player));
+		player.getConnection().sendGameUpdate(this.generateGameInformations(), this.generatePlayersInformations(), this.generateLeaderCardsHand(player), this.generateAvailableActions(player));
 		this.sendGameUpdateOtherTurn(player);
 	}
 
 	public void sendGameUpdateExpectedAction(Player player, ExpectedAction expectedAction)
 	{
-		player.getConnection().sendGameUpdateExpectedAction(this.generateGameInformations(), this.generatePlayersInformations(), expectedAction);
+		player.getConnection().sendGameUpdateExpectedAction(this.generateGameInformations(), this.generatePlayersInformations(), this.generateLeaderCardsHand(player), expectedAction);
 		this.sendGameUpdateOtherTurn(player);
 	}
 
@@ -413,7 +413,7 @@ public class GameHandler
 	{
 		for (Player otherPlayer : this.turnOrder) {
 			if (otherPlayer != player && otherPlayer.isOnline()) {
-				otherPlayer.getConnection().sendGameUpdateOtherTurn(this.generateGameInformations(), this.generatePlayersInformations(), player.getIndex());
+				otherPlayer.getConnection().sendGameUpdateOtherTurn(this.generateGameInformations(), this.generatePlayersInformations(), this.generateLeaderCardsHand(otherPlayer), player.getIndex());
 			}
 		}
 	}
@@ -567,6 +567,17 @@ public class GameHandler
 		return availableActions;
 	}
 
+	public List<Integer> generateLeaderCardsHand(Player player)
+	{
+		List<Integer> leaderCardsHand = new ArrayList<>();
+		for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {
+			if (!leaderCard.isPlayed()) {
+				leaderCardsHand.add(leaderCard.getIndex());
+			}
+		}
+		return leaderCardsHand;
+	}
+
 	public CardsHandler getCardsHandler()
 	{
 		return this.cardsHandler;
@@ -607,12 +618,12 @@ public class GameHandler
 		return this.turnPlayer;
 	}
 
-	Period getCurrentPeriod()
+	public Period getCurrentPeriod()
 	{
 		return this.currentPeriod;
 	}
 
-	Round getCurrentRound()
+	public Round getCurrentRound()
 	{
 		return this.currentRound;
 	}

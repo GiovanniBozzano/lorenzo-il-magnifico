@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client.network;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.cli.CLIListenerClient;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
@@ -39,12 +38,12 @@ public abstract class ConnectionHandler extends Thread
 	public static void printConnectionError()
 	{
 		WindowFactory.getInstance().enableWindow();
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerConnection) WindowFactory.getInstance().getCurrentWindow()).showDialog("Could not connect to host"));
 		} else {
 			Client.getLogger().log(Level.INFO, "Could not connect to host");
 		}
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() != CLIStatus.NONE) {
+		if (Client.getInstance().getCliStatus() != CLIStatus.NONE) {
 			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
 			Client.getLogger().log(Level.INFO, "1 - RMI");
 			Client.getLogger().log(Level.INFO, "2 - Socket");
@@ -155,10 +154,10 @@ public abstract class ConnectionHandler extends Thread
 
 	public void handleRoomEntryOther(String name)
 	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).getPlayersListView().getItems().add(name));
 		} else {
 			Client.getLogger().log(Level.INFO, "{0} connected", new Object[] { name });
@@ -167,10 +166,10 @@ public abstract class ConnectionHandler extends Thread
 
 	public void handleRoomExitOther(String name)
 	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> {
 				((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).getPlayersListView().getItems().remove(name);
 				if (((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).getPlayersListView().getItems().size() < 2) {
@@ -184,10 +183,10 @@ public abstract class ConnectionHandler extends Thread
 
 	public void handleRoomTimer(int timer)
 	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).getTimerLabel().setText("Game starts in: " + timer));
 		} else {
 			Client.getLogger().log(Level.INFO, "Game starts in: {0}", new Object[] { Integer.toString(timer) });
@@ -213,7 +212,7 @@ public abstract class ConnectionHandler extends Thread
 
 	public void handleGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersIdentifications, int ownPlayerIndex)
 	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
 		GameStatus.getInstance().setCurrentExcommunicationTiles(excommunicationTiles);
@@ -228,7 +227,7 @@ public abstract class ConnectionHandler extends Thread
 
 	public void handleGameDisconnectionOther(int playerIndex)
 	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
 	}
@@ -241,19 +240,19 @@ public abstract class ConnectionHandler extends Thread
 			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
 		WindowFactory.WINDOW_OPENING_SEMAPHORE.release();
 		GameStatus.getInstance().setAvailablePersonalBonusTiles(availablePersonalBonusTiles);
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showPersonalBonusTilesChoiceDialog());
 		}
 	}
 
 	public void handleGamePersonalBonusTileChoiceOther(int choicePlayerIndex)
 	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
 		Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(choicePlayerIndex).getUsername() + " is choosing a personal bonus tile"));
@@ -261,65 +260,65 @@ public abstract class ConnectionHandler extends Thread
 
 	public void handleGamePersonalBonusTileChosen(int choicePlayerIndex)
 	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex()) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex()) {
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).closePersonalBonusTilesChoiceDialog());
 		}
 	}
 
 	public void handleGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards)
 	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
 		GameStatus.getInstance().setAvailableLeaderCards(availableLeaderCards);
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showLeaderCardsChoiceDialog());
 		}
 	}
 
 	public void handleGameLeaderCardChosen(int choicePlayerIndex, boolean closeDialog)
 	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex() && closeDialog) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex() && closeDialog) {
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).closeLeaderCardsChoiceDialog());
 		}
 	}
 
-	public void handleGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions)
+	public void handleGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, List<AvailableAction> availableActions)
 	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
-		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations);
+		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
 		GameStatus.getInstance().setCurrentAvailableActions(availableActions);
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurn());
 		} else {
 			Client.getLogger().log(Level.INFO, "Your turn...");
 		}
 	}
 
-	public void handleGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, ExpectedAction expectedAction)
+	public void handleGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, ExpectedAction expectedAction)
 	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
-		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations);
+		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
 	}
 
-	public void handleGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, int turnPlayerIndex)
+	public void handleGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, int turnPlayerIndex)
 	{
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
-		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations);
+		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
 		GameStatus.getInstance().setCurrentTurnPlayerIndex(turnPlayerIndex);
-		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn());
 		} else {
 			Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() });

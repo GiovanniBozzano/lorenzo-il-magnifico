@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.client;
 
-import it.polimi.ingsw.lim.client.cli.CLIListenerClient;
+import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
@@ -31,18 +31,29 @@ public class Main extends Application
 		consoleHandler.setFormatter(new LoggerFormatter());
 		Client.getLogger().addHandler(consoleHandler);
 		Instance.setInstance(new Client());
-		Client.setCliListener(new CLIListenerClient());
+		Client.getInstance().getCliListener().execute(() -> {
+			while (!Thread.currentThread().isInterrupted()) {
+				try {
+					Client.getCliHandlers().get(Client.getInstance().getCliStatus()).execute(Client.getInstance().getCliScanner().nextLine());
+				} catch (IllegalStateException exception) {
+					Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+					Thread.currentThread().interrupt();
+				}
+			}
+		});
 		Client.getLogger().log(Level.INFO, "Enter Interface Type...");
 		Client.getLogger().log(Level.INFO, "1 - GUI");
 		Client.getLogger().log(Level.INFO, "2 - CLI");
-		Client.getCliListener().start();
 	}
 
 	@Override
 	public void start(Stage stage)
 	{
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, () -> Client.getCliListener().end());
-		//WindowFactory.getInstance().setNewWindow("/fxml/SceneGame.fxml", true);
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, () -> {
+			Client.getInstance().getCliScanner().close();
+			Client.getInstance().setCliStatus(CLIStatus.NONE);
+			Client.getInstance().getCliListener().shutdownNow();
+		});
 	}
 
 	@Override

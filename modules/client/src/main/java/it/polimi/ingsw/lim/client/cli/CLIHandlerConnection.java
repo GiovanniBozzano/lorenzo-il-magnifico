@@ -49,7 +49,7 @@ public class CLIHandlerConnection implements ICLIHandler
 	private void askIPAddress()
 	{
 		Client.getLogger().log(Level.INFO, "Enter IP Address...");
-		this.ip = Client.getCliListener().getScanner().next();
+		this.ip = Client.getInstance().getCliScanner().nextLine();
 	}
 
 	private void askPort()
@@ -57,7 +57,7 @@ public class CLIHandlerConnection implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "Enter Port [default {0}]...", new Object[] { this.connectionType == ConnectionType.RMI ? "8080" : "8081" });
 		String input;
 		do {
-			input = Client.getCliListener().getScanner().next();
+			input = Client.getInstance().getCliScanner().nextLine();
 		} while (!CommonUtils.isInteger(input));
 		this.port = Integer.parseInt(input);
 	}

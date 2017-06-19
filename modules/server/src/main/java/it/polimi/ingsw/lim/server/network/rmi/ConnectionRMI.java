@@ -240,11 +240,11 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions)
+	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, List<AvailableAction> availableActions)
 	{
 		this.rmiExecutor.execute(() -> {
 			try {
-				this.serverSession.sendGameUpdate(gameInformations, playersInformations, availableActions);
+				this.serverSession.sendGameUpdate(gameInformations, playersInformations, ownLeaderCardsHand, availableActions);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
@@ -253,11 +253,11 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, ExpectedAction expectedAction)
+	public void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, ExpectedAction expectedAction)
 	{
 		this.rmiExecutor.execute(() -> {
 			try {
-				this.serverSession.sendGameUpdateExpectedAction(gameInformations, playersInformations, expectedAction);
+				this.serverSession.sendGameUpdateExpectedAction(gameInformations, playersInformations, ownLeaderCardsHand, expectedAction);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
@@ -266,11 +266,11 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, int turnPlayerIndex)
+	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, int turnPlayerIndex)
 	{
 		this.rmiExecutor.execute(() -> {
 			try {
-				this.serverSession.sendGameUpdateOtherTurn(gameInformations, playersInformations, turnPlayerIndex);
+				this.serverSession.sendGameUpdateOtherTurn(gameInformations, playersInformations, ownLeaderCardsHand, turnPlayerIndex);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);

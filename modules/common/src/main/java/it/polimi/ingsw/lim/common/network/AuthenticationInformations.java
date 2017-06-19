@@ -6,6 +6,7 @@ import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.*;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AuthenticationInformations implements Serializable
@@ -27,7 +28,7 @@ public abstract class AuthenticationInformations implements Serializable
 
 	public void setDevelopmentCardsBuildingInformations(Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuildingInformations)
 	{
-		this.developmentCardsBuildingInformations = developmentCardsBuildingInformations;
+		this.developmentCardsBuildingInformations = new HashMap<>(developmentCardsBuildingInformations);
 	}
 
 	public Map<Integer, DevelopmentCardCharacterInformations> getDevelopmentCardsCharacterInformations()
@@ -37,7 +38,7 @@ public abstract class AuthenticationInformations implements Serializable
 
 	public void setDevelopmentCardsCharacterInformations(Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacterInformations)
 	{
-		this.developmentCardsCharacterInformations = developmentCardsCharacterInformations;
+		this.developmentCardsCharacterInformations = new HashMap<>(developmentCardsCharacterInformations);
 	}
 
 	public Map<Integer, DevelopmentCardTerritoryInformations> getDevelopmentCardsTerritoryInformations()
@@ -47,7 +48,7 @@ public abstract class AuthenticationInformations implements Serializable
 
 	public void setDevelopmentCardsTerritoryInformations(Map<Integer, DevelopmentCardTerritoryInformations> developmentCardsTerritoryInformations)
 	{
-		this.developmentCardsTerritoryInformations = developmentCardsTerritoryInformations;
+		this.developmentCardsTerritoryInformations = new HashMap<>(developmentCardsTerritoryInformations);
 	}
 
 	public Map<Integer, DevelopmentCardVentureInformations> getDevelopmentCardsVentureInformations()
@@ -57,7 +58,7 @@ public abstract class AuthenticationInformations implements Serializable
 
 	public void setDevelopmentCardsVentureInformations(Map<Integer, DevelopmentCardVentureInformations> developmentCardsVentureInformations)
 	{
-		this.developmentCardsVentureInformations = developmentCardsVentureInformations;
+		this.developmentCardsVentureInformations = new HashMap<>(developmentCardsVentureInformations);
 	}
 
 	public Map<Integer, LeaderCardInformations> getLeaderCardsInformations()
@@ -67,7 +68,7 @@ public abstract class AuthenticationInformations implements Serializable
 
 	public void setLeaderCardsInformations(Map<Integer, LeaderCardInformations> leaderCardsInformations)
 	{
-		this.leaderCardsInformations = leaderCardsInformations;
+		this.leaderCardsInformations = new HashMap<>(leaderCardsInformations);
 	}
 
 	public Map<Integer, ExcommunicationTileInformations> getExcommunicationTilesInformations()
@@ -77,7 +78,7 @@ public abstract class AuthenticationInformations implements Serializable
 
 	public void setExcommunicationTilesInformations(Map<Integer, ExcommunicationTileInformations> excommunicationTilesInformations)
 	{
-		this.excommunicationTilesInformations = excommunicationTilesInformations;
+		this.excommunicationTilesInformations = new HashMap<>(excommunicationTilesInformations);
 	}
 
 	public Map<Integer, CouncilPalaceRewardInformations> getCouncilPalaceRewardsInformations()
@@ -87,7 +88,7 @@ public abstract class AuthenticationInformations implements Serializable
 
 	public void setCouncilPalaceRewardsInformations(Map<Integer, CouncilPalaceRewardInformations> councilPalaceRewardsInformations)
 	{
-		this.councilPalaceRewardsInformations = councilPalaceRewardsInformations;
+		this.councilPalaceRewardsInformations = new HashMap<>(councilPalaceRewardsInformations);
 	}
 
 	public Map<Integer, PersonalBonusTileInformations> getPersonalBonusTilesInformations()
@@ -97,7 +98,7 @@ public abstract class AuthenticationInformations implements Serializable
 
 	public void setPersonalBonusTilesInformations(Map<Integer, PersonalBonusTileInformations> personalBonusTilesInformations)
 	{
-		this.personalBonusTilesInformations = personalBonusTilesInformations;
+		this.personalBonusTilesInformations = new HashMap<>(personalBonusTilesInformations);
 	}
 
 	public boolean isGameStarted()

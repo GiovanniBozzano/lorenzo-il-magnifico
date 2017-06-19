@@ -1,7 +1,8 @@
 package it.polimi.ingsw.lim.common;
 
-import it.polimi.ingsw.lim.common.cli.CLIListener;
-
+import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 public abstract class Instance
@@ -9,7 +10,8 @@ public abstract class Instance
 	private static Logger debugger;
 	private static Logger logger;
 	private static Instance instance;
-	private static CLIListener cliListener;
+	private final ExecutorService cliListener = Executors.newSingleThreadExecutor();
+	private final Scanner cliScanner = new Scanner(System.in);
 
 	public abstract void stop();
 
@@ -43,13 +45,13 @@ public abstract class Instance
 		Instance.instance = instance;
 	}
 
-	public static CLIListener getCliListener()
+	public ExecutorService getCliListener()
 	{
-		return Instance.cliListener;
+		return this.cliListener;
 	}
 
-	public static void setCliListener(CLIListener cliListener)
+	public Scanner getCliScanner()
 	{
-		Instance.cliListener = cliListener;
+		return this.cliScanner;
 	}
 }

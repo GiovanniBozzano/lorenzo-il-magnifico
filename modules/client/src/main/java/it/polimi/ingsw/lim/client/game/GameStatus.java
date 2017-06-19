@@ -33,6 +33,7 @@ public class GameStatus
 	private final Map<Row, Integer> currentDevelopmentCardsVenture = new EnumMap<>(Row.class);
 	private final Map<Integer, Integer> currentTurnOrder = new HashMap<>();
 	private final Map<Integer, Integer> currentCouncilPalaceOrder = new HashMap<>();
+	private final List<Integer> currentOwnLeaderCardsHand = new ArrayList<>();
 	private int currentTurnPlayerIndex;
 	private final List<AvailableAction> currentAvailableActions = new ArrayList<>();
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
@@ -62,7 +63,7 @@ public class GameStatus
 		this.personalBonusTiles.putAll(personalBonusTiles);
 	}
 
-	public void updateGameStatus(GameInformations gameInformations, List<PlayerInformations> playersInformations)
+	public void updateGameStatus(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand)
 	{
 		this.setCurrentDevelopmentCardsBuilding(gameInformations.getDevelopmentCardsBuilding());
 		this.setCurrentDevelopmentCardsCharacter(gameInformations.getDevelopmentCardsCharacter());
@@ -70,6 +71,7 @@ public class GameStatus
 		this.setCurrentDevelopmentCardsVenture(gameInformations.getDevelopmentCardsVenture());
 		this.setCurrentTurnOrder(gameInformations.getTurnOrder());
 		this.setCurrentCouncilPalaceOrder(gameInformations.getCouncilPalaceOrder());
+		this.setCurrentOwnLeaderCardsHand(ownLeaderCardsHand);
 		for (PlayerInformations playerInformations : playersInformations) {
 			if (this.currentPlayerData.get(playerInformations.getIndex()) != null) {
 				this.currentPlayerData.get(playerInformations.getIndex()).setDevelopmentCardsBuilding(playerInformations.getDevelopmentCardsBuilding());
@@ -225,6 +227,17 @@ public class GameStatus
 	{
 		this.currentCouncilPalaceOrder.clear();
 		this.currentCouncilPalaceOrder.putAll(currentCouncilPalaceOrder);
+	}
+
+	public List<Integer> getCurrentOwnLeaderCardsHand()
+	{
+		return this.currentOwnLeaderCardsHand;
+	}
+
+	private void setCurrentOwnLeaderCardsHand(List<Integer> currentOwnLeaderCardsHand)
+	{
+		this.currentOwnLeaderCardsHand.clear();
+		this.currentOwnLeaderCardsHand.addAll(currentOwnLeaderCardsHand);
 	}
 
 	public int getCurrentTurnPlayerIndex()

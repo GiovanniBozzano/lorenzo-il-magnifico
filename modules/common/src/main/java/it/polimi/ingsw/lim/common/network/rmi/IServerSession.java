@@ -42,9 +42,9 @@ public interface IServerSession extends Remote
 
 	void sendGameLeaderCardChosen(int choicePlayerIndex, boolean closeDialog) throws RemoteException;
 
-	void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions) throws RemoteException;
+	void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, List<AvailableAction> availableActions) throws RemoteException;
 
-	void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, ExpectedAction expectedAction) throws RemoteException;
+	void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, ExpectedAction expectedAction) throws RemoteException;
 
-	void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, int turnPlayerIndex) throws RemoteException;
+	void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, int turnPlayerIndex) throws RemoteException;
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.utils;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
+import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.game.actions.*;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -14,6 +15,7 @@ import it.polimi.ingsw.lim.server.enums.QueryValueType;
 import it.polimi.ingsw.lim.server.enums.QueryWrite;
 import it.polimi.ingsw.lim.server.game.actions.*;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
+import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.Connection;
@@ -31,6 +33,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 public class Utils
@@ -202,6 +205,24 @@ public class Utils
 			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			throw new AuthenticationFailedException("Server error.");
 		}
+	}
+
+	public static <T extends DevelopmentCard> Map<Period, List<T>> deepCopyDevelopmentCards(Map<Period, List<T>> original)
+	{
+		Map<Period, List<T>> copy = new HashMap<>();
+		for (Entry<Period, List<T>> entry : original.entrySet()) {
+			List<T> developmentCards = new ArrayList<>();
+			developmentCards.addAll(entry.getValue());
+			copy.put(entry.getKey(), developmentCards);
+		}
+		return copy;
+	}
+
+	public static List<LeaderCard> deepCopyLeaderCards(List<LeaderCard> original)
+	{
+		List<LeaderCard> copy = new ArrayList<>();
+		copy.addAll(original);
+		return copy;
 	}
 
 	public static LeaderCard getLeaderCardFromIndex(int leaderCardIndex)

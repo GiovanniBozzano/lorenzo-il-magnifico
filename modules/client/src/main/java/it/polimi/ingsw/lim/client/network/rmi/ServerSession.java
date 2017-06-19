@@ -106,20 +106,20 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
-	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions) throws RemoteException
+	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, List<AvailableAction> availableActions) throws RemoteException
 	{
-		Client.getInstance().getConnectionHandler().handleGameUpdate(gameInformations, playersInformations, availableActions);
+		Client.getInstance().getConnectionHandler().handleGameUpdate(gameInformations, playersInformations, ownLeaderCardsHand, availableActions);
 	}
 
 	@Override
-	public void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, ExpectedAction expectedAction) throws RemoteException
+	public void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, ExpectedAction expectedAction) throws RemoteException
 	{
-		Client.getInstance().getConnectionHandler().handleGameUpdateExpectedAction(gameInformations, playersInformations, expectedAction);
+		Client.getInstance().getConnectionHandler().handleGameUpdateExpectedAction(gameInformations, playersInformations, ownLeaderCardsHand, expectedAction);
 	}
 
 	@Override
-	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, int turnPlayerIndex) throws RemoteException
+	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, int turnPlayerIndex) throws RemoteException
 	{
-		Client.getInstance().getConnectionHandler().handleGameUpdateOtherTurn(gameInformations, playersInformations, turnPlayerIndex);
+		Client.getInstance().getConnectionHandler().handleGameUpdateOtherTurn(gameInformations, playersInformations, ownLeaderCardsHand, turnPlayerIndex);
 	}
 }

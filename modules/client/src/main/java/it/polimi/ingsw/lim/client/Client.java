@@ -1,21 +1,35 @@
 package it.polimi.ingsw.lim.client;
 
+import it.polimi.ingsw.lim.client.cli.CLIHandlerConnection;
+import it.polimi.ingsw.lim.client.cli.CLIHandlerInterfaceChoice;
+import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.gui.ControllerConnection;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.network.rmi.ConnectionHandlerRMI;
 import it.polimi.ingsw.lim.client.network.socket.ConnectionHandlerSocket;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.Instance;
+import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
 
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
 public class Client extends Instance
 {
+	private static final Map<CLIStatus, ICLIHandler> CLI_HANDLERS = new EnumMap<>(CLIStatus.class);
+
+	static {
+		Client.CLI_HANDLERS.put(CLIStatus.INTERFACE_CHOICE, new CLIHandlerInterfaceChoice());
+		Client.CLI_HANDLERS.put(CLIStatus.CONNECTION, new CLIHandlerConnection());
+	}
+
+	private CLIStatus cliStatus = CLIStatus.INTERFACE_CHOICE;
 	private String ip;
 	private int port;
 	private String username;
@@ -75,7 +89,8 @@ public class Client extends Instance
 				Client.getDebugger().log(Level.INFO, "Connection closed.");
 			}
 			if (isStopping) {
-				Client.getCliListener().end();
+				this.getCliScanner().close();
+				this.getCliListener().shutdownNow();
 				Platform.runLater(() -> WindowFactory.getInstance().closeWindow());
 			} else if (WindowFactory.getInstance().isWindowOpen(ControllerConnection.class)) {
 				WindowFactory.getInstance().enableWindow();
@@ -89,6 +104,21 @@ public class Client extends Instance
 	public static Client getInstance()
 	{
 		return (Client) Instance.getInstance();
+	}
+
+	public static Map<CLIStatus, ICLIHandler> getCliHandlers()
+	{
+		return CLI_HANDLERS;
+	}
+
+	public CLIStatus getCliStatus()
+	{
+		return this.cliStatus;
+	}
+
+	public void setCliStatus(CLIStatus cliStatus)
+	{
+		this.cliStatus = cliStatus;
 	}
 
 	public String getIp()

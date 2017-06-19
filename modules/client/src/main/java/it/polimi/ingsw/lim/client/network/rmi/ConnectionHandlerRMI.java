@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client.network.rmi;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.cli.CLIListenerClient;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
@@ -107,7 +106,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			} catch (AuthenticationFailedException exception) {
 				Client.getDebugger().log(Level.INFO, exception.getLocalizedMessage(), exception);
 				WindowFactory.getInstance().enableWindow();
-				if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 					Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
 				} else {
 					Client.getLogger().log(Level.INFO, exception.getLocalizedMessage());
@@ -129,7 +128,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			} catch (AuthenticationFailedException exception) {
 				Client.getDebugger().log(Level.INFO, exception.getLocalizedMessage(), exception);
 				WindowFactory.getInstance().enableWindow();
-				if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 					Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
 				} else {
 					Client.getLogger().log(Level.INFO, exception.getLocalizedMessage());
@@ -211,18 +210,18 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			GameStatus.getInstance().setCurrentPlayerData(playersData);
 			GameStatus.getInstance().setOwnPlayerIndex(((AuthenticationInformationsGameRMI) authenticationInformations).getOwnPlayerIndex());
 			if (((AuthenticationInformationsGameRMI) authenticationInformations).isGameInitialized()) {
-				GameStatus.getInstance().updateGameStatus(((AuthenticationInformationsGameRMI) authenticationInformations).getGameInformations(), ((AuthenticationInformationsGameRMI) authenticationInformations).getPlayersInformations());
+				GameStatus.getInstance().updateGameStatus(((AuthenticationInformationsGameRMI) authenticationInformations).getGameInformations(), ((AuthenticationInformationsGameRMI) authenticationInformations).getPlayersInformations(), ((AuthenticationInformationsGameRMI) authenticationInformations).getOwnLeaderCardsHand());
 				WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, () -> {
 					if (((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex() != ((AuthenticationInformationsGameRMI) authenticationInformations).getOwnPlayerIndex()) {
 						GameStatus.getInstance().setCurrentTurnPlayerIndex(((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex());
-						if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+						if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 							Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn());
 						} else {
 							Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex()).getUsername() });
 						}
 					} else {
 						GameStatus.getInstance().setCurrentAvailableActions(((AuthenticationInformationsGameRMI) authenticationInformations).getAvailableActions());
-						if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+						if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 							Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurn());
 						} else {
 							Client.getLogger().log(Level.INFO, "Your turn...");

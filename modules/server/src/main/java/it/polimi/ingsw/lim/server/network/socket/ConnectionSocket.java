@@ -183,21 +183,21 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions)
+	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, List<AvailableAction> availableActions)
 	{
-		new PacketGameUpdate(gameInformations, playersInformations, availableActions).send(this.out);
+		new PacketGameUpdate(gameInformations, playersInformations, ownLeaderCardsHand, availableActions).send(this.out);
 	}
 
 	@Override
-	public void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, ExpectedAction expectedAction)
+	public void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, ExpectedAction expectedAction)
 	{
-		new PacketGameUpdateExpectedAction(gameInformations, playersInformations, expectedAction).send(this.out);
+		new PacketGameUpdateExpectedAction(gameInformations, playersInformations, ownLeaderCardsHand, expectedAction).send(this.out);
 	}
 
 	@Override
-	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, int turnPlayerIndex)
+	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, int turnPlayerIndex)
 	{
-		new PacketGameUpdateOtherTurn(gameInformations, playersInformations, turnPlayerIndex).send(this.out);
+		new PacketGameUpdateOtherTurn(gameInformations, playersInformations, ownLeaderCardsHand, turnPlayerIndex).send(this.out);
 	}
 
 	ObjectInputStream getIn()

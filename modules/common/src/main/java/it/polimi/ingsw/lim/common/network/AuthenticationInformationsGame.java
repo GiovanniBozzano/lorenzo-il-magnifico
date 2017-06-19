@@ -17,6 +17,7 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 	private boolean gameInitialized;
 	private GameInformations gameInformations;
 	private List<PlayerInformations> playersInformations;
+	private List<Integer> ownLeaderCardsHand;
 	private int turnPlayerIndex;
 	private List<AvailableAction> availableActions;
 
@@ -78,6 +79,16 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 	public void setPlayersInformations(List<PlayerInformations> playersInformations)
 	{
 		this.playersInformations = playersInformations;
+	}
+
+	public List<Integer> getOwnLeaderCardsHand()
+	{
+		return this.ownLeaderCardsHand;
+	}
+
+	public void setOwnLeaderCardsHand(List<Integer> ownLeaderCardsHand)
+	{
+		this.ownLeaderCardsHand = ownLeaderCardsHand;
 	}
 
 	public int getTurnPlayerIndex()

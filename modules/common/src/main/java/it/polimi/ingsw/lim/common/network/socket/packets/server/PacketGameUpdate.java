@@ -13,13 +13,15 @@ public class PacketGameUpdate extends Packet
 {
 	private final GameInformations gameInformations;
 	private final List<PlayerInformations> playersInformations;
+	private final List<Integer> ownLeaderCardsHand;
 	private final List<AvailableAction> availableActions;
 
-	public PacketGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<AvailableAction> availableActions)
+	public PacketGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, List<AvailableAction> availableActions)
 	{
 		super(PacketType.GAME_UPDATE);
 		this.gameInformations = gameInformations;
 		this.playersInformations = new ArrayList<>(playersInformations);
+		this.ownLeaderCardsHand = new ArrayList<>(ownLeaderCardsHand);
 		this.availableActions = new ArrayList<>(availableActions);
 	}
 
@@ -31,6 +33,11 @@ public class PacketGameUpdate extends Packet
 	public List<PlayerInformations> getPlayersInformations()
 	{
 		return this.playersInformations;
+	}
+
+	public List<Integer> getOwnLeaderCardsHand()
+	{
+		return this.ownLeaderCardsHand;
 	}
 
 	public List<AvailableAction> getAvailableActions()

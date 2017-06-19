@@ -2,10 +2,10 @@ package it.polimi.ingsw.lim.client.cli;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.Main;
-import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.cli.IInputHandler;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,12 +17,14 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 
 	static {
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(1, cliHandler -> {
-			((CLIListenerClient) Client.getCliListener()).setStatus(CLIStatus.NONE);
-			Main.launch(Main.class, Main.getArgs());
+			try {
+				Main.launch(Main.class, Main.getArgs());
+			} catch (Exception exception) {
+				Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
 			return true;
 		});
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(2, cliHandler -> {
-			((CLIListenerClient) Client.getCliListener()).setStatus(CLIStatus.CONNECTION);
 			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
 			Client.getLogger().log(Level.INFO, "1 - RMI");
 			Client.getLogger().log(Level.INFO, "2 - Socket");

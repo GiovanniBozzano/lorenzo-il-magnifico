@@ -16,6 +16,9 @@ public class DebuggerFormatter extends Formatter
 	@Override
 	public String format(LogRecord logRecord)
 	{
+		if (logRecord.getLevel().intValue() >= Level.OFF.intValue()) {
+			return "";
+		}
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(DATE_FORMAT.format(new Date(logRecord.getMillis())));
 		stringBuilder.append(" - ");
