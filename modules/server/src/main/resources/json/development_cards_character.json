@@ -688,7 +688,8 @@
 				"actionReward": {
 					"description": "You can perform a HARVEST ACTION at\nVALUE 4 without placing a Family Member.\nYou can pay servants to increase the\naction value (if you have cards that modify\nthe Harvest value, calculate that bonus).",
 					"type": "HARVEST",
-					"value": 4
+					"value": 4,
+					"applyModifiers": true
 				},
 				"resourceAmounts": [
 					{
@@ -720,7 +721,8 @@
 				"actionReward": {
 					"description": "You can perform a PRODUCTION ACTION at\nVALUE 4 without placing a Family Member.\nYou can pay servants to increase the\naction value (if you have cards that modify\nthe Production value, calculate that\nbonus).",
 					"type": "PRODUCTION",
-					"value": 4
+					"value": 4,
+					"applyModifiers": true
 				},
 				"resourceAmounts": [
 					{
