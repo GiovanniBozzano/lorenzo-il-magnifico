@@ -4,14 +4,14 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsRefuseReward;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
-import it.polimi.ingsw.lim.server.network.Connection;
 
 public class ActionRefuseReward extends ActionInformationsRefuseReward implements IAction
 {
-	private final Connection player;
+	private final Player player;
 
-	public ActionRefuseReward(Connection player)
+	public ActionRefuseReward(Player player)
 	{
 		super();
 		this.player = player;
@@ -21,7 +21,7 @@ public class ActionRefuseReward extends ActionInformationsRefuseReward implement
 	public boolean isLegal()
 	{
 		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return false;
 		}
@@ -41,7 +41,7 @@ public class ActionRefuseReward extends ActionInformationsRefuseReward implement
 	@Override
 	public void apply()
 	{
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return;
 		}

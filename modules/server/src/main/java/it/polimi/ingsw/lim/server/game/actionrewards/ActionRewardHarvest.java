@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardHarvest;
 import it.polimi.ingsw.lim.server.game.GameHandler;
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class ActionRewardHarvest extends ActionReward
 {
@@ -19,7 +19,7 @@ public class ActionRewardHarvest extends ActionReward
 	}
 
 	@Override
-	public ExpectedAction createExpectedAction(GameHandler gameHandler, Connection player)
+	public ExpectedAction createExpectedAction(GameHandler gameHandler, Player player)
 	{
 		return new ExpectedActionChooseRewardHarvest(this.value);
 	}

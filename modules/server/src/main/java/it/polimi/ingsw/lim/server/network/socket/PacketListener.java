@@ -8,7 +8,8 @@ import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.*;
-import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsSocket;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
+import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsLobbySocket;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.*;
@@ -160,23 +161,55 @@ class PacketListener extends Thread
 					player.sendRoomEntryOther(trimmedUsername);
 					playerUsernames.add(player.getUsername());
 				}
-				this.connectionSocket.sendAuthenticationConfirmation(new AuthenticationInformationsSocket(developmentCardsBuildingsInformations, developmentCardsCharacterInformations, developmentsCardTerritoryInformations, developmentCardsVentureInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, personalBonusTilesInformations, new RoomInformations(targetRoom.getRoomType(), playerUsernames), trimmedUsername));
+				AuthenticationInformationsLobbySocket authenticationInformations = new AuthenticationInformationsLobbySocket();
+				authenticationInformations.setDevelopmentCardsBuildingInformations(developmentCardsBuildingsInformations);
+				authenticationInformations.setDevelopmentCardsCharacterInformations(developmentCardsCharacterInformations);
+				authenticationInformations.setDevelopmentCardsTerritoryInformations(developmentsCardTerritoryInformations);
+				authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
+				authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
+				authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
+				authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
+				authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
+				authenticationInformations.setGameStarted(true);
+				authenticationInformations.setRoomInformations(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
+				authenticationInformations.setUsername(trimmedUsername);
+				this.connectionSocket.sendAuthenticationConfirmation(authenticationInformations);
 			} else {
 				for (Connection player : playerRoom.getPlayers()) {
 					if (player.getUsername().equals(trimmedUsername)) {
-						player.getPlayerHandler().setOnline(true);
-						this.connectionSocket.setPlayerHandler(player.getPlayerHandler());
+						this.connectionSocket.setPlayer(player.getPlayer());
+						this.connectionSocket.getPlayer().setConnection(this.connectionSocket);
+						this.connectionSocket.getPlayer().setOnline(true);
 						playerRoom.getPlayers().set(playerRoom.getPlayers().indexOf(player), this.connectionSocket);
 						playerRoom.getPlayers().remove(player);
 						break;
 					}
 				}
-				// TODO aggiorno il giocatore
-				List<String> playerUsernames = new ArrayList<>();
-				for (Connection player : playerRoom.getPlayers()) {
-					playerUsernames.add(player.getUsername());
+				AuthenticationInformationsGame authenticationInformations = new AuthenticationInformationsGame();
+				authenticationInformations.setDevelopmentCardsBuildingInformations(developmentCardsBuildingsInformations);
+				authenticationInformations.setDevelopmentCardsCharacterInformations(developmentCardsCharacterInformations);
+				authenticationInformations.setDevelopmentCardsTerritoryInformations(developmentsCardTerritoryInformations);
+				authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
+				authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
+				authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
+				authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
+				authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
+				authenticationInformations.setGameStarted(true);
+				authenticationInformations.setExcommunicationTiles(playerRoom.getGameHandler().getExcommunicationTilesIndexes());
+				authenticationInformations.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
+				authenticationInformations.setOwnPlayerIndex(this.connectionSocket.getPlayer().getIndex());
+				if (playerRoom.getGameHandler().getLeaderCardsChoosingPlayers().isEmpty()) {
+					authenticationInformations.setGameInitialized(true);
+					authenticationInformations.setGameInformations(playerRoom.getGameHandler().generateGameInformations());
+					authenticationInformations.setPlayersInformations(playerRoom.getGameHandler().generatePlayersInformations());
+					authenticationInformations.setTurnPlayerIndex(playerRoom.getGameHandler().getTurnPlayer().getIndex());
+					if (playerRoom.getGameHandler().getTurnPlayer().getIndex() != this.connectionSocket.getPlayer().getIndex()) {
+						authenticationInformations.setAvailableActions(playerRoom.getGameHandler().generateAvailableActions(this.connectionSocket.getPlayer()));
+					}
+				} else {
+					authenticationInformations.setGameInitialized(false);
 				}
-				this.connectionSocket.sendAuthenticationConfirmation(new AuthenticationInformationsSocket(developmentCardsBuildingsInformations, developmentCardsCharacterInformations, developmentsCardTerritoryInformations, developmentCardsVentureInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, personalBonusTilesInformations, new RoomInformations(playerRoom.getRoomType(), playerUsernames), trimmedUsername));
+				this.connectionSocket.sendAuthenticationConfirmation(authenticationInformations);
 			}
 		}
 		return true;

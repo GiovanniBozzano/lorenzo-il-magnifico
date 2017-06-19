@@ -14,19 +14,19 @@ import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
+import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
-import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActionProductionStart extends ActionInformationsProductionStart implements IAction
 {
-	private final Connection player;
+	private final Player player;
 	private WorkSlotType workSlotType;
 	private int effectiveActionValue;
 
-	public ActionProductionStart(FamilyMemberType familyMemberType, int servants, Connection player)
+	public ActionProductionStart(FamilyMemberType familyMemberType, int servants, Player player)
 	{
 		super(familyMemberType, servants);
 		this.player = player;
@@ -36,7 +36,7 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 	public boolean isLegal()
 	{
 		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return false;
 		}
@@ -55,27 +55,27 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 		}
 		// check if the board slot is occupied and get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.PRODUCTION_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
-		eventPlaceFamilyMember.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+		eventPlaceFamilyMember.applyModifiers(this.player.getActiveModifiers());
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
-			for (Connection currentPlayer : room.getPlayers()) {
-				if (currentPlayer.getPlayerHandler().isOccupyingBoardPosition(BoardPosition.PRODUCTION_SMALL)) {
+			for (Player currentPlayer : gameHandler.getTurnOrder()) {
+				if (currentPlayer.isOccupyingBoardPosition(BoardPosition.PRODUCTION_SMALL)) {
 					this.workSlotType = WorkSlotType.BIG;
 					break;
 				}
 			}
 		}
 		// check if the player has the servants he sent
-		if (this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
+		if (this.player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
 			return false;
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
-		eventUseServants.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+		eventUseServants.applyModifiers(this.player.getActiveModifiers());
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
 		EventStartProduction eventStartProduction = new EventStartProduction(this.player, effectiveFamilyMemberValue + effectiveServants);
-		eventStartProduction.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
+		eventStartProduction.applyModifiers(this.player.getActiveModifiers());
 		this.effectiveActionValue = eventStartProduction.getActionValue();
 		return this.effectiveActionValue >= (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformations(BoardPosition.PRODUCTION_BIG).getValue() : BoardHandler.getBoardPositionInformations(BoardPosition.PRODUCTION_SMALL).getValue());
 	}
@@ -83,7 +83,7 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 	@Override
 	public void apply()
 	{
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return;
 		}
@@ -92,23 +92,23 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 			return;
 		}
 		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
-		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
-		this.player.getPlayerHandler().setCurrentProductionValue(this.effectiveActionValue);
+		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
+		this.player.setCurrentProductionValue(this.effectiveActionValue);
 		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);
 		List<Integer> availableCards = new ArrayList<>();
-		for (DevelopmentCardBuilding developmentCardBuilding : this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.BUILDING, DevelopmentCardBuilding.class)) {
+		for (DevelopmentCardBuilding developmentCardBuilding : this.player.getPlayerCardHandler().getDevelopmentCards(CardType.BUILDING, DevelopmentCardBuilding.class)) {
 			if (developmentCardBuilding.getActivationValue() <= this.effectiveActionValue) {
 				availableCards.add(developmentCardBuilding.getIndex());
 			}
 		}
 		if (availableCards.isEmpty()) {
-			EventGainResources eventGainResources = new EventGainResources(this.player, this.player.getPlayerHandler().getPersonalBonusTile().getProductionInstantResources(), ResourcesSource.WORK);
-			eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
-			this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-			int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+			EventGainResources eventGainResources = new EventGainResources(this.player, this.player.getPersonalBonusTile().getProductionInstantResources(), ResourcesSource.WORK);
+			eventGainResources.applyModifiers(this.player.getActiveModifiers());
+			this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+			int councilPrivilegesCount = this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 			if (councilPrivilegesCount > 0) {
-				this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
-				this.player.getPlayerHandler().getCouncilPrivileges().add(councilPrivilegesCount);
+				this.player.getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+				this.player.getCouncilPrivileges().add(councilPrivilegesCount);
 				gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 				gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
 				return;

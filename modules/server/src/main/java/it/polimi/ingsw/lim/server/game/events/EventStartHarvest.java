@@ -1,12 +1,12 @@
 package it.polimi.ingsw.lim.server.game.events;
 
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class EventStartHarvest extends Event
 {
 	private int actionValue;
 
-	public EventStartHarvest(Connection player, int actionValue)
+	public EventStartHarvest(Player player, int actionValue)
 	{
 		super(player);
 		this.actionValue = actionValue;

@@ -3,13 +3,13 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsPassTurn;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class ActionPassTurn extends ActionInformationsPassTurn implements IAction
 {
-	private final Connection player;
+	private final Player player;
 
-	public ActionPassTurn(Connection player)
+	public ActionPassTurn(Player player)
 	{
 		super();
 		this.player = player;
@@ -19,7 +19,7 @@ public class ActionPassTurn extends ActionInformationsPassTurn implements IActio
 	public boolean isLegal()
 	{
 		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return false;
 		}
@@ -39,7 +39,7 @@ public class ActionPassTurn extends ActionInformationsPassTurn implements IActio
 	@Override
 	public void apply()
 	{
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return;
 		}

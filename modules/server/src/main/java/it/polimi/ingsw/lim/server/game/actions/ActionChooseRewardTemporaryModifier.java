@@ -7,13 +7,13 @@ import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class ActionChooseRewardTemporaryModifier extends ActionInformationsChooseRewardTemporaryModifier implements IAction
 {
-	private final Connection player;
+	private final Player player;
 
-	public ActionChooseRewardTemporaryModifier(FamilyMemberType familyMemberType, Connection player)
+	public ActionChooseRewardTemporaryModifier(FamilyMemberType familyMemberType, Player player)
 	{
 		super(familyMemberType);
 		this.player = player;
@@ -23,7 +23,7 @@ public class ActionChooseRewardTemporaryModifier extends ActionInformationsChoos
 	public boolean isLegal()
 	{
 		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return false;
 		}
@@ -47,7 +47,7 @@ public class ActionChooseRewardTemporaryModifier extends ActionInformationsChoos
 	@Override
 	public void apply()
 	{
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return;
 		}
@@ -66,8 +66,8 @@ public class ActionChooseRewardTemporaryModifier extends ActionInformationsChoos
 				event.setFamilyMemberValue(6);
 			}
 		};
-		this.player.getPlayerHandler().getTemporaryModifiers().add(modifier);
-		this.player.getPlayerHandler().getActiveModifiers().add(modifier);
+		this.player.getTemporaryModifiers().add(modifier);
+		this.player.getActiveModifiers().add(modifier);
 		gameHandler.setExpectedAction(null);
 		gameHandler.sendGameUpdate(this.player);
 	}

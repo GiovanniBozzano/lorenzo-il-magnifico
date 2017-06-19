@@ -5,14 +5,16 @@ import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
+import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlayerHandler
+public class Player
 {
+	private Connection connection;
 	private final int index;
 	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler();
 	private final PlayerResourceHandler playerResourceHandler = new PlayerResourceHandler(3, 2, 2);
@@ -27,8 +29,9 @@ public class PlayerHandler
 	private int currentProductionValue = 0;
 	private List<Integer> availableLeaderCards = new ArrayList<>();
 
-	public PlayerHandler(int index)
+	public Player(Connection connection, int index)
 	{
+		this.connection = connection;
 		this.index = index;
 		this.familyMembersPositions.put(FamilyMemberType.BLACK, BoardPosition.NONE);
 		this.familyMembersPositions.put(FamilyMemberType.ORANGE, BoardPosition.NONE);
@@ -44,6 +47,16 @@ public class PlayerHandler
 			}
 		}
 		return false;
+	}
+
+	public Connection getConnection()
+	{
+		return this.connection;
+	}
+
+	public void setConnection(Connection connection)
+	{
+		this.connection = connection;
 	}
 
 	public int getIndex()

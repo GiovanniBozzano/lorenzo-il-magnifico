@@ -80,7 +80,7 @@ public class Client extends Instance
 			} else if (WindowFactory.getInstance().isWindowOpen(ControllerConnection.class)) {
 				WindowFactory.getInstance().enableWindow();
 			} else {
-				WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, true);
+				WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION);
 			}
 		});
 		executorService.shutdown();

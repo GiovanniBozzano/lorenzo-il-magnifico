@@ -1,9 +1,9 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 @FunctionalInterface public interface IActionTransformer
 {
-	IAction transform(ActionInformations actionInformations, Connection player);
+	IAction transform(ActionInformations actionInformations, Player player);
 }

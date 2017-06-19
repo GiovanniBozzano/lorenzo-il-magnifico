@@ -8,9 +8,9 @@ import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.BoardPositionInformations;
 import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
-import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,7 +23,7 @@ public class BoardHandler
 	public static final Map<BoardPosition, BoardPositionInformations> BOARD_POSITIONS_INFORMATIONS = new BoardPositionsInformationsBuilder("/json/board_positions_instant_rewards.json").initialize();
 	private static final List<CouncilPalaceReward> COUNCIL_PRIVILEGE_REWARDS = new CouncilPrivilegeRewardsBuilder("/json/council_privilege_rewards.json").initialize();
 	private final Map<Period, ExcommunicationTile> excommunicationTiles;
-	private final List<Connection> councilPalaceOrder = new LinkedList<>();
+	private final List<Player> councilPalaceOrder = new LinkedList<>();
 
 	public BoardHandler(Map<Period, ExcommunicationTile> excommunicationTiles)
 	{
@@ -48,7 +48,7 @@ public class BoardHandler
 		return this.excommunicationTiles;
 	}
 
-	public List<Connection> getCouncilPalaceOrder()
+	public List<Player> getCouncilPalaceOrder()
 	{
 		return this.councilPalaceOrder;
 	}

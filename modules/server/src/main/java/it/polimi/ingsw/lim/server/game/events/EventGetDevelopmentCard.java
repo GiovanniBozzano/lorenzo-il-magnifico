@@ -3,7 +3,7 @@ package it.polimi.ingsw.lim.server.game.events;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class EventGetDevelopmentCard extends Event
 	private boolean ignoreTerritoriesSlotLock = false;
 	private boolean getBoardPositionReward = true;
 
-	public EventGetDevelopmentCard(Connection player, CardType cardType, Row row, List<ResourceAmount> cost, int actionValue)
+	public EventGetDevelopmentCard(Player player, CardType cardType, Row row, List<ResourceAmount> cost, int actionValue)
 	{
 		super(player);
 		this.cardType = cardType;

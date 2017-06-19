@@ -1,12 +1,12 @@
 package it.polimi.ingsw.lim.server.game.events;
 
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class EventPreVictoryPointsCalculation extends Event
 {
 	private int victoryPoints;
 
-	public EventPreVictoryPointsCalculation(Connection player, int victoryPoints)
+	public EventPreVictoryPointsCalculation(Player player, int victoryPoints)
 	{
 		super(player);
 		this.victoryPoints = victoryPoints;

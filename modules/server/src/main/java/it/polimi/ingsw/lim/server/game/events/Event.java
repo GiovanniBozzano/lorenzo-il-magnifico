@@ -1,15 +1,15 @@
 package it.polimi.ingsw.lim.server.game.events;
 
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 import java.util.List;
 
 public abstract class Event
 {
-	private final Connection player;
+	private final Player player;
 
-	Event(Connection player)
+	Event(Player player)
 	{
 		this.player = player;
 	}
@@ -21,7 +21,7 @@ public abstract class Event
 		}
 	}
 
-	public Connection getPlayer()
+	public Player getPlayer()
 	{
 		return this.player;
 	}

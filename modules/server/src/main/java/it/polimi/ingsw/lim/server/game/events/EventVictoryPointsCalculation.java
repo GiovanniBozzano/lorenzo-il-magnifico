@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.server.game.events;
 
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class EventVictoryPointsCalculation extends Event
 {
@@ -8,7 +8,7 @@ public class EventVictoryPointsCalculation extends Event
 	private boolean countingCharacters = true;
 	private boolean countingVentures = true;
 
-	public EventVictoryPointsCalculation(Connection player)
+	public EventVictoryPointsCalculation(Player player)
 	{
 		super(player);
 	}

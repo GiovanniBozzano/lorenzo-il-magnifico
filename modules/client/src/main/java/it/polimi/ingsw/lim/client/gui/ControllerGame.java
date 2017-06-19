@@ -581,8 +581,6 @@ public class ControllerGame extends CustomController
 	@FXML
 	private void handleLeaderCardsButtonAction()
 	{
-		//this.leaderCardsDialogLayout.setPrefWidth(this.leaderCardsTabPane.getWidth() + this.cardDialogLayout.getInsets().getLeft() + this.cardDialogLayout.getInsets().getRight());
-		//this.leaderCardsDialogLayout.setPrefHeight(this.leaderCardsTabPane.getHeight() + this.cardDialogLayout.getInsets().getTop() + this.cardDialogLayout.getInsets().getBottom() + 20.0D);
 		this.leaderCardsDialog.show();
 	}
 
@@ -941,11 +939,11 @@ public class ControllerGame extends CustomController
 		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "Your turn");
 	}
 
-	public void setOtherTurn(int turnPlayerIndex)
+	public void setOtherTurn()
 	{
 		this.updateGame();
 		this.actionsButton.setDisable(true);
-		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() + "'s turn");
+		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getCurrentTurnPlayerIndex()).getUsername() + "'s turn");
 	}
 
 	private void updateGame()

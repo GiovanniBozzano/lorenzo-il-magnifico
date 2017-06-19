@@ -12,14 +12,14 @@ import java.util.Map;
 public class PacketGameStarted extends Packet
 {
 	private final Map<Period, Integer> excommunicationTiles;
-	private final Map<Integer, PlayerIdentification> playersData;
+	private final Map<Integer, PlayerIdentification> playersIdentifications;
 	private final int ownPlayerIndex;
 
-	public PacketGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex)
+	public PacketGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersIdentifications, int ownPlayerIndex)
 	{
 		super(PacketType.GAME_STARTED);
 		this.excommunicationTiles = new EnumMap<>(excommunicationTiles);
-		this.playersData = new HashMap<>(playersData);
+		this.playersIdentifications = new HashMap<>(playersIdentifications);
 		this.ownPlayerIndex = ownPlayerIndex;
 	}
 
@@ -28,9 +28,9 @@ public class PacketGameStarted extends Packet
 		return this.excommunicationTiles;
 	}
 
-	public Map<Integer, PlayerIdentification> getPlayersData()
+	public Map<Integer, PlayerIdentification> getPlayersIdentifications()
 	{
-		return this.playersData;
+		return this.playersIdentifications;
 	}
 
 	public int getOwnPlayerIndex()

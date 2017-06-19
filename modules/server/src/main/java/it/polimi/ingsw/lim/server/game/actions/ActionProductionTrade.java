@@ -12,8 +12,8 @@ import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
+import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
-import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,9 @@ import java.util.Map;
 
 public class ActionProductionTrade extends ActionInformationsProductionTrade implements IAction
 {
-	private final Connection player;
+	private final Player player;
 
-	public ActionProductionTrade(Map<Integer, ResourceTradeOption> chosenDevelopmentCardsBuilding, Connection player)
+	public ActionProductionTrade(Map<Integer, ResourceTradeOption> chosenDevelopmentCardsBuilding, Player player)
 	{
 		super(chosenDevelopmentCardsBuilding);
 		this.player = player;
@@ -33,7 +33,7 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 	public boolean isLegal()
 	{
 		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return false;
 		}
@@ -56,7 +56,7 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 	@Override
 	public void apply()
 	{
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return;
 		}
@@ -66,7 +66,7 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 		}
 		List<DevelopmentCardBuilding> developmentCardsBuilding = new ArrayList<>();
 		for (int index : this.getChosenDevelopmentCardsBuilding().keySet()) {
-			developmentCardsBuilding.add(this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, index, DevelopmentCardBuilding.class));
+			developmentCardsBuilding.add(this.player.getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, index, DevelopmentCardBuilding.class));
 		}
 		List<ResourceAmount> employedResources = new ArrayList<>();
 		List<ResourceAmount> producedResources = new ArrayList<>();
@@ -74,15 +74,15 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 			employedResources.addAll(this.getChosenDevelopmentCardsBuilding().get(developmentCardBuilding.getIndex()).getEmployedResources());
 			producedResources.addAll(this.getChosenDevelopmentCardsBuilding().get(developmentCardBuilding.getIndex()).getProducedResources());
 		}
-		producedResources.addAll(this.player.getPlayerHandler().getPersonalBonusTile().getProductionInstantResources());
+		producedResources.addAll(this.player.getPersonalBonusTile().getProductionInstantResources());
 		EventGainResources eventGainResources = new EventGainResources(this.player, producedResources, ResourcesSource.WORK);
-		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
-		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResources(employedResources);
-		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		this.player.getPlayerResourceHandler().subtractResources(employedResources);
+		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+		int councilPrivilegesCount = this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
-			this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
-			this.player.getPlayerHandler().getCouncilPrivileges().add(councilPrivilegesCount);
+			this.player.getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+			this.player.getCouncilPrivileges().add(councilPrivilegesCount);
 			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 			gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
 			return;

@@ -1,12 +1,12 @@
 package it.polimi.ingsw.lim.server.game.events;
 
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class EventChurchSupport extends Event
 {
 	private int victoryPoints;
 
-	public EventChurchSupport(Connection player, int victoryPoints)
+	public EventChurchSupport(Player player, int victoryPoints)
 	{
 		super(player);
 		this.victoryPoints = victoryPoints;

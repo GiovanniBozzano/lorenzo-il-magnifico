@@ -37,11 +37,10 @@ public class WindowFactory
 	 * <p>Opens a new window and closes the current one.
 	 *
 	 * @param fxmlFileLocation the .fxml file location.
-	 * @param closeOthers whether to close the other windows or not.
 	 */
-	public void setNewWindow(String fxmlFileLocation, boolean closeOthers)
+	public void setNewWindow(String fxmlFileLocation)
 	{
-		this.setNewWindow(fxmlFileLocation, closeOthers, null);
+		this.setNewWindow(fxmlFileLocation, null);
 	}
 
 	/**
@@ -50,11 +49,10 @@ public class WindowFactory
 	 * shown.
 	 *
 	 * @param fxmlFileLocation the .fxml file location.
-	 * @param closeOthers whether to close the other windows or not.
 	 * @param postShowing the thread to execute after the window has been
 	 * shown.
 	 */
-	public void setNewWindow(String fxmlFileLocation, boolean closeOthers, Runnable postShowing)
+	public void setNewWindow(String fxmlFileLocation, Runnable postShowing)
 	{
 		try {
 			WindowFactory.WINDOW_OPENING_SEMAPHORE.acquire();
@@ -89,9 +87,6 @@ public class WindowFactory
 			((CustomController) fxmlLoader.getController()).setStage(stage);
 			stage.setScene(new Scene(parent));
 			stage.centerOnScreen();
-			if (closeOthers) {
-				this.closeWindow();
-			}
 			Platform.runLater(() -> {
 				stage.show();
 				((CustomController) fxmlLoader.getController()).setupGui();

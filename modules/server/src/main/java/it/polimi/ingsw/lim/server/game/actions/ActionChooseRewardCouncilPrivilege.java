@@ -8,9 +8,9 @@ import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
+import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
-import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,9 +19,9 @@ import java.util.Set;
 
 public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChooseRewardCouncilPrivilege implements IAction
 {
-	private final Connection player;
+	private final Player player;
 
-	public ActionChooseRewardCouncilPrivilege(List<List<Integer>> councilPalaceRewardIndexes, Connection player)
+	public ActionChooseRewardCouncilPrivilege(List<List<Integer>> councilPalaceRewardIndexes, Player player)
 	{
 		super(councilPalaceRewardIndexes);
 		this.player = player;
@@ -31,7 +31,7 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 	public boolean isLegal()
 	{
 		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return false;
 		}
@@ -50,7 +50,7 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 		}
 		for (List<Integer> differentIndexes : this.getCouncilPalaceRewardIndexes()) {
 			boolean validIndexes = false;
-			for (Integer councilPrivilegesCount : this.player.getPlayerHandler().getCouncilPrivileges()) {
+			for (Integer councilPrivilegesCount : this.player.getCouncilPrivileges()) {
 				if (councilPrivilegesCount == differentIndexes.size()) {
 					validIndexes = true;
 					break;
@@ -87,7 +87,7 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 	@Override
 	public void apply()
 	{
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return;
 		}
@@ -95,7 +95,7 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 		if (gameHandler == null) {
 			return;
 		}
-		this.player.getPlayerHandler().getCouncilPrivileges().clear();
+		this.player.getCouncilPrivileges().clear();
 		List<ResourceAmount> resourceReward = new ArrayList<>();
 		for (List<Integer> differentIndexes : this.getCouncilPalaceRewardIndexes()) {
 			for (int councilPalaceRewardIndex : differentIndexes) {
@@ -103,8 +103,8 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 			}
 		}
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.COUNCIL_PRIVILEGE);
-		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
-		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		if (gameHandler.getCurrentPhase() == Phase.LEADER) {
 			gameHandler.sendGameUpdate(this.player);
 			return;

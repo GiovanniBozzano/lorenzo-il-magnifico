@@ -191,7 +191,7 @@ public enum ExcommunicationTile
 		@Override
 		public void apply(EventPostVictoryPointsCalculation event)
 		{
-			event.setVictoryPoints(event.getVictoryPoints() - event.getPlayer().getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT));
+			event.setVictoryPoints(event.getVictoryPoints() - event.getPlayer().getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT));
 		}
 	}),
 	EXCOMMUNICATION_TILES_3_6(19, "/images/excommunication_tiles/.png", Period.THIRD, new Modifier<EventPostVictoryPointsCalculation>(EventPostVictoryPointsCalculation.class, "At the end of the game, you lose\n1 Victory Point for every wood\nand stone on your Building\nCards’ costs. (For example, if all\nyour Building Cards cost 7 wood\nand 6 stone, you lose 13 Victory\nPoints.)")
@@ -199,7 +199,7 @@ public enum ExcommunicationTile
 		@Override
 		public void apply(EventPostVictoryPointsCalculation event)
 		{
-			for (DevelopmentCardBuilding developmentCardBuilding : event.getPlayer().getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.BUILDING, DevelopmentCardBuilding.class)) {
+			for (DevelopmentCardBuilding developmentCardBuilding : event.getPlayer().getPlayerCardHandler().getDevelopmentCards(CardType.BUILDING, DevelopmentCardBuilding.class)) {
 				for (ResourceCostOption resourceCostOption : developmentCardBuilding.getResourceCostOptions()) {
 					for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
 						if (resourceAmount.getResourceType() == ResourceType.STONE || resourceAmount.getResourceType() == ResourceType.WOOD) {
@@ -215,10 +215,10 @@ public enum ExcommunicationTile
 		@Override
 		public void apply(EventPostVictoryPointsCalculation event)
 		{
-			event.setVictoryPoints(event.getVictoryPoints() - event.getPlayer().getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.COIN));
-			event.setVictoryPoints(event.getVictoryPoints() - event.getPlayer().getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT));
-			event.setVictoryPoints(event.getVictoryPoints() - event.getPlayer().getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.STONE));
-			event.setVictoryPoints(event.getVictoryPoints() - event.getPlayer().getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.WOOD));
+			event.setVictoryPoints(event.getVictoryPoints() - event.getPlayer().getPlayerResourceHandler().getResources().get(ResourceType.COIN));
+			event.setVictoryPoints(event.getVictoryPoints() - event.getPlayer().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT));
+			event.setVictoryPoints(event.getVictoryPoints() - event.getPlayer().getPlayerResourceHandler().getResources().get(ResourceType.STONE));
+			event.setVictoryPoints(event.getVictoryPoints() - event.getPlayer().getPlayerResourceHandler().getResources().get(ResourceType.WOOD));
 		}
 	});
 	private final int index;

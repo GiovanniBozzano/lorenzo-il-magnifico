@@ -41,7 +41,7 @@ public class Main extends Application
 	@Override
 	public void start(Stage stage)
 	{
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, true, () -> Client.getCliListener().end());
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, () -> Client.getCliListener().end());
 		//WindowFactory.getInstance().setNewWindow("/fxml/SceneGame.fxml", true);
 	}
 

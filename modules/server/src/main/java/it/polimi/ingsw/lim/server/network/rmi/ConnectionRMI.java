@@ -9,7 +9,7 @@ import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
+import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
@@ -35,11 +35,11 @@ public class ConnectionRMI extends Connection
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 	}
 
-	ConnectionRMI(String name, IServerSession serverSession, PlayerHandler playerHandler)
+	ConnectionRMI(String name, IServerSession serverSession, Player player)
 	{
 		super(name);
 		this.serverSession = serverSession;
-		this.setPlayerHandler(playerHandler);
+		this.setPlayer(player);
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 	}
 

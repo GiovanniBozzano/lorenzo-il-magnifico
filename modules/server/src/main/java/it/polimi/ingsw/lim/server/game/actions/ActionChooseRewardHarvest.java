@@ -14,17 +14,17 @@ import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventStartHarvest;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
+import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
-import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActionChooseRewardHarvest extends ActionInformationsChooseRewardHarvest implements IAction
 {
-	private final Connection player;
+	private final Player player;
 
-	public ActionChooseRewardHarvest(int servants, Connection player)
+	public ActionChooseRewardHarvest(int servants, Player player)
 	{
 		super(servants);
 		this.player = player;
@@ -34,7 +34,7 @@ public class ActionChooseRewardHarvest extends ActionInformationsChooseRewardHar
 	public boolean isLegal()
 	{
 		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return false;
 		}
@@ -52,13 +52,13 @@ public class ActionChooseRewardHarvest extends ActionInformationsChooseRewardHar
 			return false;
 		}
 		// check if the player has the servants he sent
-		return this.player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) >= this.getServants();
+		return this.player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) >= this.getServants();
 	}
 
 	@Override
 	public void apply()
 	{
-		Room room = Room.getPlayerRoom(this.player);
+		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
 			return;
 		}
@@ -67,34 +67,34 @@ public class ActionChooseRewardHarvest extends ActionInformationsChooseRewardHar
 			return;
 		}
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
-		eventUseServants.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
-		this.player.getPlayerHandler().getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
+		eventUseServants.applyModifiers(this.player.getActiveModifiers());
+		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		List<ResourceAmount> resourceReward = new ArrayList<>();
-		if (((ActionRewardHarvest) this.player.getPlayerHandler().getCurrentActionReward()).isApplyModifiers()) {
-			EventStartHarvest eventStartHarvest = new EventStartHarvest(this.player, ((ActionRewardHarvest) this.player.getPlayerHandler().getCurrentActionReward()).getValue() + eventUseServants.getServants());
-			eventStartHarvest.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
-			for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
+		if (((ActionRewardHarvest) this.player.getCurrentActionReward()).isApplyModifiers()) {
+			EventStartHarvest eventStartHarvest = new EventStartHarvest(this.player, ((ActionRewardHarvest) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
+			eventStartHarvest.applyModifiers(this.player.getActiveModifiers());
+			for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
 				if (developmentCardTerritory.getActivationValue() > eventStartHarvest.getActionValue()) {
 					continue;
 				}
 				resourceReward.addAll(developmentCardTerritory.getHarvestResources());
 			}
 		} else {
-			for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerHandler().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
-				if (developmentCardTerritory.getActivationValue() > ((ActionRewardHarvest) this.player.getPlayerHandler().getCurrentActionReward()).getValue() + eventUseServants.getServants()) {
+			for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
+				if (developmentCardTerritory.getActivationValue() > ((ActionRewardHarvest) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants()) {
 					continue;
 				}
 				resourceReward.addAll(developmentCardTerritory.getHarvestResources());
 			}
 		}
-		resourceReward.addAll(this.player.getPlayerHandler().getPersonalBonusTile().getHarvestInstantResources());
+		resourceReward.addAll(this.player.getPersonalBonusTile().getHarvestInstantResources());
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.WORK);
-		eventGainResources.applyModifiers(this.player.getPlayerHandler().getActiveModifiers());
-		this.player.getPlayerHandler().getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-		int councilPrivilegesCount = this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+		int councilPrivilegesCount = this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
-			this.player.getPlayerHandler().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
-			this.player.getPlayerHandler().getCouncilPrivileges().add(councilPrivilegesCount);
+			this.player.getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+			this.player.getCouncilPrivileges().add(councilPrivilegesCount);
 			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 			gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
 			return;

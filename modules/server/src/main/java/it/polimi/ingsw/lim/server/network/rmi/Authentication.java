@@ -8,7 +8,9 @@ import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.*;
-import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsRMI;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
+import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsGameRMI;
+import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsLobbyRMI;
 import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -36,7 +38,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	}
 
 	@Override
-	public AuthenticationInformationsRMI sendLogin(String version, String username, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
+	public AuthenticationInformations sendLogin(String version, String username, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
 	{
 		String trimmedUsername = username.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		Utils.checkLogin(version, trimmedUsername, password);
@@ -45,7 +47,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	}
 
 	@Override
-	public AuthenticationInformationsRMI sendRegistration(String version, String username, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
+	public AuthenticationInformations sendRegistration(String version, String username, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
 	{
 		String trimmedUsername = username.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		Utils.checkRegistration(version, trimmedUsername, password);
@@ -81,7 +83,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 		return Objects.hash(super.hashCode(), this.clientSessions);
 	}
 
-	private AuthenticationInformationsRMI finalizeAuthentication(String username, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
+	private AuthenticationInformations finalizeAuthentication(String username, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
 	{
 		Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuildingsInformations = new HashMap<>();
 		Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacterInformations = new HashMap<>();
@@ -140,13 +142,26 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 				player.sendRoomEntryOther(username);
 				playerUsernames.add(player.getUsername());
 			}
-			return new AuthenticationInformationsRMI(developmentCardsBuildingsInformations, developmentCardsCharacterInformations, developmentsCardTerritoryInformations, developmentCardsVentureInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, personalBonusTilesInformations, new RoomInformations(targetRoom.getRoomType(), playerUsernames), clientSession);
+			AuthenticationInformationsLobbyRMI authenticationInformations = new AuthenticationInformationsLobbyRMI();
+			authenticationInformations.setDevelopmentCardsBuildingInformations(developmentCardsBuildingsInformations);
+			authenticationInformations.setDevelopmentCardsCharacterInformations(developmentCardsCharacterInformations);
+			authenticationInformations.setDevelopmentCardsTerritoryInformations(developmentsCardTerritoryInformations);
+			authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
+			authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
+			authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
+			authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
+			authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
+			authenticationInformations.setGameStarted(false);
+			authenticationInformations.setRoomInformations(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
+			authenticationInformations.setClientSession(clientSession);
+			return authenticationInformations;
 		} else {
 			ConnectionRMI connectionRmi = null;
 			for (Connection player : playerRoom.getPlayers()) {
 				if (player.getUsername().equals(username)) {
-					player.getPlayerHandler().setOnline(true);
-					connectionRmi = new ConnectionRMI(username, serverSession, player.getPlayerHandler());
+					connectionRmi = new ConnectionRMI(username, serverSession, player.getPlayer());
+					connectionRmi.getPlayer().setConnection(connectionRmi);
+					connectionRmi.getPlayer().setOnline(true);
 					playerRoom.getPlayers().set(playerRoom.getPlayers().indexOf(player), connectionRmi);
 					playerRoom.getPlayers().remove(player);
 					break;
@@ -158,12 +173,32 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			ClientSession clientSession = new ClientSession(connectionRmi);
 			this.clientSessions.add(clientSession);
 			Server.getInstance().getConnections().add(connectionRmi);
-			// TODO aggiorno il giocatore
-			List<String> playerUsernames = new ArrayList<>();
-			for (Connection player : playerRoom.getPlayers()) {
-				playerUsernames.add(player.getUsername());
+			AuthenticationInformationsGameRMI authenticationInformations = new AuthenticationInformationsGameRMI();
+			authenticationInformations.setDevelopmentCardsBuildingInformations(developmentCardsBuildingsInformations);
+			authenticationInformations.setDevelopmentCardsCharacterInformations(developmentCardsCharacterInformations);
+			authenticationInformations.setDevelopmentCardsTerritoryInformations(developmentsCardTerritoryInformations);
+			authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
+			authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
+			authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
+			authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
+			authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
+			authenticationInformations.setGameStarted(true);
+			authenticationInformations.setExcommunicationTiles(playerRoom.getGameHandler().getExcommunicationTilesIndexes());
+			authenticationInformations.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
+			authenticationInformations.setOwnPlayerIndex(connectionRmi.getPlayer().getIndex());
+			if (playerRoom.getGameHandler().getLeaderCardsChoosingPlayers().isEmpty()) {
+				authenticationInformations.setGameInitialized(true);
+				authenticationInformations.setGameInformations(playerRoom.getGameHandler().generateGameInformations());
+				authenticationInformations.setPlayersInformations(playerRoom.getGameHandler().generatePlayersInformations());
+				authenticationInformations.setTurnPlayerIndex(playerRoom.getGameHandler().getTurnPlayer().getIndex());
+				if (playerRoom.getGameHandler().getTurnPlayer().getIndex() != connectionRmi.getPlayer().getIndex()) {
+					authenticationInformations.setAvailableActions(playerRoom.getGameHandler().generateAvailableActions(connectionRmi.getPlayer()));
+				}
+			} else {
+				authenticationInformations.setGameInitialized(false);
 			}
-			return new AuthenticationInformationsRMI(developmentCardsBuildingsInformations, developmentCardsCharacterInformations, developmentsCardTerritoryInformations, developmentCardsVentureInformations, leaderCardsInformations, excommunicationTilesInformations, councilPalaceRewardsInformations, personalBonusTilesInformations, new RoomInformations(playerRoom.getRoomType(), playerUsernames), clientSession);
+			authenticationInformations.setClientSession(clientSession);
+			return authenticationInformations;
 		}
 	}
 

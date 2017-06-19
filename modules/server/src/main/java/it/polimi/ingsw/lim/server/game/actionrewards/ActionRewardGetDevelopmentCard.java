@@ -14,7 +14,7 @@ import it.polimi.ingsw.lim.server.game.actions.ActionChooseRewardGetDevelopmentC
 import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.modifiers.ModifierGetDevelopmentCard;
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -35,11 +35,11 @@ public class ActionRewardGetDevelopmentCard extends ActionReward
 	}
 
 	@Override
-	public ExpectedAction createExpectedAction(GameHandler gameHandler, Connection player)
+	public ExpectedAction createExpectedAction(GameHandler gameHandler, Player player)
 	{
 		List<AvailableActionChooseRewardGetDevelopmentCard> availableActions = new ArrayList<>();
 		List<List<ResourceAmount>> discountChoices = new ArrayList<>();
-		for (Modifier modifier : player.getPlayerHandler().getActiveModifiers()) {
+		for (Modifier modifier : player.getActiveModifiers()) {
 			if (modifier.getEventClass() == EventGetDevelopmentCard.class) {
 				discountChoices.addAll(((ModifierGetDevelopmentCard) modifier).getDiscountChoices());
 			}
@@ -57,19 +57,19 @@ public class ActionRewardGetDevelopmentCard extends ActionReward
 				List<List<ResourceAmount>> availableInstantDiscountChoices = new ArrayList<>();
 				List<List<ResourceAmount>> availableDiscountChoises = new ArrayList<>();
 				if (gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(entry.getKey()).get(row).getResourceCostOptions().isEmpty()) {
-					if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, null, null, null, player).isLegal()) {
+					if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, null, null, null, player).isLegal()) {
 						validCard = true;
 					}
 				} else {
 					for (ResourceCostOption resourceCostOption : gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(entry.getKey()).get(row).getResourceCostOptions()) {
 						if (this.instantDiscountChoices.isEmpty()) {
 							if (discountChoices.isEmpty()) {
-								if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, null, null, resourceCostOption, player).isLegal()) {
+								if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, null, null, resourceCostOption, player).isLegal()) {
 									validCard = true;
 								}
 							} else {
 								for (List<ResourceAmount> discountChoice : discountChoices) {
-									if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, null, discountChoice, resourceCostOption, player).isLegal()) {
+									if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, null, discountChoice, resourceCostOption, player).isLegal()) {
 										validCard = true;
 										if (!availableDiscountChoises.contains(discountChoice)) {
 											availableDiscountChoises.add(discountChoice);
@@ -80,7 +80,7 @@ public class ActionRewardGetDevelopmentCard extends ActionReward
 						} else {
 							if (discountChoices.isEmpty()) {
 								for (List<ResourceAmount> instantDiscountChoice : this.instantDiscountChoices) {
-									if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, instantDiscountChoice, null, resourceCostOption, player).isLegal()) {
+									if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, instantDiscountChoice, null, resourceCostOption, player).isLegal()) {
 										validCard = true;
 										if (!availableInstantDiscountChoices.contains(instantDiscountChoice)) {
 											availableInstantDiscountChoices.add(instantDiscountChoice);
@@ -90,7 +90,7 @@ public class ActionRewardGetDevelopmentCard extends ActionReward
 							} else {
 								for (List<ResourceAmount> instantDiscountChoice : this.instantDiscountChoices) {
 									for (List<ResourceAmount> discountChoice : discountChoices) {
-										if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerHandler().getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, instantDiscountChoice, discountChoice, resourceCostOption, player).isLegal()) {
+										if (new ActionChooseRewardGetDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, instantDiscountChoice, discountChoice, resourceCostOption, player).isLegal()) {
 											validCard = true;
 											if (!availableInstantDiscountChoices.contains(instantDiscountChoice)) {
 												availableInstantDiscountChoices.add(instantDiscountChoice);

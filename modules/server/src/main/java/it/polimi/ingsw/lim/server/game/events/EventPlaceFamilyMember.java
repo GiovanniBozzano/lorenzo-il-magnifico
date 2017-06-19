@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.server.game.events;
 
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class EventPlaceFamilyMember extends Event
 {
@@ -13,7 +13,7 @@ public class EventPlaceFamilyMember extends Event
 	private boolean ignoreOccupiedTax = false;
 	private boolean cancelled = false;
 
-	public EventPlaceFamilyMember(Connection player, FamilyMemberType familyMemberType, BoardPosition boardPosition, int familyMemberValue)
+	public EventPlaceFamilyMember(Player player, FamilyMemberType familyMemberType, BoardPosition boardPosition, int familyMemberValue)
 	{
 		super(player);
 		this.familyMemberType = familyMemberType;

@@ -9,7 +9,7 @@ import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.player.PlayerHandler;
+import it.polimi.ingsw.lim.server.game.player.Player;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,7 @@ public abstract class Connection
 {
 	private String username;
 	private final ScheduledExecutorService heartbeat = Executors.newSingleThreadScheduledExecutor();
-	private PlayerHandler playerHandler;
+	private Player player;
 
 	protected Connection()
 	{
@@ -31,10 +31,10 @@ public abstract class Connection
 		this.username = username;
 	}
 
-	protected Connection(String username, PlayerHandler playerHandler)
+	protected Connection(String username, Player player)
 	{
 		this.username = username;
-		this.playerHandler = playerHandler;
+		this.player = player;
 	}
 
 	public static void disconnectAll()
@@ -48,7 +48,7 @@ public abstract class Connection
 	public static void broadcastChatMessage(String text)
 	{
 		for (Connection connection : Server.getInstance().getConnections()) {
-			if (connection.getUsername() != null && (connection.getPlayerHandler() == null || connection.getPlayerHandler().isOnline())) {
+			if (connection.getUsername() != null && (connection.getPlayer() == null || connection.getPlayer().isOnline())) {
 				connection.sendChatMessage(text);
 			}
 		}
@@ -58,8 +58,8 @@ public abstract class Connection
 	{
 		this.heartbeat.shutdownNow();
 		Server.getInstance().getConnections().remove(this);
-		if (this.playerHandler != null) {
-			this.playerHandler.setOnline(false);
+		if (this.player != null) {
+			this.player.setOnline(false);
 		}
 		Room room = Room.getPlayerRoom(this);
 		if (room == null) {
@@ -116,7 +116,7 @@ public abstract class Connection
 			return;
 		}
 		for (Connection otherConnection : room.getPlayers()) {
-			if (otherConnection != this && (otherConnection.getPlayerHandler() == null || otherConnection.getPlayerHandler().isOnline())) {
+			if (otherConnection != this && (otherConnection.getPlayer() == null || otherConnection.getPlayer().isOnline())) {
 				otherConnection.sendChatMessage("[" + this.getUsername() + "]: " + text);
 			}
 		}
@@ -132,7 +132,7 @@ public abstract class Connection
 		if (gameHandler == null) {
 			return;
 		}
-		gameHandler.receivePersonalBonusTileChoice(this, personalBonusTileIndex);
+		gameHandler.receivePersonalBonusTileChoice(this.getPlayer(), personalBonusTileIndex);
 	}
 
 	public void handleGameLeaderCardPlayerChoice(int leaderCardIndex)
@@ -145,7 +145,7 @@ public abstract class Connection
 		if (gameHandler == null) {
 			return;
 		}
-		gameHandler.receiveLeaderCardChoice(this, leaderCardIndex);
+		gameHandler.receiveLeaderCardChoice(this.getPlayer(), leaderCardIndex);
 	}
 
 	public String getUsername()
@@ -163,13 +163,13 @@ public abstract class Connection
 		return this.heartbeat;
 	}
 
-	public PlayerHandler getPlayerHandler()
+	public Player getPlayer()
 	{
-		return this.playerHandler;
+		return this.player;
 	}
 
-	public void setPlayerHandler(PlayerHandler playerHandler)
+	public void setPlayer(Player player)
 	{
-		this.playerHandler = playerHandler;
+		this.player = player;
 	}
 }

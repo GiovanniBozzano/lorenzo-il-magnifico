@@ -47,7 +47,7 @@ public class ConnectionHandler extends Thread
 			return;
 		}
 		try (ServerSocket serverSocket = new ServerSocket(this.socketPort)) {
-			WindowFactory.getInstance().setNewWindow(Utils.SCENE_MAIN, true, () -> {
+			WindowFactory.getInstance().setNewWindow(Utils.SCENE_MAIN, () -> {
 				Utils.displayToLog("Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
 				Server.getInstance().setExternalIp(Utils.getExternalIpAddress());
 				Platform.runLater(() -> ((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));

@@ -4,13 +4,18 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.cli.CLIListenerClient;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
+import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.client.gui.ControllerAuthentication;
+import it.polimi.ingsw.lim.client.gui.ControllerGame;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
-import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsSocket;
+import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
+import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsGameRMI;
+import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsLobbySocket;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketGameLeaderCardPlayerChoice;
@@ -26,6 +31,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -52,7 +60,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		this.packetListener = new PacketListener();
 		this.packetListener.start();
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_AUTHENTICATION, true);
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_AUTHENTICATION);
 	}
 
 	@Override
@@ -149,14 +157,46 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		this.sendDisconnectionAcknowledgement();
 	}
 
-	void handleAuthenticationConfirmation(AuthenticationInformationsSocket authenticationInformations)
+	void handleAuthenticationConfirmation(it.polimi.ingsw.lim.common.network.AuthenticationInformations authenticationInformations)
 	{
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
 			return;
 		}
-		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getCouncilPalaceRewardsInformations(), authenticationInformations.getPersonalBonusTilesInformations());
-		Client.getInstance().setUsername(authenticationInformations.getUsername());
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, true, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(authenticationInformations.getRoomInformations().getRoomType(), authenticationInformations.getRoomInformations().getPlayerNames())));
+		if (!authenticationInformations.isGameStarted()) {
+			GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getCouncilPalaceRewardsInformations(), authenticationInformations.getPersonalBonusTilesInformations());
+			Client.getInstance().setUsername(((AuthenticationInformationsLobbySocket) authenticationInformations).getUsername());
+			WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(((AuthenticationInformationsLobbySocket) authenticationInformations).getRoomInformations().getRoomType(), ((AuthenticationInformationsLobbySocket) authenticationInformations).getRoomInformations().getPlayerNames())));
+		} else {
+			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationsGame) authenticationInformations).getExcommunicationTiles());
+			Map<Integer, PlayerData> playersData = new HashMap<>();
+			for (Entry<Integer, PlayerIdentification> entry : ((AuthenticationInformationsGame) authenticationInformations).getPlayersIdentifications().entrySet()) {
+				playersData.put(entry.getKey(), new PlayerData(entry.getValue().getUsername(), entry.getValue().getColor()));
+			}
+			GameStatus.getInstance().setCurrentPlayerData(playersData);
+			GameStatus.getInstance().setOwnPlayerIndex(((AuthenticationInformationsGame) authenticationInformations).getOwnPlayerIndex());
+			if (((AuthenticationInformationsGameRMI) authenticationInformations).isGameInitialized()) {
+				GameStatus.getInstance().updateGameStatus(((AuthenticationInformationsGame) authenticationInformations).getGameInformations(), ((AuthenticationInformationsGame) authenticationInformations).getPlayersInformations());
+				WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, () -> {
+					if (((AuthenticationInformationsGame) authenticationInformations).getTurnPlayerIndex() != ((AuthenticationInformationsGameRMI) authenticationInformations).getOwnPlayerIndex()) {
+						GameStatus.getInstance().setCurrentTurnPlayerIndex(((AuthenticationInformationsGame) authenticationInformations).getTurnPlayerIndex());
+						if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+							Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn());
+						} else {
+							Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex()).getUsername() });
+						}
+					} else {
+						GameStatus.getInstance().setCurrentAvailableActions(((AuthenticationInformationsGameRMI) authenticationInformations).getAvailableActions());
+						if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
+							Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurn());
+						} else {
+							Client.getLogger().log(Level.INFO, "Your turn...");
+						}
+					}
+				});
+			} else {
+				WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME);
+			}
+		}
 	}
 
 	void handleAuthenticationFailure(String text)

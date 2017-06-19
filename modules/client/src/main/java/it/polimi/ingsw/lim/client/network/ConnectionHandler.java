@@ -223,7 +223,7 @@ public abstract class ConnectionHandler extends Thread
 		}
 		GameStatus.getInstance().setCurrentPlayerData(playersData);
 		GameStatus.getInstance().setOwnPlayerIndex(ownPlayerIndex);
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, true);
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME);
 	}
 
 	public void handleGameDisconnectionOther(int playerIndex)
@@ -320,7 +320,7 @@ public abstract class ConnectionHandler extends Thread
 		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations);
 		GameStatus.getInstance().setCurrentTurnPlayerIndex(turnPlayerIndex);
 		if (((CLIListenerClient) Client.getCliListener()).getStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn(turnPlayerIndex));
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn());
 		} else {
 			Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() });
 		}

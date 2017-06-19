@@ -33,33 +33,33 @@ public class Room
 				Server.getInstance().getRooms().remove(this);
 			} else {
 				for (Connection otherPlayer : this.players) {
-					if (otherPlayer != player && (otherPlayer.getPlayerHandler() == null || otherPlayer.getPlayerHandler().isOnline())) {
+					if (otherPlayer != player && (otherPlayer.getPlayer() == null || otherPlayer.getPlayer().isOnline())) {
 						otherPlayer.sendRoomExitOther(player.getUsername());
 					}
 				}
 			}
 			return;
 		}
-		player.getPlayerHandler().setOnline(false);
+		player.getPlayer().setOnline(false);
 		for (Connection otherPlayer : this.players) {
-			if (otherPlayer != player && otherPlayer.getPlayerHandler().isOnline()) {
-				otherPlayer.sendGameDisconnectionOther(player.getPlayerHandler().getIndex());
+			if (otherPlayer != player && otherPlayer.getPlayer().isOnline()) {
+				otherPlayer.sendGameDisconnectionOther(player.getPlayer().getIndex());
 			}
 		}
 		if (this.gameHandler.getCurrentPeriod() == null && this.gameHandler.getCurrentRound() == null) {
-			if (this.gameHandler.getPersonalBonusTileChoicePlayerIndex() == player.getPlayerHandler().getIndex()) {
+			if (this.gameHandler.getPersonalBonusTileChoicePlayerIndex() == player.getPlayer().getIndex()) {
 				int personalBonusTileIndex = this.gameHandler.getAvailablePersonalBonusTiles().get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailablePersonalBonusTiles().size()));
-				this.gameHandler.applyPersonalBonusTileChoice(player, personalBonusTileIndex);
+				this.gameHandler.applyPersonalBonusTileChoice(player.getPlayer(), personalBonusTileIndex);
 				return;
 			}
-			if (!this.gameHandler.getLeaderCardsChoosingPlayers().isEmpty() && this.gameHandler.getLeaderCardsChoosingPlayers().get(player)) {
-				int leaderCardIndex = this.gameHandler.getAvailableLeaderCards().get(player).get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailableLeaderCards().get(player).size()));
-				this.gameHandler.applyLeaderCardChoice(player, leaderCardIndex);
+			if (!this.gameHandler.getLeaderCardsChoosingPlayers().isEmpty() && this.gameHandler.getLeaderCardsChoosingPlayers().get(player.getPlayer())) {
+				int leaderCardIndex = this.gameHandler.getAvailableLeaderCards().get(player.getPlayer()).get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailableLeaderCards().get(player.getPlayer()).size()));
+				this.gameHandler.applyLeaderCardChoice(player.getPlayer(), leaderCardIndex);
 				return;
 			}
 			return;
 		}
-		if (this.gameHandler.getTurnPlayer() == player) {
+		if (this.gameHandler.getTurnPlayer() == player.getPlayer()) {
 			this.gameHandler.nextTurn();
 		}
 	}
