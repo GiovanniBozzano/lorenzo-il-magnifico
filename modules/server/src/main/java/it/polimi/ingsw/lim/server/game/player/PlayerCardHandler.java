@@ -42,6 +42,11 @@ public class PlayerCardHandler
 		return null;
 	}
 
+	public int getDevelopmentCardsNumber(CardType cardType)
+	{
+		return this.developmentCards.get(cardType).size();
+	}
+
 	public void addDevelopmentCard(DevelopmentCard developmentCard)
 	{
 		this.developmentCards.get(developmentCard.getCardType()).add(CardsHandler.getDevelopmentCardsTypes().get(developmentCard.getCardType()).cast(developmentCard));

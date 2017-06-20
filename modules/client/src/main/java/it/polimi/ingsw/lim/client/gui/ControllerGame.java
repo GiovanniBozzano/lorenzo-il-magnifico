@@ -24,6 +24,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -955,25 +956,41 @@ public class ControllerGame extends CustomController
 		JFXButton actionsButton = new JFXButton();
 		Label label = new Label("A");
 		label.setStyle("-fx-text-fill:WHITE");
-		actionsButton.setGraphic(label);
+		actionsButton.setGraphic(new ImageView(this.getClass().getResource("/images/council_palace_icon.png").toString()));
 		actionsButton.getStyleClass().add("animated-option-button");
 		actionsNodesList.addAnimatedNode(actionsButton, (expanded) -> Collections.singletonList(new KeyValue(label.rotateProperty(), expanded ? 360 : 0, Interpolator.EASE_BOTH)));
 		this.actionsVBox.getChildren().add(actionsNodesList);
-		List<ActionType> mappedActions = new ArrayList<>();
+		Map<ActionType, List<AvailableAction>> mappedActions = new EnumMap<>(ActionType.class);
+		mappedActions.put(ActionType.COUNCIL_PALACE, new ArrayList<>());
+		mappedActions.put(ActionType.GET_DEVELOPMENT_CARD, new ArrayList<>());
+		mappedActions.put(ActionType.HARVEST_START, new ArrayList<>());
+		mappedActions.put(ActionType.MARKET, new ArrayList<>());
+		mappedActions.put(ActionType.PRODUCTION_START, new ArrayList<>());
+		mappedActions.put(ActionType.LEADER_ACTIVATION, new ArrayList<>());
+		mappedActions.put(ActionType.LEADER_DISCARD, new ArrayList<>());
+		mappedActions.put(ActionType.LEADER_PLAY, new ArrayList<>());
 		for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions()) {
-			if (!mappedActions.contains(availableAction.getActionType())) {
-				mappedActions.add(availableAction.getActionType());
+			mappedActions.get(availableAction.getActionType()).add(availableAction);
+		}
+		if (!mappedActions.get(ActionType.COUNCIL_PALACE).isEmpty() || !mappedActions.get(ActionType.GET_DEVELOPMENT_CARD).isEmpty() || !mappedActions.get(ActionType.HARVEST_START).isEmpty() || !mappedActions.get(ActionType.MARKET).isEmpty() || !mappedActions.get(ActionType.PRODUCTION_START).isEmpty()) {
+			JFXButton familyMemberActionButton = new JFXButton();
+			Label familyMemberActionLabel = new Label("F");
+			familyMemberActionLabel.setStyle("-fx-text-fill:WHITE");
+			familyMemberActionButton.setGraphic(familyMemberActionLabel);
+			familyMemberActionButton.getStyleClass().add("animated-option-button");
+			actionsNodesList.addAnimatedNode(familyMemberActionButton);
+			JFXNodesList familyMemberActionNodesList = new JFXNodesList();
+			if (!mappedActions.get(ActionType.COUNCIL_PALACE).isEmpty()) {
+				JFXButton councilPalaceActionButton = new JFXButton();
+				Label councilPalaceActionLabel = new Label("F");
+				councilPalaceActionLabel.setStyle("-fx-text-fill:WHITE");
+				councilPalaceActionButton.setGraphic(councilPalaceActionLabel);
+				councilPalaceActionButton.getStyleClass().add("animated-option-button");
+				familyMemberActionNodesList.addAnimatedNode(councilPalaceActionButton);
 			}
+			actionsNodesList.addAnimatedNode(familyMemberActionNodesList);
 		}
-		if (mappedActions.contains(ActionType.COUNCIL_PALACE) || mappedActions.contains(ActionType.GET_DEVELOPMENT_CARD) || mappedActions.contains(ActionType.HARVEST_START) || mappedActions.contains(ActionType.MARKET) || mappedActions.contains(ActionType.PRODUCTION_START)) {
-			JFXButton childButton = new JFXButton();
-			Label childLabel = new Label("F");
-			childLabel.setStyle("-fx-text-fill:WHITE");
-			childButton.setGraphic(childLabel);
-			childButton.getStyleClass().add("animated-option-button");
-			actionsNodesList.addAnimatedNode(childButton);
-		}
-		if (mappedActions.contains(ActionType.LEADER_ACTIVATION) || mappedActions.contains(ActionType.LEADER_DISCARD) || mappedActions.contains(ActionType.LEADER_PLAY)) {
+		if (!mappedActions.get(ActionType.LEADER_ACTIVATION).isEmpty() || !mappedActions.get(ActionType.LEADER_DISCARD).isEmpty() || !mappedActions.get(ActionType.LEADER_PLAY).isEmpty()) {
 			JFXButton childButton = new JFXButton();
 			Label childLabel = new Label("L");
 			childLabel.setStyle("-fx-text-fill:WHITE");
