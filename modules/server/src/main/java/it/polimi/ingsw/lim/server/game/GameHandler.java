@@ -2,10 +2,7 @@ package it.polimi.ingsw.lim.server.game;
 
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.GameInformations;
-import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
-import it.polimi.ingsw.lim.common.game.actions.AvailableActionGetDevelopmentCard;
-import it.polimi.ingsw.lim.common.game.actions.AvailableActionMarket;
-import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
+import it.polimi.ingsw.lim.common.game.actions.*;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
@@ -561,6 +558,17 @@ public class GameHandler
 			if (player.getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionProductionStart(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), player).isLegal()) {
 				availableActions.add(new AvailableAction(ActionType.PRODUCTION_START));
 				break;
+			}
+		}
+		for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {
+			if (new ActionLeaderActivation(leaderCard.getIndex(), player).isLegal()) {
+				availableActions.add(new AvailableActionLeaderActivation(leaderCard.getIndex()));
+			}
+			if (new ActionLeaderDiscard(leaderCard.getIndex(), player).isLegal()) {
+				availableActions.add(new AvailableActionLeaderDiscard(leaderCard.getIndex()));
+			}
+			if (new ActionLeaderPlay(leaderCard.getIndex(), player).isLegal()) {
+				availableActions.add(new AvailableActionLeaderPlay(leaderCard.getIndex()));
 			}
 		}
 		return availableActions;
