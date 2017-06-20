@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.client.network.rmi;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
@@ -106,7 +107,7 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
-	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, List<AvailableAction> availableActions) throws RemoteException
+	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions) throws RemoteException
 	{
 		Client.getInstance().getConnectionHandler().handleGameUpdate(gameInformations, playersInformations, ownLeaderCardsHand, availableActions);
 	}

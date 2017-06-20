@@ -1,15 +1,14 @@
 package it.polimi.ingsw.lim.common.game.actions;
 
-import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 
 public class AvailableActionFamilyMember extends AvailableAction
 {
 	private final FamilyMemberType familyMemberType;
 
-	public AvailableActionFamilyMember(ActionType actionType, FamilyMemberType familyMemberType)
+	public AvailableActionFamilyMember(FamilyMemberType familyMemberType)
 	{
-		super(actionType);
+		super();
 		this.familyMemberType = familyMemberType;
 	}
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.common.network.rmi;
 
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
@@ -42,7 +43,7 @@ public interface IServerSession extends Remote
 
 	void sendGameLeaderCardChosen(int choicePlayerIndex, boolean closeDialog) throws RemoteException;
 
-	void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, List<AvailableAction> availableActions) throws RemoteException;
+	void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions) throws RemoteException;
 
 	void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, ExpectedAction expectedAction) throws RemoteException;
 

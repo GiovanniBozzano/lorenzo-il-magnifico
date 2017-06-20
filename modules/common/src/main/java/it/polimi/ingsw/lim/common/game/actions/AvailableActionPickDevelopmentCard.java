@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.common.game.actions;
 
-import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.Row;
@@ -10,16 +9,16 @@ import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AvailableActionGetDevelopmentCard extends AvailableActionFamilyMember
+public class AvailableActionPickDevelopmentCard extends AvailableActionFamilyMember
 {
 	private final CardType cardType;
 	private final Row row;
 	private final List<ResourceCostOption> resourceCostOptions;
 	private final List<List<ResourceAmount>> discountChoices;
 
-	public AvailableActionGetDevelopmentCard(FamilyMemberType familyMemberType, CardType cardType, Row row, List<ResourceCostOption> resourceCostOptions, List<List<ResourceAmount>> discountChoices)
+	public AvailableActionPickDevelopmentCard(FamilyMemberType familyMemberType, CardType cardType, Row row, List<ResourceCostOption> resourceCostOptions, List<List<ResourceAmount>> discountChoices)
 	{
-		super(ActionType.PICK_DEVELOPMENT_CARD, familyMemberType);
+		super(familyMemberType);
 		this.cardType = cardType;
 		this.row = row;
 		this.resourceCostOptions = new ArrayList<>(resourceCostOptions);

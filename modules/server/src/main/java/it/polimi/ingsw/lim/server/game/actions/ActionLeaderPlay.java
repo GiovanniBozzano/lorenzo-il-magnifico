@@ -22,11 +22,10 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 {
 	private final Player player;
 	private LeaderCard leaderCard;
-	private LeaderCardConditionsOption leaderCardConditionsOption;
 
-	public ActionLeaderPlay(int leaderCardIndex, Player player)
+	public ActionLeaderPlay(int leaderCardIndex, LeaderCardConditionsOption leaderCardConditionsOption, Player player)
 	{
-		super(leaderCardIndex);
+		super(leaderCardIndex, leaderCardConditionsOption);
 		this.player = player;
 	}
 
@@ -64,16 +63,16 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			return false;
 		}
 		// check if the player's resources are enough
-		if (this.leaderCardConditionsOption.getResourceAmounts() != null) {
-			for (ResourceAmount requiredResources : this.leaderCardConditionsOption.getResourceAmounts()) {
+		if (this.getLeaderCardConditionsOption().getResourceAmounts() != null) {
+			for (ResourceAmount requiredResources : this.getLeaderCardConditionsOption().getResourceAmounts()) {
 				int playerResources = this.player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
 				if (playerResources < requiredResources.getAmount()) {
 					return false;
 				}
 			}
 		}
-		if (this.leaderCardConditionsOption.getCardAmounts() != null) {
-			for (CardAmount requiredCards : this.leaderCardConditionsOption.getCardAmounts()) {
+		if (this.getLeaderCardConditionsOption().getCardAmounts() != null) {
+			for (CardAmount requiredCards : this.getLeaderCardConditionsOption().getCardAmounts()) {
 				int playerCards = this.player.getPlayerCardHandler().getDevelopmentCardsNumber(requiredCards.getCardType());
 				if (playerCards < requiredCards.getAmount()) {
 					return false;

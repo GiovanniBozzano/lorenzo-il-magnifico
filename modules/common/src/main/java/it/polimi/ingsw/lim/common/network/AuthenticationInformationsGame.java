@@ -1,13 +1,13 @@
 package it.polimi.ingsw.lim.common.network;
 
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AuthenticationInformationsGame extends AuthenticationInformations
 {
@@ -19,7 +19,7 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 	private List<PlayerInformations> playersInformations;
 	private List<Integer> ownLeaderCardsHand;
 	private int turnPlayerIndex;
-	private List<AvailableAction> availableActions;
+	private Map<ActionType, List<AvailableAction>> availableActions;
 
 	public Map<Period, Integer> getExcommunicationTiles()
 	{
@@ -28,7 +28,7 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 
 	public void setExcommunicationTiles(Map<Period, Integer> excommunicationTiles)
 	{
-		this.excommunicationTiles = excommunicationTiles;
+		this.excommunicationTiles = new HashMap<>(excommunicationTiles);
 	}
 
 	public Map<Integer, PlayerIdentification> getPlayersIdentifications()
@@ -38,7 +38,7 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 
 	public void setPlayersIdentifications(Map<Integer, PlayerIdentification> playersIdentifications)
 	{
-		this.playersIdentifications = playersIdentifications;
+		this.playersIdentifications = new HashMap<>(playersIdentifications);
 	}
 
 	public int getOwnPlayerIndex()
@@ -78,7 +78,7 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 
 	public void setPlayersInformations(List<PlayerInformations> playersInformations)
 	{
-		this.playersInformations = playersInformations;
+		this.playersInformations = new ArrayList<>(playersInformations);
 	}
 
 	public List<Integer> getOwnLeaderCardsHand()
@@ -88,7 +88,7 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 
 	public void setOwnLeaderCardsHand(List<Integer> ownLeaderCardsHand)
 	{
-		this.ownLeaderCardsHand = ownLeaderCardsHand;
+		this.ownLeaderCardsHand = new ArrayList<>(ownLeaderCardsHand);
 	}
 
 	public int getTurnPlayerIndex()
@@ -101,13 +101,13 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 		this.turnPlayerIndex = turnPlayerIndex;
 	}
 
-	public List<AvailableAction> getAvailableActions()
+	public Map<ActionType, List<AvailableAction>> getAvailableActions()
 	{
 		return this.availableActions;
 	}
 
-	public void setAvailableActions(List<AvailableAction> availableActions)
+	public void setAvailableActions(Map<ActionType, List<AvailableAction>> availableActions)
 	{
-		this.availableActions = availableActions;
+		this.availableActions = new EnumMap<>(availableActions);
 	}
 }
