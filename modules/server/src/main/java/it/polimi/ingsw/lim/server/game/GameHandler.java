@@ -143,8 +143,7 @@ public class GameHandler
 		}
 		do {
 			this.personalBonusTileChoicePlayerIndex--;
-			if (this.personalBonusTileChoicePlayerIndex <= 0) {
-				this.personalBonusTileChoicePlayerIndex = -1;
+			if (this.personalBonusTileChoicePlayerIndex < 0) {
 				for (Player currentPlayer : this.availableLeaderCards.keySet()) {
 					this.leaderCardsChoosingPlayers.put(currentPlayer, true);
 				}
