@@ -171,7 +171,7 @@ class PacketListener extends Thread
 			authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
 			authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
 			authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
-			authenticationInformations.setGameStarted(true);
+			authenticationInformations.setGameStarted(false);
 			authenticationInformations.setRoomInformations(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
 			authenticationInformations.setUsername(this.connectionSocket.getUsername());
 			this.connectionSocket.sendAuthenticationConfirmation(authenticationInformations);
