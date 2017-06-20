@@ -87,53 +87,53 @@
 				<Pane fx:id="councilPalace3" layoutX="434.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="councilPalace4" layoutX="456.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="councilPalace5" layoutX="478.0" layoutY="574.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Label layoutX="395.0" layoutY="593.0" text="0">
+				<Label fx:id="councilPalaceLabel1" layoutX="395.0" layoutY="593.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Label layoutX="417.0" layoutY="593.0" text="0">
+				<Label fx:id="councilPalaceLabel2" layoutX="417.0" layoutY="593.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Label layoutX="439.0" layoutY="593.0" text="0">
+				<Label fx:id="councilPalaceLabel3" layoutX="439.0" layoutY="593.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Label layoutX="461.0" layoutY="593.0" text="0">
+				<Label fx:id="councilPalaceLabel4" layoutX="461.0" layoutY="593.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Label layoutX="483.0" layoutY="593.0" text="0">
+				<Label fx:id="councilPalaceLabel5" layoutX="483.0" layoutY="593.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
 				<Pane fx:id="productionBig5" layoutX="258.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Label layoutX="183.0" layoutY="804.0" text="0">
+				<Label fx:id="productionBigLabel1" layoutX="183.0" layoutY="804.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Label layoutX="203.0" layoutY="804.0" text="0">
+				<Label fx:id="productionBigLabel2" layoutX="203.0" layoutY="804.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Label layoutX="223.0" layoutY="804.0" text="0">
+				<Label fx:id="productionBigLabel3" layoutX="223.0" layoutY="804.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Label layoutX="243.0" layoutY="804.0" text="0">
+				<Label fx:id="productionBigLabel4" layoutX="243.0" layoutY="804.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Label layoutX="263.0" layoutY="804.0" text="0">
+				<Label fx:id="productionBigLabel5" layoutX="263.0" layoutY="804.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
@@ -144,27 +144,27 @@
 				<Pane fx:id="harvestBig3" layoutX="218.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="harvestBig4" layoutX="238.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="harvestBig5" layoutX="258.0" layoutY="865.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
-				<Label layoutX="183.0" layoutY="880.0" text="0">
+				<Label fx:id="harvestBigLabel1" layoutX="183.0" layoutY="880.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Label layoutX="203.0" layoutY="880.0" text="0">
+				<Label fx:id="harvestBigLabel2" layoutX="203.0" layoutY="880.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Label layoutX="223.0" layoutY="880.0" text="0">
+				<Label fx:id="harvestBigLabel3" layoutX="223.0" layoutY="880.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Label layoutX="243.0" layoutY="880.0" text="0">
+				<Label fx:id="harvestBigLabel4" layoutX="243.0" layoutY="880.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
 				</Label>
-				<Label layoutX="263.0" layoutY="880.0" text="0">
+				<Label fx:id="harvestBigLabel5" layoutX="263.0" layoutY="880.0" text="0">
 					<font>
 						<Font name="Roboto Bold" size="12.0" />
 					</font>
@@ -344,6 +344,9 @@
 				<Pane fx:id="militaryPoint19" layoutX="614.0" layoutY="286.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="militaryPoint18" layoutX="614.0" layoutY="316.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="militaryPoint25" layoutX="614.0" layoutY="100.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileFirst" layoutX="162.0" layoutY="601.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="95.0" prefWidth="44.0" />
+				<Pane fx:id="excommunicationTileSecond" layoutX="213.0" layoutY="613.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="89.0" prefWidth="43.0" />
+				<Pane fx:id="excommunicationTileThird" layoutX="263.0" layoutY="601.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="95.0" prefWidth="47.0" />
 			</Pane>
 			<VBox fx:id="rightVBox" spacing="10.0" GridPane.columnIndex="1">
 				<JFXTabPane fx:id="playersTabPane">
