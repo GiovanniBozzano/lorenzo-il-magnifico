@@ -12,6 +12,8 @@ import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -538,7 +540,6 @@ public class ControllerGame extends CustomController
 	private final Map<ResourceType, Label> player4Resources = new EnumMap<>(ResourceType.class);
 	private final Map<ResourceType, Label> player5Resources = new EnumMap<>(ResourceType.class);
 	private final Map<Integer, Map<ResourceType, Label>> playersResources = new HashMap<>();
-	private final Map<ActionType, JFXButton> actionsButtons = new EnumMap<>(ActionType.class);
 	private final DropShadow borderGlow = new DropShadow();
 
 	@FXML
@@ -680,42 +681,6 @@ public class ControllerGame extends CustomController
 		this.playersResources.put(2, this.player3Resources);
 		this.playersResources.put(3, this.player4Resources);
 		this.playersResources.put(4, this.player5Resources);
-		JFXButton actionButtonCouncilPalace = new JFXButton();
-		actionButtonCouncilPalace.setButtonType(ButtonType.RAISED);
-		actionButtonCouncilPalace.getStyleClass().add("animated-option-button");
-		this.actionsButtons.put(ActionType.COUNCIL_PALACE, actionButtonCouncilPalace);
-		JFXButton actionButtonGetDevelopmentCard = new JFXButton();
-		actionButtonGetDevelopmentCard.setButtonType(ButtonType.RAISED);
-		actionButtonGetDevelopmentCard.getStyleClass().add("animated-option-button");
-		this.actionsButtons.put(ActionType.GET_DEVELOPMENT_CARD, actionButtonGetDevelopmentCard);
-		JFXButton actionButtonHarvestStart = new JFXButton();
-		actionButtonHarvestStart.setButtonType(ButtonType.RAISED);
-		actionButtonHarvestStart.getStyleClass().add("animated-option-button");
-		this.actionsButtons.put(ActionType.HARVEST_START, actionButtonHarvestStart);
-		JFXButton actionButtonLeaderActivation = new JFXButton();
-		actionButtonLeaderActivation.setButtonType(ButtonType.RAISED);
-		actionButtonLeaderActivation.getStyleClass().add("animated-option-button");
-		this.actionsButtons.put(ActionType.LEADER_ACTIVATION, actionButtonLeaderActivation);
-		JFXButton actionButtonLeaderDiscard = new JFXButton();
-		actionButtonLeaderDiscard.setButtonType(ButtonType.RAISED);
-		actionButtonLeaderDiscard.getStyleClass().add("animated-option-button");
-		this.actionsButtons.put(ActionType.LEADER_DISCARD, actionButtonLeaderDiscard);
-		JFXButton actionButtonLeaderPlay = new JFXButton();
-		actionButtonLeaderPlay.setButtonType(ButtonType.RAISED);
-		actionButtonLeaderPlay.getStyleClass().add("animated-option-button");
-		this.actionsButtons.put(ActionType.LEADER_PLAY, actionButtonLeaderPlay);
-		JFXButton actionButtonMarket = new JFXButton();
-		actionButtonMarket.setButtonType(ButtonType.RAISED);
-		actionButtonMarket.getStyleClass().add("animated-option-button");
-		this.actionsButtons.put(ActionType.MARKET, actionButtonMarket);
-		JFXButton actionButtonPassTurn = new JFXButton();
-		actionButtonPassTurn.setButtonType(ButtonType.RAISED);
-		actionButtonPassTurn.getStyleClass().add("animated-option-button");
-		this.actionsButtons.put(ActionType.PASS_TURN, actionButtonPassTurn);
-		JFXButton actionButtonProductionStart = new JFXButton();
-		actionButtonProductionStart.setButtonType(ButtonType.RAISED);
-		actionButtonProductionStart.getStyleClass().add("animated-option-button");
-		this.actionsButtons.put(ActionType.PRODUCTION_START, actionButtonProductionStart);
 		this.getStackPane().getChildren().remove(this.personalBonusTilesChoiceDialog);
 		this.personalBonusTilesChoiceDialog.setTransitionType(DialogTransition.CENTER);
 		this.personalBonusTilesChoiceDialog.setDialogContainer(this.getStackPane());
@@ -987,22 +952,42 @@ public class ControllerGame extends CustomController
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
 		actionsNodesList.setSpacing(10.0D);
-		actionsNodesList.setRotate(180.0D);
 		JFXButton actionsButton = new JFXButton();
 		Label label = new Label("A");
 		label.setStyle("-fx-text-fill:WHITE");
 		actionsButton.setGraphic(label);
-		actionsButton.setButtonType(ButtonType.FLAT);
 		actionsButton.getStyleClass().add("animated-option-button");
-		actionsNodesList.addAnimatedNode(actionsButton);
+		actionsNodesList.addAnimatedNode(actionsButton, (expanded) -> Collections.singletonList(new KeyValue(label.rotateProperty(), expanded ? 360 : 0, Interpolator.EASE_BOTH)));
 		this.actionsVBox.getChildren().add(actionsNodesList);
 		List<ActionType> mappedActions = new ArrayList<>();
 		for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions()) {
 			if (!mappedActions.contains(availableAction.getActionType())) {
 				mappedActions.add(availableAction.getActionType());
-				actionsNodesList.addAnimatedNode(this.actionsButtons.get(availableAction.getActionType()));
 			}
 		}
+		if (mappedActions.contains(ActionType.COUNCIL_PALACE) || mappedActions.contains(ActionType.GET_DEVELOPMENT_CARD) || mappedActions.contains(ActionType.HARVEST_START) || mappedActions.contains(ActionType.MARKET) || mappedActions.contains(ActionType.PRODUCTION_START)) {
+			JFXButton childButton = new JFXButton();
+			Label childLabel = new Label("F");
+			childLabel.setStyle("-fx-text-fill:WHITE");
+			childButton.setGraphic(childLabel);
+			childButton.getStyleClass().add("animated-option-button");
+			actionsNodesList.addAnimatedNode(childButton);
+		}
+		if (mappedActions.contains(ActionType.LEADER_ACTIVATION) || mappedActions.contains(ActionType.LEADER_DISCARD) || mappedActions.contains(ActionType.LEADER_PLAY)) {
+			JFXButton childButton = new JFXButton();
+			Label childLabel = new Label("L");
+			childLabel.setStyle("-fx-text-fill:WHITE");
+			childButton.setGraphic(childLabel);
+			childButton.getStyleClass().add("animated-option-button");
+			actionsNodesList.addAnimatedNode(childButton);
+		}
+		JFXButton childButton = new JFXButton();
+		Label childLabel = new Label("P");
+		childLabel.setStyle("-fx-text-fill:WHITE");
+		childButton.setGraphic(childLabel);
+		childButton.getStyleClass().add("animated-option-button");
+		actionsNodesList.addAnimatedNode(childButton);
+		actionsNodesList.setRotate(180.0D);
 		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "Your turn");
 	}
 
@@ -1016,7 +1001,6 @@ public class ControllerGame extends CustomController
 		label.setStyle("-fx-text-fill:WHITE");
 		actionsButton.setGraphic(label);
 		actionsButton.setDisable(true);
-		actionsButton.setButtonType(ButtonType.RAISED);
 		actionsButton.getStyleClass().add("animated-option-button");
 		actionsNodesList.addAnimatedNode(actionsButton);
 		this.actionsVBox.getChildren().add(actionsNodesList);

@@ -50,7 +50,7 @@ public class GameHandler
 	private ActionType expectedAction;
 	private Map<Player, Boolean> firstTurn = new HashMap<>();
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
-	private int personalBonusTileChoicePlayerIndex = 0;
+	private int personalBonusTileChoicePlayerIndex;
 	private Map<Player, List<Integer>> availableLeaderCards = new HashMap<>();
 	private Map<Player, Boolean> leaderCardsChoosingPlayers = new HashMap<>();
 
@@ -98,7 +98,7 @@ public class GameHandler
 			currentIndex++;
 		}
 		Collections.shuffle(this.turnOrder, this.randomGenerator);
-		this.personalBonusTileChoicePlayerIndex = this.turnOrder.get(0).getIndex();
+		this.personalBonusTileChoicePlayerIndex = this.turnOrder.size() - 1;
 		int startingCoins = 5;
 		for (Player player : this.turnOrder) {
 			player.getConnection().sendGameStarted(this.excommunicationTilesIndexes, this.playersIdentifications, player.getIndex());
@@ -118,12 +118,12 @@ public class GameHandler
 			}
 			this.availableLeaderCards.put(player, playerAvailableLeaderCards);
 		}
-		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(0));
+		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerIndex));
 	}
 
 	public void receivePersonalBonusTileChoice(Player player, int personalBonusTileIndex)
 	{
-		if (this.personalBonusTileChoicePlayerIndex != player.getIndex()) {
+		if (this.turnOrder.get(this.personalBonusTileChoicePlayerIndex) != player) {
 			return;
 		}
 		if (!this.availablePersonalBonusTiles.contains(personalBonusTileIndex)) {
@@ -142,8 +142,8 @@ public class GameHandler
 			}
 		}
 		do {
-			this.personalBonusTileChoicePlayerIndex++;
-			if (this.personalBonusTileChoicePlayerIndex >= this.turnOrder.size()) {
+			this.personalBonusTileChoicePlayerIndex--;
+			if (this.personalBonusTileChoicePlayerIndex <= 0) {
 				this.personalBonusTileChoicePlayerIndex = -1;
 				for (Player currentPlayer : this.availableLeaderCards.keySet()) {
 					this.leaderCardsChoosingPlayers.put(currentPlayer, true);
