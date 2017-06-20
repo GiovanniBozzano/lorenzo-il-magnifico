@@ -1,15 +1,14 @@
 package it.polimi.ingsw.lim.client.gui;
 
 import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.client.utils.Utils;
-import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.enums.Row;
+import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -447,8 +446,7 @@ public class ControllerGame extends CustomController
 	@FXML private JFXTabPane leaderCardsTabPane;
 	@FXML private TextArea chatTextArea;
 	@FXML private TextArea gameLogTextArea;
-	@FXML private JFXNodesList actionsNodesList;
-	@FXML private JFXButton actionsButton;
+	@FXML private VBox actionsVBox;
 	@FXML private JFXButton leaderCardsButton;
 	@FXML private JFXDialog personalBonusTilesChoiceDialog;
 	@FXML private JFXDialogLayout personalBonusTilesChoiceDialogLayout;
@@ -458,6 +456,7 @@ public class ControllerGame extends CustomController
 	@FXML private HBox leaderCardsChoiceDialogHBox;
 	@FXML private JFXDialog cardDialog;
 	@FXML private JFXDialogLayout cardDialogLayout;
+	@FXML private HBox cardDialogHBox;
 	@FXML private Pane cardDialogPane;
 	@FXML private Text cardDialogText;
 	@FXML private JFXDialog leaderCardsDialog;
@@ -520,6 +519,10 @@ public class ControllerGame extends CustomController
 	private final Map<Row, Pane> developmentCardsCharacterPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsTerritoryPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsVenturePanes = new EnumMap<>(Row.class);
+	private final Map<Pane, Integer> developmentCardsBuildingIndexes = new HashMap<>();
+	private final Map<Pane, Integer> developmentCardsCharacterIndexes = new HashMap<>();
+	private final Map<Pane, Integer> developmentCardsTerritoryIndexes = new HashMap<>();
+	private final Map<Pane, Integer> developmentCardsVentureIndexes = new HashMap<>();
 	private final Map<CardType, Map<Row, Pane>> developmentCardsPanes = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player1DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player2DevelopmentCards = new EnumMap<>(CardType.class);
@@ -535,8 +538,8 @@ public class ControllerGame extends CustomController
 	private final Map<ResourceType, Label> player4Resources = new EnumMap<>(ResourceType.class);
 	private final Map<ResourceType, Label> player5Resources = new EnumMap<>(ResourceType.class);
 	private final Map<Integer, Map<ResourceType, Label>> playersResources = new HashMap<>();
+	private final Map<ActionType, JFXButton> actionsButtons = new EnumMap<>(ActionType.class);
 	private final DropShadow borderGlow = new DropShadow();
-	@FXML private HBox cardDialogHBox;
 
 	@FXML
 	private void boardDevelopmentCardPaneMouseClicked(MouseEvent event)
@@ -677,6 +680,42 @@ public class ControllerGame extends CustomController
 		this.playersResources.put(2, this.player3Resources);
 		this.playersResources.put(3, this.player4Resources);
 		this.playersResources.put(4, this.player5Resources);
+		JFXButton actionButtonCouncilPalace = new JFXButton();
+		actionButtonCouncilPalace.setButtonType(ButtonType.RAISED);
+		actionButtonCouncilPalace.getStyleClass().add("animated-option-button");
+		this.actionsButtons.put(ActionType.COUNCIL_PALACE, actionButtonCouncilPalace);
+		JFXButton actionButtonGetDevelopmentCard = new JFXButton();
+		actionButtonGetDevelopmentCard.setButtonType(ButtonType.RAISED);
+		actionButtonGetDevelopmentCard.getStyleClass().add("animated-option-button");
+		this.actionsButtons.put(ActionType.GET_DEVELOPMENT_CARD, actionButtonGetDevelopmentCard);
+		JFXButton actionButtonHarvestStart = new JFXButton();
+		actionButtonHarvestStart.setButtonType(ButtonType.RAISED);
+		actionButtonHarvestStart.getStyleClass().add("animated-option-button");
+		this.actionsButtons.put(ActionType.HARVEST_START, actionButtonHarvestStart);
+		JFXButton actionButtonLeaderActivation = new JFXButton();
+		actionButtonLeaderActivation.setButtonType(ButtonType.RAISED);
+		actionButtonLeaderActivation.getStyleClass().add("animated-option-button");
+		this.actionsButtons.put(ActionType.LEADER_ACTIVATION, actionButtonLeaderActivation);
+		JFXButton actionButtonLeaderDiscard = new JFXButton();
+		actionButtonLeaderDiscard.setButtonType(ButtonType.RAISED);
+		actionButtonLeaderDiscard.getStyleClass().add("animated-option-button");
+		this.actionsButtons.put(ActionType.LEADER_DISCARD, actionButtonLeaderDiscard);
+		JFXButton actionButtonLeaderPlay = new JFXButton();
+		actionButtonLeaderPlay.setButtonType(ButtonType.RAISED);
+		actionButtonLeaderPlay.getStyleClass().add("animated-option-button");
+		this.actionsButtons.put(ActionType.LEADER_PLAY, actionButtonLeaderPlay);
+		JFXButton actionButtonMarket = new JFXButton();
+		actionButtonMarket.setButtonType(ButtonType.RAISED);
+		actionButtonMarket.getStyleClass().add("animated-option-button");
+		this.actionsButtons.put(ActionType.MARKET, actionButtonMarket);
+		JFXButton actionButtonPassTurn = new JFXButton();
+		actionButtonPassTurn.setButtonType(ButtonType.RAISED);
+		actionButtonPassTurn.getStyleClass().add("animated-option-button");
+		this.actionsButtons.put(ActionType.PASS_TURN, actionButtonPassTurn);
+		JFXButton actionButtonProductionStart = new JFXButton();
+		actionButtonProductionStart.setButtonType(ButtonType.RAISED);
+		actionButtonProductionStart.getStyleClass().add("animated-option-button");
+		this.actionsButtons.put(ActionType.PRODUCTION_START, actionButtonProductionStart);
 		this.getStackPane().getChildren().remove(this.personalBonusTilesChoiceDialog);
 		this.personalBonusTilesChoiceDialog.setTransitionType(DialogTransition.CENTER);
 		this.personalBonusTilesChoiceDialog.setDialogContainer(this.getStackPane());
@@ -852,7 +891,17 @@ public class ControllerGame extends CustomController
 				tab.getValue().setText((GameStatus.getInstance().getOwnPlayerIndex() == tab.getKey() ? "[ME] " : "") + GameStatus.getInstance().getCurrentPlayersData().get(tab.getKey()).getUsername());
 			}
 		}
-		this.actionsNodesList.addAnimatedNode(this.actionsButton);
+		this.actionsVBox.getChildren().clear();
+		JFXNodesList actionsNodesList = new JFXNodesList();
+		JFXButton actionsButton = new JFXButton();
+		Label label = new Label("A");
+		label.setStyle("-fx-text-fill:WHITE");
+		actionsButton.setGraphic(label);
+		actionsButton.setDisable(true);
+		actionsButton.setButtonType(ButtonType.RAISED);
+		actionsButton.getStyleClass().add("animated-option-button");
+		actionsNodesList.addAnimatedNode(actionsButton);
+		this.actionsVBox.getChildren().add(actionsNodesList);
 	}
 
 	@Override
@@ -935,14 +984,42 @@ public class ControllerGame extends CustomController
 	public void setOwnTurn()
 	{
 		this.updateGame();
-		this.actionsButton.setDisable(false);
+		this.actionsVBox.getChildren().clear();
+		JFXNodesList actionsNodesList = new JFXNodesList();
+		actionsNodesList.setSpacing(10.0D);
+		actionsNodesList.setRotate(180.0D);
+		JFXButton actionsButton = new JFXButton();
+		Label label = new Label("A");
+		label.setStyle("-fx-text-fill:WHITE");
+		actionsButton.setGraphic(label);
+		actionsButton.setButtonType(ButtonType.FLAT);
+		actionsButton.getStyleClass().add("animated-option-button");
+		actionsNodesList.addAnimatedNode(actionsButton);
+		this.actionsVBox.getChildren().add(actionsNodesList);
+		List<ActionType> mappedActions = new ArrayList<>();
+		for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions()) {
+			if (!mappedActions.contains(availableAction.getActionType())) {
+				mappedActions.add(availableAction.getActionType());
+				actionsNodesList.addAnimatedNode(this.actionsButtons.get(availableAction.getActionType()));
+			}
+		}
 		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "Your turn");
 	}
 
 	public void setOtherTurn()
 	{
 		this.updateGame();
-		this.actionsButton.setDisable(true);
+		this.actionsVBox.getChildren().clear();
+		JFXNodesList actionsNodesList = new JFXNodesList();
+		JFXButton actionsButton = new JFXButton();
+		Label label = new Label("A");
+		label.setStyle("-fx-text-fill:WHITE");
+		actionsButton.setGraphic(label);
+		actionsButton.setDisable(true);
+		actionsButton.setButtonType(ButtonType.RAISED);
+		actionsButton.getStyleClass().add("animated-option-button");
+		actionsNodesList.addAnimatedNode(actionsButton);
+		this.actionsVBox.getChildren().add(actionsNodesList);
 		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getCurrentTurnPlayerIndex()).getUsername() + "'s turn");
 	}
 
@@ -953,21 +1030,25 @@ public class ControllerGame extends CustomController
 			Integer currentDevelopmentCardBuildingIndex = GameStatus.getInstance().getCurrentDevelopmentCardsBuilding().get(row);
 			if (currentDevelopmentCardBuildingIndex != null) {
 				this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsBuilding().get(currentDevelopmentCardBuildingIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.developmentCardsBuildingIndexes.put(this.developmentCardsPanes.get(CardType.BUILDING).get(row), currentDevelopmentCardBuildingIndex);
 			}
 			this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBackground(null);
 			Integer currentDevelopmentCardCharacterIndex = GameStatus.getInstance().getCurrentDevelopmentCardsCharacter().get(row);
 			if (currentDevelopmentCardCharacterIndex != null) {
 				this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsCharacter().get(currentDevelopmentCardCharacterIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.developmentCardsCharacterIndexes.put(this.developmentCardsPanes.get(CardType.CHARACTER).get(row), currentDevelopmentCardCharacterIndex);
 			}
 			this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBackground(null);
 			Integer currentDevelopmentCardTerritoryIndex = GameStatus.getInstance().getCurrentDevelopmentCardsTerritory().get(row);
 			if (currentDevelopmentCardTerritoryIndex != null) {
 				this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsTerritory().get(currentDevelopmentCardTerritoryIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.developmentCardsTerritoryIndexes.put(this.developmentCardsPanes.get(CardType.TERRITORY).get(row), currentDevelopmentCardTerritoryIndex);
 			}
 			this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBackground(null);
 			Integer currentDevelopmentCardVentureIndex = GameStatus.getInstance().getCurrentDevelopmentCardsVenture().get(row);
 			if (currentDevelopmentCardVentureIndex != null) {
 				this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsVenture().get(currentDevelopmentCardVentureIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.developmentCardsVentureIndexes.put(this.developmentCardsPanes.get(CardType.VENTURE).get(row), currentDevelopmentCardVentureIndex);
 			}
 		}
 		for (Entry<Integer, PlayerData> playerData : GameStatus.getInstance().getCurrentPlayersData().entrySet()) {

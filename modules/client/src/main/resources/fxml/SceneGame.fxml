@@ -1,28 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXDialog?>
-<?import com.jfoenix.controls.JFXDialogLayout?>
-<?import com.jfoenix.controls.JFXNodesList?>
-<?import com.jfoenix.controls.JFXTabPane?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
+<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.*?><?import javafx.geometry.Insets?><?import javafx.scene.control.*?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?><?import javafx.scene.text.*?>
 <StackPane fx:id="stackPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.client.gui.ControllerGame">
 	<VBox spacing="10.0">
 		<GridPane>
@@ -382,26 +358,26 @@
 									<Pane fx:id="player1Territory4" layoutX="270.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player1Territory5" layoutX="346.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player1Territory6" layoutX="423.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-                           <Label fx:id="player1Coin" alignment="CENTER" layoutX="24.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="player1Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="player1Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="player1Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
+									<Label fx:id="player1Coin" alignment="CENTER" layoutX="24.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player1Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player1Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player1Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
 								</Pane>
 							</VBox>
 						</AnchorPane>
@@ -494,26 +470,26 @@
 									<Pane fx:id="player3Territory4" layoutX="270.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player3Territory5" layoutX="347.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player3Territory6" layoutX="423.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-                           <Label fx:id="player3Coin" alignment="CENTER" layoutX="24.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="player3Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="player3Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="player3Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
+									<Label fx:id="player3Coin" alignment="CENTER" layoutX="24.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player3Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player3Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player3Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
 								</Pane>
 							</VBox>
 						</AnchorPane>
@@ -550,26 +526,26 @@
 									<Pane fx:id="player4Territory4" layoutX="270.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player4Territory5" layoutX="347.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player4Territory6" layoutX="423.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-                           <Label fx:id="player4Coin" alignment="CENTER" layoutX="24.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="player4Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="player4Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="player4Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
+									<Label fx:id="player4Coin" alignment="CENTER" layoutX="24.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player4Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player4Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player4Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
 								</Pane>
 							</VBox>
 						</AnchorPane>
@@ -606,26 +582,26 @@
 									<Pane fx:id="player5Territory4" layoutX="270.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player5Territory5" layoutX="347.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player5Territory6" layoutX="423.0" layoutY="162.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-                           <Label fx:id="player5Coin" alignment="CENTER" layoutX="24.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="player5Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="player5Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
-                           <Label fx:id="player5Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
-                              <font>
-                                 <Font name="Roboto Bold" size="14.0" />
-                              </font>
-                           </Label>
+									<Label fx:id="player5Coin" alignment="CENTER" layoutX="24.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player5Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player5Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
+									<Label fx:id="player5Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+										<font>
+											<Font name="Roboto Bold" size="14.0" />
+										</font>
+									</Label>
 								</Pane>
 							</VBox>
 						</AnchorPane>
@@ -667,12 +643,6 @@
 					<rowConstraints>
 						<RowConstraints vgrow="SOMETIMES" />
 					</rowConstraints>
-					<JFXNodesList fx:id="actionsNodesList" alignment="TOP_RIGHT" />
-					<JFXButton fx:id="actionsButton" buttonType="RAISED" disable="true" prefWidth="95.0" styleClass="animated-option-button" stylesheets="@../css/jfoenix-nodes-list-button.css" text="A">
-						<font>
-							<Font name="Roboto Bold" size="18.0" />
-						</font>
-					</JFXButton>
 					<VBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
 						<JFXButton fx:id="leaderCardsButton" disable="true" onAction="#handleLeaderCardsButtonAction" style="-fx-background-color: #03A9F4;" text="Leader Cards" textFill="WHITE">
 							<font>
@@ -680,6 +650,7 @@
 							</font>
 						</JFXButton>
 					</VBox>
+					<VBox fx:id="actionsVBox" />
 				</GridPane>
 			</VBox>
 		</GridPane>
