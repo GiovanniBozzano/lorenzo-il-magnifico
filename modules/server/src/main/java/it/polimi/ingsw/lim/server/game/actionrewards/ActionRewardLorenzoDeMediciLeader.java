@@ -21,10 +21,12 @@ public class ActionRewardLorenzoDeMediciLeader extends ActionReward
 	public ExpectedAction createExpectedAction(GameHandler gameHandler, Player player)
 	{
 		Map<Integer, Integer> availableLeaderCards = new HashMap<>();
-		for (Player currentPlayer : gameHandler.getTurnOrder()) {
-			for (LeaderCard leaderCard : currentPlayer.getPlayerCardHandler().getLeaderCards()) {
-				if (leaderCard.isPlayed()) {
-					availableLeaderCards.put(currentPlayer.getIndex(), leaderCard.getIndex());
+		for (Player otherPlayer : gameHandler.getTurnOrder()) {
+			if (otherPlayer != player) {
+				for (LeaderCard leaderCard : otherPlayer.getPlayerCardHandler().getLeaderCards()) {
+					if (leaderCard.isPlayed()) {
+						availableLeaderCards.put(otherPlayer.getIndex(), leaderCard.getIndex());
+					}
 				}
 			}
 		}

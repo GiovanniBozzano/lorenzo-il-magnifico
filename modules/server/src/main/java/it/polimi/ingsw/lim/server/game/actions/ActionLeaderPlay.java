@@ -3,10 +3,16 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderPlay;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseLorenzoDeMediciLeader;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedActionRewardLorenzoDeMediciLeader;
+import it.polimi.ingsw.lim.common.game.utils.CardAmount;
+import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardLorenzoDeMediciLeader;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardModifier;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
@@ -18,6 +24,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 {
 	private final Player player;
 	private LeaderCard leaderCard;
+	private LeaderCardConditionsOption leaderCardConditionsOption;
 
 	public ActionLeaderPlay(int leaderCardIndex, Player player)
 	{
@@ -59,6 +66,22 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			return false;
 		}
 		// check if the player's resources are enough
+		if (this.leaderCardConditionsOption.getResourceAmounts() != null) {
+			for (ResourceAmount requiredResources : this.leaderCardConditionsOption.getResourceAmounts()) {
+				int playerResources = this.player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
+				if (playerResources < requiredResources.getAmount()) {
+					return false;
+				}
+			}
+		}
+		if (this.leaderCardConditionsOption.getCardAmounts() != null) {
+			for (CardAmount requiredCards : this.leaderCardConditionsOption.getCardAmounts()) {
+				int playerCards = this.player.getPlayerCardHandler().getDevelopmentCardsNumber(requiredCards.getCardType());
+				if (playerCards < requiredCards.getAmount()) {
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 
@@ -74,6 +97,10 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			return;
 		}
 		gameHandler.setCurrentPhase(Phase.LEADER);
+		// check Lollo
+		if (this.leaderCard.getIndex() == 14) {
+			gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionRewardLorenzoDeMediciLeader());
+		}
 		if (this.leaderCard instanceof LeaderCardModifier) {
 			this.player.getActiveModifiers().add(((LeaderCardModifier) this.leaderCard).getModifier());
 		} else {
