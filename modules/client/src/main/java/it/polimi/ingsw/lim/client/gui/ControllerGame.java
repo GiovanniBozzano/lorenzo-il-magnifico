@@ -79,11 +79,11 @@ public class ControllerGame extends CustomController
 	@FXML private Pane diceBlack;
 	@FXML private Pane diceWhite;
 	@FXML private Pane diceOrange;
-	@FXML private Pane roundPosition1;
-	@FXML private Pane roundPosition2;
-	@FXML private Pane roundPosition3;
-	@FXML private Pane roundPosition4;
-	@FXML private Pane roundPosition5;
+	@FXML private Pane roundOrderPosition1;
+	@FXML private Pane roundOrderPosition2;
+	@FXML private Pane roundOrderPosition3;
+	@FXML private Pane roundOrderPosition4;
+	@FXML private Pane roundOrderPosition5;
 	@FXML private Pane victoryPoint0;
 	@FXML private Pane victoryPoint1;
 	@FXML private Pane victoryPoint2;
