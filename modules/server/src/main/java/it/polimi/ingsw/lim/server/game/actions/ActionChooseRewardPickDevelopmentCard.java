@@ -1,14 +1,14 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.*;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardGetDevelopmentCard;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardGetDevelopmentCard;
+import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardCharacter;
@@ -25,14 +25,14 @@ import it.polimi.ingsw.lim.server.network.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionChooseRewardGetDevelopmentCard extends ActionInformationsChooseRewardGetDevelopmentCard implements IAction
+public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsChooseRewardPickDevelopmentCard implements IAction
 {
 	private final Player player;
 	private boolean columnOccupied = false;
 	private boolean getBoardPositionReward = true;
 	private List<ResourceAmount> effectiveResourceCost;
 
-	public ActionChooseRewardGetDevelopmentCard(int servants, CardType cardType, Row row, Row instantRewardRow, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption, Player player)
+	public ActionChooseRewardPickDevelopmentCard(int servants, CardType cardType, Row row, Row instantRewardRow, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption, Player player)
 	{
 		super(servants, cardType, row, instantRewardRow, instantDiscountChoice, discountChoice, resourceCostOption);
 		this.player = player;
@@ -56,7 +56,7 @@ public class ActionChooseRewardGetDevelopmentCard extends ActionInformationsChoo
 			return false;
 		}
 		// check whether the server expects the player to make this action
-		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_GET_DEVELOPMENT_CARD) {
+		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD) {
 			return false;
 		}
 		// check if the card is already taken
@@ -114,7 +114,7 @@ public class ActionChooseRewardGetDevelopmentCard extends ActionInformationsChoo
 			return false;
 		}
 		// controlla presenza discountchoice nell'array actionreward
-		if ((this.getDiscountChoice() == null && !((ActionRewardGetDevelopmentCard) this.player.getCurrentActionReward()).getInstantDiscountChoices().isEmpty()) || (this.getInstantDiscountChoice() != null && !((ActionRewardGetDevelopmentCard) this.player.getCurrentActionReward()).getInstantDiscountChoices().contains(this.getInstantDiscountChoice()))) {
+		if ((this.getDiscountChoice() == null && !((ActionRewardPickDevelopmentCard) this.player.getCurrentActionReward()).getInstantDiscountChoices().isEmpty()) || (this.getInstantDiscountChoice() != null && !((ActionRewardPickDevelopmentCard) this.player.getCurrentActionReward()).getInstantDiscountChoices().contains(this.getInstantDiscountChoice()))) {
 			return false;
 		}
 		if (this.getResourceCostOption() == null && this.getDiscountChoice() != null) {

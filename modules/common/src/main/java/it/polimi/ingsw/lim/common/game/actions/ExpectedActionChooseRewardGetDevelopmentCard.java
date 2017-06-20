@@ -18,7 +18,7 @@ public class ExpectedActionChooseRewardGetDevelopmentCard extends ExpectedAction
 
 	public ExpectedActionChooseRewardGetDevelopmentCard(Map<CardType, Row> maximumRow, List<AvailableActionChooseRewardGetDevelopmentCard> availableActions, List<List<ResourceAmount>> discountChoices)
 	{
-		super(ActionType.CHOOSE_REWARD_GET_DEVELOPMENT_CARD);
+		super(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD);
 		this.maximumRows = new EnumMap<>(maximumRow);
 		this.availableActions = new ArrayList<>(availableActions);
 		this.discountChoices = new ArrayList<>(discountChoices);

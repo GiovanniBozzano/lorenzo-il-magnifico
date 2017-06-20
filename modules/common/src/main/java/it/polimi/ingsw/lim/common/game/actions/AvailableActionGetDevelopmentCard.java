@@ -10,20 +10,18 @@ import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AvailableActionGetDevelopmentCard extends AvailableAction
+public class AvailableActionGetDevelopmentCard extends AvailableActionFamilyMember
 {
 	private final CardType cardType;
 	private final Row row;
-	private final List<FamilyMemberType> familyMemberTypes;
 	private final List<ResourceCostOption> resourceCostOptions;
 	private final List<List<ResourceAmount>> discountChoices;
 
-	public AvailableActionGetDevelopmentCard(CardType cardType, Row row, List<FamilyMemberType> familyMemberTypes, List<ResourceCostOption> resourceCostOptions, List<List<ResourceAmount>> discountChoices)
+	public AvailableActionGetDevelopmentCard(FamilyMemberType familyMemberType, CardType cardType, Row row, List<ResourceCostOption> resourceCostOptions, List<List<ResourceAmount>> discountChoices)
 	{
-		super(ActionType.GET_DEVELOPMENT_CARD);
+		super(ActionType.PICK_DEVELOPMENT_CARD, familyMemberType);
 		this.cardType = cardType;
 		this.row = row;
-		this.familyMemberTypes = new ArrayList<>(familyMemberTypes);
 		this.resourceCostOptions = new ArrayList<>(resourceCostOptions);
 		this.discountChoices = new ArrayList<>(discountChoices);
 	}
@@ -36,11 +34,6 @@ public class AvailableActionGetDevelopmentCard extends AvailableAction
 	public Row getRow()
 	{
 		return this.row;
-	}
-
-	public List<FamilyMemberType> getFamilyMemberTypes()
-	{
-		return this.familyMemberTypes;
 	}
 
 	public List<ResourceCostOption> getResourceCostOptions()

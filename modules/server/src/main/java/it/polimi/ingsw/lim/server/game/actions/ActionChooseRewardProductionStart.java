@@ -3,13 +3,13 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardProduction;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardProductionStart;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionProductionTrade;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardProduction;
+import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardProductionStart;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
@@ -20,12 +20,12 @@ import it.polimi.ingsw.lim.server.game.utils.Phase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionChooseRewardProduction extends ActionInformationsChooseRewardProduction implements IAction
+public class ActionChooseRewardProductionStart extends ActionInformationsChooseRewardProductionStart implements IAction
 {
 	private final Player player;
 	private int effectiveActionValue;
 
-	public ActionChooseRewardProduction(int servants, Player player)
+	public ActionChooseRewardProductionStart(int servants, Player player)
 	{
 		super(servants);
 		this.player = player;
@@ -49,7 +49,7 @@ public class ActionChooseRewardProduction extends ActionInformationsChooseReward
 			return false;
 		}
 		// check whether the server expects the player to make this action
-		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_PRODUCTION) {
+		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_PRODUCTION_START) {
 			return false;
 		}
 		// check if the player has the servants he sent
@@ -69,12 +69,12 @@ public class ActionChooseRewardProduction extends ActionInformationsChooseReward
 		}
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
 		eventUseServants.applyModifiers(this.player.getActiveModifiers());
-		if (((ActionRewardProduction) this.player.getCurrentActionReward()).isApplyModifiers()) {
-			EventStartProduction eventStartProduction = new EventStartProduction(this.player, ((ActionRewardProduction) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
+		if (((ActionRewardProductionStart) this.player.getCurrentActionReward()).isApplyModifiers()) {
+			EventStartProduction eventStartProduction = new EventStartProduction(this.player, ((ActionRewardProductionStart) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
 			eventStartProduction.applyModifiers(this.player.getActiveModifiers());
 			this.player.setCurrentProductionValue(eventStartProduction.getActionValue());
 		} else {
-			this.player.setCurrentProductionValue(((ActionRewardProduction) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
+			this.player.setCurrentProductionValue(((ActionRewardProductionStart) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
 		}
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);

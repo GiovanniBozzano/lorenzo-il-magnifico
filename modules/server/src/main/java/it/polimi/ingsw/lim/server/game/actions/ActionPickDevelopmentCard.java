@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.*;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsGetDevelopmentCard;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
@@ -24,14 +24,14 @@ import it.polimi.ingsw.lim.server.game.utils.Phase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionGetDevelopmentCard extends ActionInformationsGetDevelopmentCard implements IAction
+public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopmentCard implements IAction
 {
 	private final Player player;
 	private boolean columnOccupied = false;
 	private boolean getBoardPositionReward = true;
 	private List<ResourceAmount> effectiveResourceCost;
 
-	public ActionGetDevelopmentCard(FamilyMemberType familyMemberType, int servants, CardType cardType, Row row, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption, Player player)
+	public ActionPickDevelopmentCard(FamilyMemberType familyMemberType, int servants, CardType cardType, Row row, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption, Player player)
 	{
 		super(familyMemberType, servants, cardType, row, discountChoice, resourceCostOption);
 		this.player = player;

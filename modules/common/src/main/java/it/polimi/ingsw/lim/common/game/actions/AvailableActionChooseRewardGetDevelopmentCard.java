@@ -19,7 +19,7 @@ public class AvailableActionChooseRewardGetDevelopmentCard extends AvailableActi
 
 	public AvailableActionChooseRewardGetDevelopmentCard(CardType cardType, Row row, List<ResourceCostOption> resourceCostOptions, List<List<ResourceAmount>> instantDiscountChoices, List<List<ResourceAmount>> discountChoices)
 	{
-		super(ActionType.GET_DEVELOPMENT_CARD);
+		super(ActionType.PICK_DEVELOPMENT_CARD);
 		this.cardType = cardType;
 		this.row = row;
 		this.resourceCostOptions = new ArrayList<>(resourceCostOptions);

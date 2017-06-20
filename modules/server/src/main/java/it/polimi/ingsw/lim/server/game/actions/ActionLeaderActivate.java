@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderActivation;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderActivate;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
@@ -13,12 +13,12 @@ import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 
-public class ActionLeaderActivation extends ActionInformationsLeaderActivation implements IAction
+public class ActionLeaderActivate extends ActionInformationsLeaderActivate implements IAction
 {
 	private final Player player;
 	private LeaderCard leaderCard;
 
-	public ActionLeaderActivation(int leaderCardIndex, Player player)
+	public ActionLeaderActivate(int leaderCardIndex, Player player)
 	{
 		super(leaderCardIndex);
 		this.player = player;

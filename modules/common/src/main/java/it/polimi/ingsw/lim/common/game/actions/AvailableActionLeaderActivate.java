@@ -2,13 +2,13 @@ package it.polimi.ingsw.lim.common.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 
-public class ActionInformationsLeaderActivation extends ActionInformations
+public class AvailableActionLeaderActivate extends AvailableAction
 {
 	private final int leaderCardIndex;
 
-	public ActionInformationsLeaderActivation(int leaderCardIndex)
+	public AvailableActionLeaderActivate(int leaderCardIndex)
 	{
-		super(ActionType.LEADER_ACTIVATION);
+		super(ActionType.LEADER_ACTIVATE);
 		this.leaderCardIndex = leaderCardIndex;
 	}
 
