@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.common.game.actions;
 
-import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
@@ -19,7 +18,7 @@ public class AvailableActionChooseRewardGetDevelopmentCard extends AvailableActi
 
 	public AvailableActionChooseRewardGetDevelopmentCard(CardType cardType, Row row, List<ResourceCostOption> resourceCostOptions, List<List<ResourceAmount>> instantDiscountChoices, List<List<ResourceAmount>> discountChoices)
 	{
-		super(ActionType.GET_DEVELOPMENT_CARD);
+		super();
 		this.cardType = cardType;
 		this.row = row;
 		this.resourceCostOptions = new ArrayList<>(resourceCostOptions);

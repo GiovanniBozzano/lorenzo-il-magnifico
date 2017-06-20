@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.client.game;
 
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
@@ -35,7 +36,7 @@ public class GameStatus
 	private final Map<Integer, Integer> currentCouncilPalaceOrder = new HashMap<>();
 	private final List<Integer> currentOwnLeaderCardsHand = new ArrayList<>();
 	private int currentTurnPlayerIndex;
-	private final List<AvailableAction> currentAvailableActions = new ArrayList<>();
+	private final Map<ActionType, List<AvailableAction>> currentAvailableActions = new EnumMap<>(ActionType.class);
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private final List<Integer> availableLeaderCards = new ArrayList<>();
 
@@ -250,15 +251,15 @@ public class GameStatus
 		this.currentTurnPlayerIndex = currentTurnPlayerIndex;
 	}
 
-	public List<AvailableAction> getCurrentAvailableActions()
+	public Map<ActionType, List<AvailableAction>> getCurrentAvailableActions()
 	{
 		return this.currentAvailableActions;
 	}
 
-	public void setCurrentAvailableActions(List<AvailableAction> currentAvailableActions)
+	public void setCurrentAvailableActions(Map<ActionType, List<AvailableAction>> currentAvailableActions)
 	{
 		this.currentAvailableActions.clear();
-		this.currentAvailableActions.addAll(currentAvailableActions);
+		this.currentAvailableActions.putAll(currentAvailableActions);
 	}
 
 	public List<Integer> getAvailablePersonalBonusTiles()

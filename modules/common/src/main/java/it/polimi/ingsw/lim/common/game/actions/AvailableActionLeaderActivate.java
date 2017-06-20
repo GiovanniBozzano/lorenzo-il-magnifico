@@ -1,10 +1,10 @@
 package it.polimi.ingsw.lim.common.game.actions;
 
-public class AvailableActionLeaderPlay extends AvailableAction
+public class AvailableActionLeaderActivate extends AvailableAction
 {
 	private final int leaderCardIndex;
 
-	public AvailableActionLeaderPlay(int leaderCardIndex)
+	public AvailableActionLeaderActivate(int leaderCardIndex)
 	{
 		super();
 		this.leaderCardIndex = leaderCardIndex;

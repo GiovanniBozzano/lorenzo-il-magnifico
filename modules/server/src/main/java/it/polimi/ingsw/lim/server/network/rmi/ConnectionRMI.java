@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.network.rmi;
 
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
@@ -240,7 +241,7 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, List<AvailableAction> availableActions)
+	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)
 	{
 		this.rmiExecutor.execute(() -> {
 			try {

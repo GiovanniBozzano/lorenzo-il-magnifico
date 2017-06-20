@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.network.socket;
 
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.GameInformations;
@@ -183,7 +184,7 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, List<AvailableAction> availableActions)
+	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)
 	{
 		new PacketGameUpdate(gameInformations, playersInformations, ownLeaderCardsHand, availableActions).send(this.out);
 	}

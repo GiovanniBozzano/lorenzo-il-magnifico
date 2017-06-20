@@ -3,16 +3,12 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseLorenzoDeMediciLeader;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
-import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ActionChooseLorenzoDeMediciLeader extends ActionInformationsChooseLorenzoDeMediciLeader implements IAction
 {
@@ -46,7 +42,7 @@ public class ActionChooseLorenzoDeMediciLeader extends ActionInformationsChooseL
 			return false;
 		}
 		// check if the chosen leader card is valid
-		List<Integer> availableLeaderCards  = new ArrayList<>();
+		List<Integer> availableLeaderCards = new ArrayList<>();
 		for (Player otherPlayer : gameHandler.getTurnOrder()) {
 			if (otherPlayer != this.player) {
 				for (LeaderCard leaderCard : otherPlayer.getPlayerCardHandler().getLeaderCards()) {
@@ -71,6 +67,5 @@ public class ActionChooseLorenzoDeMediciLeader extends ActionInformationsChooseL
 			return;
 		}
 		gameHandler.setCurrentPhase(Phase.LEADER);
-
 	}
 }

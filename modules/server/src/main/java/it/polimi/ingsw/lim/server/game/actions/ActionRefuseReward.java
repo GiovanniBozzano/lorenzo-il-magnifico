@@ -35,7 +35,7 @@ public class ActionRefuseReward extends ActionInformationsRefuseReward implement
 			return false;
 		}
 		// check whether the server expects the player to make this action
-		return gameHandler.getExpectedAction() == ActionType.CHOOSE_REWARD_GET_DEVELOPMENT_CARD;
+		return gameHandler.getExpectedAction() == ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD;
 	}
 
 	@Override

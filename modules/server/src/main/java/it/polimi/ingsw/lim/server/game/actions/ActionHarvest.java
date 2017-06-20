@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.*;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsHarvestStart;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsHarvest;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
@@ -19,13 +19,13 @@ import it.polimi.ingsw.lim.server.game.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionHarvestStart extends ActionInformationsHarvestStart implements IAction
+public class ActionHarvest extends ActionInformationsHarvest implements IAction
 {
 	private final Player player;
 	private WorkSlotType workSlotType;
 	private int effectiveActionValue;
 
-	public ActionHarvestStart(FamilyMemberType familyMemberType, int servants, Player player)
+	public ActionHarvest(FamilyMemberType familyMemberType, int servants, Player player)
 	{
 		super(familyMemberType, servants);
 		this.player = player;

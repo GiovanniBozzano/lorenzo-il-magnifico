@@ -8,7 +8,7 @@ import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 
 import java.util.List;
 
-public class ActionInformationsChooseRewardGetDevelopmentCard extends ActionInformations
+public class ActionInformationsChooseRewardPickDevelopmentCard extends ActionInformations
 {
 	private final int servants;
 	private final CardType cardType;
@@ -18,9 +18,9 @@ public class ActionInformationsChooseRewardGetDevelopmentCard extends ActionInfo
 	private final List<ResourceAmount> discountChoice;
 	private ResourceCostOption resourceCostOption;
 
-	public ActionInformationsChooseRewardGetDevelopmentCard(int servants, CardType cardType, Row row, Row instantRewardRow, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption)
+	public ActionInformationsChooseRewardPickDevelopmentCard(int servants, CardType cardType, Row row, Row instantRewardRow, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption)
 	{
-		super(ActionType.CHOOSE_REWARD_GET_DEVELOPMENT_CARD);
+		super(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD);
 		this.servants = servants;
 		this.cardType = cardType;
 		this.row = row;

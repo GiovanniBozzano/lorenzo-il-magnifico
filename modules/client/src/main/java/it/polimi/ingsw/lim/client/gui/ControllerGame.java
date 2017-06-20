@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client.gui;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
@@ -9,11 +8,10 @@ import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
+import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -1067,14 +1065,7 @@ public class ControllerGame extends CustomController
 		}
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
-		JFXButton actionsButton = new JFXButton();
-		Label label = new Label("A");
-		label.setStyle("-fx-text-fill:WHITE");
-		actionsButton.setGraphic(label);
-		actionsButton.setDisable(true);
-		actionsButton.setButtonType(ButtonType.RAISED);
-		actionsButton.getStyleClass().add("animated-option-button");
-		actionsNodesList.addAnimatedNode(actionsButton);
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_council_palace.png", true);
 		this.actionsVBox.getChildren().add(actionsNodesList);
 	}
 
@@ -1161,58 +1152,47 @@ public class ControllerGame extends CustomController
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
 		actionsNodesList.setSpacing(10.0D);
-		JFXButton actionsButton = new JFXButton();
-		Label label = new Label("A");
-		label.setStyle("-fx-text-fill:WHITE");
-		actionsButton.setGraphic(new ImageView(this.getClass().getResource("/images/council_palace_icon.png").toString()));
-		actionsButton.getStyleClass().add("animated-option-button");
-		actionsNodesList.addAnimatedNode(actionsButton, (expanded) -> Collections.singletonList(new KeyValue(label.rotateProperty(), expanded ? 360 : 0, Interpolator.EASE_BOTH)));
-		this.actionsVBox.getChildren().add(actionsNodesList);
-		Map<ActionType, List<AvailableAction>> mappedActions = new EnumMap<>(ActionType.class);
-		mappedActions.put(ActionType.COUNCIL_PALACE, new ArrayList<>());
-		mappedActions.put(ActionType.GET_DEVELOPMENT_CARD, new ArrayList<>());
-		mappedActions.put(ActionType.HARVEST_START, new ArrayList<>());
-		mappedActions.put(ActionType.MARKET, new ArrayList<>());
-		mappedActions.put(ActionType.PRODUCTION_START, new ArrayList<>());
-		mappedActions.put(ActionType.LEADER_ACTIVATION, new ArrayList<>());
-		mappedActions.put(ActionType.LEADER_DISCARD, new ArrayList<>());
-		mappedActions.put(ActionType.LEADER_PLAY, new ArrayList<>());
-		for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions()) {
-			mappedActions.get(availableAction.getActionType()).add(availableAction);
-		}
-		if (!mappedActions.get(ActionType.COUNCIL_PALACE).isEmpty() || !mappedActions.get(ActionType.GET_DEVELOPMENT_CARD).isEmpty() || !mappedActions.get(ActionType.HARVEST_START).isEmpty() || !mappedActions.get(ActionType.MARKET).isEmpty() || !mappedActions.get(ActionType.PRODUCTION_START).isEmpty()) {
-			JFXButton familyMemberActionButton = new JFXButton();
-			Label familyMemberActionLabel = new Label("F");
-			familyMemberActionLabel.setStyle("-fx-text-fill:WHITE");
-			familyMemberActionButton.setGraphic(familyMemberActionLabel);
-			familyMemberActionButton.getStyleClass().add("animated-option-button");
-			actionsNodesList.addAnimatedNode(familyMemberActionButton);
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_council_palace.png", false);
+		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START).isEmpty()) {
 			JFXNodesList familyMemberActionNodesList = new JFXNodesList();
-			if (!mappedActions.get(ActionType.COUNCIL_PALACE).isEmpty()) {
-				JFXButton councilPalaceActionButton = new JFXButton();
-				Label councilPalaceActionLabel = new Label("F");
-				councilPalaceActionLabel.setStyle("-fx-text-fill:WHITE");
-				councilPalaceActionButton.setGraphic(councilPalaceActionLabel);
-				councilPalaceActionButton.getStyleClass().add("animated-option-button");
-				familyMemberActionNodesList.addAnimatedNode(councilPalaceActionButton);
+			ControllerGame.setActionButton(familyMemberActionNodesList, "/images/icons/action_council_palace.png", false);
+			familyMemberActionNodesList.setSpacing(10.0D);
+			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty()) {
+				familyMemberActionNodesList.addAnimatedNode(ControllerGame.setFamilyMemberTypesNodeList("/images/icons/action_council_palace.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE)));
 			}
+			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST).isEmpty()) {
+				familyMemberActionNodesList.addAnimatedNode(ControllerGame.setFamilyMemberTypesNodeList("/images/icons/action_harvest.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST)));
+			}
+			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET).isEmpty()) {
+				familyMemberActionNodesList.addAnimatedNode(ControllerGame.setFamilyMemberTypesNodeList("/images/icons/action_market.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)));
+			}
+			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD).isEmpty()) {
+				familyMemberActionNodesList.addAnimatedNode(ControllerGame.setFamilyMemberTypesNodeList("/images/icons/action_pick_development_card.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)));
+			}
+			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START).isEmpty()) {
+				familyMemberActionNodesList.addAnimatedNode(ControllerGame.setFamilyMemberTypesNodeList("/images/icons/action_production_start.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START)));
+			}
+			familyMemberActionNodesList.setRotate(270.0D);
 			actionsNodesList.addAnimatedNode(familyMemberActionNodesList);
 		}
-		if (!mappedActions.get(ActionType.LEADER_ACTIVATION).isEmpty() || !mappedActions.get(ActionType.LEADER_DISCARD).isEmpty() || !mappedActions.get(ActionType.LEADER_PLAY).isEmpty()) {
-			JFXButton childButton = new JFXButton();
-			Label childLabel = new Label("L");
-			childLabel.setStyle("-fx-text-fill:WHITE");
-			childButton.setGraphic(childLabel);
-			childButton.getStyleClass().add("animated-option-button");
-			actionsNodesList.addAnimatedNode(childButton);
+		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
+			JFXNodesList leaderCardsActionNodesList = new JFXNodesList();
+			ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_council_palace.png", false);
+			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty()) {
+				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_activate.png", false);
+			}
+			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty()) {
+				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_discard.png", false);
+			}
+			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
+				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_play.png", false);
+			}
+			leaderCardsActionNodesList.setRotate(270.0D);
+			actionsNodesList.addAnimatedNode(leaderCardsActionNodesList);
 		}
-		JFXButton childButton = new JFXButton();
-		Label childLabel = new Label("P");
-		childLabel.setStyle("-fx-text-fill:WHITE");
-		childButton.setGraphic(childLabel);
-		childButton.getStyleClass().add("animated-option-button");
-		actionsNodesList.addAnimatedNode(childButton);
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_turn_pass.png", false);
 		actionsNodesList.setRotate(180.0D);
+		this.actionsVBox.getChildren().add(actionsNodesList);
 		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "Your turn");
 	}
 
@@ -1221,15 +1201,48 @@ public class ControllerGame extends CustomController
 		this.updateGame();
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
-		JFXButton actionsButton = new JFXButton();
-		Label label = new Label("A");
-		label.setStyle("-fx-text-fill:WHITE");
-		actionsButton.setGraphic(label);
-		actionsButton.setDisable(true);
-		actionsButton.getStyleClass().add("animated-option-button");
-		actionsNodesList.addAnimatedNode(actionsButton);
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_council_palace.png", true);
 		this.actionsVBox.getChildren().add(actionsNodesList);
 		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getCurrentTurnPlayerIndex()).getUsername() + "'s turn");
+	}
+
+	private static void setActionButton(JFXNodesList nodesList, String imagePath, boolean disabled)
+	{
+		JFXButton button = new JFXButton();
+		if (disabled) {
+			button.setDisable(true);
+		}
+		ImageView imageView = new ImageView(new Image(Client.class.getResource(imagePath).toString()));
+		button.setGraphic(imageView);
+		button.getStyleClass().add("animated-option-button");
+		nodesList.addAnimatedNode(button);
+	}
+
+	private static JFXNodesList setFamilyMemberTypesNodeList(String imagePath, List<AvailableAction> availableActions)
+	{
+		JFXNodesList nodesList = new JFXNodesList();
+		ControllerGame.setActionButton(nodesList, imagePath, false);
+		nodesList.setSpacing(10.0D);
+		List<FamilyMemberType> mappedFamilyMemberTypes = new ArrayList<>();
+		for (AvailableAction availableAction : availableActions) {
+			if (!mappedFamilyMemberTypes.contains(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
+				mappedFamilyMemberTypes.add(((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
+			}
+		}
+		if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
+			ControllerGame.setActionButton(nodesList, "/images/icons/action_council_palace.png", false);
+		}
+		if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
+			ControllerGame.setActionButton(nodesList, "/images/icons/action_council_palace.png", false);
+		}
+		if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
+			ControllerGame.setActionButton(nodesList, "/images/icons/action_council_palace.png", false);
+		}
+		if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
+			ControllerGame.setActionButton(nodesList, "/images/icons/action_council_palace.png", false);
+		}
+		nodesList.setRotate(180.0D);
+		return nodesList;
 	}
 
 	private void updateGame()
