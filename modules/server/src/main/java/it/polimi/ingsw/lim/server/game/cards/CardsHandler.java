@@ -184,6 +184,16 @@ public class CardsHandler
 		this.currentDevelopmentCardsVenture.put(row, developmentCard);
 	}
 
+	public static LeaderCard getleaderCardFromIndex(int index)
+	{
+		for (LeaderCard leaderCard : CardsHandler.LEADER_CARDS) {
+			if (leaderCard.getIndex() == index) {
+				return leaderCard;
+			}
+		}
+		return null;
+	}
+
 	public static Map<CardType, Class<? extends DevelopmentCard>> getDevelopmentCardsTypes()
 	{
 		return CardsHandler.DEVELOPMENT_CARDS_TYPES;

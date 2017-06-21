@@ -4,7 +4,6 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderPlay;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
-import it.polimi.ingsw.lim.common.game.actions.ExpectedActionRewardLorenzoDeMediciLeader;
 import it.polimi.ingsw.lim.common.game.utils.CardAmount;
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
@@ -96,7 +95,8 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 		gameHandler.setCurrentPhase(Phase.LEADER);
 		// check Lollo
 		if (this.leaderCard.getIndex() == 14) {
-			gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionRewardLorenzoDeMediciLeader());
+			gameHandler.sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) this.leaderCard).getReward().getActionReward().createExpectedAction(gameHandler,this.player));
+			return;
 		}
 		if (this.leaderCard instanceof LeaderCardModifier) {
 			this.player.getActiveModifiers().add(((LeaderCardModifier) this.leaderCard).getModifier());
@@ -106,6 +106,8 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			eventGainResources.applyModifiers(this.player.getActiveModifiers());
 			this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 			if (((LeaderCardReward) this.leaderCard).getReward().getActionReward() != null) {
+				this.player.setCurrentActionReward(((LeaderCardReward) this.leaderCard).getReward().getActionReward());
+				gameHandler.setExpectedAction(((LeaderCardReward) this.leaderCard).getReward().getActionReward().getRequestedAction());
 				gameHandler.sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) this.leaderCard).getReward().getActionReward().createExpectedAction(gameHandler, this.player));
 				return;
 			}

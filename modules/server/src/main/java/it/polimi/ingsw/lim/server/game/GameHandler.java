@@ -523,7 +523,7 @@ public class GameHandler
 				List<List<ResourceAmount>> availableDiscountChoises = new ArrayList<>();
 				for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
 					boolean validFamilyMember = false;
-					if (player.getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE) {
+					if (player.getFamilyMembersPositions().get(familyMemberType) != BoardPosition.NONE) {
 						continue;
 					}
 					if (this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions().isEmpty()) {
