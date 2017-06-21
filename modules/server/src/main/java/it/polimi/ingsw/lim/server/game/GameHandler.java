@@ -87,6 +87,7 @@ public class GameHandler
 			Collections.shuffle(this.developmentCardsTerritory.get(period), this.randomGenerator);
 			Collections.shuffle(this.developmentCardsVenture.get(period), this.randomGenerator);
 		}
+		this.familyMemberTypeValues.put(FamilyMemberType.NEUTRAL, 0);
 		int currentIndex = 0;
 		for (Connection connection : this.room.getPlayers()) {
 			connection.setPlayer(new Player(connection, currentIndex));

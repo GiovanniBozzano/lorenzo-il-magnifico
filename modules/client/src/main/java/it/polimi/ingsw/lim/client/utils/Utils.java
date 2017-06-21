@@ -1,9 +1,14 @@
 package it.polimi.ingsw.lim.client.utils;
 
+import it.polimi.ingsw.lim.common.enums.Color;
+import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Effect;
 import javafx.scene.layout.Pane;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 public class Utils
 {
@@ -11,6 +16,50 @@ public class Utils
 	public static final String SCENE_CONNECTION = "/fxml/SceneConnection.fxml";
 	public static final String SCENE_ROOM = "/fxml/SceneRoom.fxml";
 	public static final String SCENE_GAME = "/fxml/SceneGame.fxml";
+	public static final Map<Color, Map<FamilyMemberType, String>> PLAYERS_FAMILY_MEMBER_TYPES = new EnumMap<>(Color.class);
+
+	static {
+		Map<FamilyMemberType, String> bluePlayerFamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
+		bluePlayerFamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/players/player_blue_family_member_type_black.png");
+		bluePlayerFamilyMemberTypes.put(FamilyMemberType.NEUTRAL, "/images/players/player_blue_family_member_type_neutral.png");
+		bluePlayerFamilyMemberTypes.put(FamilyMemberType.ORANGE, "/images/players/player_blue_family_member_type_orange.png");
+		bluePlayerFamilyMemberTypes.put(FamilyMemberType.WHITE, "/images/players/player_blue_family_member_type_white.png");
+		Map<FamilyMemberType, String> greenPlayerFamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
+		greenPlayerFamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/players/player_green_family_member_type_black.png");
+		greenPlayerFamilyMemberTypes.put(FamilyMemberType.NEUTRAL, "/images/players/player_green_family_member_type_neutral.png");
+		greenPlayerFamilyMemberTypes.put(FamilyMemberType.ORANGE, "/images/players/player_green_family_member_type_orange.png");
+		greenPlayerFamilyMemberTypes.put(FamilyMemberType.WHITE, "/images/players/player_green_family_member_type_white.png");
+		Map<FamilyMemberType, String> purplePlayerFamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
+		purplePlayerFamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/players/player_purple_family_member_type_black.png");
+		purplePlayerFamilyMemberTypes.put(FamilyMemberType.NEUTRAL, "/images/players/player_purple_family_member_type_neutral.png");
+		purplePlayerFamilyMemberTypes.put(FamilyMemberType.ORANGE, "/images/players/player_purple_family_member_type_orange.png");
+		purplePlayerFamilyMemberTypes.put(FamilyMemberType.WHITE, "/images/players/player_purple_family_member_type_white.png");
+		Map<FamilyMemberType, String> redPlayerFamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
+		redPlayerFamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/players/player_red_family_member_type_black.png");
+		redPlayerFamilyMemberTypes.put(FamilyMemberType.NEUTRAL, "/images/players/player_red_family_member_type_neutral.png");
+		redPlayerFamilyMemberTypes.put(FamilyMemberType.ORANGE, "/images/players/player_red_family_member_type_orange.png");
+		redPlayerFamilyMemberTypes.put(FamilyMemberType.WHITE, "/images/players/player_red_family_member_type_white.png");
+		Map<FamilyMemberType, String> yellowPlayerFamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
+		yellowPlayerFamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/players/player_yellow_family_member_type_black.png");
+		yellowPlayerFamilyMemberTypes.put(FamilyMemberType.NEUTRAL, "/images/players/player_yellow_family_member_type_neutral.png");
+		yellowPlayerFamilyMemberTypes.put(FamilyMemberType.ORANGE, "/images/players/player_yellow_family_member_type_orange.png");
+		yellowPlayerFamilyMemberTypes.put(FamilyMemberType.WHITE, "/images/players/player_yellow_family_member_type_white.png");
+		Utils.PLAYERS_FAMILY_MEMBER_TYPES.put(Color.BLUE, bluePlayerFamilyMemberTypes);
+		Utils.PLAYERS_FAMILY_MEMBER_TYPES.put(Color.GREEN, greenPlayerFamilyMemberTypes);
+		Utils.PLAYERS_FAMILY_MEMBER_TYPES.put(Color.PURPLE, purplePlayerFamilyMemberTypes);
+		Utils.PLAYERS_FAMILY_MEMBER_TYPES.put(Color.RED, redPlayerFamilyMemberTypes);
+		Utils.PLAYERS_FAMILY_MEMBER_TYPES.put(Color.YELLOW, yellowPlayerFamilyMemberTypes);
+	}
+
+	public static final Map<Color, String> PLAYERS_PLACEHOLDERS = new EnumMap<>(Color.class);
+
+	static {
+		Utils.PLAYERS_PLACEHOLDERS.put(Color.BLUE, "/images/players/player_blue.png");
+		Utils.PLAYERS_PLACEHOLDERS.put(Color.GREEN, "/images/players/player_green.png");
+		Utils.PLAYERS_PLACEHOLDERS.put(Color.PURPLE, "/images/players/player_purple.png");
+		Utils.PLAYERS_PLACEHOLDERS.put(Color.RED, "/images/players/player_red.png");
+		Utils.PLAYERS_PLACEHOLDERS.put(Color.YELLOW, "/images/players/player_yellow.png");
+	}
 
 	private Utils()
 	{

@@ -68,7 +68,7 @@ public class Room
 	{
 		this.players.add(player);
 		if (this.gameHandler == null) {
-			if (this.players.size() > 1 && this.players.size() < this.getRoomType().getPlayersNumber() && this.timerExecutor == null) {
+			if (this.roomType == RoomType.NORMAL && this.players.size() > 1 && this.players.size() < this.getRoomType().getPlayersNumber() && this.timerExecutor == null) {
 				this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
 				this.timerExecutor.scheduleWithFixedDelay(() -> {
 					this.timer--;
@@ -89,20 +89,20 @@ public class Room
 	private void removePlayer(Connection player)
 	{
 		this.players.remove(player);
-		if (this.gameHandler == null) {
-			if (this.players.size() < 2) {
-				if (this.timerExecutor != null) {
-					this.timerExecutor.shutdownNow();
-				}
-				this.timerExecutor = null;
-				this.timer = ServerSettings.getInstance().getRoomTimer();
+		if (this.gameHandler == null && this.roomType == RoomType.NORMAL && this.players.size() < 2) {
+			if (this.timerExecutor != null) {
+				this.timerExecutor.shutdownNow();
 			}
+			this.timerExecutor = null;
+			this.timer = ServerSettings.getInstance().getRoomTimer();
 		}
 	}
 
 	private void startGame()
 	{
-		this.timerExecutor.shutdownNow();
+		if (this.timerExecutor != null) {
+			this.timerExecutor.shutdownNow();
+		}
 		this.gameHandler = new GameHandler(this);
 	}
 
