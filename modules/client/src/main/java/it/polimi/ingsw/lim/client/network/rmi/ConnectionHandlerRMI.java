@@ -55,7 +55,9 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			return;
 		}
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_AUTHENTICATION);
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			WindowFactory.getInstance().setNewWindow(Utils.SCENE_AUTHENTICATION);
+		}
 	}
 
 	@Override

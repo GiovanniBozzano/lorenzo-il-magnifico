@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.client;
 
+import it.polimi.ingsw.lim.client.cli.CLIHandlerAuthentication;
 import it.polimi.ingsw.lim.client.cli.CLIHandlerConnection;
 import it.polimi.ingsw.lim.client.cli.CLIHandlerInterfaceChoice;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
@@ -27,6 +28,7 @@ public class Client extends Instance
 	static {
 		Client.CLI_HANDLERS.put(CLIStatus.INTERFACE_CHOICE, new CLIHandlerInterfaceChoice());
 		Client.CLI_HANDLERS.put(CLIStatus.CONNECTION, new CLIHandlerConnection());
+		Client.CLI_HANDLERS.put(CLIStatus.AUTHENTICATION, new CLIHandlerAuthentication());
 	}
 
 	private CLIStatus cliStatus = CLIStatus.INTERFACE_CHOICE;
@@ -91,10 +93,12 @@ public class Client extends Instance
 			if (isStopping) {
 				this.getCliScanner().close();
 				this.getCliListener().shutdownNow();
-				Platform.runLater(() -> WindowFactory.getInstance().closeWindow());
-			} else if (WindowFactory.getInstance().isWindowOpen(ControllerConnection.class)) {
+				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+					Platform.runLater(() -> WindowFactory.getInstance().closeWindow());
+				}
+			} else if (Client.getInstance().getCliStatus() == CLIStatus.NONE && WindowFactory.getInstance().isWindowOpen(ControllerConnection.class)) {
 				WindowFactory.getInstance().enableWindow();
-			} else {
+			} else if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 				WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION);
 			}
 		});

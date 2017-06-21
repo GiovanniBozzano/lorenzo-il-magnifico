@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.client.network;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.cli.CLIHandlerPersonalBonusTileChoice;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
@@ -235,14 +236,19 @@ public abstract class ConnectionHandler extends Thread
 
 	public void handleGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles)
 	{
-		try {
-			WindowFactory.WINDOW_OPENING_SEMAPHORE.acquire();
-		} catch (InterruptedException exception) {
-			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
+		if (Client.getInstance().getCliStatus() == CLIStatus.PERSONAL_BONUS_TILE_CHOICE) {
+			((CLIHandlerPersonalBonusTileChoice) Client.getInstance().getCurrentCliHandler()).setOwnTurn(true);
 		}
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
-			return;
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			try {
+				WindowFactory.WINDOW_OPENING_SEMAPHORE.acquire();
+			} catch (InterruptedException exception) {
+				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				Thread.currentThread().interrupt();
+			}
+			if (!WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+				return;
+			}
 		}
 		WindowFactory.WINDOW_OPENING_SEMAPHORE.release();
 		GameStatus.getInstance().setAvailablePersonalBonusTiles(availablePersonalBonusTiles);

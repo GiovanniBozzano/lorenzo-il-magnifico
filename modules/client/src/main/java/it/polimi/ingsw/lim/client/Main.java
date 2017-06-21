@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.client;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.Instance;
+import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.LoggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
@@ -34,16 +35,15 @@ public class Main extends Application
 		Client.getInstance().getCliListener().execute(() -> {
 			while (!Thread.currentThread().isInterrupted()) {
 				try {
-					Client.getCliHandlers().get(Client.getInstance().getCliStatus()).execute(Client.getInstance().getCliScanner().nextLine());
+					ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+					Client.getInstance().setCurrentCliHandler(cliHandler);
+					cliHandler.execute();
 				} catch (IllegalStateException exception) {
 					Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 					Thread.currentThread().interrupt();
 				}
 			}
 		});
-		Client.getLogger().log(Level.INFO, "Enter Interface Type...");
-		Client.getLogger().log(Level.INFO, "1 - GUI");
-		Client.getLogger().log(Level.INFO, "2 - CLI");
 	}
 
 	@Override

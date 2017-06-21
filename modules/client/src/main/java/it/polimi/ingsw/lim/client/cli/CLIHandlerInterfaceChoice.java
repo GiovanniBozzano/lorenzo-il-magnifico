@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.client.cli;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.Main;
+import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.cli.IInputHandler;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -22,25 +23,28 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 			} catch (Exception exception) {
 				Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
-			return true;
 		});
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(2, cliHandler -> {
-			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
-			Client.getLogger().log(Level.INFO, "1 - RMI");
-			Client.getLogger().log(Level.INFO, "2 - Socket");
-			return true;
+			Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
 		});
 	}
 
 	@Override
-	public void execute(String input)
+	public void execute()
 	{
-		if (!CommonUtils.isInteger(input)) {
-			return;
+		this.askInterfaceType();
+	}
+
+	private void askInterfaceType()
+	{
+		Client.getLogger().log(Level.INFO, "Enter Interface Type...");
+		Client.getLogger().log(Level.INFO, "1 - GUI");
+		Client.getLogger().log(Level.INFO, "2 - CLI");
+		String input;
+		do {
+			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		if (!CLIHandlerInterfaceChoice.INPUT_HANDLERS.containsKey(Integer.parseInt(input))) {
-			return;
-		}
+		while (!CommonUtils.isInteger(input) || !CLIHandlerInterfaceChoice.INPUT_HANDLERS.containsKey(Integer.parseInt(input)));
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.get(Integer.parseInt(input)).execute(this);
 	}
 }
