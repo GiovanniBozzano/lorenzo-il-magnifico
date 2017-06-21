@@ -82,6 +82,8 @@ public class ActionLeaderActivate extends ActionInformationsLeaderActivate imple
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		if (((LeaderCardReward) this.leaderCard).getReward().getActionReward() != null) {
+			this.player.setCurrentActionReward(((LeaderCardReward) this.leaderCard).getReward().getActionReward());
+			gameHandler.setExpectedAction(((LeaderCardReward) this.leaderCard).getReward().getActionReward().getRequestedAction());
 			gameHandler.sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) this.leaderCard).getReward().getActionReward().createExpectedAction(gameHandler, this.player));
 			return;
 		}

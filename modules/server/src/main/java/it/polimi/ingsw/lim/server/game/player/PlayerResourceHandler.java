@@ -56,7 +56,7 @@ public class PlayerResourceHandler
 
 	public void addResource(ResourceType resourceType, int amount)
 	{
-		this.resources.put(resourceType, amount);
+		this.resources.put(resourceType, this.resources.get(resourceType) + amount);
 	}
 
 	public void addResources(List<ResourceAmount> resourceAmounts)
@@ -68,7 +68,7 @@ public class PlayerResourceHandler
 
 	public void addTemporaryResource(ResourceType resourceType, int amount)
 	{
-		this.temporaryResources.put(resourceType, amount);
+		this.temporaryResources.put(resourceType, this.temporaryResources.get(resourceType) + amount);
 	}
 
 	public void addTemporaryResources(List<ResourceAmount> resourceAmounts)

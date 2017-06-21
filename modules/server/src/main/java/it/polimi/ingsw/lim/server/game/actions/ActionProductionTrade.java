@@ -16,8 +16,10 @@ import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class ActionProductionTrade extends ActionInformationsProductionTrade implements IAction
 {
@@ -49,6 +51,29 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 		// check whether the server expects the player to make this action
 		if (gameHandler.getExpectedAction() != ActionType.PRODUCTION_TRADE) {
 			return false;
+		}
+		//ckeck trades' correctness
+		Map<ResourceType, Integer> employedResources = new EnumMap<>(ResourceType.class);
+		for (Entry<Integer, ResourceTradeOption> chosenDevelopmentCardBuilding : this.getChosenDevelopmentCardsBuilding().entrySet()) {
+			DevelopmentCardBuilding developmentCardBuilding = this.player.getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, chosenDevelopmentCardBuilding.getKey(), DevelopmentCardBuilding.class);
+			if (developmentCardBuilding == null) {
+				return false;
+			}
+			if (!developmentCardBuilding.getResourceTradeOptions().contains(chosenDevelopmentCardBuilding.getValue())) {
+				return false;
+			}
+			for (ResourceAmount resourceAmount : chosenDevelopmentCardBuilding.getValue().getEmployedResources()) {
+				if (employedResources.containsKey(resourceAmount.getResourceType())) {
+					employedResources.put(resourceAmount.getResourceType(), employedResources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
+				} else {
+					employedResources.put(resourceAmount.getResourceType(), resourceAmount.getAmount());
+				}
+			}
+		}
+		for (Entry<ResourceType, Integer> employedResource : employedResources.entrySet()) {
+			if (this.player.getPlayerResourceHandler().getResources().get(employedResource.getKey()) < employedResource.getValue()) {
+				return false;
+			}
 		}
 		return true;
 	}

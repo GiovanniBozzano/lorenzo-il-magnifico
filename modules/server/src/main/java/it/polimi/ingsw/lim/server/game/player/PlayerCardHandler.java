@@ -52,14 +52,24 @@ public class PlayerCardHandler
 		this.developmentCards.get(developmentCard.getCardType()).add(CardsHandler.getDevelopmentCardsTypes().get(developmentCard.getCardType()).cast(developmentCard));
 	}
 
+	public boolean canAddDevelopmentCard(CardType cardType)
+	{
+		return this.developmentCards.get(cardType).size() < 6;
+	}
+
 	public void addLeaderCard(LeaderCard leaderCard)
 	{
 		this.leaderCards.add(leaderCard);
 	}
 
-	public boolean canAddDevelopmentCard(CardType cardType)
+	public LeaderCard getLeaderCardFromIndex(int index)
 	{
-		return this.developmentCards.get(cardType).size() < 6;
+		for (LeaderCard leaderCard : this.leaderCards) {
+			if (leaderCard.getIndex() == index) {
+				return leaderCard;
+			}
+		}
+		return null;
 	}
 
 	public List<LeaderCard> getLeaderCards()

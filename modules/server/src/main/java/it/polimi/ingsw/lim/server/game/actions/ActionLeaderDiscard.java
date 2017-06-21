@@ -61,7 +61,7 @@ public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard impleme
 			return false;
 		}
 		// check if the leader card hasn't been played
-		return this.leaderCard.isPlayed();
+		return !this.leaderCard.isPlayed();
 	}
 
 	@Override
