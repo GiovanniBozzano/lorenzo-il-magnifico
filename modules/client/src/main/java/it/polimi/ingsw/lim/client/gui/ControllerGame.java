@@ -9,16 +9,17 @@ import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardModifierInformations;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardRewardInformations;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
+import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -1064,6 +1065,10 @@ public class ControllerGame extends CustomController
 		}
 		for (Entry<Period, Integer> excommunicationTile : GameStatus.getInstance().getCurrentExcommunicationTiles().entrySet()) {
 			this.excommunicationTilesPanes.get(excommunicationTile.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getExcommunicationTiles().get(excommunicationTile.getValue()).getTexturePath()).toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getExcommunicationTiles().get(excommunicationTile.getValue()).getModifier());
+			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+			Tooltip.install(this.excommunicationTilesPanes.get(excommunicationTile.getKey()), tooltip);
 		}
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
@@ -1376,10 +1381,14 @@ public class ControllerGame extends CustomController
 
 	public void showPersonalBonusTilesChoiceDialog()
 	{
-		/*for (Integer personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
-			VBox vBox = new VBox();
-			Text text = new Text();
-			text.setFont(CommonUtils.ROBOTO_REGULAR);
+		this.personalBonusTilesChoiceDialog.show();
+		this.personalBonusTilesChoiceDialogHBox.getChildren().clear();
+		for (Integer personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
+			Pane pane = new Pane();
+			pane.setPrefWidth(76.0D * this.ratio);
+			pane.setPrefHeight(650.0D * this.ratio);
+			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("Production activation cost: ");
 			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getProductionActivationCost());
@@ -1403,20 +1412,10 @@ public class ControllerGame extends CustomController
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
-			text.setText(stringBuilder.toString());
-			vBox.getChildren().add(text);
-			Utils.setEffect(vBox, this.borderGlow);
-			vBox.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex));
-			this.personalBonusTilesChoiceDialogHBox.getChildren().add(vBox);
-		}
-		this.personalBonusTilesChoiceDialog.show();*/
-		this.personalBonusTilesChoiceDialogHBox.getChildren().clear();
-		for (Integer personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
-			Pane pane = new Pane();
-			pane.setPrefWidth(76.0D * this.ratio);
-			pane.setPrefHeight(650.0D * this.ratio);
-			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
-			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			Tooltip tooltip = new Tooltip(stringBuilder.toString());
+			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, this.borderGlow);
 			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex));
 			this.personalBonusTilesChoiceDialogHBox.getChildren().add(pane);
@@ -1440,6 +1439,35 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getDisplayName());
+			stringBuilder.append("\n\n");
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getDescription());
+			stringBuilder.append("\n\n");
+			if (GameStatus.getInstance().getLeaderCards().get(leaderCardIndex) instanceof LeaderCardModifierInformations) {
+				stringBuilder.append("PERMANENT ABILITY:\n");
+				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getModifier());
+			} else {
+				stringBuilder.append("ONCE PER ROUND ABILITY:");
+				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getResourceAmounts().isEmpty()) {
+					stringBuilder.append("\n\nInstant resources:");
+				}
+				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getResourceAmounts()) {
+					stringBuilder.append('\n');
+					stringBuilder.append(ControllerGame.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(": ");
+					stringBuilder.append(resourceAmount.getAmount());
+				}
+				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getActionRewardInformations() != null) {
+					stringBuilder.append("\n\nAction reward:");
+					stringBuilder.append('\n');
+					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getActionRewardInformations());
+				}
+			}
+			Tooltip tooltip = new Tooltip(stringBuilder.toString());
+			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, this.borderGlow);
 			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCardIndex));
 			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);

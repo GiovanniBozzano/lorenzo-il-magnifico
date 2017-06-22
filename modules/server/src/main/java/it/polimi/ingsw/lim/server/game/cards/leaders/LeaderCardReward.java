@@ -24,7 +24,7 @@ public class LeaderCardReward extends LeaderCard
 	@Override
 	public LeaderCardInformations getInformations()
 	{
-		return new LeaderCardRewardInformations(this.getTexturePath(), this.getDescription(), this.getConditionsOptions(), new RewardInformations(this.reward.getActionReward() == null ? null : this.reward.getActionReward().getDescription(), this.reward.getResourceAmounts()));
+		return new LeaderCardRewardInformations(this.getTexturePath(), this.getDisplayName(), this.getDescription(), this.getConditionsOptions(), new RewardInformations(this.reward.getActionReward() == null ? null : this.reward.getActionReward().getDescription(), this.reward.getResourceAmounts()));
 	}
 
 	public Reward getReward()

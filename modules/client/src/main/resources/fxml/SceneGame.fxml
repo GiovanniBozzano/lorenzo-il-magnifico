@@ -1,27 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXDialog?>
-<?import com.jfoenix.controls.JFXDialogLayout?>
-<?import com.jfoenix.controls.JFXTabPane?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
+<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.*?><?import javafx.geometry.Insets?><?import javafx.scene.control.*?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?><?import javafx.scene.text.*?>
 <StackPane fx:id="stackPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.client.gui.ControllerGame">
 	<VBox spacing="10.0">
 		<GridPane>
@@ -57,10 +34,10 @@
 				<Pane fx:id="territory3" layoutX="84.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 				<Pane fx:id="territory2" layoutX="84.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 				<Pane fx:id="territory1" layoutX="84.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-				<Pane fx:id="character4" layoutX="210.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-				<Pane fx:id="character3" layoutX="210.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-				<Pane fx:id="character2" layoutX="210.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-				<Pane fx:id="character1" layoutX="210.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="character4" layoutX="211.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="character3" layoutX="211.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="character2" layoutX="211.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="character1" layoutX="211.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 				<Pane fx:id="building4" layoutX="337.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 				<Pane fx:id="building3" layoutX="337.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 				<Pane fx:id="building2" layoutX="337.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
@@ -343,47 +320,27 @@
 				<Pane fx:id="militaryPoint19" layoutX="614.0" layoutY="286.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="militaryPoint18" layoutX="614.0" layoutY="316.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="militaryPoint25" layoutX="614.0" layoutY="100.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileFirst" layoutX="162.0" layoutY="601.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="95.0" prefWidth="44.0">
-               <children>
-                  <ImageView fitHeight="89.0" fitWidth="47.0" layoutY="3.0">
-                     <image>
-                        <Image url="@../images/excommunication_tiles/excommunication_tile_1_2.png" />
-                     </image>
-                  </ImageView>
-                  <Pane fx:id="victoryPoint831" layoutX="8.0" layoutY="15.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-                  <Pane fx:id="victoryPoint8311" layoutX="26.0" layoutY="15.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-                  <Pane fx:id="victoryPoint83111" layoutX="8.0" layoutY="32.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-                  <Pane fx:id="victoryPoint83112" layoutX="26.0" layoutY="32.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-                  <Pane fx:id="victoryPoint83113" layoutX="26.0" layoutY="49.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-               </children></Pane>
-				<Pane fx:id="excommunicationTileSecond" layoutX="213.0" layoutY="613.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="89.0" prefWidth="43.0">
-               <children>
-                  <ImageView fitHeight="86.0" fitWidth="47.0" layoutX="-2.0" layoutY="1.0">
-                     <image>
-                        <Image url="@../images/excommunication_tiles/excommunication_tile_2_2.png" />
-                     </image>
-                  </ImageView>
-                  <Pane fx:id="victoryPoint831131" layoutX="5.5" layoutY="10.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-                  <Pane fx:id="victoryPoint831132" layoutX="23.5" layoutY="10.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-                  <Pane fx:id="victoryPoint831133" layoutX="23.5" layoutY="27.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-                  <Pane fx:id="victoryPoint831134" layoutX="5.5" layoutY="27.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-                  <Pane fx:id="victoryPoint8311331" layoutX="23.5" layoutY="44.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-               </children>
-            </Pane>
-				<Pane fx:id="excommunicationTileThird" layoutX="263.0" layoutY="601.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="95.0" prefWidth="47.0">
-               <children>
-                  <ImageView fitHeight="89.0" fitWidth="47.0" layoutX="-2.0" layoutY="3.0">
-                     <image>
-                        <Image url="@../images/excommunication_tiles/excommunication_tile_3_3.png" />
-                     </image>
-                  </ImageView>
-                  <Pane fx:id="victoryPoint83113315" layoutX="6.0" layoutY="15.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-                  <Pane fx:id="victoryPoint83113314" layoutX="24.0" layoutY="15.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-                  <Pane fx:id="victoryPoint83113313" layoutX="6.0" layoutY="32.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-                  <Pane fx:id="victoryPoint83113312" layoutX="24.0" layoutY="32.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-                  <Pane fx:id="victoryPoint83113311" layoutX="24.0" layoutY="49.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-               </children>
-            </Pane>
+				<Pane fx:id="excommunicationTileFirst" layoutX="164.0" layoutY="602.0" prefHeight="90.0" prefWidth="44.0">
+					<Pane fx:id="excommunicationTileFirstPlayer1" layoutX="8.0" layoutY="15.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+					<Pane fx:id="excommunicationTileFirstPlayer2" layoutX="26.0" layoutY="15.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+					<Pane fx:id="excommunicationTileFirstPlayer3" layoutX="8.0" layoutY="32.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+					<Pane fx:id="excommunicationTileFirstPlayer4" layoutX="26.0" layoutY="32.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+					<Pane fx:id="excommunicationTileFirstPlayer5" layoutX="26.0" layoutY="49.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				</Pane>
+				<Pane fx:id="excommunicationTileSecond" layoutX="213.0" layoutY="613.0" prefHeight="86.0" prefWidth="44.0">
+					<Pane fx:id="excommunicationTileSecondPlayer1" layoutX="5.5" layoutY="10.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+					<Pane fx:id="excommunicationTileSecondPlayer2" layoutX="23.5" layoutY="10.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+					<Pane fx:id="excommunicationTileSecondPlayer3" layoutX="23.5" layoutY="27.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+					<Pane fx:id="excommunicationTileSecondPlayer4" layoutX="5.5" layoutY="27.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+					<Pane fx:id="excommunicationTileSecondPlayer5" layoutX="23.5" layoutY="44.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				</Pane>
+				<Pane fx:id="excommunicationTileThird" layoutX="262.0" layoutY="602.0" prefHeight="90.0" prefWidth="44.0">
+					<Pane fx:id="excommunicationTileThirdPlayer1" layoutX="6.0" layoutY="15.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+					<Pane fx:id="excommunicationTileThirdPlayer2" layoutX="24.0" layoutY="15.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+					<Pane fx:id="excommunicationTileThirdPlayer3" layoutX="6.0" layoutY="32.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+					<Pane fx:id="excommunicationTileThirdPlayer4" layoutX="24.0" layoutY="32.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+					<Pane fx:id="excommunicationTileThirdPlayer5" layoutX="24.0" layoutY="49.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				</Pane>
 			</Pane>
 			<VBox fx:id="rightVBox" spacing="10.0" GridPane.columnIndex="1">
 				<JFXTabPane fx:id="playersTabPane">
@@ -696,18 +653,16 @@
 						</AnchorPane>
 					</Tab>
 				</JFXTabPane>
-            <HBox spacing="10.0">
-               <children>
-   					<VBox fx:id="actionsVBox" />
-   					<VBox alignment="CENTER_LEFT">
-   						<JFXButton fx:id="leaderCardsButton" disable="true" onAction="#handleLeaderCardsButtonAction" style="-fx-background-color: #03A9F4;" text="Leader Cards" textFill="WHITE">
-   							<font>
-   								<Font name="Roboto Bold" size="14.0" />
-   							</font>
-   						</JFXButton>
-   					</VBox>
-               </children>
-            </HBox>
+				<HBox spacing="10.0">
+					<VBox fx:id="actionsVBox" />
+					<VBox alignment="CENTER_LEFT">
+						<JFXButton fx:id="leaderCardsButton" disable="true" onAction="#handleLeaderCardsButtonAction" style="-fx-background-color: #03A9F4;" text="Leader Cards" textFill="WHITE">
+							<font>
+								<Font name="Roboto Bold" size="14.0" />
+							</font>
+						</JFXButton>
+					</VBox>
+				</HBox>
 			</VBox>
 		</GridPane>
 		<StackPane.margin>

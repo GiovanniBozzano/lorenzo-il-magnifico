@@ -8,9 +8,9 @@ public class LeaderCardModifierInformations extends LeaderCardInformations
 {
 	private final String modifier;
 
-	public LeaderCardModifierInformations(String texturePath, String description, List<LeaderCardConditionsOption> conditionsOptions, String modifier)
+	public LeaderCardModifierInformations(String texturePath, String displayName, String description, List<LeaderCardConditionsOption> conditionsOptions, String modifier)
 	{
-		super(texturePath, description, conditionsOptions);
+		super(texturePath, displayName, description, conditionsOptions);
 		this.modifier = modifier;
 	}
 

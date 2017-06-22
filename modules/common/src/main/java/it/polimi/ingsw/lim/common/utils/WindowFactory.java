@@ -110,17 +110,37 @@ public class WindowFactory
 		}
 	}
 
-	public static void setTooltipDelay(Tooltip tooltip, double milliseconds)
+	public static void setTooltipOpenDelay(Tooltip tooltip, double milliseconds)
 	{
 		try {
 			Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
 			fieldBehavior.setAccessible(true);
-			Object objBehavior = fieldBehavior.get(tooltip);
-			Field fieldTimer = objBehavior.getClass().getDeclaredField("activationTimer");
+			Object objectBehavior = fieldBehavior.get(tooltip);
+			Field fieldTimer = objectBehavior.getClass().getDeclaredField("activationTimer");
 			fieldTimer.setAccessible(true);
-			Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
-			objTimer.getKeyFrames().clear();
-			objTimer.getKeyFrames().add(new KeyFrame(new Duration(milliseconds)));
+			Timeline objectTimer = (Timeline) fieldTimer.get(objectBehavior);
+			objectTimer.getKeyFrames().clear();
+			objectTimer.getKeyFrames().add(new KeyFrame(new Duration(milliseconds)));
+		} catch (NoSuchFieldException | IllegalAccessException exception) {
+			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	public static void setTooltipVisibleDuration(Tooltip tooltip, double milliseconds)
+	{
+		try {
+			Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
+			fieldBehavior.setAccessible(true);
+			Object objectBehavior = fieldBehavior.get(tooltip);
+			Field fieldTimer = objectBehavior.getClass().getDeclaredField("hideTimer");
+			fieldTimer.setAccessible(true);
+			Timeline objectTimer = (Timeline) fieldTimer.get(objectBehavior);
+			objectTimer.getKeyFrames().clear();
+			if (milliseconds >= 0) {
+				objectTimer.getKeyFrames().add(new KeyFrame(new Duration(milliseconds)));
+			} else {
+				objectTimer.getKeyFrames().add(new KeyFrame(Duration.INDEFINITE));
+			}
 		} catch (NoSuchFieldException | IllegalAccessException exception) {
 			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}

@@ -95,7 +95,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 		gameHandler.setCurrentPhase(Phase.LEADER);
 		// check Lollo
 		if (this.leaderCard.getIndex() == 14) {
-			gameHandler.sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) this.leaderCard).getReward().getActionReward().createExpectedAction(gameHandler,this.player));
+			gameHandler.sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) this.leaderCard).getReward().getActionReward().createExpectedAction(gameHandler, this.player));
 			return;
 		}
 		if (this.leaderCard instanceof LeaderCardModifier) {

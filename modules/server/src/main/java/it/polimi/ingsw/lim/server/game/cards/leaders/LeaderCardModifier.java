@@ -23,7 +23,7 @@ public class LeaderCardModifier extends LeaderCard
 	@Override
 	public LeaderCardInformations getInformations()
 	{
-		return new LeaderCardModifierInformations(this.getTexturePath(), this.getDescription(), this.getConditionsOptions(), this.modifier.getDescription());
+		return new LeaderCardModifierInformations(this.getTexturePath(), this.getDisplayName(), this.getDescription(), this.getConditionsOptions(), this.modifier.getDescription());
 	}
 
 	public Modifier getModifier()

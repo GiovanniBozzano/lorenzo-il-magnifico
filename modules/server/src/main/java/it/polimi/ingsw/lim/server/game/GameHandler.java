@@ -112,7 +112,7 @@ public class GameHandler
 			startingCoins++;
 		}
 		for (int index = 0; index < PersonalBonusTile.values().length; index++) {
-			if (index == 3 && this.room.getRoomType() == RoomType.NORMAL) {
+			if (index == 4 && this.room.getRoomType() == RoomType.NORMAL) {
 				break;
 			}
 			this.availablePersonalBonusTiles.add(PersonalBonusTile.values()[index].getIndex());
@@ -204,6 +204,10 @@ public class GameHandler
 			this.availableLeaderCards.clear();
 			this.availableLeaderCards.putAll(newlyAvailableLeaderCards);
 			this.sendLeaderCardsChoiceRequest();
+		} else {
+			if (player.isOnline()) {
+				player.getConnection().sendGameLeaderCardChosen();
+			}
 		}
 	}
 

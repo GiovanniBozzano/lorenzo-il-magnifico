@@ -18,6 +18,7 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 
 	static {
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(1, cliHandler -> {
+			Client.getInstance().setCliStatus(CLIStatus.NONE);
 			try {
 				Main.launch(Main.class, Main.getArgs());
 			} catch (Exception exception) {

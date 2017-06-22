@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.client;
 
-import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
@@ -37,7 +36,9 @@ public class Main extends Application
 				try {
 					ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
 					Client.getInstance().setCurrentCliHandler(cliHandler);
-					cliHandler.execute();
+					if (cliHandler != null) {
+						cliHandler.execute();
+					}
 				} catch (IllegalStateException exception) {
 					Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 					Thread.currentThread().interrupt();
@@ -51,7 +52,6 @@ public class Main extends Application
 	{
 		WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, () -> {
 			Client.getInstance().getCliScanner().close();
-			Client.getInstance().setCliStatus(CLIStatus.NONE);
 			Client.getInstance().getCliListener().shutdownNow();
 		});
 	}

@@ -68,7 +68,8 @@ public class ControllerAuthentication extends CustomController
 		this.loginButton.disableProperty().bind((this.usernameTextField.textProperty().isNotEmpty().and(this.passwordTextField.textProperty().isNotEmpty()).and(this.normalRoomTypeRadioButton.selectedProperty().or(this.extendedRoomTypeRadioButton.selectedProperty()))).not());
 		this.registerButton.disableProperty().bind((this.usernameTextField.textProperty().isNotEmpty().and(this.passwordTextField.textProperty().isNotEmpty()).and(this.normalRoomTypeRadioButton.selectedProperty().or(this.extendedRoomTypeRadioButton.selectedProperty()))).not());
 		Tooltip tooltip = new Tooltip("Valid username is 4 to 16 characters\nlong and alphanumeric.");
-		WindowFactory.setTooltipDelay(tooltip, 250.0D);
+		WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+		WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 		this.usernameTextField.setTooltip(tooltip);
 	}
 
