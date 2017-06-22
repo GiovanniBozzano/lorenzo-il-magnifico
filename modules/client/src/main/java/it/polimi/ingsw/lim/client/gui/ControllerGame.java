@@ -1177,7 +1177,7 @@ public class ControllerGame extends CustomController
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", false);
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START).isEmpty()) {
 			JFXNodesList familyMemberActionNodesList = new JFXNodesList();
-			ControllerGame.setActionButton(familyMemberActionNodesList, "/images/icons/action_council_palace.png", false);
+			ControllerGame.setActionButton(familyMemberActionNodesList, "/images/icons/action_family.png", false);
 			familyMemberActionNodesList.setSpacing(10.0D);
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty()) {
 				familyMemberActionNodesList.addAnimatedNode(ControllerGame.setFamilyMemberTypesNodeList("/images/icons/action_council_palace.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE)));
@@ -1200,7 +1200,7 @@ public class ControllerGame extends CustomController
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
 			JFXNodesList leaderCardsActionNodesList = new JFXNodesList();
 			leaderCardsActionNodesList.setSpacing(10.0D);
-			ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_council_palace.png", false);
+			ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader.png", false);
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty()) {
 				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_activate.png", false);
 			}

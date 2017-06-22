@@ -12,7 +12,7 @@ import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 
 public enum ExcommunicationTile
 {
-	EXCOMMUNICATION_TILES_1_1(0, "/images/excommunication_tiles/excommunication_tile_1_1.png", Period.FIRST, new Modifier<EventGainResources>(EventGainResources.class, "Each time you gain Military Points (from action spaces or from your Cards), gain 1 fewer Military Point. (If you have more Cards that give you Military Points, consider each Card a single source, so you gain -1 Military Point for each card).")
+	EXCOMMUNICATION_TILES_1_1(0, "/images/excommunication_tiles/excommunication_tile_1_1.png", Period.FIRST, new Modifier<EventGainResources>(EventGainResources.class, "Each time you gain Military\nPoints (from action spaces or from\nyour Cards), gain 1 fewer Military\nPoint. (If you have more Cards that\ngive you Military Points, consider\neach Card a single source, so you gain\n-1 Military Point for each card).")
 	{
 		@Override
 		public void apply(EventGainResources event)
