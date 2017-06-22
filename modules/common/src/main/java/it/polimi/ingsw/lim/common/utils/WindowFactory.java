@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.common.utils;
 
+import com.jfoenix.controls.JFXNodesList;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import javafx.animation.KeyFrame;
@@ -34,25 +35,34 @@ public class WindowFactory
 	}
 
 	/**
-	 * <p>Opens a new window and closes the current one.
+	 * <p>Opens a new window
 	 *
 	 * @param fxmlFileLocation the .fxml file location.
 	 */
 	public void setNewWindow(String fxmlFileLocation)
 	{
-		this.setNewWindow(fxmlFileLocation, null);
+		this.setNewWindow(fxmlFileLocation, null, null);
+	}
+
+	public void setNewWindow(String fxmlFileLocation, Runnable postShowing)
+	{
+		this.setNewWindow(fxmlFileLocation, postShowing, null);
+	}
+
+	public void setNewWindow(String fxmlFileLocation, Stage stage)
+	{
+		this.setNewWindow(fxmlFileLocation, null, stage);
 	}
 
 	/**
-	 * <p>Opens a new window and closes the current one. Executes an optional
-	 * thread before showing the new window and another one after it has been
-	 * shown.
+	 * <p>Opens a new window. Executes an optional thread before showing the new
+	 * window and another one after it has been shown.
 	 *
 	 * @param fxmlFileLocation the .fxml file location.
 	 * @param postShowing the thread to execute after the window has been
 	 * shown.
 	 */
-	public void setNewWindow(String fxmlFileLocation, Runnable postShowing)
+	public void setNewWindow(String fxmlFileLocation, Runnable postShowing, Stage stage)
 	{
 		try {
 			WindowFactory.WINDOW_OPENING_SEMAPHORE.acquire();
@@ -69,26 +79,36 @@ public class WindowFactory
 				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				return;
 			}
-			Stage stage;
-			if (this.currentWindow.get() == null) {
-				stage = new Stage();
-				stage.initStyle(StageStyle.UNDECORATED);
-				stage.setResizable(false);
-				stage.iconifiedProperty().addListener((observable, oldValue, newValue) -> {
+			Stage newStage;
+			if (this.currentWindow.get() == null && stage == null) {
+				newStage = new Stage();
+				newStage.initStyle(StageStyle.UNDECORATED);
+				newStage.setResizable(false);
+				newStage.iconifiedProperty().addListener((observable, oldValue, newValue) -> {
 					if (!newValue) {
-						stage.getScene().setCursor(Cursor.HAND);
-						stage.getScene().setCursor(Cursor.DEFAULT);
+						newStage.getScene().setCursor(Cursor.HAND);
+						newStage.getScene().setCursor(Cursor.DEFAULT);
 					}
 				});
+			} else if (this.currentWindow.get() != null) {
+				newStage = this.currentWindow.get().getStage();
 			} else {
-				stage = this.currentWindow.get().getStage();
+				newStage = stage;
+				newStage.initStyle(StageStyle.UNDECORATED);
+				newStage.setResizable(false);
+				newStage.iconifiedProperty().addListener((observable, oldValue, newValue) -> {
+					if (!newValue) {
+						newStage.getScene().setCursor(Cursor.HAND);
+						newStage.getScene().setCursor(Cursor.DEFAULT);
+					}
+				});
 			}
 			this.currentWindow.set(fxmlLoader.getController());
-			((CustomController) fxmlLoader.getController()).setStage(stage);
-			stage.setScene(new Scene(parent));
-			stage.centerOnScreen();
+			((CustomController) fxmlLoader.getController()).setStage(newStage);
+			newStage.setScene(new Scene(parent));
+			newStage.centerOnScreen();
 			Platform.runLater(() -> {
-				stage.show();
+				newStage.show();
 				((CustomController) fxmlLoader.getController()).setupGui();
 				if (postShowing != null) {
 					ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -144,6 +164,18 @@ public class WindowFactory
 		} catch (NoSuchFieldException | IllegalAccessException exception) {
 			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
+	}
+
+	public static boolean isNodesListExpanded(JFXNodesList nodesList)
+	{
+		try {
+			Field fieldExpanded = nodesList.getClass().getDeclaredField("expanded");
+			fieldExpanded.setAccessible(true);
+			return fieldExpanded.getBoolean(nodesList);
+		} catch (NoSuchFieldException | IllegalAccessException exception) {
+			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+		}
+		return false;
 	}
 
 	public boolean isWindowOpen(Class<? extends CustomController> clazz)

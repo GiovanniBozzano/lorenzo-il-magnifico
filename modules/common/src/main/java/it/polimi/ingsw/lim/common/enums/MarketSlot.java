@@ -5,5 +5,7 @@ public enum MarketSlot
 	FIRST,
 	SECOND,
 	THIRD,
-	FOURTH
+	FOURTH,
+	FIFTH,
+	SIXTH
 }

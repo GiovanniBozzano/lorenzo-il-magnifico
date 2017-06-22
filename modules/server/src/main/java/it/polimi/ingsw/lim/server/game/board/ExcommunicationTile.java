@@ -133,7 +133,7 @@ public enum ExcommunicationTile
 		@Override
 		public void apply(EventPlaceFamilyMember event)
 		{
-			if (event.getBoardPosition() == BoardPosition.MARKET_1 || event.getBoardPosition() == BoardPosition.MARKET_2 || event.getBoardPosition() == BoardPosition.MARKET_3 || event.getBoardPosition() == BoardPosition.MARKET_4) {
+			if (event.getBoardPosition() == BoardPosition.MARKET_1 || event.getBoardPosition() == BoardPosition.MARKET_2 || event.getBoardPosition() == BoardPosition.MARKET_3 || event.getBoardPosition() == BoardPosition.MARKET_4 || event.getBoardPosition() == BoardPosition.MARKET_5 || event.getBoardPosition() == BoardPosition.MARKET_6) {
 				event.setCancelled(true);
 			}
 		}

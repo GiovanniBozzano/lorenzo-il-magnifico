@@ -9,6 +9,7 @@ import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
+import it.polimi.ingsw.lim.common.game.actions.AvailableActionMarket;
 import it.polimi.ingsw.lim.common.game.cards.LeaderCardModifierInformations;
 import it.polimi.ingsw.lim.common.game.cards.LeaderCardRewardInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
@@ -82,21 +83,6 @@ public class ControllerGame extends CustomController
 	@FXML private Pane excommunicationTileFirst;
 	@FXML private Pane excommunicationTileSecond;
 	@FXML private Pane excommunicationTileThird;
-	@FXML private Pane excommunicationTileFirstPlayer1;
-	@FXML private Pane excommunicationTileFirstPlayer2;
-	@FXML private Pane excommunicationTileFirstPlayer3;
-	@FXML private Pane excommunicationTileFirstPlayer4;
-	@FXML private Pane excommunicationTileFirstPlayer5;
-	@FXML private Pane excommunicationTileSecondPlayer1;
-	@FXML private Pane excommunicationTileSecondPlayer2;
-	@FXML private Pane excommunicationTileSecondPlayer3;
-	@FXML private Pane excommunicationTileSecondPlayer4;
-	@FXML private Pane excommunicationTileSecondPlayer5;
-	@FXML private Pane excommunicationTileThirdPlayer1;
-	@FXML private Pane excommunicationTileThirdPlayer2;
-	@FXML private Pane excommunicationTileThirdPlayer3;
-	@FXML private Pane excommunicationTileThirdPlayer4;
-	@FXML private Pane excommunicationTileThirdPlayer5;
 	@FXML private Label councilPalaceLabel1;
 	@FXML private Label councilPalaceLabel2;
 	@FXML private Label councilPalaceLabel3;
@@ -1173,34 +1159,244 @@ public class ControllerGame extends CustomController
 		this.updateGame();
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
+		JFXNodesList familyMemberActionNodesList = new JFXNodesList();
+		JFXNodesList leaderCardsActionNodesList = new JFXNodesList();
 		actionsNodesList.setSpacing(10.0D);
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", false);
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START).isEmpty()) {
-			JFXNodesList familyMemberActionNodesList = new JFXNodesList();
-			ControllerGame.setActionButton(familyMemberActionNodesList, "/images/icons/action_family.png", false);
+			ControllerGame.setActionButton(familyMemberActionNodesList, "/images/icons/action_council_palace.png", false, () -> {
+				if (WindowFactory.isNodesListExpanded(leaderCardsActionNodesList)) {
+					leaderCardsActionNodesList.animateList();
+				}
+			});
 			familyMemberActionNodesList.setSpacing(10.0D);
+			JFXNodesList councilPalaceActionNodesList = new JFXNodesList();
+			JFXNodesList harvestActionNodesList = new JFXNodesList();
+			JFXNodesList marketActionNodesList = new JFXNodesList();
+			JFXNodesList pickDevelopmentCardActionNodesList = new JFXNodesList();
+			JFXNodesList productionStartActionNodesList = new JFXNodesList();
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty()) {
-				familyMemberActionNodesList.addAnimatedNode(ControllerGame.setFamilyMemberTypesNodeList("/images/icons/action_council_palace.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE)));
+				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(councilPalaceActionNodesList, "/images/icons/action_council_palace.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE), new JFXNodesList[] { harvestActionNodesList, marketActionNodesList, pickDevelopmentCardActionNodesList, productionStartActionNodesList });
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_black.png", false);
+				}
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_neutral.png", false);
+				}
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_orange.png", false);
+				}
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_white.png", false);
+				}
+				councilPalaceActionNodesList.setSpacing(10.0D);
+				councilPalaceActionNodesList.setRotate(180.0D);
+				familyMemberActionNodesList.addAnimatedNode(councilPalaceActionNodesList);
 			}
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST).isEmpty()) {
-				familyMemberActionNodesList.addAnimatedNode(ControllerGame.setFamilyMemberTypesNodeList("/images/icons/action_harvest.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST)));
+				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(harvestActionNodesList, "/images/icons/action_harvest.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST), new JFXNodesList[] { councilPalaceActionNodesList, marketActionNodesList, pickDevelopmentCardActionNodesList, productionStartActionNodesList });
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_black.png", false);
+				}
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_neutral.png", false);
+				}
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_orange.png", false);
+				}
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_white.png", false);
+				}
+				harvestActionNodesList.setSpacing(10.0D);
+				harvestActionNodesList.setRotate(180.0D);
+				familyMemberActionNodesList.addAnimatedNode(harvestActionNodesList);
 			}
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET).isEmpty()) {
-				familyMemberActionNodesList.addAnimatedNode(ControllerGame.setFamilyMemberTypesNodeList("/images/icons/action_market.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)));
+				Map<MarketSlot, List<AvailableAction>> mappedMarketSlots = new HashMap<>();
+				mappedMarketSlots.put(MarketSlot.FIRST, new ArrayList<>());
+				mappedMarketSlots.put(MarketSlot.SECOND, new ArrayList<>());
+				mappedMarketSlots.put(MarketSlot.THIRD, new ArrayList<>());
+				mappedMarketSlots.put(MarketSlot.FOURTH, new ArrayList<>());
+				mappedMarketSlots.put(MarketSlot.FIFTH, new ArrayList<>());
+				mappedMarketSlots.put(MarketSlot.SIXTH, new ArrayList<>());
+				for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
+					mappedMarketSlots.get(((AvailableActionMarket) availableAction).getMarketSlot()).add(availableAction);
+				}
+				ControllerGame.setActionButton(marketActionNodesList, "/images/icons/action_market.png", false, () -> {
+					if (WindowFactory.isNodesListExpanded(councilPalaceActionNodesList)) {
+						councilPalaceActionNodesList.animateList();
+					} else if (WindowFactory.isNodesListExpanded(harvestActionNodesList)) {
+						harvestActionNodesList.animateList();
+					} else if (WindowFactory.isNodesListExpanded(pickDevelopmentCardActionNodesList)) {
+						pickDevelopmentCardActionNodesList.animateList();
+					} else if (WindowFactory.isNodesListExpanded(productionStartActionNodesList)) {
+						productionStartActionNodesList.animateList();
+					}
+				});
+				JFXNodesList market1NodesList = new JFXNodesList();
+				JFXNodesList market2NodesList = new JFXNodesList();
+				JFXNodesList market3NodesList = new JFXNodesList();
+				JFXNodesList market4NodesList = new JFXNodesList();
+				JFXNodesList market5NodesList = new JFXNodesList();
+				JFXNodesList market6NodesList = new JFXNodesList();
+				if (!mappedMarketSlots.get(MarketSlot.FIRST).isEmpty()) {
+					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market1NodesList, "/images/icons/action_market.png", mappedMarketSlots.get(MarketSlot.FIRST), new JFXNodesList[] { market2NodesList, market3NodesList, market4NodesList, market5NodesList, market6NodesList });
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_black.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_neutral.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_orange.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_white.png", false);
+					}
+					market1NodesList.setSpacing(10.0D);
+					market1NodesList.setRotate(270.0D);
+					marketActionNodesList.addAnimatedNode(market1NodesList);
+				}
+				if (!mappedMarketSlots.get(MarketSlot.SECOND).isEmpty()) {
+					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market2NodesList, "/images/icons/action_market.png", mappedMarketSlots.get(MarketSlot.SECOND), new JFXNodesList[] { market1NodesList, market3NodesList, market4NodesList, market5NodesList, market6NodesList });
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_black.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_neutral.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_orange.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_white.png", false);
+					}
+					market2NodesList.setSpacing(10.0D);
+					market2NodesList.setRotate(270.0D);
+					marketActionNodesList.addAnimatedNode(market2NodesList);
+				}
+				if (!mappedMarketSlots.get(MarketSlot.THIRD).isEmpty()) {
+					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market3NodesList, "/images/icons/action_market.png", mappedMarketSlots.get(MarketSlot.THIRD), new JFXNodesList[] { market1NodesList, market2NodesList, market4NodesList, market5NodesList, market6NodesList });
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_black.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_neutral.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_orange.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_white.png", false);
+					}
+					market3NodesList.setSpacing(10.0D);
+					market3NodesList.setRotate(270.0D);
+					marketActionNodesList.addAnimatedNode(market3NodesList);
+				}
+				if (!mappedMarketSlots.get(MarketSlot.FOURTH).isEmpty()) {
+					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market4NodesList, "/images/icons/action_market.png", mappedMarketSlots.get(MarketSlot.FOURTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market5NodesList, market6NodesList });
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_black.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_neutral.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_orange.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_white.png", false);
+					}
+					market4NodesList.setSpacing(10.0D);
+					market4NodesList.setRotate(270.0D);
+					marketActionNodesList.addAnimatedNode(market4NodesList);
+				}
+				if (!mappedMarketSlots.get(MarketSlot.FIFTH).isEmpty()) {
+					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market5NodesList, "/images/icons/action_market.png", mappedMarketSlots.get(MarketSlot.FIFTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market4NodesList, market6NodesList });
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_black.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_neutral.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_orange.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_white.png", false);
+					}
+					market5NodesList.setSpacing(10.0D);
+					market5NodesList.setRotate(270.0D);
+					marketActionNodesList.addAnimatedNode(market5NodesList);
+				}
+				if (!mappedMarketSlots.get(MarketSlot.SIXTH).isEmpty()) {
+					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market6NodesList, "/images/icons/action_market.png", mappedMarketSlots.get(MarketSlot.SIXTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market4NodesList, market5NodesList });
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_black.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_neutral.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_orange.png", false);
+					}
+					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_white.png", false);
+					}
+					market6NodesList.setSpacing(10.0D);
+					market6NodesList.setRotate(270.0D);
+					marketActionNodesList.addAnimatedNode(market6NodesList);
+				}
+				marketActionNodesList.setSpacing(10.0D);
+				marketActionNodesList.setRotate(180.0D);
+				familyMemberActionNodesList.addAnimatedNode(marketActionNodesList);
 			}
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD).isEmpty()) {
-				familyMemberActionNodesList.addAnimatedNode(ControllerGame.setFamilyMemberTypesNodeList("/images/icons/action_pick_development_card.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)));
+				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(pickDevelopmentCardActionNodesList, "/images/icons/action_pick_development_card.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD), new JFXNodesList[] { councilPalaceActionNodesList, harvestActionNodesList, marketActionNodesList, productionStartActionNodesList });
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_black.png", false);
+				}
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_neutral.png", false);
+				}
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_orange.png", false);
+				}
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_white.png", false);
+				}
+				pickDevelopmentCardActionNodesList.setSpacing(10.0D);
+				pickDevelopmentCardActionNodesList.setRotate(180.0D);
+				familyMemberActionNodesList.addAnimatedNode(pickDevelopmentCardActionNodesList);
 			}
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START).isEmpty()) {
-				familyMemberActionNodesList.addAnimatedNode(ControllerGame.setFamilyMemberTypesNodeList("/images/icons/action_production_start.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START)));
+				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(productionStartActionNodesList, "/images/icons/action_production_start.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START), new JFXNodesList[] { councilPalaceActionNodesList, harvestActionNodesList, marketActionNodesList, pickDevelopmentCardActionNodesList });
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_black.png", false);
+				}
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_neutral.png", false);
+				}
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_orange.png", false);
+				}
+				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_white.png", false);
+				}
+				productionStartActionNodesList.setSpacing(10.0D);
+				productionStartActionNodesList.setRotate(180.0D);
+				familyMemberActionNodesList.addAnimatedNode(productionStartActionNodesList);
 			}
 			familyMemberActionNodesList.setRotate(270.0D);
 			actionsNodesList.addAnimatedNode(familyMemberActionNodesList);
 		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
-			JFXNodesList leaderCardsActionNodesList = new JFXNodesList();
 			leaderCardsActionNodesList.setSpacing(10.0D);
-			ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader.png", false);
+			ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_council_palace.png", false, () -> {
+				if (WindowFactory.isNodesListExpanded(familyMemberActionNodesList)) {
+					familyMemberActionNodesList.animateList();
+				}
+			});
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty()) {
 				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_activate.png", false);
 			}
@@ -1231,6 +1427,11 @@ public class ControllerGame extends CustomController
 
 	private static void setActionButton(JFXNodesList nodesList, String imagePath, boolean disabled)
 	{
+		ControllerGame.setActionButton(nodesList, imagePath, disabled, null);
+	}
+
+	private static void setActionButton(JFXNodesList nodesList, String imagePath, boolean disabled, Runnable runnable)
+	{
 		JFXButton button = new JFXButton();
 		if (disabled) {
 			button.setDisable(true);
@@ -1238,34 +1439,28 @@ public class ControllerGame extends CustomController
 		ImageView imageView = new ImageView(new Image(Client.class.getResource(imagePath).toString()));
 		button.setGraphic(imageView);
 		button.getStyleClass().add("animated-option-button");
+		if (runnable != null) {
+			button.setOnMouseClicked((event) -> runnable.run());
+		}
 		nodesList.addAnimatedNode(button);
 	}
 
-	private static JFXNodesList setFamilyMemberTypesNodeList(String imagePath, List<AvailableAction> availableActions)
+	private static List<FamilyMemberType> mapFamilyMemberTypes(JFXNodesList nodesList, String imagePath, List<AvailableAction> availableActions, JFXNodesList[] nodesLists)
 	{
-		JFXNodesList nodesList = new JFXNodesList();
-		ControllerGame.setActionButton(nodesList, imagePath, false);
-		nodesList.setSpacing(10.0D);
+		ControllerGame.setActionButton(nodesList, imagePath, false, () -> {
+			for (JFXNodesList otherNodesList : nodesLists) {
+				if (WindowFactory.isNodesListExpanded(otherNodesList)) {
+					otherNodesList.animateList();
+				}
+			}
+		});
 		List<FamilyMemberType> mappedFamilyMemberTypes = new ArrayList<>();
 		for (AvailableAction availableAction : availableActions) {
 			if (!mappedFamilyMemberTypes.contains(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
 				mappedFamilyMemberTypes.add(((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
 			}
 		}
-		if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-			ControllerGame.setActionButton(nodesList, "/images/icons/action_family_member_type_black.png", false);
-		}
-		if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-			ControllerGame.setActionButton(nodesList, "/images/icons/action_family_member_type_neutral.png", false);
-		}
-		if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-			ControllerGame.setActionButton(nodesList, "/images/icons/action_family_member_type_orange.png", false);
-		}
-		if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-			ControllerGame.setActionButton(nodesList, "/images/icons/action_family_member_type_white.png", false);
-		}
-		nodesList.setRotate(180.0D);
-		return nodesList;
+		return mappedFamilyMemberTypes;
 	}
 
 	private void updateGame()

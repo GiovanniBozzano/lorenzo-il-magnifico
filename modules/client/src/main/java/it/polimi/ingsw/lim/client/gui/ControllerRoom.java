@@ -99,7 +99,7 @@ public class ControllerRoom extends CustomController
 			this.getStackPane().getScene().getWindow().sizeToScene();
 		}
 		this.playersListView.getItems().addAll(playerNames);
-		if (playerNames.size() < 2) {
+		if (playerNames.size() < 2 || roomType == RoomType.EXTENDED) {
 			this.timerLabel.setText("Waiting for other players...");
 		} else {
 			Client.getInstance().getConnectionHandler().sendRoomTimerRequest();

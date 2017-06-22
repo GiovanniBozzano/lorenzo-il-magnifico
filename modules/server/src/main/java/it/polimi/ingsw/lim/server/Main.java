@@ -45,7 +45,7 @@ public class Main extends Application
 		Font.loadFont(this.getClass().getResourceAsStream("/font/roboto/RobotoCondensed-Light.ttf"), 12);
 		Font.loadFont(this.getClass().getResourceAsStream("/font/roboto/RobotoCondensed-LightItalic.ttf"), 12);
 		Font.loadFont(this.getClass().getResourceAsStream("/font/roboto/RobotoCondensed-Regular.ttf"), 12);
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_START);
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_START, stage);
 	}
 
 	@Override

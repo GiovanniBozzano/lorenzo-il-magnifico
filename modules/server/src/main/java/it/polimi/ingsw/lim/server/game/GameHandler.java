@@ -548,20 +548,17 @@ public class GameHandler
 		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
 			if (player.getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionCouncilPalace(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), player).isLegal()) {
 				availableActions.get(ActionType.COUNCIL_PALACE).add(new AvailableActionFamilyMember(familyMemberType));
-				break;
 			}
 		}
 		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
 			if (player.getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionHarvest(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), player).isLegal()) {
 				availableActions.get(ActionType.HARVEST).add(new AvailableActionFamilyMember(familyMemberType));
-				break;
 			}
 		}
 		for (MarketSlot marketSlot : MarketSlot.values()) {
 			for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
 				if (player.getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionMarket(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), marketSlot, player).isLegal()) {
 					availableActions.get(ActionType.MARKET).add(new AvailableActionMarket(familyMemberType, marketSlot));
-					break;
 				}
 			}
 		}
@@ -614,7 +611,6 @@ public class GameHandler
 		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
 			if (player.getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionProductionStart(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), player).isLegal()) {
 				availableActions.get(ActionType.PRODUCTION_START).add(new AvailableActionFamilyMember(familyMemberType));
-				break;
 			}
 		}
 		for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {

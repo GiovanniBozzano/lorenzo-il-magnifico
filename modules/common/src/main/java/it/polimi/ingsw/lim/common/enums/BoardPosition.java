@@ -66,6 +66,8 @@ public enum BoardPosition
 		BoardPosition.MARKET_POSITIONS.put(MarketSlot.SECOND, BoardPosition.MARKET_2);
 		BoardPosition.MARKET_POSITIONS.put(MarketSlot.THIRD, BoardPosition.MARKET_3);
 		BoardPosition.MARKET_POSITIONS.put(MarketSlot.FOURTH, BoardPosition.MARKET_4);
+		BoardPosition.MARKET_POSITIONS.put(MarketSlot.FIFTH, BoardPosition.MARKET_5);
+		BoardPosition.MARKET_POSITIONS.put(MarketSlot.SIXTH, BoardPosition.MARKET_6);
 	}
 
 	public static BoardPosition getDevelopmentCardPosition(CardType cardType, Row row)

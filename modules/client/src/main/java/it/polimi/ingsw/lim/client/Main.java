@@ -53,7 +53,7 @@ public class Main extends Application
 		WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, () -> {
 			Client.getInstance().getCliScanner().close();
 			Client.getInstance().getCliListener().shutdownNow();
-		});
+		}, stage);
 	}
 
 	@Override
