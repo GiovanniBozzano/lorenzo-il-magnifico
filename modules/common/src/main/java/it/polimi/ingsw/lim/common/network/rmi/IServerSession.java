@@ -37,11 +37,15 @@ public interface IServerSession extends Remote
 
 	void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex) throws RemoteException;
 
-	void sendGamePersonalBonusTileChosen(int choicePlayerIndex) throws RemoteException;
+	void sendGamePersonalBonusTileChosen() throws RemoteException;
 
 	void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards) throws RemoteException;
 
-	void sendGameLeaderCardChosen(int choicePlayerIndex, boolean closeDialog) throws RemoteException;
+	void sendGameLeaderCardChosen() throws RemoteException;
+
+	void sendGameExcommunicationChoiceRequest(Period period) throws RemoteException;
+
+	void sendGameExcommunicationChosen() throws RemoteException;
 
 	void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions) throws RemoteException;
 

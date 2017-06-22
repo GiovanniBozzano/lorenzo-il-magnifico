@@ -89,9 +89,9 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex) throws RemoteException
+	public void sendGamePersonalBonusTileChosen() throws RemoteException
 	{
-		Client.getInstance().getConnectionHandler().handleGamePersonalBonusTileChosen(choicePlayerIndex);
+		Client.getInstance().getConnectionHandler().handleGamePersonalBonusTileChosen();
 	}
 
 	@Override
@@ -101,9 +101,21 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
-	public void sendGameLeaderCardChosen(int choicePlayerIndex, boolean closeDialog) throws RemoteException
+	public void sendGameLeaderCardChosen() throws RemoteException
 	{
-		Client.getInstance().getConnectionHandler().handleGameLeaderCardChosen(choicePlayerIndex, closeDialog);
+		Client.getInstance().getConnectionHandler().handleGameLeaderCardChosen();
+	}
+
+	@Override
+	public void sendGameExcommunicationChoiceRequest(Period period) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGameExcommunicationChoiceRequest(period);
+	}
+
+	@Override
+	public void sendGameExcommunicationChosen() throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGameExcommunicationChosen();
 	}
 
 	@Override

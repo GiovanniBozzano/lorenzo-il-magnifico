@@ -1062,9 +1062,12 @@ public class ControllerGame extends CustomController
 				tab.getValue().setText((GameStatus.getInstance().getOwnPlayerIndex() == tab.getKey() ? "[ME] " : "") + GameStatus.getInstance().getCurrentPlayersData().get(tab.getKey()).getUsername());
 			}
 		}
+		for (Entry<Period, Integer> excommunicationTile : GameStatus.getInstance().getCurrentExcommunicationTiles().entrySet()) {
+			this.excommunicationTilesPanes.get(excommunicationTile.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getExcommunicationTiles().get(excommunicationTile.getValue()).getTexturePath()).toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+		}
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
-		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_council_palace.png", true);
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", true);
 		this.actionsVBox.getChildren().add(actionsNodesList);
 	}
 
@@ -1074,59 +1077,59 @@ public class ControllerGame extends CustomController
 	{
 		Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
 		this.ratio = (bounds.getHeight() - bounds.getHeight() / 15) / this.getStage().getHeight();
-		this.gameBoard.setPrefWidth(this.gameBoard.getWidth() * ratio);
-		this.gameBoard.setPrefHeight(this.gameBoard.getHeight() * ratio);
-		this.playersTabPane.setPrefWidth(this.playersTabPane.getWidth() * ratio);
-		this.playersTabPane.setPrefHeight(this.playersTabPane.getHeight() * ratio);
-		this.playerBoard1.setPrefWidth(this.playerBoard1.getWidth() * ratio);
-		this.playerBoard1.setPrefHeight(this.playerBoard1.getHeight() * ratio);
-		this.playerBoard1DevelopmentCardsVenture.setPrefWidth(this.playerBoard1DevelopmentCardsVenture.getWidth() * ratio);
-		this.playerBoard1DevelopmentCardsVenture.setPrefHeight(this.playerBoard1DevelopmentCardsVenture.getHeight() * ratio);
-		this.playerBoard1DevelopmentCardsCharacter.setPrefWidth(this.playerBoard1DevelopmentCardsCharacter.getWidth() * ratio);
-		this.playerBoard1DevelopmentCardsCharacter.setPrefHeight(this.playerBoard1DevelopmentCardsCharacter.getHeight() * ratio);
-		this.playerBoard2.setPrefWidth(this.playerBoard2.getWidth() * ratio);
-		this.playerBoard2.setPrefHeight(this.playerBoard2.getHeight() * ratio);
-		this.playerBoard2DevelopmentCardsVenture.setPrefWidth(this.playerBoard2DevelopmentCardsVenture.getWidth() * ratio);
-		this.playerBoard2DevelopmentCardsVenture.setPrefHeight(this.playerBoard2DevelopmentCardsVenture.getHeight() * ratio);
-		this.playerBoard2DevelopmentCardsCharacter.setPrefWidth(this.playerBoard2DevelopmentCardsCharacter.getWidth() * ratio);
-		this.playerBoard2DevelopmentCardsCharacter.setPrefHeight(this.playerBoard2DevelopmentCardsCharacter.getHeight() * ratio);
-		this.playerBoard3.setPrefWidth(this.playerBoard3.getWidth() * ratio);
-		this.playerBoard3.setPrefHeight(this.playerBoard3.getHeight() * ratio);
-		this.playerBoard3DevelopmentCardsVenture.setPrefWidth(this.playerBoard3DevelopmentCardsVenture.getWidth() * ratio);
-		this.playerBoard3DevelopmentCardsVenture.setPrefHeight(this.playerBoard3DevelopmentCardsVenture.getHeight() * ratio);
-		this.playerBoard3DevelopmentCardsCharacter.setPrefWidth(this.playerBoard3DevelopmentCardsCharacter.getWidth() * ratio);
-		this.playerBoard3DevelopmentCardsCharacter.setPrefHeight(this.playerBoard3DevelopmentCardsCharacter.getHeight() * ratio);
-		this.playerBoard4.setPrefWidth(this.playerBoard4.getWidth() * ratio);
-		this.playerBoard4.setPrefHeight(this.playerBoard4.getHeight() * ratio);
-		this.playerBoard4DevelopmentCardsVenture.setPrefWidth(this.playerBoard4DevelopmentCardsVenture.getWidth() * ratio);
-		this.playerBoard4DevelopmentCardsVenture.setPrefHeight(this.playerBoard4DevelopmentCardsVenture.getHeight() * ratio);
-		this.playerBoard4DevelopmentCardsCharacter.setPrefWidth(this.playerBoard4DevelopmentCardsCharacter.getWidth() * ratio);
-		this.playerBoard4DevelopmentCardsCharacter.setPrefHeight(this.playerBoard4DevelopmentCardsCharacter.getHeight() * ratio);
-		this.playerBoard5.setPrefWidth(this.playerBoard5.getWidth() * ratio);
-		this.playerBoard5.setPrefHeight(this.playerBoard5.getHeight() * ratio);
-		this.playerBoard5DevelopmentCardsVenture.setPrefWidth(this.playerBoard5DevelopmentCardsVenture.getWidth() * ratio);
-		this.playerBoard5DevelopmentCardsVenture.setPrefHeight(this.playerBoard5DevelopmentCardsVenture.getHeight() * ratio);
-		this.playerBoard5DevelopmentCardsCharacter.setPrefWidth(this.playerBoard5DevelopmentCardsCharacter.getWidth() * ratio);
-		this.playerBoard5DevelopmentCardsCharacter.setPrefHeight(this.playerBoard5DevelopmentCardsCharacter.getHeight() * ratio);
-		this.rightVBox.setMaxWidth(this.rightVBox.getWidth() * ratio);
+		this.gameBoard.setPrefWidth(this.gameBoard.getWidth() * this.ratio);
+		this.gameBoard.setPrefHeight(this.gameBoard.getHeight() * this.ratio);
+		this.playersTabPane.setPrefWidth(this.playersTabPane.getWidth() * this.ratio);
+		this.playersTabPane.setPrefHeight(this.playersTabPane.getHeight() * this.ratio);
+		this.playerBoard1.setPrefWidth(this.playerBoard1.getWidth() * this.ratio);
+		this.playerBoard1.setPrefHeight(this.playerBoard1.getHeight() * this.ratio);
+		this.playerBoard1DevelopmentCardsVenture.setPrefWidth(this.playerBoard1DevelopmentCardsVenture.getWidth() * this.ratio);
+		this.playerBoard1DevelopmentCardsVenture.setPrefHeight(this.playerBoard1DevelopmentCardsVenture.getHeight() * this.ratio);
+		this.playerBoard1DevelopmentCardsCharacter.setPrefWidth(this.playerBoard1DevelopmentCardsCharacter.getWidth() * this.ratio);
+		this.playerBoard1DevelopmentCardsCharacter.setPrefHeight(this.playerBoard1DevelopmentCardsCharacter.getHeight() * this.ratio);
+		this.playerBoard2.setPrefWidth(this.playerBoard2.getWidth() * this.ratio);
+		this.playerBoard2.setPrefHeight(this.playerBoard2.getHeight() * this.ratio);
+		this.playerBoard2DevelopmentCardsVenture.setPrefWidth(this.playerBoard2DevelopmentCardsVenture.getWidth() * this.ratio);
+		this.playerBoard2DevelopmentCardsVenture.setPrefHeight(this.playerBoard2DevelopmentCardsVenture.getHeight() * this.ratio);
+		this.playerBoard2DevelopmentCardsCharacter.setPrefWidth(this.playerBoard2DevelopmentCardsCharacter.getWidth() * this.ratio);
+		this.playerBoard2DevelopmentCardsCharacter.setPrefHeight(this.playerBoard2DevelopmentCardsCharacter.getHeight() * this.ratio);
+		this.playerBoard3.setPrefWidth(this.playerBoard3.getWidth() * this.ratio);
+		this.playerBoard3.setPrefHeight(this.playerBoard3.getHeight() * this.ratio);
+		this.playerBoard3DevelopmentCardsVenture.setPrefWidth(this.playerBoard3DevelopmentCardsVenture.getWidth() * this.ratio);
+		this.playerBoard3DevelopmentCardsVenture.setPrefHeight(this.playerBoard3DevelopmentCardsVenture.getHeight() * this.ratio);
+		this.playerBoard3DevelopmentCardsCharacter.setPrefWidth(this.playerBoard3DevelopmentCardsCharacter.getWidth() * this.ratio);
+		this.playerBoard3DevelopmentCardsCharacter.setPrefHeight(this.playerBoard3DevelopmentCardsCharacter.getHeight() * this.ratio);
+		this.playerBoard4.setPrefWidth(this.playerBoard4.getWidth() * this.ratio);
+		this.playerBoard4.setPrefHeight(this.playerBoard4.getHeight() * this.ratio);
+		this.playerBoard4DevelopmentCardsVenture.setPrefWidth(this.playerBoard4DevelopmentCardsVenture.getWidth() * this.ratio);
+		this.playerBoard4DevelopmentCardsVenture.setPrefHeight(this.playerBoard4DevelopmentCardsVenture.getHeight() * this.ratio);
+		this.playerBoard4DevelopmentCardsCharacter.setPrefWidth(this.playerBoard4DevelopmentCardsCharacter.getWidth() * this.ratio);
+		this.playerBoard4DevelopmentCardsCharacter.setPrefHeight(this.playerBoard4DevelopmentCardsCharacter.getHeight() * this.ratio);
+		this.playerBoard5.setPrefWidth(this.playerBoard5.getWidth() * this.ratio);
+		this.playerBoard5.setPrefHeight(this.playerBoard5.getHeight() * this.ratio);
+		this.playerBoard5DevelopmentCardsVenture.setPrefWidth(this.playerBoard5DevelopmentCardsVenture.getWidth() * this.ratio);
+		this.playerBoard5DevelopmentCardsVenture.setPrefHeight(this.playerBoard5DevelopmentCardsVenture.getHeight() * this.ratio);
+		this.playerBoard5DevelopmentCardsCharacter.setPrefWidth(this.playerBoard5DevelopmentCardsCharacter.getWidth() * this.ratio);
+		this.playerBoard5DevelopmentCardsCharacter.setPrefHeight(this.playerBoard5DevelopmentCardsCharacter.getHeight() * this.ratio);
+		this.rightVBox.setMaxWidth(this.rightVBox.getWidth() * this.ratio);
 		this.chatTabPane.setMaxHeight(this.chatTabPane.getHeight() - (this.rightVBox.getHeight() - this.gameBoard.getHeight()));
 		this.getStage().sizeToScene();
-		Utils.resizeChildrenNode(this.gameBoard, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard1, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard1DevelopmentCardsVenture, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard1DevelopmentCardsCharacter, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard2, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard2DevelopmentCardsVenture, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard2DevelopmentCardsCharacter, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard3, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard3DevelopmentCardsVenture, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard3DevelopmentCardsCharacter, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard4, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard4DevelopmentCardsVenture, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard4DevelopmentCardsCharacter, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard5, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsVenture, ratio, ratio);
-		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsCharacter, ratio, ratio);
+		Utils.resizeChildrenNode(this.gameBoard, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard1, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard1DevelopmentCardsVenture, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard1DevelopmentCardsCharacter, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard2, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard2DevelopmentCardsVenture, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard2DevelopmentCardsCharacter, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard3, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard3DevelopmentCardsVenture, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard3DevelopmentCardsCharacter, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard4, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard4DevelopmentCardsVenture, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard4DevelopmentCardsCharacter, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard5, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsVenture, this.ratio, this.ratio);
+		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsCharacter, this.ratio, this.ratio);
 		this.cardDialogPane.setPrefWidth(this.territory1.getWidth() * 4);
 		this.cardDialogPane.setPrefHeight(this.territory1.getHeight() * 4);
 		for (Integer playerIndex : GameStatus.getInstance().getCurrentPlayersData().keySet()) {
@@ -1151,7 +1154,7 @@ public class ControllerGame extends CustomController
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
 		actionsNodesList.setSpacing(10.0D);
-		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_council_palace.png", false);
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", false);
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START).isEmpty()) {
 			JFXNodesList familyMemberActionNodesList = new JFXNodesList();
 			ControllerGame.setActionButton(familyMemberActionNodesList, "/images/icons/action_council_palace.png", false);
@@ -1201,7 +1204,7 @@ public class ControllerGame extends CustomController
 		this.updateGame();
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
-		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_council_palace.png", true);
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", true);
 		this.actionsVBox.getChildren().add(actionsNodesList);
 		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getCurrentTurnPlayerIndex()).getUsername() + "'s turn");
 	}
@@ -1230,16 +1233,16 @@ public class ControllerGame extends CustomController
 			}
 		}
 		if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-			ControllerGame.setActionButton(nodesList, "/images/icons/action_council_palace.png", false);
+			ControllerGame.setActionButton(nodesList, "/images/icons/action_family_member_type_black.png", false);
 		}
 		if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-			ControllerGame.setActionButton(nodesList, "/images/icons/action_council_palace.png", false);
+			ControllerGame.setActionButton(nodesList, "/images/icons/action_family_member_type_neutral.png", false);
 		}
 		if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-			ControllerGame.setActionButton(nodesList, "/images/icons/action_council_palace.png", false);
+			ControllerGame.setActionButton(nodesList, "/images/icons/action_family_member_type_orange.png", false);
 		}
 		if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-			ControllerGame.setActionButton(nodesList, "/images/icons/action_council_palace.png", false);
+			ControllerGame.setActionButton(nodesList, "/images/icons/action_family_member_type_white.png", false);
 		}
 		nodesList.setRotate(180.0D);
 		return nodesList;
@@ -1276,27 +1279,35 @@ public class ControllerGame extends CustomController
 		for (Entry<Integer, PlayerData> playerData : GameStatus.getInstance().getCurrentPlayersData().entrySet()) {
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING)) {
 				pane.setBackground(null);
+				pane.setBorder(null);
 			}
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsBuilding().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsBuilding().get(playerData.getValue().getDevelopmentCardsBuilding().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			}
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER)) {
 				pane.setBackground(null);
+				pane.setBorder(null);
 			}
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsCharacter().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsCharacter().get(playerData.getValue().getDevelopmentCardsCharacter().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			}
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY)) {
 				pane.setBackground(null);
+				pane.setBorder(null);
 			}
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsTerritory().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsTerritory().get(playerData.getValue().getDevelopmentCardsTerritory().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			}
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE)) {
 				pane.setBackground(null);
+				pane.setBorder(null);
 			}
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsVenture().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsVenture().get(playerData.getValue().getDevelopmentCardsVenture().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			}
 			for (Pane pane : this.playersLeaderCardsHand.get(playerData.getKey())) {
 				pane.setBackground(null);
@@ -1336,28 +1347,16 @@ public class ControllerGame extends CustomController
 			for (Pane pane : this.militaryPointsPanes.values()) {
 				pane.setBackground(null);
 			}
-			if (this.militaryPointsPanes.containsKey(playerData.getValue().getResourceAmounts().get(ResourceType.MILITARY_POINT))) {
-				this.militaryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.MILITARY_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			} else {
-				this.militaryPointsPanes.get(25).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			}
+			this.militaryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.MILITARY_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			for (Pane pane : this.faithPointsPanes.values()) {
 				pane.setBackground(null);
 			}
-			if (this.faithPointsPanes.containsKey(playerData.getValue().getResourceAmounts().get(ResourceType.FAITH_POINT))) {
-				this.faithPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.FAITH_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			} else {
-				this.faithPointsPanes.get(15).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			}
+			this.faithPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.FAITH_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			if (GameStatus.getInstance().getCurrentPlayersData().size() == 5) {
 				for (Pane pane : this.prestigePointsPanes.values()) {
 					pane.setBackground(null);
 				}
-				if (this.prestigePointsPanes.containsKey(playerData.getValue().getResourceAmounts().get(ResourceType.PRESTIGE_POINT))) {
-					this.prestigePointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.PRESTIGE_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-				} else {
-					this.prestigePointsPanes.get(9).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-				}
+				this.prestigePointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.PRESTIGE_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
 		}
 		for (Pane pane : this.councilPalacePositionsPanes.values()) {
@@ -1414,7 +1413,7 @@ public class ControllerGame extends CustomController
 		this.personalBonusTilesChoiceDialogHBox.getChildren().clear();
 		for (Integer personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
 			Pane pane = new Pane();
-			pane.setPrefWidth(103.0D * this.ratio);
+			pane.setPrefWidth(76.0D * this.ratio);
 			pane.setPrefHeight(650.0D * this.ratio);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
@@ -1422,7 +1421,7 @@ public class ControllerGame extends CustomController
 			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex));
 			this.personalBonusTilesChoiceDialogHBox.getChildren().add(pane);
 		}
-		this.personalBonusTilesChoiceDialogLayout.setPrefWidth(103.0D * this.ratio * this.personalBonusTilesChoiceDialogHBox.getChildren().size() + this.personalBonusTilesChoiceDialogHBox.getSpacing() * (this.personalBonusTilesChoiceDialogHBox.getChildren().size() - 1) + this.personalBonusTilesChoiceDialogLayout.getInsets().getLeft() + this.personalBonusTilesChoiceDialogLayout.getInsets().getRight());
+		this.personalBonusTilesChoiceDialogLayout.setPrefWidth(76.0D * this.ratio * this.personalBonusTilesChoiceDialogHBox.getChildren().size() + this.personalBonusTilesChoiceDialogHBox.getSpacing() * (this.personalBonusTilesChoiceDialogHBox.getChildren().size() - 1) + this.personalBonusTilesChoiceDialogLayout.getInsets().getLeft() + this.personalBonusTilesChoiceDialogLayout.getInsets().getRight());
 		this.personalBonusTilesChoiceDialogLayout.setPrefHeight(650.0D * this.ratio + this.personalBonusTilesChoiceDialogLayout.getInsets().getTop() + this.personalBonusTilesChoiceDialogLayout.getInsets().getTop() + 20.0D);
 		this.personalBonusTilesChoiceDialog.show();
 	}
@@ -1439,6 +1438,7 @@ public class ControllerGame extends CustomController
 			Pane pane = new Pane();
 			pane.setPrefWidth(this.territory1.getWidth() * 3);
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
+			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			Utils.setEffect(pane, this.borderGlow);
 			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCardIndex));
@@ -1450,6 +1450,15 @@ public class ControllerGame extends CustomController
 	}
 
 	public void closeLeaderCardsChoiceDialog()
+	{
+		this.leaderCardsChoiceDialog.close();
+	}
+
+	public void showExcommunicationChoiceDialog(Period period)
+	{
+	}
+
+	public void closeExcommunicationChoiceDialog()
 	{
 		this.leaderCardsChoiceDialog.close();
 	}

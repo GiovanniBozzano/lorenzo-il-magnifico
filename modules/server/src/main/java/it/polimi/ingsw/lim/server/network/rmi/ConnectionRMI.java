@@ -202,11 +202,11 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex)
+	public void sendGamePersonalBonusTileChosen()
 	{
 		this.rmiExecutor.execute(() -> {
 			try {
-				this.serverSession.sendGamePersonalBonusTileChosen(choicePlayerIndex);
+				this.serverSession.sendGamePersonalBonusTileChosen();
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
@@ -228,11 +228,37 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGameLeaderCardChosen(int choicePlayerIndex, boolean closeDialog)
+	public void sendGameLeaderCardChosen()
 	{
 		this.rmiExecutor.execute(() -> {
 			try {
-				this.serverSession.sendGameLeaderCardChosen(choicePlayerIndex, closeDialog);
+				this.serverSession.sendGameLeaderCardChosen();
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
+	public void sendGameExcommunicationChoiceRequest(Period period)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameExcommunicationChoiceRequest(period);
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
+	public void sendGameExcommunicationChosen()
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameExcommunicationChosen();
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);

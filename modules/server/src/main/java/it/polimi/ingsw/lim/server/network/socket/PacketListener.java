@@ -40,6 +40,7 @@ class PacketListener extends Thread
 		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, (connectionSocket, packet) -> connectionSocket.handleChatMessage(((PacketChatMessage) packet).getText()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_PERSONAL_BONUS_TILE_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGamePersonalBonusTilePlayerChoice(((PacketGamePersonalBonusTilePlayerChoice) packet).getPersonalBonusTileIndex()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_LEADER_CARD_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGameLeaderCardPlayerChoice(((PacketGameLeaderCardPlayerChoice) packet).getLeaderCardIndex()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_EXCOMMUNICATION_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGameExcommunicationPlayerChoice(((PacketGameExcommunicationPlayerChoice) packet).isExcommunicated()));
 	}
 
 	private final ConnectionSocket connectionSocket;
@@ -196,7 +197,7 @@ class PacketListener extends Thread
 			authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
 			authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
 			authenticationInformations.setGameStarted(true);
-			authenticationInformations.setExcommunicationTiles(playerRoom.getGameHandler().getExcommunicationTilesIndexes());
+			authenticationInformations.setExcommunicationTiles(playerRoom.getGameHandler().getBoardHandler().getExcommunicationTilesIndexes());
 			authenticationInformations.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
 			authenticationInformations.setOwnPlayerIndex(this.connectionSocket.getPlayer().getIndex());
 			if (playerRoom.getGameHandler().getCurrentPeriod() != null && playerRoom.getGameHandler().getCurrentRound() != null) {

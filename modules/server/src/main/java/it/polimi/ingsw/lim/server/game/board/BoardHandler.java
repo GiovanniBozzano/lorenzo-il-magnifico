@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 public class BoardHandler
@@ -36,6 +37,15 @@ public class BoardHandler
 			return BoardHandler.BOARD_POSITIONS_INFORMATIONS.get(boardPosition);
 		}
 		return new BoardPositionInformations(0, new ArrayList<>());
+	}
+
+	public Map<Period, Integer> getExcommunicationTilesIndexes()
+	{
+		Map<Period, Integer> excommunicationTilesIndexes = new EnumMap<>(Period.class);
+		for (Entry<Period, ExcommunicationTile> excommunicationTile : this.excommunicationTiles.entrySet()) {
+			excommunicationTilesIndexes.put(excommunicationTile.getKey(), excommunicationTile.getValue().getIndex());
+		}
+		return excommunicationTilesIndexes;
 	}
 
 	public static List<CouncilPalaceReward> getCouncilPrivilegeRewards()

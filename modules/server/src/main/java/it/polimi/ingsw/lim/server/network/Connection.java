@@ -89,11 +89,15 @@ public abstract class Connection
 
 	public abstract void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex);
 
-	public abstract void sendGamePersonalBonusTileChosen(int choicePlayerIndex);
+	public abstract void sendGamePersonalBonusTileChosen();
 
 	public abstract void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards);
 
-	public abstract void sendGameLeaderCardChosen(int choicePlayerIndex, boolean closeDialog);
+	public abstract void sendGameLeaderCardChosen();
+
+	public abstract void sendGameExcommunicationChoiceRequest(Period period);
+
+	public abstract void sendGameExcommunicationChosen();
 
 	public abstract void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions);
 
@@ -147,6 +151,19 @@ public abstract class Connection
 			return;
 		}
 		gameHandler.receiveLeaderCardChoice(this.getPlayer(), leaderCardIndex);
+	}
+
+	public void handleGameExcommunicationPlayerChoice(boolean excommunicated)
+	{
+		Room room = Room.getPlayerRoom(this);
+		if (room == null) {
+			return;
+		}
+		GameHandler gameHandler = room.getGameHandler();
+		if (gameHandler == null) {
+			return;
+		}
+		gameHandler.receiveExcommunicationChoice(this.getPlayer(), excommunicated);
 	}
 
 	public String getUsername()

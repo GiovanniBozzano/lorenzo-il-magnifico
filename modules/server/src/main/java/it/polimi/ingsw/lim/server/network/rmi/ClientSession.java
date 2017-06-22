@@ -53,6 +53,12 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	}
 
 	@Override
+	public void sendGameExcommunicationPlayerChoice(boolean excommunicated) throws RemoteException
+	{
+		this.connectionRmi.handleGameExcommunicationPlayerChoice(excommunicated);
+	}
+
+	@Override
 	public boolean equals(Object object)
 	{
 		if (this == object) {

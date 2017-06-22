@@ -53,27 +53,22 @@
 				<RowConstraints fillHeight="false" valignment="TOP" vgrow="SOMETIMES" />
 			</rowConstraints>
 			<Pane fx:id="gameBoard" prefHeight="1008.0" prefWidth="734.0">
-            <ImageView fitHeight="1008.0" fitWidth="734.0">
-               <image>
-                  <Image url="@../images/game_board_2_players.png" />
-               </image>
-            </ImageView>
-				<Pane fx:id="territory4" layoutX="84.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="territory3" layoutX="84.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="territory2" layoutX="84.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="territory1" layoutX="84.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="character4" layoutX="210.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="character3" layoutX="210.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="character2" layoutX="210.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="character1" layoutX="210.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="building4" layoutX="337.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="building3" layoutX="337.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="building2" layoutX="337.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="building1" layoutX="337.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="venture4" layoutX="464.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="venture3" layoutX="464.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="venture2" layoutX="464.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
-				<Pane fx:id="venture1" layoutX="464.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
+				<Pane fx:id="territory4" layoutX="84.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="territory3" layoutX="84.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="territory2" layoutX="84.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="territory1" layoutX="84.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="character4" layoutX="210.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="character3" layoutX="210.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="character2" layoutX="210.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="character1" layoutX="210.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="building4" layoutX="337.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="building3" layoutX="337.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="building2" layoutX="337.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="building1" layoutX="337.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="venture4" layoutX="464.0" layoutY="92.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="venture3" layoutX="464.0" layoutY="209.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="venture2" layoutX="464.0" layoutY="326.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+				<Pane fx:id="venture1" layoutX="464.0" layoutY="443.0" onMouseClicked="#boardDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 				<Pane fx:id="productionSmall" layoutX="95.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="productionBig1" layoutX="178.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
 				<Pane fx:id="productionBig2" layoutX="198.0" layoutY="789.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: RED;" />
@@ -737,7 +732,7 @@
 		<JFXDialogLayout fx:id="cardDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
 				<HBox fx:id="cardDialogHBox" alignment="CENTER_LEFT" spacing="20.0">
-					<Pane fx:id="cardDialogPane" />
+					<Pane fx:id="cardDialogPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 					<Text fx:id="cardDialogText" text="asdasdasdasdadasdasdasdasdasdasdasdasdasd" />
 				</HBox>
 			</body>
@@ -751,16 +746,16 @@
 						<AnchorPane>
 							<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
 								<HBox spacing="5.0">
-									<Pane fx:id="player1LeaderCard1Hand" />
-									<Pane fx:id="player1LeaderCard2Hand" />
-									<Pane fx:id="player1LeaderCard3Hand" />
-									<Pane fx:id="player1LeaderCard4Hand" />
+									<Pane fx:id="player1LeaderCard1Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player1LeaderCard2Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player1LeaderCard3Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player1LeaderCard4Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 								<HBox spacing="5.0">
-									<Pane fx:id="player1LeaderCard1Played" />
-									<Pane fx:id="player1LeaderCard2Played" />
-									<Pane fx:id="player1LeaderCard3Played" />
-									<Pane fx:id="player1LeaderCard4Played" />
+									<Pane fx:id="player1LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player1LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player1LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player1LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 							</VBox>
 						</AnchorPane>
@@ -769,16 +764,16 @@
 						<AnchorPane>
 							<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
 								<HBox spacing="5.0">
-									<Pane fx:id="player2LeaderCard1Hand" />
-									<Pane fx:id="player2LeaderCard2Hand" />
-									<Pane fx:id="player2LeaderCard3Hand" />
-									<Pane fx:id="player2LeaderCard4Hand" />
+									<Pane fx:id="player2LeaderCard1Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player2LeaderCard2Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player2LeaderCard3Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player2LeaderCard4Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 								<HBox spacing="5.0">
-									<Pane fx:id="player2LeaderCard1Played" />
-									<Pane fx:id="player2LeaderCard2Played" />
-									<Pane fx:id="player2LeaderCard3Played" />
-									<Pane fx:id="player2LeaderCard4Played" />
+									<Pane fx:id="player2LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player2LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player2LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player2LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 							</VBox>
 						</AnchorPane>
@@ -787,16 +782,16 @@
 						<AnchorPane>
 							<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
 								<HBox spacing="5.0">
-									<Pane fx:id="player3LeaderCard1Hand" />
-									<Pane fx:id="player3LeaderCard2Hand" />
-									<Pane fx:id="player3LeaderCard3Hand" />
-									<Pane fx:id="player3LeaderCard4Hand" />
+									<Pane fx:id="player3LeaderCard1Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player3LeaderCard2Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player3LeaderCard3Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player3LeaderCard4Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 								<HBox spacing="5.0">
-									<Pane fx:id="player3LeaderCard1Played" />
-									<Pane fx:id="player3LeaderCard2Played" />
-									<Pane fx:id="player3LeaderCard3Played" />
-									<Pane fx:id="player3LeaderCard4Played" />
+									<Pane fx:id="player3LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player3LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player3LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player3LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 							</VBox>
 						</AnchorPane>
@@ -805,16 +800,16 @@
 						<AnchorPane>
 							<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
 								<HBox spacing="5.0">
-									<Pane fx:id="player4LeaderCard1Hand" />
-									<Pane fx:id="player4LeaderCard2Hand" />
-									<Pane fx:id="player4LeaderCard3Hand" />
-									<Pane fx:id="player4LeaderCard4Hand" />
+									<Pane fx:id="player4LeaderCard1Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player4LeaderCard2Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player4LeaderCard3Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player4LeaderCard4Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 								<HBox spacing="5.0">
-									<Pane fx:id="player4LeaderCard1Played" />
-									<Pane fx:id="player4LeaderCard2Played" />
-									<Pane fx:id="player4LeaderCard3Played" />
-									<Pane fx:id="player4LeaderCard4Played" />
+									<Pane fx:id="player4LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player4LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player4LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player4LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 							</VBox>
 						</AnchorPane>
@@ -823,16 +818,16 @@
 						<AnchorPane>
 							<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
 								<HBox spacing="5.0">
-									<Pane fx:id="player5LeaderCard1Hand" />
-									<Pane fx:id="player5LeaderCard2Hand" />
-									<Pane fx:id="player5LeaderCard3Hand" />
-									<Pane fx:id="player5LeaderCard4Hand" />
+									<Pane fx:id="player5LeaderCard1Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player5LeaderCard2Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player5LeaderCard3Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player5LeaderCard4Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 								<HBox spacing="5.0">
-									<Pane fx:id="player5LeaderCard1Played" />
-									<Pane fx:id="player5LeaderCard2Played" />
-									<Pane fx:id="player5LeaderCard3Played" />
-									<Pane fx:id="player5LeaderCard4Played" />
+									<Pane fx:id="player5LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player5LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player5LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player5LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 							</VBox>
 						</AnchorPane>

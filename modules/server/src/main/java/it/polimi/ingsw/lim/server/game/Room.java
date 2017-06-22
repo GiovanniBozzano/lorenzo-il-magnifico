@@ -52,9 +52,13 @@ public class Room
 				this.gameHandler.applyPersonalBonusTileChoice(player.getPlayer(), personalBonusTileIndex);
 				return;
 			}
-			if (!this.gameHandler.getLeaderCardsChoosingPlayers().isEmpty() && this.gameHandler.getLeaderCardsChoosingPlayers().get(player.getPlayer())) {
+			if (this.gameHandler.getLeaderCardsChoosingPlayers().contains(player.getPlayer())) {
 				int leaderCardIndex = this.gameHandler.getAvailableLeaderCards().get(player.getPlayer()).get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailableLeaderCards().get(player.getPlayer()).size()));
 				this.gameHandler.applyLeaderCardChoice(player.getPlayer(), leaderCardIndex);
+				return;
+			}
+			if (this.gameHandler.getExcommunicationChoosingPlayers().contains(player.getPlayer())) {
+				this.gameHandler.applyExcommunicationChoice(player.getPlayer(), false);
 				return;
 			}
 			return;

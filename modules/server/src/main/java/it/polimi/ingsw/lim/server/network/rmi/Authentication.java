@@ -183,7 +183,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
 			authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
 			authenticationInformations.setGameStarted(true);
-			authenticationInformations.setExcommunicationTiles(playerRoom.getGameHandler().getExcommunicationTilesIndexes());
+			authenticationInformations.setExcommunicationTiles(playerRoom.getGameHandler().getBoardHandler().getExcommunicationTilesIndexes());
 			authenticationInformations.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
 			authenticationInformations.setOwnPlayerIndex(connectionRmi.getPlayer().getIndex());
 			if (playerRoom.getGameHandler().getCurrentPeriod() != null && playerRoom.getGameHandler().getCurrentRound() != null) {

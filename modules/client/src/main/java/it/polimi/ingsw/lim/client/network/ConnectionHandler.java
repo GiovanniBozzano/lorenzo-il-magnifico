@@ -265,12 +265,12 @@ public abstract class ConnectionHandler extends Thread
 		Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(choicePlayerIndex).getUsername() + " is choosing a personal bonus tile"));
 	}
 
-	public void handleGamePersonalBonusTileChosen(int choicePlayerIndex)
+	public void handleGamePersonalBonusTileChosen()
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex()) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).closePersonalBonusTilesChoiceDialog());
 		}
 	}
@@ -286,13 +286,33 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
-	public void handleGameLeaderCardChosen(int choicePlayerIndex, boolean closeDialog)
+	public void handleGameLeaderCardChosen()
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex() && closeDialog) {
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).closeLeaderCardsChoiceDialog());
+		}
+	}
+
+	public void handleGameExcommunicationChoiceRequest(Period period)
+	{
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+			return;
+		}
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showExcommunicationChoiceDialog(period));
+		}
+	}
+
+	public void handleGameExcommunicationChosen()
+	{
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+			return;
+		}
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).closeExcommunicationChoiceDialog());
 		}
 	}
 

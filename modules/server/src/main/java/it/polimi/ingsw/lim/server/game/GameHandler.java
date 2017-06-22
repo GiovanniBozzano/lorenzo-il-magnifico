@@ -20,6 +20,7 @@ import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.modifiers.ModifierGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
+import it.polimi.ingsw.lim.server.game.player.PlayerResourceHandler;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
@@ -37,20 +38,22 @@ public class GameHandler
 	private final Map<Period, List<DevelopmentCardCharacter>> developmentCardsCharacters = Utils.deepCopyDevelopmentCards(CardsHandler.DEVELOPMENT_CARDS_CHARACTER);
 	private final Map<Period, List<DevelopmentCardTerritory>> developmentCardsTerritory = Utils.deepCopyDevelopmentCards(CardsHandler.DEVELOPMENT_CARDS_TERRITORY);
 	private final Map<Period, List<DevelopmentCardVenture>> developmentCardsVenture = Utils.deepCopyDevelopmentCards(CardsHandler.DEVELOPMENT_CARDS_VENTURE);
-	private final Map<Period, Integer> excommunicationTilesIndexes = new EnumMap<>(Period.class);
 	private final Map<Integer, PlayerIdentification> playersIdentifications = new HashMap<>();
 	private final Map<FamilyMemberType, Integer> familyMemberTypeValues = new EnumMap<>(FamilyMemberType.class);
 	private final List<Player> turnOrder = new LinkedList<>();
+	private final Map<Period, List<Player>> excommunicatedPlayers = new EnumMap<>(Period.class);
 	private Player turnPlayer;
 	private Period currentPeriod;
 	private Round currentRound;
 	private Phase currentPhase;
+	private boolean checkedExcommunications = false;
 	private ActionType expectedAction;
 	private Map<Player, Boolean> firstTurn = new HashMap<>();
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private int personalBonusTileChoicePlayerIndex;
-	private Map<Player, List<Integer>> availableLeaderCards = new HashMap<>();
-	private Map<Player, Boolean> leaderCardsChoosingPlayers = new HashMap<>();
+	private final Map<Player, List<Integer>> availableLeaderCards = new HashMap<>();
+	private final List<Player> leaderCardsChoosingPlayers = new ArrayList<>();
+	private final List<Player> excommunicationChoosingPlayers = new ArrayList<>();
 
 	GameHandler(Room room)
 	{
@@ -78,9 +81,10 @@ public class GameHandler
 		excommunicationTiles.put(Period.SECOND, secondPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(secondPeriodExcommunicationTiles.size())));
 		excommunicationTiles.put(Period.THIRD, thirdPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(thirdPeriodExcommunicationTiles.size())));
 		this.boardHandler = new BoardHandler(excommunicationTiles);
-		this.excommunicationTilesIndexes.put(Period.FIRST, excommunicationTiles.get(Period.FIRST).getIndex());
-		this.excommunicationTilesIndexes.put(Period.SECOND, excommunicationTiles.get(Period.SECOND).getIndex());
-		this.excommunicationTilesIndexes.put(Period.THIRD, excommunicationTiles.get(Period.THIRD).getIndex());
+		Map<Period, Integer> excommunicationTilesIndexes = new EnumMap<>(Period.class);
+		excommunicationTilesIndexes.put(Period.FIRST, excommunicationTiles.get(Period.FIRST).getIndex());
+		excommunicationTilesIndexes.put(Period.SECOND, excommunicationTiles.get(Period.SECOND).getIndex());
+		excommunicationTilesIndexes.put(Period.THIRD, excommunicationTiles.get(Period.THIRD).getIndex());
 		for (Period period : Period.values()) {
 			Collections.shuffle(this.developmentCardsBuilding.get(period), this.randomGenerator);
 			Collections.shuffle(this.developmentCardsCharacters.get(period), this.randomGenerator);
@@ -97,15 +101,21 @@ public class GameHandler
 			currentIndex++;
 		}
 		Collections.shuffle(this.turnOrder, this.randomGenerator);
+		this.excommunicatedPlayers.put(Period.FIRST, new ArrayList<>());
+		this.excommunicatedPlayers.put(Period.SECOND, new ArrayList<>());
+		this.excommunicatedPlayers.put(Period.THIRD, new ArrayList<>());
 		this.personalBonusTileChoicePlayerIndex = this.turnOrder.size() - 1;
 		int startingCoins = 5;
 		for (Player player : this.turnOrder) {
-			player.getConnection().sendGameStarted(this.excommunicationTilesIndexes, this.playersIdentifications, player.getIndex());
+			player.getConnection().sendGameStarted(excommunicationTilesIndexes, this.playersIdentifications, player.getIndex());
 			player.getPlayerResourceHandler().addResource(ResourceType.COIN, startingCoins);
 			startingCoins++;
 		}
-		for (PersonalBonusTile personalBonusTile : Arrays.asList(PersonalBonusTile.values())) {
-			this.availablePersonalBonusTiles.add(personalBonusTile.getIndex());
+		for (int index = 0; index < PersonalBonusTile.values().length; index++) {
+			if (index == 3 && this.room.getRoomType() == RoomType.NORMAL) {
+				break;
+			}
+			this.availablePersonalBonusTiles.add(PersonalBonusTile.values()[index].getIndex());
 		}
 		List<LeaderCard> leaderCards = Utils.deepCopyLeaderCards(CardsHandler.LEADER_CARDS);
 		for (Player player : this.turnOrder) {
@@ -122,10 +132,7 @@ public class GameHandler
 
 	public void receivePersonalBonusTileChoice(Player player, int personalBonusTileIndex)
 	{
-		if (this.turnOrder.get(this.personalBonusTileChoicePlayerIndex) != player) {
-			return;
-		}
-		if (!this.availablePersonalBonusTiles.contains(personalBonusTileIndex)) {
+		if (this.turnOrder.get(this.personalBonusTileChoicePlayerIndex) != player || !this.availablePersonalBonusTiles.contains(personalBonusTileIndex)) {
 			return;
 		}
 		this.applyPersonalBonusTileChoice(player, personalBonusTileIndex);
@@ -135,17 +142,18 @@ public class GameHandler
 	{
 		player.setPersonalBonusTile(PersonalBonusTile.fromIndex(personalBonusTileIndex));
 		this.availablePersonalBonusTiles.remove((Integer) personalBonusTileIndex);
+		if (player.isOnline()) {
+			player.getConnection().sendGamePersonalBonusTileChosen();
+		}
 		for (Connection currentPlayer : this.room.getPlayers()) {
 			if (currentPlayer.getPlayer().isOnline()) {
-				currentPlayer.sendGamePersonalBonusTileChosen(player.getIndex());
+				currentPlayer.sendLogMessage(player.getConnection().getUsername() + " has chosen a personal bonus tile");
 			}
 		}
 		do {
 			this.personalBonusTileChoicePlayerIndex--;
 			if (this.personalBonusTileChoicePlayerIndex < 0) {
-				for (Player currentPlayer : this.availableLeaderCards.keySet()) {
-					this.leaderCardsChoosingPlayers.put(currentPlayer, true);
-				}
+				this.leaderCardsChoosingPlayers.addAll(this.turnOrder);
 				this.sendLeaderCardsChoiceRequest();
 				return;
 			}
@@ -156,10 +164,7 @@ public class GameHandler
 
 	public void receiveLeaderCardChoice(Player player, int leaderCardIndex)
 	{
-		if (!this.leaderCardsChoosingPlayers.get(player)) {
-			return;
-		}
-		if (!this.availableLeaderCards.get(player).contains(leaderCardIndex)) {
+		if (!this.leaderCardsChoosingPlayers.contains(player) || !this.availableLeaderCards.get(player).contains(leaderCardIndex)) {
 			return;
 		}
 		this.applyLeaderCardChoice(player, leaderCardIndex);
@@ -167,7 +172,7 @@ public class GameHandler
 
 	void applyLeaderCardChoice(Player player, int leaderCardIndex)
 	{
-		this.leaderCardsChoosingPlayers.put(player, false);
+		this.leaderCardsChoosingPlayers.remove(player);
 		player.getPlayerCardHandler().addLeaderCard(Utils.getLeaderCardFromIndex(leaderCardIndex));
 		this.availableLeaderCards.get(player).remove((Integer) leaderCardIndex);
 		boolean finished = true;
@@ -177,48 +182,70 @@ public class GameHandler
 			}
 		}
 		if (finished) {
-			for (Connection currentPlayer : this.room.getPlayers()) {
-				if (currentPlayer.getPlayer().isOnline()) {
-					currentPlayer.sendGameLeaderCardChosen(player.getIndex(), true);
-				}
+			if (player.isOnline()) {
+				player.getConnection().sendGameLeaderCardChosen();
 			}
 			this.leaderCardsChoosingPlayers.clear();
 			this.setupRound();
-		} else {
-			if (!this.leaderCardsChoosingPlayers.containsValue(true)) {
-				for (Connection currentPlayer : this.room.getPlayers()) {
-					if (currentPlayer.getPlayer().isOnline()) {
-						currentPlayer.sendGameLeaderCardChosen(player.getIndex(), false);
-					}
-				}
-				Map<Player, List<Integer>> newlyAvailableLeaderCards = new HashMap<>();
-				List<List<Integer>> oldAvailableLeaderCards = new ArrayList<>(this.availableLeaderCards.values());
-				int currentListIndex = 0;
-				for (Player currentPlayer : this.availableLeaderCards.keySet()) {
-					this.leaderCardsChoosingPlayers.put(currentPlayer, true);
-					if (currentListIndex + 1 >= this.availableLeaderCards.size()) {
-						newlyAvailableLeaderCards.put(currentPlayer, oldAvailableLeaderCards.get(0));
-					} else {
-						newlyAvailableLeaderCards.put(currentPlayer, oldAvailableLeaderCards.get(++currentListIndex));
-					}
-				}
-				this.availableLeaderCards.clear();
-				this.availableLeaderCards = newlyAvailableLeaderCards;
-				this.sendLeaderCardsChoiceRequest();
-			} else {
-				for (Player currentPlayer : this.turnOrder) {
-					if (currentPlayer.isOnline()) {
-						currentPlayer.getConnection().sendGameLeaderCardChosen(player.getIndex(), true);
-					}
+			return;
+		}
+		if (this.leaderCardsChoosingPlayers.isEmpty()) {
+			Map<Player, List<Integer>> newlyAvailableLeaderCards = new HashMap<>();
+			List<List<Integer>> oldAvailableLeaderCards = new ArrayList<>(this.availableLeaderCards.values());
+			int currentListIndex = 0;
+			for (Player currentPlayer : this.availableLeaderCards.keySet()) {
+				this.leaderCardsChoosingPlayers.add(currentPlayer);
+				if (currentListIndex + 1 >= this.availableLeaderCards.size()) {
+					newlyAvailableLeaderCards.put(currentPlayer, oldAvailableLeaderCards.get(0));
+				} else {
+					newlyAvailableLeaderCards.put(currentPlayer, oldAvailableLeaderCards.get(++currentListIndex));
 				}
 			}
+			this.availableLeaderCards.clear();
+			this.availableLeaderCards.putAll(newlyAvailableLeaderCards);
+			this.sendLeaderCardsChoiceRequest();
+		}
+	}
+
+	public void receiveExcommunicationChoice(Player player, boolean excommunicated)
+	{
+		if (!this.excommunicationChoosingPlayers.contains(player)) {
+			return;
+		}
+		this.applyExcommunicationChoice(player, excommunicated);
+	}
+
+	void applyExcommunicationChoice(Player player, boolean excommunicated)
+	{
+		this.excommunicationChoosingPlayers.remove(player);
+		if (excommunicated) {
+			this.excommunicatedPlayers.get(this.currentPeriod).add(player);
+			player.getActiveModifiers().add(this.boardHandler.getExcommunicationTiles().get(this.currentPeriod).getModifier());
+		} else {
+			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, PlayerResourceHandler.FAITH_POINTS_PRICES.get(player.getPlayerResourceHandler().getResources().get(ResourceType.FAITH_POINT)));
+			player.getPlayerResourceHandler().resetFaithPoints();
+		}
+		player.getConnection().sendGameExcommunicationChosen();
+		if (this.excommunicationChoosingPlayers.isEmpty()) {
+			this.checkedExcommunications = true;
+			this.setupRound();
 		}
 	}
 
 	private void setupRound()
 	{
-		if (this.currentRound == null || this.currentRound == Round.SECOND) {
+		if (this.currentRound == null) {
 			// the game is being started
+			this.setupPeriod();
+		} else if (this.currentRound == Round.SECOND) {
+			if (!this.checkedExcommunications) {
+				if (this.currentPeriod != Period.THIRD) {
+					this.calculateExcommunications();
+				} else {
+					this.endGame();
+				}
+				return;
+			}
 			this.setupPeriod();
 		} else {
 			this.currentRound = Round.SECOND;
@@ -250,15 +277,17 @@ public class GameHandler
 		if (this.currentPeriod == null) {
 			// the game is being started
 			this.currentPeriod = Period.FIRST;
-		} else {
-			this.currentPeriod = Period.next(this.currentPeriod);
+			this.currentRound = Round.FIRST;
+			return;
 		}
+		this.currentPeriod = Period.next(this.currentPeriod);
 		if (this.currentPeriod == null) {
 			// the are no more periods to play
 			this.endGame();
-		} else {
-			this.currentRound = Round.FIRST;
+			return;
 		}
+		this.currentRound = Round.FIRST;
+		this.checkedExcommunications = false;
 	}
 
 	private void endGame()
@@ -283,6 +312,26 @@ public class GameHandler
 			this.developmentCardsCharacters.get(this.currentPeriod).remove(0);
 			this.developmentCardsTerritory.get(this.currentPeriod).remove(0);
 			this.developmentCardsVenture.get(this.currentPeriod).remove(0);
+		}
+	}
+
+	private void calculateExcommunications()
+	{
+		for (Player player : this.turnOrder) {
+			if (player.getPlayerResourceHandler().isExcommunicated(this.currentPeriod)) {
+				this.excommunicatedPlayers.get(this.currentPeriod).add(player);
+				player.getActiveModifiers().add(this.boardHandler.getExcommunicationTiles().get(this.currentPeriod).getModifier());
+			} else {
+				this.excommunicationChoosingPlayers.add(player);
+			}
+		}
+		if (this.excommunicationChoosingPlayers.isEmpty()) {
+			this.checkedExcommunications = true;
+			this.setupRound();
+			return;
+		}
+		for (Player player : this.excommunicationChoosingPlayers) {
+			player.getConnection().sendGameExcommunicationChoiceRequest(this.currentPeriod);
 		}
 	}
 
@@ -609,11 +658,6 @@ public class GameHandler
 		return this.randomGenerator;
 	}
 
-	public Map<Period, Integer> getExcommunicationTilesIndexes()
-	{
-		return this.excommunicationTilesIndexes;
-	}
-
 	public Map<Integer, PlayerIdentification> getPlayersIdentifications()
 	{
 		return this.playersIdentifications;
@@ -679,8 +723,13 @@ public class GameHandler
 		return this.availableLeaderCards;
 	}
 
-	Map<Player, Boolean> getLeaderCardsChoosingPlayers()
+	List<Player> getLeaderCardsChoosingPlayers()
 	{
 		return this.leaderCardsChoosingPlayers;
+	}
+
+	List<Player> getExcommunicationChoosingPlayers()
+	{
+		return this.excommunicationChoosingPlayers;
 	}
 }
