@@ -9,7 +9,6 @@ import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
-import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.event.ActionEvent;
@@ -479,7 +478,6 @@ public class ControllerGame extends CustomController
 	@FXML private Pane cardDialogPane;
 	@FXML private Text cardDialogText;
 	@FXML private JFXDialog leaderCardsDialog;
-	@FXML private JFXDialogLayout leaderCardsDialogLayout;
 	@FXML private Pane player1LeaderCard1Hand;
 	@FXML private Pane player1LeaderCard2Hand;
 	@FXML private Pane player1LeaderCard3Hand;
@@ -520,6 +518,7 @@ public class ControllerGame extends CustomController
 	@FXML private Pane player5LeaderCard2Played;
 	@FXML private Pane player5LeaderCard3Played;
 	@FXML private Pane player5LeaderCard4Played;
+	private double ratio;
 	private final Map<Integer, Tab> playersTabs = new HashMap<>();
 	private final Map<Integer, Tab> leaderCardsTabs = new HashMap<>();
 	private final Map<Period, Pane> excommunicationTilesPanes = new EnumMap<>(Period.class);
@@ -783,11 +782,11 @@ public class ControllerGame extends CustomController
 		this.councilPalacePositionsLabels.put(this.councilPalace3, this.councilPalaceLabel3);
 		this.councilPalacePositionsLabels.put(this.councilPalace4, this.councilPalaceLabel4);
 		this.councilPalacePositionsLabels.put(this.councilPalace5, this.councilPalaceLabel5);
-		this.roundOrderPositionsPanes.put(1, this.roundOrderPosition1);
-		this.roundOrderPositionsPanes.put(2, this.roundOrderPosition2);
-		this.roundOrderPositionsPanes.put(3, this.roundOrderPosition3);
-		this.roundOrderPositionsPanes.put(4, this.roundOrderPosition4);
-		this.roundOrderPositionsPanes.put(5, this.roundOrderPosition5);
+		this.roundOrderPositionsPanes.put(0, this.roundOrderPosition1);
+		this.roundOrderPositionsPanes.put(1, this.roundOrderPosition2);
+		this.roundOrderPositionsPanes.put(2, this.roundOrderPosition3);
+		this.roundOrderPositionsPanes.put(3, this.roundOrderPosition4);
+		this.roundOrderPositionsPanes.put(4, this.roundOrderPosition5);
 		this.harvestBigPositionsPanes.add(this.harvestBig1);
 		this.harvestBigPositionsPanes.add(this.harvestBig2);
 		this.harvestBigPositionsPanes.add(this.harvestBig3);
@@ -1074,7 +1073,7 @@ public class ControllerGame extends CustomController
 	public void setupGui()
 	{
 		Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-		double ratio = (bounds.getHeight() - bounds.getHeight() / 15) / this.getStage().getHeight();
+		this.ratio = (bounds.getHeight() - bounds.getHeight() / 15) / this.getStage().getHeight();
 		this.gameBoard.setPrefWidth(this.gameBoard.getWidth() * ratio);
 		this.gameBoard.setPrefHeight(this.gameBoard.getHeight() * ratio);
 		this.playersTabPane.setPrefWidth(this.playersTabPane.getWidth() * ratio);
@@ -1177,6 +1176,7 @@ public class ControllerGame extends CustomController
 		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
 			JFXNodesList leaderCardsActionNodesList = new JFXNodesList();
+			leaderCardsActionNodesList.setSpacing(10.0D);
 			ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_council_palace.png", false);
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty()) {
 				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_activate.png", false);
@@ -1187,7 +1187,7 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
 				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_play.png", false);
 			}
-			leaderCardsActionNodesList.setRotate(270.0D);
+			leaderCardsActionNodesList.setRotate(90.0D);
 			actionsNodesList.addAnimatedNode(leaderCardsActionNodesList);
 		}
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_turn_pass.png", false);
@@ -1329,13 +1329,55 @@ public class ControllerGame extends CustomController
 					this.playersResources.get(playerData.getKey()).get(resourceAmount.getKey()).setText(Integer.toString(resourceAmount.getValue()));
 				}
 			}
+			for (Pane pane : this.victoryPointsPanes.values()) {
+				pane.setBackground(null);
+			}
+			this.victoryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.VICTORY_POINT) % 100).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			for (Pane pane : this.militaryPointsPanes.values()) {
+				pane.setBackground(null);
+			}
+			if (this.militaryPointsPanes.containsKey(playerData.getValue().getResourceAmounts().get(ResourceType.MILITARY_POINT))) {
+				this.militaryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.MILITARY_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			} else {
+				this.militaryPointsPanes.get(25).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			}
+			for (Pane pane : this.faithPointsPanes.values()) {
+				pane.setBackground(null);
+			}
+			if (this.faithPointsPanes.containsKey(playerData.getValue().getResourceAmounts().get(ResourceType.FAITH_POINT))) {
+				this.faithPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.FAITH_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			} else {
+				this.faithPointsPanes.get(15).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			}
+			if (GameStatus.getInstance().getCurrentPlayersData().size() == 5) {
+				for (Pane pane : this.prestigePointsPanes.values()) {
+					pane.setBackground(null);
+				}
+				if (this.prestigePointsPanes.containsKey(playerData.getValue().getResourceAmounts().get(ResourceType.PRESTIGE_POINT))) {
+					this.prestigePointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.PRESTIGE_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				} else {
+					this.prestigePointsPanes.get(9).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				}
+			}
+		}
+		for (Pane pane : this.councilPalacePositionsPanes.values()) {
+			pane.setBackground(null);
+		}
+		for (Entry<Integer, Integer> orderPosition : GameStatus.getInstance().getCurrentCouncilPalaceOrder().entrySet()) {
+			this.councilPalacePositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+		}
+		for (Pane pane : this.roundOrderPositionsPanes.values()) {
+			pane.setBackground(null);
+		}
+		for (Entry<Integer, Integer> orderPosition : GameStatus.getInstance().getCurrentTurnOrder().entrySet()) {
+			this.roundOrderPositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		}
 		this.leaderCardsButton.setDisable(false);
 	}
 
 	public void showPersonalBonusTilesChoiceDialog()
 	{
-		for (Integer personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
+		/*for (Integer personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
 			VBox vBox = new VBox();
 			Text text = new Text();
 			text.setFont(CommonUtils.ROBOTO_REGULAR);
@@ -1368,6 +1410,20 @@ public class ControllerGame extends CustomController
 			vBox.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex));
 			this.personalBonusTilesChoiceDialogHBox.getChildren().add(vBox);
 		}
+		this.personalBonusTilesChoiceDialog.show();*/
+		this.personalBonusTilesChoiceDialogHBox.getChildren().clear();
+		for (Integer personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
+			Pane pane = new Pane();
+			pane.setPrefWidth(103.0D * this.ratio);
+			pane.setPrefHeight(650.0D * this.ratio);
+			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			Utils.setEffect(pane, this.borderGlow);
+			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex));
+			this.personalBonusTilesChoiceDialogHBox.getChildren().add(pane);
+		}
+		this.personalBonusTilesChoiceDialogLayout.setPrefWidth(103.0D * this.ratio * this.personalBonusTilesChoiceDialogHBox.getChildren().size() + this.personalBonusTilesChoiceDialogHBox.getSpacing() * (this.personalBonusTilesChoiceDialogHBox.getChildren().size() - 1) + this.personalBonusTilesChoiceDialogLayout.getInsets().getLeft() + this.personalBonusTilesChoiceDialogLayout.getInsets().getRight());
+		this.personalBonusTilesChoiceDialogLayout.setPrefHeight(650.0D * this.ratio + this.personalBonusTilesChoiceDialogLayout.getInsets().getTop() + this.personalBonusTilesChoiceDialogLayout.getInsets().getTop() + 20.0D);
 		this.personalBonusTilesChoiceDialog.show();
 	}
 
