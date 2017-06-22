@@ -7,6 +7,7 @@ import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsMarket;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionMarket;
@@ -474,6 +475,10 @@ public class ControllerGame extends CustomController
 	@FXML private JFXDialog leaderCardsChoiceDialog;
 	@FXML private JFXDialogLayout leaderCardsChoiceDialogLayout;
 	@FXML private HBox leaderCardsChoiceDialogHBox;
+	@FXML private JFXDialog marketActionChoiceDialog;
+	@FXML private JFXSlider marketActionChoiceDialogSlider;
+	@FXML private JFXButton marketActionChoiceDialogAcceptButton;
+	@FXML private JFXButton marketActionChoiceDialogCancelButton;
 	@FXML private JFXDialog cardDialog;
 	@FXML private JFXDialogLayout cardDialogLayout;
 	@FXML private HBox cardDialogHBox;
@@ -604,6 +609,12 @@ public class ControllerGame extends CustomController
 	private void handleLeaderCardsButtonAction()
 	{
 		this.leaderCardsDialog.show();
+	}
+
+	@FXML
+	private void handleMarketActionChoiceDialogCancelButtonAction()
+	{
+		this.marketActionChoiceDialog.close();
 	}
 
 	@Override
@@ -899,6 +910,11 @@ public class ControllerGame extends CustomController
 		this.leaderCardsChoiceDialog.setDialogContainer(this.getStackPane());
 		this.leaderCardsChoiceDialog.setOverlayClose(false);
 		this.leaderCardsChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.marketActionChoiceDialog);
+		this.marketActionChoiceDialog.setTransitionType(DialogTransition.CENTER);
+		this.marketActionChoiceDialog.setDialogContainer(this.getStackPane());
+		this.marketActionChoiceDialog.setOverlayClose(false);
+		this.marketActionChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.cardDialog);
 		this.cardDialog.setTransitionType(DialogTransition.CENTER);
 		this.cardDialog.setDialogContainer(this.getStackPane());
@@ -1150,6 +1166,8 @@ public class ControllerGame extends CustomController
 		}
 		this.leaderCardsTabPane.requestLayout();
 		this.leaderCardsButton.setPrefWidth(((VBox) this.leaderCardsButton.getParent()).getWidth());
+		this.marketActionChoiceDialogAcceptButton.setPrefWidth(((VBox) this.marketActionChoiceDialogAcceptButton.getParent()).getWidth());
+		this.marketActionChoiceDialogCancelButton.setPrefWidth(((VBox) this.marketActionChoiceDialogCancelButton.getParent()).getWidth());
 		this.getStage().setX(bounds.getWidth() / 2 - this.getStage().getWidth() / 2);
 		this.getStage().setY(bounds.getHeight() / 2 - this.getStage().getHeight() / 2);
 	}
@@ -1242,16 +1260,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.FIRST).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market1NodesList, "/images/icons/action_market_1.png", mappedMarketSlots.get(MarketSlot.FIRST), new JFXNodesList[] { market2NodesList, market3NodesList, market4NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_black.png", false);
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIRST, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_neutral.png", false);
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIRST, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_orange.png", false);
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIRST, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_white.png", false);
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIRST, FamilyMemberType.WHITE));
 					}
 					market1NodesList.setSpacing(10.0D);
 					market1NodesList.setRotate(270.0D);
@@ -1260,16 +1278,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.SECOND).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market2NodesList, "/images/icons/action_market_2.png", mappedMarketSlots.get(MarketSlot.SECOND), new JFXNodesList[] { market1NodesList, market3NodesList, market4NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_black.png", false);
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SECOND, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_neutral.png", false);
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SECOND, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_orange.png", false);
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SECOND, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_white.png", false);
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SECOND, FamilyMemberType.WHITE));
 					}
 					market2NodesList.setSpacing(10.0D);
 					market2NodesList.setRotate(270.0D);
@@ -1278,16 +1296,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.THIRD).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market3NodesList, "/images/icons/action_market_3.png", mappedMarketSlots.get(MarketSlot.THIRD), new JFXNodesList[] { market1NodesList, market2NodesList, market4NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_black.png", false);
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.THIRD, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_neutral.png", false);
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.THIRD, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_orange.png", false);
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.THIRD, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_white.png", false);
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.THIRD, FamilyMemberType.WHITE));
 					}
 					market3NodesList.setSpacing(10.0D);
 					market3NodesList.setRotate(270.0D);
@@ -1296,16 +1314,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.FOURTH).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market4NodesList, "/images/icons/action_market_4.png", mappedMarketSlots.get(MarketSlot.FOURTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_black.png", false);
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FOURTH, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_neutral.png", false);
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FOURTH, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_orange.png", false);
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FOURTH, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_white.png", false);
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FOURTH, FamilyMemberType.WHITE));
 					}
 					market4NodesList.setSpacing(10.0D);
 					market4NodesList.setRotate(270.0D);
@@ -1314,16 +1332,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.FIFTH).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market5NodesList, "/images/icons/action_market_5.png", mappedMarketSlots.get(MarketSlot.FIFTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market4NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_black.png", false);
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIFTH, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_neutral.png", false);
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIFTH, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_orange.png", false);
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIFTH, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_white.png", false);
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIFTH, FamilyMemberType.WHITE));
 					}
 					market5NodesList.setSpacing(10.0D);
 					market5NodesList.setRotate(270.0D);
@@ -1332,16 +1350,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.SIXTH).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market6NodesList, "/images/icons/action_market_6.png", mappedMarketSlots.get(MarketSlot.SIXTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market4NodesList, market5NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_black.png", false);
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SIXTH, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_neutral.png", false);
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SIXTH, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_orange.png", false);
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SIXTH, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_white.png", false);
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SIXTH, FamilyMemberType.WHITE));
 					}
 					market6NodesList.setSpacing(10.0D);
 					market6NodesList.setRotate(270.0D);
@@ -1699,6 +1717,14 @@ public class ControllerGame extends CustomController
 	public void closeExcommunicationChoiceDialog()
 	{
 		this.leaderCardsChoiceDialog.close();
+	}
+
+	private void showMarketActionChoiceDialog(MarketSlot marketSlot, FamilyMemberType familyMemberType)
+	{
+		this.marketActionChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		this.marketActionChoiceDialogSlider.setValue(0);
+		this.marketActionChoiceDialogAcceptButton.setOnAction((event) -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsMarket(familyMemberType, (int) this.marketActionChoiceDialogSlider.getValue(), marketSlot)));
+		this.marketActionChoiceDialog.show();
 	}
 
 	public TextArea getChatTextArea()
