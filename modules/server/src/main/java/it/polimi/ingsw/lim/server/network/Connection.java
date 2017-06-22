@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.server.network;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
@@ -164,6 +165,19 @@ public abstract class Connection
 			return;
 		}
 		gameHandler.receiveExcommunicationChoice(this.getPlayer(), excommunicated);
+	}
+
+	public void handleGameAction(ActionInformations action)
+	{
+		Room room = Room.getPlayerRoom(this);
+		if (room == null) {
+			return;
+		}
+		GameHandler gameHandler = room.getGameHandler();
+		if (gameHandler == null) {
+			return;
+		}
+		gameHandler.receiveAction(this.getPlayer(), action);
 	}
 
 	public String getUsername()

@@ -44,6 +44,11 @@ public class ActionMarket extends ActionInformationsMarket implements IAction
 		if (gameHandler.getExpectedAction() != null) {
 			return false;
 		}
+		if ((this.getMarketSlot() == MarketSlot.SIXTH || this.getMarketSlot() == MarketSlot.FIFTH) && room.getPlayers().size() < 5) {
+			return false;
+		} else if ((this.getMarketSlot() == MarketSlot.FOURTH || this.getMarketSlot() == MarketSlot.THIRD) && room.getPlayers().size() < 4) {
+			return false;
+		}
 		// check if the board slot is occupied and get effective family member value
 		BoardPosition boardPosition = BoardPosition.getMarketPositions().get(this.getMarketSlot());
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), boardPosition, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));

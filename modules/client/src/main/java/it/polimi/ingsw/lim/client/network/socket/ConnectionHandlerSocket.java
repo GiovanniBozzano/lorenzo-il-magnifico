@@ -11,15 +11,13 @@ import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
 import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsLobbySocket;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketGameLeaderCardPlayerChoice;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketGamePersonalBonusTilePlayerChoice;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketLogin;
-import it.polimi.ingsw.lim.common.network.socket.packets.client.PacketRegistration;
+import it.polimi.ingsw.lim.common.network.socket.packets.client.*;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
@@ -141,6 +139,20 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 	{
 		super.sendGameLeaderCardPlayerChoice(leaderCardIndex);
 		new PacketGameLeaderCardPlayerChoice(leaderCardIndex).send(this.out);
+	}
+
+	@Override
+	public synchronized void sendGameExcommunicationPlayerChoice(boolean excommunicated)
+	{
+		super.sendGameExcommunicationPlayerChoice(excommunicated);
+		new PacketGameExcommunicationPlayerChoice(excommunicated).send(this.out);
+	}
+
+	@Override
+	public synchronized void sendGameAction(ActionInformations action)
+	{
+		super.sendGameAction(action);
+		new PacketGameAction(action).send(this.out);
 	}
 
 	void handleDisconnectionLogMessage(String text)

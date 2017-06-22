@@ -14,6 +14,7 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
@@ -86,13 +87,7 @@ public abstract class ConnectionHandler extends Thread
 	 */
 	public synchronized void sendLogin(String username, String password, RoomType roomType)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
-		WindowFactory.getInstance().disableWindow();
+		this.checkInitialization();
 	}
 
 	/**
@@ -105,53 +100,37 @@ public abstract class ConnectionHandler extends Thread
 	 */
 	public synchronized void sendRegistration(String username, String password, RoomType roomType)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
-		WindowFactory.getInstance().disableWindow();
+		this.checkInitialization();
 	}
 
 	public synchronized void sendRoomTimerRequest()
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
+		this.checkInitialization();
 	}
 
 	public synchronized void sendChatMessage(String text)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
+		this.checkInitialization();
 	}
 
 	public synchronized void sendGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
+		this.checkInitialization();
 	}
 
 	public synchronized void sendGameLeaderCardPlayerChoice(int leaderCardIndex)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
+		this.checkInitialization();
+	}
+
+	public synchronized void sendGameExcommunicationPlayerChoice(boolean excommunicated)
+	{
+		this.checkInitialization();
+	}
+
+	public synchronized void sendGameAction(ActionInformations action)
+	{
+		this.checkInitialization();
 	}
 
 	public void handleRoomEntryOther(String name)
@@ -349,6 +328,16 @@ public abstract class ConnectionHandler extends Thread
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn());
 		} else {
 			Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() });
+		}
+	}
+
+	private void checkInitialization()
+	{
+		try {
+			this.join();
+		} catch (InterruptedException exception) {
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Thread.currentThread().interrupt();
 		}
 	}
 

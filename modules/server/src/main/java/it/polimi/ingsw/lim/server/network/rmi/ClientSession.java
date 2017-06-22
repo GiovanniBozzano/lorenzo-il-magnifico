@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.network.rmi;
 
+import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
 import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
 
 import java.rmi.RemoteException;
@@ -56,6 +57,12 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	public void sendGameExcommunicationPlayerChoice(boolean excommunicated) throws RemoteException
 	{
 		this.connectionRmi.handleGameExcommunicationPlayerChoice(excommunicated);
+	}
+
+	@Override
+	public void sendGameAction(ActionInformations action) throws RemoteException
+	{
+		this.connectionRmi.handleGameAction(action);
 	}
 
 	@Override

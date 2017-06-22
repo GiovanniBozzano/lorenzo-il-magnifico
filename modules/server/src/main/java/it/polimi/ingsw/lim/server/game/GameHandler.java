@@ -236,6 +236,14 @@ public class GameHandler
 		}
 	}
 
+	public void receiveAction(Player player, ActionInformations actionInformations)
+	{
+		IAction action = Utils.ACTIONS_TRANSFORMERS.get(actionInformations.getActionType()).transform(actionInformations, player);
+		if (action.isLegal()) {
+			action.apply();
+		}
+	}
+
 	private void setupRound()
 	{
 		if (this.currentRound == null) {
