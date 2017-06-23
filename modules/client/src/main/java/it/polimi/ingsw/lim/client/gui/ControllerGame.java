@@ -11,9 +11,10 @@ import it.polimi.ingsw.lim.common.game.actions.ActionInformationsMarket;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionMarket;
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardModifierInformations;
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardRewardInformations;
+import it.polimi.ingsw.lim.common.game.cards.*;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
+import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
@@ -558,7 +559,268 @@ public class ControllerGame extends CustomController
 				this.cardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
 				this.cardDialogLayout.setPrefWidth(this.territory1.getWidth() * 4 + this.cardDialogHBox.getSpacing() + this.cardDialogText.getLayoutBounds().getWidth() + this.cardDialogLayout.getInsets().getLeft() + this.cardDialogLayout.getInsets().getRight());
 				this.cardDialogLayout.setPrefHeight(this.territory1.getHeight() * 4 + this.cardDialogLayout.getInsets().getTop() + this.cardDialogLayout.getInsets().getBottom() + 20.0D);
-				this.cardDialog.show();
+				if (developmentCardsBuildingPanes.containsValue(event.getSource())) {
+					StringBuilder stringBuilder = new StringBuilder();
+					DevelopmentCardBuildingInformations developmentCardBuildingInformations = GameStatus.getInstance().getDevelopmentCardsBuilding().get(this.developmentCardsBuildingIndexes.get(event.getSource()));
+					stringBuilder.append('\n');
+					if (!developmentCardBuildingInformations.getResourceCostOptions().isEmpty()) {
+						stringBuilder.append("\nRESOURCE COST OPTIONS:");
+						stringBuilder.append('\n');
+						stringBuilder.append("==============");
+						for (ResourceCostOption resourceCostOption : developmentCardBuildingInformations.getResourceCostOptions()) {
+							if (!resourceCostOption.getRequiredResources().isEmpty()) {
+								stringBuilder.append('\n');
+								stringBuilder.append("Required resources:");
+								for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
+									stringBuilder.append("\n    -");
+									stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+									stringBuilder.append(": ");
+									stringBuilder.append(resourceAmount.getAmount());
+								}
+							}
+							if (!resourceCostOption.getSpentResources().isEmpty()) {
+								stringBuilder.append('\n');
+								stringBuilder.append("Spent resources:");
+								for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
+									stringBuilder.append("\n    -");
+									stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+									stringBuilder.append(": ");
+									stringBuilder.append(resourceAmount.getAmount());
+								}
+							}
+							stringBuilder.append('\n');
+							stringBuilder.append("==============");
+						}
+					}
+					if (developmentCardBuildingInformations.getReward().getActionRewardInformations() != null || !developmentCardBuildingInformations.getReward().getResourceAmounts().isEmpty()) {
+						stringBuilder.append("\n\nREWARD:");
+					}
+					if (!developmentCardBuildingInformations.getReward().getResourceAmounts().isEmpty()) {
+						stringBuilder.append("\n\nInstant resources:");
+						for (ResourceAmount resourceAmount : (developmentCardBuildingInformations.getReward().getResourceAmounts())) {
+							stringBuilder.append("\n    -");
+							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(": ");
+							stringBuilder.append(resourceAmount.getAmount());
+						}
+						if (developmentCardBuildingInformations.getReward().getActionRewardInformations() != null) {
+							stringBuilder.append("\n\nAction reward:");
+							stringBuilder.append("\n| ");
+							stringBuilder.append(developmentCardBuildingInformations.getReward().getActionRewardInformations().replace("\n", "\n| "));
+						}
+					}
+					stringBuilder.append("\n\nPRODUCTION ACTIVATION COST: ");
+					stringBuilder.append(developmentCardBuildingInformations.getActivationValue());
+					if (!developmentCardBuildingInformations.getResourceTradeOptions().isEmpty()) {
+						stringBuilder.append("\n\nRESOURCE TRADE OPTIONS:");
+						for (ResourceTradeOption resourcetradeOption : developmentCardBuildingInformations.getResourceTradeOptions()) {
+							stringBuilder.append('\n');
+							stringBuilder.append("\n==============");
+							if (!resourcetradeOption.getEmployedResources().isEmpty()) {
+								stringBuilder.append('\n');
+								stringBuilder.append("Employed resources:");
+								for (ResourceAmount resourceAmount : resourcetradeOption.getEmployedResources()) {
+									stringBuilder.append("\n    -");
+									stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+									stringBuilder.append(": ");
+									stringBuilder.append(resourceAmount.getAmount());
+								}
+							}
+							if (!resourcetradeOption.getProducedResources().isEmpty()) {
+								stringBuilder.append('\n');
+								stringBuilder.append("Produced resources:");
+								for (ResourceAmount resourceAmount : resourcetradeOption.getProducedResources()) {
+									stringBuilder.append("\n    -");
+									stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+									stringBuilder.append(": ");
+									stringBuilder.append(resourceAmount.getAmount());
+								}
+							}
+							stringBuilder.append('\n');
+							stringBuilder.append("==============");
+						}
+					}
+					this.cardDialogText.setText(stringBuilder.toString());
+					this.cardDialog.show();
+				}
+				if (developmentCardsCharacterPanes.containsValue(event.getSource())) {
+					StringBuilder stringBuilder = new StringBuilder();
+					DevelopmentCardCharacterInformations developmentCardCharacterInformations = GameStatus.getInstance().getDevelopmentCardsCharacter().get(this.developmentCardsCharacterIndexes.get(event.getSource()));
+					stringBuilder.append('\n');
+					if (!developmentCardCharacterInformations.getResourceCostOptions().isEmpty()) {
+						stringBuilder.append("\nRESOURCE COST OPTIONS:");
+						stringBuilder.append('\n');
+						stringBuilder.append("==============");
+						for (ResourceCostOption resourceCostOption : developmentCardCharacterInformations.getResourceCostOptions()) {
+							if (!resourceCostOption.getRequiredResources().isEmpty()) {
+								stringBuilder.append('\n');
+								stringBuilder.append("Required resources:");
+								for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
+									stringBuilder.append("\n    -");
+									stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+									stringBuilder.append(": ");
+									stringBuilder.append(resourceAmount.getAmount());
+								}
+							}
+							if (!resourceCostOption.getSpentResources().isEmpty()) {
+								stringBuilder.append('\n');
+								stringBuilder.append("Spent resources:");
+								for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
+									stringBuilder.append("\n    -");
+									stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+									stringBuilder.append(": ");
+									stringBuilder.append(resourceAmount.getAmount());
+								}
+							}
+							stringBuilder.append('\n');
+							stringBuilder.append("==============");
+						}
+					}
+					if (developmentCardCharacterInformations.getReward().getActionRewardInformations() != null || !developmentCardCharacterInformations.getReward().getResourceAmounts().isEmpty()) {
+						stringBuilder.append("\n\nREWARD:");
+					}
+					if (!developmentCardCharacterInformations.getReward().getResourceAmounts().isEmpty()) {
+						stringBuilder.append("\n\nInstant resources:");
+						for (ResourceAmount resourceAmount : (developmentCardCharacterInformations.getReward().getResourceAmounts())) {
+							stringBuilder.append("\n    -");
+							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(": ");
+							stringBuilder.append(resourceAmount.getAmount());
+						}
+						if (developmentCardCharacterInformations.getReward().getActionRewardInformations() != null) {
+							stringBuilder.append("\n\nAction reward:");
+							stringBuilder.append("\n| ");
+							stringBuilder.append(developmentCardCharacterInformations.getReward().getActionRewardInformations().replace("\n", "\n| "));
+						}
+					}
+					if (developmentCardCharacterInformations.getModifierInformations() != null) {
+						stringBuilder.append("\n\nMODIFIER:");
+						stringBuilder.append("\n| ");
+						stringBuilder.append(developmentCardCharacterInformations.getModifierInformations().replace("\n", "\n| "));
+					}
+					this.cardDialogText.setText(stringBuilder.toString());
+					this.cardDialog.show();
+				}
+				if (developmentCardsTerritoryPanes.containsValue(event.getSource())) {
+					StringBuilder stringBuilder = new StringBuilder();
+					DevelopmentCardTerritoryInformations developmentCardTerritoryInformations = GameStatus.getInstance().getDevelopmentCardsTerritory().get(this.developmentCardsTerritoryIndexes.get(event.getSource()));
+					stringBuilder.append('\n');
+					if (!developmentCardTerritoryInformations.getResourceCostOptions().isEmpty()) {
+						stringBuilder.append("\nRESOURCE COST OPTIONS:");
+						stringBuilder.append('\n');
+						stringBuilder.append("==============");
+						for (ResourceCostOption resourceCostOption : developmentCardTerritoryInformations.getResourceCostOptions()) {
+							if (!resourceCostOption.getRequiredResources().isEmpty()) {
+								stringBuilder.append('\n');
+								stringBuilder.append("Required resources:");
+								for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
+									stringBuilder.append("\n    -");
+									stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+									stringBuilder.append(": ");
+									stringBuilder.append(resourceAmount.getAmount());
+								}
+							}
+							if (!resourceCostOption.getSpentResources().isEmpty()) {
+								stringBuilder.append('\n');
+								stringBuilder.append("Spent resources:");
+								for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
+									stringBuilder.append("\n    -");
+									stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+									stringBuilder.append(": ");
+									stringBuilder.append(resourceAmount.getAmount());
+								}
+							}
+							stringBuilder.append('\n');
+							stringBuilder.append("==============");
+						}
+					}
+					if (developmentCardTerritoryInformations.getReward().getActionRewardInformations() != null || !developmentCardTerritoryInformations.getReward().getResourceAmounts().isEmpty()) {
+						stringBuilder.append("\n\nREWARD:");
+					}
+					if (!developmentCardTerritoryInformations.getReward().getResourceAmounts().isEmpty()) {
+						stringBuilder.append("\n\nInstant resources:");
+						for (ResourceAmount resourceAmount : (developmentCardTerritoryInformations.getReward().getResourceAmounts())) {
+							stringBuilder.append("\n    -");
+							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(": ");
+							stringBuilder.append(resourceAmount.getAmount());
+						}
+						if (developmentCardTerritoryInformations.getReward().getActionRewardInformations() != null) {
+							stringBuilder.append("\n\nAction reward:");
+							stringBuilder.append("\n| ");
+							stringBuilder.append(developmentCardTerritoryInformations.getReward().getActionRewardInformations().replace("\n", "\n| "));
+						}
+					}
+					stringBuilder.append("\n\nHARVEST ACTIVATION VALUE: ");
+					stringBuilder.append(developmentCardTerritoryInformations.getActivationValue());
+					if (!developmentCardTerritoryInformations.getHarvestResources().isEmpty()) {
+						stringBuilder.append('\n');
+						stringBuilder.append("HARVEST RESOURCES:");
+						for (ResourceAmount resourceAmount : developmentCardTerritoryInformations.getHarvestResources()) {
+							stringBuilder.append("\n    -");
+							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(": ");
+							stringBuilder.append(resourceAmount.getAmount());
+						}
+					}
+					this.cardDialogText.setText(stringBuilder.toString());
+					this.cardDialog.show();
+				}
+				if (developmentCardsVenturePanes.containsValue(event.getSource())) {
+					StringBuilder stringBuilder = new StringBuilder();
+					DevelopmentCardVentureInformations developmentCardVentureInformations = GameStatus.getInstance().getDevelopmentCardsVenture().get(this.developmentCardsVentureIndexes.get(event.getSource()));
+					stringBuilder.append('\n');
+					if (!developmentCardVentureInformations.getResourceCostOptions().isEmpty()) {
+						stringBuilder.append("\nRESOURCE COST OPTIONS:");
+						stringBuilder.append('\n');
+						stringBuilder.append("==============");
+						for (ResourceCostOption resourceCostOption : developmentCardVentureInformations.getResourceCostOptions()) {
+							if (!resourceCostOption.getRequiredResources().isEmpty()) {
+								stringBuilder.append('\n');
+								stringBuilder.append("Required resources:");
+								for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
+									stringBuilder.append("\n    -");
+									stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+									stringBuilder.append(": ");
+									stringBuilder.append(resourceAmount.getAmount());
+								}
+							}
+							if (!resourceCostOption.getSpentResources().isEmpty()) {
+								stringBuilder.append('\n');
+								stringBuilder.append("Spent resources:");
+								for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
+									stringBuilder.append("\n    -");
+									stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+									stringBuilder.append(": ");
+									stringBuilder.append(resourceAmount.getAmount());
+								}
+							}
+							stringBuilder.append('\n');
+							stringBuilder.append("==============");
+						}
+					}
+					if (developmentCardVentureInformations.getReward().getActionRewardInformations() != null || !developmentCardVentureInformations.getReward().getResourceAmounts().isEmpty()) {
+						stringBuilder.append("\n\nREWARD:");
+					}
+					if (!developmentCardVentureInformations.getReward().getResourceAmounts().isEmpty()) {
+						stringBuilder.append("\n\nInstant resources:");
+						for (ResourceAmount resourceAmount : (developmentCardVentureInformations.getReward().getResourceAmounts())) {
+							stringBuilder.append("\n    -");
+							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(": ");
+							stringBuilder.append(resourceAmount.getAmount());
+						}
+						if (developmentCardVentureInformations.getReward().getActionRewardInformations() != null) {
+							stringBuilder.append("\n\nAction reward:");
+							stringBuilder.append("\n| ");
+							stringBuilder.append(developmentCardVentureInformations.getReward().getActionRewardInformations().replace("\n", "\n| "));
+						}
+					}
+					stringBuilder.append("\n\nVICTORY VALUE: ");
+					stringBuilder.append(developmentCardVentureInformations.getVictoryValue());
+					this.cardDialogText.setText(stringBuilder.toString());
+					this.cardDialog.show();
+				}
 			}
 		}
 	}

@@ -20,11 +20,41 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 	@Override
 	public void execute()
 	{
-		for (int index = 0; index < GameStatus.getInstance().getAvailablePersonalBonusTiles().size(); index++) {
-			this.personalBonusTiles.put(index + 1, GameStatus.getInstance().getAvailablePersonalBonusTiles().get(index));
-		}
-		this.showPersonalBonusTiles(ownTurn);
+		Client.getDebugger().log(Level.INFO, "asd");
 		this.askPersonalBonusTileIndex();
+	}
+
+	public void showPersonalBonusTiles()
+	{
+		Client.getLogger().log(Level.INFO, "Enter PersonalBonusTile choice...");
+		for (Entry<Integer, Integer> personalBonusTile : this.personalBonusTiles.entrySet()) {
+			Client.getLogger().log(Level.INFO, "== {0} ============", new Object[] { personalBonusTile.getKey() });
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("Production activation cost: ");
+			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionActivationCost());
+			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionInstantResources().isEmpty()) {
+				stringBuilder.append("\n\nProduction bonus resources:");
+			}
+			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionInstantResources()) {
+				stringBuilder.append('\n');
+				stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(": ");
+				stringBuilder.append(resourceAmount.getAmount());
+			}
+			stringBuilder.append("\n\nHarvest activation cost: ");
+			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionActivationCost());
+			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getHarvestInstantResources().isEmpty()) {
+				stringBuilder.append("\n\nHarvest bonus resources:");
+			}
+			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getHarvestInstantResources()) {
+				stringBuilder.append('\n');
+				stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(": ");
+				stringBuilder.append(resourceAmount.getAmount());
+			}
+			Client.getLogger().log(Level.INFO, "===================");
+			GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue());
+		}
 	}
 
 	private void askPersonalBonusTileIndex()
@@ -37,41 +67,6 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 		Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(this.personalBonusTiles.get(Integer.parseInt(input)));
 	}
 
-	public void showPersonalBonusTiles(boolean ownTurn)
-	{
-		if (ownTurn) {
-			Client.getLogger().log(Level.INFO, "Enter PersonalBonusTile choice...");
-			for (Entry<Integer, Integer> personalBonusTile : this.personalBonusTiles.entrySet()) {
-				Client.getLogger().log(Level.INFO, "== {0} ============", new Object[] { personalBonusTile.getKey() });
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.append("Production activation cost: ");
-				stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionActivationCost());
-				if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionInstantResources().isEmpty()) {
-					stringBuilder.append("\n\nProduction bonus resources:");
-				}
-				for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionInstantResources()) {
-					stringBuilder.append('\n');
-					stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-				stringBuilder.append("\n\nHarvest activation cost: ");
-				stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionActivationCost());
-				if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getHarvestInstantResources().isEmpty()) {
-					stringBuilder.append("\n\nHarvest bonus resources:");
-				}
-				for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getHarvestInstantResources()) {
-					stringBuilder.append('\n');
-					stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-				Client.getLogger().log(Level.INFO, "===================");
-				GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue());
-			}
-		}
-	}
-
 	public boolean isOwnTurn()
 	{
 		return this.ownTurn;
@@ -79,6 +74,12 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 
 	public void setOwnTurn(boolean ownTurn)
 	{
+		if (ownTurn) {
+			for (int index = 0; index < GameStatus.getInstance().getAvailablePersonalBonusTiles().size(); index++) {
+				this.personalBonusTiles.put(index + 1, GameStatus.getInstance().getAvailablePersonalBonusTiles().get(index));
+			}
+			this.showPersonalBonusTiles();
+		}
 		this.ownTurn = ownTurn;
 	}
 }

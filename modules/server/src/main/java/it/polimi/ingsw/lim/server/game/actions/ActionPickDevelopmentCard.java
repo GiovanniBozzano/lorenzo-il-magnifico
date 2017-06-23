@@ -58,6 +58,10 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		if (gameHandler.getExpectedAction() != null) {
 			return false;
 		}
+		// check if the family member is usable
+		if (this.player.getFamilyMembersPositions().get(this.getFamilyMemberType()) != BoardPosition.NONE) {
+			return false;
+		}
 		// check if the card is already taken
 		DevelopmentCard developmentCard = gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).get(this.getRow());
 		if (developmentCard == null) {

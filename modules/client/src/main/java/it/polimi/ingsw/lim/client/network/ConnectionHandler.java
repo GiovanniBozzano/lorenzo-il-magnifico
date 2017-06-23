@@ -235,10 +235,10 @@ public abstract class ConnectionHandler extends Thread
 
 	public void handleGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles)
 	{
+		GameStatus.getInstance().setAvailablePersonalBonusTiles(availablePersonalBonusTiles);
 		if (Client.getInstance().getCliStatus() == CLIStatus.PERSONAL_BONUS_TILE_CHOICE) {
 			((CLIHandlerPersonalBonusTileChoice) Client.getInstance().getCurrentCliHandler()).setOwnTurn(true);
 		}
-		GameStatus.getInstance().setAvailablePersonalBonusTiles(availablePersonalBonusTiles);
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			try {
 				WindowFactory.WINDOW_OPENING_SEMAPHORE.acquire();

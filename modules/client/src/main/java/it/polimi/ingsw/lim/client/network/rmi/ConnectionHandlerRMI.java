@@ -230,7 +230,9 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		if (!authenticationInformations.isGameStarted()) {
 			this.clientSession = ((AuthenticationInformationsLobbyRMI) authenticationInformations).getClientSession();
 			Client.getInstance().setUsername(username);
-			WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(((AuthenticationInformationsLobbyRMI) authenticationInformations).getRoomInformations().getRoomType(), ((AuthenticationInformationsLobbyRMI) authenticationInformations).getRoomInformations().getPlayerNames())));
+			if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+				WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(((AuthenticationInformationsLobbyRMI) authenticationInformations).getRoomInformations().getRoomType(), ((AuthenticationInformationsLobbyRMI) authenticationInformations).getRoomInformations().getPlayerNames())));
+			}
 		} else {
 			this.clientSession = ((AuthenticationInformationsGameRMI) authenticationInformations).getClientSession();
 			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationsGameRMI) authenticationInformations).getExcommunicationTiles());
@@ -242,25 +244,29 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			GameStatus.getInstance().setOwnPlayerIndex(((AuthenticationInformationsGameRMI) authenticationInformations).getOwnPlayerIndex());
 			if (((AuthenticationInformationsGameRMI) authenticationInformations).isGameInitialized()) {
 				GameStatus.getInstance().updateGameStatus(((AuthenticationInformationsGameRMI) authenticationInformations).getGameInformations(), ((AuthenticationInformationsGameRMI) authenticationInformations).getPlayersInformations(), ((AuthenticationInformationsGameRMI) authenticationInformations).getOwnLeaderCardsHand());
-				WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, () -> {
-					if (((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex() != ((AuthenticationInformationsGameRMI) authenticationInformations).getOwnPlayerIndex()) {
-						GameStatus.getInstance().setCurrentTurnPlayerIndex(((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex());
-						if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-							Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn());
+				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+					WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, () -> {
+						if (((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex() != ((AuthenticationInformationsGameRMI) authenticationInformations).getOwnPlayerIndex()) {
+							GameStatus.getInstance().setCurrentTurnPlayerIndex(((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex());
+							if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+								Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn());
+							} else {
+								Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex()).getUsername() });
+							}
 						} else {
-							Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex()).getUsername() });
+							GameStatus.getInstance().setCurrentAvailableActions(((AuthenticationInformationsGameRMI) authenticationInformations).getAvailableActions());
+							if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+								Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurn());
+							} else {
+								Client.getLogger().log(Level.INFO, "Your turn...");
+							}
 						}
-					} else {
-						GameStatus.getInstance().setCurrentAvailableActions(((AuthenticationInformationsGameRMI) authenticationInformations).getAvailableActions());
-						if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-							Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurn());
-						} else {
-							Client.getLogger().log(Level.INFO, "Your turn...");
-						}
-					}
-				});
+					});
+				}
 			} else {
-				WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME);
+				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+					WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME);
+				}
 			}
 		}
 	}

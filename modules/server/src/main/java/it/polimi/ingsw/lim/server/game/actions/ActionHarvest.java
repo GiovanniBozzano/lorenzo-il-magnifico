@@ -52,6 +52,10 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 		if (gameHandler.getExpectedAction() != null) {
 			return false;
 		}
+		// check if the family member is usable
+		if (this.player.getFamilyMembersPositions().get(this.getFamilyMemberType()) != BoardPosition.NONE) {
+			return false;
+		}
 		// check if the board slot is occupied and get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.HARVEST_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
 		eventPlaceFamilyMember.applyModifiers(this.player.getActiveModifiers());

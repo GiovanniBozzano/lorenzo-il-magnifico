@@ -46,6 +46,10 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 		if (gameHandler.getExpectedAction() != ActionType.COUNCIL_PALACE) {
 			return false;
 		}
+		// check if the family member is usable
+		if (this.player.getFamilyMembersPositions().get(this.getFamilyMemberType()) != BoardPosition.NONE) {
+			return false;
+		}
 		// get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.COUNCIL_PALACE, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
 		eventPlaceFamilyMember.applyModifiers(this.player.getActiveModifiers());
