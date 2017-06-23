@@ -139,7 +139,9 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			targetRoom.addPlayer(connectionRmi);
 			List<String> playerUsernames = new ArrayList<>();
 			for (Connection player : targetRoom.getPlayers()) {
-				player.sendRoomEntryOther(username);
+				if (player != connectionRmi) {
+					player.sendRoomEntryOther(username);
+				}
 				playerUsernames.add(player.getUsername());
 			}
 			AuthenticationInformationsLobbyRMI authenticationInformations = new AuthenticationInformationsLobbyRMI();

@@ -84,11 +84,6 @@ public class ControllerGame extends CustomController
 	@FXML private Pane excommunicationTileFirst;
 	@FXML private Pane excommunicationTileSecond;
 	@FXML private Pane excommunicationTileThird;
-	@FXML private Label councilPalaceLabel1;
-	@FXML private Label councilPalaceLabel2;
-	@FXML private Label councilPalaceLabel3;
-	@FXML private Label councilPalaceLabel4;
-	@FXML private Label councilPalaceLabel5;
 	@FXML private Pane roundOrderPosition1;
 	@FXML private Pane roundOrderPosition2;
 	@FXML private Pane roundOrderPosition3;
@@ -525,30 +520,26 @@ public class ControllerGame extends CustomController
 	@FXML private Pane player5LeaderCard2Played;
 	@FXML private Pane player5LeaderCard3Played;
 	@FXML private Pane player5LeaderCard4Played;
-	private double ratio;
 	private final Map<Integer, Tab> playersTabs = new HashMap<>();
 	private final Map<Integer, Tab> leaderCardsTabs = new HashMap<>();
+	private final Map<FamilyMemberType, Pane> dices = new EnumMap<>(FamilyMemberType.class);
 	private final Map<Period, Pane> excommunicationTilesPanes = new EnumMap<>(Period.class);
 	private final Map<Integer, Pane> victoryPointsPanes = new HashMap<>();
 	private final Map<Integer, Pane> militaryPointsPanes = new HashMap<>();
 	private final Map<Integer, Pane> faithPointsPanes = new HashMap<>();
 	private final Map<Integer, Pane> prestigePointsPanes = new HashMap<>();
 	private final Map<Integer, Pane> councilPalacePositionsPanes = new HashMap<>();
-	private final Map<Pane, Label> councilPalacePositionsLabels = new HashMap<>();
 	private final Map<Integer, Pane> roundOrderPositionsPanes = new HashMap<>();
-	private final List<Pane> harvestBigPositionsPanes = new LinkedList<>();
-	private final Map<Pane, Label> harvestBigPositionsLabels = new HashMap<>();
-	private final List<Pane> productionBigPositionsPanes = new LinkedList<>();
-	private final Map<Pane, Label> productionBigPositionsLabels = new HashMap<>();
+	private final Map<Integer, Pane> harvestBigPositionsPanes = new HashMap<>();
+	private final Map<Integer, Label> harvestBigPositionsLabels = new HashMap<>();
+	private final Map<Integer, Pane> productionBigPositionsPanes = new HashMap<>();
+	private final Map<Integer, Label> productionBigPositionsLabels = new HashMap<>();
 	private final Map<Row, Pane> developmentCardsBuildingPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsCharacterPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsTerritoryPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsVenturePanes = new EnumMap<>(Row.class);
-	private final Map<Pane, Integer> developmentCardsBuildingIndexes = new HashMap<>();
-	private final Map<Pane, Integer> developmentCardsCharacterIndexes = new HashMap<>();
-	private final Map<Pane, Integer> developmentCardsTerritoryIndexes = new HashMap<>();
-	private final Map<Pane, Integer> developmentCardsVentureIndexes = new HashMap<>();
 	private final Map<CardType, Map<Row, Pane>> developmentCardsPanes = new EnumMap<>(CardType.class);
+	private final Map<BoardPosition, Pane> boardPositionsPanes = new EnumMap<>(BoardPosition.class);
 	private final Map<CardType, List<Pane>> player1DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player2DevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<CardType, List<Pane>> player3DevelopmentCards = new EnumMap<>(CardType.class);
@@ -563,7 +554,14 @@ public class ControllerGame extends CustomController
 	private final Map<ResourceType, Label> player4Resources = new EnumMap<>(ResourceType.class);
 	private final Map<ResourceType, Label> player5Resources = new EnumMap<>(ResourceType.class);
 	private final Map<Integer, Map<ResourceType, Label>> playersResources = new HashMap<>();
+	private final Map<Pane, Integer> developmentCardsBuildingIndexes = new HashMap<>();
+	private final Map<Pane, Integer> developmentCardsCharacterIndexes = new HashMap<>();
+	private final Map<Pane, Integer> developmentCardsTerritoryIndexes = new HashMap<>();
+	private final Map<Pane, Integer> developmentCardsVentureIndexes = new HashMap<>();
+	private final Map<PlayerData, Integer> playersHarvestBigPositions = new HashMap<>();
+	private final Map<PlayerData, Integer> playersProductionBigPositions = new HashMap<>();
 	private final DropShadow borderGlow = new DropShadow();
+	private double ratio;
 
 	@FXML
 	private void boardDevelopmentCardPaneMouseClicked(MouseEvent event)
@@ -630,6 +628,9 @@ public class ControllerGame extends CustomController
 		this.leaderCardsTabs.put(2, this.leaderCardsPlayer3Tab);
 		this.leaderCardsTabs.put(3, this.leaderCardsPlayer4Tab);
 		this.leaderCardsTabs.put(4, this.leaderCardsPlayer5Tab);
+		this.dices.put(FamilyMemberType.BLACK, this.diceBlack);
+		this.dices.put(FamilyMemberType.ORANGE, this.diceOrange);
+		this.dices.put(FamilyMemberType.WHITE, this.diceWhite);
 		this.excommunicationTilesPanes.put(Period.FIRST, this.excommunicationTileFirst);
 		this.excommunicationTilesPanes.put(Period.SECOND, this.excommunicationTileSecond);
 		this.excommunicationTilesPanes.put(Period.THIRD, this.excommunicationTileThird);
@@ -785,41 +786,36 @@ public class ControllerGame extends CustomController
 		this.prestigePointsPanes.put(7, this.prestigePoint7);
 		this.prestigePointsPanes.put(8, this.prestigePoint8);
 		this.prestigePointsPanes.put(9, this.prestigePoint9);
-		this.councilPalacePositionsPanes.put(1, this.councilPalace1);
-		this.councilPalacePositionsPanes.put(2, this.councilPalace2);
-		this.councilPalacePositionsPanes.put(3, this.councilPalace3);
-		this.councilPalacePositionsPanes.put(4, this.councilPalace4);
-		this.councilPalacePositionsPanes.put(5, this.councilPalace5);
-		this.councilPalacePositionsLabels.put(this.councilPalace1, this.councilPalaceLabel1);
-		this.councilPalacePositionsLabels.put(this.councilPalace2, this.councilPalaceLabel2);
-		this.councilPalacePositionsLabels.put(this.councilPalace3, this.councilPalaceLabel3);
-		this.councilPalacePositionsLabels.put(this.councilPalace4, this.councilPalaceLabel4);
-		this.councilPalacePositionsLabels.put(this.councilPalace5, this.councilPalaceLabel5);
+		this.councilPalacePositionsPanes.put(0, this.councilPalace1);
+		this.councilPalacePositionsPanes.put(1, this.councilPalace2);
+		this.councilPalacePositionsPanes.put(2, this.councilPalace3);
+		this.councilPalacePositionsPanes.put(3, this.councilPalace4);
+		this.councilPalacePositionsPanes.put(4, this.councilPalace5);
 		this.roundOrderPositionsPanes.put(0, this.roundOrderPosition1);
 		this.roundOrderPositionsPanes.put(1, this.roundOrderPosition2);
 		this.roundOrderPositionsPanes.put(2, this.roundOrderPosition3);
 		this.roundOrderPositionsPanes.put(3, this.roundOrderPosition4);
 		this.roundOrderPositionsPanes.put(4, this.roundOrderPosition5);
-		this.harvestBigPositionsPanes.add(this.harvestBig1);
-		this.harvestBigPositionsPanes.add(this.harvestBig2);
-		this.harvestBigPositionsPanes.add(this.harvestBig3);
-		this.harvestBigPositionsPanes.add(this.harvestBig4);
-		this.harvestBigPositionsPanes.add(this.harvestBig5);
-		this.harvestBigPositionsLabels.put(this.harvestBig1, this.harvestBigLabel1);
-		this.harvestBigPositionsLabels.put(this.harvestBig2, this.harvestBigLabel2);
-		this.harvestBigPositionsLabels.put(this.harvestBig3, this.harvestBigLabel3);
-		this.harvestBigPositionsLabels.put(this.harvestBig4, this.harvestBigLabel4);
-		this.harvestBigPositionsLabels.put(this.harvestBig5, this.harvestBigLabel5);
-		this.productionBigPositionsPanes.add(this.productionBig1);
-		this.productionBigPositionsPanes.add(this.productionBig2);
-		this.productionBigPositionsPanes.add(this.productionBig3);
-		this.productionBigPositionsPanes.add(this.productionBig4);
-		this.productionBigPositionsPanes.add(this.productionBig5);
-		this.productionBigPositionsLabels.put(this.productionBig1, this.productionBigLabel1);
-		this.productionBigPositionsLabels.put(this.productionBig2, this.productionBigLabel2);
-		this.productionBigPositionsLabels.put(this.productionBig3, this.productionBigLabel3);
-		this.productionBigPositionsLabels.put(this.productionBig4, this.productionBigLabel4);
-		this.productionBigPositionsLabels.put(this.productionBig5, this.productionBigLabel5);
+		this.harvestBigPositionsPanes.put(0, this.harvestBig1);
+		this.harvestBigPositionsPanes.put(1, this.harvestBig2);
+		this.harvestBigPositionsPanes.put(2, this.harvestBig3);
+		this.harvestBigPositionsPanes.put(3, this.harvestBig4);
+		this.harvestBigPositionsPanes.put(4, this.harvestBig5);
+		this.harvestBigPositionsLabels.put(0, this.harvestBigLabel1);
+		this.harvestBigPositionsLabels.put(1, this.harvestBigLabel2);
+		this.harvestBigPositionsLabels.put(2, this.harvestBigLabel3);
+		this.harvestBigPositionsLabels.put(3, this.harvestBigLabel4);
+		this.harvestBigPositionsLabels.put(4, this.harvestBigLabel5);
+		this.productionBigPositionsPanes.put(0, this.productionBig1);
+		this.productionBigPositionsPanes.put(1, this.productionBig2);
+		this.productionBigPositionsPanes.put(2, this.productionBig3);
+		this.productionBigPositionsPanes.put(3, this.productionBig4);
+		this.productionBigPositionsPanes.put(4, this.productionBig5);
+		this.productionBigPositionsLabels.put(0, this.productionBigLabel1);
+		this.productionBigPositionsLabels.put(1, this.productionBigLabel2);
+		this.productionBigPositionsLabels.put(2, this.productionBigLabel3);
+		this.productionBigPositionsLabels.put(3, this.productionBigLabel4);
+		this.productionBigPositionsLabels.put(4, this.productionBigLabel5);
 		this.developmentCardsBuildingPanes.put(Row.FIRST, this.building1);
 		this.developmentCardsBuildingPanes.put(Row.SECOND, this.building2);
 		this.developmentCardsBuildingPanes.put(Row.THIRD, this.building3);
@@ -840,6 +836,30 @@ public class ControllerGame extends CustomController
 		this.developmentCardsPanes.put(CardType.CHARACTER, this.developmentCardsCharacterPanes);
 		this.developmentCardsPanes.put(CardType.TERRITORY, this.developmentCardsTerritoryPanes);
 		this.developmentCardsPanes.put(CardType.VENTURE, this.developmentCardsVenturePanes);
+		this.boardPositionsPanes.put(BoardPosition.BUILDING_1, this.slotBuilding1);
+		this.boardPositionsPanes.put(BoardPosition.BUILDING_2, this.slotBuilding2);
+		this.boardPositionsPanes.put(BoardPosition.BUILDING_3, this.slotBuilding3);
+		this.boardPositionsPanes.put(BoardPosition.BUILDING_4, this.slotBuilding4);
+		this.boardPositionsPanes.put(BoardPosition.CHARACTER_1, this.slotCharacter1);
+		this.boardPositionsPanes.put(BoardPosition.CHARACTER_2, this.slotCharacter2);
+		this.boardPositionsPanes.put(BoardPosition.CHARACTER_3, this.slotCharacter3);
+		this.boardPositionsPanes.put(BoardPosition.CHARACTER_4, this.slotCharacter4);
+		this.boardPositionsPanes.put(BoardPosition.TERRITORY_1, this.slotTerritory1);
+		this.boardPositionsPanes.put(BoardPosition.TERRITORY_2, this.slotTerritory2);
+		this.boardPositionsPanes.put(BoardPosition.TERRITORY_3, this.slotTerritory3);
+		this.boardPositionsPanes.put(BoardPosition.TERRITORY_4, this.slotTerritory4);
+		this.boardPositionsPanes.put(BoardPosition.VENTURE_1, this.slotVenture1);
+		this.boardPositionsPanes.put(BoardPosition.VENTURE_2, this.slotVenture2);
+		this.boardPositionsPanes.put(BoardPosition.VENTURE_3, this.slotVenture3);
+		this.boardPositionsPanes.put(BoardPosition.VENTURE_4, this.slotVenture4);
+		this.boardPositionsPanes.put(BoardPosition.MARKET_1, this.market1);
+		this.boardPositionsPanes.put(BoardPosition.MARKET_2, this.market2);
+		this.boardPositionsPanes.put(BoardPosition.MARKET_3, this.market3);
+		this.boardPositionsPanes.put(BoardPosition.MARKET_4, this.market4);
+		this.boardPositionsPanes.put(BoardPosition.MARKET_5, this.market5);
+		this.boardPositionsPanes.put(BoardPosition.MARKET_6, this.market6);
+		this.boardPositionsPanes.put(BoardPosition.HARVEST_SMALL, this.harvestSmall);
+		this.boardPositionsPanes.put(BoardPosition.PRODUCTION_SMALL, this.productionSmall);
 		this.player1DevelopmentCards.put(CardType.BUILDING, Arrays.asList(this.player1Building1, this.player1Building2, this.player1Building3, this.player1Building4, this.player1Building5, this.player1Building6));
 		this.player1DevelopmentCards.put(CardType.CHARACTER, Arrays.asList(this.player1Character1, this.player1Character2, this.player1Character3, this.player1Character4, this.player1Character5, this.player1Character6));
 		this.player1DevelopmentCards.put(CardType.TERRITORY, Arrays.asList(this.player1Territory1, this.player1Territory2, this.player1Territory3, this.player1Territory4, this.player1Territory5, this.player1Territory6));
@@ -1485,29 +1505,78 @@ public class ControllerGame extends CustomController
 	{
 		for (Row row : Row.values()) {
 			this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(null);
+			this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBorder(null);
 			Integer currentDevelopmentCardBuildingIndex = GameStatus.getInstance().getCurrentDevelopmentCardsBuilding().get(row);
 			if (currentDevelopmentCardBuildingIndex != null) {
 				this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsBuilding().get(currentDevelopmentCardBuildingIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 				this.developmentCardsBuildingIndexes.put(this.developmentCardsPanes.get(CardType.BUILDING).get(row), currentDevelopmentCardBuildingIndex);
 			}
 			this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBackground(null);
+			this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBorder(null);
 			Integer currentDevelopmentCardCharacterIndex = GameStatus.getInstance().getCurrentDevelopmentCardsCharacter().get(row);
 			if (currentDevelopmentCardCharacterIndex != null) {
 				this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsCharacter().get(currentDevelopmentCardCharacterIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 				this.developmentCardsCharacterIndexes.put(this.developmentCardsPanes.get(CardType.CHARACTER).get(row), currentDevelopmentCardCharacterIndex);
 			}
 			this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBackground(null);
+			this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBorder(null);
 			Integer currentDevelopmentCardTerritoryIndex = GameStatus.getInstance().getCurrentDevelopmentCardsTerritory().get(row);
 			if (currentDevelopmentCardTerritoryIndex != null) {
 				this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsTerritory().get(currentDevelopmentCardTerritoryIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 				this.developmentCardsTerritoryIndexes.put(this.developmentCardsPanes.get(CardType.TERRITORY).get(row), currentDevelopmentCardTerritoryIndex);
 			}
 			this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBackground(null);
+			this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBorder(null);
 			Integer currentDevelopmentCardVentureIndex = GameStatus.getInstance().getCurrentDevelopmentCardsVenture().get(row);
 			if (currentDevelopmentCardVentureIndex != null) {
 				this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsVenture().get(currentDevelopmentCardVentureIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 				this.developmentCardsVentureIndexes.put(this.developmentCardsPanes.get(CardType.VENTURE).get(row), currentDevelopmentCardVentureIndex);
 			}
+		}
+		for (Pane pane : this.dices.values()) {
+			pane.setBackground(null);
+		}
+		for (Entry<FamilyMemberType, Integer> dice : GameStatus.getInstance().getCurrentDices().entrySet()) {
+			this.dices.get(dice.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.DICES_FAMILY_MEMBER_TYPES.get(dice.getValue()).get(dice.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+		}
+		for (Pane pane : this.victoryPointsPanes.values()) {
+			pane.setBackground(null);
+		}
+		for (Pane pane : this.militaryPointsPanes.values()) {
+			pane.setBackground(null);
+		}
+		for (Pane pane : this.faithPointsPanes.values()) {
+			pane.setBackground(null);
+		}
+		if (GameStatus.getInstance().getCurrentPlayersData().size() == 5) {
+			for (Pane pane : this.prestigePointsPanes.values()) {
+				pane.setBackground(null);
+			}
+		}
+		for (Pane pane : this.boardPositionsPanes.values()) {
+			pane.setBackground(null);
+		}
+		for (Pane pane : this.harvestBigPositionsPanes.values()) {
+			pane.setBackground(null);
+		}
+		for (Label label : this.harvestBigPositionsLabels.values()) {
+			label.setText(null);
+		}
+		for (Pane pane : this.productionBigPositionsPanes.values()) {
+			pane.setBackground(null);
+		}
+		for (Label label : this.productionBigPositionsLabels.values()) {
+			label.setText(null);
+		}
+		for (Pane pane : this.councilPalacePositionsPanes.values()) {
+			pane.setBackground(null);
+		}
+		for (Pane pane : this.roundOrderPositionsPanes.values()) {
+			pane.setBackground(null);
 		}
 		for (Entry<Integer, PlayerData> playerData : GameStatus.getInstance().getCurrentPlayersData().entrySet()) {
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING)) {
@@ -1573,33 +1642,52 @@ public class ControllerGame extends CustomController
 					this.playersResources.get(playerData.getKey()).get(resourceAmount.getKey()).setText(Integer.toString(resourceAmount.getValue()));
 				}
 			}
-			for (Pane pane : this.victoryPointsPanes.values()) {
-				pane.setBackground(null);
-			}
 			this.victoryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.VICTORY_POINT) % 100).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			for (Pane pane : this.militaryPointsPanes.values()) {
-				pane.setBackground(null);
-			}
 			this.militaryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.MILITARY_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			for (Pane pane : this.faithPointsPanes.values()) {
-				pane.setBackground(null);
-			}
 			this.faithPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.FAITH_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			if (GameStatus.getInstance().getCurrentPlayersData().size() == 5) {
-				for (Pane pane : this.prestigePointsPanes.values()) {
-					pane.setBackground(null);
-				}
 				this.prestigePointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.PRESTIGE_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
-		}
-		for (Pane pane : this.councilPalacePositionsPanes.values()) {
-			pane.setBackground(null);
+			int harvestBigCounter = 0;
+			int producionBigCounter = 0;
+			for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPositionEntry : playerData.getValue().getFamilyMembersPositions().entrySet()) {
+				if (this.boardPositionsPanes.containsKey(familyMemberTypeBoardPositionEntry.getValue())) {
+					this.boardPositionsPanes.get(familyMemberTypeBoardPositionEntry.getValue()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				} else if (familyMemberTypeBoardPositionEntry.getValue() == BoardPosition.HARVEST_BIG) {
+					harvestBigCounter++;
+					if (this.playersHarvestBigPositions.containsKey(playerData.getValue())) {
+						this.harvestBigPositionsPanes.get(this.playersHarvestBigPositions.get(playerData.getValue())).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+						this.harvestBigPositionsLabels.get(this.playersHarvestBigPositions.get(playerData.getValue())).setText(Integer.toString(harvestBigCounter));
+					} else {
+						for (Entry<Integer, Pane> pane : this.harvestBigPositionsPanes.entrySet()) {
+							if (pane.getValue().getBackground() == null) {
+								this.playersHarvestBigPositions.put(playerData.getValue(), pane.getKey());
+								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+								this.harvestBigPositionsLabels.get(pane.getKey()).setText(Integer.toString(harvestBigCounter));
+								break;
+							}
+						}
+					}
+				} else if (familyMemberTypeBoardPositionEntry.getValue() == BoardPosition.PRODUCTION_BIG) {
+					producionBigCounter++;
+					if (this.playersProductionBigPositions.containsKey(playerData.getValue())) {
+						this.productionBigPositionsPanes.get(this.playersProductionBigPositions.get(playerData.getValue())).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+						this.productionBigPositionsLabels.get(this.playersProductionBigPositions.get(playerData.getValue())).setText(Integer.toString(producionBigCounter));
+					} else {
+						for (Entry<Integer, Pane> pane : this.productionBigPositionsPanes.entrySet()) {
+							if (pane.getValue().getBackground() == null) {
+								this.playersProductionBigPositions.put(playerData.getValue(), pane.getKey());
+								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+								this.productionBigPositionsLabels.get(pane.getKey()).setText(Integer.toString(producionBigCounter));
+								break;
+							}
+						}
+					}
+				}
+			}
 		}
 		for (Entry<Integer, Integer> orderPosition : GameStatus.getInstance().getCurrentCouncilPalaceOrder().entrySet()) {
 			this.councilPalacePositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-		}
-		for (Pane pane : this.roundOrderPositionsPanes.values()) {
-			pane.setBackground(null);
 		}
 		for (Entry<Integer, Integer> orderPosition : GameStatus.getInstance().getCurrentTurnOrder().entrySet()) {
 			this.roundOrderPositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
@@ -1723,7 +1811,10 @@ public class ControllerGame extends CustomController
 	{
 		this.marketActionChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		this.marketActionChoiceDialogSlider.setValue(0);
-		this.marketActionChoiceDialogAcceptButton.setOnAction((event) -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsMarket(familyMemberType, (int) this.marketActionChoiceDialogSlider.getValue(), marketSlot)));
+		this.marketActionChoiceDialogAcceptButton.setOnAction((event) -> {
+			this.marketActionChoiceDialog.close();
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsMarket(familyMemberType, (int) this.marketActionChoiceDialogSlider.getValue(), marketSlot));
+		});
 		this.marketActionChoiceDialog.show();
 	}
 

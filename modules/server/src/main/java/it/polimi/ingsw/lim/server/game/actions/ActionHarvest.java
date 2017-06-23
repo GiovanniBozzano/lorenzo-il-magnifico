@@ -59,8 +59,12 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
 			for (Player currentPlayer : gameHandler.getTurnOrder()) {
 				if (currentPlayer.isOccupyingBoardPosition(BoardPosition.HARVEST_SMALL)) {
-					this.workSlotType = WorkSlotType.BIG;
-					break;
+					if (room.getPlayers().size() < 3) {
+						return false;
+					} else {
+						this.workSlotType = WorkSlotType.BIG;
+						break;
+					}
 				}
 			}
 		}

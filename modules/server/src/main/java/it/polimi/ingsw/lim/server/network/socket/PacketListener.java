@@ -161,7 +161,9 @@ class PacketListener extends Thread
 			targetRoom.addPlayer(this.connectionSocket);
 			List<String> playerUsernames = new ArrayList<>();
 			for (Connection player : targetRoom.getPlayers()) {
-				player.sendRoomEntryOther(this.connectionSocket.getUsername());
+				if (player != this.connectionSocket) {
+					player.sendRoomEntryOther(this.connectionSocket.getUsername());
+				}
 				playerUsernames.add(player.getUsername());
 			}
 			AuthenticationInformationsLobbySocket authenticationInformations = new AuthenticationInformationsLobbySocket();

@@ -49,6 +49,9 @@ public class ActionMarket extends ActionInformationsMarket implements IAction
 		} else if ((this.getMarketSlot() == MarketSlot.FOURTH || this.getMarketSlot() == MarketSlot.THIRD) && room.getPlayers().size() < 4) {
 			return false;
 		}
+		if (this.player.getFamilyMembersPositions().get(this.getFamilyMemberType()) != BoardPosition.NONE) {
+			return false;
+		}
 		// check if the board slot is occupied and get effective family member value
 		BoardPosition boardPosition = BoardPosition.getMarketPositions().get(this.getMarketSlot());
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), boardPosition, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
@@ -88,6 +91,7 @@ public class ActionMarket extends ActionInformationsMarket implements IAction
 			return;
 		}
 		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
+		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), BoardPosition.getMarketPositions().get(this.getMarketSlot()));
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformations(BoardPosition.getMarketPositions().get(this.getMarketSlot())).getResourceAmounts(), ResourcesSource.MARKET);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());

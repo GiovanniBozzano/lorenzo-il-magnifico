@@ -493,6 +493,12 @@ public class GameHandler
 			developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.VENTURE).get(row);
 			developmentCardsVentureInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
 		}
+		Map<FamilyMemberType, Integer> dices = new EnumMap<>(FamilyMemberType.class);
+		for (Entry<FamilyMemberType, Integer> dice : this.familyMemberTypeValues.entrySet()) {
+			if (dice.getKey() != FamilyMemberType.NEUTRAL) {
+				dices.put(dice.getKey(), dice.getValue());
+			}
+		}
 		Map<Integer, Integer> turnOrderInformations = new HashMap<>();
 		int currentPlace = 0;
 		for (Player player : this.turnOrder) {
@@ -505,7 +511,7 @@ public class GameHandler
 			councilPalaceOrderInformations.put(currentPlace, player.getIndex());
 			currentPlace++;
 		}
-		return new GameInformations(developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, turnOrderInformations, councilPalaceOrderInformations);
+		return new GameInformations(developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, dices, turnOrderInformations, councilPalaceOrderInformations);
 	}
 
 	public List<PlayerInformations> generatePlayersInformations()

@@ -8,6 +8,7 @@ import javafx.scene.effect.Effect;
 import javafx.scene.layout.Pane;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Utils
@@ -16,6 +17,41 @@ public class Utils
 	public static final String SCENE_CONNECTION = "/fxml/SceneConnection.fxml";
 	public static final String SCENE_ROOM = "/fxml/SceneRoom.fxml";
 	public static final String SCENE_GAME = "/fxml/SceneGame.fxml";
+	public static final Map<Integer, Map<FamilyMemberType, String>> DICES_FAMILY_MEMBER_TYPES = new HashMap<>();
+
+	static {
+		Map<FamilyMemberType, String> dice1FamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
+		dice1FamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/dices/dice_1_black.png");
+		dice1FamilyMemberTypes.put(FamilyMemberType.ORANGE, "/images/dices/dice_1_orange.png");
+		dice1FamilyMemberTypes.put(FamilyMemberType.WHITE, "/images/dices/dice_1_white.png");
+		Map<FamilyMemberType, String> dice2FamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
+		dice2FamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/dices/dice_2_black.png");
+		dice2FamilyMemberTypes.put(FamilyMemberType.ORANGE, "/images/dices/dice_2_orange.png");
+		dice2FamilyMemberTypes.put(FamilyMemberType.WHITE, "/images/dices/dice_2_white.png");
+		Map<FamilyMemberType, String> dice3FamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
+		dice3FamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/dices/dice_3_black.png");
+		dice3FamilyMemberTypes.put(FamilyMemberType.ORANGE, "/images/dices/dice_3_orange.png");
+		dice3FamilyMemberTypes.put(FamilyMemberType.WHITE, "/images/dices/dice_3_white.png");
+		Map<FamilyMemberType, String> dice4FamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
+		dice4FamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/dices/dice_4_black.png");
+		dice4FamilyMemberTypes.put(FamilyMemberType.ORANGE, "/images/dices/dice_4_orange.png");
+		dice4FamilyMemberTypes.put(FamilyMemberType.WHITE, "/images/dices/dice_4_white.png");
+		Map<FamilyMemberType, String> dice5FamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
+		dice5FamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/dices/dice_5_black.png");
+		dice5FamilyMemberTypes.put(FamilyMemberType.ORANGE, "/images/dices/dice_5_orange.png");
+		dice5FamilyMemberTypes.put(FamilyMemberType.WHITE, "/images/dices/dice_5_white.png");
+		Map<FamilyMemberType, String> dice6FamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
+		dice6FamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/dices/dice_6_black.png");
+		dice6FamilyMemberTypes.put(FamilyMemberType.ORANGE, "/images/dices/dice_6_orange.png");
+		dice6FamilyMemberTypes.put(FamilyMemberType.WHITE, "/images/dices/dice_6_white.png");
+		Utils.DICES_FAMILY_MEMBER_TYPES.put(1, dice1FamilyMemberTypes);
+		Utils.DICES_FAMILY_MEMBER_TYPES.put(2, dice2FamilyMemberTypes);
+		Utils.DICES_FAMILY_MEMBER_TYPES.put(3, dice3FamilyMemberTypes);
+		Utils.DICES_FAMILY_MEMBER_TYPES.put(4, dice4FamilyMemberTypes);
+		Utils.DICES_FAMILY_MEMBER_TYPES.put(5, dice5FamilyMemberTypes);
+		Utils.DICES_FAMILY_MEMBER_TYPES.put(6, dice6FamilyMemberTypes);
+	}
+
 	public static final Map<Color, Map<FamilyMemberType, String>> PLAYERS_FAMILY_MEMBER_TYPES = new EnumMap<>(Color.class);
 
 	static {
