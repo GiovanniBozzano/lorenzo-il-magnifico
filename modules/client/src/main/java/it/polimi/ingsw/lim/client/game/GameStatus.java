@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.client.game;
 
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.common.enums.ActionType;
+import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
@@ -32,6 +33,7 @@ public class GameStatus
 	private final Map<Row, Integer> currentDevelopmentCardsCharacter = new EnumMap<>(Row.class);
 	private final Map<Row, Integer> currentDevelopmentCardsTerritory = new EnumMap<>(Row.class);
 	private final Map<Row, Integer> currentDevelopmentCardsVenture = new EnumMap<>(Row.class);
+	private final Map<FamilyMemberType, Integer> currentDices = new EnumMap<>(FamilyMemberType.class);
 	private final Map<Integer, Integer> currentTurnOrder = new HashMap<>();
 	private final Map<Integer, Integer> currentCouncilPalaceOrder = new HashMap<>();
 	private final List<Integer> currentOwnLeaderCardsHand = new ArrayList<>();
@@ -70,6 +72,7 @@ public class GameStatus
 		this.setCurrentDevelopmentCardsCharacter(gameInformations.getDevelopmentCardsCharacter());
 		this.setCurrentDevelopmentCardsTerritory(gameInformations.getDevelopmentCardsTerritory());
 		this.setCurrentDevelopmentCardsVenture(gameInformations.getDevelopmentCardsVenture());
+		this.setCurrentDices(gameInformations.getDices());
 		this.setCurrentTurnOrder(gameInformations.getTurnOrder());
 		this.setCurrentCouncilPalaceOrder(gameInformations.getCouncilPalaceOrder());
 		this.setCurrentOwnLeaderCardsHand(ownLeaderCardsHand);
@@ -206,6 +209,17 @@ public class GameStatus
 	{
 		this.currentDevelopmentCardsVenture.clear();
 		this.currentDevelopmentCardsVenture.putAll(currentDevelopmentCardsVenture);
+	}
+
+	public Map<FamilyMemberType, Integer> getCurrentDices()
+	{
+		return this.currentDices;
+	}
+
+	private void setCurrentDices(Map<FamilyMemberType, Integer> currentDices)
+	{
+		this.currentDices.clear();
+		this.currentDices.putAll(currentDices);
 	}
 
 	public Map<Integer, Integer> getCurrentTurnOrder()

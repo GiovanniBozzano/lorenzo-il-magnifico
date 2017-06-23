@@ -53,12 +53,6 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
-	public void sendLogMessage(String text) throws RemoteException
-	{
-		Client.getInstance().getConnectionHandler().handleLogMessage(text);
-	}
-
-	@Override
 	public void sendChatMessage(String text) throws RemoteException
 	{
 		Client.getInstance().getConnectionHandler().handleChatMessage(text);
@@ -68,6 +62,12 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	public void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex) throws RemoteException
 	{
 		Client.getInstance().getConnectionHandler().handleGameStarted(excommunicationTiles, playersData, ownPlayerIndex);
+	}
+
+	@Override
+	public void sendGameLogMessage(String text) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGameLogMessage(text);
 	}
 
 	@Override
@@ -89,9 +89,9 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChosen() throws RemoteException
+	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex, int choicePersonalBonusTileIndex) throws RemoteException
 	{
-		Client.getInstance().getConnectionHandler().handleGamePersonalBonusTileChosen();
+		Client.getInstance().getConnectionHandler().handleGamePersonalBonusTileChosen(choicePlayerIndex, choicePersonalBonusTileIndex);
 	}
 
 	@Override

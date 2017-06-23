@@ -8,18 +8,25 @@ import java.util.List;
 
 public class PersonalBonusTileInformations extends ObjectInformations
 {
+	private final String playerBoardTexturePath;
 	private final int productionActivationCost;
 	private final List<ResourceAmount> productionInstantResources;
 	private final int harvestActivationCost;
 	private final List<ResourceAmount> harvestInstantResources;
 
-	public PersonalBonusTileInformations(String texture, int productionActivationCost, List<ResourceAmount> productionInstantResources, int harvestActivationCost, List<ResourceAmount> harvestInstantResources)
+	public PersonalBonusTileInformations(String texturePath, String playerBoardTexturePath, int productionActivationCost, List<ResourceAmount> productionInstantResources, int harvestActivationCost, List<ResourceAmount> harvestInstantResources)
 	{
-		super(texture);
+		super(texturePath);
+		this.playerBoardTexturePath = playerBoardTexturePath;
 		this.productionActivationCost = productionActivationCost;
 		this.productionInstantResources = new ArrayList<>(productionInstantResources);
 		this.harvestActivationCost = harvestActivationCost;
 		this.harvestInstantResources = new ArrayList<>(harvestInstantResources);
+	}
+
+	public String getPlayerBoardTexturePath()
+	{
+		return this.playerBoardTexturePath;
 	}
 
 	public int getProductionActivationCost()

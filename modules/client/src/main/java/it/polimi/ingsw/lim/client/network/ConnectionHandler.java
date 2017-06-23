@@ -14,6 +14,7 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
@@ -86,13 +87,7 @@ public abstract class ConnectionHandler extends Thread
 	 */
 	public synchronized void sendLogin(String username, String password, RoomType roomType)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
-		WindowFactory.getInstance().disableWindow();
+		this.checkInitialization();
 	}
 
 	/**
@@ -105,53 +100,37 @@ public abstract class ConnectionHandler extends Thread
 	 */
 	public synchronized void sendRegistration(String username, String password, RoomType roomType)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
-		WindowFactory.getInstance().disableWindow();
+		this.checkInitialization();
 	}
 
 	public synchronized void sendRoomTimerRequest()
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
+		this.checkInitialization();
 	}
 
 	public synchronized void sendChatMessage(String text)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
+		this.checkInitialization();
 	}
 
 	public synchronized void sendGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
+		this.checkInitialization();
 	}
 
 	public synchronized void sendGameLeaderCardPlayerChoice(int leaderCardIndex)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
+		this.checkInitialization();
+	}
+
+	public synchronized void sendGameExcommunicationPlayerChoice(boolean excommunicated)
+	{
+		this.checkInitialization();
+	}
+
+	public synchronized void sendGameAction(ActionInformations action)
+	{
+		this.checkInitialization();
 	}
 
 	public void handleRoomEntryOther(String name)
@@ -207,11 +186,6 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
-	public void handleLogMessage(String text)
-	{
-		Client.getDebugger().log(Level.INFO, text);
-	}
-
 	public void handleGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersIdentifications, int ownPlayerIndex)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
@@ -224,13 +198,28 @@ public abstract class ConnectionHandler extends Thread
 		}
 		GameStatus.getInstance().setCurrentPlayerData(playersData);
 		GameStatus.getInstance().setOwnPlayerIndex(ownPlayerIndex);
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME);
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME);
+		}
+	}
+
+	public void handleGameLogMessage(String text)
+	{
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+			return;
+		}
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + text));
+		}
 	}
 
 	public void handleGameDisconnectionOther(int playerIndex)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
+		}
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(playerIndex).getUsername() + " disconnected"));
 		}
 	}
 
@@ -239,6 +228,7 @@ public abstract class ConnectionHandler extends Thread
 		if (Client.getInstance().getCliStatus() == CLIStatus.PERSONAL_BONUS_TILE_CHOICE) {
 			((CLIHandlerPersonalBonusTileChoice) Client.getInstance().getCurrentCliHandler()).setOwnTurn(true);
 		}
+		GameStatus.getInstance().setAvailablePersonalBonusTiles(availablePersonalBonusTiles);
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			try {
 				WindowFactory.WINDOW_OPENING_SEMAPHORE.acquire();
@@ -249,29 +239,45 @@ public abstract class ConnectionHandler extends Thread
 			if (!WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 				return;
 			}
-		}
-		WindowFactory.WINDOW_OPENING_SEMAPHORE.release();
-		GameStatus.getInstance().setAvailablePersonalBonusTiles(availablePersonalBonusTiles);
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showPersonalBonusTilesChoiceDialog());
+			WindowFactory.WINDOW_OPENING_SEMAPHORE.release();
+			Platform.runLater(() -> {
+				((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + "You are choosing a personal bonus tile");
+				((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showPersonalBonusTilesChoiceDialog();
+			});
 		}
 	}
 
 	public void handleGamePersonalBonusTileChoiceOther(int choicePlayerIndex)
 	{
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
-			return;
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			try {
+				WindowFactory.WINDOW_OPENING_SEMAPHORE.acquire();
+			} catch (InterruptedException exception) {
+				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				Thread.currentThread().interrupt();
+			}
+			if (!WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+				return;
+			}
+			WindowFactory.WINDOW_OPENING_SEMAPHORE.release();
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(choicePlayerIndex).getUsername() + " is choosing a personal bonus tile"));
 		}
-		Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(choicePlayerIndex).getUsername() + " is choosing a personal bonus tile"));
 	}
 
-	public void handleGamePersonalBonusTileChosen()
+	public void handleGamePersonalBonusTileChosen(int choicePlayerIndex, int choicePeronalBonusTileIndex)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).closePersonalBonusTilesChoiceDialog());
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).updatePlayerPersonalBonusTile(choicePlayerIndex, choicePeronalBonusTileIndex));
+			if (choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex()) {
+				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).closePersonalBonusTilesChoiceDialog());
+				}
+			} else {
+				Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(choicePlayerIndex).getUsername() + " has chosen a personal bonus tile"));
+			}
 		}
 	}
 
@@ -349,6 +355,16 @@ public abstract class ConnectionHandler extends Thread
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn());
 		} else {
 			Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() });
+		}
+	}
+
+	private void checkInitialization()
+	{
+		try {
+			this.join();
+		} catch (InterruptedException exception) {
+			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Thread.currentThread().interrupt();
 		}
 	}
 

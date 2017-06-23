@@ -142,12 +142,9 @@ public class GameHandler
 	{
 		player.setPersonalBonusTile(PersonalBonusTile.fromIndex(personalBonusTileIndex));
 		this.availablePersonalBonusTiles.remove((Integer) personalBonusTileIndex);
-		if (player.isOnline()) {
-			player.getConnection().sendGamePersonalBonusTileChosen();
-		}
 		for (Connection currentPlayer : this.room.getPlayers()) {
 			if (currentPlayer.getPlayer().isOnline()) {
-				currentPlayer.sendLogMessage(player.getConnection().getUsername() + " has chosen a personal bonus tile");
+				currentPlayer.sendGamePersonalBonusTileChosen(player.getIndex(), personalBonusTileIndex);
 			}
 		}
 		do {
@@ -233,6 +230,14 @@ public class GameHandler
 		if (this.excommunicationChoosingPlayers.isEmpty()) {
 			this.checkedExcommunications = true;
 			this.setupRound();
+		}
+	}
+
+	public void receiveAction(Player player, ActionInformations actionInformations)
+	{
+		IAction action = Utils.ACTIONS_TRANSFORMERS.get(actionInformations.getActionType()).transform(actionInformations, player);
+		if (action.isLegal()) {
+			action.apply();
 		}
 	}
 
@@ -485,6 +490,12 @@ public class GameHandler
 			developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.VENTURE).get(row);
 			developmentCardsVentureInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
 		}
+		Map<FamilyMemberType, Integer> dices = new EnumMap<>(FamilyMemberType.class);
+		for (Entry<FamilyMemberType, Integer> dice : this.familyMemberTypeValues.entrySet()) {
+			if (dice.getKey() != FamilyMemberType.NEUTRAL) {
+				dices.put(dice.getKey(), dice.getValue());
+			}
+		}
 		Map<Integer, Integer> turnOrderInformations = new HashMap<>();
 		int currentPlace = 0;
 		for (Player player : this.turnOrder) {
@@ -497,7 +508,7 @@ public class GameHandler
 			councilPalaceOrderInformations.put(currentPlace, player.getIndex());
 			currentPlace++;
 		}
-		return new GameInformations(developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, turnOrderInformations, councilPalaceOrderInformations);
+		return new GameInformations(developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, dices, turnOrderInformations, councilPalaceOrderInformations);
 	}
 
 	public List<PlayerInformations> generatePlayersInformations()

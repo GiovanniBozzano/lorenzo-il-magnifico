@@ -39,6 +39,7 @@ public class ControllerAuthentication extends CustomController
 		if (!username.matches(CommonUtils.REGEX_USERNAME)) {
 			return;
 		}
+		this.getStage().getScene().getRoot().setDisable(true);
 		Client.getInstance().getConnectionHandler().sendLogin(username, this.passwordTextField.getText(), this.normalRoomTypeRadioButton.isSelected() ? RoomType.NORMAL : RoomType.EXTENDED);
 	}
 
@@ -49,6 +50,7 @@ public class ControllerAuthentication extends CustomController
 		if (!username.matches(CommonUtils.REGEX_USERNAME)) {
 			return;
 		}
+		this.getStage().getScene().getRoot().setDisable(true);
 		Client.getInstance().getConnectionHandler().sendRegistration(username, this.passwordTextField.getText(), this.normalRoomTypeRadioButton.isSelected() ? RoomType.NORMAL : RoomType.EXTENDED);
 	}
 

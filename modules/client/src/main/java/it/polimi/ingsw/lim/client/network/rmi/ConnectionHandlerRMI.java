@@ -11,6 +11,7 @@ import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsGameRMI;
@@ -188,6 +189,34 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		this.rmiExecutor.execute(() -> {
 			try {
 				this.clientSession.sendGameLeaderCardPlayerChoice(leaderCardIndex);
+			} catch (RemoteException exception) {
+				Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, false);
+			}
+		});
+	}
+
+	@Override
+	public synchronized void sendGameExcommunicationPlayerChoice(boolean excommunicated)
+	{
+		super.sendGameExcommunicationPlayerChoice(excommunicated);
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.clientSession.sendGameExcommunicationPlayerChoice(excommunicated);
+			} catch (RemoteException exception) {
+				Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, false);
+			}
+		});
+	}
+
+	@Override
+	public synchronized void sendGameAction(ActionInformations action)
+	{
+		super.sendGameAction(action);
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.clientSession.sendGameAction(action);
 			} catch (RemoteException exception) {
 				Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, false);

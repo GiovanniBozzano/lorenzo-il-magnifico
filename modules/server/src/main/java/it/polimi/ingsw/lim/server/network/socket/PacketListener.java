@@ -38,6 +38,7 @@ class PacketListener extends Thread
 		});
 		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_TIMER_REQUEST, (connectionSocket, packet) -> connectionSocket.handleRoomTimerRequest());
 		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, (connectionSocket, packet) -> connectionSocket.handleChatMessage(((PacketChatMessage) packet).getText()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_ACTION, (connectionSocket, packet) -> connectionSocket.handleGameAction(((PacketGameAction) packet).getAction()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_PERSONAL_BONUS_TILE_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGamePersonalBonusTilePlayerChoice(((PacketGamePersonalBonusTilePlayerChoice) packet).getPersonalBonusTileIndex()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_LEADER_CARD_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGameLeaderCardPlayerChoice(((PacketGameLeaderCardPlayerChoice) packet).getLeaderCardIndex()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_EXCOMMUNICATION_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGameExcommunicationPlayerChoice(((PacketGameExcommunicationPlayerChoice) packet).isExcommunicated()));
@@ -142,7 +143,7 @@ class PacketListener extends Thread
 		}
 		Map<Integer, PersonalBonusTileInformations> personalBonusTilesInformations = new HashMap<>();
 		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
-			personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
+			personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getPlayerBoardTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
 		}
 		Room playerRoom;
 		if ((playerRoom = Room.getPlayerRoom(this.connectionSocket.getUsername())) == null) {
@@ -160,7 +161,9 @@ class PacketListener extends Thread
 			targetRoom.addPlayer(this.connectionSocket);
 			List<String> playerUsernames = new ArrayList<>();
 			for (Connection player : targetRoom.getPlayers()) {
-				player.sendRoomEntryOther(this.connectionSocket.getUsername());
+				if (player != this.connectionSocket) {
+					player.sendRoomEntryOther(this.connectionSocket.getUsername());
+				}
 				playerUsernames.add(player.getUsername());
 			}
 			AuthenticationInformationsLobbySocket authenticationInformations = new AuthenticationInformationsLobbySocket();

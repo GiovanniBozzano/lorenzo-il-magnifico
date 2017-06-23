@@ -3,13 +3,13 @@ package it.polimi.ingsw.lim.common.network.socket.packets.server;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 
-public class PacketLogMessage extends Packet
+public class PacketGameLogMessage extends Packet
 {
 	private final String text;
 
-	public PacketLogMessage(String text)
+	public PacketGameLogMessage(String text)
 	{
-		super(PacketType.LOG_MESSAGE);
+		super(PacketType.GAME_LOG_MESSAGE);
 		this.text = text;
 	}
 

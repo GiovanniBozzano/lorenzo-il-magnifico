@@ -61,7 +61,7 @@ public class ConnectionRMI extends Connection
 		}
 		if (notifyClient) {
 			if (message != null) {
-				this.sendLogMessage(message);
+				this.sendGameLogMessage(message);
 			}
 			try {
 				this.serverSession.sendDisconnect();
@@ -124,19 +124,6 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendLogMessage(String text)
-	{
-		this.rmiExecutor.execute(() -> {
-			try {
-				this.serverSession.sendLogMessage(text);
-			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
-				this.disconnect(false, null);
-			}
-		});
-	}
-
-	@Override
 	public void sendChatMessage(String text)
 	{
 		this.rmiExecutor.execute(() -> {
@@ -155,6 +142,19 @@ public class ConnectionRMI extends Connection
 		this.rmiExecutor.execute(() -> {
 			try {
 				this.serverSession.sendGameStarted(excommunicationTiles, playersData, ownPlayerIndex);
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
+	public void sendGameLogMessage(String text)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameLogMessage(text);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
@@ -202,11 +202,11 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChosen()
+	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex, int choicePersonalBonusTileIndex)
 	{
 		this.rmiExecutor.execute(() -> {
 			try {
-				this.serverSession.sendGamePersonalBonusTileChosen();
+				this.serverSession.sendGamePersonalBonusTileChosen(choicePlayerIndex, choicePersonalBonusTileIndex);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);

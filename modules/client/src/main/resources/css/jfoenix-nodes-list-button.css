@@ -8,3 +8,17 @@
     -fx-border-radius: 50px;
     -fx-border-width: 4px;
 }
+
+.jfx-slider-style > .thumb {
+    -fx-background-color: #673AB7;
+}
+
+.jfx-slider-style .track {
+    -fx-background-color: #B39DDB;
+}
+
+.jfx-slider-style .sliderValue {
+    -fx-stroke: WHITE;
+    -fx-font-size: 10.0;
+    -fx-font-family: roboto;
+}

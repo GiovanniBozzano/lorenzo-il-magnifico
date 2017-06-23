@@ -25,11 +25,11 @@ public interface IServerSession extends Remote
 
 	void sendRoomTimer(int timer) throws RemoteException;
 
-	void sendLogMessage(String text) throws RemoteException;
-
 	void sendChatMessage(String text) throws RemoteException;
 
 	void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex) throws RemoteException;
+
+	void sendGameLogMessage(String text) throws RemoteException;
 
 	void sendGameDisconnectionOther(int playerIndex) throws RemoteException;
 
@@ -37,7 +37,7 @@ public interface IServerSession extends Remote
 
 	void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex) throws RemoteException;
 
-	void sendGamePersonalBonusTileChosen() throws RemoteException;
+	void sendGamePersonalBonusTileChosen(int choicePlayerIndex, int choicePersonalBonusTileIndex) throws RemoteException;
 
 	void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards) throws RemoteException;
 
