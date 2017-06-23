@@ -163,6 +163,19 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
+	public void sendGameTimer(int timer)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameTimer(timer);
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
 	public void sendGameDisconnectionOther(int playerIndex)
 	{
 		this.rmiExecutor.execute(() -> {

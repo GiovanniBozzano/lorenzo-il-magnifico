@@ -78,11 +78,13 @@ public abstract class Connection
 
 	public abstract void sendRoomTimer(int timer);
 
-	public abstract void sendGameLogMessage(String text);
-
 	public abstract void sendChatMessage(String text);
 
 	public abstract void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex);
+
+	public abstract void sendGameLogMessage(String text);
+
+	public abstract void sendGameTimer(int timer);
 
 	public abstract void sendGameDisconnectionOther(int playerIndex);
 

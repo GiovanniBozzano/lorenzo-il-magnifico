@@ -699,7 +699,11 @@
 			<body>
 				<HBox fx:id="cardDialogHBox" alignment="CENTER_LEFT" spacing="20.0">
 					<Pane fx:id="cardDialogPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-					<Text fx:id="cardDialogText" text="asdasdasdasdadasdasdasdasdasdasdasdasdasd" />
+					<Text fx:id="cardDialogText">
+						<font>
+							<Font name="Roboto" size="10.0" />
+						</font>
+					</Text>
 				</HBox>
 			</body>
 		</JFXDialogLayout>

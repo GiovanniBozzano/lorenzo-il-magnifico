@@ -213,6 +213,16 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
+	public void handleGameTimer(int timer)
+	{
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+			return;
+		}
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Client.getDebugger().log(Level.INFO, Integer.toString(timer));
+		}
+	}
+
 	public void handleGameDisconnectionOther(int playerIndex)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {

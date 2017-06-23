@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.client.utils;
 
-import it.polimi.ingsw.lim.client.gui.ControllerGame;
 import it.polimi.ingsw.lim.common.enums.Color;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;

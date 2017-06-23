@@ -27,6 +27,9 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class GameHandler
 {
@@ -54,6 +57,8 @@ public class GameHandler
 	private final Map<Player, List<Integer>> availableLeaderCards = new HashMap<>();
 	private final List<Player> leaderCardsChoosingPlayers = new ArrayList<>();
 	private final List<Player> excommunicationChoosingPlayers = new ArrayList<>();
+	private ScheduledExecutorService timerExecutor;
+	private int timer;
 
 	GameHandler(Room room)
 	{
@@ -140,6 +145,7 @@ public class GameHandler
 
 	void applyPersonalBonusTileChoice(Player player, int personalBonusTileIndex)
 	{
+		this.timerExecutor.shutdownNow();
 		player.setPersonalBonusTile(PersonalBonusTile.fromIndex(personalBonusTileIndex));
 		this.availablePersonalBonusTiles.remove((Integer) personalBonusTileIndex);
 		for (Connection currentPlayer : this.room.getPlayers()) {
@@ -182,11 +188,12 @@ public class GameHandler
 			if (player.isOnline()) {
 				player.getConnection().sendGameLeaderCardChosen();
 			}
-			this.leaderCardsChoosingPlayers.clear();
+			this.timerExecutor.shutdownNow();
 			this.setupRound();
 			return;
 		}
 		if (this.leaderCardsChoosingPlayers.isEmpty()) {
+			this.timerExecutor.shutdownNow();
 			Map<Player, List<Integer>> newlyAvailableLeaderCards = new HashMap<>();
 			List<List<Integer>> oldAvailableLeaderCards = new ArrayList<>(this.availableLeaderCards.values());
 			int currentListIndex = 0;
@@ -237,6 +244,7 @@ public class GameHandler
 	{
 		IAction action = Utils.ACTIONS_TRANSFORMERS.get(actionInformations.getActionType()).transform(actionInformations, player);
 		if (action.isLegal()) {
+			this.timerExecutor.shutdownNow();
 			action.apply();
 		}
 	}
@@ -361,6 +369,7 @@ public class GameHandler
 
 	public void nextTurn()
 	{
+		this.timerExecutor.shutdownNow();
 		this.currentPhase = Phase.LEADER;
 		this.expectedAction = null;
 		for (Modifier temporaryModifier : this.turnPlayer.getTemporaryModifiers()) {
@@ -429,6 +438,21 @@ public class GameHandler
 	private void sendGamePersonalBonusTileChoiceRequest(Player player)
 	{
 		player.getConnection().sendGamePersonalBonusTileChoiceRequest(this.availablePersonalBonusTiles);
+		this.timer = 2;
+		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
+		this.timerExecutor.scheduleWithFixedDelay(() -> {
+			this.timer--;
+			if (this.timer == 0) {
+				int personalBonusTileIndex = this.availablePersonalBonusTiles.get(this.randomGenerator.nextInt(this.availablePersonalBonusTiles.size()));
+				this.applyPersonalBonusTileChoice(player, personalBonusTileIndex);
+			} else {
+				for (Player otherPlayer : this.turnOrder) {
+					if (otherPlayer.isOnline()) {
+						otherPlayer.getConnection().sendGameTimer(this.timer);
+					}
+				}
+			}
+		}, 1, 1, TimeUnit.SECONDS);
 		this.sendGamePersonalBonusTileChoiceOther(player);
 	}
 
@@ -451,16 +475,63 @@ public class GameHandler
 				playerAvailableLeaderCards.getKey().getConnection().sendGameLeaderCardChoiceRequest(playerAvailableLeaderCards.getValue());
 			}
 		}
+		this.timer = 2;
+		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
+		this.timerExecutor.scheduleWithFixedDelay(() -> {
+			this.timer--;
+			if (this.timer == 0) {
+				List<Player> players = new ArrayList<>();
+				players.addAll(this.leaderCardsChoosingPlayers);
+				for (Player player : players) {
+					int leaderCardIndex = this.getAvailableLeaderCards().get(player).get(this.getRandomGenerator().nextInt(this.getAvailableLeaderCards().get(player).size()));
+					this.applyLeaderCardChoice(player, leaderCardIndex);
+				}
+			} else {
+				for (Player otherPlayer : this.turnOrder) {
+					if (otherPlayer.isOnline()) {
+						otherPlayer.getConnection().sendGameTimer(this.timer);
+					}
+				}
+			}
+		}, 1, 1, TimeUnit.SECONDS);
 	}
 
 	public void sendGameUpdate(Player player)
 	{
+		this.timer = 200;
+		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
+		this.timerExecutor.scheduleWithFixedDelay(() -> {
+			this.timer--;
+			if (this.timer == 0) {
+				this.nextTurn();
+			} else {
+				for (Player otherPlayer : this.turnOrder) {
+					if (otherPlayer.isOnline()) {
+						otherPlayer.getConnection().sendGameTimer(this.timer);
+					}
+				}
+			}
+		}, 1, 1, TimeUnit.SECONDS);
 		player.getConnection().sendGameUpdate(this.generateGameInformations(), this.generatePlayersInformations(), this.generateLeaderCardsHand(player), this.generateAvailableActions(player));
 		this.sendGameUpdateOtherTurn(player);
 	}
 
 	public void sendGameUpdateExpectedAction(Player player, ExpectedAction expectedAction)
 	{
+		this.timer = 2;
+		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
+		this.timerExecutor.scheduleWithFixedDelay(() -> {
+			this.timer--;
+			if (this.timer == 0) {
+				this.nextTurn();
+			} else {
+				for (Player otherPlayer : this.turnOrder) {
+					if (otherPlayer.isOnline()) {
+						otherPlayer.getConnection().sendGameTimer(this.timer);
+					}
+				}
+			}
+		}, 1, 1, TimeUnit.SECONDS);
 		player.getConnection().sendGameUpdateExpectedAction(this.generateGameInformations(), this.generatePlayersInformations(), this.generateLeaderCardsHand(player), expectedAction);
 		this.sendGameUpdateOtherTurn(player);
 	}

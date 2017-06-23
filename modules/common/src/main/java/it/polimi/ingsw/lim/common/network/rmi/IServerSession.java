@@ -31,6 +31,8 @@ public interface IServerSession extends Remote
 
 	void sendGameLogMessage(String text) throws RemoteException;
 
+	void sendGameTimer(int timer) throws RemoteException;
+
 	void sendGameDisconnectionOther(int playerIndex) throws RemoteException;
 
 	void sendGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles) throws RemoteException;

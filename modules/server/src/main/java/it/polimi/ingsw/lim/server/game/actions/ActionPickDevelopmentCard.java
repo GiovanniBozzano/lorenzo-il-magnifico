@@ -104,7 +104,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			return false;
 		}
 		// check if the player has the requiredResources
-		if (this.getResourceCostOption().getRequiredResources() != null) {
+		if (this.getResourceCostOption() != null) {
 			for (ResourceAmount requiredResources : this.getResourceCostOption().getRequiredResources()) {
 				int playerResources = this.player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
 				if (playerResources < requiredResources.getAmount()) {
@@ -165,10 +165,12 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			this.effectiveResourceCost.add(new ResourceAmount(ResourceType.COIN, 3));
 		}
 		// prendo prezzo finale e controllo che il giocatore abbia le risorse necessarie
-		for (ResourceAmount resourceCost : this.effectiveResourceCost) {
-			int playerResources = this.player.getPlayerResourceHandler().getResources().get(resourceCost.getResourceType());
-			if (playerResources < resourceCost.getAmount()) {
-				return false;
+		if (this.effectiveResourceCost != null) {
+			for (ResourceAmount resourceCost : this.effectiveResourceCost) {
+				int playerResources = this.player.getPlayerResourceHandler().getResources().get(resourceCost.getResourceType());
+				if (playerResources < resourceCost.getAmount()) {
+					return false;
+				}
 			}
 		}
 		return eventGetDevelopmentCard.getActionValue() >= BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue();

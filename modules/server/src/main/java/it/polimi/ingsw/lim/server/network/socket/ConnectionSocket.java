@@ -148,6 +148,12 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
+	public void sendGameTimer(int timer)
+	{
+		new PacketGameTimer(timer).send(this.out);
+	}
+
+	@Override
 	public void sendGameDisconnectionOther(int playerIndex)
 	{
 		new PacketGameDisconnectionOther(playerIndex).send(this.out);

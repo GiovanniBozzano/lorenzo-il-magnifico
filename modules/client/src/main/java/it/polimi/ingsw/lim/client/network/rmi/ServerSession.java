@@ -71,6 +71,12 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
+	public void sendGameTimer(int timer) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGameTimer(timer);
+	}
+
+	@Override
 	public void sendGameDisconnectionOther(int playerIndex)
 	{
 		Client.getInstance().getConnectionHandler().handleGameDisconnectionOther(playerIndex);
