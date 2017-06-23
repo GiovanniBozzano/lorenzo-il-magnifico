@@ -47,20 +47,6 @@ public class ControllerGame extends CustomController
 		ControllerGame.BOARD_IMAGES.put(5, "/images/game_board_5_players.png");
 	}
 
-	private static final Map<ResourceType, String> RESOURCES_NAMES = new EnumMap<>(ResourceType.class);
-
-	static {
-		ControllerGame.RESOURCES_NAMES.put(ResourceType.COIN, "Coins");
-		ControllerGame.RESOURCES_NAMES.put(ResourceType.COUNCIL_PRIVILEGE, "Council privileges");
-		ControllerGame.RESOURCES_NAMES.put(ResourceType.FAITH_POINT, "Faith points");
-		ControllerGame.RESOURCES_NAMES.put(ResourceType.MILITARY_POINT, "Military points");
-		ControllerGame.RESOURCES_NAMES.put(ResourceType.PRESTIGE_POINT, "Prestige points");
-		ControllerGame.RESOURCES_NAMES.put(ResourceType.SERVANT, "Servants");
-		ControllerGame.RESOURCES_NAMES.put(ResourceType.STONE, "Stone");
-		ControllerGame.RESOURCES_NAMES.put(ResourceType.VICTORY_POINT, "Victory points");
-		ControllerGame.RESOURCES_NAMES.put(ResourceType.WOOD, "Wood");
-	}
-
 	@FXML private Pane gameBoard;
 	@FXML private Pane playerBoard1DevelopmentCardsVenture;
 	@FXML private Pane playerBoard2DevelopmentCardsVenture;
@@ -1607,7 +1593,7 @@ public class ControllerGame extends CustomController
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getProductionInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(ControllerGame.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -1618,7 +1604,7 @@ public class ControllerGame extends CustomController
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getHarvestInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(ControllerGame.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -1664,7 +1650,7 @@ public class ControllerGame extends CustomController
 				}
 				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getResourceAmounts()) {
 					stringBuilder.append('\n');
-					stringBuilder.append(ControllerGame.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 					stringBuilder.append(": ");
 					stringBuilder.append(resourceAmount.getAmount());
 				}

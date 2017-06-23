@@ -60,7 +60,7 @@ public class CLIHandlerAuthentication implements ICLIHandler
 	public void askRoomType()
 	{
 		Client.getLogger().log(Level.INFO, "Enter Room Type...");
-		Client.getLogger().log(Level.INFO, "1 - MORMAL");
+		Client.getLogger().log(Level.INFO, "1 - NORMAL");
 		Client.getLogger().log(Level.INFO, "2 - EXTENDED");
 		String input;
 		do {

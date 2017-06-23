@@ -1,7 +1,9 @@
 package it.polimi.ingsw.lim.client.utils;
 
+import it.polimi.ingsw.lim.client.gui.ControllerGame;
 import it.polimi.ingsw.lim.common.enums.Color;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
+import it.polimi.ingsw.lim.common.enums.ResourceType;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Effect;
@@ -59,6 +61,20 @@ public class Utils
 		Utils.PLAYERS_PLACEHOLDERS.put(Color.PURPLE, "/images/players/player_purple.png");
 		Utils.PLAYERS_PLACEHOLDERS.put(Color.RED, "/images/players/player_red.png");
 		Utils.PLAYERS_PLACEHOLDERS.put(Color.YELLOW, "/images/players/player_yellow.png");
+	}
+
+	public static final Map<ResourceType, String> RESOURCES_NAMES = new EnumMap<>(ResourceType.class);
+
+	static {
+		Utils.RESOURCES_NAMES.put(ResourceType.COIN, "Coins");
+		Utils.RESOURCES_NAMES.put(ResourceType.COUNCIL_PRIVILEGE, "Council privileges");
+		Utils.RESOURCES_NAMES.put(ResourceType.FAITH_POINT, "Faith points");
+		Utils.RESOURCES_NAMES.put(ResourceType.MILITARY_POINT, "Military points");
+		Utils.RESOURCES_NAMES.put(ResourceType.PRESTIGE_POINT, "Prestige points");
+		Utils.RESOURCES_NAMES.put(ResourceType.SERVANT, "Servants");
+		Utils.RESOURCES_NAMES.put(ResourceType.STONE, "Stone");
+		Utils.RESOURCES_NAMES.put(ResourceType.VICTORY_POINT, "Victory points");
+		Utils.RESOURCES_NAMES.put(ResourceType.WOOD, "Wood");
 	}
 
 	private Utils()

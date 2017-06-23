@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.client;
 import it.polimi.ingsw.lim.client.cli.CLIHandlerAuthentication;
 import it.polimi.ingsw.lim.client.cli.CLIHandlerConnection;
 import it.polimi.ingsw.lim.client.cli.CLIHandlerInterfaceChoice;
+import it.polimi.ingsw.lim.client.cli.CLIHandlerPersonalBonusTileChoice;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.gui.ControllerConnection;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
@@ -29,6 +30,7 @@ public class Client extends Instance
 		Client.CLI_HANDLERS.put(CLIStatus.INTERFACE_CHOICE, new CLIHandlerInterfaceChoice());
 		Client.CLI_HANDLERS.put(CLIStatus.CONNECTION, new CLIHandlerConnection());
 		Client.CLI_HANDLERS.put(CLIStatus.AUTHENTICATION, new CLIHandlerAuthentication());
+		Client.CLI_HANDLERS.put(CLIStatus.PERSONAL_BONUS_TILE_CHOICE, new CLIHandlerPersonalBonusTileChoice());
 	}
 
 	private CLIStatus cliStatus = CLIStatus.INTERFACE_CHOICE;

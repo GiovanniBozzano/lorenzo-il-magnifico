@@ -12,7 +12,7 @@ import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 
 public enum ExcommunicationTile
 {
-	EXCOMMUNICATION_TILES_1_1(0, "/images/excommunication_tiles/excommunication_tile_1_1.png", Period.FIRST, new Modifier<EventGainResources>(EventGainResources.class, "Each time you gain Military\nPoints (from action spaces or from\nyour Cards), gain 1 fewer Military\nPoint. (If you have more Cards that\ngive you Military Points, consider\neach Card a single source, so you gain\n-1 Military Point for each card).")
+	EXCOMMUNICATION_TILES_1_1(0, "/images/excommunication_tiles/excommunication_tile_1_1.png", Period.FIRST, new Modifier<EventGainResources>(EventGainResources.class, "Each time you gain Military\nPoints (from action spaces or from\nyour Cards), gain 1 fewer Military\nPoint (if you have more Cards that\ngive you Military Points, consider\neach Card a single source, so you gain\n-1 Military Point for each card).")
 	{
 		@Override
 		public void apply(EventGainResources event)
@@ -24,7 +24,7 @@ public enum ExcommunicationTile
 			}
 		}
 	}),
-	EXCOMMUNICATION_TILES_1_2(1, "/images/excommunication_tiles/excommunication_tile_1_2.png", Period.FIRST, new Modifier<EventGainResources>(EventGainResources.class, "Each time you receive coins (from\naction spaces or from your Cards),\nyou receive 1 fewer coin. (If you\nhave more Cards that give you coins,\nconsider each Card a single source, so\nyou receive -1 coin for each card.)")
+	EXCOMMUNICATION_TILES_1_2(1, "/images/excommunication_tiles/excommunication_tile_1_2.png", Period.FIRST, new Modifier<EventGainResources>(EventGainResources.class, "Each time you receive coins (from\naction spaces or from your Cards),\nyou receive 1 fewer coin (if you\nhave more Cards that give you coins,\nconsider each Card a single source, so\nyou receive -1 coin for each card.)")
 	{
 		@Override
 		public void apply(EventGainResources event)
@@ -36,7 +36,7 @@ public enum ExcommunicationTile
 			}
 		}
 	}),
-	EXCOMMUNICATION_TILES_1_3(2, "/images/excommunication_tiles/excommunication_tile_1_3.png", Period.FIRST, new Modifier<EventGainResources>(EventGainResources.class, "Each time you receive servants\n(from action spaces or from your\nCards), you receive 1 fewer\nservant. (If you have more Cards\nthat give you servants, consider each\nCard a single source, so you receive -1\nservant for each card.)")
+	EXCOMMUNICATION_TILES_1_3(2, "/images/excommunication_tiles/excommunication_tile_1_3.png", Period.FIRST, new Modifier<EventGainResources>(EventGainResources.class, "Each time you receive servants\n(from action spaces or from your\nCards), you receive 1 fewer\nservant (if you have more Cards\nthat give you servants, consider each\nCard a single source, so you receive -1\nservant for each card.)")
 	{
 		@Override
 		public void apply(EventGainResources event)
@@ -50,7 +50,7 @@ public enum ExcommunicationTile
 			}
 		}
 	}),
-	EXCOMMUNICATION_TILES_1_4(3, "/images/excommunication_tiles/excommunication_tile_1_4.png", Period.FIRST, new Modifier<EventGainResources>(EventGainResources.class, "Each time you receive wood or\nstone (from action spaces or from your\nCards), you receive 1 fewer wood\nor stone. (If you have more Cards\nthat give you wood and stone, consider\neach Card a single source, so you receive\n-1 wood/stone for each card.)")
+	EXCOMMUNICATION_TILES_1_4(3, "/images/excommunication_tiles/excommunication_tile_1_4.png", Period.FIRST, new Modifier<EventGainResources>(EventGainResources.class, "Each time you receive wood or\nstone (from action spaces or from your\nCards), you receive 1 fewer wood\nor stone (if you have more Cards\nthat give you wood and stone, consider\neach Card a single source, so you receive\n-1 wood/stone for each card.)")
 	{
 		@Override
 		public void apply(EventGainResources event)
@@ -64,7 +64,7 @@ public enum ExcommunicationTile
 			}
 		}
 	}),
-	EXCOMMUNICATION_TILES_1_5(4, "/images/excommunication_tiles/excommunication_tile_1_5.png", Period.FIRST, new Modifier<EventStartHarvest>(EventStartHarvest.class, "Each time you perform a Harvest\naction (through the action space or as\na Card effect), decrease its value by\n3. You may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects. (If\nyou place in the second action space,\nyour action value is decreased by 6.)")
+	EXCOMMUNICATION_TILES_1_5(4, "/images/excommunication_tiles/excommunication_tile_1_5.png", Period.FIRST, new Modifier<EventStartHarvest>(EventStartHarvest.class, "Each time you perform a Harvest\naction (through the action space or as\na Card effect), decrease its value by\n3. You may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects (if\nyou place in the second action space,\nyour action value is decreased by 6.)")
 	{
 		@Override
 		public void apply(EventStartHarvest event)
@@ -72,7 +72,7 @@ public enum ExcommunicationTile
 			event.setActionValue(event.getActionValue() - 3);
 		}
 	}),
-	EXCOMMUNICATION_TILES_1_6(5, "/images/excommunication_tiles/excommunication_tile_1_6.png", Period.FIRST, new Modifier<EventStartProduction>(EventStartProduction.class, "Each time you perform a\nProduction action (through the\naction space or as a Card effect),\ndecrease its value by 3. You may\nstill spend servants to increase the\naction value and you must apply\nyour Card’s effects. (If you place\nin the large action space, your action\nvalue is decreased by 6.)")
+	EXCOMMUNICATION_TILES_1_6(5, "/images/excommunication_tiles/excommunication_tile_1_6.png", Period.FIRST, new Modifier<EventStartProduction>(EventStartProduction.class, "Each time you perform a\nProduction action (through the\naction space or as a Card effect),\ndecrease its value by 3. You may\nstill spend servants to increase the\naction value and you must apply\nyour Card’s effects (if you place\nin the large action space, your action\nvalue is decreased by 6.)")
 	{
 		@Override
 		public void apply(EventStartProduction event)
@@ -80,7 +80,7 @@ public enum ExcommunicationTile
 			event.setActionValue(event.getActionValue() - 3);
 		}
 	}),
-	EXCOMMUNICATION_TILES_1_7(6, "/images/excommunication_tiles/excommunication_tile_1_7.png", Period.FIRST, new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "All your colored Family Members\nreceive a -1 reduction of their\nvalue each time you place them.\n(For example, if you roll a 5 on the\nblack die, your Family Member with\nthe black die symbol has a value of\n4.) You may still spend servants to\nincrease their value and you must\napply your Card’s effects.")
+	EXCOMMUNICATION_TILES_1_7(6, "/images/excommunication_tiles/excommunication_tile_1_7.png", Period.FIRST, new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "All your colored Family Members\nreceive a -1 reduction of their\nvalue each time you place them\n(for example, if you roll a 5 on the\nblack die, your Family Member with\nthe black die symbol has a value of\n4). You may still spend servants to\nincrease their value and you must\napply your Card’s effects.")
 	{
 		@Override
 		public void apply(EventPlaceFamilyMember event)
@@ -146,7 +146,7 @@ public enum ExcommunicationTile
 			event.setServants(event.getServants() / 2);
 		}
 	}),
-	EXCOMMUNICATION_TILES_2_7(13, "/images/excommunication_tiles/excommunication_tile_2_7.png", Period.SECOND, new Modifier<EventFirstTurn>(EventFirstTurn.class, "Each round, you skip your first\nturn. (When you have to place your\nfirst Family Member, you have to\npass.) You start taking actions from\nthe second turn (in the appropriate\nturn order.) When all players have\ntaken all their turns, you may still\nplace your last Family Member.")
+	EXCOMMUNICATION_TILES_2_7(13, "/images/excommunication_tiles/excommunication_tile_2_7.png", Period.SECOND, new Modifier<EventFirstTurn>(EventFirstTurn.class, "Each round, you skip your first\nturn (when you have to place your\nfirst Family Member, you have to\npass). You start taking actions from\nthe second turn (in the appropriate\nturn order.) When all players have\ntaken all their turns, you may still\nplace your last Family Member.")
 	{
 		@Override
 		public void apply(EventFirstTurn event)
@@ -178,7 +178,7 @@ public enum ExcommunicationTile
 			event.setCountingTerritories(false);
 		}
 	}),
-	EXCOMMUNICATION_TILES_3_4(17, "/images/excommunication_tiles/excommunication_tile_3_4.png", Period.THIRD, new Modifier<EventPreVictoryPointsCalculation>(EventPreVictoryPointsCalculation.class, "At the end of the game, before\nthe Final Scoring, you lose\n1 Victory Point for every\n5 Victory Points you have. (For\nexample, if you have 26 Victory\nPoints before the Final Scoring, you\nlose 5 Victory Points.")
+	EXCOMMUNICATION_TILES_3_4(17, "/images/excommunication_tiles/excommunication_tile_3_4.png", Period.THIRD, new Modifier<EventPreVictoryPointsCalculation>(EventPreVictoryPointsCalculation.class, "At the end of the game, before\nthe Final Scoring, you lose\n1 Victory Point for every\n5 Victory Points you have (for\nexample, if you have 26 Victory\nPoints before the Final Scoring, you\nlose 5 Victory Points).")
 	{
 		@Override
 		public void apply(EventPreVictoryPointsCalculation event)
@@ -186,7 +186,7 @@ public enum ExcommunicationTile
 			event.setVictoryPoints(event.getVictoryPoints() - event.getVictoryPoints() / 5);
 		}
 	}),
-	EXCOMMUNICATION_TILES_3_5(18, "/images/excommunication_tiles/excommunication_tile_3_5.png", Period.THIRD, new Modifier<EventPostVictoryPointsCalculation>(EventPostVictoryPointsCalculation.class, "At the end of the game, you lose\n1 Victory Point for every Military\nPoint you have. (For example, if\nyou end the game with 12 Military\nPoints, you lose 12 Victory Points.)")
+	EXCOMMUNICATION_TILES_3_5(18, "/images/excommunication_tiles/excommunication_tile_3_5.png", Period.THIRD, new Modifier<EventPostVictoryPointsCalculation>(EventPostVictoryPointsCalculation.class, "At the end of the game, you lose\n1 Victory Point for every Military\nPoint you have (for example, if\nyou end the game with 12 Military\nPoints, you lose 12 Victory Points).")
 	{
 		@Override
 		public void apply(EventPostVictoryPointsCalculation event)
@@ -194,7 +194,7 @@ public enum ExcommunicationTile
 			event.setVictoryPoints(event.getVictoryPoints() - event.getPlayer().getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT));
 		}
 	}),
-	EXCOMMUNICATION_TILES_3_6(19, "/images/excommunication_tiles/excommunication_tile_3_6.png", Period.THIRD, new Modifier<EventPostVictoryPointsCalculation>(EventPostVictoryPointsCalculation.class, "At the end of the game, you lose\n1 Victory Point for every wood\nand stone on your Building\nCards’ costs. (For example, if all\nyour Building Cards cost 7 wood\nand 6 stone, you lose 13 Victory\nPoints.)")
+	EXCOMMUNICATION_TILES_3_6(19, "/images/excommunication_tiles/excommunication_tile_3_6.png", Period.THIRD, new Modifier<EventPostVictoryPointsCalculation>(EventPostVictoryPointsCalculation.class, "At the end of the game, you lose\n1 Victory Point for every wood\nand stone on your Building\nCards’ costs (for example, if all\nyour Building Cards cost 7 wood\nand 6 stone, you lose 13 Victory\nPoints).")
 	{
 		@Override
 		public void apply(EventPostVictoryPointsCalculation event)
@@ -210,7 +210,7 @@ public enum ExcommunicationTile
 			}
 		}
 	}),
-	EXCOMMUNICATION_TILES_3_7(20, "/images/excommunication_tiles/excommunication_tile_3_7.png", Period.THIRD, new Modifier<EventPostVictoryPointsCalculation>(EventPostVictoryPointsCalculation.class, "At the end of the game, you lose\n1 Victory Point for every resource\n(wood, stone, coin, servant) in your\nsupply on your Personal Board.\n(For example, if you end the game\nwith 3 wood, 1 stone, 4 coins, and\n2 servants, you lose 10 Victory\nPoints.)")
+	EXCOMMUNICATION_TILES_3_7(20, "/images/excommunication_tiles/excommunication_tile_3_7.png", Period.THIRD, new Modifier<EventPostVictoryPointsCalculation>(EventPostVictoryPointsCalculation.class, "At the end of the game, you lose\n1 Victory Point for every resource\n(wood, stone, coin, servant) in your\nsupply on your Personal Board\n(for example, if you end the game\nwith 3 wood, 1 stone, 4 coins, and\n2 servants, you lose 10 Victory\nPoints).")
 	{
 		@Override
 		public void apply(EventPostVictoryPointsCalculation event)
