@@ -78,7 +78,7 @@ public abstract class Connection
 
 	public abstract void sendRoomTimer(int timer);
 
-	public abstract void sendLogMessage(String text);
+	public abstract void sendGameLogMessage(String text);
 
 	public abstract void sendChatMessage(String text);
 
@@ -90,7 +90,7 @@ public abstract class Connection
 
 	public abstract void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex);
 
-	public abstract void sendGamePersonalBonusTileChosen();
+	public abstract void sendGamePersonalBonusTileChosen(int choicePlayerIndex, int choicePersonalBonusTileIndex);
 
 	public abstract void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards);
 

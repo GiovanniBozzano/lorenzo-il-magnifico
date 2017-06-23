@@ -117,7 +117,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 		}
 		Map<Integer, PersonalBonusTileInformations> personalBonusTilesInformations = new HashMap<>();
 		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
-			personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
+			personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getPlayerBoardTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
 		}
 		Room playerRoom;
 		if ((playerRoom = Room.getPlayerRoom(username)) == null) {

@@ -522,6 +522,7 @@ public class ControllerGame extends CustomController
 	@FXML private Pane player5LeaderCard4Played;
 	private final Map<Integer, Tab> playersTabs = new HashMap<>();
 	private final Map<Integer, Tab> leaderCardsTabs = new HashMap<>();
+	private final Map<Integer, Pane> playersBoards = new HashMap<>();
 	private final Map<FamilyMemberType, Pane> dices = new EnumMap<>(FamilyMemberType.class);
 	private final Map<Period, Pane> excommunicationTilesPanes = new EnumMap<>(Period.class);
 	private final Map<Integer, Pane> victoryPointsPanes = new HashMap<>();
@@ -628,6 +629,11 @@ public class ControllerGame extends CustomController
 		this.leaderCardsTabs.put(2, this.leaderCardsPlayer3Tab);
 		this.leaderCardsTabs.put(3, this.leaderCardsPlayer4Tab);
 		this.leaderCardsTabs.put(4, this.leaderCardsPlayer5Tab);
+		this.playersBoards.put(0, this.playerBoard1);
+		this.playersBoards.put(1, this.playerBoard2);
+		this.playersBoards.put(2, this.playerBoard3);
+		this.playersBoards.put(3, this.playerBoard4);
+		this.playersBoards.put(4, this.playerBoard5);
 		this.dices.put(FamilyMemberType.BLACK, this.diceBlack);
 		this.dices.put(FamilyMemberType.ORANGE, this.diceOrange);
 		this.dices.put(FamilyMemberType.WHITE, this.diceWhite);
@@ -1100,6 +1106,9 @@ public class ControllerGame extends CustomController
 				tab.getValue().setText((GameStatus.getInstance().getOwnPlayerIndex() == tab.getKey() ? "[ME] " : "") + GameStatus.getInstance().getCurrentPlayersData().get(tab.getKey()).getUsername());
 			}
 		}
+		for (Entry<Integer, PlayerData> playerData : GameStatus.getInstance().getCurrentPlayersData().entrySet()) {
+			((AnchorPane) this.playersBoards.get(playerData.getKey()).getParent().getParent()).setBorder(new Border(new BorderStroke(Color.web(playerData.getValue().getColor().getHex()), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(4.0D))));
+		}
 		for (Entry<Period, Integer> excommunicationTile : GameStatus.getInstance().getCurrentExcommunicationTiles().entrySet()) {
 			this.excommunicationTilesPanes.get(excommunicationTile.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getExcommunicationTiles().get(excommunicationTile.getValue()).getTexturePath()).toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getExcommunicationTiles().get(excommunicationTile.getValue()).getModifier());
@@ -1185,11 +1194,16 @@ public class ControllerGame extends CustomController
 			}
 		}
 		this.leaderCardsTabPane.requestLayout();
-		this.leaderCardsButton.setPrefWidth(((VBox) this.leaderCardsButton.getParent()).getWidth());
+		this.leaderCardsButton.setPrefWidth(((HBox) this.leaderCardsButton.getParent()).getWidth());
 		this.marketActionChoiceDialogAcceptButton.setPrefWidth(((VBox) this.marketActionChoiceDialogAcceptButton.getParent()).getWidth());
 		this.marketActionChoiceDialogCancelButton.setPrefWidth(((VBox) this.marketActionChoiceDialogCancelButton.getParent()).getWidth());
 		this.getStage().setX(bounds.getWidth() / 2 - this.getStage().getWidth() / 2);
 		this.getStage().setY(bounds.getHeight() / 2 - this.getStage().getHeight() / 2);
+	}
+
+	public void updatePlayerPersonalBonusTile(int choicePlayerIndex, int choicePersonalBonusTileIndex)
+	{
+		this.playersBoards.get(choicePlayerIndex).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getPersonalBonusTiles().get(choicePersonalBonusTileIndex).getPlayerBoardTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 	}
 
 	public void setOwnTurn()
@@ -1733,7 +1747,10 @@ public class ControllerGame extends CustomController
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, this.borderGlow);
-			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex));
+			pane.setOnMouseClicked(event -> {
+				this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "You have chosen a personal bonus tile");
+				Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex);
+			});
 			this.personalBonusTilesChoiceDialogHBox.getChildren().add(pane);
 		}
 		this.personalBonusTilesChoiceDialogLayout.setPrefWidth(76.0D * this.ratio * this.personalBonusTilesChoiceDialogHBox.getChildren().size() + this.personalBonusTilesChoiceDialogHBox.getSpacing() * (this.personalBonusTilesChoiceDialogHBox.getChildren().size() - 1) + this.personalBonusTilesChoiceDialogLayout.getInsets().getLeft() + this.personalBonusTilesChoiceDialogLayout.getInsets().getRight());

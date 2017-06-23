@@ -124,12 +124,6 @@ public class ConnectionSocket extends Connection
 		new PacketRoomTimer(timer).send(this.out);
 	}
 
-	@Override
-	public void sendLogMessage(String text)
-	{
-		new PacketLogMessage(text).send(this.out);
-	}
-
 	private void sendDisconnectionLogMessage(String text)
 	{
 		new PacketDisconnectionLogMessage(text).send(this.out);
@@ -145,6 +139,12 @@ public class ConnectionSocket extends Connection
 	public void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex)
 	{
 		new PacketGameStarted(excommunicationTiles, playersData, ownPlayerIndex).send(this.out);
+	}
+
+	@Override
+	public void sendGameLogMessage(String text)
+	{
+		new PacketGameLogMessage(text).send(this.out);
 	}
 
 	@Override
@@ -166,9 +166,9 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChosen()
+	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex, int choicePersonalBonusTileIndex)
 	{
-		new Packet(PacketType.GAME_PERSONAL_BONUS_TILE_CHOSEN).send(this.out);
+		new PacketGamePersonalBonusTileChosen(choicePlayerIndex, choicePersonalBonusTileIndex).send(this.out);
 	}
 
 	@Override

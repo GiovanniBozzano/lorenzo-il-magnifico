@@ -9,22 +9,24 @@ import java.util.List;
 
 public enum PersonalBonusTile
 {
-	PERSONAL_BONUS_TILES_0(0, "/images/personal_bonus_tiles/personal_bonus_tile_0.png", 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.SERVANT, 1), new ResourceAmount(ResourceType.COIN, 2))), 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.WOOD, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.MILITARY_POINT, 1)))),
-	PERSONAL_BONUS_TILES_1(1, "/images/personal_bonus_tiles/personal_bonus_tile_1.png", 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.SERVANT, 1), new ResourceAmount(ResourceType.MILITARY_POINT, 2))), 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.WOOD, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.COIN, 1)))),
-	PERSONAL_BONUS_TILES_2(2, "/images/personal_bonus_tiles/personal_bonus_tile_2.png", 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.MILITARY_POINT, 2), new ResourceAmount(ResourceType.COIN, 1))), 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.WOOD, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.SERVANT, 1)))),
-	PERSONAL_BONUS_TILES_3(3, "/images/personal_bonus_tiles/personal_bonus_tile_3.png", 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.SERVANT, 2), new ResourceAmount(ResourceType.COIN, 1))), 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.WOOD, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.MILITARY_POINT, 1)))),
-	PERSONAL_BONUS_TILES_4(4, "/images/personal_bonus_tiles/personal_bonus_tile_4.png", 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.MILITARY_POINT, 1), new ResourceAmount(ResourceType.SERVANT, 2))), 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.WOOD, 1))));
+	PERSONAL_BONUS_TILES_0(0, "/images/personal_bonus_tiles/personal_bonus_tile_0.png", "/images/player_boards/player_board_0.png", 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.SERVANT, 1), new ResourceAmount(ResourceType.COIN, 2))), 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.WOOD, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.MILITARY_POINT, 1)))),
+	PERSONAL_BONUS_TILES_1(1, "/images/personal_bonus_tiles/personal_bonus_tile_1.png", "/images/player_boards/player_board_1.png", 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.SERVANT, 1), new ResourceAmount(ResourceType.MILITARY_POINT, 2))), 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.WOOD, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.COIN, 1)))),
+	PERSONAL_BONUS_TILES_2(2, "/images/personal_bonus_tiles/personal_bonus_tile_2.png", "/images/player_boards/player_board_2.png", 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.MILITARY_POINT, 2), new ResourceAmount(ResourceType.COIN, 1))), 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.WOOD, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.SERVANT, 1)))),
+	PERSONAL_BONUS_TILES_3(3, "/images/personal_bonus_tiles/personal_bonus_tile_3.png", "/images/player_boards/player_board_3.png", 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.SERVANT, 2), new ResourceAmount(ResourceType.COIN, 1))), 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.WOOD, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.MILITARY_POINT, 1)))),
+	PERSONAL_BONUS_TILES_4(4, "/images/personal_bonus_tiles/personal_bonus_tile_4.png", "/images/player_boards/player_board_4.png", 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.MILITARY_POINT, 1), new ResourceAmount(ResourceType.SERVANT, 2))), 1, new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 1), new ResourceAmount(ResourceType.STONE, 1), new ResourceAmount(ResourceType.WOOD, 1))));
 	private final int index;
 	private final String texturePath;
+	private final String playerBoardTexturePath;
 	private final int productionActivationCost;
 	private final List<ResourceAmount> productionInstantResources;
 	private final int harvestActivationCost;
 	private final List<ResourceAmount> harvestInstantResources;
 
-	PersonalBonusTile(int index, String texturePath, int productionActivationCost, List<ResourceAmount> productionInstantResources, int harvestActivationCost, List<ResourceAmount> harvestInstantResources)
+	PersonalBonusTile(int index, String texturePath, String playerBoardTexturePath, int productionActivationCost, List<ResourceAmount> productionInstantResources, int harvestActivationCost, List<ResourceAmount> harvestInstantResources)
 	{
 		this.index = index;
 		this.texturePath = texturePath;
+		this.playerBoardTexturePath = playerBoardTexturePath;
 		this.productionActivationCost = productionActivationCost;
 		this.productionInstantResources = productionInstantResources;
 		this.harvestActivationCost = harvestActivationCost;
@@ -49,6 +51,11 @@ public enum PersonalBonusTile
 	public String getTexturePath()
 	{
 		return this.texturePath;
+	}
+
+	public String getPlayerBoardTexturePath()
+	{
+		return this.playerBoardTexturePath;
 	}
 
 	public int getProductionActivationCost()

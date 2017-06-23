@@ -142,12 +142,9 @@ public class GameHandler
 	{
 		player.setPersonalBonusTile(PersonalBonusTile.fromIndex(personalBonusTileIndex));
 		this.availablePersonalBonusTiles.remove((Integer) personalBonusTileIndex);
-		if (player.isOnline()) {
-			player.getConnection().sendGamePersonalBonusTileChosen();
-		}
 		for (Connection currentPlayer : this.room.getPlayers()) {
 			if (currentPlayer.getPlayer().isOnline()) {
-				currentPlayer.sendLogMessage(player.getConnection().getUsername() + " has chosen a personal bonus tile");
+				currentPlayer.sendGamePersonalBonusTileChosen(player.getIndex(), personalBonusTileIndex);
 			}
 		}
 		do {

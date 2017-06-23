@@ -338,7 +338,7 @@
 									<Pane fx:id="player1Character5" layoutX="347.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player1Character6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 								</Pane>
-								<Pane fx:id="playerBoard1" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
+								<Pane fx:id="playerBoard1" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_boards/player_board_empty.png'); -fx-background-size: stretch;">
 									<Pane fx:id="player1Building1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player1Building2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player1Building3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
@@ -394,7 +394,7 @@
 									<Pane fx:id="player2Character5" layoutX="347.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player2Character6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 								</Pane>
-								<Pane fx:id="playerBoard2" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
+								<Pane fx:id="playerBoard2" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_boards/player_board_empty.png'); -fx-background-size: stretch;">
 									<Pane fx:id="player2Building1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player2Building2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player2Building3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
@@ -450,7 +450,7 @@
 									<Pane fx:id="player3Character5" layoutX="347.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player3Character6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 								</Pane>
-								<Pane fx:id="playerBoard3" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
+								<Pane fx:id="playerBoard3" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_boards/player_board_empty.png'); -fx-background-size: stretch;">
 									<Pane fx:id="player3Building1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player3Building2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player3Building3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
@@ -506,7 +506,7 @@
 									<Pane fx:id="player4Character5" layoutX="347.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player4Character6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 								</Pane>
-								<Pane fx:id="playerBoard4" prefHeight="352.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
+								<Pane fx:id="playerBoard4" prefHeight="352.0" style="-fx-background-image: url('/images/player_boards/player_board_empty.png'); -fx-background-size: stretch;">
 									<Pane fx:id="player4Building1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player4Building2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player4Building3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
@@ -562,7 +562,7 @@
 									<Pane fx:id="player5Character5" layoutX="347.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player5Character6" layoutX="423.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 								</Pane>
-								<Pane fx:id="playerBoard5" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_board.png'); -fx-background-size: stretch;">
+								<Pane fx:id="playerBoard5" prefHeight="352.0" prefWidth="500.0" style="-fx-background-image: url('/images/player_boards/player_board_empty.png'); -fx-background-size: stretch;">
 									<Pane fx:id="player5Building1" layoutX="36.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player5Building2" layoutX="114.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
 									<Pane fx:id="player5Building3" layoutX="192.0" layoutY="14.0" onMouseClicked="#playerDevelopmentCardPaneMouseClicked" prefHeight="99.0" prefWidth="66.0" />
@@ -601,6 +601,17 @@
 					</Tab>
 				</JFXTabPane>
 				<JFXTabPane fx:id="chatTabPane">
+					<Tab text="Game Log">
+						<AnchorPane>
+							<VBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+								<TextArea fx:id="gameLogTextArea" editable="false" VBox.vgrow="ALWAYS">
+									<font>
+										<Font name="Roboto" size="12.0" />
+									</font>
+								</TextArea>
+							</VBox>
+						</AnchorPane>
+					</Tab>
 					<Tab text="Chat">
 						<AnchorPane>
 							<VBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
@@ -620,23 +631,16 @@
 							</VBox>
 						</AnchorPane>
 					</Tab>
-					<Tab text="Game Log">
-						<AnchorPane>
-							<VBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-								<TextArea fx:id="gameLogTextArea" editable="false" VBox.vgrow="ALWAYS" />
-							</VBox>
-						</AnchorPane>
-					</Tab>
 				</JFXTabPane>
 				<HBox spacing="10.0">
 					<VBox fx:id="actionsVBox" />
-					<VBox alignment="CENTER_LEFT">
+					<HBox alignment="CENTER_LEFT">
 						<JFXButton fx:id="leaderCardsButton" disable="true" onAction="#handleLeaderCardsButtonAction" style="-fx-background-color: #03A9F4;" text="Leader Cards" textFill="WHITE">
 							<font>
 								<Font name="Roboto Bold" size="14.0" />
 							</font>
 						</JFXButton>
-					</VBox>
+					</HBox>
 				</HBox>
 			</VBox>
 		</GridPane>
