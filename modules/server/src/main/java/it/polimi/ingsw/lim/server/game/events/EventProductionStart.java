@@ -2,11 +2,11 @@ package it.polimi.ingsw.lim.server.game.events;
 
 import it.polimi.ingsw.lim.server.game.player.Player;
 
-public class EventStartHarvest extends Event
+public class EventProductionStart extends Event
 {
 	private int actionValue;
 
-	public EventStartHarvest(Player player, int actionValue)
+	public EventProductionStart(Player player, int actionValue)
 	{
 		super(player);
 		this.actionValue = actionValue;

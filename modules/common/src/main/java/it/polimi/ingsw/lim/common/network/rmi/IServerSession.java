@@ -25,6 +25,8 @@ public interface IServerSession extends Remote
 
 	void sendRoomTimer(int timer) throws RemoteException;
 
+	void sendDisconnectionLogMessage(String text) throws RemoteException;
+
 	void sendChatMessage(String text) throws RemoteException;
 
 	void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex) throws RemoteException;
@@ -46,8 +48,6 @@ public interface IServerSession extends Remote
 	void sendGameLeaderCardChosen() throws RemoteException;
 
 	void sendGameExcommunicationChoiceRequest(Period period) throws RemoteException;
-
-	void sendGameExcommunicationChosen() throws RemoteException;
 
 	void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions) throws RemoteException;
 

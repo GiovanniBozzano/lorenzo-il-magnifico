@@ -11,9 +11,9 @@ import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.actions.ActionChooseRewardPickDevelopmentCard;
-import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
+import it.polimi.ingsw.lim.server.game.events.EventPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
-import it.polimi.ingsw.lim.server.game.modifiers.ModifierGetDevelopmentCard;
+import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
 
 import java.util.ArrayList;
@@ -40,8 +40,8 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 		List<AvailableActionChooseRewardGetDevelopmentCard> availableActions = new ArrayList<>();
 		List<List<ResourceAmount>> discountChoices = new ArrayList<>();
 		for (Modifier modifier : player.getActiveModifiers()) {
-			if (modifier.getEventClass() == EventGetDevelopmentCard.class) {
-				discountChoices.addAll(((ModifierGetDevelopmentCard) modifier).getDiscountChoices());
+			if (modifier.getEventClass() == EventPickDevelopmentCard.class) {
+				discountChoices.addAll(((ModifierPickDevelopmentCard) modifier).getDiscountChoices());
 			}
 		}
 		for (Entry<CardType, Row> entry : this.maximumRows.entrySet()) {

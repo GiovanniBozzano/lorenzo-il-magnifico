@@ -64,18 +64,18 @@ public enum ExcommunicationTile
 			}
 		}
 	}),
-	EXCOMMUNICATION_TILES_1_5(4, "/images/excommunication_tiles/excommunication_tile_1_5.png", Period.FIRST, new Modifier<EventStartHarvest>(EventStartHarvest.class, "Each time you perform a Harvest\naction (through the action space or as\na Card effect), decrease its value by\n3. You may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects (if\nyou place in the second action space,\nyour action value is decreased by 6.)")
+	EXCOMMUNICATION_TILES_1_5(4, "/images/excommunication_tiles/excommunication_tile_1_5.png", Period.FIRST, new Modifier<EventHarvest>(EventHarvest.class, "Each time you perform a Harvest\naction (through the action space or as\na Card effect), decrease its value by\n3. You may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects (if\nyou place in the second action space,\nyour action value is decreased by 6.)")
 	{
 		@Override
-		public void apply(EventStartHarvest event)
+		public void apply(EventHarvest event)
 		{
 			event.setActionValue(event.getActionValue() - 3);
 		}
 	}),
-	EXCOMMUNICATION_TILES_1_6(5, "/images/excommunication_tiles/excommunication_tile_1_6.png", Period.FIRST, new Modifier<EventStartProduction>(EventStartProduction.class, "Each time you perform a\nProduction action (through the\naction space or as a Card effect),\ndecrease its value by 3. You may\nstill spend servants to increase the\naction value and you must apply\nyour Card’s effects (if you place\nin the large action space, your action\nvalue is decreased by 6.)")
+	EXCOMMUNICATION_TILES_1_6(5, "/images/excommunication_tiles/excommunication_tile_1_6.png", Period.FIRST, new Modifier<EventProductionStart>(EventProductionStart.class, "Each time you perform a\nProduction action (through the\naction space or as a Card effect),\ndecrease its value by 3. You may\nstill spend servants to increase the\naction value and you must apply\nyour Card’s effects (if you place\nin the large action space, your action\nvalue is decreased by 6.)")
 	{
 		@Override
-		public void apply(EventStartProduction event)
+		public void apply(EventProductionStart event)
 		{
 			event.setActionValue(event.getActionValue() - 3);
 		}
@@ -88,40 +88,40 @@ public enum ExcommunicationTile
 			event.setFamilyMemberValue(event.getFamilyMemberValue() - 1);
 		}
 	}),
-	EXCOMMUNICATION_TILES_2_1(7, "/images/excommunication_tiles/excommunication_tile_2_1.png", Period.SECOND, new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class, "Each time you take a Territory\nCard (through the action space or as\na Card effect), your action receives\na -4 reduction of its value.\nYou may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects.")
+	EXCOMMUNICATION_TILES_2_1(7, "/images/excommunication_tiles/excommunication_tile_2_1.png", Period.SECOND, new Modifier<EventPickDevelopmentCard>(EventPickDevelopmentCard.class, "Each time you take a Territory\nCard (through the action space or as\na Card effect), your action receives\na -4 reduction of its value.\nYou may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects.")
 	{
 		@Override
-		public void apply(EventGetDevelopmentCard event)
+		public void apply(EventPickDevelopmentCard event)
 		{
 			if (event.getCardType() == CardType.TERRITORY) {
 				event.setActionValue(event.getActionValue() - 4);
 			}
 		}
 	}),
-	EXCOMMUNICATION_TILES_2_2(8, "/images/excommunication_tiles/excommunication_tile_2_2.png", Period.SECOND, new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class, "Each time you take a Building\nCard (through the action space or as\na Card effect), your action receives\na reduction of -4 of its value.\nYou may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects.")
+	EXCOMMUNICATION_TILES_2_2(8, "/images/excommunication_tiles/excommunication_tile_2_2.png", Period.SECOND, new Modifier<EventPickDevelopmentCard>(EventPickDevelopmentCard.class, "Each time you take a Building\nCard (through the action space or as\na Card effect), your action receives\na reduction of -4 of its value.\nYou may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects.")
 	{
 		@Override
-		public void apply(EventGetDevelopmentCard event)
+		public void apply(EventPickDevelopmentCard event)
 		{
 			if (event.getCardType() == CardType.BUILDING) {
 				event.setActionValue(event.getActionValue() - 4);
 			}
 		}
 	}),
-	EXCOMMUNICATION_TILES_2_3(9, "/images/excommunication_tiles/excommunication_tile_2_3.png", Period.SECOND, new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class, "Each time you take a Character\nCard (through the action space or as\na Card effect), your action receives\na -4 reduction of its value.\nYou may still spend servants to\nincrease the action value,and you\nmust apply your Card’s effects.")
+	EXCOMMUNICATION_TILES_2_3(9, "/images/excommunication_tiles/excommunication_tile_2_3.png", Period.SECOND, new Modifier<EventPickDevelopmentCard>(EventPickDevelopmentCard.class, "Each time you take a Character\nCard (through the action space or as\na Card effect), your action receives\na -4 reduction of its value.\nYou may still spend servants to\nincrease the action value,and you\nmust apply your Card’s effects.")
 	{
 		@Override
-		public void apply(EventGetDevelopmentCard event)
+		public void apply(EventPickDevelopmentCard event)
 		{
 			if (event.getCardType() == CardType.CHARACTER) {
 				event.setActionValue(event.getActionValue() - 4);
 			}
 		}
 	}),
-	EXCOMMUNICATION_TILES_2_4(10, "/images/excommunication_tiles/excommunication_tile_2_4.png", Period.SECOND, new Modifier<EventGetDevelopmentCard>(EventGetDevelopmentCard.class, "Each time you take a Venture\nCard (through the action space or as\na Card effect), your action receives\na -4 reduction of its value.\nYou may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects.")
+	EXCOMMUNICATION_TILES_2_4(10, "/images/excommunication_tiles/excommunication_tile_2_4.png", Period.SECOND, new Modifier<EventPickDevelopmentCard>(EventPickDevelopmentCard.class, "Each time you take a Venture\nCard (through the action space or as\na Card effect), your action receives\na -4 reduction of its value.\nYou may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects.")
 	{
 		@Override
-		public void apply(EventGetDevelopmentCard event)
+		public void apply(EventPickDevelopmentCard event)
 		{
 			if (event.getCardType() == CardType.VENTURE) {
 				event.setActionValue(event.getActionValue() - 4);

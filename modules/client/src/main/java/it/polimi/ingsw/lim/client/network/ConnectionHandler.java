@@ -174,6 +174,15 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
+	public void handleDisconnectionLogMessage(String text)
+	{
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Client.getDebugger().log(Level.INFO, text);
+		} else {
+			Client.getLogger().log(Level.INFO, text);
+		}
+	}
+
 	public void handleChatMessage(String text)
 	{
 		if (!WindowFactory.getInstance().isWindowOpen(ControllerRoom.class) && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
@@ -219,7 +228,7 @@ public abstract class ConnectionHandler extends Thread
 			return;
 		}
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Client.getDebugger().log(Level.INFO, Integer.toString(timer));
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getTimerLabel().setText(Integer.toString(timer)));
 		}
 	}
 
@@ -283,7 +292,7 @@ public abstract class ConnectionHandler extends Thread
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).updatePlayerPersonalBonusTile(choicePlayerIndex, choicePeronalBonusTileIndex));
 			if (choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex()) {
 				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).closePersonalBonusTilesChoiceDialog());
+					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getPersonalBonusTilesChoiceDialog().close());
 				}
 			} else {
 				Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(choicePlayerIndex).getUsername() + " has chosen a personal bonus tile"));
@@ -308,7 +317,7 @@ public abstract class ConnectionHandler extends Thread
 			return;
 		}
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).closeLeaderCardsChoiceDialog());
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getLeaderCardsChoiceDialog().close());
 		}
 	}
 
@@ -319,16 +328,6 @@ public abstract class ConnectionHandler extends Thread
 		}
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showExcommunicationChoiceDialog(period));
-		}
-	}
-
-	public void handleGameExcommunicationChosen()
-	{
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
-			return;
-		}
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).closeExcommunicationChoiceDialog());
 		}
 	}
 

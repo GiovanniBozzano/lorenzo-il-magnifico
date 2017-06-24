@@ -12,7 +12,7 @@ import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardProductionStart;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
-import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
+import it.polimi.ingsw.lim.server.game.events.EventProductionStart;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
@@ -70,9 +70,9 @@ public class ActionChooseRewardProductionStart extends ActionInformationsChooseR
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
 		eventUseServants.applyModifiers(this.player.getActiveModifiers());
 		if (((ActionRewardProductionStart) this.player.getCurrentActionReward()).isApplyModifiers()) {
-			EventStartProduction eventStartProduction = new EventStartProduction(this.player, ((ActionRewardProductionStart) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
-			eventStartProduction.applyModifiers(this.player.getActiveModifiers());
-			this.player.setCurrentProductionValue(eventStartProduction.getActionValue());
+			EventProductionStart eventProductionStart = new EventProductionStart(this.player, ((ActionRewardProductionStart) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
+			eventProductionStart.applyModifiers(this.player.getActiveModifiers());
+			this.player.setCurrentProductionValue(eventProductionStart.getActionValue());
 		} else {
 			this.player.setCurrentProductionValue(((ActionRewardProductionStart) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
 		}

@@ -12,7 +12,7 @@ import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardHarvest;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
-import it.polimi.ingsw.lim.server.game.events.EventStartHarvest;
+import it.polimi.ingsw.lim.server.game.events.EventHarvest;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
@@ -71,10 +71,10 @@ public class ActionChooseRewardHarvest extends ActionInformationsChooseRewardHar
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		List<ResourceAmount> resourceReward = new ArrayList<>();
 		if (((ActionRewardHarvest) this.player.getCurrentActionReward()).isApplyModifiers()) {
-			EventStartHarvest eventStartHarvest = new EventStartHarvest(this.player, ((ActionRewardHarvest) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
-			eventStartHarvest.applyModifiers(this.player.getActiveModifiers());
+			EventHarvest eventHarvest = new EventHarvest(this.player, ((ActionRewardHarvest) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
+			eventHarvest.applyModifiers(this.player.getActiveModifiers());
 			for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
-				if (developmentCardTerritory.getActivationValue() > eventStartHarvest.getActionValue()) {
+				if (developmentCardTerritory.getActivationValue() > eventHarvest.getActionValue()) {
 					continue;
 				}
 				resourceReward.addAll(developmentCardTerritory.getHarvestResources());

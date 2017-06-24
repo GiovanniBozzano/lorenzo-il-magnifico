@@ -145,8 +145,8 @@ class PacketListener extends Thread
 		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
 			personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getPlayerBoardTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
 		}
-		Room playerRoom;
-		if ((playerRoom = Room.getPlayerRoom(this.connectionSocket.getUsername())) == null) {
+		Room playerRoom = Room.getPlayerRoom(this.connectionSocket.getUsername());
+		if (playerRoom == null || playerRoom.isEndGame()) {
 			Room targetRoom = null;
 			for (Room room : Server.getInstance().getRooms()) {
 				if (room.getGameHandler() == null && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {

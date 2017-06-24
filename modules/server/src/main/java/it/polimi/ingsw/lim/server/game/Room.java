@@ -18,6 +18,7 @@ public class Room
 	private int timer;
 	private ScheduledExecutorService timerExecutor;
 	private GameHandler gameHandler;
+	private boolean endGame = false;
 
 	public Room(RoomType roomType)
 	{
@@ -41,6 +42,9 @@ public class Room
 			return;
 		}
 		player.getPlayer().setOnline(false);
+		if (this.endGame) {
+			return;
+		}
 		for (Connection otherPlayer : this.players) {
 			if (otherPlayer != player && otherPlayer.getPlayer().isOnline()) {
 				otherPlayer.sendGameDisconnectionOther(player.getPlayer().getIndex());
@@ -150,5 +154,15 @@ public class Room
 	public GameHandler getGameHandler()
 	{
 		return this.gameHandler;
+	}
+
+	public boolean isEndGame()
+	{
+		return this.endGame;
+	}
+
+	public void setEndGame(boolean endGame)
+	{
+		this.endGame = endGame;
 	}
 }

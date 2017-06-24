@@ -114,6 +114,11 @@ public class Player
 		this.availableTurns--;
 	}
 
+	public void resetAvailableTurns()
+	{
+		this.availableTurns = 4;
+	}
+
 	public boolean isOnline()
 	{
 		return this.isOnline;

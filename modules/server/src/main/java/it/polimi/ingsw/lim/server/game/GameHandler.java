@@ -8,6 +8,7 @@ import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
+import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.enums.LeaderCardType;
 import it.polimi.ingsw.lim.server.game.actions.*;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
@@ -16,9 +17,8 @@ import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.events.EventFirstTurn;
-import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
-import it.polimi.ingsw.lim.server.game.modifiers.ModifierGetDevelopmentCard;
+import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.player.PlayerResourceHandler;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
@@ -185,10 +185,8 @@ public class GameHandler
 			}
 		}
 		if (finished) {
-			if (player.isOnline()) {
-				player.getConnection().sendGameLeaderCardChosen();
-			}
 			this.timerExecutor.shutdownNow();
+			player.getConnection().sendGameLeaderCardChosen();
 			this.setupRound();
 			return;
 		}
@@ -209,9 +207,7 @@ public class GameHandler
 			this.availableLeaderCards.putAll(newlyAvailableLeaderCards);
 			this.sendLeaderCardsChoiceRequest();
 		} else {
-			if (player.isOnline()) {
-				player.getConnection().sendGameLeaderCardChosen();
-			}
+			player.getConnection().sendGameLeaderCardChosen();
 		}
 	}
 
@@ -233,7 +229,6 @@ public class GameHandler
 			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, PlayerResourceHandler.FAITH_POINTS_PRICES.get(player.getPlayerResourceHandler().getResources().get(ResourceType.FAITH_POINT)));
 			player.getPlayerResourceHandler().resetFaithPoints();
 		}
-		player.getConnection().sendGameExcommunicationChosen();
 		if (this.excommunicationChoosingPlayers.isEmpty()) {
 			this.checkedExcommunications = true;
 			this.setupRound();
@@ -256,11 +251,7 @@ public class GameHandler
 			this.setupPeriod();
 		} else if (this.currentRound == Round.SECOND) {
 			if (!this.checkedExcommunications) {
-				if (this.currentPeriod != Period.THIRD) {
-					this.calculateExcommunications();
-				} else {
-					this.endGame();
-				}
+				this.calculateExcommunications();
 				return;
 			}
 			this.setupPeriod();
@@ -270,6 +261,12 @@ public class GameHandler
 		if (this.currentPeriod == null) {
 			// the game has ended
 			return;
+		}
+		for (Player player : this.turnOrder) {
+			player.resetAvailableTurns();
+			if (player.isOnline()) {
+				player.getConnection().sendGameLogMessage("*** " + this.currentRound.name() + " ROUND ***");
+			}
 		}
 		this.setupTurnOrder();
 		int playerCounter = 0;
@@ -286,6 +283,7 @@ public class GameHandler
 		for (Player player : this.turnOrder) {
 			this.firstTurn.put(player, true);
 		}
+		this.turnPlayer.decreaseAvailableTurns();
 		this.sendGameUpdate(this.turnPlayer);
 	}
 
@@ -295,6 +293,11 @@ public class GameHandler
 			// the game is being started
 			this.currentPeriod = Period.FIRST;
 			this.currentRound = Round.FIRST;
+			for (Player player : this.turnOrder) {
+				if (player.isOnline()) {
+					player.getConnection().sendGameLogMessage("=== " + this.currentPeriod.name() + " PERIOD ===");
+				}
+			}
 			return;
 		}
 		this.currentPeriod = Period.next(this.currentPeriod);
@@ -303,12 +306,47 @@ public class GameHandler
 			this.endGame();
 			return;
 		}
+		for (Player player : this.turnOrder) {
+			if (player.isOnline()) {
+				player.getConnection().sendGameLogMessage("=== " + this.currentPeriod.name() + " PERIOD ===");
+			}
+		}
 		this.currentRound = Round.FIRST;
 		this.checkedExcommunications = false;
 	}
 
 	private void endGame()
 	{
+		this.room.setEndGame(true);
+		for (Player player : this.turnOrder) {
+			if (player.isOnline()) {
+				player.getConnection().sendGameLogMessage("==================\n=== GAME ENDED ===\n==================");
+			}
+		}
+		this.timer = 30;
+		for (Player otherPlayer : this.turnOrder) {
+			if (otherPlayer.isOnline()) {
+				otherPlayer.getConnection().sendGameTimer(this.timer);
+			}
+		}
+		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
+		this.timerExecutor.scheduleWithFixedDelay(() -> {
+			this.timer--;
+			if (this.timer == 0) {
+				for (Player player : this.turnOrder) {
+					if (player.isOnline()) {
+						player.getConnection().disconnect(false, "Thank you for playing!");
+					}
+				}
+				Server.getInstance().getRooms().remove(this.room);
+			} else {
+				for (Player otherPlayer : this.turnOrder) {
+					if (otherPlayer.isOnline()) {
+						otherPlayer.getConnection().sendGameTimer(this.timer);
+					}
+				}
+			}
+		}, 1, 1, TimeUnit.SECONDS);
 	}
 
 	private void rollDices()
@@ -347,6 +385,28 @@ public class GameHandler
 			this.setupRound();
 			return;
 		}
+		this.timer = 50;
+		for (Player otherPlayer : this.turnOrder) {
+			if (otherPlayer.isOnline()) {
+				otherPlayer.getConnection().sendGameTimer(this.timer);
+			}
+		}
+		this.timerExecutor.scheduleWithFixedDelay(() -> {
+			this.timer--;
+			if (this.timer == 0) {
+				List<Player> players = new ArrayList<>();
+				players.addAll(this.excommunicationChoosingPlayers);
+				for (Player player : players) {
+					this.applyExcommunicationChoice(player, false);
+				}
+			} else {
+				for (Player otherPlayer : this.turnOrder) {
+					if (otherPlayer.isOnline()) {
+						otherPlayer.getConnection().sendGameTimer(this.timer);
+					}
+				}
+			}
+		}, 1, 1, TimeUnit.SECONDS);
 		for (Player player : this.excommunicationChoosingPlayers) {
 			player.getConnection().sendGameExcommunicationChoiceRequest(this.currentPeriod);
 		}
@@ -438,7 +498,12 @@ public class GameHandler
 	private void sendGamePersonalBonusTileChoiceRequest(Player player)
 	{
 		player.getConnection().sendGamePersonalBonusTileChoiceRequest(this.availablePersonalBonusTiles);
-		this.timer = 2;
+		this.timer = 5;
+		for (Player otherPlayer : this.turnOrder) {
+			if (otherPlayer.isOnline()) {
+				otherPlayer.getConnection().sendGameTimer(this.timer);
+			}
+		}
 		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
 		this.timerExecutor.scheduleWithFixedDelay(() -> {
 			this.timer--;
@@ -475,7 +540,12 @@ public class GameHandler
 				playerAvailableLeaderCards.getKey().getConnection().sendGameLeaderCardChoiceRequest(playerAvailableLeaderCards.getValue());
 			}
 		}
-		this.timer = 2;
+		this.timer = 5;
+		for (Player otherPlayer : this.turnOrder) {
+			if (otherPlayer.isOnline()) {
+				otherPlayer.getConnection().sendGameTimer(this.timer);
+			}
+		}
 		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
 		this.timerExecutor.scheduleWithFixedDelay(() -> {
 			this.timer--;
@@ -498,7 +568,12 @@ public class GameHandler
 
 	public void sendGameUpdate(Player player)
 	{
-		this.timer = 200;
+		this.timer = 50;
+		for (Player otherPlayer : this.turnOrder) {
+			if (otherPlayer.isOnline()) {
+				otherPlayer.getConnection().sendGameTimer(this.timer);
+			}
+		}
 		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
 		this.timerExecutor.scheduleWithFixedDelay(() -> {
 			this.timer--;
@@ -518,7 +593,12 @@ public class GameHandler
 
 	public void sendGameUpdateExpectedAction(Player player, ExpectedAction expectedAction)
 	{
-		this.timer = 2;
+		this.timer = 5;
+		for (Player otherPlayer : this.turnOrder) {
+			if (otherPlayer.isOnline()) {
+				otherPlayer.getConnection().sendGameTimer(this.timer);
+			}
+		}
 		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
 		this.timerExecutor.scheduleWithFixedDelay(() -> {
 			this.timer--;
@@ -616,6 +696,17 @@ public class GameHandler
 		return playersInformations;
 	}
 
+	public List<Integer> generateLeaderCardsHand(Player player)
+	{
+		List<Integer> leaderCardsHand = new ArrayList<>();
+		for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {
+			if (!leaderCard.isPlayed()) {
+				leaderCardsHand.add(leaderCard.getIndex());
+			}
+		}
+		return leaderCardsHand;
+	}
+
 	public Map<ActionType, List<AvailableAction>> generateAvailableActions(Player player)
 	{
 		Map<ActionType, List<AvailableAction>> availableActions = new EnumMap<>(ActionType.class);
@@ -644,49 +735,54 @@ public class GameHandler
 				}
 			}
 		}
-		List<List<ResourceAmount>> discountChoices = new ArrayList<>();
-		for (Modifier modifier : player.getActiveModifiers()) {
-			if (modifier.getEventClass() == EventGetDevelopmentCard.class) {
-				discountChoices.addAll(((ModifierGetDevelopmentCard) modifier).getDiscountChoices());
-			}
-		}
 		for (CardType cardType : this.cardsHandler.getCurrentDevelopmentCards().keySet()) {
+			List<List<ResourceAmount>> discountChoices = new ArrayList<>();
+			for (Modifier modifier : player.getActiveModifiers()) {
+				if (modifier instanceof ModifierPickDevelopmentCard) {
+					if (((ModifierPickDevelopmentCard) modifier).getCardType() == cardType) {
+						discountChoices.addAll(((ModifierPickDevelopmentCard) modifier).getDiscountChoices());
+					}
+				}
+			}
 			for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).keySet()) {
 				List<ResourceCostOption> availableResourceCostOptions = new ArrayList<>();
 				List<List<ResourceAmount>> availableDiscountChoises = new ArrayList<>();
 				for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
-					boolean validFamilyMember = false;
 					if (player.getFamilyMembersPositions().get(familyMemberType) != BoardPosition.NONE) {
 						continue;
 					}
+					boolean validFamilyMember = false;
 					if (this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions().isEmpty()) {
-						if (!new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, null, null, player).isLegal()) {
-							continue;
+						if (new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, null, null, player).isLegal()) {
+							validFamilyMember = true;
 						}
 					} else {
 						for (ResourceCostOption resourceCostOption : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions()) {
 							if (discountChoices.isEmpty()) {
 								if (new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, null, resourceCostOption, player).isLegal()) {
 									validFamilyMember = true;
+									if (!availableResourceCostOptions.contains(resourceCostOption)) {
+										availableResourceCostOptions.add(resourceCostOption);
+									}
 								}
 							} else {
 								for (List<ResourceAmount> discountChoice : discountChoices) {
 									if (new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, discountChoice, resourceCostOption, player).isLegal()) {
 										validFamilyMember = true;
+										if (!availableResourceCostOptions.contains(resourceCostOption)) {
+											availableResourceCostOptions.add(resourceCostOption);
+										}
 										if (!availableDiscountChoises.contains(discountChoice)) {
 											availableDiscountChoises.add(discountChoice);
 										}
 									}
 								}
 							}
-							if (validFamilyMember) {
-								if (!availableResourceCostOptions.contains(resourceCostOption)) {
-									availableResourceCostOptions.add(resourceCostOption);
-								}
-							}
 						}
 					}
-					availableActions.get(ActionType.PICK_DEVELOPMENT_CARD).add(new AvailableActionPickDevelopmentCard(familyMemberType, cardType, row, availableResourceCostOptions, availableDiscountChoises));
+					if (validFamilyMember) {
+						availableActions.get(ActionType.PICK_DEVELOPMENT_CARD).add(new AvailableActionPickDevelopmentCard(familyMemberType, cardType, row, availableResourceCostOptions, availableDiscountChoises));
+					}
 				}
 			}
 		}
@@ -712,17 +808,6 @@ public class GameHandler
 			}
 		}
 		return availableActions;
-	}
-
-	public List<Integer> generateLeaderCardsHand(Player player)
-	{
-		List<Integer> leaderCardsHand = new ArrayList<>();
-		for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {
-			if (!leaderCard.isPlayed()) {
-				leaderCardsHand.add(leaderCard.getIndex());
-			}
-		}
-		return leaderCardsHand;
 	}
 
 	public CardsHandler getCardsHandler()

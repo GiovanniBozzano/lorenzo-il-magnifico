@@ -119,8 +119,8 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
 			personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getPlayerBoardTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
 		}
-		Room playerRoom;
-		if ((playerRoom = Room.getPlayerRoom(username)) == null) {
+		Room playerRoom = Room.getPlayerRoom(username);
+		if (playerRoom == null || playerRoom.isEndGame()) {
 			ConnectionRMI connectionRmi = new ConnectionRMI(username, serverSession);
 			ClientSession clientSession = new ClientSession(connectionRmi);
 			this.clientSessions.add(clientSession);

@@ -157,15 +157,10 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		new PacketGameAction(action).send(this.out);
 	}
 
-	void handleDisconnectionLogMessage(String text)
+	@Override
+	public void handleDisconnectionLogMessage(String text)
 	{
-		try {
-			this.join();
-		} catch (InterruptedException exception) {
-			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Thread.currentThread().interrupt();
-		}
-		Client.getDebugger().log(Level.INFO, text);
+		super.handleDisconnectionLogMessage(text);
 		this.sendDisconnectionAcknowledgement();
 	}
 

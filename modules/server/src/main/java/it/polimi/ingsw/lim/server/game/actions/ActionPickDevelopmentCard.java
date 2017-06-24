@@ -13,11 +13,11 @@ import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardCharacter;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
-import it.polimi.ingsw.lim.server.game.events.EventGetDevelopmentCard;
+import it.polimi.ingsw.lim.server.game.events.EventPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
-import it.polimi.ingsw.lim.server.game.modifiers.ModifierGetDevelopmentCard;
+import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 
@@ -117,12 +117,12 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			}
 		}
 		// check if the family member and servants value is high enough
-		EventGetDevelopmentCard eventGetDevelopmentCard = new EventGetDevelopmentCard(this.player, this.getCardType(), this.getRow(), this.getResourceCostOption() == null ? null : this.getResourceCostOption().getSpentResources(), effectiveFamilyMemberValue + effectiveServantsValue);
-		eventGetDevelopmentCard.applyModifiers(this.player.getActiveModifiers());
-		this.effectiveResourceCost = eventGetDevelopmentCard.getResourceCost();
-		this.getBoardPositionReward = eventGetDevelopmentCard.isGetBoardPositionReward();
+		EventPickDevelopmentCard eventPickDevelopmentCard = new EventPickDevelopmentCard(this.player, this.getCardType(), this.getRow(), this.getResourceCostOption() == null ? null : this.getResourceCostOption().getSpentResources(), effectiveFamilyMemberValue + effectiveServantsValue);
+		eventPickDevelopmentCard.applyModifiers(this.player.getActiveModifiers());
+		this.effectiveResourceCost = eventPickDevelopmentCard.getResourceCost();
+		this.getBoardPositionReward = eventPickDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
-		if (developmentCard.getCardType() == CardType.TERRITORY && !eventGetDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.getPlayerResourceHandler().isTerritorySlotAvailable(this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
+		if (developmentCard.getCardType() == CardType.TERRITORY && !eventPickDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.getPlayerResourceHandler().isTerritorySlotAvailable(this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
 			return false;
 		}
 		if (this.getResourceCostOption() == null && this.getDiscountChoice() != null) {
@@ -132,7 +132,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			if (this.getDiscountChoice() == null) {
 				boolean validDiscountChoice = true;
 				for (Modifier modifier : this.player.getActiveModifiers()) {
-					if (modifier.getEventClass() == EventGetDevelopmentCard.class && !((ModifierGetDevelopmentCard) modifier).getDiscountChoices().isEmpty()) {
+					if (modifier.getEventClass() == EventPickDevelopmentCard.class && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty()) {
 						validDiscountChoice = false;
 						break;
 					}
@@ -143,7 +143,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			} else {
 				boolean validDiscountChoice = false;
 				for (Modifier modifier : this.player.getActiveModifiers()) {
-					if (modifier.getEventClass() == EventGetDevelopmentCard.class && ((ModifierGetDevelopmentCard) modifier).getDiscountChoices().contains(this.getDiscountChoice())) {
+					if (modifier.getEventClass() == EventPickDevelopmentCard.class && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices().contains(this.getDiscountChoice())) {
 						validDiscountChoice = true;
 						break;
 					}
@@ -177,7 +177,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 				}
 			}
 		}
-		return eventGetDevelopmentCard.getActionValue() >= BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue();
+		return eventPickDevelopmentCard.getActionValue() >= BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue();
 	}
 
 	@Override

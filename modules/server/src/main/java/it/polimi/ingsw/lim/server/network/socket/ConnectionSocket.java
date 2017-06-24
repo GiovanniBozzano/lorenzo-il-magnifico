@@ -124,7 +124,8 @@ public class ConnectionSocket extends Connection
 		new PacketRoomTimer(timer).send(this.out);
 	}
 
-	private void sendDisconnectionLogMessage(String text)
+	@Override
+	public void sendDisconnectionLogMessage(String text)
 	{
 		new PacketDisconnectionLogMessage(text).send(this.out);
 	}
@@ -193,12 +194,6 @@ public class ConnectionSocket extends Connection
 	public void sendGameExcommunicationChoiceRequest(Period period)
 	{
 		new PacketGameExcommunicationChoiceRequest(period).send(this.out);
-	}
-
-	@Override
-	public void sendGameExcommunicationChosen()
-	{
-		new Packet(PacketType.GAME_EXCOMMUNICATION_CHOSEN).send(this.out);
 	}
 
 	@Override

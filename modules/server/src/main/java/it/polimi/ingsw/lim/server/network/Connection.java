@@ -78,6 +78,8 @@ public abstract class Connection
 
 	public abstract void sendRoomTimer(int timer);
 
+	public abstract void sendDisconnectionLogMessage(String text);
+
 	public abstract void sendChatMessage(String text);
 
 	public abstract void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex);
@@ -99,8 +101,6 @@ public abstract class Connection
 	public abstract void sendGameLeaderCardChosen();
 
 	public abstract void sendGameExcommunicationChoiceRequest(Period period);
-
-	public abstract void sendGameExcommunicationChosen();
 
 	public abstract void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions);
 

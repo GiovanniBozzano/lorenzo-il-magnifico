@@ -7,7 +7,7 @@ import it.polimi.ingsw.lim.server.game.player.Player;
 
 import java.util.List;
 
-public class EventGetDevelopmentCard extends Event
+public class EventPickDevelopmentCard extends Event
 {
 	private final CardType cardType;
 	private final Row row;
@@ -16,7 +16,7 @@ public class EventGetDevelopmentCard extends Event
 	private boolean ignoreTerritoriesSlotLock = false;
 	private boolean getBoardPositionReward = true;
 
-	public EventGetDevelopmentCard(Player player, CardType cardType, Row row, List<ResourceAmount> cost, int actionValue)
+	public EventPickDevelopmentCard(Player player, CardType cardType, Row row, List<ResourceAmount> cost, int actionValue)
 	{
 		super(player);
 		this.cardType = cardType;

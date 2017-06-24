@@ -21,7 +21,7 @@ class PacketListener extends Thread
 		});
 		PacketListener.PACKET_HANDLERS.put(PacketType.AUTHENTICATION_CONFIRMATION, packet -> ((ConnectionHandlerSocket) Client.getInstance().getConnectionHandler()).handleAuthenticationConfirmation(((PacketAuthenticationConfirmation) packet).getAuthenticationInformations()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.AUTHENTICATION_FAILURE, packet -> ((ConnectionHandlerSocket) Client.getInstance().getConnectionHandler()).handleAuthenticationFailure(((PacketAuthenticationFailure) packet).getText()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.DISCONNECTION_LOG_MESSAGE, packet -> ((ConnectionHandlerSocket) Client.getInstance().getConnectionHandler()).handleDisconnectionLogMessage(((PacketDisconnectionLogMessage) packet).getText()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.DISCONNECTION_LOG_MESSAGE, packet -> (Client.getInstance().getConnectionHandler()).handleDisconnectionLogMessage(((PacketDisconnectionLogMessage) packet).getText()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_ENTRY_OTHER, packet -> Client.getInstance().getConnectionHandler().handleRoomEntryOther(((PacketRoomEntryOther) packet).getName()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_EXIT_OTHER, packet -> Client.getInstance().getConnectionHandler().handleRoomExitOther(((PacketRoomExitOther) packet).getName()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_TIMER, packet -> Client.getInstance().getConnectionHandler().handleRoomTimer(((PacketRoomTimer) packet).getTimer()));
@@ -29,7 +29,6 @@ class PacketListener extends Thread
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_STARTED, packet -> Client.getInstance().getConnectionHandler().handleGameStarted(((PacketGameStarted) packet).getExcommunicationTiles(), ((PacketGameStarted) packet).getPlayersIdentifications(), ((PacketGameStarted) packet).getOwnPlayerIndex()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_DISCONNECTION_OTHER, packet -> Client.getInstance().getConnectionHandler().handleGameDisconnectionOther(((PacketGameDisconnectionOther) packet).getPlayerIndex()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_EXCOMMUNICATION_CHOICE_REQUEST, packet -> Client.getInstance().getConnectionHandler().handleGameExcommunicationChoiceRequest(((PacketGameExcommunicationChoiceRequest) packet).getPeriod()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_EXCOMMUNICATION_CHOSEN, packet -> Client.getInstance().getConnectionHandler().handleGameExcommunicationChosen());
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_LEADER_CARD_CHOICE_REQUEST, packet -> Client.getInstance().getConnectionHandler().handleGameLeaderCardChoiceRequest(((PacketGameLeaderCardChoiceRequest) packet).getAvailableLeaderCardsIndexes()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_LEADER_CARD_CHOSEN, packet -> Client.getInstance().getConnectionHandler().handleGameLeaderCardChosen());
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_LOG_MESSAGE, packet -> Client.getInstance().getConnectionHandler().handleGameLogMessage(((PacketGameLogMessage) packet).getText()));

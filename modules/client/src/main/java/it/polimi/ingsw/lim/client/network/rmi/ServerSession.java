@@ -53,6 +53,12 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
+	public void sendDisconnectionLogMessage(String text) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleDisconnectionLogMessage(text);
+	}
+
+	@Override
 	public void sendChatMessage(String text) throws RemoteException
 	{
 		Client.getInstance().getConnectionHandler().handleChatMessage(text);
@@ -116,12 +122,6 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	public void sendGameExcommunicationChoiceRequest(Period period) throws RemoteException
 	{
 		Client.getInstance().getConnectionHandler().handleGameExcommunicationChoiceRequest(period);
-	}
-
-	@Override
-	public void sendGameExcommunicationChosen() throws RemoteException
-	{
-		Client.getInstance().getConnectionHandler().handleGameExcommunicationChosen();
 	}
 
 	@Override

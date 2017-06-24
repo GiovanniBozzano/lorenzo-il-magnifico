@@ -11,8 +11,8 @@ import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
+import it.polimi.ingsw.lim.server.game.events.EventHarvest;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
-import it.polimi.ingsw.lim.server.game.events.EventStartHarvest;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.player.Player;
 
@@ -81,9 +81,9 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 		eventUseServants.applyModifiers(this.player.getActiveModifiers());
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
-		EventStartHarvest eventStartHarvest = new EventStartHarvest(this.player, effectiveFamilyMemberValue + effectiveServants);
-		eventStartHarvest.applyModifiers(this.player.getActiveModifiers());
-		this.effectiveActionValue = eventStartHarvest.getActionValue();
+		EventHarvest eventHarvest = new EventHarvest(this.player, effectiveFamilyMemberValue + effectiveServants);
+		eventHarvest.applyModifiers(this.player.getActiveModifiers());
+		this.effectiveActionValue = eventHarvest.getActionValue();
 		return this.effectiveActionValue >= (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformations(BoardPosition.HARVEST_BIG).getValue() : BoardHandler.getBoardPositionInformations(BoardPosition.HARVEST_SMALL).getValue());
 	}
 

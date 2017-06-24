@@ -12,7 +12,7 @@ import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
-import it.polimi.ingsw.lim.server.game.events.EventStartProduction;
+import it.polimi.ingsw.lim.server.game.events.EventProductionStart;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
@@ -82,9 +82,9 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 		eventUseServants.applyModifiers(this.player.getActiveModifiers());
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
-		EventStartProduction eventStartProduction = new EventStartProduction(this.player, effectiveFamilyMemberValue + effectiveServants);
-		eventStartProduction.applyModifiers(this.player.getActiveModifiers());
-		this.effectiveActionValue = eventStartProduction.getActionValue();
+		EventProductionStart eventProductionStart = new EventProductionStart(this.player, effectiveFamilyMemberValue + effectiveServants);
+		eventProductionStart.applyModifiers(this.player.getActiveModifiers());
+		this.effectiveActionValue = eventProductionStart.getActionValue();
 		return this.effectiveActionValue >= (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformations(BoardPosition.PRODUCTION_BIG).getValue() : BoardHandler.getBoardPositionInformations(BoardPosition.PRODUCTION_SMALL).getValue());
 	}
 
