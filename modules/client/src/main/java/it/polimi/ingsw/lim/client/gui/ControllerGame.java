@@ -455,6 +455,11 @@ public class ControllerGame extends CustomController
 	@FXML private JFXDialog leaderCardsChoiceDialog;
 	@FXML private JFXDialogLayout leaderCardsChoiceDialogLayout;
 	@FXML private HBox leaderCardsChoiceDialogHBox;
+	@FXML private JFXDialog excommunicationChoiceDialog;
+	@FXML private JFXDialogLayout excommunicationChoiceDialogLayout;
+	@FXML private Text excommunicationChoiceDialogText;
+	@FXML private JFXButton excommunicationChoiceDialogAcceptButton;
+	@FXML private JFXButton excommunicationChoiceDialogRefuseButton;
 	@FXML private JFXDialog marketActionChoiceDialog;
 	@FXML private JFXSlider marketActionChoiceDialogSlider;
 	@FXML private JFXButton marketActionChoiceDialogAcceptButton;
@@ -855,6 +860,20 @@ public class ControllerGame extends CustomController
 	}
 
 	@FXML
+	private void handleExcommunicationChoiceDialogAcceptButtonAction()
+	{
+		this.excommunicationChoiceDialog.close();
+		Client.getInstance().getConnectionHandler().sendGameExcommunicationPlayerChoice(true);
+	}
+
+	@FXML
+	private void handleExcommunicationChoiceDialogRefuseButtonAction()
+	{
+		this.excommunicationChoiceDialog.close();
+		Client.getInstance().getConnectionHandler().sendGameExcommunicationPlayerChoice(false);
+	}
+
+	@FXML
 	private void handleMarketActionChoiceDialogCancelButtonAction()
 	{
 		this.marketActionChoiceDialog.close();
@@ -1180,6 +1199,11 @@ public class ControllerGame extends CustomController
 		this.leaderCardsChoiceDialog.setDialogContainer(this.getStackPane());
 		this.leaderCardsChoiceDialog.setOverlayClose(false);
 		this.leaderCardsChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.excommunicationChoiceDialog);
+		this.excommunicationChoiceDialog.setTransitionType(DialogTransition.CENTER);
+		this.excommunicationChoiceDialog.setDialogContainer(this.getStackPane());
+		this.excommunicationChoiceDialog.setOverlayClose(false);
+		this.excommunicationChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.marketActionChoiceDialog);
 		this.marketActionChoiceDialog.setTransitionType(DialogTransition.CENTER);
 		this.marketActionChoiceDialog.setDialogContainer(this.getStackPane());
@@ -1439,6 +1463,8 @@ public class ControllerGame extends CustomController
 		}
 		this.leaderCardsTabPane.requestLayout();
 		this.leaderCardsButton.setPrefWidth(((VBox) this.leaderCardsButton.getParent()).getWidth());
+		this.excommunicationChoiceDialogAcceptButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogAcceptButton.getParent()).getWidth());
+		this.excommunicationChoiceDialogRefuseButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogRefuseButton.getParent()).getWidth());
 		this.marketActionChoiceDialogAcceptButton.setPrefWidth(((VBox) this.marketActionChoiceDialogAcceptButton.getParent()).getWidth());
 		this.marketActionChoiceDialogCancelButton.setPrefWidth(((VBox) this.marketActionChoiceDialogCancelButton.getParent()).getWidth());
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
@@ -2066,6 +2092,8 @@ public class ControllerGame extends CustomController
 
 	public void showExcommunicationChoiceDialog(Period period)
 	{
+		this.excommunicationChoiceDialogText.setText(GameStatus.getInstance().getExcommunicationTiles().get(GameStatus.getInstance().getCurrentExcommunicationTiles().get(period)).getModifier());
+		this.excommunicationChoiceDialog.show();
 	}
 
 	private void showMarketActionChoiceDialog(MarketSlot marketSlot, FamilyMemberType familyMemberType)
