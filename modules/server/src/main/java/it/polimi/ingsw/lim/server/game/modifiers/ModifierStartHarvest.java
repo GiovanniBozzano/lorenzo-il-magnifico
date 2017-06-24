@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.server.game.events.EventStartHarvest;
 
 /**
  * <p>Whenever you perform a Harvest action (through a Family Member or as an
- * efect of another card), increase the value of the action by {@code
+ * effect of another card), increase the value of the action by {@code
  * value}.
  */
 public class ModifierStartHarvest extends Modifier<EventStartHarvest>
@@ -20,5 +20,6 @@ public class ModifierStartHarvest extends Modifier<EventStartHarvest>
 	@Override
 	public void apply(EventStartHarvest event)
 	{
+		event.setActionValue(event.getActionValue() + this.value);
 	}
 }
