@@ -206,7 +206,7 @@ public class GameHandler
 			this.availableLeaderCards.clear();
 			this.availableLeaderCards.putAll(newlyAvailableLeaderCards);
 			this.sendLeaderCardsChoiceRequest();
-		} else {
+		} else if (this.timer > 3) {
 			player.getConnection().sendGameLeaderCardChosen();
 		}
 	}
@@ -264,6 +264,10 @@ public class GameHandler
 		}
 		for (Player player : this.turnOrder) {
 			player.resetAvailableTurns();
+			this.firstTurn.put(player, true);
+			for (FamilyMemberType familyMemberType : player.getFamilyMembersPositions().keySet()) {
+				player.getFamilyMembersPositions().put(familyMemberType, BoardPosition.NONE);
+			}
 			if (player.isOnline()) {
 				player.getConnection().sendGameLogMessage("*** " + this.currentRound.name() + " ROUND ***");
 			}
@@ -280,9 +284,6 @@ public class GameHandler
 		} while (!this.turnPlayer.isOnline());
 		this.rollDices();
 		this.drawCards();
-		for (Player player : this.turnOrder) {
-			this.firstTurn.put(player, true);
-		}
 		this.turnPlayer.decreaseAvailableTurns();
 		this.sendGameUpdate(this.turnPlayer);
 	}

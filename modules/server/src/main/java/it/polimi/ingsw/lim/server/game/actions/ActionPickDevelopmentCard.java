@@ -132,7 +132,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			if (this.getDiscountChoice() == null) {
 				boolean validDiscountChoice = true;
 				for (Modifier modifier : this.player.getActiveModifiers()) {
-					if (modifier.getEventClass() == EventPickDevelopmentCard.class && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty()) {
+					if (modifier instanceof ModifierPickDevelopmentCard && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty()) {
 						validDiscountChoice = false;
 						break;
 					}
@@ -143,7 +143,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			} else {
 				boolean validDiscountChoice = false;
 				for (Modifier modifier : this.player.getActiveModifiers()) {
-					if (modifier.getEventClass() == EventPickDevelopmentCard.class && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices().contains(this.getDiscountChoice())) {
+					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices().contains(this.getDiscountChoice())) {
 						validDiscountChoice = true;
 						break;
 					}
