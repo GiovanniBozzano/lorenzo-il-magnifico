@@ -1441,6 +1441,7 @@ public class ControllerGame extends CustomController
 		this.leaderCardsButton.setPrefWidth(((VBox) this.leaderCardsButton.getParent()).getWidth());
 		this.marketActionChoiceDialogAcceptButton.setPrefWidth(((VBox) this.marketActionChoiceDialogAcceptButton.getParent()).getWidth());
 		this.marketActionChoiceDialogCancelButton.setPrefWidth(((VBox) this.marketActionChoiceDialogCancelButton.getParent()).getWidth());
+		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
 		this.getStage().setX(bounds.getWidth() / 2 - this.getStage().getWidth() / 2);
 		this.getStage().setY(bounds.getHeight() / 2 - this.getStage().getHeight() / 2);
 	}
@@ -1453,6 +1454,7 @@ public class ControllerGame extends CustomController
 	public void setOwnTurn()
 	{
 		this.updateGame();
+		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
 		JFXNodesList familyMemberActionNodesList = new JFXNodesList();
@@ -1714,6 +1716,7 @@ public class ControllerGame extends CustomController
 	public void setOtherTurn()
 	{
 		this.updateGame();
+		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", true);
@@ -1770,6 +1773,9 @@ public class ControllerGame extends CustomController
 
 	private void updateGame()
 	{
+		this.leaderCardsChoiceDialog.close();
+		this.cardDialog.close();
+		this.leaderCardsDialog.close();
 		for (Row row : Row.values()) {
 			this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(null);
 			this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBorder(null);

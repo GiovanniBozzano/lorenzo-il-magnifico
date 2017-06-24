@@ -670,6 +670,19 @@
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
+	<JFXDialog fx:id="excommunicationChoiceDialog">
+		<JFXDialogLayout fx:id="excommunicationChoiceDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
+			<body>
+				<VBox>
+					<Text fx:id="excommunicationChoiceDialogText">
+						<font>
+							<Font name="Roboto Bold" size="12.0" />
+						</font>
+					</Text>
+				</VBox>
+			</body>
+		</JFXDialogLayout>
+	</JFXDialog>
 	<JFXDialog fx:id="marketActionChoiceDialog">
 		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>

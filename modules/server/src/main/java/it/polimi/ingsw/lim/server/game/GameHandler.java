@@ -186,7 +186,6 @@ public class GameHandler
 		}
 		if (finished) {
 			this.timerExecutor.shutdownNow();
-			player.getConnection().sendGameLeaderCardChosen();
 			this.setupRound();
 			return;
 		}
@@ -207,7 +206,9 @@ public class GameHandler
 			this.availableLeaderCards.putAll(newlyAvailableLeaderCards);
 			this.sendLeaderCardsChoiceRequest();
 		} else if (this.timer > 3) {
-			player.getConnection().sendGameLeaderCardChosen();
+			if (player.isOnline()) {
+				player.getConnection().sendGameLeaderCardChosen();
+			}
 		}
 	}
 
@@ -378,7 +379,11 @@ public class GameHandler
 				this.excommunicatedPlayers.get(this.currentPeriod).add(player);
 				player.getActiveModifiers().add(this.boardHandler.getExcommunicationTiles().get(this.currentPeriod).getModifier());
 			} else {
-				this.excommunicationChoosingPlayers.add(player);
+				if (this.currentPeriod != Period.THIRD) {
+					this.excommunicationChoosingPlayers.add(player);
+				} else {
+					player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, PlayerResourceHandler.FAITH_POINTS_PRICES.get(player.getPlayerResourceHandler().getResources().get(ResourceType.FAITH_POINT)));
+				}
 			}
 		}
 		if (this.excommunicationChoosingPlayers.isEmpty()) {
