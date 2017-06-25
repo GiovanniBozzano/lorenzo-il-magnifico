@@ -19,5 +19,6 @@ public class ModifierHarvest extends Modifier<EventHarvest>
 	@Override
 	public void apply(EventHarvest event)
 	{
+		event.setActionValue(event.getActionValue() + this.value);
 	}
 }

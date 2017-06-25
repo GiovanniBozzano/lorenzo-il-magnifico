@@ -20,7 +20,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 	@Override
 	public void execute()
 	{
-		Client.getDebugger().log(Level.INFO, "asd");
+		Client.getLogger().log(Level.INFO, "Waiting for other players...");
 		this.askPersonalBonusTileIndex();
 	}
 
@@ -28,7 +28,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 	{
 		Client.getLogger().log(Level.INFO, "Enter PersonalBonusTile choice...");
 		for (Entry<Integer, Integer> personalBonusTile : this.personalBonusTiles.entrySet()) {
-			Client.getLogger().log(Level.INFO, "== {0} ============", new Object[] { personalBonusTile.getKey() });
+			Client.getLogger().log(Level.INFO, "============ {0} ============", new Object[] { personalBonusTile.getKey() });
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("Production activation cost: ");
 			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionActivationCost());
@@ -52,7 +52,8 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
-			Client.getLogger().log(Level.INFO, "===================");
+			Client.getLogger().log(Level.INFO, stringBuilder.toString());
+			Client.getLogger().log(Level.INFO, "============================");
 			GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue());
 		}
 	}
