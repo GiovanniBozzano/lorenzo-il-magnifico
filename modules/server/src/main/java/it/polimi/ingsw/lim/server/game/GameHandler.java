@@ -274,6 +274,7 @@ public class GameHandler
 			}
 		}
 		this.setupTurnOrder();
+		this.boardHandler.getCouncilPalaceOrder().clear();
 		int playerCounter = 0;
 		do {
 			if (playerCounter >= this.turnOrder.size()) {

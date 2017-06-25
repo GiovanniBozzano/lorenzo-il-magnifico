@@ -12,6 +12,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -95,7 +98,9 @@ public class ControllerConnection extends CustomController
 
 	public void showDialog(String message)
 	{
-		this.getStackPane().getScene().getRoot().requestFocus();
+		MediaPlayer mediaPlayer = new MediaPlayer(new Media(this.getClass().getResource("/sounds/test3.mp3").toString()));
+		mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
+		mediaPlayer.play();
 		this.dialogLabel.setText(message);
 		this.dialog.show();
 	}

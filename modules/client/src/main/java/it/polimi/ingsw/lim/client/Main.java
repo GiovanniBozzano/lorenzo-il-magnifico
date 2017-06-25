@@ -10,7 +10,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main extends Application
@@ -32,18 +31,9 @@ public class Main extends Application
 		Client.getLogger().addHandler(consoleHandler);
 		Instance.setInstance(new Client());
 		Client.getInstance().getCliListener().execute(() -> {
-			while (!Thread.currentThread().isInterrupted()) {
-				try {
-					ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-					Client.getInstance().setCurrentCliHandler(cliHandler);
-					if (cliHandler != null) {
-						cliHandler.execute();
-					}
-				} catch (IllegalStateException exception) {
-					Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-					Thread.currentThread().interrupt();
-				}
-			}
+			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+			Client.getInstance().setCurrentCliHandler(cliHandler);
+			cliHandler.execute();
 		});
 	}
 
