@@ -365,7 +365,6 @@ public abstract class ConnectionHandler extends Thread
 			} else {
 				Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() });
 			}
-		} else {
 			GameStatus.getInstance().setCurrentTurnPlayerIndex(turnPlayerIndex);
 		}
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
