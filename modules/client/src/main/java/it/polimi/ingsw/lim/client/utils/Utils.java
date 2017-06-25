@@ -138,4 +138,12 @@ public class Utils
 		pane.setOnMouseEntered(event -> pane.setEffect(effect));
 		pane.setOnMouseExited(event -> pane.effectProperty().set(null));
 	}
+
+	public static void unsetEffect(Pane pane)
+	{
+		pane.setOnMouseEntered(event -> {
+		});
+		pane.setOnMouseExited(event -> {
+		});
+	}
 }

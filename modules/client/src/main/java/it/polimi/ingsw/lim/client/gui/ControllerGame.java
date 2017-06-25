@@ -460,14 +460,20 @@ public class ControllerGame extends CustomController
 	@FXML private Text excommunicationChoiceDialogText;
 	@FXML private JFXButton excommunicationChoiceDialogAcceptButton;
 	@FXML private JFXButton excommunicationChoiceDialogRefuseButton;
-	@FXML private JFXDialog marketActionChoiceDialog;
-	@FXML private JFXSlider marketActionChoiceDialogSlider;
-	@FXML private JFXButton marketActionChoiceDialogAcceptButton;
-	@FXML private JFXButton marketActionChoiceDialogCancelButton;
+	@FXML private JFXDialog servantsChoiceDialog;
+	@FXML private JFXSlider servantsChoiceDialogSlider;
+	@FXML private JFXButton servantsChoiceDialogAcceptButton;
+	@FXML private JFXButton servantsChoiceDialogCancelButton;
+	@FXML private JFXDialog pickDevelopmentCardChoiceDialog;
+	@FXML private JFXSlider pickDevelopmentCardChoiceDialogSlider;
+	@FXML private ScrollPane pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane;
+	@FXML private ScrollPane pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane;
+	@FXML private JFXButton pickDevelopmentCardChoiceDialogAcceptButton;
+	@FXML private JFXButton pickDevelopmentCardChoiceDialogCancelButton;
 	@FXML private JFXDialog cardDialog;
 	@FXML private JFXDialogLayout cardDialogLayout;
-	@FXML private HBox cardDialogHBox;
 	@FXML private Pane cardDialogPane;
+	@FXML private ScrollPane cardDialogScrollPane;
 	@FXML private Text cardDialogText;
 	@FXML private JFXDialog leaderCardsDialog;
 	@FXML private Pane player1LeaderCard1Hand;
@@ -510,6 +516,56 @@ public class ControllerGame extends CustomController
 	@FXML private Pane player5LeaderCard2Played;
 	@FXML private Pane player5LeaderCard3Played;
 	@FXML private Pane player5LeaderCard4Played;
+	private static final DropShadow MOUSE_OVER_EFFECT = new DropShadow();
+
+	static {
+		ControllerGame.MOUSE_OVER_EFFECT.setOffsetY(0.0D);
+		ControllerGame.MOUSE_OVER_EFFECT.setOffsetX(0.0D);
+		ControllerGame.MOUSE_OVER_EFFECT.setColor(Color.BLACK);
+		ControllerGame.MOUSE_OVER_EFFECT.setWidth(40.0D);
+		ControllerGame.MOUSE_OVER_EFFECT.setHeight(40.0D);
+	}
+
+	private static final DropShadow DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT = new DropShadow();
+
+	static {
+		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setOffsetY(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setOffsetX(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setColor(Color.YELLOW);
+		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setWidth(40.0D);
+		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setHeight(40.0D);
+	}
+
+	private static final DropShadow DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT = new DropShadow();
+
+	static {
+		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setOffsetY(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setOffsetX(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setColor(Color.BLUE);
+		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setWidth(40.0D);
+		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setHeight(40.0D);
+	}
+
+	private static final DropShadow DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT = new DropShadow();
+
+	static {
+		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setOffsetY(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setOffsetX(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setColor(Color.GREEN);
+		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setWidth(40.0D);
+		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setHeight(40.0D);
+	}
+
+	private static final DropShadow DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT = new DropShadow();
+
+	static {
+		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setOffsetY(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setOffsetX(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setColor(Color.PURPLE);
+		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setWidth(40.0D);
+		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setHeight(40.0D);
+	}
+
 	private final Map<Integer, Tab> playersTabs = new HashMap<>();
 	private final Map<Integer, Tab> leaderCardsTabs = new HashMap<>();
 	private final Map<Integer, Pane> playersBoards = new HashMap<>();
@@ -551,20 +607,115 @@ public class ControllerGame extends CustomController
 	private final Map<Pane, Integer> developmentCardsVentureIndexes = new HashMap<>();
 	private final Map<PlayerData, Integer> playersHarvestBigPositions = new HashMap<>();
 	private final Map<PlayerData, Integer> playersProductionBigPositions = new HashMap<>();
-	private final DropShadow borderGlow = new DropShadow();
 	private double ratio;
+	private boolean pickingDevelopmentCard = false;
+	private JFXButton pickDevelopmentCardActionButton;
+	private List<Pane> selectableDevelopmentCards = new ArrayList<>();
+	private CardType selectedDevelopmentCardType;
+	private Integer selectedDevelopmentCardIndex;
 
 	@FXML
 	private void boardDevelopmentCardPaneMouseClicked(MouseEvent event)
 	{
-		if (event.getButton() == MouseButton.SECONDARY) {
-			if (((Pane) event.getSource()).getBackground() == null) {
+		Pane pane = (Pane) event.getSource();
+		if (event.getButton() == MouseButton.PRIMARY && this.pickingDevelopmentCard && this.selectableDevelopmentCards.contains(pane)) {
+			if (this.developmentCardsBuildingPanes.containsValue(pane)) {
+				if (this.selectedDevelopmentCardType == CardType.BUILDING && this.selectedDevelopmentCardIndex.equals(this.developmentCardsBuildingIndexes.get(pane))) {
+					this.pickDevelopmentCardActionButton.setDisable(true);
+					this.selectedDevelopmentCardType = null;
+					this.selectedDevelopmentCardIndex = null;
+					pane.setEffect(null);
+					Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+				} else {
+					this.pickDevelopmentCardActionButton.setDisable(false);
+					this.selectedDevelopmentCardType = CardType.BUILDING;
+					this.selectedDevelopmentCardIndex = this.developmentCardsBuildingIndexes.get(pane);
+					for (CardType cardType : CardType.values()) {
+						for (Pane otherPane : this.developmentCardsPanes.get(cardType).values()) {
+							otherPane.setEffect(null);
+							if (this.selectableDevelopmentCards.contains(otherPane)) {
+								Utils.setEffect(otherPane, ControllerGame.MOUSE_OVER_EFFECT);
+							}
+						}
+					}
+					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT);
+					Utils.unsetEffect(pane);
+				}
+			} else if (this.developmentCardsCharacterPanes.containsValue(pane)) {
+				if (this.selectedDevelopmentCardType == CardType.CHARACTER && this.selectedDevelopmentCardIndex.equals(this.developmentCardsCharacterIndexes.get(pane))) {
+					this.pickDevelopmentCardActionButton.setDisable(true);
+					this.selectedDevelopmentCardType = null;
+					this.selectedDevelopmentCardIndex = null;
+					pane.setEffect(null);
+					Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+				} else {
+					this.pickDevelopmentCardActionButton.setDisable(false);
+					this.selectedDevelopmentCardType = CardType.CHARACTER;
+					this.selectedDevelopmentCardIndex = this.developmentCardsCharacterIndexes.get(pane);
+					for (CardType cardType : CardType.values()) {
+						for (Pane otherPane : this.developmentCardsPanes.get(cardType).values()) {
+							otherPane.setEffect(null);
+							if (this.selectableDevelopmentCards.contains(otherPane)) {
+								Utils.setEffect(otherPane, ControllerGame.MOUSE_OVER_EFFECT);
+							}
+						}
+					}
+					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT);
+					Utils.unsetEffect(pane);
+				}
+			} else if (this.developmentCardsTerritoryPanes.containsValue(pane)) {
+				if (this.selectedDevelopmentCardType == CardType.TERRITORY && this.selectedDevelopmentCardIndex.equals(this.developmentCardsTerritoryIndexes.get(pane))) {
+					this.pickDevelopmentCardActionButton.setDisable(true);
+					this.selectedDevelopmentCardType = null;
+					this.selectedDevelopmentCardIndex = null;
+					pane.setEffect(null);
+					Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+				} else {
+					this.pickDevelopmentCardActionButton.setDisable(false);
+					this.selectedDevelopmentCardType = CardType.TERRITORY;
+					this.selectedDevelopmentCardIndex = this.developmentCardsTerritoryIndexes.get(pane);
+					for (CardType cardType : CardType.values()) {
+						for (Pane otherPane : this.developmentCardsPanes.get(cardType).values()) {
+							otherPane.setEffect(null);
+							if (this.selectableDevelopmentCards.contains(otherPane)) {
+								Utils.setEffect(otherPane, ControllerGame.MOUSE_OVER_EFFECT);
+							}
+						}
+					}
+					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT);
+					Utils.unsetEffect(pane);
+				}
+			} else {
+				if (this.selectedDevelopmentCardType == CardType.VENTURE && this.selectedDevelopmentCardIndex.equals(this.developmentCardsVentureIndexes.get(pane))) {
+					this.pickDevelopmentCardActionButton.setDisable(true);
+					this.selectedDevelopmentCardType = null;
+					this.selectedDevelopmentCardIndex = null;
+					pane.setEffect(null);
+					Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+				} else {
+					this.pickDevelopmentCardActionButton.setDisable(false);
+					this.selectedDevelopmentCardType = CardType.VENTURE;
+					this.selectedDevelopmentCardIndex = this.developmentCardsVentureIndexes.get(pane);
+					for (CardType cardType : CardType.values()) {
+						for (Pane otherPane : this.developmentCardsPanes.get(cardType).values()) {
+							otherPane.setEffect(null);
+							if (this.selectableDevelopmentCards.contains(otherPane)) {
+								Utils.setEffect(otherPane, ControllerGame.MOUSE_OVER_EFFECT);
+							}
+						}
+					}
+					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT);
+					Utils.unsetEffect(pane);
+				}
+			}
+		} else if (event.getButton() == MouseButton.SECONDARY) {
+			if (pane.getBackground() == null) {
 				return;
 			}
-			this.cardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
-			if (this.developmentCardsBuildingPanes.containsValue(event.getSource())) {
-				StringBuilder stringBuilder = new StringBuilder();
-				DevelopmentCardBuildingInformations developmentCardBuildingInformations = GameStatus.getInstance().getDevelopmentCardsBuilding().get(this.developmentCardsBuildingIndexes.get(event.getSource()));
+			this.cardDialogPane.setBackground(pane.getBackground());
+			StringBuilder stringBuilder = new StringBuilder();
+			if (this.developmentCardsBuildingPanes.containsValue(pane)) {
+				DevelopmentCardBuildingInformations developmentCardBuildingInformations = GameStatus.getInstance().getDevelopmentCardsBuilding().get(this.developmentCardsBuildingIndexes.get(pane));
 				stringBuilder.append('\n');
 				if (!developmentCardBuildingInformations.getResourceCostOptions().isEmpty()) {
 					stringBuilder.append("\nRESOURCE COST OPTIONS:");
@@ -575,7 +726,7 @@ public class ControllerGame extends CustomController
 							stringBuilder.append('\n');
 							stringBuilder.append("Required resources:");
 							for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
-								stringBuilder.append("\n    -");
+								stringBuilder.append("\n    - ");
 								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(resourceAmount.getAmount());
@@ -585,7 +736,7 @@ public class ControllerGame extends CustomController
 							stringBuilder.append('\n');
 							stringBuilder.append("Spent resources:");
 							for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
-								stringBuilder.append("\n    -");
+								stringBuilder.append("\n    - ");
 								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(resourceAmount.getAmount());
@@ -601,7 +752,7 @@ public class ControllerGame extends CustomController
 				if (!developmentCardBuildingInformations.getReward().getResourceAmounts().isEmpty()) {
 					stringBuilder.append("\n\nInstant resources:");
 					for (ResourceAmount resourceAmount : (developmentCardBuildingInformations.getReward().getResourceAmounts())) {
-						stringBuilder.append("\n    -");
+						stringBuilder.append("\n    - ");
 						stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 						stringBuilder.append(": ");
 						stringBuilder.append(resourceAmount.getAmount());
@@ -623,7 +774,7 @@ public class ControllerGame extends CustomController
 							stringBuilder.append('\n');
 							stringBuilder.append("Employed resources:");
 							for (ResourceAmount resourceAmount : resourcetradeOption.getEmployedResources()) {
-								stringBuilder.append("\n    -");
+								stringBuilder.append("\n    - ");
 								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(resourceAmount.getAmount());
@@ -633,7 +784,7 @@ public class ControllerGame extends CustomController
 							stringBuilder.append('\n');
 							stringBuilder.append("Produced resources:");
 							for (ResourceAmount resourceAmount : resourcetradeOption.getProducedResources()) {
-								stringBuilder.append("\n    -");
+								stringBuilder.append("\n    - ");
 								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(resourceAmount.getAmount());
@@ -643,11 +794,8 @@ public class ControllerGame extends CustomController
 						stringBuilder.append("==============");
 					}
 				}
-				this.cardDialogText.setText(stringBuilder.toString());
-				this.cardDialog.show();
-			} else if (this.developmentCardsCharacterPanes.containsValue(event.getSource())) {
-				StringBuilder stringBuilder = new StringBuilder();
-				DevelopmentCardCharacterInformations developmentCardCharacterInformations = GameStatus.getInstance().getDevelopmentCardsCharacter().get(this.developmentCardsCharacterIndexes.get(event.getSource()));
+			} else if (this.developmentCardsCharacterPanes.containsValue(pane)) {
+				DevelopmentCardCharacterInformations developmentCardCharacterInformations = GameStatus.getInstance().getDevelopmentCardsCharacter().get(this.developmentCardsCharacterIndexes.get(pane));
 				stringBuilder.append('\n');
 				if (!developmentCardCharacterInformations.getResourceCostOptions().isEmpty()) {
 					stringBuilder.append("\nRESOURCE COST OPTIONS:");
@@ -658,7 +806,7 @@ public class ControllerGame extends CustomController
 							stringBuilder.append('\n');
 							stringBuilder.append("Required resources:");
 							for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
-								stringBuilder.append("\n    -");
+								stringBuilder.append("\n    - ");
 								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(resourceAmount.getAmount());
@@ -668,7 +816,7 @@ public class ControllerGame extends CustomController
 							stringBuilder.append('\n');
 							stringBuilder.append("Spent resources:");
 							for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
-								stringBuilder.append("\n    -");
+								stringBuilder.append("\n    - ");
 								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(resourceAmount.getAmount());
@@ -684,7 +832,7 @@ public class ControllerGame extends CustomController
 				if (!developmentCardCharacterInformations.getReward().getResourceAmounts().isEmpty()) {
 					stringBuilder.append("\n\nInstant resources:");
 					for (ResourceAmount resourceAmount : (developmentCardCharacterInformations.getReward().getResourceAmounts())) {
-						stringBuilder.append("\n    -");
+						stringBuilder.append("\n    - ");
 						stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 						stringBuilder.append(": ");
 						stringBuilder.append(resourceAmount.getAmount());
@@ -700,11 +848,8 @@ public class ControllerGame extends CustomController
 					stringBuilder.append("\n| ");
 					stringBuilder.append(developmentCardCharacterInformations.getModifierInformations().replace("\n", "\n| "));
 				}
-				this.cardDialogText.setText(stringBuilder.toString());
-				this.cardDialog.show();
-			} else if (this.developmentCardsTerritoryPanes.containsValue(event.getSource())) {
-				StringBuilder stringBuilder = new StringBuilder();
-				DevelopmentCardTerritoryInformations developmentCardTerritoryInformations = GameStatus.getInstance().getDevelopmentCardsTerritory().get(this.developmentCardsTerritoryIndexes.get(event.getSource()));
+			} else if (this.developmentCardsTerritoryPanes.containsValue(pane)) {
+				DevelopmentCardTerritoryInformations developmentCardTerritoryInformations = GameStatus.getInstance().getDevelopmentCardsTerritory().get(this.developmentCardsTerritoryIndexes.get(pane));
 				stringBuilder.append('\n');
 				if (!developmentCardTerritoryInformations.getResourceCostOptions().isEmpty()) {
 					stringBuilder.append("\nRESOURCE COST OPTIONS:");
@@ -715,7 +860,7 @@ public class ControllerGame extends CustomController
 							stringBuilder.append('\n');
 							stringBuilder.append("Required resources:");
 							for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
-								stringBuilder.append("\n    -");
+								stringBuilder.append("\n    - ");
 								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(resourceAmount.getAmount());
@@ -725,7 +870,7 @@ public class ControllerGame extends CustomController
 							stringBuilder.append('\n');
 							stringBuilder.append("Spent resources:");
 							for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
-								stringBuilder.append("\n    -");
+								stringBuilder.append("\n    - ");
 								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(resourceAmount.getAmount());
@@ -741,7 +886,7 @@ public class ControllerGame extends CustomController
 				if (!developmentCardTerritoryInformations.getReward().getResourceAmounts().isEmpty()) {
 					stringBuilder.append("\n\nInstant resources:");
 					for (ResourceAmount resourceAmount : (developmentCardTerritoryInformations.getReward().getResourceAmounts())) {
-						stringBuilder.append("\n    -");
+						stringBuilder.append("\n    - ");
 						stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 						stringBuilder.append(": ");
 						stringBuilder.append(resourceAmount.getAmount());
@@ -758,17 +903,14 @@ public class ControllerGame extends CustomController
 					stringBuilder.append('\n');
 					stringBuilder.append("HARVEST RESOURCES:");
 					for (ResourceAmount resourceAmount : developmentCardTerritoryInformations.getHarvestResources()) {
-						stringBuilder.append("\n    -");
+						stringBuilder.append("\n    - ");
 						stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 						stringBuilder.append(": ");
 						stringBuilder.append(resourceAmount.getAmount());
 					}
 				}
-				this.cardDialogText.setText(stringBuilder.toString());
-				this.cardDialog.show();
-			} else if (this.developmentCardsVenturePanes.containsValue(event.getSource())) {
-				StringBuilder stringBuilder = new StringBuilder();
-				DevelopmentCardVentureInformations developmentCardVentureInformations = GameStatus.getInstance().getDevelopmentCardsVenture().get(this.developmentCardsVentureIndexes.get(event.getSource()));
+			} else if (this.developmentCardsVenturePanes.containsValue(pane)) {
+				DevelopmentCardVentureInformations developmentCardVentureInformations = GameStatus.getInstance().getDevelopmentCardsVenture().get(this.developmentCardsVentureIndexes.get(pane));
 				stringBuilder.append('\n');
 				if (!developmentCardVentureInformations.getResourceCostOptions().isEmpty()) {
 					stringBuilder.append("\nRESOURCE COST OPTIONS:");
@@ -779,7 +921,7 @@ public class ControllerGame extends CustomController
 							stringBuilder.append('\n');
 							stringBuilder.append("Required resources:");
 							for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
-								stringBuilder.append("\n    -");
+								stringBuilder.append("\n    - ");
 								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(resourceAmount.getAmount());
@@ -789,7 +931,7 @@ public class ControllerGame extends CustomController
 							stringBuilder.append('\n');
 							stringBuilder.append("Spent resources:");
 							for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
-								stringBuilder.append("\n    -");
+								stringBuilder.append("\n    - ");
 								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(resourceAmount.getAmount());
@@ -805,7 +947,7 @@ public class ControllerGame extends CustomController
 				if (!developmentCardVentureInformations.getReward().getResourceAmounts().isEmpty()) {
 					stringBuilder.append("\n\nInstant resources:");
 					for (ResourceAmount resourceAmount : (developmentCardVentureInformations.getReward().getResourceAmounts())) {
-						stringBuilder.append("\n    -");
+						stringBuilder.append("\n    - ");
 						stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
 						stringBuilder.append(": ");
 						stringBuilder.append(resourceAmount.getAmount());
@@ -818,11 +960,9 @@ public class ControllerGame extends CustomController
 				}
 				stringBuilder.append("\n\nVICTORY VALUE: ");
 				stringBuilder.append(developmentCardVentureInformations.getVictoryValue());
-				this.cardDialogText.setText(stringBuilder.toString());
-				this.cardDialogLayout.setPrefWidth(this.territory1.getWidth() * 4 + this.cardDialogHBox.getSpacing() + this.cardDialogText.getLayoutBounds().getWidth() + this.cardDialogLayout.getInsets().getLeft() + this.cardDialogLayout.getInsets().getRight());
-				this.cardDialogLayout.setPrefHeight(this.territory1.getHeight() * 4 + this.cardDialogLayout.getInsets().getTop() + this.cardDialogLayout.getInsets().getBottom() + 20.0D);
-				this.cardDialog.show();
 			}
+			this.cardDialogText.setText(stringBuilder.toString());
+			this.cardDialog.show();
 		}
 	}
 
@@ -874,9 +1014,15 @@ public class ControllerGame extends CustomController
 	}
 
 	@FXML
-	private void handleMarketActionChoiceDialogCancelButtonAction()
+	private void handleServantsChoiceDialogCancelButtonAction()
 	{
-		this.marketActionChoiceDialog.close();
+		this.servantsChoiceDialog.close();
+	}
+
+	@FXML
+	private void handlePickDevelopmentCardChoiceDialogCancelButtonAction()
+	{
+		this.pickDevelopmentCardChoiceDialog.close();
 	}
 
 	@Override
@@ -1137,11 +1283,11 @@ public class ControllerGame extends CustomController
 		this.player2DevelopmentCards.put(CardType.CHARACTER, Arrays.asList(this.player2Character1, this.player2Character2, this.player2Character3, this.player2Character4, this.player2Character5, this.player2Character6));
 		this.player2DevelopmentCards.put(CardType.TERRITORY, Arrays.asList(this.player2Territory1, this.player2Territory2, this.player2Territory3, this.player2Territory4, this.player2Territory5, this.player2Territory6));
 		this.player2DevelopmentCards.put(CardType.VENTURE, Arrays.asList(this.player2Venture1, this.player2Venture2, this.player2Venture3, this.player2Venture4, this.player2Venture5, this.player2Venture6));
-		this.player2DevelopmentCards.put(CardType.BUILDING, Arrays.asList(this.player2Building1, this.player2Building2, this.player2Building3, this.player2Building4, this.player2Building5, this.player2Building6));
+		this.player3DevelopmentCards.put(CardType.BUILDING, Arrays.asList(this.player3Building1, this.player3Building2, this.player3Building3, this.player3Building4, this.player3Building5, this.player3Building6));
 		this.player3DevelopmentCards.put(CardType.CHARACTER, Arrays.asList(this.player3Character1, this.player3Character2, this.player3Character3, this.player3Character4, this.player3Character5, this.player3Character6));
 		this.player3DevelopmentCards.put(CardType.TERRITORY, Arrays.asList(this.player3Territory1, this.player3Territory2, this.player3Territory3, this.player3Territory4, this.player3Territory5, this.player3Territory6));
 		this.player3DevelopmentCards.put(CardType.VENTURE, Arrays.asList(this.player3Venture1, this.player3Venture2, this.player3Venture3, this.player3Venture4, this.player3Venture5, this.player3Venture6));
-		this.player3DevelopmentCards.put(CardType.BUILDING, Arrays.asList(this.player3Building1, this.player3Building2, this.player3Building3, this.player3Building4, this.player3Building5, this.player3Building6));
+		this.player4DevelopmentCards.put(CardType.BUILDING, Arrays.asList(this.player4Building1, this.player4Building2, this.player4Building3, this.player4Building4, this.player4Building5, this.player4Building6));
 		this.player4DevelopmentCards.put(CardType.CHARACTER, Arrays.asList(this.player4Character1, this.player4Character2, this.player4Character3, this.player4Character4, this.player4Character5, this.player4Character6));
 		this.player4DevelopmentCards.put(CardType.TERRITORY, Arrays.asList(this.player4Territory1, this.player4Territory2, this.player4Territory3, this.player4Territory4, this.player4Territory5, this.player4Territory6));
 		this.player4DevelopmentCards.put(CardType.VENTURE, Arrays.asList(this.player4Venture1, this.player4Venture2, this.player4Venture3, this.player4Venture4, this.player4Venture5, this.player4Venture6));
@@ -1204,11 +1350,16 @@ public class ControllerGame extends CustomController
 		this.excommunicationChoiceDialog.setDialogContainer(this.getStackPane());
 		this.excommunicationChoiceDialog.setOverlayClose(false);
 		this.excommunicationChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
-		this.getStackPane().getChildren().remove(this.marketActionChoiceDialog);
-		this.marketActionChoiceDialog.setTransitionType(DialogTransition.CENTER);
-		this.marketActionChoiceDialog.setDialogContainer(this.getStackPane());
-		this.marketActionChoiceDialog.setOverlayClose(false);
-		this.marketActionChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.servantsChoiceDialog);
+		this.servantsChoiceDialog.setTransitionType(DialogTransition.CENTER);
+		this.servantsChoiceDialog.setDialogContainer(this.getStackPane());
+		this.servantsChoiceDialog.setOverlayClose(false);
+		this.servantsChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.pickDevelopmentCardChoiceDialog);
+		this.pickDevelopmentCardChoiceDialog.setTransitionType(DialogTransition.CENTER);
+		this.pickDevelopmentCardChoiceDialog.setDialogContainer(this.getStackPane());
+		this.pickDevelopmentCardChoiceDialog.setOverlayClose(false);
+		this.pickDevelopmentCardChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.cardDialog);
 		this.cardDialog.setTransitionType(DialogTransition.CENTER);
 		this.cardDialog.setDialogContainer(this.getStackPane());
@@ -1218,147 +1369,16 @@ public class ControllerGame extends CustomController
 		this.leaderCardsDialog.setDialogContainer(this.getStackPane());
 		this.leaderCardsDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getStylesheets().add(Client.getInstance().getClass().getResource("/css/jfoenix-nodes-list-button.css").toExternalForm());
-		this.borderGlow.setOffsetY(0.0D);
-		this.borderGlow.setOffsetX(0.0D);
-		this.borderGlow.setColor(Color.BLACK);
-		this.borderGlow.setWidth(40.0D);
-		this.borderGlow.setHeight(40.0D);
-		Utils.setEffect(this.building1, this.borderGlow);
-		Utils.setEffect(this.building2, this.borderGlow);
-		Utils.setEffect(this.building3, this.borderGlow);
-		Utils.setEffect(this.building4, this.borderGlow);
-		Utils.setEffect(this.character1, this.borderGlow);
-		Utils.setEffect(this.character2, this.borderGlow);
-		Utils.setEffect(this.character3, this.borderGlow);
-		Utils.setEffect(this.character4, this.borderGlow);
-		Utils.setEffect(this.territory1, this.borderGlow);
-		Utils.setEffect(this.territory2, this.borderGlow);
-		Utils.setEffect(this.territory3, this.borderGlow);
-		Utils.setEffect(this.territory4, this.borderGlow);
-		Utils.setEffect(this.venture1, this.borderGlow);
-		Utils.setEffect(this.venture2, this.borderGlow);
-		Utils.setEffect(this.venture3, this.borderGlow);
-		Utils.setEffect(this.venture4, this.borderGlow);
-		Utils.setEffect(this.player1Building1, this.borderGlow);
-		Utils.setEffect(this.player1Building2, this.borderGlow);
-		Utils.setEffect(this.player1Building3, this.borderGlow);
-		Utils.setEffect(this.player1Building4, this.borderGlow);
-		Utils.setEffect(this.player1Building5, this.borderGlow);
-		Utils.setEffect(this.player1Building6, this.borderGlow);
-		Utils.setEffect(this.player1Character1, this.borderGlow);
-		Utils.setEffect(this.player1Character2, this.borderGlow);
-		Utils.setEffect(this.player1Character3, this.borderGlow);
-		Utils.setEffect(this.player1Character4, this.borderGlow);
-		Utils.setEffect(this.player1Character5, this.borderGlow);
-		Utils.setEffect(this.player1Character6, this.borderGlow);
-		Utils.setEffect(this.player1Territory1, this.borderGlow);
-		Utils.setEffect(this.player1Territory2, this.borderGlow);
-		Utils.setEffect(this.player1Territory3, this.borderGlow);
-		Utils.setEffect(this.player1Territory4, this.borderGlow);
-		Utils.setEffect(this.player1Territory5, this.borderGlow);
-		Utils.setEffect(this.player1Territory6, this.borderGlow);
-		Utils.setEffect(this.player1Venture1, this.borderGlow);
-		Utils.setEffect(this.player1Venture2, this.borderGlow);
-		Utils.setEffect(this.player1Venture3, this.borderGlow);
-		Utils.setEffect(this.player1Venture4, this.borderGlow);
-		Utils.setEffect(this.player1Venture5, this.borderGlow);
-		Utils.setEffect(this.player1Venture6, this.borderGlow);
-		Utils.setEffect(this.player2Building1, this.borderGlow);
-		Utils.setEffect(this.player2Building2, this.borderGlow);
-		Utils.setEffect(this.player2Building3, this.borderGlow);
-		Utils.setEffect(this.player2Building4, this.borderGlow);
-		Utils.setEffect(this.player2Building5, this.borderGlow);
-		Utils.setEffect(this.player2Building6, this.borderGlow);
-		Utils.setEffect(this.player2Character1, this.borderGlow);
-		Utils.setEffect(this.player2Character2, this.borderGlow);
-		Utils.setEffect(this.player2Character3, this.borderGlow);
-		Utils.setEffect(this.player2Character4, this.borderGlow);
-		Utils.setEffect(this.player2Character5, this.borderGlow);
-		Utils.setEffect(this.player2Character6, this.borderGlow);
-		Utils.setEffect(this.player2Territory1, this.borderGlow);
-		Utils.setEffect(this.player2Territory2, this.borderGlow);
-		Utils.setEffect(this.player2Territory3, this.borderGlow);
-		Utils.setEffect(this.player2Territory4, this.borderGlow);
-		Utils.setEffect(this.player2Territory5, this.borderGlow);
-		Utils.setEffect(this.player2Territory6, this.borderGlow);
-		Utils.setEffect(this.player2Venture1, this.borderGlow);
-		Utils.setEffect(this.player2Venture2, this.borderGlow);
-		Utils.setEffect(this.player2Venture3, this.borderGlow);
-		Utils.setEffect(this.player2Venture4, this.borderGlow);
-		Utils.setEffect(this.player2Venture5, this.borderGlow);
-		Utils.setEffect(this.player2Venture6, this.borderGlow);
-		Utils.setEffect(this.player3Building1, this.borderGlow);
-		Utils.setEffect(this.player3Building2, this.borderGlow);
-		Utils.setEffect(this.player3Building3, this.borderGlow);
-		Utils.setEffect(this.player3Building4, this.borderGlow);
-		Utils.setEffect(this.player3Building5, this.borderGlow);
-		Utils.setEffect(this.player3Building6, this.borderGlow);
-		Utils.setEffect(this.player3Character1, this.borderGlow);
-		Utils.setEffect(this.player3Character2, this.borderGlow);
-		Utils.setEffect(this.player3Character3, this.borderGlow);
-		Utils.setEffect(this.player3Character4, this.borderGlow);
-		Utils.setEffect(this.player3Character5, this.borderGlow);
-		Utils.setEffect(this.player3Character6, this.borderGlow);
-		Utils.setEffect(this.player3Territory1, this.borderGlow);
-		Utils.setEffect(this.player3Territory2, this.borderGlow);
-		Utils.setEffect(this.player3Territory3, this.borderGlow);
-		Utils.setEffect(this.player3Territory4, this.borderGlow);
-		Utils.setEffect(this.player3Territory5, this.borderGlow);
-		Utils.setEffect(this.player3Territory6, this.borderGlow);
-		Utils.setEffect(this.player3Venture1, this.borderGlow);
-		Utils.setEffect(this.player3Venture2, this.borderGlow);
-		Utils.setEffect(this.player3Venture3, this.borderGlow);
-		Utils.setEffect(this.player3Venture4, this.borderGlow);
-		Utils.setEffect(this.player3Venture5, this.borderGlow);
-		Utils.setEffect(this.player3Venture6, this.borderGlow);
-		Utils.setEffect(this.player4Building1, this.borderGlow);
-		Utils.setEffect(this.player4Building2, this.borderGlow);
-		Utils.setEffect(this.player4Building3, this.borderGlow);
-		Utils.setEffect(this.player4Building4, this.borderGlow);
-		Utils.setEffect(this.player4Building5, this.borderGlow);
-		Utils.setEffect(this.player4Building6, this.borderGlow);
-		Utils.setEffect(this.player4Character1, this.borderGlow);
-		Utils.setEffect(this.player4Character2, this.borderGlow);
-		Utils.setEffect(this.player4Character3, this.borderGlow);
-		Utils.setEffect(this.player4Character4, this.borderGlow);
-		Utils.setEffect(this.player4Character5, this.borderGlow);
-		Utils.setEffect(this.player4Character6, this.borderGlow);
-		Utils.setEffect(this.player4Territory1, this.borderGlow);
-		Utils.setEffect(this.player4Territory2, this.borderGlow);
-		Utils.setEffect(this.player4Territory3, this.borderGlow);
-		Utils.setEffect(this.player4Territory4, this.borderGlow);
-		Utils.setEffect(this.player4Territory5, this.borderGlow);
-		Utils.setEffect(this.player4Territory6, this.borderGlow);
-		Utils.setEffect(this.player4Venture1, this.borderGlow);
-		Utils.setEffect(this.player4Venture2, this.borderGlow);
-		Utils.setEffect(this.player4Venture3, this.borderGlow);
-		Utils.setEffect(this.player4Venture4, this.borderGlow);
-		Utils.setEffect(this.player4Venture5, this.borderGlow);
-		Utils.setEffect(this.player4Venture6, this.borderGlow);
-		Utils.setEffect(this.player5Building1, this.borderGlow);
-		Utils.setEffect(this.player5Building2, this.borderGlow);
-		Utils.setEffect(this.player5Building3, this.borderGlow);
-		Utils.setEffect(this.player5Building4, this.borderGlow);
-		Utils.setEffect(this.player5Building5, this.borderGlow);
-		Utils.setEffect(this.player5Building6, this.borderGlow);
-		Utils.setEffect(this.player5Character1, this.borderGlow);
-		Utils.setEffect(this.player5Character2, this.borderGlow);
-		Utils.setEffect(this.player5Character3, this.borderGlow);
-		Utils.setEffect(this.player5Character4, this.borderGlow);
-		Utils.setEffect(this.player5Character5, this.borderGlow);
-		Utils.setEffect(this.player5Character6, this.borderGlow);
-		Utils.setEffect(this.player5Territory1, this.borderGlow);
-		Utils.setEffect(this.player5Territory2, this.borderGlow);
-		Utils.setEffect(this.player5Territory3, this.borderGlow);
-		Utils.setEffect(this.player5Territory4, this.borderGlow);
-		Utils.setEffect(this.player5Territory5, this.borderGlow);
-		Utils.setEffect(this.player5Territory6, this.borderGlow);
-		Utils.setEffect(this.player5Venture1, this.borderGlow);
-		Utils.setEffect(this.player5Venture2, this.borderGlow);
-		Utils.setEffect(this.player5Venture3, this.borderGlow);
-		Utils.setEffect(this.player5Venture4, this.borderGlow);
-		Utils.setEffect(this.player5Venture5, this.borderGlow);
-		Utils.setEffect(this.player5Venture6, this.borderGlow);
+		for (CardType cardType : CardType.values()) {
+			for (Pane pane : this.developmentCardsPanes.get(cardType).values()) {
+				Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+			}
+			for (int index = 0; index < 5; index++) {
+				for (Pane pane : this.playersDevelopmentCards.get(index).get(cardType)) {
+					Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+				}
+			}
+		}
 		this.gameBoard.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(ControllerGame.BOARD_IMAGES.get(GameStatus.getInstance().getCurrentPlayersData().size())).toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		for (Entry<Integer, Tab> tab : this.playersTabs.entrySet()) {
 			if (!GameStatus.getInstance().getCurrentPlayersData().keySet().contains(tab.getKey())) {
@@ -1449,24 +1469,27 @@ public class ControllerGame extends CustomController
 		Utils.resizeChildrenNode(this.playerBoard5, this.ratio, this.ratio);
 		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsVenture, this.ratio, this.ratio);
 		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsCharacter, this.ratio, this.ratio);
-		this.cardDialogPane.setPrefWidth(this.territory1.getWidth() * 4);
-		this.cardDialogPane.setPrefHeight(this.territory1.getHeight() * 4);
+		this.cardDialogPane.setPrefWidth(this.building1.getWidth() * 4);
+		this.cardDialogPane.setPrefHeight(this.building1.getHeight() * 4);
+		this.cardDialogScrollPane.setPrefHeight(this.building1.getHeight() * 4);
 		for (Integer playerIndex : GameStatus.getInstance().getCurrentPlayersData().keySet()) {
 			for (Pane pane : this.playersLeaderCardsHand.get(playerIndex)) {
-				pane.setPrefWidth(this.territory1.getWidth() * 2.5);
-				pane.setPrefHeight(this.territory1.getHeight() * 2.5);
+				pane.setPrefWidth(this.building1.getWidth() * 2.5);
+				pane.setPrefHeight(this.building1.getHeight() * 2.5);
 			}
 			for (Pane pane : this.playersLeaderCardsPlayed.get(playerIndex)) {
-				pane.setPrefWidth(this.territory1.getWidth() * 2.5);
-				pane.setPrefHeight(this.territory1.getHeight() * 2.5);
+				pane.setPrefWidth(this.building1.getWidth() * 2.5);
+				pane.setPrefHeight(this.building1.getHeight() * 2.5);
 			}
 		}
 		this.leaderCardsTabPane.requestLayout();
 		this.leaderCardsButton.setPrefWidth(((VBox) this.leaderCardsButton.getParent()).getWidth());
 		this.excommunicationChoiceDialogAcceptButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogAcceptButton.getParent()).getWidth());
 		this.excommunicationChoiceDialogRefuseButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogRefuseButton.getParent()).getWidth());
-		this.marketActionChoiceDialogAcceptButton.setPrefWidth(((VBox) this.marketActionChoiceDialogAcceptButton.getParent()).getWidth());
-		this.marketActionChoiceDialogCancelButton.setPrefWidth(((VBox) this.marketActionChoiceDialogCancelButton.getParent()).getWidth());
+		this.servantsChoiceDialogAcceptButton.setPrefWidth(((VBox) this.servantsChoiceDialogAcceptButton.getParent()).getWidth());
+		this.servantsChoiceDialogCancelButton.setPrefWidth(((VBox) this.servantsChoiceDialogCancelButton.getParent()).getWidth());
+		this.pickDevelopmentCardChoiceDialogAcceptButton.setPrefWidth(((VBox) this.pickDevelopmentCardChoiceDialogAcceptButton.getParent()).getWidth());
+		this.pickDevelopmentCardChoiceDialogCancelButton.setPrefWidth(((VBox) this.pickDevelopmentCardChoiceDialogCancelButton.getParent()).getWidth());
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
 		this.getStage().setX(bounds.getWidth() / 2 - this.getStage().getWidth() / 2);
 		this.getStage().setY(bounds.getHeight() / 2 - this.getStage().getHeight() / 2);
@@ -1480,7 +1503,24 @@ public class ControllerGame extends CustomController
 	public void setOwnTurn()
 	{
 		this.updateGame();
+		this.generateAvailableActions();
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
+		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "Your turn");
+	}
+
+	public void setOtherTurn()
+	{
+		this.updateGame();
+		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
+		this.actionsVBox.getChildren().clear();
+		JFXNodesList actionsNodesList = new JFXNodesList();
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", true);
+		this.actionsVBox.getChildren().add(actionsNodesList);
+		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getCurrentTurnPlayerIndex()).getUsername() + "'s turn");
+	}
+
+	private void generateAvailableActions()
+	{
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
 		JFXNodesList familyMemberActionNodesList = new JFXNodesList();
@@ -1502,16 +1542,16 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty()) {
 				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(councilPalaceActionNodesList, "/images/icons/action_council_palace.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE), new JFXNodesList[] { harvestActionNodesList, marketActionNodesList, pickDevelopmentCardActionNodesList, productionStartActionNodesList });
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_black.png", false);
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showCouncilPalaceActionChoice(FamilyMemberType.BLACK));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_neutral.png", false);
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showCouncilPalaceActionChoice(FamilyMemberType.NEUTRAL));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_orange.png", false);
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showCouncilPalaceActionChoice(FamilyMemberType.ORANGE));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_white.png", false);
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showCouncilPalaceActionChoice(FamilyMemberType.WHITE));
 				}
 				councilPalaceActionNodesList.setSpacing(10.0D);
 				councilPalaceActionNodesList.setRotate(180.0D);
@@ -1520,16 +1560,16 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST).isEmpty()) {
 				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(harvestActionNodesList, "/images/icons/action_harvest.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST), new JFXNodesList[] { councilPalaceActionNodesList, marketActionNodesList, pickDevelopmentCardActionNodesList, productionStartActionNodesList });
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_black.png", false);
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showHarvestActionChoice(FamilyMemberType.BLACK));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_neutral.png", false);
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showHarvestActionChoice(FamilyMemberType.NEUTRAL));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_orange.png", false);
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showHarvestActionChoice(FamilyMemberType.ORANGE));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_white.png", false);
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showHarvestActionChoice(FamilyMemberType.WHITE));
 				}
 				harvestActionNodesList.setSpacing(10.0D);
 				harvestActionNodesList.setRotate(180.0D);
@@ -1566,16 +1606,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.FIRST).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market1NodesList, "/images/icons/action_market_1.png", mappedMarketSlots.get(MarketSlot.FIRST), new JFXNodesList[] { market2NodesList, market3NodesList, market4NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIRST, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIRST, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIRST, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIRST, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.WHITE));
 					}
 					market1NodesList.setSpacing(10.0D);
 					market1NodesList.setRotate(270.0D);
@@ -1584,16 +1624,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.SECOND).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market2NodesList, "/images/icons/action_market_2.png", mappedMarketSlots.get(MarketSlot.SECOND), new JFXNodesList[] { market1NodesList, market3NodesList, market4NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SECOND, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SECOND, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SECOND, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SECOND, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.WHITE));
 					}
 					market2NodesList.setSpacing(10.0D);
 					market2NodesList.setRotate(270.0D);
@@ -1602,16 +1642,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.THIRD).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market3NodesList, "/images/icons/action_market_3.png", mappedMarketSlots.get(MarketSlot.THIRD), new JFXNodesList[] { market1NodesList, market2NodesList, market4NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.THIRD, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.THIRD, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.THIRD, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.THIRD, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.WHITE));
 					}
 					market3NodesList.setSpacing(10.0D);
 					market3NodesList.setRotate(270.0D);
@@ -1620,16 +1660,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.FOURTH).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market4NodesList, "/images/icons/action_market_4.png", mappedMarketSlots.get(MarketSlot.FOURTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FOURTH, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FOURTH, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FOURTH, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FOURTH, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.WHITE));
 					}
 					market4NodesList.setSpacing(10.0D);
 					market4NodesList.setRotate(270.0D);
@@ -1638,16 +1678,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.FIFTH).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market5NodesList, "/images/icons/action_market_5.png", mappedMarketSlots.get(MarketSlot.FIFTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market4NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIFTH, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIFTH, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIFTH, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.FIFTH, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.WHITE));
 					}
 					market5NodesList.setSpacing(10.0D);
 					market5NodesList.setRotate(270.0D);
@@ -1656,16 +1696,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.SIXTH).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market6NodesList, "/images/icons/action_market_6.png", mappedMarketSlots.get(MarketSlot.SIXTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market4NodesList, market5NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SIXTH, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SIXTH, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SIXTH, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoiceDialog(MarketSlot.SIXTH, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.WHITE));
 					}
 					market6NodesList.setSpacing(10.0D);
 					market6NodesList.setRotate(270.0D);
@@ -1678,16 +1718,16 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD).isEmpty()) {
 				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(pickDevelopmentCardActionNodesList, "/images/icons/action_pick_development_card.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD), new JFXNodesList[] { councilPalaceActionNodesList, harvestActionNodesList, marketActionNodesList, productionStartActionNodesList });
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_black.png", false);
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.BLACK));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_neutral.png", false);
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.NEUTRAL));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_orange.png", false);
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.ORANGE));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_white.png", false);
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.WHITE));
 				}
 				pickDevelopmentCardActionNodesList.setSpacing(10.0D);
 				pickDevelopmentCardActionNodesList.setRotate(180.0D);
@@ -1736,18 +1776,6 @@ public class ControllerGame extends CustomController
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_pass_turn.png", false, true, () -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPassTurn()));
 		actionsNodesList.setRotate(180.0D);
 		this.actionsVBox.getChildren().add(actionsNodesList);
-		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "Your turn");
-	}
-
-	public void setOtherTurn()
-	{
-		this.updateGame();
-		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
-		this.actionsVBox.getChildren().clear();
-		JFXNodesList actionsNodesList = new JFXNodesList();
-		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", true);
-		this.actionsVBox.getChildren().add(actionsNodesList);
-		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getCurrentTurnPlayerIndex()).getUsername() + "'s turn");
 	}
 
 	private static void setActionButton(JFXNodesList nodesList, String imagePath, boolean disabled)
@@ -1802,6 +1830,18 @@ public class ControllerGame extends CustomController
 		this.leaderCardsChoiceDialog.close();
 		this.cardDialog.close();
 		this.leaderCardsDialog.close();
+		this.servantsChoiceDialog.close();
+		this.pickDevelopmentCardChoiceDialog.close();
+		this.pickingDevelopmentCard = false;
+		this.selectableDevelopmentCards.clear();
+		this.selectedDevelopmentCardType = null;
+		this.selectedDevelopmentCardIndex = null;
+		for (CardType cardType : CardType.values()) {
+			for (Pane otherPane : this.developmentCardsPanes.get(cardType).values()) {
+				otherPane.setEffect(null);
+				Utils.setEffect(otherPane, ControllerGame.MOUSE_OVER_EFFECT);
+			}
+		}
 		for (Row row : Row.values()) {
 			this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(null);
 			this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBorder(null);
@@ -1923,12 +1963,70 @@ public class ControllerGame extends CustomController
 				} else {
 					this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				}
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getDisplayName());
+				stringBuilder.append("\n\n");
+				stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getDescription());
+				stringBuilder.append("\n\n");
+				if (GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()) instanceof LeaderCardModifierInformations) {
+					stringBuilder.append("PERMANENT ABILITY:\n");
+					stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getModifier());
+				} else {
+					stringBuilder.append("ONCE PER ROUND ABILITY:");
+					if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts().isEmpty()) {
+						stringBuilder.append("\n\nInstant resources:");
+					}
+					for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts()) {
+						stringBuilder.append('\n');
+						stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+						stringBuilder.append(": ");
+						stringBuilder.append(resourceAmount.getAmount());
+					}
+					if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getActionRewardInformations() != null) {
+						stringBuilder.append("\n\nAction reward:");
+						stringBuilder.append('\n');
+						stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getActionRewardInformations());
+					}
+				}
+				Tooltip tooltip = new Tooltip(stringBuilder.toString());
+				WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+				WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+				Tooltip.install(this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index), tooltip);
 				index++;
 			}
 			if (playerData.getKey() == GameStatus.getInstance().getOwnPlayerIndex()) {
 				index = 0;
 				for (int leaderCardIndex : GameStatus.getInstance().getCurrentOwnLeaderCardsHand()) {
 					this.playersLeaderCardsHand.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+					StringBuilder stringBuilder = new StringBuilder();
+					stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getDisplayName());
+					stringBuilder.append("\n\n");
+					stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getDescription());
+					stringBuilder.append("\n\n");
+					if (GameStatus.getInstance().getLeaderCards().get(leaderCardIndex) instanceof LeaderCardModifierInformations) {
+						stringBuilder.append("PERMANENT ABILITY:\n");
+						stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getModifier());
+					} else {
+						stringBuilder.append("ONCE PER ROUND ABILITY:");
+						if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getResourceAmounts().isEmpty()) {
+							stringBuilder.append("\n\nInstant resources:");
+						}
+						for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getResourceAmounts()) {
+							stringBuilder.append('\n');
+							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(": ");
+							stringBuilder.append(resourceAmount.getAmount());
+						}
+						if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getActionRewardInformations() != null) {
+							stringBuilder.append("\n\nAction reward:");
+							stringBuilder.append('\n');
+							stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getActionRewardInformations());
+						}
+					}
+					Tooltip tooltip = new Tooltip(stringBuilder.toString());
+					WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+					WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+					Tooltip.install(this.playersLeaderCardsHand.get(playerData.getKey()).get(index), tooltip);
 					index++;
 				}
 			} else {
@@ -2031,7 +2129,7 @@ public class ControllerGame extends CustomController
 			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(pane, tooltip);
-			Utils.setEffect(pane, this.borderGlow);
+			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
 				this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "You have chosen a personal bonus tile");
 				Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex);
@@ -2081,7 +2179,7 @@ public class ControllerGame extends CustomController
 			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(pane, tooltip);
-			Utils.setEffect(pane, this.borderGlow);
+			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCardIndex));
 			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
 		}
@@ -2096,15 +2194,90 @@ public class ControllerGame extends CustomController
 		this.excommunicationChoiceDialog.show();
 	}
 
-	private void showMarketActionChoiceDialog(MarketSlot marketSlot, FamilyMemberType familyMemberType)
+	private void showCouncilPalaceActionChoice(FamilyMemberType familyMemberType)
 	{
-		this.marketActionChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		this.marketActionChoiceDialogSlider.setValue(0);
-		this.marketActionChoiceDialogAcceptButton.setOnAction((event) -> {
-			this.marketActionChoiceDialog.close();
-			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsMarket(familyMemberType, (int) this.marketActionChoiceDialogSlider.getValue(), marketSlot));
+		this.servantsChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		this.servantsChoiceDialogSlider.setValue(0);
+		this.servantsChoiceDialogAcceptButton.setOnAction((event) -> {
+			this.servantsChoiceDialog.close();
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsCouncilPalace(familyMemberType, (int) this.servantsChoiceDialogSlider.getValue()));
 		});
-		this.marketActionChoiceDialog.show();
+		this.servantsChoiceDialog.show();
+	}
+
+	private void showHarvestActionChoice(FamilyMemberType familyMemberType)
+	{
+		this.servantsChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		this.servantsChoiceDialogSlider.setValue(0);
+		this.servantsChoiceDialogAcceptButton.setOnAction((event) -> {
+			this.servantsChoiceDialog.close();
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsHarvest(familyMemberType, (int) this.servantsChoiceDialogSlider.getValue()));
+		});
+		this.servantsChoiceDialog.show();
+	}
+
+	private void showMarketActionChoice(MarketSlot marketSlot, FamilyMemberType familyMemberType)
+	{
+		this.servantsChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		this.servantsChoiceDialogSlider.setValue(0);
+		this.servantsChoiceDialogAcceptButton.setOnAction((event) -> {
+			this.servantsChoiceDialog.close();
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsMarket(familyMemberType, (int) this.servantsChoiceDialogSlider.getValue(), marketSlot));
+		});
+		this.servantsChoiceDialog.show();
+	}
+
+	private void showPickDevelopmentCardActionChoice(FamilyMemberType familyMemberType)
+	{
+		this.pickingDevelopmentCard = true;
+		this.actionsVBox.getChildren().clear();
+		JFXNodesList actionsNodesList = new JFXNodesList();
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_pick_development_card.png", false);
+		this.pickDevelopmentCardActionButton = new JFXButton();
+		this.pickDevelopmentCardActionButton.setDisable(true);
+		ImageView imageView = new ImageView(new Image(Client.class.getResource("/images/icons/action.png").toString()));
+		this.pickDevelopmentCardActionButton.setGraphic(imageView);
+		this.pickDevelopmentCardActionButton.getStyleClass().add("animated-option-button-green");
+		this.pickDevelopmentCardActionButton.setOnMouseClicked(event -> {
+			this.pickDevelopmentCardChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+			this.pickDevelopmentCardChoiceDialogSlider.setValue(0);
+			this.pickDevelopmentCardChoiceDialogAcceptButton.setOnAction(childEvent -> {
+				this.pickDevelopmentCardChoiceDialog.close();
+				// Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPickDevelopmentCard(familyMemberType, (int) this.pickDevelopmentCardChoiceDialogSlider.getValue(), this.selectedDevelopmentCardType, GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex)));
+			});
+			this.pickDevelopmentCardChoiceDialog.show();
+		});
+		actionsNodesList.addAnimatedNode(this.pickDevelopmentCardActionButton);
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_refuse_reward.png", false, true, () -> {
+			this.pickingDevelopmentCard = false;
+			this.selectableDevelopmentCards.clear();
+			this.selectedDevelopmentCardType = null;
+			this.selectedDevelopmentCardIndex = null;
+			for (CardType cardType : CardType.values()) {
+				for (Pane pane : this.developmentCardsPanes.get(cardType).values()) {
+					pane.setEffect(null);
+					Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+				}
+			}
+			this.generateAvailableActions();
+		});
+		actionsNodesList.setSpacing(10.0D);
+		actionsNodesList.setRotate(180.0D);
+		this.actionsVBox.getChildren().add(actionsNodesList);
+		for (Entry<ActionType, List<AvailableAction>> availableActions : GameStatus.getInstance().getCurrentAvailableActions().entrySet()) {
+			if (availableActions.getKey() == ActionType.PICK_DEVELOPMENT_CARD) {
+				for (AvailableAction availableAction : availableActions.getValue()) {
+					this.selectableDevelopmentCards.add(this.developmentCardsPanes.get(((AvailableActionPickDevelopmentCard) availableAction).getCardType()).get(((AvailableActionPickDevelopmentCard) availableAction).getRow()));
+				}
+			}
+		}
+		for (CardType cardType : CardType.values()) {
+			for (Pane pane : this.developmentCardsPanes.get(cardType).values()) {
+				if (!this.selectableDevelopmentCards.contains(pane)) {
+					Utils.unsetEffect(pane);
+				}
+			}
+		}
 	}
 
 	public TextArea getChatTextArea()

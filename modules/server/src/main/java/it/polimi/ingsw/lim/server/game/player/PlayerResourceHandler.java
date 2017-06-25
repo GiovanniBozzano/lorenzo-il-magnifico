@@ -65,15 +65,9 @@ public class PlayerResourceHandler
 		this.resources.put(ResourceType.STONE, resourcesStone);
 		this.resources.put(ResourceType.VICTORY_POINT, 0);
 		this.resources.put(ResourceType.WOOD, resourcesWood);
-		this.temporaryResources.put(ResourceType.COIN, 0);
-		this.temporaryResources.put(ResourceType.COUNCIL_PRIVILEGE, 0);
-		this.temporaryResources.put(ResourceType.FAITH_POINT, 0);
-		this.temporaryResources.put(ResourceType.MILITARY_POINT, 0);
-		this.temporaryResources.put(ResourceType.PRESTIGE_POINT, 0);
-		this.temporaryResources.put(ResourceType.SERVANT, 0);
-		this.temporaryResources.put(ResourceType.STONE, 0);
-		this.temporaryResources.put(ResourceType.VICTORY_POINT, 0);
-		this.temporaryResources.put(ResourceType.WOOD, 0);
+		for (ResourceType resourceType : ResourceType.values()) {
+			this.temporaryResources.put(resourceType, 0);
+		}
 	}
 
 	public void addResource(ResourceType resourceType, int amount)

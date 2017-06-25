@@ -15,6 +15,7 @@ import it.polimi.ingsw.lim.server.game.events.EventHarvest;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.player.Player;
+import it.polimi.ingsw.lim.server.game.utils.Phase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +99,8 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 		if (gameHandler == null) {
 			return;
 		}
+		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
+		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), this.workSlotType == WorkSlotType.BIG ? BoardPosition.HARVEST_BIG : BoardPosition.HARVEST_SMALL);
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		List<ResourceAmount> resourceReward = new ArrayList<>();
 		for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {

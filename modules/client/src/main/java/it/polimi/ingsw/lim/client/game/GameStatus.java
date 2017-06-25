@@ -1,10 +1,7 @@
 package it.polimi.ingsw.lim.client.game;
 
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
-import it.polimi.ingsw.lim.common.enums.ActionType;
-import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.enums.Row;
+import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
@@ -14,6 +11,7 @@ import it.polimi.ingsw.lim.common.game.cards.*;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 public class GameStatus
 {
@@ -33,6 +31,7 @@ public class GameStatus
 	private final Map<Row, Integer> currentDevelopmentCardsCharacter = new EnumMap<>(Row.class);
 	private final Map<Row, Integer> currentDevelopmentCardsTerritory = new EnumMap<>(Row.class);
 	private final Map<Row, Integer> currentDevelopmentCardsVenture = new EnumMap<>(Row.class);
+	private final Map<CardType, Map<Row, Integer>> currentDevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<FamilyMemberType, Integer> currentDices = new EnumMap<>(FamilyMemberType.class);
 	private final Map<Integer, Integer> currentTurnOrder = new HashMap<>();
 	private final Map<Integer, Integer> currentCouncilPalaceOrder = new HashMap<>();
@@ -44,6 +43,10 @@ public class GameStatus
 
 	private GameStatus()
 	{
+		this.currentDevelopmentCards.put(CardType.BUILDING, this.currentDevelopmentCardsBuilding);
+		this.currentDevelopmentCards.put(CardType.CHARACTER, this.currentDevelopmentCardsCharacter);
+		this.currentDevelopmentCards.put(CardType.TERRITORY, this.currentDevelopmentCardsTerritory);
+		this.currentDevelopmentCards.put(CardType.VENTURE, this.currentDevelopmentCardsVenture);
 	}
 
 	public void setup(Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuilding, Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacter, Map<Integer, DevelopmentCardTerritoryInformations> developmentCardsTerritory, Map<Integer, DevelopmentCardVentureInformations> developmentCardsVenture, Map<Integer, LeaderCardInformations> leaderCards, Map<Integer, ExcommunicationTileInformations> excommunicationTiles, Map<Integer, CouncilPalaceRewardInformations> councilPalaceRewards, Map<Integer, PersonalBonusTileInformations> personalBonusTiles)
@@ -88,6 +91,16 @@ public class GameStatus
 				this.currentPlayerData.get(playerInformations.getIndex()).setFamilyMembersPositions(playerInformations.getFamilyMembersPositions());
 			}
 		}
+	}
+
+	public Row getDevelopmentCardRow(CardType cardType, int index)
+	{
+		for (Entry<Row, Integer> developmentCard : this.currentDevelopmentCards.get(cardType).entrySet()) {
+			if (developmentCard.getValue() == index) {
+				return developmentCard.getKey();
+			}
+		}
+		return null;
 	}
 
 	public static GameStatus getInstance()

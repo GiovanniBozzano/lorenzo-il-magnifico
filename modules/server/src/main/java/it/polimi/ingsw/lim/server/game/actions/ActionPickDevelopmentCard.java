@@ -192,6 +192,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			return;
 		}
 		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
+		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow()));
 		DevelopmentCard developmentCard = gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).get(this.getRow());
 		this.player.getPlayerCardHandler().addDevelopmentCard(developmentCard);
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());

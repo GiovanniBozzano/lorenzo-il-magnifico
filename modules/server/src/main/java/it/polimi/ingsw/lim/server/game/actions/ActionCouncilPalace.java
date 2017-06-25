@@ -43,7 +43,7 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 			return false;
 		}
 		// check whether the server expects the player to make this action
-		if (gameHandler.getExpectedAction() != ActionType.COUNCIL_PALACE) {
+		if (gameHandler.getExpectedAction() != null) {
 			return false;
 		}
 		// check if the family member is usable
@@ -78,6 +78,7 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 			return;
 		}
 		gameHandler.getBoardHandler().getCouncilPalaceOrder().add(this.player);
+		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), BoardPosition.COUNCIL_PALACE);
 		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformations(BoardPosition.COUNCIL_PALACE).getResourceAmounts(), ResourcesSource.COUNCIL_PALACE);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());

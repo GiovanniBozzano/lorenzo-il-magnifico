@@ -445,7 +445,9 @@ public class GameHandler
 		for (ResourceType resourceType : this.turnPlayer.getPlayerResourceHandler().getTemporaryResources().keySet()) {
 			this.turnPlayer.getPlayerResourceHandler().addResource(resourceType, this.turnPlayer.getPlayerResourceHandler().getTemporaryResources().get(resourceType));
 		}
-		this.turnPlayer.getPlayerResourceHandler().getTemporaryResources().clear();
+		for (ResourceType resourceType : ResourceType.values()) {
+			this.turnPlayer.getPlayerResourceHandler().getTemporaryResources().put(resourceType, 0);
+		}
 		for (LeaderCard leaderCard : this.turnPlayer.getPlayerCardHandler().getLeaderCards()) {
 			if (leaderCard instanceof LeaderCardReward) {
 				((LeaderCardReward) leaderCard).setActivated(false);

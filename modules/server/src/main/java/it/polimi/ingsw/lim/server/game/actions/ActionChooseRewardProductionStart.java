@@ -23,7 +23,6 @@ import java.util.List;
 public class ActionChooseRewardProductionStart extends ActionInformationsChooseRewardProductionStart implements IAction
 {
 	private final Player player;
-	private int effectiveActionValue;
 
 	public ActionChooseRewardProductionStart(int servants, Player player)
 	{
@@ -77,17 +76,17 @@ public class ActionChooseRewardProductionStart extends ActionInformationsChooseR
 			this.player.setCurrentProductionValue(((ActionRewardProductionStart) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
 		}
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
+		EventGainResources eventGainResources = new EventGainResources(this.player, this.player.getPersonalBonusTile().getProductionInstantResources(), ResourcesSource.WORK);
+		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);
 		List<Integer> availableCards = new ArrayList<>();
 		for (DevelopmentCardBuilding developmentCardBuilding : this.player.getPlayerCardHandler().getDevelopmentCards(CardType.BUILDING, DevelopmentCardBuilding.class)) {
-			if (developmentCardBuilding.getActivationValue() <= this.effectiveActionValue) {
+			if (developmentCardBuilding.getActivationValue() <= this.player.getCurrentProductionValue()) {
 				availableCards.add(developmentCardBuilding.getIndex());
 			}
 		}
 		if (availableCards.isEmpty()) {
-			EventGainResources eventGainResources = new EventGainResources(this.player, this.player.getPersonalBonusTile().getProductionInstantResources(), ResourcesSource.WORK);
-			eventGainResources.applyModifiers(this.player.getActiveModifiers());
-			this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 			int councilPrivilegesCount = this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 			if (councilPrivilegesCount > 0) {
 				this.player.getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);

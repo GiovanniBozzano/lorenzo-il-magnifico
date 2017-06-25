@@ -656,8 +656,8 @@
 			<Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
 		</StackPane.margin>
 	</VBox>
-	<JFXDialog fx:id="personalBonusTilesChoiceDialog" style="-fx-border-color: #757575; -fx-border-width: 2px;">
-		<JFXDialogLayout fx:id="personalBonusTilesChoiceDialogLayout">
+	<JFXDialog fx:id="personalBonusTilesChoiceDialog">
+		<JFXDialogLayout fx:id="personalBonusTilesChoiceDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
 				<HBox fx:id="personalBonusTilesChoiceDialogHBox" spacing="30.0" />
 			</body>
@@ -706,11 +706,11 @@
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="marketActionChoiceDialog">
+	<JFXDialog fx:id="servantsChoiceDialog">
 		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
 				<VBox spacing="60.0">
-					<JFXSlider fx:id="marketActionChoiceDialogSlider" indicatorPosition="RIGHT" majorTickUnit="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" styleClass="jfx-slider-style" />
+					<JFXSlider fx:id="servantsChoiceDialogSlider" indicatorPosition="RIGHT" majorTickUnit="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" styleClass="jfx-slider-style" />
 					<GridPane hgap="10.0">
 						<columnConstraints>
 							<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
@@ -720,14 +720,48 @@
 							<RowConstraints vgrow="SOMETIMES" />
 						</rowConstraints>
 						<VBox>
-							<JFXButton fx:id="marketActionChoiceDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
+							<JFXButton fx:id="servantsChoiceDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
 								<font>
 									<Font name="Roboto Bold" size="12.0" />
 								</font>
 							</JFXButton>
 						</VBox>
 						<VBox GridPane.columnIndex="1">
-							<JFXButton fx:id="marketActionChoiceDialogCancelButton" onAction="#handleMarketActionChoiceDialogCancelButtonAction" style="-fx-background-color: #F44336;" text="Cancel" textFill="WHITE">
+							<JFXButton fx:id="servantsChoiceDialogCancelButton" onAction="#handleServantsChoiceDialogCancelButtonAction" style="-fx-background-color: #F44336;" text="Cancel" textFill="WHITE">
+								<font>
+									<Font name="Roboto Bold" size="12.0" />
+								</font>
+							</JFXButton>
+						</VBox>
+					</GridPane>
+				</VBox>
+			</body>
+		</JFXDialogLayout>
+	</JFXDialog>
+	<JFXDialog fx:id="pickDevelopmentCardChoiceDialog">
+		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
+			<body>
+				<VBox spacing="60.0">
+					<JFXSlider fx:id="pickDevelopmentCardChoiceDialogSlider" indicatorPosition="RIGHT" majorTickUnit="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" styleClass="jfx-slider-style" />
+					<ScrollPane fx:id="pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane" fitToHeight="true" />
+					<ScrollPane fx:id="pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane" fitToHeight="true" />
+					<GridPane hgap="10.0">
+						<columnConstraints>
+							<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+							<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+						</columnConstraints>
+						<rowConstraints>
+							<RowConstraints vgrow="SOMETIMES" />
+						</rowConstraints>
+						<VBox>
+							<JFXButton fx:id="pickDevelopmentCardChoiceDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
+								<font>
+									<Font name="Roboto Bold" size="12.0" />
+								</font>
+							</JFXButton>
+						</VBox>
+						<VBox GridPane.columnIndex="1">
+							<JFXButton fx:id="pickDevelopmentCardChoiceDialogCancelButton" onAction="#handlePickDevelopmentCardChoiceDialogCancelButtonAction" style="-fx-background-color: #F44336;" text="Cancel" textFill="WHITE">
 								<font>
 									<Font name="Roboto Bold" size="12.0" />
 								</font>
@@ -741,13 +775,20 @@
 	<JFXDialog fx:id="cardDialog">
 		<JFXDialogLayout fx:id="cardDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
-				<HBox fx:id="cardDialogHBox" alignment="CENTER_LEFT" spacing="20.0">
+				<HBox spacing="20.0">
 					<Pane fx:id="cardDialogPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-					<Text fx:id="cardDialogText">
-						<font>
-							<Font name="Roboto" size="12.0" />
-						</font>
-					</Text>
+					<ScrollPane fx:id="cardDialogScrollPane" fitToWidth="true">
+						<HBox alignment="CENTER_LEFT">
+							<Text fx:id="cardDialogText">
+								<font>
+									<Font name="Roboto" size="12.0" />
+								</font>
+							</Text>
+							<HBox.margin>
+								<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+							</HBox.margin>
+						</HBox>
+					</ScrollPane>
 				</HBox>
 			</body>
 		</JFXDialogLayout>

@@ -99,7 +99,6 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 			employedResources.addAll(this.getChosenDevelopmentCardsBuilding().get(developmentCardBuilding.getIndex()).getEmployedResources());
 			producedResources.addAll(this.getChosenDevelopmentCardsBuilding().get(developmentCardBuilding.getIndex()).getProducedResources());
 		}
-		producedResources.addAll(this.player.getPersonalBonusTile().getProductionInstantResources());
 		EventGainResources eventGainResources = new EventGainResources(this.player, producedResources, ResourcesSource.WORK);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().subtractResources(employedResources);

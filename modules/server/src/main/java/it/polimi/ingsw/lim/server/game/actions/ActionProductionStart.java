@@ -100,7 +100,11 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 			return;
 		}
 		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
+		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), this.workSlotType == WorkSlotType.BIG ? BoardPosition.PRODUCTION_BIG : BoardPosition.PRODUCTION_SMALL);
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
+		EventGainResources eventGainResources = new EventGainResources(this.player, this.player.getPersonalBonusTile().getProductionInstantResources(), ResourcesSource.WORK);
+		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		this.player.setCurrentProductionValue(this.effectiveActionValue);
 		gameHandler.setExpectedAction(ActionType.PRODUCTION_TRADE);
 		List<Integer> availableCards = new ArrayList<>();
@@ -110,9 +114,6 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 			}
 		}
 		if (availableCards.isEmpty()) {
-			EventGainResources eventGainResources = new EventGainResources(this.player, this.player.getPersonalBonusTile().getProductionInstantResources(), ResourcesSource.WORK);
-			eventGainResources.applyModifiers(this.player.getActiveModifiers());
-			this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 			int councilPrivilegesCount = this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 			if (councilPrivilegesCount > 0) {
 				this.player.getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
