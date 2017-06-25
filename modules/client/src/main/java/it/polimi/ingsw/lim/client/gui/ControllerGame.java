@@ -26,9 +26,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
+import javafx.util.Duration;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -468,6 +471,8 @@ public class ControllerGame extends CustomController
 	@FXML private JFXSlider pickDevelopmentCardChoiceDialogSlider;
 	@FXML private ScrollPane pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane;
 	@FXML private ScrollPane pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane;
+	@FXML private HBox pickDevelopmentCardChoiceDialogDiscountChoicesHBox;
+	@FXML private HBox pickDevelopmentCardChoiceDialogResourceCostOptionsHBox;
 	@FXML private JFXButton pickDevelopmentCardChoiceDialogAcceptButton;
 	@FXML private JFXButton pickDevelopmentCardChoiceDialogCancelButton;
 	@FXML private JFXDialog cardDialog;
@@ -613,6 +618,8 @@ public class ControllerGame extends CustomController
 	private List<Pane> selectableDevelopmentCards = new ArrayList<>();
 	private CardType selectedDevelopmentCardType;
 	private Integer selectedDevelopmentCardIndex;
+	private final List<ResourceAmount> selectedDiscountChoice = new ArrayList<>();
+	private ResourceCostOption selectedResourceCostOption;
 
 	@FXML
 	private void boardDevelopmentCardPaneMouseClicked(MouseEvent event)
@@ -1488,11 +1495,12 @@ public class ControllerGame extends CustomController
 		this.excommunicationChoiceDialogRefuseButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogRefuseButton.getParent()).getWidth());
 		this.servantsChoiceDialogAcceptButton.setPrefWidth(((VBox) this.servantsChoiceDialogAcceptButton.getParent()).getWidth());
 		this.servantsChoiceDialogCancelButton.setPrefWidth(((VBox) this.servantsChoiceDialogCancelButton.getParent()).getWidth());
-		this.pickDevelopmentCardChoiceDialogAcceptButton.setPrefWidth(((VBox) this.pickDevelopmentCardChoiceDialogAcceptButton.getParent()).getWidth());
-		this.pickDevelopmentCardChoiceDialogCancelButton.setPrefWidth(((VBox) this.pickDevelopmentCardChoiceDialogCancelButton.getParent()).getWidth());
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
 		this.getStage().setX(bounds.getWidth() / 2 - this.getStage().getWidth() / 2);
 		this.getStage().setY(bounds.getHeight() / 2 - this.getStage().getHeight() / 2);
+		Client.getInstance().setBackgroundMediaPlayer(new MediaPlayer(new Media(this.getClass().getResource("/sounds/background.mp3").toString())));
+		Client.getInstance().getBackgroundMediaPlayer().setOnEndOfMedia(() -> Client.getInstance().getBackgroundMediaPlayer().seek(Duration.ZERO));
+		Client.getInstance().getBackgroundMediaPlayer().play();
 	}
 
 	public void updatePlayerPersonalBonusTile(int choicePlayerIndex, int choicePersonalBonusTileIndex)
@@ -1516,7 +1524,6 @@ public class ControllerGame extends CustomController
 		JFXNodesList actionsNodesList = new JFXNodesList();
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", true);
 		this.actionsVBox.getChildren().add(actionsNodesList);
-		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getCurrentTurnPlayerIndex()).getUsername() + "'s turn");
 	}
 
 	private void generateAvailableActions()
@@ -1833,7 +1840,6 @@ public class ControllerGame extends CustomController
 		this.servantsChoiceDialog.close();
 		this.pickDevelopmentCardChoiceDialog.close();
 		this.pickingDevelopmentCard = false;
-		this.selectableDevelopmentCards.clear();
 		this.selectedDevelopmentCardType = null;
 		this.selectedDevelopmentCardIndex = null;
 		for (CardType cardType : CardType.values()) {
@@ -2192,6 +2198,9 @@ public class ControllerGame extends CustomController
 	{
 		this.excommunicationChoiceDialogText.setText(GameStatus.getInstance().getExcommunicationTiles().get(GameStatus.getInstance().getCurrentExcommunicationTiles().get(period)).getModifier());
 		this.excommunicationChoiceDialog.show();
+		Client.getInstance().setSoundsMediaPlayer(new MediaPlayer(new Media(this.getClass().getResource("/sounds/excommunication.mp3").toString())));
+		Client.getInstance().getSoundsMediaPlayer().setOnEndOfMedia(() -> Client.getInstance().getBackgroundMediaPlayer().dispose());
+		Client.getInstance().getSoundsMediaPlayer().play();
 	}
 
 	private void showCouncilPalaceActionChoice(FamilyMemberType familyMemberType)
@@ -2239,18 +2248,105 @@ public class ControllerGame extends CustomController
 		this.pickDevelopmentCardActionButton.setGraphic(imageView);
 		this.pickDevelopmentCardActionButton.getStyleClass().add("animated-option-button-green");
 		this.pickDevelopmentCardActionButton.setOnMouseClicked(event -> {
+			this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(true);
+			this.pickDevelopmentCardChoiceDialogDiscountChoicesHBox.getChildren().clear();
+			this.pickDevelopmentCardChoiceDialogResourceCostOptionsHBox.getChildren().clear();
 			this.pickDevelopmentCardChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 			this.pickDevelopmentCardChoiceDialogSlider.setValue(0);
+			this.selectedDiscountChoice.clear();
+			this.selectedResourceCostOption = null;
+			for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
+				if (((AvailableActionPickDevelopmentCard) availableAction).getCardType() == this.selectedDevelopmentCardType && ((AvailableActionPickDevelopmentCard) availableAction).getRow() == GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex)) {
+					if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty()) {
+						this.pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane.setDisable(true);
+						if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty()) {
+							this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
+						}
+					} else {
+						this.pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane.setDisable(false);
+						for (List<ResourceAmount> discountChoice : ((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices()) {
+							Text text = new Text();
+							StringBuilder stringBuilder = new StringBuilder();
+							boolean first = true;
+							for (ResourceAmount resourceAmount : discountChoice) {
+								if (!first) {
+									stringBuilder.append('\n');
+								} else {
+									first = false;
+								}
+								stringBuilder.append("- ");
+								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+								stringBuilder.append(": ");
+								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
+							}
+							text.setText(stringBuilder.toString());
+							text.setOnMouseClicked(childEvent -> {
+								this.selectedDiscountChoice.addAll(discountChoice);
+								if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty() || this.selectedResourceCostOption != null) {
+									this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
+								}
+							});
+							this.pickDevelopmentCardChoiceDialogDiscountChoicesHBox.getChildren().add(text);
+						}
+					}
+					if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty()) {
+						this.pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane.setDisable(true);
+						if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty()) {
+							this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
+						}
+					} else {
+						this.pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane.setDisable(false);
+						for (ResourceCostOption resourceCostOption : ((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions()) {
+							Text text = new Text();
+							StringBuilder stringBuilder = new StringBuilder();
+							boolean first = true;
+							for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
+								if (first) {
+									first = false;
+									stringBuilder.append("REQUIRED RESOURCES:");
+								}
+								stringBuilder.append("\n- ");
+								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+								stringBuilder.append(": ");
+								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
+							}
+							first = true;
+							for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
+								if (first) {
+									first = false;
+									stringBuilder.append("SPENT RESOURCES:");
+								}
+								stringBuilder.append("\n- ");
+								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+								stringBuilder.append(": ");
+								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
+							}
+							text.setText(stringBuilder.toString());
+							text.setOnMouseClicked(childEvent -> {
+								this.selectedResourceCostOption = resourceCostOption;
+								if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty() || !this.selectedDiscountChoice.isEmpty()) {
+									this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
+								}
+							});
+							this.pickDevelopmentCardChoiceDialogResourceCostOptionsHBox.getChildren().add(text);
+						}
+					}
+					break;
+				}
+			}
 			this.pickDevelopmentCardChoiceDialogAcceptButton.setOnAction(childEvent -> {
 				this.pickDevelopmentCardChoiceDialog.close();
-				// Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPickDevelopmentCard(familyMemberType, (int) this.pickDevelopmentCardChoiceDialogSlider.getValue(), this.selectedDevelopmentCardType, GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex)));
+				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPickDevelopmentCard(familyMemberType, (int) this.pickDevelopmentCardChoiceDialogSlider.getValue(), this.selectedDevelopmentCardType, GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex), this.selectedDiscountChoice, this.selectedResourceCostOption));
 			});
+			this.pickDevelopmentCardChoiceDialogAcceptButton.setPrefWidth(((VBox) this.pickDevelopmentCardChoiceDialogAcceptButton.getParent()).getWidth());
+			this.pickDevelopmentCardChoiceDialogCancelButton.setPrefWidth(((VBox) this.pickDevelopmentCardChoiceDialogCancelButton.getParent()).getWidth());
+			this.pickDevelopmentCardChoiceDialogAcceptButton.requestLayout();
+			this.pickDevelopmentCardChoiceDialogCancelButton.requestLayout();
 			this.pickDevelopmentCardChoiceDialog.show();
 		});
 		actionsNodesList.addAnimatedNode(this.pickDevelopmentCardActionButton);
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_refuse_reward.png", false, true, () -> {
 			this.pickingDevelopmentCard = false;
-			this.selectableDevelopmentCards.clear();
 			this.selectedDevelopmentCardType = null;
 			this.selectedDevelopmentCardIndex = null;
 			for (CardType cardType : CardType.values()) {
@@ -2264,6 +2360,7 @@ public class ControllerGame extends CustomController
 		actionsNodesList.setSpacing(10.0D);
 		actionsNodesList.setRotate(180.0D);
 		this.actionsVBox.getChildren().add(actionsNodesList);
+		this.selectableDevelopmentCards.clear();
 		for (Entry<ActionType, List<AvailableAction>> availableActions : GameStatus.getInstance().getCurrentAvailableActions().entrySet()) {
 			if (availableActions.getKey() == ActionType.PICK_DEVELOPMENT_CARD) {
 				for (AvailableAction availableAction : availableActions.getValue()) {

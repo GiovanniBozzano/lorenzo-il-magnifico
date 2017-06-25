@@ -15,6 +15,7 @@ import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
+import javafx.scene.media.MediaPlayer;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -38,6 +39,8 @@ public class Client extends Instance
 	private int port;
 	private String username;
 	private ConnectionHandler connectionHandler;
+	private MediaPlayer backgroundMediaPlayer;
+	private MediaPlayer soundsMediaPlayer;
 
 	/**
 	 * <p>Tries to connect to an RMI or Socket Server and, if successful, opens
@@ -87,6 +90,12 @@ public class Client extends Instance
 	{
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.execute(() -> {
+			if (this.backgroundMediaPlayer != null) {
+				this.backgroundMediaPlayer.dispose();
+			}
+			if (this.soundsMediaPlayer != null) {
+				this.soundsMediaPlayer.dispose();
+			}
 			if (this.connectionHandler != null) {
 				this.connectionHandler.disconnect(notifyServer);
 				this.connectionHandler = null;
@@ -150,5 +159,25 @@ public class Client extends Instance
 	public ConnectionHandler getConnectionHandler()
 	{
 		return this.connectionHandler;
+	}
+
+	public MediaPlayer getBackgroundMediaPlayer()
+	{
+		return this.backgroundMediaPlayer;
+	}
+
+	public void setBackgroundMediaPlayer(MediaPlayer backgroundMediaPlayer)
+	{
+		this.backgroundMediaPlayer = backgroundMediaPlayer;
+	}
+
+	public MediaPlayer getSoundsMediaPlayer()
+	{
+		return this.soundsMediaPlayer;
+	}
+
+	public void setSoundsMediaPlayer(MediaPlayer soundsMediaPlayer)
+	{
+		this.soundsMediaPlayer = soundsMediaPlayer;
 	}
 }

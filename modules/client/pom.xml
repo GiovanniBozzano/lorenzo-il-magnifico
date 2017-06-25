@@ -8,7 +8,6 @@
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 	<artifactId>LM13-client</artifactId>
-	<packaging>jar</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -24,7 +23,6 @@
 		<finalName>${project.name}</finalName>
 		<resources>
 			<resource>
-				<filtering>true</filtering>
 				<directory>src/main/resources/</directory>
 			</resource>
 		</resources>

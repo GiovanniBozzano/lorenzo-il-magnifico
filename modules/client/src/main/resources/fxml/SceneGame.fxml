@@ -743,31 +743,51 @@
 			<body>
 				<VBox spacing="60.0">
 					<JFXSlider fx:id="pickDevelopmentCardChoiceDialogSlider" indicatorPosition="RIGHT" majorTickUnit="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" styleClass="jfx-slider-style" />
-					<ScrollPane fx:id="pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane" fitToHeight="true" />
-					<ScrollPane fx:id="pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane" fitToHeight="true" />
-					<GridPane hgap="10.0">
-						<columnConstraints>
-							<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
-							<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
-						</columnConstraints>
-						<rowConstraints>
-							<RowConstraints vgrow="SOMETIMES" />
-						</rowConstraints>
-						<VBox>
-							<JFXButton fx:id="pickDevelopmentCardChoiceDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
+					<VBox spacing="20.0">
+						<VBox spacing="10.0">
+							<Label text="Discount choices:">
 								<font>
 									<Font name="Roboto Bold" size="12.0" />
 								</font>
-							</JFXButton>
+							</Label>
+							<ScrollPane fx:id="pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane" fitToHeight="true">
+								<HBox fx:id="pickDevelopmentCardChoiceDialogDiscountChoicesHBox" alignment="CENTER_RIGHT" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
+							</ScrollPane>
 						</VBox>
-						<VBox GridPane.columnIndex="1">
-							<JFXButton fx:id="pickDevelopmentCardChoiceDialogCancelButton" onAction="#handlePickDevelopmentCardChoiceDialogCancelButtonAction" style="-fx-background-color: #F44336;" text="Cancel" textFill="WHITE">
+						<VBox spacing="10.0">
+							<Label text="Resource cost options:">
 								<font>
 									<Font name="Roboto Bold" size="12.0" />
 								</font>
-							</JFXButton>
+							</Label>
+							<ScrollPane fx:id="pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane" fitToHeight="true">
+								<HBox fx:id="pickDevelopmentCardChoiceDialogResourceCostOptionsHBox" alignment="CENTER_RIGHT" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
+							</ScrollPane>
 						</VBox>
-					</GridPane>
+						<GridPane hgap="10.0">
+							<columnConstraints>
+								<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+								<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+							</columnConstraints>
+							<rowConstraints>
+								<RowConstraints vgrow="SOMETIMES" />
+							</rowConstraints>
+							<VBox>
+								<JFXButton fx:id="pickDevelopmentCardChoiceDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
+									<font>
+										<Font name="Roboto Bold" size="12.0" />
+									</font>
+								</JFXButton>
+							</VBox>
+							<VBox GridPane.columnIndex="1">
+								<JFXButton fx:id="pickDevelopmentCardChoiceDialogCancelButton" onAction="#handlePickDevelopmentCardChoiceDialogCancelButtonAction" style="-fx-background-color: #F44336;" text="Cancel" textFill="WHITE">
+									<font>
+										<Font name="Roboto Bold" size="12.0" />
+									</font>
+								</JFXButton>
+							</VBox>
+						</GridPane>
+					</VBox>
 				</VBox>
 			</body>
 		</JFXDialogLayout>
@@ -783,10 +803,10 @@
 								<font>
 									<Font name="Roboto" size="12.0" />
 								</font>
+								<HBox.margin>
+									<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+								</HBox.margin>
 							</Text>
-							<HBox.margin>
-								<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-							</HBox.margin>
 						</HBox>
 					</ScrollPane>
 				</HBox>

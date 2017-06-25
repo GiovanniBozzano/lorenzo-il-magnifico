@@ -359,11 +359,17 @@ public abstract class ConnectionHandler extends Thread
 			return;
 		}
 		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
-		GameStatus.getInstance().setCurrentTurnPlayerIndex(turnPlayerIndex);
+		if (turnPlayerIndex != GameStatus.getInstance().getCurrentTurnPlayerIndex()) {
+			if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+				Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getCurrentTurnPlayerIndex()).getUsername() + "'s turn"));
+			} else {
+				Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() });
+			}
+		} else {
+			GameStatus.getInstance().setCurrentTurnPlayerIndex(turnPlayerIndex);
+		}
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn());
-		} else {
-			Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() });
 		}
 	}
 

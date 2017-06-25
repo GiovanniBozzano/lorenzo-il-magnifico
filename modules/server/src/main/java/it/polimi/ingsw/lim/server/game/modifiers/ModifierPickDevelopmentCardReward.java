@@ -24,7 +24,7 @@ public class ModifierPickDevelopmentCardReward extends Modifier<EventPickDevelop
 	@Override
 	public void apply(EventPickDevelopmentCard event)
 	{
-		if(event.getRow() == Row.THIRD || event.getRow() == Row.FOURTH){
+		if (event.getRow() == Row.THIRD || event.getRow() == Row.FOURTH) {
 			event.setGetBoardPositionReward(false);
 		}
 	}
