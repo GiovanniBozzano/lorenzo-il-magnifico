@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.*?><?import javafx.geometry.Insets?><?import javafx.scene.control.*?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?><?import javafx.scene.text.*?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
 <StackPane fx:id="stackPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.client.gui.ControllerGame">
 	<VBox spacing="10.0">
 		<GridPane>
@@ -356,17 +381,17 @@
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player1Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player1Wood" alignment="CENTER" layoutX="104.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player1Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player1Stone" alignment="CENTER" layoutX="184.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player1Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player1Servant" alignment="CENTER" layoutX="256.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
@@ -641,7 +666,7 @@
 							</font>
 						</JFXButton>
 					</VBox>
-					<HBox spacing="5.0" alignment="CENTER_LEFT">
+					<HBox alignment="CENTER_LEFT" spacing="5.0">
 						<Pane maxHeight="20.0" prefWidth="20.0" style="-fx-background-image: url('/images/icons/timer_icon.png'); -fx-background-size: stretch;" />
 						<Label fx:id="timerLabel" minWidth="35.0">
 							<font>
