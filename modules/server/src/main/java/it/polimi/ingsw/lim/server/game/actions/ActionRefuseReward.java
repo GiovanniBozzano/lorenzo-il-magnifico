@@ -9,7 +9,7 @@ import it.polimi.ingsw.lim.server.game.utils.Phase;
 
 public class ActionRefuseReward extends ActionInformationsRefuseReward implements IAction
 {
-	private final Player player;
+	private transient final Player player;
 
 	public ActionRefuseReward(Player player)
 	{

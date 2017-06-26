@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.common.game.utils;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class ResourceAmount implements Serializable
 {
@@ -37,5 +38,11 @@ public class ResourceAmount implements Serializable
 			return false;
 		}
 		return this.resourceType == ((ResourceAmount) resourceAmount).resourceType && this.amount == ((ResourceAmount) resourceAmount).amount;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(super.hashCode(), this.resourceType, this.amount);
 	}
 }

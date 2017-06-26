@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ActionChooseRewardHarvest extends ActionInformationsChooseRewardHarvest implements IAction
 {
-	private final Player player;
+	private transient final Player player;
 
 	public ActionChooseRewardHarvest(int servants, Player player)
 	{

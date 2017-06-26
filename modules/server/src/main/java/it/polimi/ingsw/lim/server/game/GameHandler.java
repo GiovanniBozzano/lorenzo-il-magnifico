@@ -205,10 +205,8 @@ public class GameHandler
 			this.availableLeaderCards.clear();
 			this.availableLeaderCards.putAll(newlyAvailableLeaderCards);
 			this.sendLeaderCardsChoiceRequest();
-		} else if (this.timer > 3 || this.availableLeaderCards.get(player).size() == 0) {
-			if (player.isOnline()) {
-				player.getConnection().sendGameLeaderCardChosen();
-			}
+		} else if ((this.timer > 3 || this.availableLeaderCards.get(player).isEmpty()) && player.isOnline()) {
+			player.getConnection().sendGameLeaderCardChosen();
 		}
 	}
 

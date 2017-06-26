@@ -22,9 +22,9 @@ import java.util.List;
 
 public class ActionProductionStart extends ActionInformationsProductionStart implements IAction
 {
-	private final Player player;
-	private WorkSlotType workSlotType;
-	private int effectiveActionValue;
+	private transient final Player player;
+	private transient WorkSlotType workSlotType;
+	private transient int effectiveActionValue;
 
 	public ActionProductionStart(FamilyMemberType familyMemberType, int servants, Player player)
 	{

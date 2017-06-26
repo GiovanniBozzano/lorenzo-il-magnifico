@@ -1569,7 +1569,7 @@ public class ControllerGame extends CustomController
 				familyMemberActionNodesList.addAnimatedNode(harvestActionNodesList);
 			}
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET).isEmpty()) {
-				Map<MarketSlot, List<AvailableAction>> mappedMarketSlots = new HashMap<>();
+				Map<MarketSlot, List<AvailableAction>> mappedMarketSlots = new EnumMap<>(MarketSlot.class);
 				mappedMarketSlots.put(MarketSlot.FIRST, new ArrayList<>());
 				mappedMarketSlots.put(MarketSlot.SECOND, new ArrayList<>());
 				mappedMarketSlots.put(MarketSlot.THIRD, new ArrayList<>());

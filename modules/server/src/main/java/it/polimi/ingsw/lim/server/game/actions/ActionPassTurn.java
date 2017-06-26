@@ -7,7 +7,7 @@ import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class ActionPassTurn extends ActionInformationsPassTurn implements IAction
 {
-	private final Player player;
+	private transient final Player player;
 
 	public ActionPassTurn(Player player)
 	{

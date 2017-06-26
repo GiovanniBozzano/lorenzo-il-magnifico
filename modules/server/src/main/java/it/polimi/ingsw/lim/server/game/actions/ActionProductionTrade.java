@@ -23,7 +23,7 @@ import java.util.Map.Entry;
 
 public class ActionProductionTrade extends ActionInformationsProductionTrade implements IAction
 {
-	private final Player player;
+	private transient final Player player;
 
 	public ActionProductionTrade(Map<Integer, ResourceTradeOption> chosenDevelopmentCardsBuilding, Player player)
 	{

@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChooseRewardCouncilPrivilege implements IAction
 {
-	private final Player player;
+	private transient final Player player;
 
 	public ActionChooseRewardCouncilPrivilege(List<List<Integer>> councilPalaceRewardIndexes, Player player)
 	{

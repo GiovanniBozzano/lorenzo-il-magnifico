@@ -28,7 +28,7 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 
 	public void setExcommunicationTiles(Map<Period, Integer> excommunicationTiles)
 	{
-		this.excommunicationTiles = new HashMap<>(excommunicationTiles);
+		this.excommunicationTiles = new EnumMap<>(excommunicationTiles);
 	}
 
 	public Map<Integer, PlayerIdentification> getPlayersIdentifications()

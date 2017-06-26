@@ -209,7 +209,7 @@ public class Utils
 
 	public static <T extends DevelopmentCard> Map<Period, List<T>> deepCopyDevelopmentCards(Map<Period, List<T>> original)
 	{
-		Map<Period, List<T>> copy = new HashMap<>();
+		Map<Period, List<T>> copy = new EnumMap<>(Period.class);
 		for (Entry<Period, List<T>> entry : original.entrySet()) {
 			List<T> developmentCards = new ArrayList<>();
 			developmentCards.addAll(entry.getValue());

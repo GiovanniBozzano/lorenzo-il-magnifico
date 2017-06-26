@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.common.game.utils;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 public class ResourceCostOption implements Serializable
 {
@@ -31,5 +32,11 @@ public class ResourceCostOption implements Serializable
 			return false;
 		}
 		return this.requiredResources.equals(((ResourceCostOption) resourceCostOption).requiredResources) && this.spentResources.equals(((ResourceCostOption) resourceCostOption).spentResources);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(super.hashCode(), this.requiredResources, this.spentResources);
 	}
 }

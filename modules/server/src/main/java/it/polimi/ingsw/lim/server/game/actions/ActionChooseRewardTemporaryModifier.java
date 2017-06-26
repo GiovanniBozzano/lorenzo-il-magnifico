@@ -11,7 +11,7 @@ import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class ActionChooseRewardTemporaryModifier extends ActionInformationsChooseRewardTemporaryModifier implements IAction
 {
-	private final Player player;
+	private transient final Player player;
 
 	public ActionChooseRewardTemporaryModifier(FamilyMemberType familyMemberType, Player player)
 	{

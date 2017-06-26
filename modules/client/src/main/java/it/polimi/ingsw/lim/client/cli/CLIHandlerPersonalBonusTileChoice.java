@@ -52,7 +52,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
-			Client.getLogger().log(Level.INFO, stringBuilder.toString());
+			Client.getLogger().log(Level.INFO, "{0}", stringBuilder.toString());
 			Client.getLogger().log(Level.INFO, "============================");
 			GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue());
 		}

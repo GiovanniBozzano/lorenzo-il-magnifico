@@ -15,8 +15,8 @@ import it.polimi.ingsw.lim.server.game.utils.Phase;
 
 public class ActionLeaderActivate extends ActionInformationsLeaderActivate implements IAction
 {
-	private final Player player;
-	private LeaderCard leaderCard;
+	private transient final Player player;
+	private transient LeaderCard leaderCard;
 
 	public ActionLeaderActivate(int leaderCardIndex, Player player)
 	{

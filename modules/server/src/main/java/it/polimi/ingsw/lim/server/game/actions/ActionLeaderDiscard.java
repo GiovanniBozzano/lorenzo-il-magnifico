@@ -17,8 +17,8 @@ import java.util.Collections;
 
 public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard implements IAction
 {
-	private final Player player;
-	private LeaderCard leaderCard;
+	private transient final Player player;
+	private transient LeaderCard leaderCard;
 
 	public ActionLeaderDiscard(int leaderCardIndex, Player player)
 	{

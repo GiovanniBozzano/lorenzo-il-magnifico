@@ -15,7 +15,7 @@ import it.polimi.ingsw.lim.server.game.utils.Phase;
 
 public class ActionMarket extends ActionInformationsMarket implements IAction
 {
-	private final Player player;
+	private transient final Player player;
 
 	public ActionMarket(FamilyMemberType familyMemberType, int servants, MarketSlot marketSlot, Player player)
 	{
@@ -45,9 +45,7 @@ public class ActionMarket extends ActionInformationsMarket implements IAction
 			return false;
 		}
 		// check market slots' presence
-		if ((this.getMarketSlot() == MarketSlot.SIXTH || this.getMarketSlot() == MarketSlot.FIFTH) && room.getPlayers().size() < 5) {
-			return false;
-		} else if ((this.getMarketSlot() == MarketSlot.FOURTH || this.getMarketSlot() == MarketSlot.THIRD) && room.getPlayers().size() < 4) {
+		if (((this.getMarketSlot() == MarketSlot.SIXTH || this.getMarketSlot() == MarketSlot.FIFTH) && room.getPlayers().size() < 5) || ((this.getMarketSlot() == MarketSlot.FOURTH || this.getMarketSlot() == MarketSlot.THIRD) && room.getPlayers().size() < 4)) {
 			return false;
 		}
 		// check if the family member is usable

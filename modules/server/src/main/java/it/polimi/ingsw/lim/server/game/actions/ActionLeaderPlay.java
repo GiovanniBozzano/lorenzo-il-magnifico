@@ -19,8 +19,8 @@ import it.polimi.ingsw.lim.server.game.utils.Phase;
 
 public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IAction
 {
-	private final Player player;
-	private LeaderCard leaderCard;
+	private transient final Player player;
+	private transient LeaderCard leaderCard;
 
 	public ActionLeaderPlay(int leaderCardIndex, LeaderCardConditionsOption leaderCardConditionsOption, Player player)
 	{

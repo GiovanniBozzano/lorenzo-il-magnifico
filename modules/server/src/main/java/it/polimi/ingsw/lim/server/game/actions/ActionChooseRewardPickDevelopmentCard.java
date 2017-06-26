@@ -27,10 +27,10 @@ import java.util.List;
 
 public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsChooseRewardPickDevelopmentCard implements IAction
 {
-	private final Player player;
-	private boolean columnOccupied = false;
-	private boolean getBoardPositionReward = true;
-	private List<ResourceAmount> effectiveResourceCost;
+	private transient final Player player;
+	private transient boolean columnOccupied = false;
+	private transient boolean getBoardPositionReward = true;
+	private transient List<ResourceAmount> effectiveResourceCost;
 
 	public ActionChooseRewardPickDevelopmentCard(int servants, CardType cardType, Row row, Row instantRewardRow, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption, Player player)
 	{

@@ -17,7 +17,7 @@ import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class ActionCouncilPalace extends ActionInformationsCouncilPalace implements IAction
 {
-	private final Player player;
+	private transient final Player player;
 
 	public ActionCouncilPalace(FamilyMemberType familyMemberType, int servants, Player player)
 	{
