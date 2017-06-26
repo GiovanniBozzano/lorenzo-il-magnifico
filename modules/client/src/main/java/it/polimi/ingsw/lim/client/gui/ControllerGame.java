@@ -2281,10 +2281,10 @@ public class ControllerGame extends CustomController
 					if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty()) {
 						this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
 					} else {
-						List<Pane> resourceCostOptionsPanes = new ArrayList<>();
+						List<AnchorPane> resourceCostOptionsAnchorPanes = new ArrayList<>();
 						for (ResourceCostOption resourceCostOption : ((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions()) {
-							Pane pane = new Pane();
-							resourceCostOptionsPanes.add(pane);
+							AnchorPane anchorPane = new AnchorPane();
+							resourceCostOptionsAnchorPanes.add(anchorPane);
 							Text text = new Text();
 							StringBuilder stringBuilder = new StringBuilder();
 							boolean first = true;
@@ -2310,20 +2310,24 @@ public class ControllerGame extends CustomController
 								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 							}
 							text.setText(stringBuilder.toString());
-							pane.getChildren().add(text);
-							pane.setOnMouseClicked(childEvent -> {
+							anchorPane.getChildren().add(text);
+							AnchorPane.setTopAnchor(text, 0.0);
+							AnchorPane.setBottomAnchor(text, 0.0);
+							AnchorPane.setLeftAnchor(text, 0.0);
+							AnchorPane.setRightAnchor(text, 0.0);
+							anchorPane.setOnMouseClicked(childEvent -> {
 								this.selectedResourceCostOption = resourceCostOption;
 								if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty() || !this.selectedDiscountChoice.isEmpty()) {
 									this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
 								}
-								pane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
-								for (Pane otherPane : resourceCostOptionsPanes) {
-									if (otherPane != pane) {
-										otherPane.setEffect(null);
+								anchorPane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
+								for (AnchorPane otherAnchorPane : resourceCostOptionsAnchorPanes) {
+									if (otherAnchorPane != anchorPane) {
+										otherAnchorPane.setEffect(null);
 									}
 								}
 							});
-							this.pickDevelopmentCardChoiceDialogResourceCostOptionsHBox.getChildren().add(pane);
+							this.pickDevelopmentCardChoiceDialogResourceCostOptionsHBox.getChildren().add(anchorPane);
 						}
 					}
 					break;
