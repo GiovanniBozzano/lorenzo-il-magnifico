@@ -4,6 +4,7 @@
 			"index": 0,
 			"texturePath": "/images/development_cards/character/development_card_character_0.png",
 			"displayName": "Warlord",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -38,6 +39,7 @@
 			"index": 1,
 			"texturePath": "/images/development_cards/character/development_card_character_1.png",
 			"displayName": "Stonemason",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -85,6 +87,7 @@
 			"index": 2,
 			"texturePath": "/images/development_cards/character/development_card_character_2.png",
 			"displayName": "Dame",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -123,6 +126,7 @@
 			"index": 3,
 			"texturePath": "/images/development_cards/character/development_card_character_3.png",
 			"displayName": "Knight",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -157,6 +161,7 @@
 			"index": 4,
 			"texturePath": "/images/development_cards/character/development_card_character_4.png",
 			"displayName": "Farmer",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -183,6 +188,7 @@
 			"index": 5,
 			"texturePath": "/images/development_cards/character/development_card_character_5.png",
 			"displayName": "Artisan",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -209,6 +215,7 @@
 			"index": 6,
 			"texturePath": "/images/development_cards/character/development_card_character_6.png",
 			"displayName": "Preacher",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -244,6 +251,7 @@
 			"index": 7,
 			"texturePath": "/images/development_cards/character/development_card_character_7.png",
 			"displayName": "Abbess",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -285,6 +293,7 @@
 			"index": 8,
 			"texturePath": "/images/development_cards/character/development_card_character_8.png",
 			"displayName": "Captain",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -321,6 +330,7 @@
 			"index": 9,
 			"texturePath": "/images/development_cards/character/development_card_character_9.png",
 			"displayName": "Architect",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -370,6 +380,7 @@
 			"index": 10,
 			"texturePath": "/images/development_cards/character/development_card_character_10.png",
 			"displayName": "Patron",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -410,6 +421,7 @@
 			"index": 11,
 			"texturePath": "/images/development_cards/character/development_card_character_11.png",
 			"displayName": "Hero",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -446,6 +458,7 @@
 			"index": 12,
 			"texturePath": "/images/development_cards/character/development_card_character_12.png",
 			"displayName": "Peasant",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -472,6 +485,7 @@
 			"index": 13,
 			"texturePath": "/images/development_cards/character/development_card_character_13.png",
 			"displayName": "Scholar",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -498,6 +512,7 @@
 			"index": 14,
 			"texturePath": "/images/development_cards/character/development_card_character_14.png",
 			"displayName": "Papal Messenger",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -526,6 +541,7 @@
 			"index": 15,
 			"texturePath": "/images/development_cards/character/development_card_character_15.png",
 			"displayName": "Royal Messenger",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -556,6 +572,7 @@
 			"index": 16,
 			"texturePath": "/images/development_cards/character/development_card_character_16.png",
 			"displayName": "Noble",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -585,6 +602,7 @@
 			"index": 17,
 			"texturePath": "/images/development_cards/character/development_card_character_17.png",
 			"displayName": "Governor",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -614,6 +632,7 @@
 			"index": 18,
 			"texturePath": "/images/development_cards/character/development_card_character_18.png",
 			"displayName": "Paramour",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -643,6 +662,7 @@
 			"index": 19,
 			"texturePath": "/images/development_cards/character/development_card_character_19.png",
 			"displayName": "Herald",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -672,6 +692,7 @@
 			"index": 20,
 			"texturePath": "/images/development_cards/character/development_card_character_20.png",
 			"displayName": "Cardinal",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -705,6 +726,7 @@
 			"index": 21,
 			"texturePath": "/images/development_cards/character/development_card_character_21.png",
 			"displayName": "Bishop",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -738,6 +760,7 @@
 			"index": 22,
 			"texturePath": "/images/development_cards/character/development_card_character_22.png",
 			"displayName": "General",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -768,6 +791,7 @@
 			"index": 23,
 			"texturePath": "/images/development_cards/character/development_card_character_23.png",
 			"displayName": "Ambassador",
+			"cardType": "CHARACTER",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],

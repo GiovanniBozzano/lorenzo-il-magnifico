@@ -2243,11 +2243,8 @@ public class ControllerGame extends CustomController
 			this.selectedResourceCostOption = null;
 			for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
 				if (((AvailableActionPickDevelopmentCard) availableAction).getCardType() == this.selectedDevelopmentCardType && ((AvailableActionPickDevelopmentCard) availableAction).getRow() == GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex)) {
-					if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty()) {
+					if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty() || ((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty()) {
 						this.pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane.setDisable(true);
-						if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty()) {
-							this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
-						}
 					} else {
 						this.pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane.setDisable(false);
 						for (List<ResourceAmount> discountChoice : ((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices()) {
@@ -2277,9 +2274,7 @@ public class ControllerGame extends CustomController
 					}
 					if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty()) {
 						this.pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane.setDisable(true);
-						if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty()) {
-							this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
-						}
+						this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
 					} else {
 						this.pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane.setDisable(false);
 						for (ResourceCostOption resourceCostOption : ((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions()) {

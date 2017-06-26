@@ -29,7 +29,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 	private final Player player;
 	private boolean columnOccupied = false;
 	private boolean getBoardPositionReward = true;
-	private List<ResourceAmount> effectiveResourceCost;
+	private final List<ResourceAmount> effectiveResourceCost = new ArrayList<>();
 
 	public ActionPickDevelopmentCard(FamilyMemberType familyMemberType, int servants, CardType cardType, Row row, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption, Player player)
 	{
@@ -119,17 +119,17 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		// check if the family member and servants value is high enough
 		EventPickDevelopmentCard eventPickDevelopmentCard = new EventPickDevelopmentCard(this.player, this.getCardType(), this.getRow(), this.getResourceCostOption() == null ? null : this.getResourceCostOption().getSpentResources(), effectiveFamilyMemberValue + effectiveServantsValue);
 		eventPickDevelopmentCard.applyModifiers(this.player.getActiveModifiers());
-		this.effectiveResourceCost = eventPickDevelopmentCard.getResourceCost();
+		this.effectiveResourceCost.addAll(eventPickDevelopmentCard.getResourceCost());
 		this.getBoardPositionReward = eventPickDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
 		if (developmentCard.getCardType() == CardType.TERRITORY && !eventPickDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.getPlayerResourceHandler().isTerritorySlotAvailable(this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
 			return false;
 		}
-		if (this.getResourceCostOption() == null && this.getDiscountChoice() != null) {
+		if (this.getResourceCostOption() == null && !this.getDiscountChoice().isEmpty()) {
 			return false;
 		}
 		if (this.getResourceCostOption() != null) {
-			if (this.getDiscountChoice() == null) {
+			if (this.getDiscountChoice().isEmpty()) {
 				boolean validDiscountChoice = true;
 				for (Modifier modifier : this.player.getActiveModifiers()) {
 					if (modifier instanceof ModifierPickDevelopmentCard && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty()) {
@@ -153,7 +153,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 				}
 			}
 		}
-		if (this.getDiscountChoice() != null) {
+		if (!this.getDiscountChoice().isEmpty()) {
 			for (ResourceAmount effectiveResourceAmount : this.effectiveResourceCost) {
 				for (ResourceAmount discountResourceAmount : this.getDiscountChoice()) {
 					if (discountResourceAmount.getResourceType() == effectiveResourceAmount.getResourceType()) {
@@ -163,18 +163,13 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			}
 		}
 		if (this.columnOccupied) {
-			if (this.effectiveResourceCost == null) {
-				this.effectiveResourceCost = new ArrayList<>();
-			}
 			this.effectiveResourceCost.add(new ResourceAmount(ResourceType.COIN, 3));
 		}
 		// prendo prezzo finale e controllo che il giocatore abbia le risorse necessarie
-		if (this.effectiveResourceCost != null) {
-			for (ResourceAmount resourceCost : this.effectiveResourceCost) {
-				int playerResources = this.player.getPlayerResourceHandler().getResources().get(resourceCost.getResourceType());
-				if (playerResources < resourceCost.getAmount()) {
-					return false;
-				}
+		for (ResourceAmount resourceCost : this.effectiveResourceCost) {
+			int playerResources = this.player.getPlayerResourceHandler().getResources().get(resourceCost.getResourceType());
+			if (playerResources < resourceCost.getAmount()) {
+				return false;
 			}
 		}
 		return eventPickDevelopmentCard.getActionValue() >= BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue();

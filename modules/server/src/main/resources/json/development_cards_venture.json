@@ -4,6 +4,7 @@
 			"index": 0,
 			"texturePath": "/images/development_cards/venture/development_card_venture_0.png",
 			"displayName": "Hiring Recruits",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -32,6 +33,7 @@
 			"index": 1,
 			"texturePath": "/images/development_cards/venture/development_card_venture_1.png",
 			"displayName": "Repairing the Church",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -70,6 +72,7 @@
 			"index": 2,
 			"texturePath": "/images/development_cards/venture/development_card_venture_2.png",
 			"displayName": "Buildings the Walls",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -103,6 +106,7 @@
 			"index": 3,
 			"texturePath": "/images/development_cards/venture/development_card_venture_3.png",
 			"displayName": "Raising a Statue",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -136,6 +140,7 @@
 			"index": 4,
 			"texturePath": "/images/development_cards/venture/development_card_venture_4.png",
 			"displayName": "Military Campaign",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -170,6 +175,7 @@
 			"index": 5,
 			"texturePath": "/images/development_cards/venture/development_card_venture_5.png",
 			"displayName": "Hosting Panhandlers",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -198,6 +204,7 @@
 			"index": 6,
 			"texturePath": "/images/development_cards/venture/development_card_venture_6.png",
 			"displayName": "Fighting Heresies",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -232,6 +239,7 @@
 			"index": 7,
 			"texturePath": "/images/development_cards/venture/development_card_venture_7.png",
 			"displayName": "Support to the Bishop",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -288,6 +296,7 @@
 			"index": 8,
 			"texturePath": "/images/development_cards/venture/development_card_venture_8.png",
 			"displayName": "Hiring Soldiers",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -316,6 +325,7 @@
 			"index": 9,
 			"texturePath": "/images/development_cards/venture/development_card_venture_9.png",
 			"displayName": "Repairing the Abbey",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -354,6 +364,7 @@
 			"index": 10,
 			"texturePath": "/images/development_cards/venture/development_card_venture_10.png",
 			"displayName": "Building the Bastions",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -387,6 +398,7 @@
 			"index": 11,
 			"texturePath": "/images/development_cards/venture/development_card_venture_11.png",
 			"displayName": "Support to the King",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -426,6 +438,7 @@
 			"index": 12,
 			"texturePath": "/images/development_cards/venture/development_card_venture_12.png",
 			"displayName": "Improving the Canals",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -458,6 +471,7 @@
 			"index": 13,
 			"texturePath": "/images/development_cards/venture/development_card_venture_13.png",
 			"displayName": "Hosting Foreigners",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -486,6 +500,7 @@
 			"index": 14,
 			"texturePath": "/images/development_cards/venture/development_card_venture_14.png",
 			"displayName": "Crusade",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -525,6 +540,7 @@
 			"index": 15,
 			"texturePath": "/images/development_cards/venture/development_card_venture_15.png",
 			"displayName": "Support to the Cardinal",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -581,6 +597,7 @@
 			"index": 16,
 			"texturePath": "/images/development_cards/venture/development_card_venture_16.png",
 			"displayName": "Hiring Mercenaries",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -609,6 +626,7 @@
 			"index": 17,
 			"texturePath": "/images/development_cards/venture/development_card_venture_17.png",
 			"displayName": "Repairing the Cathedral",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -658,6 +676,7 @@
 			"index": 18,
 			"texturePath": "/images/development_cards/venture/development_card_venture_18.png",
 			"displayName": "Building the Towers",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -691,6 +710,7 @@
 			"index": 19,
 			"texturePath": "/images/development_cards/venture/development_card_venture_19.png",
 			"displayName": "Promoting Sacred Art",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -719,6 +739,7 @@
 			"index": 20,
 			"texturePath": "/images/development_cards/venture/development_card_venture_20.png",
 			"displayName": "Military Conquest",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -763,6 +784,7 @@
 			"index": 21,
 			"texturePath": "/images/development_cards/venture/development_card_venture_21.png",
 			"displayName": "Improving the Roads",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [],
@@ -795,6 +817,7 @@
 			"index": 22,
 			"texturePath": "/images/development_cards/venture/development_card_venture_22.png",
 			"displayName": "Sacred War",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [
@@ -829,6 +852,7 @@
 			"index": 23,
 			"texturePath": "/images/development_cards/venture/development_card_venture_23.png",
 			"displayName": "Support to the Pope",
+			"cardType": "VENTURE",
 			"resourceCostOptions": [
 				{
 					"requiredResources": [

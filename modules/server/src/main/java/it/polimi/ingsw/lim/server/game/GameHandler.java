@@ -205,7 +205,7 @@ public class GameHandler
 			this.availableLeaderCards.clear();
 			this.availableLeaderCards.putAll(newlyAvailableLeaderCards);
 			this.sendLeaderCardsChoiceRequest();
-		} else if (this.timer > 3) {
+		} else if (this.timer > 3 || this.availableLeaderCards.get(player).size() == 0) {
 			if (player.isOnline()) {
 				player.getConnection().sendGameLeaderCardChosen();
 			}
@@ -642,13 +642,21 @@ public class GameHandler
 		Map<Row, Integer> developmentCardsVentureInformations = new EnumMap<>(Row.class);
 		for (Row row : Row.values()) {
 			DevelopmentCard developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.BUILDING).get(row);
-			developmentCardsBuildingInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
+			if (developmentCard != null) {
+				developmentCardsBuildingInformations.put(row, developmentCard.getIndex());
+			}
 			developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.CHARACTER).get(row);
-			developmentCardsCharacterInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
+			if (developmentCard != null) {
+				developmentCardsCharacterInformations.put(row, developmentCard.getIndex());
+			}
 			developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.TERRITORY).get(row);
-			developmentCardsTerritoryInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
+			if (developmentCard != null) {
+				developmentCardsTerritoryInformations.put(row, developmentCard.getIndex());
+			}
 			developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.VENTURE).get(row);
-			developmentCardsVentureInformations.put(row, developmentCard == null ? null : developmentCard.getIndex());
+			if (developmentCard != null) {
+				developmentCardsVentureInformations.put(row, developmentCard.getIndex());
+			}
 		}
 		Map<FamilyMemberType, Integer> dices = new EnumMap<>(FamilyMemberType.class);
 		for (Entry<FamilyMemberType, Integer> dice : this.familyMemberTypeValues.entrySet()) {
@@ -754,6 +762,9 @@ public class GameHandler
 				}
 			}
 			for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).keySet()) {
+				if (this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row) == null) {
+					continue;
+				}
 				List<ResourceCostOption> availableResourceCostOptions = new ArrayList<>();
 				List<List<ResourceAmount>> availableDiscountChoises = new ArrayList<>();
 				for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
@@ -762,13 +773,13 @@ public class GameHandler
 					}
 					boolean validFamilyMember = false;
 					if (this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions().isEmpty()) {
-						if (new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, null, null, player).isLegal()) {
+						if (new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, new ArrayList<>(), null, player).isLegal()) {
 							validFamilyMember = true;
 						}
 					} else {
 						for (ResourceCostOption resourceCostOption : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions()) {
 							if (discountChoices.isEmpty()) {
-								if (new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, null, resourceCostOption, player).isLegal()) {
+								if (new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, new ArrayList<>(), resourceCostOption, player).isLegal()) {
 									validFamilyMember = true;
 									if (!availableResourceCostOptions.contains(resourceCostOption)) {
 										availableResourceCostOptions.add(resourceCostOption);
@@ -907,5 +918,10 @@ public class GameHandler
 	List<Player> getExcommunicationChoosingPlayers()
 	{
 		return this.excommunicationChoosingPlayers;
+	}
+
+	ScheduledExecutorService getTimerExecutor()
+	{
+		return this.timerExecutor;
 	}
 }

@@ -31,6 +31,9 @@ public class Room
 		if (this.gameHandler == null) {
 			this.removePlayer(player);
 			if (this.players.isEmpty()) {
+				if (this.gameHandler != null) {
+					this.gameHandler.getTimerExecutor().shutdownNow();
+				}
 				Server.getInstance().getRooms().remove(this);
 			} else {
 				for (Connection otherPlayer : this.players) {
@@ -112,6 +115,16 @@ public class Room
 			this.timerExecutor.shutdownNow();
 		}
 		this.gameHandler = new GameHandler(this);
+	}
+
+	public void dispose()
+	{
+		if (this.timerExecutor != null) {
+			this.timerExecutor.shutdownNow();
+		}
+		if (this.gameHandler != null) {
+			this.gameHandler.getTimerExecutor().shutdownNow();
+		}
 	}
 
 	public static Room getPlayerRoom(Connection connection)

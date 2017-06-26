@@ -4,6 +4,7 @@
 			"index": 0,
 			"texturePath": "/images/development_cards/territory/development_card_territory_0.png",
 			"displayName": "Commercial Hub",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -22,6 +23,7 @@
 			"index": 1,
 			"texturePath": "/images/development_cards/territory/development_card_territory_1.png",
 			"displayName": "Woods",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -46,6 +48,7 @@
 			"index": 2,
 			"texturePath": "/images/development_cards/territory/development_card_territory_2.png",
 			"displayName": "Village",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -69,6 +72,7 @@
 			"index": 3,
 			"texturePath": "/images/development_cards/territory/development_card_territory_3.png",
 			"displayName": "Gravel Pit",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -93,6 +97,7 @@
 			"index": 4,
 			"texturePath": "/images/development_cards/territory/development_card_territory_4.png",
 			"displayName": "Forest",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -117,6 +122,7 @@
 			"index": 5,
 			"texturePath": "/images/development_cards/territory/development_card_territory_5.png",
 			"displayName": "Monastery",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -151,6 +157,7 @@
 			"index": 6,
 			"texturePath": "/images/development_cards/territory/development_card_territory_6.png",
 			"displayName": "Citadel",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -174,6 +181,7 @@
 			"index": 7,
 			"texturePath": "/images/development_cards/territory/development_card_territory_7.png",
 			"displayName": "City",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -200,6 +208,7 @@
 			"index": 8,
 			"texturePath": "/images/development_cards/territory/development_card_territory_8.png",
 			"displayName": "Gold Mine",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -224,6 +233,7 @@
 			"index": 9,
 			"texturePath": "/images/development_cards/territory/development_card_territory_9.png",
 			"displayName": "Mountain Town",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -253,6 +263,7 @@
 			"index": 10,
 			"texturePath": "/images/development_cards/territory/development_card_territory_10.png",
 			"displayName": "Mining Town",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -287,6 +298,7 @@
 			"index": 11,
 			"texturePath": "/images/development_cards/territory/development_card_territory_11.png",
 			"displayName": "Rock Pit",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -311,6 +323,7 @@
 			"index": 12,
 			"texturePath": "/images/development_cards/territory/development_card_territory_12.png",
 			"displayName": "Estate",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -345,6 +358,7 @@
 			"index": 13,
 			"texturePath": "/images/development_cards/territory/development_card_territory_13.png",
 			"displayName": "Hermitage",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -369,6 +383,7 @@
 			"index": 14,
 			"texturePath": "/images/development_cards/territory/development_card_territory_14.png",
 			"displayName": "Manor House",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -392,6 +407,7 @@
 			"index": 15,
 			"texturePath": "/images/development_cards/territory/development_card_territory_15.png",
 			"displayName": "Dukedom",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -428,6 +444,7 @@
 			"index": 16,
 			"texturePath": "/images/development_cards/territory/development_card_territory_16.png",
 			"displayName": "Trading Town",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -457,6 +474,7 @@
 			"index": 17,
 			"texturePath": "/images/development_cards/territory/development_card_territory_17.png",
 			"displayName": "Farm",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -491,6 +509,7 @@
 			"index": 18,
 			"texturePath": "/images/development_cards/territory/development_card_territory_18.png",
 			"displayName": "Colony",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -520,6 +539,7 @@
 			"index": 19,
 			"texturePath": "/images/development_cards/territory/development_card_territory_19.png",
 			"displayName": "Marble Pit",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -549,6 +569,7 @@
 			"index": 20,
 			"texturePath": "/images/development_cards/territory/development_card_territory_20.png",
 			"displayName": "Province",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -583,6 +604,7 @@
 			"index": 21,
 			"texturePath": "/images/development_cards/territory/development_card_territory_21.png",
 			"displayName": "Sanctuary",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -612,6 +634,7 @@
 			"index": 22,
 			"texturePath": "/images/development_cards/territory/development_card_territory_22.png",
 			"displayName": "Castle",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,
@@ -646,6 +669,7 @@
 			"index": 23,
 			"texturePath": "/images/development_cards/territory/development_card_territory_23.png",
 			"displayName": "Fortified Town",
+			"cardType": "TERRITORY",
 			"resourceCostOptions": [],
 			"reward": {
 				"actionReward": null,

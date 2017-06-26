@@ -73,6 +73,9 @@ public class Server extends Instance
 			if (this.connectionHandler != null) {
 				Connection.broadcastChatMessage("Server shutting down...");
 				Connection.disconnectAll();
+				for (Room room : this.rooms) {
+					room.dispose();
+				}
 				if (this.connectionHandler.getRegistry() != null) {
 					try {
 						this.connectionHandler.getRegistry().unbind("lorenzo-il-magnifico");

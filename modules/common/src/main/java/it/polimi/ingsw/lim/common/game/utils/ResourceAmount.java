@@ -29,4 +29,13 @@ public class ResourceAmount implements Serializable
 	{
 		this.amount = amount <= 0 ? 0 : amount;
 	}
+
+	@Override
+	public boolean equals(Object resourceAmount)
+	{
+		if (!(resourceAmount instanceof ResourceAmount)) {
+			return false;
+		}
+		return this.resourceType == ((ResourceAmount) resourceAmount).resourceType && this.amount == ((ResourceAmount) resourceAmount).amount;
+	}
 }

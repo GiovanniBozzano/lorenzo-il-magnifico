@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.server.game.player;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 
@@ -49,7 +48,7 @@ public class PlayerCardHandler
 
 	public void addDevelopmentCard(DevelopmentCard developmentCard)
 	{
-		this.developmentCards.get(developmentCard.getCardType()).add(CardsHandler.getDevelopmentCardsTypes().get(developmentCard.getCardType()).cast(developmentCard));
+		this.developmentCards.get(developmentCard.getCardType()).add(developmentCard);
 	}
 
 	public boolean canAddDevelopmentCard(CardType cardType)

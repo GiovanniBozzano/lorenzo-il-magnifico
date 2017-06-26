@@ -5,13 +5,14 @@ import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.game.player.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventPickDevelopmentCard extends Event
 {
 	private final CardType cardType;
 	private final Row row;
-	private final List<ResourceAmount> cost;
+	private final List<ResourceAmount> cost = new ArrayList<>();
 	private int actionValue;
 	private boolean ignoreTerritoriesSlotLock = false;
 	private boolean getBoardPositionReward = true;
@@ -21,7 +22,9 @@ public class EventPickDevelopmentCard extends Event
 		super(player);
 		this.cardType = cardType;
 		this.row = row;
-		this.cost = cost;
+		if (cost != null) {
+			this.cost.addAll(cost);
+		}
 		this.actionValue = actionValue;
 	}
 
