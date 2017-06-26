@@ -8,6 +8,7 @@ import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
@@ -102,11 +103,11 @@ public abstract class Connection
 
 	public abstract void sendGameExcommunicationChoiceRequest(Period period);
 
-	public abstract void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions);
+	public abstract void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions);
 
-	public abstract void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, ExpectedAction expectedAction);
+	public abstract void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand, ExpectedAction expectedAction);
 
-	public abstract void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, int turnPlayerIndex);
+	public abstract void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand, int turnPlayerIndex);
 
 	public void handleRoomTimerRequest()
 	{

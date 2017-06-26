@@ -19,6 +19,7 @@ import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
@@ -331,7 +332,7 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
-	public void handleGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)
+	public void handleGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
@@ -346,7 +347,7 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
-	public void handleGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, ExpectedAction expectedAction)
+	public void handleGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand, ExpectedAction expectedAction)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
@@ -355,7 +356,7 @@ public abstract class ConnectionHandler extends Thread
 		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
 	}
 
-	public void handleGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, int turnPlayerIndex)
+	public void handleGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand, int turnPlayerIndex)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;

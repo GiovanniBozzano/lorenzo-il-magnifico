@@ -5,6 +5,7 @@ import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.*;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.CardAmount;
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
@@ -701,7 +702,7 @@ public class GameHandler
 			int leaderCardsInHandNumber = 0;
 			for (LeaderCard leaderCard : player.getPlayer().getPlayerCardHandler().getLeaderCards()) {
 				if (leaderCard.isPlayed()) {
-					leaderCardsPlayed.put(leaderCard.getIndex(), leaderCard.getLeaderCardType() != LeaderCardType.MODIFIER && ((LeaderCardReward) leaderCard).isActivated());
+					leaderCardsPlayed.put(leaderCard.getIndex(), leaderCard.getLeaderCardType() != LeaderCardType.MODIFIER && !((LeaderCardReward) leaderCard).isActivated());
 				} else {
 					leaderCardsInHandNumber++;
 				}
@@ -711,13 +712,37 @@ public class GameHandler
 		return playersInformations;
 	}
 
-	public List<Integer> generateLeaderCardsHand(Player player)
+	public Map<Integer, List<LeaderCardConditionsOption>> generateLeaderCardsHand(Player player)
 	{
-		List<Integer> leaderCardsHand = new ArrayList<>();
+		Map<Integer, List<LeaderCardConditionsOption>> leaderCardsHand = new HashMap<>();
 		for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {
-			if (!leaderCard.isPlayed()) {
-				leaderCardsHand.add(leaderCard.getIndex());
+			if (leaderCard.isPlayed()) {
+				continue;
 			}
+			List<LeaderCardConditionsOption> availableLeaderCardContitionsOptions = new ArrayList<>();
+			for (LeaderCardConditionsOption leaderCardConditionsOption : leaderCard.getConditionsOptions()) {
+				boolean availableLeadercardConditionOption = true;
+				if (leaderCardConditionsOption.getResourceAmounts() != null) {
+					for (ResourceAmount requiredResources : leaderCardConditionsOption.getResourceAmounts()) {
+						int playerResources = player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
+						if (playerResources < requiredResources.getAmount()) {
+							availableLeadercardConditionOption = false;
+						}
+					}
+				}
+				if (leaderCardConditionsOption.getCardAmounts() != null) {
+					for (CardAmount requiredCards : leaderCardConditionsOption.getCardAmounts()) {
+						int playerCards = player.getPlayerCardHandler().getDevelopmentCardsNumber(requiredCards.getCardType());
+						if (playerCards < requiredCards.getAmount()) {
+							availableLeadercardConditionOption = false;
+						}
+					}
+				}
+				if (availableLeadercardConditionOption) {
+					availableLeaderCardContitionsOptions.add(leaderCardConditionsOption);
+				}
+			}
+			leaderCardsHand.put(leaderCard.getIndex(), availableLeaderCardContitionsOptions);
 		}
 		return leaderCardsHand;
 	}

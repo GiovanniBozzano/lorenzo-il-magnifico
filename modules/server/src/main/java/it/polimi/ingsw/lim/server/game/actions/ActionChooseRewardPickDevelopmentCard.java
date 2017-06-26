@@ -96,7 +96,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 			return false;
 		}
 		// check if the player has the requiredResources
-		if (this.getResourceCostOption().getRequiredResources() != null) {
+		if (this.getResourceCostOption() != null) {
 			for (ResourceAmount requiredResources : this.getResourceCostOption().getRequiredResources()) {
 				int playerResources = this.player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
 				if (playerResources < requiredResources.getAmount()) {
@@ -114,17 +114,17 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 			return false;
 		}
 		// controlla presenza discountchoice nell'array actionreward
-		if ((this.getDiscountChoice() == null && !((ActionRewardPickDevelopmentCard) this.player.getCurrentActionReward()).getInstantDiscountChoices().isEmpty()) || (this.getInstantDiscountChoice() != null && !((ActionRewardPickDevelopmentCard) this.player.getCurrentActionReward()).getInstantDiscountChoices().contains(this.getInstantDiscountChoice()))) {
+		if ((this.getInstantDiscountChoice().isEmpty() && !((ActionRewardPickDevelopmentCard) this.player.getCurrentActionReward()).getInstantDiscountChoices().isEmpty()) || (!this.getInstantDiscountChoice().isEmpty() && !((ActionRewardPickDevelopmentCard) this.player.getCurrentActionReward()).getInstantDiscountChoices().contains(this.getInstantDiscountChoice()))) {
 			return false;
 		}
-		if (this.getResourceCostOption() == null && this.getDiscountChoice() != null) {
+		if (this.getResourceCostOption() == null && !this.getDiscountChoice().isEmpty()) {
 			return false;
 		}
 		if (this.getResourceCostOption() != null) {
-			if (this.getDiscountChoice() == null) {
+			if (this.getDiscountChoice().isEmpty()) {
 				boolean validDiscountChoice = true;
 				for (Modifier modifier : this.player.getActiveModifiers()) {
-					if (modifier.getEventClass() == EventPickDevelopmentCard.class && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty()) {
+					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == this.getCardType() && (((ModifierPickDevelopmentCard) modifier).getDiscountChoices() != null || !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty())) {
 						validDiscountChoice = false;
 						break;
 					}
@@ -135,7 +135,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 			} else {
 				boolean validDiscountChoice = false;
 				for (Modifier modifier : this.player.getActiveModifiers()) {
-					if (modifier.getEventClass() == EventPickDevelopmentCard.class && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices().contains(this.getDiscountChoice())) {
+					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == this.getCardType() && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices() != null && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices().contains(this.getDiscountChoice())) {
 						validDiscountChoice = true;
 						break;
 					}
@@ -146,28 +146,25 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 			}
 		}
 		// getcardprice e togli discountchoice
-		if (this.getInstantDiscountChoice() != null) {
-			for (ResourceAmount resourceCost : this.effectiveResourceCost) {
-				for (ResourceAmount resourceDiscount : this.getInstantDiscountChoice()) {
-					if (resourceCost.getResourceType() == resourceDiscount.getResourceType()) {
-						resourceCost.setAmount(resourceCost.getAmount() - resourceDiscount.getAmount());
+		if (!this.getInstantDiscountChoice().isEmpty()) {
+			for (ResourceAmount effectiveResourceAmount : this.effectiveResourceCost) {
+				for (ResourceAmount discountResourceAmount : this.getInstantDiscountChoice()) {
+					if (discountResourceAmount.getResourceType() == effectiveResourceAmount.getResourceType()) {
+						effectiveResourceAmount.setAmount(effectiveResourceAmount.getAmount() - discountResourceAmount.getAmount());
 					}
 				}
 			}
 		}
-		if (this.getDiscountChoice() != null) {
-			for (ResourceAmount resourceCost : this.effectiveResourceCost) {
-				for (ResourceAmount resourceDiscount : this.getDiscountChoice()) {
-					if (resourceCost.getResourceType() == resourceDiscount.getResourceType()) {
-						resourceCost.setAmount(resourceCost.getAmount() - resourceDiscount.getAmount());
+		if (!this.getDiscountChoice().isEmpty()) {
+			for (ResourceAmount effectiveResourceAmount : this.effectiveResourceCost) {
+				for (ResourceAmount discountResourceAmount : this.getDiscountChoice()) {
+					if (discountResourceAmount.getResourceType() == effectiveResourceAmount.getResourceType()) {
+						effectiveResourceAmount.setAmount(effectiveResourceAmount.getAmount() - discountResourceAmount.getAmount());
 					}
 				}
 			}
 		}
 		if (this.columnOccupied) {
-			if (this.effectiveResourceCost == null) {
-				this.effectiveResourceCost = new ArrayList<>();
-			}
 			this.effectiveResourceCost.add(new ResourceAmount(ResourceType.COIN, 3));
 		}
 		// prendo prezzo finale e controllo che il giocatore abbia le risorse necessarie
@@ -197,7 +194,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 		this.player.getPlayerResourceHandler().subtractResources(this.effectiveResourceCost);
 		List<ResourceAmount> resourceReward = new ArrayList<>(developmentCard.getReward().getResourceAmounts());
 		if (this.getBoardPositionReward) {
-			resourceReward.addAll(BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getResourceAmounts());
+			resourceReward.addAll(BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getInstantRewardRow())).getResourceAmounts());
 		}
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.DEVELOPMENT_CARDS);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
@@ -206,7 +203,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 			this.player.getActiveModifiers().add(((DevelopmentCardCharacter) developmentCard).getModifier());
 		}
 		gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).put(this.getRow(), null);
-		if (developmentCard.getReward().getActionReward() != null) {
+		if (developmentCard.getReward().getActionReward() != null && developmentCard.getReward().getActionReward().getRequestedAction() != null) {
 			this.player.setCurrentActionReward(developmentCard.getReward().getActionReward());
 			gameHandler.setExpectedAction(developmentCard.getReward().getActionReward().getRequestedAction());
 			gameHandler.sendGameUpdateExpectedAction(this.player, developmentCard.getReward().getActionReward().createExpectedAction(gameHandler, this.player));

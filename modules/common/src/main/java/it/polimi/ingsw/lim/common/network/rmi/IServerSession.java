@@ -7,6 +7,7 @@ import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -49,9 +50,9 @@ public interface IServerSession extends Remote
 
 	void sendGameExcommunicationChoiceRequest(Period period) throws RemoteException;
 
-	void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions) throws RemoteException;
+	void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions) throws RemoteException;
 
-	void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, ExpectedAction expectedAction) throws RemoteException;
+	void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand, ExpectedAction expectedAction) throws RemoteException;
 
-	void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, int turnPlayerIndex) throws RemoteException;
+	void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand, int turnPlayerIndex) throws RemoteException;
 }

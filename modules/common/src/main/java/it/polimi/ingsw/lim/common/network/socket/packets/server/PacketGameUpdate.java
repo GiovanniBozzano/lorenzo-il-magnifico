@@ -5,26 +5,24 @@ import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PacketGameUpdate extends Packet
 {
 	private final GameInformations gameInformations;
 	private final List<PlayerInformations> playersInformations;
-	private final List<Integer> ownLeaderCardsHand;
+	private final Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand;
 	private final Map<ActionType, List<AvailableAction>> availableActions;
 
-	public PacketGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)
+	public PacketGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)
 	{
 		super(PacketType.GAME_UPDATE);
 		this.gameInformations = gameInformations;
 		this.playersInformations = new ArrayList<>(playersInformations);
-		this.ownLeaderCardsHand = new ArrayList<>(ownLeaderCardsHand);
+		this.ownLeaderCardsHand = new HashMap<>(ownLeaderCardsHand);
 		this.availableActions = new EnumMap<>(availableActions);
 	}
 
@@ -38,7 +36,7 @@ public class PacketGameUpdate extends Packet
 		return this.playersInformations;
 	}
 
-	public List<Integer> getOwnLeaderCardsHand()
+	public Map<Integer, List<LeaderCardConditionsOption>> getOwnLeaderCardsHand()
 	{
 		return this.ownLeaderCardsHand;
 	}

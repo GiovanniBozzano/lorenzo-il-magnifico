@@ -105,7 +105,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) this.leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 			eventGainResources.applyModifiers(this.player.getActiveModifiers());
 			this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-			if (((LeaderCardReward) this.leaderCard).getReward().getActionReward() != null) {
+			if (((LeaderCardReward) this.leaderCard).getReward().getActionReward() != null && ((LeaderCardReward) this.leaderCard).getReward().getActionReward().getRequestedAction() != null) {
 				this.player.setCurrentActionReward(((LeaderCardReward) this.leaderCard).getReward().getActionReward());
 				gameHandler.setExpectedAction(((LeaderCardReward) this.leaderCard).getReward().getActionReward().getRequestedAction());
 				gameHandler.sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) this.leaderCard).getReward().getActionReward().createExpectedAction(gameHandler, this.player));

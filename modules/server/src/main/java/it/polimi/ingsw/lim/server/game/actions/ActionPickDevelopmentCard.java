@@ -193,9 +193,8 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		this.player.getPlayerResourceHandler().subtractResources(this.effectiveResourceCost);
 		List<ResourceAmount> resourceReward = new ArrayList<>(developmentCard.getReward().getResourceAmounts());
-		BoardPosition boardPosition = BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow());
 		if (this.getBoardPositionReward) {
-			resourceReward.addAll(BoardHandler.getBoardPositionInformations(boardPosition).getResourceAmounts());
+			resourceReward.addAll(BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getResourceAmounts());
 		}
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.DEVELOPMENT_CARDS);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
@@ -203,9 +202,8 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		if (developmentCard.getCardType() == CardType.CHARACTER && ((DevelopmentCardCharacter) developmentCard).getModifier() != null) {
 			this.player.getActiveModifiers().add(((DevelopmentCardCharacter) developmentCard).getModifier());
 		}
-		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), boardPosition);
 		gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).put(this.getRow(), null);
-		if (developmentCard.getReward().getActionReward() != null) {
+		if (developmentCard.getReward().getActionReward() != null && developmentCard.getReward().getActionReward().getRequestedAction() != null) {
 			this.player.setCurrentActionReward(developmentCard.getReward().getActionReward());
 			gameHandler.setExpectedAction(developmentCard.getReward().getActionReward().getRequestedAction());
 			gameHandler.sendGameUpdateExpectedAction(this.player, developmentCard.getReward().getActionReward().createExpectedAction(gameHandler, this.player));

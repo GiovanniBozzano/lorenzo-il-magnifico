@@ -37,7 +37,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -48,7 +48,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getHarvestInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}

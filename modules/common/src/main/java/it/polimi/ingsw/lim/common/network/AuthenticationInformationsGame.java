@@ -6,6 +6,7 @@ import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 
 import java.util.*;
 
@@ -17,7 +18,7 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 	private boolean gameInitialized;
 	private GameInformations gameInformations;
 	private List<PlayerInformations> playersInformations;
-	private List<Integer> ownLeaderCardsHand;
+	private Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand;
 	private int turnPlayerIndex;
 	private Map<ActionType, List<AvailableAction>> availableActions;
 
@@ -81,14 +82,14 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 		this.playersInformations = new ArrayList<>(playersInformations);
 	}
 
-	public List<Integer> getOwnLeaderCardsHand()
+	public Map<Integer, List<LeaderCardConditionsOption>> getOwnLeaderCardsHand()
 	{
 		return this.ownLeaderCardsHand;
 	}
 
-	public void setOwnLeaderCardsHand(List<Integer> ownLeaderCardsHand)
+	public void setOwnLeaderCardsHand(Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand)
 	{
-		this.ownLeaderCardsHand = new ArrayList<>(ownLeaderCardsHand);
+		this.ownLeaderCardsHand = new HashMap<>(ownLeaderCardsHand);
 	}
 
 	public int getTurnPlayerIndex()

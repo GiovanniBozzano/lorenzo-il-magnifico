@@ -9,9 +9,7 @@ import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.actions.*;
 import it.polimi.ingsw.lim.common.game.cards.*;
-import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
-import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
-import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
+import it.polimi.ingsw.lim.common.game.utils.*;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
@@ -475,6 +473,11 @@ public class ControllerGame extends CustomController
 	@FXML private HBox pickDevelopmentCardChoiceDialogResourceCostOptionsHBox;
 	@FXML private JFXButton pickDevelopmentCardChoiceDialogAcceptButton;
 	@FXML private JFXButton pickDevelopmentCardChoiceDialogCancelButton;
+	@FXML private JFXDialog leaderPlayChoiceDialog;
+	@FXML private Pane leaderPlayChoiceDialogConditionsOptionsPane;
+	@FXML private HBox leaderPlayChoiceDialogConditionsOptionsHBox;
+	@FXML private JFXButton leaderPlayChoiceDialogAcceptButton;
+	@FXML private JFXButton leaderPlayChoiceDialogCancelButton;
 	@FXML private JFXDialog cardDialog;
 	@FXML private JFXDialogLayout cardDialogLayout;
 	@FXML private Pane cardDialogPane;
@@ -620,6 +623,7 @@ public class ControllerGame extends CustomController
 	private Integer selectedDevelopmentCardIndex;
 	private final List<ResourceAmount> selectedDiscountChoice = new ArrayList<>();
 	private ResourceCostOption selectedResourceCostOption;
+	private LeaderCardConditionsOption selectedLeaderConditionsOption;
 
 	@FXML
 	private void boardDevelopmentCardPaneMouseClicked(MouseEvent event)
@@ -778,6 +782,12 @@ public class ControllerGame extends CustomController
 	private void handlePickDevelopmentCardChoiceDialogCancelButtonAction()
 	{
 		this.pickDevelopmentCardChoiceDialog.close();
+	}
+
+	@FXML
+	private void handleLeaderPlayChoiceDialogCancelButtonAction()
+	{
+		this.leaderPlayChoiceDialog.close();
 	}
 
 	@Override
@@ -1115,6 +1125,11 @@ public class ControllerGame extends CustomController
 		this.pickDevelopmentCardChoiceDialog.setDialogContainer(this.getStackPane());
 		this.pickDevelopmentCardChoiceDialog.setOverlayClose(false);
 		this.pickDevelopmentCardChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.leaderPlayChoiceDialog);
+		this.leaderPlayChoiceDialog.setTransitionType(DialogTransition.CENTER);
+		this.leaderPlayChoiceDialog.setDialogContainer(this.getStackPane());
+		this.leaderPlayChoiceDialog.setOverlayClose(false);
+		this.leaderPlayChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.cardDialog);
 		this.cardDialog.setTransitionType(DialogTransition.CENTER);
 		this.cardDialog.setDialogContainer(this.getStackPane());
@@ -1491,16 +1506,16 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START).isEmpty()) {
 				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(productionStartActionNodesList, "/images/icons/action_production_start.png", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START), new JFXNodesList[] { councilPalaceActionNodesList, harvestActionNodesList, marketActionNodesList, pickDevelopmentCardActionNodesList });
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_black.png", false);
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_black.png", false, () -> this.showProductionStartChoice(FamilyMemberType.BLACK));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_neutral.png", false);
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_neutral.png", false, () -> this.showProductionStartChoice(FamilyMemberType.NEUTRAL));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_orange.png", false);
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_orange.png", false, () -> this.showProductionStartChoice(FamilyMemberType.ORANGE));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_white.png", false);
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_white.png", false, () -> this.showProductionStartChoice(FamilyMemberType.WHITE));
 				}
 				productionStartActionNodesList.setSpacing(10.0D);
 				productionStartActionNodesList.setRotate(180.0D);
@@ -1517,13 +1532,13 @@ public class ControllerGame extends CustomController
 				}
 			});
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty()) {
-				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_activate.png", false);
+				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_activate.png", false, () -> this.showLeaderActivateChoice());
 			}
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty()) {
-				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_discard.png", false);
+				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_discard.png", false, () -> this.showLeaderDiscardChoice());
 			}
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
-				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_play.png", false);
+				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_play.png", false, () -> this.showLeaderPlayChoice());
 			}
 			leaderCardsActionNodesList.setRotate(90.0D);
 			actionsNodesList.addAnimatedNode(leaderCardsActionNodesList);
@@ -1594,7 +1609,7 @@ public class ControllerGame extends CustomController
 						stringBuilder.append("\nRequired resources:");
 						for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
 							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(resourceAmount.getAmount());
 						}
@@ -1603,7 +1618,7 @@ public class ControllerGame extends CustomController
 						stringBuilder.append("\nSpent resources:");
 						for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
 							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(resourceAmount.getAmount());
 						}
@@ -1621,7 +1636,7 @@ public class ControllerGame extends CustomController
 				stringBuilder.append("\nInstant resources:");
 				for (ResourceAmount resourceAmount : (developmentCardBuildingInformations.getReward().getResourceAmounts())) {
 					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 					stringBuilder.append(": ");
 					stringBuilder.append(resourceAmount.getAmount());
 				}
@@ -1640,7 +1655,7 @@ public class ControllerGame extends CustomController
 						stringBuilder.append("\nEmployed resources:");
 						for (ResourceAmount resourceAmount : resourcetradeOption.getEmployedResources()) {
 							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(resourceAmount.getAmount());
 						}
@@ -1649,7 +1664,7 @@ public class ControllerGame extends CustomController
 						stringBuilder.append("\nProduced resources:");
 						for (ResourceAmount resourceAmount : resourcetradeOption.getProducedResources()) {
 							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(resourceAmount.getAmount());
 						}
@@ -1668,7 +1683,7 @@ public class ControllerGame extends CustomController
 						stringBuilder.append("\nRequired resources:");
 						for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
 							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(resourceAmount.getAmount());
 						}
@@ -1677,7 +1692,7 @@ public class ControllerGame extends CustomController
 						stringBuilder.append("\nSpent resources:");
 						for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
 							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(resourceAmount.getAmount());
 						}
@@ -1695,7 +1710,7 @@ public class ControllerGame extends CustomController
 				stringBuilder.append("\nInstant resources:");
 				for (ResourceAmount resourceAmount : (developmentCardCharacterInformations.getReward().getResourceAmounts())) {
 					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 					stringBuilder.append(": ");
 					stringBuilder.append(resourceAmount.getAmount());
 				}
@@ -1719,7 +1734,7 @@ public class ControllerGame extends CustomController
 						stringBuilder.append("\nRequired resources:");
 						for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
 							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(resourceAmount.getAmount());
 						}
@@ -1728,7 +1743,7 @@ public class ControllerGame extends CustomController
 						stringBuilder.append("\nSpent resources:");
 						for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
 							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(resourceAmount.getAmount());
 						}
@@ -1746,7 +1761,7 @@ public class ControllerGame extends CustomController
 				stringBuilder.append("\nInstant resources:");
 				for (ResourceAmount resourceAmount : (developmentCardTerritoryInformations.getReward().getResourceAmounts())) {
 					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 					stringBuilder.append(": ");
 					stringBuilder.append(resourceAmount.getAmount());
 				}
@@ -1761,7 +1776,7 @@ public class ControllerGame extends CustomController
 				stringBuilder.append("\n\nHARVEST RESOURCES:");
 				for (ResourceAmount resourceAmount : developmentCardTerritoryInformations.getHarvestResources()) {
 					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 					stringBuilder.append(": ");
 					stringBuilder.append(resourceAmount.getAmount());
 				}
@@ -1777,7 +1792,7 @@ public class ControllerGame extends CustomController
 						stringBuilder.append("\nRequired resources:");
 						for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
 							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(resourceAmount.getAmount());
 						}
@@ -1786,7 +1801,7 @@ public class ControllerGame extends CustomController
 						stringBuilder.append("\nSpent resources:");
 						for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
 							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(resourceAmount.getAmount());
 						}
@@ -1804,7 +1819,7 @@ public class ControllerGame extends CustomController
 				stringBuilder.append("\nInstant resources:");
 				for (ResourceAmount resourceAmount : (developmentCardVentureInformations.getReward().getResourceAmounts())) {
 					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 					stringBuilder.append(": ");
 					stringBuilder.append(resourceAmount.getAmount());
 				}
@@ -1971,7 +1986,7 @@ public class ControllerGame extends CustomController
 					}
 					for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts()) {
 						stringBuilder.append('\n');
-						stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+						stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 						stringBuilder.append(": ");
 						stringBuilder.append(resourceAmount.getAmount());
 					}
@@ -1989,31 +2004,31 @@ public class ControllerGame extends CustomController
 			}
 			if (playerData.getKey() == GameStatus.getInstance().getOwnPlayerIndex()) {
 				index = 0;
-				for (int leaderCardIndex : GameStatus.getInstance().getCurrentOwnLeaderCardsHand()) {
-					this.playersLeaderCardsHand.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				for (int leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
+					this.playersLeaderCardsHand.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 					StringBuilder stringBuilder = new StringBuilder();
-					stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getDisplayName());
+					stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName());
 					stringBuilder.append("\n\n");
-					stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getDescription());
+					stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDescription());
 					stringBuilder.append("\n\n");
-					if (GameStatus.getInstance().getLeaderCards().get(leaderCardIndex) instanceof LeaderCardModifierInformations) {
+					if (GameStatus.getInstance().getLeaderCards().get(leaderCard) instanceof LeaderCardModifierInformations) {
 						stringBuilder.append("PERMANENT ABILITY:\n");
-						stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getModifier());
+						stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getModifier());
 					} else {
 						stringBuilder.append("ONCE PER ROUND ABILITY:");
-						if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getResourceAmounts().isEmpty()) {
+						if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts().isEmpty()) {
 							stringBuilder.append("\n\nInstant resources:");
 						}
-						for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getResourceAmounts()) {
+						for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts()) {
 							stringBuilder.append('\n');
-							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(resourceAmount.getAmount());
 						}
-						if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getActionRewardInformations() != null) {
+						if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations() != null) {
 							stringBuilder.append("\n\nAction reward:");
 							stringBuilder.append('\n');
-							stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getActionRewardInformations());
+							stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations());
 						}
 					}
 					Tooltip tooltip = new Tooltip(stringBuilder.toString());
@@ -2103,7 +2118,7 @@ public class ControllerGame extends CustomController
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getProductionInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -2114,7 +2129,7 @@ public class ControllerGame extends CustomController
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getHarvestInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -2137,35 +2152,35 @@ public class ControllerGame extends CustomController
 	public void showLeaderCardsChoiceDialog()
 	{
 		this.leaderCardsChoiceDialogHBox.getChildren().clear();
-		for (Integer leaderCardIndex : GameStatus.getInstance().getAvailableLeaderCards()) {
+		for (Integer leaderCard : GameStatus.getInstance().getAvailableLeaderCards()) {
 			Pane pane = new Pane();
 			pane.setPrefWidth(this.territory1.getWidth() * 3);
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
-			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getDisplayName());
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName());
 			stringBuilder.append("\n\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCardIndex).getDescription());
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDescription());
 			stringBuilder.append("\n\n");
-			if (GameStatus.getInstance().getLeaderCards().get(leaderCardIndex) instanceof LeaderCardModifierInformations) {
+			if (GameStatus.getInstance().getLeaderCards().get(leaderCard) instanceof LeaderCardModifierInformations) {
 				stringBuilder.append("PERMANENT ABILITY:\n");
-				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getModifier());
+				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getModifier());
 			} else {
 				stringBuilder.append("ONCE PER ROUND ABILITY:");
-				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getResourceAmounts().isEmpty()) {
+				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts().isEmpty()) {
 					stringBuilder.append("\n\nInstant resources:");
 				}
-				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getResourceAmounts()) {
+				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts()) {
 					stringBuilder.append('\n');
-					stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 					stringBuilder.append(": ");
 					stringBuilder.append(resourceAmount.getAmount());
 				}
-				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getActionRewardInformations() != null) {
+				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations() != null) {
 					stringBuilder.append("\n\nAction reward:");
 					stringBuilder.append('\n');
-					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCardIndex)).getReward().getActionRewardInformations());
+					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations());
 				}
 			}
 			Tooltip tooltip = new Tooltip(stringBuilder.toString());
@@ -2173,7 +2188,7 @@ public class ControllerGame extends CustomController
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
-			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCardIndex));
+			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCard));
 			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
 		}
 		this.leaderCardsChoiceDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsChoiceDialogHBox.getChildren().size() + this.leaderCardsChoiceDialogHBox.getSpacing() * (this.leaderCardsChoiceDialogHBox.getChildren().size() - 1) + this.leaderCardsChoiceDialogLayout.getInsets().getLeft() + this.leaderCardsChoiceDialogLayout.getInsets().getRight());
@@ -2258,7 +2273,7 @@ public class ControllerGame extends CustomController
 								first = false;
 							}
 							stringBuilder.append("- ");
-							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 						}
@@ -2294,7 +2309,7 @@ public class ControllerGame extends CustomController
 									stringBuilder.append("REQUIRED RESOURCES:");
 								}
 								stringBuilder.append("\n- ");
-								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+								stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 							}
@@ -2305,7 +2320,7 @@ public class ControllerGame extends CustomController
 									stringBuilder.append("SPENT RESOURCES:");
 								}
 								stringBuilder.append("\n- ");
-								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+								stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 							}
@@ -2374,6 +2389,231 @@ public class ControllerGame extends CustomController
 				}
 			}
 		}
+	}
+
+	private void showProductionStartChoice(FamilyMemberType familyMemberType)
+	{
+		this.servantsChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		this.servantsChoiceDialogSlider.setValue(0);
+		this.servantsChoiceDialogAcceptButton.setOnAction((event) -> {
+			this.servantsChoiceDialog.close();
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsProductionStart(familyMemberType, (int) this.servantsChoiceDialogSlider.getValue()));
+		});
+		this.servantsChoiceDialog.show();
+	}
+
+	private void showLeaderActivateChoice()
+	{
+		this.leaderCardsChoiceDialog.setOverlayClose(true);
+		this.leaderCardsChoiceDialogHBox.getChildren().clear();
+		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().entrySet()) {
+			if (!leaderCard.getValue()) {
+				continue;
+			}
+			Pane pane = new Pane();
+			pane.setPrefWidth(this.territory1.getWidth() * 3);
+			pane.setPrefHeight(this.territory1.getHeight() * 3);
+			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getDisplayName());
+			stringBuilder.append("\n\n");
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getDescription());
+			stringBuilder.append("\n\n");
+			if (GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()) instanceof LeaderCardModifierInformations) {
+				stringBuilder.append("PERMANENT ABILITY:\n");
+				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getModifier());
+			} else {
+				stringBuilder.append("ONCE PER ROUND ABILITY:");
+				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts().isEmpty()) {
+					stringBuilder.append("\n\nInstant resources:");
+				}
+				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts()) {
+					stringBuilder.append('\n');
+					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(": ");
+					stringBuilder.append(resourceAmount.getAmount());
+				}
+				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getActionRewardInformations() != null) {
+					stringBuilder.append("\n\nAction reward:");
+					stringBuilder.append('\n');
+					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getActionRewardInformations());
+				}
+			}
+			Tooltip tooltip = new Tooltip(stringBuilder.toString());
+			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+			Tooltip.install(pane, tooltip);
+			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+			pane.setOnMouseClicked(event -> {
+				this.leaderCardsChoiceDialog.close();
+				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderActivate(leaderCard.getKey()));
+			});
+			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
+		}
+		this.leaderCardsChoiceDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsChoiceDialogHBox.getChildren().size() + this.leaderCardsChoiceDialogHBox.getSpacing() * (this.leaderCardsChoiceDialogHBox.getChildren().size() - 1) + this.leaderCardsChoiceDialogLayout.getInsets().getLeft() + this.leaderCardsChoiceDialogLayout.getInsets().getRight());
+		this.leaderCardsChoiceDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + 20.0D);
+		this.leaderCardsChoiceDialog.show();
+	}
+
+	private void showLeaderDiscardChoice()
+	{
+		this.leaderCardsChoiceDialog.setOverlayClose(true);
+		this.leaderCardsChoiceDialogHBox.getChildren().clear();
+		for (Integer leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
+			Pane pane = new Pane();
+			pane.setPrefWidth(this.territory1.getWidth() * 3);
+			pane.setPrefHeight(this.territory1.getHeight() * 3);
+			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName());
+			stringBuilder.append("\n\n");
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDescription());
+			stringBuilder.append("\n\n");
+			if (GameStatus.getInstance().getLeaderCards().get(leaderCard) instanceof LeaderCardModifierInformations) {
+				stringBuilder.append("PERMANENT ABILITY:\n");
+				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getModifier());
+			} else {
+				stringBuilder.append("ONCE PER ROUND ABILITY:");
+				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts().isEmpty()) {
+					stringBuilder.append("\n\nInstant resources:");
+				}
+				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts()) {
+					stringBuilder.append('\n');
+					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(": ");
+					stringBuilder.append(resourceAmount.getAmount());
+				}
+				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations() != null) {
+					stringBuilder.append("\n\nAction reward:");
+					stringBuilder.append('\n');
+					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations());
+				}
+			}
+			Tooltip tooltip = new Tooltip(stringBuilder.toString());
+			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+			Tooltip.install(pane, tooltip);
+			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+			pane.setOnMouseClicked(event -> {
+				this.leaderCardsChoiceDialog.close();
+				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderDiscard(leaderCard));
+			});
+			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
+		}
+		this.leaderCardsChoiceDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsChoiceDialogHBox.getChildren().size() + this.leaderCardsChoiceDialogHBox.getSpacing() * (this.leaderCardsChoiceDialogHBox.getChildren().size() - 1) + this.leaderCardsChoiceDialogLayout.getInsets().getLeft() + this.leaderCardsChoiceDialogLayout.getInsets().getRight());
+		this.leaderCardsChoiceDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + 20.0D);
+		this.leaderCardsChoiceDialog.show();
+	}
+
+	private void showLeaderPlayChoice()
+	{
+		this.leaderCardsChoiceDialog.setOverlayClose(true);
+		this.leaderCardsChoiceDialogHBox.getChildren().clear();
+		for (Entry<Integer, List<LeaderCardConditionsOption>> leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().entrySet()) {
+			if (leaderCard.getValue().isEmpty()) {
+				continue;
+			}
+			Pane pane = new Pane();
+			pane.setPrefWidth(this.territory1.getWidth() * 3);
+			pane.setPrefHeight(this.territory1.getHeight() * 3);
+			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getDisplayName());
+			stringBuilder.append("\n\n");
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getDescription());
+			stringBuilder.append("\n\n");
+			if (GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()) instanceof LeaderCardModifierInformations) {
+				stringBuilder.append("PERMANENT ABILITY:\n");
+				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getModifier());
+			} else {
+				stringBuilder.append("ONCE PER ROUND ABILITY:");
+				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts().isEmpty()) {
+					stringBuilder.append("\n\nInstant resources:");
+				}
+				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts()) {
+					stringBuilder.append('\n');
+					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(": ");
+					stringBuilder.append(resourceAmount.getAmount());
+				}
+				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getActionRewardInformations() != null) {
+					stringBuilder.append("\n\nAction reward:");
+					stringBuilder.append('\n');
+					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getActionRewardInformations());
+				}
+			}
+			Tooltip tooltip = new Tooltip(stringBuilder.toString());
+			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+			Tooltip.install(pane, tooltip);
+			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+			pane.setOnMouseClicked(event -> {
+				this.leaderCardsChoiceDialog.close();
+				this.leaderPlayChoiceDialogAcceptButton.setDisable(true);
+				this.leaderPlayChoiceDialogConditionsOptionsHBox.getChildren().clear();
+				List<AnchorPane> leaderConditionsOptionsAnchorPanes = new ArrayList<>();
+				for (LeaderCardConditionsOption leaderCardConditionsOption : leaderCard.getValue()) {
+					AnchorPane anchorPane = new AnchorPane();
+					leaderConditionsOptionsAnchorPanes.add(anchorPane);
+					Text text = new Text();
+					stringBuilder.setLength(0);
+					boolean first = true;
+					for (ResourceAmount resourceAmount : leaderCardConditionsOption.getResourceAmounts()) {
+						if (first) {
+							first = false;
+							stringBuilder.append("REQUIRED RESOURCES:");
+						}
+						stringBuilder.append("\n- ");
+						stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+						stringBuilder.append(": ");
+						stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
+					}
+					first = true;
+					for (CardAmount cardAmount : leaderCardConditionsOption.getCardAmounts()) {
+						if (first) {
+							first = false;
+							stringBuilder.append("REQUIRED CARDS:");
+						}
+						stringBuilder.append("\n- ");
+						stringBuilder.append(Utils.CARD_TYPES_NAMES.get(cardAmount.getCardType()));
+						stringBuilder.append(": ");
+						stringBuilder.append(Integer.toString(cardAmount.getAmount()));
+					}
+					text.setText(stringBuilder.toString());
+					anchorPane.getChildren().add(text);
+					AnchorPane.setTopAnchor(text, 0.0);
+					AnchorPane.setBottomAnchor(text, 0.0);
+					AnchorPane.setLeftAnchor(text, 0.0);
+					AnchorPane.setRightAnchor(text, 0.0);
+					anchorPane.setOnMouseClicked(childEvent -> {
+						this.selectedLeaderConditionsOption = leaderCardConditionsOption;
+						this.leaderPlayChoiceDialogAcceptButton.setDisable(false);
+						anchorPane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
+						for (AnchorPane otherAnchorPane : leaderConditionsOptionsAnchorPanes) {
+							if (otherAnchorPane != anchorPane) {
+								otherAnchorPane.setEffect(null);
+							}
+						}
+					});
+					this.leaderPlayChoiceDialogConditionsOptionsHBox.getChildren().add(anchorPane);
+					this.leaderPlayChoiceDialogAcceptButton.setOnAction(childEvent -> {
+						this.leaderPlayChoiceDialog.close();
+						Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderPlay(leaderCard.getKey(), this.selectedLeaderConditionsOption));
+					});
+					this.leaderPlayChoiceDialogAcceptButton.setPrefWidth(((VBox) this.leaderPlayChoiceDialogAcceptButton.getParent()).getWidth());
+					this.leaderPlayChoiceDialogCancelButton.setPrefWidth(((VBox) this.leaderPlayChoiceDialogCancelButton.getParent()).getWidth());
+					this.leaderPlayChoiceDialogAcceptButton.requestLayout();
+					this.leaderPlayChoiceDialogCancelButton.requestLayout();
+				}
+			});
+			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
+		}
+		this.leaderCardsChoiceDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsChoiceDialogHBox.getChildren().size() + this.leaderCardsChoiceDialogHBox.getSpacing() * (this.leaderCardsChoiceDialogHBox.getChildren().size() - 1) + this.leaderCardsChoiceDialogLayout.getInsets().getLeft() + this.leaderCardsChoiceDialogLayout.getInsets().getRight());
+		this.leaderCardsChoiceDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + 20.0D);
+		this.leaderCardsChoiceDialog.show();
 	}
 
 	public TextArea getChatTextArea()

@@ -9,6 +9,7 @@ import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.*;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -35,7 +36,7 @@ public class GameStatus
 	private final Map<FamilyMemberType, Integer> currentDices = new EnumMap<>(FamilyMemberType.class);
 	private final Map<Integer, Integer> currentTurnOrder = new HashMap<>();
 	private final Map<Integer, Integer> currentCouncilPalaceOrder = new HashMap<>();
-	private final List<Integer> currentOwnLeaderCardsHand = new ArrayList<>();
+	private final Map<Integer, List<LeaderCardConditionsOption>> currentOwnLeaderCardsHand = new HashMap<>();
 	private int currentTurnPlayerIndex = -1;
 	private final Map<ActionType, List<AvailableAction>> currentAvailableActions = new EnumMap<>(ActionType.class);
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
@@ -69,7 +70,7 @@ public class GameStatus
 		this.personalBonusTiles.putAll(personalBonusTiles);
 	}
 
-	public void updateGameStatus(GameInformations gameInformations, List<PlayerInformations> playersInformations, List<Integer> ownLeaderCardsHand)
+	public void updateGameStatus(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand)
 	{
 		this.setCurrentDevelopmentCardsBuilding(gameInformations.getDevelopmentCardsBuilding());
 		this.setCurrentDevelopmentCardsCharacter(gameInformations.getDevelopmentCardsCharacter());
@@ -257,15 +258,15 @@ public class GameStatus
 		this.currentCouncilPalaceOrder.putAll(currentCouncilPalaceOrder);
 	}
 
-	public List<Integer> getCurrentOwnLeaderCardsHand()
+	public Map<Integer, List<LeaderCardConditionsOption>> getCurrentOwnLeaderCardsHand()
 	{
 		return this.currentOwnLeaderCardsHand;
 	}
 
-	private void setCurrentOwnLeaderCardsHand(List<Integer> currentOwnLeaderCardsHand)
+	private void setCurrentOwnLeaderCardsHand(Map<Integer, List<LeaderCardConditionsOption>> currentOwnLeaderCardsHand)
 	{
 		this.currentOwnLeaderCardsHand.clear();
-		this.currentOwnLeaderCardsHand.addAll(currentOwnLeaderCardsHand);
+		this.currentOwnLeaderCardsHand.putAll(currentOwnLeaderCardsHand);
 	}
 
 	public int getCurrentTurnPlayerIndex()

@@ -89,7 +89,7 @@ public class ActionChooseLorenzoDeMediciLeader extends ActionInformationsChooseL
 			EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 			eventGainResources.applyModifiers(this.player.getActiveModifiers());
 			this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-			if (((LeaderCardReward) leaderCard).getReward().getActionReward() != null) {
+			if (((LeaderCardReward) leaderCard).getReward().getActionReward() != null && ((LeaderCardReward) leaderCard).getReward().getActionReward().getRequestedAction() != null) {
 				this.player.setCurrentActionReward(((LeaderCardReward) leaderCard).getReward().getActionReward());
 				gameHandler.setExpectedAction(((LeaderCardReward) leaderCard).getReward().getActionReward().getRequestedAction());
 				gameHandler.sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward().createExpectedAction(gameHandler, this.player));
