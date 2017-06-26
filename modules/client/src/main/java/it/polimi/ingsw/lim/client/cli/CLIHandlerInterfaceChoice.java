@@ -25,9 +25,7 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 				Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		});
-		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(2, cliHandler -> {
-			Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
-		});
+		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(2, cliHandler -> Client.getInstance().setCliStatus(CLIStatus.CONNECTION));
 	}
 
 	@Override

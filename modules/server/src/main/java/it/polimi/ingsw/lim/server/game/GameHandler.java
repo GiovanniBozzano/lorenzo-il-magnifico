@@ -51,7 +51,7 @@ public class GameHandler
 	private Phase currentPhase;
 	private boolean checkedExcommunications = false;
 	private ActionType expectedAction;
-	private Map<Player, Boolean> firstTurn = new HashMap<>();
+	private final Map<Player, Boolean> firstTurn = new HashMap<>();
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private int personalBonusTileChoicePlayerIndex;
 	private final Map<Player, List<Integer>> availableLeaderCards = new HashMap<>();

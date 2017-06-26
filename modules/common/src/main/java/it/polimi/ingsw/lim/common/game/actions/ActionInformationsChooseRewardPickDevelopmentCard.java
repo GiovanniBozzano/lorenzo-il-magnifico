@@ -16,7 +16,7 @@ public class ActionInformationsChooseRewardPickDevelopmentCard extends ActionInf
 	private final Row instantRewardRow;
 	private final List<ResourceAmount> instantDiscountChoice;
 	private final List<ResourceAmount> discountChoice;
-	private ResourceCostOption resourceCostOption;
+	private final ResourceCostOption resourceCostOption;
 
 	public ActionInformationsChooseRewardPickDevelopmentCard(int servants, CardType cardType, Row row, Row instantRewardRow, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption)
 	{

@@ -7,7 +7,7 @@ public enum Color
 	PURPLE("#8B578F"),
 	RED("#C20E34"),
 	YELLOW("#FDCF0B");
-	private String hex;
+	private final String hex;
 
 	Color(String hex)
 	{

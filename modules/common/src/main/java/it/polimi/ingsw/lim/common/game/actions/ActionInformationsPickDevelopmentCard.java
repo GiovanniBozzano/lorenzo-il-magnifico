@@ -16,7 +16,7 @@ public class ActionInformationsPickDevelopmentCard extends ActionInformations
 	private final CardType cardType;
 	private final Row row;
 	private final List<ResourceAmount> discountChoice;
-	private ResourceCostOption resourceCostOption;
+	private final ResourceCostOption resourceCostOption;
 
 	public ActionInformationsPickDevelopmentCard(FamilyMemberType familyMemberType, int servants, CardType cardType, Row row, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption)
 	{

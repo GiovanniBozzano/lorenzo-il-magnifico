@@ -4,6 +4,9 @@ import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.server.game.events.EventPickDevelopmentCard;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>You don’t take the bonuses when you take a {@code cardType} from the
  * {@code rows} floors of the towers (through a Family Member or as an effect of
@@ -12,19 +15,19 @@ import it.polimi.ingsw.lim.server.game.events.EventPickDevelopmentCard;
 public class ModifierPickDevelopmentCardReward extends Modifier<EventPickDevelopmentCard>
 {
 	private final CardType cardType;
-	private final Row[] rows;
+	private final List<Row> rows;
 
-	public ModifierPickDevelopmentCardReward(String description, CardType cardType, Row[] rows)
+	public ModifierPickDevelopmentCardReward(String description, CardType cardType, List<Row> rows)
 	{
 		super(EventPickDevelopmentCard.class, description);
 		this.cardType = cardType;
-		this.rows = rows;
+		this.rows = new ArrayList<>(rows);
 	}
 
 	@Override
 	public void apply(EventPickDevelopmentCard event)
 	{
-		if (event.getRow() == Row.THIRD || event.getRow() == Row.FOURTH) {
+		if (event.getCardType() == this.cardType && this.rows.contains(event.getRow())) {
 			event.setGetBoardPositionReward(false);
 		}
 	}

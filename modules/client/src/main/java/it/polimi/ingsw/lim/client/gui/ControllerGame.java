@@ -469,8 +469,8 @@ public class ControllerGame extends CustomController
 	@FXML private JFXButton servantsChoiceDialogCancelButton;
 	@FXML private JFXDialog pickDevelopmentCardChoiceDialog;
 	@FXML private JFXSlider pickDevelopmentCardChoiceDialogSlider;
-	@FXML private ScrollPane pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane;
-	@FXML private ScrollPane pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane;
+	@FXML private Pane pickDevelopmentCardChoiceDialogDiscountChoicesPane;
+	@FXML private Pane pickDevelopmentCardChoiceDialogResourceCostOptionsPane;
 	@FXML private HBox pickDevelopmentCardChoiceDialogDiscountChoicesHBox;
 	@FXML private HBox pickDevelopmentCardChoiceDialogResourceCostOptionsHBox;
 	@FXML private JFXButton pickDevelopmentCardChoiceDialogAcceptButton;
@@ -615,7 +615,7 @@ public class ControllerGame extends CustomController
 	private double ratio;
 	private boolean pickingDevelopmentCard = false;
 	private JFXButton pickDevelopmentCardActionButton;
-	private List<Pane> selectableDevelopmentCards = new ArrayList<>();
+	private final List<Pane> selectableDevelopmentCards = new ArrayList<>();
 	private CardType selectedDevelopmentCardType;
 	private Integer selectedDevelopmentCardIndex;
 	private final List<ResourceAmount> selectedDiscountChoice = new ArrayList<>();
@@ -768,7 +768,7 @@ public class ControllerGame extends CustomController
 					stringBuilder.append("\nAction reward:\n| ");
 					stringBuilder.append(developmentCardBuildingInformations.getReward().getActionRewardInformations().replace("\n", "\n| "));
 				}
-				stringBuilder.append("\n\nPRODUCTION ACTIVATION COST:");
+				stringBuilder.append("\n\nPRODUCTION ACTIVATION COST: ");
 				stringBuilder.append(developmentCardBuildingInformations.getActivationValue());
 				if (!developmentCardBuildingInformations.getResourceTradeOptions().isEmpty()) {
 					stringBuilder.append("\n\nRESOURCE TRADE OPTIONS:");
@@ -2243,41 +2243,47 @@ public class ControllerGame extends CustomController
 			this.selectedResourceCostOption = null;
 			for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
 				if (((AvailableActionPickDevelopmentCard) availableAction).getCardType() == this.selectedDevelopmentCardType && ((AvailableActionPickDevelopmentCard) availableAction).getRow() == GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex)) {
-					if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty() || ((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty()) {
-						this.pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane.setDisable(true);
-					} else {
-						this.pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane.setDisable(false);
-						for (List<ResourceAmount> discountChoice : ((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices()) {
-							Text text = new Text();
-							StringBuilder stringBuilder = new StringBuilder();
-							boolean first = true;
-							for (ResourceAmount resourceAmount : discountChoice) {
-								if (!first) {
-									stringBuilder.append('\n');
-								} else {
-									first = false;
-								}
-								stringBuilder.append("- ");
-								stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
-								stringBuilder.append(": ");
-								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
+					List<Pane> discountChoicesPanes = new ArrayList<>();
+					for (List<ResourceAmount> discountChoice : ((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices()) {
+						Pane pane = new Pane();
+						discountChoicesPanes.add(pane);
+						Text text = new Text();
+						StringBuilder stringBuilder = new StringBuilder();
+						boolean first = true;
+						for (ResourceAmount resourceAmount : discountChoice) {
+							if (!first) {
+								stringBuilder.append('\n');
+							} else {
+								first = false;
 							}
-							text.setText(stringBuilder.toString());
-							text.setOnMouseClicked(childEvent -> {
-								this.selectedDiscountChoice.addAll(discountChoice);
-								if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty() || this.selectedResourceCostOption != null) {
-									this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
-								}
-							});
-							this.pickDevelopmentCardChoiceDialogDiscountChoicesHBox.getChildren().add(text);
+							stringBuilder.append("- ");
+							stringBuilder.append(Utils.RESOURCES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(": ");
+							stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 						}
+						text.setText(stringBuilder.toString());
+						pane.getChildren().add(text);
+						pane.setOnMouseClicked(childEvent -> {
+							this.selectedDiscountChoice.addAll(discountChoice);
+							if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty() || this.selectedResourceCostOption != null) {
+								this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
+							}
+							pane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
+							for (Pane otherPane : discountChoicesPanes) {
+								if (otherPane != pane) {
+									otherPane.setEffect(null);
+								}
+							}
+						});
+						this.pickDevelopmentCardChoiceDialogDiscountChoicesHBox.getChildren().add(pane);
 					}
 					if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty()) {
-						this.pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane.setDisable(true);
 						this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
 					} else {
-						this.pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane.setDisable(false);
+						List<Pane> resourceCostOptionsPanes = new ArrayList<>();
 						for (ResourceCostOption resourceCostOption : ((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions()) {
+							Pane pane = new Pane();
+							resourceCostOptionsPanes.add(pane);
 							Text text = new Text();
 							StringBuilder stringBuilder = new StringBuilder();
 							boolean first = true;
@@ -2303,13 +2309,20 @@ public class ControllerGame extends CustomController
 								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 							}
 							text.setText(stringBuilder.toString());
-							text.setOnMouseClicked(childEvent -> {
+							pane.getChildren().add(text);
+							pane.setOnMouseClicked(childEvent -> {
 								this.selectedResourceCostOption = resourceCostOption;
 								if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty() || !this.selectedDiscountChoice.isEmpty()) {
 									this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
 								}
+								pane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
+								for (Pane otherPane : resourceCostOptionsPanes) {
+									if (otherPane != pane) {
+										otherPane.setEffect(null);
+									}
+								}
 							});
-							this.pickDevelopmentCardChoiceDialogResourceCostOptionsHBox.getChildren().add(text);
+							this.pickDevelopmentCardChoiceDialogResourceCostOptionsHBox.getChildren().add(pane);
 						}
 					}
 					break;

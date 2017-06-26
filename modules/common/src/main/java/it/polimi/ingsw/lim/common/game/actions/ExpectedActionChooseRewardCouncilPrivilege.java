@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 
 public class ExpectedActionChooseRewardCouncilPrivilege extends ExpectedAction
 {
-	private int councilPrivilegesNumber;
+	private final int councilPrivilegesNumber;
 
 	public ExpectedActionChooseRewardCouncilPrivilege(int councilPrivilegesNumber)
 	{

@@ -36,7 +36,7 @@ public class GameStatus
 	private final Map<Integer, Integer> currentTurnOrder = new HashMap<>();
 	private final Map<Integer, Integer> currentCouncilPalaceOrder = new HashMap<>();
 	private final List<Integer> currentOwnLeaderCardsHand = new ArrayList<>();
-	private int currentTurnPlayerIndex;
+	private int currentTurnPlayerIndex = -1;
 	private final Map<ActionType, List<AvailableAction>> currentAvailableActions = new EnumMap<>(ActionType.class);
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private final List<Integer> availableLeaderCards = new ArrayList<>();

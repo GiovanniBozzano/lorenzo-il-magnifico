@@ -17,6 +17,6 @@ public class ExpectedActionChooseLorenzoDeMediciLeader extends ExpectedAction
 
 	public Map<Integer, Integer> getAvailableLeaderCards()
 	{
-		return availableLeaderCards;
+		return this.availableLeaderCards;
 	}
 }

@@ -23,7 +23,11 @@ public class Room
 	public Room(RoomType roomType)
 	{
 		this.roomType = roomType;
-		this.timer = ServerSettings.getInstance().getRoomTimer();
+		if (roomType == RoomType.NORMAL) {
+			this.timer = ServerSettings.getInstance().getRoomTimer();
+		} else {
+			this.timer = 5;
+		}
 	}
 
 	public void handlePlayerDisconnection(Connection player)
@@ -79,20 +83,12 @@ public class Room
 	{
 		this.players.add(player);
 		if (this.gameHandler == null) {
-			if (this.roomType == RoomType.NORMAL && this.players.size() > 1 && this.players.size() < this.getRoomType().getPlayersNumber() && this.timerExecutor == null) {
-				this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
-				this.timerExecutor.scheduleWithFixedDelay(() -> {
-					this.timer--;
-					if (this.timer == 0) {
-						this.startGame();
-					} else {
-						for (Connection roomPlayer : this.players) {
-							roomPlayer.sendRoomTimer(this.timer);
-						}
-					}
-				}, 1, 1, TimeUnit.SECONDS);
+			if (this.roomType == RoomType.NORMAL) {
+				if (this.players.size() > 1 && this.timerExecutor == null) {
+					this.startTimer();
+				}
 			} else if (this.players.size() >= this.getRoomType().getPlayersNumber()) {
-				this.startGame();
+				this.startTimer();
 			}
 		}
 	}
@@ -100,13 +96,38 @@ public class Room
 	private void removePlayer(Connection player)
 	{
 		this.players.remove(player);
-		if (this.gameHandler == null && this.roomType == RoomType.NORMAL && this.players.size() < 2) {
-			if (this.timerExecutor != null) {
-				this.timerExecutor.shutdownNow();
+		if (this.roomType == RoomType.NORMAL) {
+			if (this.gameHandler == null && this.players.size() < 2) {
+				if (this.timerExecutor != null) {
+					this.timerExecutor.shutdownNow();
+				}
+				this.timerExecutor = null;
+				this.timer = ServerSettings.getInstance().getRoomTimer();
 			}
-			this.timerExecutor = null;
-			this.timer = ServerSettings.getInstance().getRoomTimer();
+		} else {
+			if (this.gameHandler == null && this.players.size() < 5) {
+				if (this.timerExecutor != null) {
+					this.timerExecutor.shutdownNow();
+				}
+				this.timerExecutor = null;
+				this.timer = 5;
+			}
 		}
+	}
+
+	private void startTimer()
+	{
+		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
+		this.timerExecutor.scheduleWithFixedDelay(() -> {
+			this.timer--;
+			if (this.timer == 0) {
+				this.startGame();
+			} else {
+				for (Connection roomPlayer : this.players) {
+					roomPlayer.sendRoomTimer(this.timer);
+				}
+			}
+		}, 1, 1, TimeUnit.SECONDS);
 	}
 
 	private void startGame()
@@ -174,7 +195,7 @@ public class Room
 		return this.endGame;
 	}
 
-	public void setEndGame(boolean endGame)
+	void setEndGame(boolean endGame)
 	{
 		this.endGame = endGame;
 	}

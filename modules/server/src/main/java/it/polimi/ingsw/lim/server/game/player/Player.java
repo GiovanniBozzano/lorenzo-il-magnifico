@@ -27,7 +27,7 @@ public class Player
 	private boolean isOnline = true;
 	private ActionReward currentActionReward;
 	private int currentProductionValue = 0;
-	private List<Integer> availableLeaderCards = new ArrayList<>();
+	private final List<Integer> availableLeaderCards = new ArrayList<>();
 
 	public Player(Connection connection, int index)
 	{

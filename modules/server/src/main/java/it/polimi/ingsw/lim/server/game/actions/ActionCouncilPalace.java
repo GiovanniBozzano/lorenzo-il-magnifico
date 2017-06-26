@@ -77,7 +77,9 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 		if (gameHandler == null) {
 			return;
 		}
-		gameHandler.getBoardHandler().getCouncilPalaceOrder().add(this.player);
+		if (!gameHandler.getBoardHandler().getCouncilPalaceOrder().contains(this.player)) {
+			gameHandler.getBoardHandler().getCouncilPalaceOrder().add(this.player);
+		}
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), BoardPosition.COUNCIL_PALACE);
 		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformations(BoardPosition.COUNCIL_PALACE).getResourceAmounts(), ResourcesSource.COUNCIL_PALACE);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PacketGamePersonalBonusTileChoiceRequest extends Packet
 {
-	private List<Integer> availablePersonalBonusTilesIndexes;
+	private final List<Integer> availablePersonalBonusTilesIndexes;
 
 	public PacketGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTilesIndexes)
 	{

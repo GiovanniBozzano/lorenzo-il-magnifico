@@ -28,10 +28,7 @@ public class ResourceCostOption implements Serializable
 	@Override
 	public boolean equals(Object resourceCostOption)
 	{
-		if (!(resourceCostOption instanceof ResourceCostOption)) {
-			return false;
-		}
-		return this.requiredResources.equals(((ResourceCostOption) resourceCostOption).requiredResources) && this.spentResources.equals(((ResourceCostOption) resourceCostOption).spentResources);
+		return resourceCostOption instanceof ResourceCostOption && this.requiredResources.equals(((ResourceCostOption) resourceCostOption).requiredResources) && this.spentResources.equals(((ResourceCostOption) resourceCostOption).spentResources);
 	}
 
 	@Override

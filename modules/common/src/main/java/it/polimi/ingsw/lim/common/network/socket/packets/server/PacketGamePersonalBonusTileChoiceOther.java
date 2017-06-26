@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 
 public class PacketGamePersonalBonusTileChoiceOther extends Packet
 {
-	private int choicePlayerIndex;
+	private final int choicePlayerIndex;
 
 	public PacketGamePersonalBonusTileChoiceOther(int choicePlayerIndex)
 	{

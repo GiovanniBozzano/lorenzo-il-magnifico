@@ -1,29 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXDialog?>
-<?import com.jfoenix.controls.JFXDialogLayout?>
-<?import com.jfoenix.controls.JFXSlider?>
-<?import com.jfoenix.controls.JFXTabPane?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
+<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.*?><?import javafx.geometry.Insets?><?import javafx.scene.control.*?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?><?import javafx.scene.text.*?>
 <StackPane fx:id="stackPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.client.gui.ControllerGame">
 	<VBox spacing="10.0">
 		<GridPane>
@@ -775,9 +750,9 @@
 									<Font name="Roboto Bold" size="12.0" />
 								</font>
 							</Label>
-							<ScrollPane fx:id="pickDevelopmentCardChoiceDialogDiscountChoicesScrollPane" fitToHeight="true">
-								<HBox fx:id="pickDevelopmentCardChoiceDialogDiscountChoicesHBox" alignment="CENTER_RIGHT" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
-							</ScrollPane>
+							<Pane fx:id="pickDevelopmentCardChoiceDialogDiscountChoicesPane" style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;">
+								<HBox fx:id="pickDevelopmentCardChoiceDialogDiscountChoicesHBox" alignment="CENTER" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
+							</Pane>
 						</VBox>
 						<VBox spacing="10.0">
 							<Label text="Resource cost options:">
@@ -785,9 +760,9 @@
 									<Font name="Roboto Bold" size="12.0" />
 								</font>
 							</Label>
-							<ScrollPane fx:id="pickDevelopmentCardChoiceDialogResourceCostOptionsScrollPane" fitToHeight="true">
-								<HBox fx:id="pickDevelopmentCardChoiceDialogResourceCostOptionsHBox" alignment="CENTER_RIGHT" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
-							</ScrollPane>
+							<Pane fx:id="pickDevelopmentCardChoiceDialogResourceCostOptionsPane" style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;">
+								<HBox fx:id="pickDevelopmentCardChoiceDialogResourceCostOptionsHBox" alignment="CENTER" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
+							</Pane>
 						</VBox>
 						<GridPane hgap="10.0">
 							<columnConstraints>
