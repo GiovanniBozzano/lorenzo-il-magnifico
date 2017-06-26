@@ -753,10 +753,8 @@ public class GameHandler
 		for (CardType cardType : this.cardsHandler.getCurrentDevelopmentCards().keySet()) {
 			List<List<ResourceAmount>> discountChoices = new ArrayList<>();
 			for (Modifier modifier : player.getActiveModifiers()) {
-				if (modifier instanceof ModifierPickDevelopmentCard) {
-					if (((ModifierPickDevelopmentCard) modifier).getCardType() == cardType) {
-						discountChoices.addAll(((ModifierPickDevelopmentCard) modifier).getDiscountChoices());
-					}
+				if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices() != null) {
+					discountChoices.addAll(((ModifierPickDevelopmentCard) modifier).getDiscountChoices());
 				}
 			}
 			for (Row row : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).keySet()) {
