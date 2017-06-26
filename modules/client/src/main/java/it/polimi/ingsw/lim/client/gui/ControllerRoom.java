@@ -3,9 +3,12 @@ package it.polimi.ingsw.lim.client.gui;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.Main;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
+import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,9 +16,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
 public class ControllerRoom extends CustomController
 {
@@ -29,6 +34,17 @@ public class ControllerRoom extends CustomController
 	@FXML
 	private void handleGameRulesButtonAction()
 	{
+		HostServices hostServices = Main.getApplication().getHostServices();
+		try {
+			File file = new File(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile().getPath().replace('\\', '/') + "/Lorenzo il Magnifico Rulebook.pdf");
+			if (file.exists()) {
+				hostServices.showDocument(file.getAbsolutePath());
+			} else {
+				hostServices.showDocument(CommonUtils.exportResource("/guide.pdf", "/Lorenzo il Magnifico Rulebook.pdf"));
+			}
+		} catch (Exception exception) {
+			Client.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+		}
 	}
 
 	@FXML

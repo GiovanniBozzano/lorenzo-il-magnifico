@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 public class Main extends Application
 {
 	private static String[] args;
+	private static Application application;
 
 	public static void main(String[] args)
 	{
@@ -40,6 +41,7 @@ public class Main extends Application
 	@Override
 	public void start(Stage stage)
 	{
+		Main.application = this;
 		WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, () -> {
 			Client.getInstance().getCliScanner().close();
 			Client.getInstance().getCliListener().shutdownNow();
@@ -55,5 +57,10 @@ public class Main extends Application
 	public static String[] getArgs()
 	{
 		return Main.args;
+	}
+
+	public static Application getApplication()
+	{
+		return Main.application;
 	}
 }
