@@ -437,17 +437,17 @@
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player2Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player2Wood" alignment="CENTER" layoutX="104.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player2Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player2Stone" alignment="CENTER" layoutX="184.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player2Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player2Servant" alignment="CENTER" layoutX="256.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
@@ -493,17 +493,17 @@
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player3Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player3Wood" alignment="CENTER" layoutX="104.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player3Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player3Stone" alignment="CENTER" layoutX="184.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player3Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player3Servant" alignment="CENTER" layoutX="256.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
@@ -549,17 +549,17 @@
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player4Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player4Wood" alignment="CENTER" layoutX="104.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player4Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player4Stone" alignment="CENTER" layoutX="184.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player4Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player4Servant" alignment="CENTER" layoutX="256.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
@@ -605,17 +605,17 @@
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player5Wood" alignment="CENTER" layoutX="104.0" layoutY="273.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player5Wood" alignment="CENTER" layoutX="104.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player5Stone" alignment="CENTER" layoutX="184.0" layoutY="269.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player5Stone" alignment="CENTER" layoutX="184.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
 									</Label>
-									<Label fx:id="player5Servant" alignment="CENTER" layoutX="256.0" layoutY="264.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
+									<Label fx:id="player5Servant" alignment="CENTER" layoutX="256.0" layoutY="271.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-radius: 20; -fx-background-color: WHITE;">
 										<font>
 											<Font name="Roboto Bold" size="14.0" />
 										</font>
