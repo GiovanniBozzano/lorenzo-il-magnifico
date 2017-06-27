@@ -15,10 +15,10 @@ public class PacketGameUpdateOtherTurn extends Packet
 {
 	private final GameInformations gameInformations;
 	private final List<PlayerInformations> playersInformations;
-	private final Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand;
+	private final Map<Integer, Boolean> ownLeaderCardsHand;
 	private final int turnPlayerIndex;
 
-	public PacketGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand, int turnPlayerIndex)
+	public PacketGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)
 	{
 		super(PacketType.GAME_UPDATE_OTHER_TURN);
 		this.gameInformations = gameInformations;
@@ -37,7 +37,7 @@ public class PacketGameUpdateOtherTurn extends Packet
 		return this.playersInformations;
 	}
 
-	public Map<Integer, List<LeaderCardConditionsOption>> getOwnLeaderCardsHand()
+	public Map<Integer, Boolean> getOwnLeaderCardsHand()
 	{
 		return this.ownLeaderCardsHand;
 	}

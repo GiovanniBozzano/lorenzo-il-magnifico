@@ -36,7 +36,7 @@ public class GameStatus
 	private final Map<FamilyMemberType, Integer> currentDices = new EnumMap<>(FamilyMemberType.class);
 	private final Map<Integer, Integer> currentTurnOrder = new HashMap<>();
 	private final Map<Integer, Integer> currentCouncilPalaceOrder = new HashMap<>();
-	private final Map<Integer, List<LeaderCardConditionsOption>> currentOwnLeaderCardsHand = new HashMap<>();
+	private final Map<Integer, Boolean> currentOwnLeaderCardsHand = new HashMap<>();
 	private int currentTurnPlayerIndex = -1;
 	private final Map<ActionType, List<AvailableAction>> currentAvailableActions = new EnumMap<>(ActionType.class);
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
@@ -70,7 +70,7 @@ public class GameStatus
 		this.personalBonusTiles.putAll(personalBonusTiles);
 	}
 
-	public void updateGameStatus(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand)
+	public void updateGameStatus(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand)
 	{
 		this.setCurrentDevelopmentCardsBuilding(gameInformations.getDevelopmentCardsBuilding());
 		this.setCurrentDevelopmentCardsCharacter(gameInformations.getDevelopmentCardsCharacter());
@@ -258,12 +258,12 @@ public class GameStatus
 		this.currentCouncilPalaceOrder.putAll(currentCouncilPalaceOrder);
 	}
 
-	public Map<Integer, List<LeaderCardConditionsOption>> getCurrentOwnLeaderCardsHand()
+	public Map<Integer, Boolean> getCurrentOwnLeaderCardsHand()
 	{
 		return this.currentOwnLeaderCardsHand;
 	}
 
-	private void setCurrentOwnLeaderCardsHand(Map<Integer, List<LeaderCardConditionsOption>> currentOwnLeaderCardsHand)
+	private void setCurrentOwnLeaderCardsHand(Map<Integer, Boolean> currentOwnLeaderCardsHand)
 	{
 		this.currentOwnLeaderCardsHand.clear();
 		this.currentOwnLeaderCardsHand.putAll(currentOwnLeaderCardsHand);

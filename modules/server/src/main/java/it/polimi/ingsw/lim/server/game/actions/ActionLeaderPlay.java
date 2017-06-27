@@ -22,9 +22,9 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 	private transient final Player player;
 	private transient LeaderCard leaderCard;
 
-	public ActionLeaderPlay(int leaderCardIndex, LeaderCardConditionsOption leaderCardConditionsOption, Player player)
+	public ActionLeaderPlay(int leaderCardIndex, Player player)
 	{
-		super(leaderCardIndex, leaderCardConditionsOption);
+		super(leaderCardIndex);
 		this.player = player;
 	}
 
@@ -62,23 +62,31 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			return false;
 		}
 		// check if the player's resources are enough
-		if (this.getLeaderCardConditionsOption().getResourceAmounts() != null) {
-			for (ResourceAmount requiredResources : this.getLeaderCardConditionsOption().getResourceAmounts()) {
-				int playerResources = this.player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
-				if (playerResources < requiredResources.getAmount()) {
-					return false;
+		for (LeaderCardConditionsOption leaderCardConditionsOption :    this.leaderCard.getConditionsOptions()) {
+			boolean availableConditionOption = true;
+			if (leaderCardConditionsOption.getResourceAmounts() != null) {
+				for (ResourceAmount requiredResources : leaderCardConditionsOption.getResourceAmounts()) {
+					int playerResources = this.player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
+					if (playerResources < requiredResources.getAmount()) {
+						availableConditionOption = false;
+						break;
+					}
 				}
 			}
-		}
-		if (this.getLeaderCardConditionsOption().getCardAmounts() != null) {
-			for (CardAmount requiredCards : this.getLeaderCardConditionsOption().getCardAmounts()) {
-				int playerCards = this.player.getPlayerCardHandler().getDevelopmentCardsNumber(requiredCards.getCardType());
-				if (playerCards < requiredCards.getAmount()) {
-					return false;
+			if (leaderCardConditionsOption.getCardAmounts() != null) {
+				for (CardAmount requiredCards : leaderCardConditionsOption.getCardAmounts()) {
+					int playerCards = this.player.getPlayerCardHandler().getDevelopmentCardsNumber(requiredCards.getCardType());
+					if (playerCards < requiredCards.getAmount()) {
+						availableConditionOption = false;
+						break;
+					}
 				}
 			}
+			if (availableConditionOption) {
+				return true;
+			}
 		}
-		return true;
+		return false;
 	}
 
 	@Override

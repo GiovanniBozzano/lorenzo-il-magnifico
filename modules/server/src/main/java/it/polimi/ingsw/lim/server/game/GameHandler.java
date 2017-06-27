@@ -5,8 +5,6 @@ import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.*;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
-import it.polimi.ingsw.lim.common.game.utils.CardAmount;
-import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.Server;
@@ -712,37 +710,18 @@ public class GameHandler
 		return playersInformations;
 	}
 
-	public Map<Integer, List<LeaderCardConditionsOption>> generateLeaderCardsHand(Player player)
+	public Map<Integer, Boolean> generateLeaderCardsHand(Player player)
 	{
-		Map<Integer, List<LeaderCardConditionsOption>> leaderCardsHand = new HashMap<>();
+		Map<Integer, Boolean> leaderCardsHand = new HashMap<>();
 		for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {
 			if (leaderCard.isPlayed()) {
 				continue;
 			}
-			List<LeaderCardConditionsOption> availableLeaderCardContitionsOptions = new ArrayList<>();
-			for (LeaderCardConditionsOption leaderCardConditionsOption : leaderCard.getConditionsOptions()) {
-				boolean availableLeadercardConditionOption = true;
-				if (leaderCardConditionsOption.getResourceAmounts() != null) {
-					for (ResourceAmount requiredResources : leaderCardConditionsOption.getResourceAmounts()) {
-						int playerResources = player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
-						if (playerResources < requiredResources.getAmount()) {
-							availableLeadercardConditionOption = false;
-						}
-					}
-				}
-				if (leaderCardConditionsOption.getCardAmounts() != null) {
-					for (CardAmount requiredCards : leaderCardConditionsOption.getCardAmounts()) {
-						int playerCards = player.getPlayerCardHandler().getDevelopmentCardsNumber(requiredCards.getCardType());
-						if (playerCards < requiredCards.getAmount()) {
-							availableLeadercardConditionOption = false;
-						}
-					}
-				}
-				if (availableLeadercardConditionOption) {
-					availableLeaderCardContitionsOptions.add(leaderCardConditionsOption);
-				}
+			if (new ActionLeaderPlay(leaderCard.getIndex(), player).isLegal()) {
+				leaderCardsHand.put(leaderCard.getIndex(), true);
+			} else {
+				leaderCardsHand.put(leaderCard.getIndex(), false);
 			}
-			leaderCardsHand.put(leaderCard.getIndex(), availableLeaderCardContitionsOptions);
 		}
 		return leaderCardsHand;
 	}
@@ -841,10 +820,8 @@ public class GameHandler
 				if (new ActionLeaderDiscard(leaderCard.getIndex(), player).isLegal()) {
 					availableActions.get(ActionType.LEADER_DISCARD).add(new AvailableActionLeaderDiscard(leaderCard.getIndex()));
 				}
-				for (LeaderCardConditionsOption leaderCardConditionsOption : leaderCard.getConditionsOptions()) {
-					if (new ActionLeaderPlay(leaderCard.getIndex(), leaderCardConditionsOption, player).isLegal()) {
-						availableActions.get(ActionType.LEADER_PLAY).add(new AvailableActionLeaderPlay(leaderCard.getIndex()));
-					}
+				if (new ActionLeaderPlay(leaderCard.getIndex(), player).isLegal()) {
+					availableActions.get(ActionType.LEADER_PLAY).add(new AvailableActionLeaderPlay(leaderCard.getIndex()));
 				}
 			}
 		}

@@ -14,10 +14,10 @@ public class PacketGameUpdate extends Packet
 {
 	private final GameInformations gameInformations;
 	private final List<PlayerInformations> playersInformations;
-	private final Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand;
+	private final Map<Integer, Boolean> ownLeaderCardsHand;
 	private final Map<ActionType, List<AvailableAction>> availableActions;
 
-	public PacketGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)
+	public PacketGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)
 	{
 		super(PacketType.GAME_UPDATE);
 		this.gameInformations = gameInformations;
@@ -36,7 +36,7 @@ public class PacketGameUpdate extends Packet
 		return this.playersInformations;
 	}
 
-	public Map<Integer, List<LeaderCardConditionsOption>> getOwnLeaderCardsHand()
+	public Map<Integer, Boolean> getOwnLeaderCardsHand()
 	{
 		return this.ownLeaderCardsHand;
 	}

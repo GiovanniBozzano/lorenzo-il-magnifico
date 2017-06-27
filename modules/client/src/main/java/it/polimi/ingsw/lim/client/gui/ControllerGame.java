@@ -9,7 +9,10 @@ import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.actions.*;
 import it.polimi.ingsw.lim.common.game.cards.*;
-import it.polimi.ingsw.lim.common.game.utils.*;
+import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
+import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
@@ -467,17 +470,10 @@ public class ControllerGame extends CustomController
 	@FXML private JFXButton servantsChoiceDialogCancelButton;
 	@FXML private JFXDialog pickDevelopmentCardChoiceDialog;
 	@FXML private JFXSlider pickDevelopmentCardChoiceDialogSlider;
-	@FXML private Pane pickDevelopmentCardChoiceDialogDiscountChoicesPane;
-	@FXML private Pane pickDevelopmentCardChoiceDialogResourceCostOptionsPane;
 	@FXML private HBox pickDevelopmentCardChoiceDialogDiscountChoicesHBox;
 	@FXML private HBox pickDevelopmentCardChoiceDialogResourceCostOptionsHBox;
 	@FXML private JFXButton pickDevelopmentCardChoiceDialogAcceptButton;
 	@FXML private JFXButton pickDevelopmentCardChoiceDialogCancelButton;
-	@FXML private JFXDialog leaderPlayChoiceDialog;
-	@FXML private Pane leaderPlayChoiceDialogConditionsOptionsPane;
-	@FXML private HBox leaderPlayChoiceDialogConditionsOptionsHBox;
-	@FXML private JFXButton leaderPlayChoiceDialogAcceptButton;
-	@FXML private JFXButton leaderPlayChoiceDialogCancelButton;
 	@FXML private JFXDialog cardDialog;
 	@FXML private JFXDialogLayout cardDialogLayout;
 	@FXML private Pane cardDialogPane;
@@ -782,12 +778,6 @@ public class ControllerGame extends CustomController
 	private void handlePickDevelopmentCardChoiceDialogCancelButtonAction()
 	{
 		this.pickDevelopmentCardChoiceDialog.close();
-	}
-
-	@FXML
-	private void handleLeaderPlayChoiceDialogCancelButtonAction()
-	{
-		this.leaderPlayChoiceDialog.close();
 	}
 
 	@Override
@@ -1125,11 +1115,6 @@ public class ControllerGame extends CustomController
 		this.pickDevelopmentCardChoiceDialog.setDialogContainer(this.getStackPane());
 		this.pickDevelopmentCardChoiceDialog.setOverlayClose(false);
 		this.pickDevelopmentCardChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
-		this.getStackPane().getChildren().remove(this.leaderPlayChoiceDialog);
-		this.leaderPlayChoiceDialog.setTransitionType(DialogTransition.CENTER);
-		this.leaderPlayChoiceDialog.setDialogContainer(this.getStackPane());
-		this.leaderPlayChoiceDialog.setOverlayClose(false);
-		this.leaderPlayChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.cardDialog);
 		this.cardDialog.setTransitionType(DialogTransition.CENTER);
 		this.cardDialog.setDialogContainer(this.getStackPane());
@@ -2511,38 +2496,35 @@ public class ControllerGame extends CustomController
 	{
 		this.leaderCardsChoiceDialog.setOverlayClose(true);
 		this.leaderCardsChoiceDialogHBox.getChildren().clear();
-		for (Entry<Integer, List<LeaderCardConditionsOption>> leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().entrySet()) {
-			if (leaderCard.getValue().isEmpty()) {
-				continue;
-			}
+		for (Integer leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
 			Pane pane = new Pane();
 			pane.setPrefWidth(this.territory1.getWidth() * 3);
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
-			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getDisplayName());
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName());
 			stringBuilder.append("\n\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getDescription());
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDescription());
 			stringBuilder.append("\n\n");
-			if (GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()) instanceof LeaderCardModifierInformations) {
+			if (GameStatus.getInstance().getLeaderCards().get(leaderCard) instanceof LeaderCardModifierInformations) {
 				stringBuilder.append("PERMANENT ABILITY:\n");
-				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getModifier());
+				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getModifier());
 			} else {
 				stringBuilder.append("ONCE PER ROUND ABILITY:");
-				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts().isEmpty()) {
+				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts().isEmpty()) {
 					stringBuilder.append("\n\nInstant resources:");
 				}
-				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts()) {
+				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts()) {
 					stringBuilder.append('\n');
 					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 					stringBuilder.append(": ");
 					stringBuilder.append(resourceAmount.getAmount());
 				}
-				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getActionRewardInformations() != null) {
+				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations() != null) {
 					stringBuilder.append("\n\nAction reward:");
 					stringBuilder.append('\n');
-					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getActionRewardInformations());
+					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations());
 				}
 			}
 			Tooltip tooltip = new Tooltip(stringBuilder.toString());
@@ -2552,62 +2534,7 @@ public class ControllerGame extends CustomController
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
 				this.leaderCardsChoiceDialog.close();
-				this.leaderPlayChoiceDialogAcceptButton.setDisable(true);
-				this.leaderPlayChoiceDialogConditionsOptionsHBox.getChildren().clear();
-				List<AnchorPane> leaderConditionsOptionsAnchorPanes = new ArrayList<>();
-				for (LeaderCardConditionsOption leaderCardConditionsOption : leaderCard.getValue()) {
-					AnchorPane anchorPane = new AnchorPane();
-					leaderConditionsOptionsAnchorPanes.add(anchorPane);
-					Text text = new Text();
-					stringBuilder.setLength(0);
-					boolean first = true;
-					for (ResourceAmount resourceAmount : leaderCardConditionsOption.getResourceAmounts()) {
-						if (first) {
-							first = false;
-							stringBuilder.append("REQUIRED RESOURCES:");
-						}
-						stringBuilder.append("\n- ");
-						stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-						stringBuilder.append(": ");
-						stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
-					}
-					first = true;
-					for (CardAmount cardAmount : leaderCardConditionsOption.getCardAmounts()) {
-						if (first) {
-							first = false;
-							stringBuilder.append("REQUIRED CARDS:");
-						}
-						stringBuilder.append("\n- ");
-						stringBuilder.append(Utils.CARD_TYPES_NAMES.get(cardAmount.getCardType()));
-						stringBuilder.append(": ");
-						stringBuilder.append(Integer.toString(cardAmount.getAmount()));
-					}
-					text.setText(stringBuilder.toString());
-					anchorPane.getChildren().add(text);
-					AnchorPane.setTopAnchor(text, 0.0);
-					AnchorPane.setBottomAnchor(text, 0.0);
-					AnchorPane.setLeftAnchor(text, 0.0);
-					AnchorPane.setRightAnchor(text, 0.0);
-					anchorPane.setOnMouseClicked(childEvent -> {
-						this.selectedLeaderConditionsOption = leaderCardConditionsOption;
-						this.leaderPlayChoiceDialogAcceptButton.setDisable(false);
-						anchorPane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
-						for (AnchorPane otherAnchorPane : leaderConditionsOptionsAnchorPanes) {
-							if (otherAnchorPane != anchorPane) {
-								otherAnchorPane.setEffect(null);
-							}
-						}
-					});
-					this.leaderPlayChoiceDialogConditionsOptionsHBox.getChildren().add(anchorPane);
-					this.leaderPlayChoiceDialogAcceptButton.setOnAction(childEvent -> {
-						this.leaderPlayChoiceDialog.close();
-						Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderPlay(leaderCard.getKey(), this.selectedLeaderConditionsOption));
-					});
-					this.leaderPlayChoiceDialogAcceptButton.setPrefWidth(((VBox) this.leaderPlayChoiceDialogAcceptButton.getParent()).getWidth());
-					this.leaderPlayChoiceDialogCancelButton.setPrefWidth(((VBox) this.leaderPlayChoiceDialogCancelButton.getParent()).getWidth());
-					this.leaderPlayChoiceDialogAcceptButton.requestLayout();
-					this.leaderPlayChoiceDialogCancelButton.requestLayout();
-				}
+				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderPlay(leaderCard));
 			});
 			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
 		}
