@@ -18,7 +18,7 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 	private boolean gameInitialized;
 	private GameInformations gameInformations;
 	private List<PlayerInformations> playersInformations;
-	private Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand;
+	private Map<Integer, Boolean> ownLeaderCardsHand;
 	private int turnPlayerIndex;
 	private Map<ActionType, List<AvailableAction>> availableActions;
 
@@ -82,12 +82,12 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 		this.playersInformations = new ArrayList<>(playersInformations);
 	}
 
-	public Map<Integer, List<LeaderCardConditionsOption>> getOwnLeaderCardsHand()
+	public Map<Integer, Boolean> getOwnLeaderCardsHand()
 	{
 		return this.ownLeaderCardsHand;
 	}
 
-	public void setOwnLeaderCardsHand(Map<Integer, List<LeaderCardConditionsOption>> ownLeaderCardsHand)
+	public void setOwnLeaderCardsHand(Map<Integer, Boolean> ownLeaderCardsHand)
 	{
 		this.ownLeaderCardsHand = new HashMap<>(ownLeaderCardsHand);
 	}

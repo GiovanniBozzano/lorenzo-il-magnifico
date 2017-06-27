@@ -42,10 +42,11 @@ public class Main extends Application
 	public void start(Stage stage)
 	{
 		Main.application = this;
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, () -> {
+		/*WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, () -> {
 			Client.getInstance().getCliScanner().close();
 			Client.getInstance().getCliListener().shutdownNow();
-		}, stage);
+		}, stage);*/
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME);
 	}
 
 	@Override
