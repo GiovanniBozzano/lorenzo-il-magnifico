@@ -25,6 +25,7 @@ public class ConnectionHandler extends Thread
 	private final int socketPort;
 	private Registry registry;
 	private Authentication login;
+	private boolean connected = false;
 	private volatile boolean keepGoing = true;
 
 	public ConnectionHandler(int rmiPort, int socketPort)
@@ -55,6 +56,7 @@ public class ConnectionHandler extends Thread
 					Utils.displayToLog("Your external IP address is: " + Server.getInstance().getExternalIp());
 				}
 			});
+			this.connected = true;
 			while (this.keepGoing) {
 				try {
 					Socket socket = serverSocket.accept();
@@ -70,7 +72,7 @@ public class ConnectionHandler extends Thread
 				}
 			}
 		} catch (IOException exception) {
-			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			try {
 				this.registry.unbind("lorenzo-il-magnifico");
 				UnicastRemoteObject.unexportObject(this.registry, true);
@@ -95,5 +97,10 @@ public class ConnectionHandler extends Thread
 	public Authentication getLogin()
 	{
 		return this.login;
+	}
+
+	public boolean isConnected()
+	{
+		return this.connected;
 	}
 }

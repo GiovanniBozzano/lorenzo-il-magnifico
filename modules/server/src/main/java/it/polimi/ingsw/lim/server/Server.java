@@ -70,7 +70,7 @@ public class Server extends Instance
 	{
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.execute(() -> {
-			if (this.connectionHandler != null) {
+			if (this.connectionHandler != null && this.connectionHandler.isConnected()) {
 				Connection.broadcastChatMessage("Server shutting down...");
 				Connection.disconnectAll();
 				for (Room room : this.rooms) {

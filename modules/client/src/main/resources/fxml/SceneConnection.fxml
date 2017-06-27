@@ -80,7 +80,7 @@
 		<JFXDialogLayout fx:id="dialogLayout">
 			<body>
 				<VBox spacing="10.0">
-					<Label text="Connection Failed">
+					<Label text="Starting Failed">
 						<font>
 							<Font name="Roboto Bold" size="12.0" />
 						</font>
