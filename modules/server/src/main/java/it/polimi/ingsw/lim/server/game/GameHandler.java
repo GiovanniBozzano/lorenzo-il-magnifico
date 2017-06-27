@@ -153,15 +153,17 @@ public class GameHandler
 				currentPlayer.sendGamePersonalBonusTileChosen(player.getIndex());
 			}
 		}
-		do {
-			this.personalBonusTileChoicePlayerTurnIndex--;
-			if (this.personalBonusTileChoicePlayerTurnIndex < 0) {
-				this.leaderCardsChoosingPlayers.addAll(this.turnOrder);
-				this.sendLeaderCardsChoiceRequest();
-				return;
-			}
+		this.personalBonusTileChoicePlayerTurnIndex--;
+		if (this.personalBonusTileChoicePlayerTurnIndex < 0) {
+			this.leaderCardsChoosingPlayers.addAll(this.turnOrder);
+			this.sendLeaderCardsChoiceRequest();
+			return;
 		}
-		while (!this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex).isOnline());
+		if (!this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex).isOnline()) {
+			int nextPlayerPersonalBonusTileIndex = this.availablePersonalBonusTiles.get(this.randomGenerator.nextInt(this.availablePersonalBonusTiles.size()));
+			this.applyPersonalBonusTileChoice(this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex), nextPlayerPersonalBonusTileIndex);
+			return;
+		}
 		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex));
 	}
 
@@ -347,7 +349,7 @@ public class GameHandler
 					}
 				}
 			}
-		}, 1, 1, TimeUnit.SECONDS);
+		}, 1L, 1L, TimeUnit.SECONDS);
 	}
 
 	private void rollDices()
@@ -411,7 +413,7 @@ public class GameHandler
 					}
 				}
 			}
-		}, 1, 1, TimeUnit.SECONDS);
+		}, 1L, 1L, TimeUnit.SECONDS);
 		for (Player player : this.excommunicationChoosingPlayers) {
 			player.getConnection().sendGameExcommunicationChoiceRequest(this.currentPeriod);
 		}
@@ -524,7 +526,7 @@ public class GameHandler
 					}
 				}
 			}
-		}, 1, 1, TimeUnit.SECONDS);
+		}, 1L, 1L, TimeUnit.SECONDS);
 		this.sendGamePersonalBonusTileChoiceOther(player);
 	}
 
@@ -570,7 +572,7 @@ public class GameHandler
 					}
 				}
 			}
-		}, 1, 1, TimeUnit.SECONDS);
+		}, 1L, 1L, TimeUnit.SECONDS);
 	}
 
 	public void sendGameUpdate(Player player)
@@ -593,7 +595,7 @@ public class GameHandler
 					}
 				}
 			}
-		}, 1, 1, TimeUnit.SECONDS);
+		}, 1L, 1L, TimeUnit.SECONDS);
 		player.getConnection().sendGameUpdate(this.generateGameInformations(), this.generatePlayersInformations(), this.generateLeaderCardsHand(player), this.generateAvailableActions(player));
 		this.sendGameUpdateOtherTurn(player);
 	}
@@ -623,7 +625,7 @@ public class GameHandler
 					}
 				}
 			}
-		}, 1, 1, TimeUnit.SECONDS);
+		}, 1L, 1L, TimeUnit.SECONDS);
 		player.getConnection().sendGameUpdateExpectedAction(this.generateGameInformations(), this.generatePlayersInformations(), this.generateLeaderCardsHand(player), expectedAction);
 		this.sendGameUpdateOtherTurn(player);
 	}

@@ -127,7 +127,7 @@ public class Room
 					roomPlayer.sendRoomTimer(this.timer);
 				}
 			}
-		}, 1, 1, TimeUnit.SECONDS);
+		}, 1L, 1L, TimeUnit.SECONDS);
 	}
 
 	private void startGame()
