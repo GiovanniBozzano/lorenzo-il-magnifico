@@ -9,7 +9,6 @@ import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.actions.*;
 import it.polimi.ingsw.lim.common.game.cards.*;
-import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
@@ -38,7 +37,6 @@ import javax.annotation.PostConstruct;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.logging.Level;
 
 public class ControllerGame extends CustomController
 {
@@ -635,7 +633,6 @@ public class ControllerGame extends CustomController
 	private Integer selectedDevelopmentCardIndex;
 	private final List<ResourceAmount> selectedDiscountChoice = new ArrayList<>();
 	private ResourceCostOption selectedResourceCostOption;
-	private LeaderCardConditionsOption selectedLeaderConditionsOption;
 
 	@FXML
 	private void boardDevelopmentCardPaneMouseClicked(MouseEvent event)
@@ -1151,7 +1148,7 @@ public class ControllerGame extends CustomController
 			}
 		}
 		this.gameBoard.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("/images/game_board_5_players.png").toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-		/*this.gameBoard.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(ControllerGame.BOARD_IMAGES.get(GameStatus.getInstance().getCurrentPlayersData().size())).toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+		this.gameBoard.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(ControllerGame.BOARD_IMAGES.get(GameStatus.getInstance().getCurrentPlayersData().size())).toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		for (Entry<Integer, Tab> tab : this.playersTabs.entrySet()) {
 			if (!GameStatus.getInstance().getCurrentPlayersData().keySet().contains(tab.getKey())) {
 				this.playersTabPane.getTabs().remove(tab.getValue());
@@ -1175,15 +1172,12 @@ public class ControllerGame extends CustomController
 			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(this.excommunicationTilesPanes.get(excommunicationTile.getKey()), tooltip);
-		}*/
+		}
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", true);
 		this.actionsVBox.getChildren().add(actionsNodesList);
 	}
-
-	@FXML AnchorPane a;
-	@FXML AnchorPane b;
 
 	@Override
 	@PostConstruct
@@ -1248,7 +1242,7 @@ public class ControllerGame extends CustomController
 		this.cardDialogPane.setPrefWidth(this.building1.getWidth() * 4);
 		this.cardDialogPane.setPrefHeight(this.building1.getHeight() * 4);
 		this.cardDialogScrollPane.setPrefHeight(this.building1.getHeight() * 4);
-		/*for (Integer playerIndex : GameStatus.getInstance().getCurrentPlayersData().keySet()) {
+		for (Integer playerIndex : GameStatus.getInstance().getCurrentPlayersData().keySet()) {
 			for (Pane pane : this.playersLeaderCardsHand.get(playerIndex)) {
 				pane.setPrefWidth(this.building1.getWidth() * 2.5);
 				pane.setPrefHeight(this.building1.getHeight() * 2.5);
@@ -1257,14 +1251,14 @@ public class ControllerGame extends CustomController
 				pane.setPrefWidth(this.building1.getWidth() * 2.5);
 				pane.setPrefHeight(this.building1.getHeight() * 2.5);
 			}
-		}*/
+		}
 		this.leaderCardsTabPane.requestLayout();
 		this.leaderCardsButton.setPrefWidth(((VBox) this.leaderCardsButton.getParent()).getWidth());
 		this.excommunicationChoiceDialogAcceptButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogAcceptButton.getParent()).getWidth());
 		this.excommunicationChoiceDialogRefuseButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogRefuseButton.getParent()).getWidth());
 		this.servantsChoiceDialogAcceptButton.setPrefWidth(((VBox) this.servantsChoiceDialogAcceptButton.getParent()).getWidth());
 		this.servantsChoiceDialogCancelButton.setPrefWidth(((VBox) this.servantsChoiceDialogCancelButton.getParent()).getWidth());
-		//this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
+		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
 		this.getStage().setX(bounds.getWidth() / 2 - this.getStage().getWidth() / 2);
 		this.getStage().setY(bounds.getHeight() / 2 - this.getStage().getHeight() / 2);
 		Client.getInstance().setBackgroundMediaPlayer(new MediaPlayer(new Media(this.getClass().getResource("/sounds/background.mp3").toString())));
@@ -1965,10 +1959,10 @@ public class ControllerGame extends CustomController
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			}
 			for (Pane pane : this.playersLeaderCardsHand.get(playerData.getKey())) {
-				pane.setBackground(null);
+				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("/images/leader_cards/leader_card_background.png").toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
 			for (Pane pane : this.playersLeaderCardsPlayed.get(playerData.getKey())) {
-				pane.setBackground(null);
+				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("/images/leader_cards/leader_card_background.png").toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
 			int index = 0;
 			for (Entry<Integer, Boolean> leaderCard : playerData.getValue().getLeaderCardsPlayed().entrySet()) {
