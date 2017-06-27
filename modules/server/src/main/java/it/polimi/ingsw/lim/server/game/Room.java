@@ -58,7 +58,7 @@ public class Room
 			}
 		}
 		if (this.gameHandler.getCurrentPeriod() == null && this.gameHandler.getCurrentRound() == null) {
-			if (this.gameHandler.getPersonalBonusTileChoicePlayerIndex() == player.getPlayer().getIndex()) {
+			if (this.gameHandler.getTurnOrder().get(this.gameHandler.getPersonalBonusTileChoicePlayerTurnIndex()).getIndex() == player.getPlayer().getIndex()) {
 				int personalBonusTileIndex = this.gameHandler.getAvailablePersonalBonusTiles().get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailablePersonalBonusTiles().size()));
 				this.gameHandler.applyPersonalBonusTileChoice(player.getPlayer(), personalBonusTileIndex);
 				return;
@@ -68,10 +68,10 @@ public class Room
 				this.gameHandler.applyLeaderCardChoice(player.getPlayer(), leaderCardIndex);
 				return;
 			}
-			if (this.gameHandler.getExcommunicationChoosingPlayers().contains(player.getPlayer())) {
-				this.gameHandler.applyExcommunicationChoice(player.getPlayer(), false);
-				return;
-			}
+			return;
+		}
+		if (this.gameHandler.getExcommunicationChoosingPlayers().contains(player.getPlayer())) {
+			this.gameHandler.applyExcommunicationChoice(player.getPlayer(), false);
 			return;
 		}
 		if (this.gameHandler.getTurnPlayer() == player.getPlayer()) {

@@ -53,7 +53,7 @@ public class GameHandler
 	private ActionType expectedAction;
 	private final Map<Player, Boolean> firstTurn = new HashMap<>();
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
-	private int personalBonusTileChoicePlayerIndex;
+	private int personalBonusTileChoicePlayerTurnIndex;
 	private final Map<Player, List<Integer>> availableLeaderCards = new HashMap<>();
 	private final List<Player> leaderCardsChoosingPlayers = new ArrayList<>();
 	private final List<Player> excommunicationChoosingPlayers = new ArrayList<>();
@@ -109,7 +109,7 @@ public class GameHandler
 		this.excommunicatedPlayers.put(Period.FIRST, new ArrayList<>());
 		this.excommunicatedPlayers.put(Period.SECOND, new ArrayList<>());
 		this.excommunicatedPlayers.put(Period.THIRD, new ArrayList<>());
-		this.personalBonusTileChoicePlayerIndex = this.turnOrder.size() - 1;
+		this.personalBonusTileChoicePlayerTurnIndex = this.turnOrder.size() - 1;
 		int startingCoins = 5;
 		for (Player player : this.turnOrder) {
 			player.getConnection().sendGameStarted(excommunicationTilesIndexes, this.playersIdentifications, player.getIndex());
@@ -132,12 +132,12 @@ public class GameHandler
 			}
 			this.availableLeaderCards.put(player, playerAvailableLeaderCards);
 		}
-		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerIndex));
+		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex));
 	}
 
 	public void receivePersonalBonusTileChoice(Player player, int personalBonusTileIndex)
 	{
-		if (this.turnOrder.get(this.personalBonusTileChoicePlayerIndex) != player || !this.availablePersonalBonusTiles.contains(personalBonusTileIndex)) {
+		if (this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex) != player || !this.availablePersonalBonusTiles.contains(personalBonusTileIndex)) {
 			return;
 		}
 		this.applyPersonalBonusTileChoice(player, personalBonusTileIndex);
@@ -154,15 +154,15 @@ public class GameHandler
 			}
 		}
 		do {
-			this.personalBonusTileChoicePlayerIndex--;
-			if (this.personalBonusTileChoicePlayerIndex < 0) {
+			this.personalBonusTileChoicePlayerTurnIndex--;
+			if (this.personalBonusTileChoicePlayerTurnIndex < 0) {
 				this.leaderCardsChoosingPlayers.addAll(this.turnOrder);
 				this.sendLeaderCardsChoiceRequest();
 				return;
 			}
 		}
-		while (!this.turnOrder.get(this.personalBonusTileChoicePlayerIndex).isOnline());
-		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerIndex));
+		while (!this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex).isOnline());
+		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex));
 	}
 
 	public void receiveLeaderCardChoice(Player player, int leaderCardIndex)
@@ -904,9 +904,9 @@ public class GameHandler
 		return this.availablePersonalBonusTiles;
 	}
 
-	int getPersonalBonusTileChoicePlayerIndex()
+	int getPersonalBonusTileChoicePlayerTurnIndex()
 	{
-		return this.personalBonusTileChoicePlayerIndex;
+		return this.personalBonusTileChoicePlayerTurnIndex;
 	}
 
 	Map<Player, List<Integer>> getAvailableLeaderCards()
