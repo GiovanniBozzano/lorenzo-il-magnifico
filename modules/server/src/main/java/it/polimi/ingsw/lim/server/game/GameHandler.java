@@ -8,6 +8,7 @@ import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.ServerSettings;
 import it.polimi.ingsw.lim.server.enums.LeaderCardType;
 import it.polimi.ingsw.lim.server.game.actions.*;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
@@ -323,7 +324,7 @@ public class GameHandler
 				player.getConnection().sendGameLogMessage("==================\n=== GAME ENDED ===\n==================");
 			}
 		}
-		this.timer = 30;
+		this.timer = ServerSettings.getInstance().getEndGameTimer();
 		for (Player otherPlayer : this.turnOrder) {
 			if (otherPlayer.isOnline()) {
 				otherPlayer.getConnection().sendGameTimer(this.timer);
@@ -389,7 +390,7 @@ public class GameHandler
 			this.setupRound();
 			return;
 		}
-		this.timer = 50;
+		this.timer = ServerSettings.getInstance().getExcommunicationChoiceTimer();
 		for (Player otherPlayer : this.turnOrder) {
 			if (otherPlayer.isOnline()) {
 				otherPlayer.getConnection().sendGameTimer(this.timer);
@@ -504,7 +505,7 @@ public class GameHandler
 	private void sendGamePersonalBonusTileChoiceRequest(Player player)
 	{
 		player.getConnection().sendGamePersonalBonusTileChoiceRequest(this.availablePersonalBonusTiles);
-		this.timer = 5;
+		this.timer = ServerSettings.getInstance().getPersonalBonusTileChoiceTimer();
 		for (Player otherPlayer : this.turnOrder) {
 			if (otherPlayer.isOnline()) {
 				otherPlayer.getConnection().sendGameTimer(this.timer);
@@ -546,7 +547,7 @@ public class GameHandler
 				playerAvailableLeaderCards.getKey().getConnection().sendGameLeaderCardChoiceRequest(playerAvailableLeaderCards.getValue());
 			}
 		}
-		this.timer = 5;
+		this.timer = ServerSettings.getInstance().getLeaderCardsChoiceTimer();
 		for (Player otherPlayer : this.turnOrder) {
 			if (otherPlayer.isOnline()) {
 				otherPlayer.getConnection().sendGameTimer(this.timer);
@@ -574,7 +575,7 @@ public class GameHandler
 
 	public void sendGameUpdate(Player player)
 	{
-		this.timer = 100;
+		this.timer = ServerSettings.getInstance().getGameActionTimer();
 		for (Player otherPlayer : this.turnOrder) {
 			if (otherPlayer.isOnline()) {
 				otherPlayer.getConnection().sendGameTimer(this.timer);
@@ -599,7 +600,7 @@ public class GameHandler
 
 	public void sendGameUpdateExpectedAction(Player player, ExpectedAction expectedAction)
 	{
-		this.timer = 5;
+		this.timer = ServerSettings.getInstance().getGameActionTimer();
 		for (Player otherPlayer : this.turnOrder) {
 			if (otherPlayer.isOnline()) {
 				otherPlayer.getConnection().sendGameTimer(this.timer);
@@ -609,7 +610,12 @@ public class GameHandler
 		this.timerExecutor.scheduleWithFixedDelay(() -> {
 			this.timer--;
 			if (this.timer == 0) {
-				this.nextTurn();
+				if (this.currentPhase == Phase.LEADER) {
+					this.timer = ServerSettings.getInstance().getGameActionTimer();
+					this.sendGameUpdate(player);
+				} else {
+					this.nextTurn();
+				}
 			} else {
 				for (Player otherPlayer : this.turnOrder) {
 					if (otherPlayer.isOnline()) {

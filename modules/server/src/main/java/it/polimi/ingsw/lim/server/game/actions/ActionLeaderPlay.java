@@ -62,7 +62,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			return false;
 		}
 		// check if the player's resources are enough
-		for (LeaderCardConditionsOption leaderCardConditionsOption :    this.leaderCard.getConditionsOptions()) {
+		for (LeaderCardConditionsOption leaderCardConditionsOption : this.leaderCard.getConditionsOptions()) {
 			boolean availableConditionOption = true;
 			if (leaderCardConditionsOption.getResourceAmounts() != null) {
 				for (ResourceAmount requiredResources : leaderCardConditionsOption.getResourceAmounts()) {

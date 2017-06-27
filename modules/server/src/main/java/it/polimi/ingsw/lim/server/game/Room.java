@@ -15,8 +15,8 @@ public class Room
 {
 	private final RoomType roomType;
 	private final List<Connection> players = new ArrayList<>();
-	private int timer;
 	private ScheduledExecutorService timerExecutor;
+	private int timer;
 	private GameHandler gameHandler;
 	private boolean endGame = false;
 
@@ -26,7 +26,7 @@ public class Room
 		if (roomType == RoomType.NORMAL) {
 			this.timer = ServerSettings.getInstance().getRoomTimer();
 		} else {
-			this.timer = 5;
+			this.timer = ServerSettings.getInstance().getExtendedRoomTimer();
 		}
 	}
 
@@ -110,7 +110,7 @@ public class Room
 					this.timerExecutor.shutdownNow();
 				}
 				this.timerExecutor = null;
-				this.timer = 5;
+				this.timer = ServerSettings.getInstance().getExtendedRoomTimer();
 			}
 		}
 	}

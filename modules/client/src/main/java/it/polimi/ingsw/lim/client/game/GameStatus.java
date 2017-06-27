@@ -9,7 +9,6 @@ import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.*;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
-import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 
 import java.util.*;
 import java.util.Map.Entry;
