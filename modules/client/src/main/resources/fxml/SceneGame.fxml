@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?><?import com.jfoenix.controls.*?><?import javafx.geometry.Insets?><?import javafx.scene.control.*?><?import javafx.scene.image.Image?><?import javafx.scene.image.ImageView?><?import javafx.scene.layout.*?><?import javafx.scene.text.*?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
 <StackPane fx:id="stackPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.lim.client.gui.ControllerGame">
 	<VBox spacing="10.0">
 		<GridPane>
@@ -298,21 +323,21 @@
 				<Pane fx:id="excommunicationTileFirst" layoutX="164.0" layoutY="602.0" prefHeight="90.0" prefWidth="44.0" />
 				<Pane fx:id="excommunicationTileSecond" layoutX="213.0" layoutY="613.0" prefHeight="86.0" prefWidth="44.0" />
 				<Pane fx:id="excommunicationTileThird" layoutX="262.0" layoutY="602.0" prefHeight="90.0" prefWidth="44.0" />
-				<Pane fx:id="excommunicationTileFirstPlayer1" layoutX="169.0" layoutY="612.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileFirstPlayer3" layoutX="169.0" layoutY="628.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileFirstPlayer2" layoutX="185.0" layoutY="612.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileFirstPlayer4" layoutX="185.0" layoutY="628.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileFirstPlayer5" layoutX="185.0" layoutY="644.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileSecondPlayer1" layoutX="217.5" layoutY="619.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileSecondPlayer2" layoutX="235.0" layoutY="619.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileSecondPlayer4" layoutX="217.5" layoutY="636.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileSecondPlayer3" layoutX="235.0" layoutY="636.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileSecondPlayer5" layoutX="235.0" layoutY="653.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileThirdPlayer1" layoutX="267.0" layoutY="611.5" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileThirdPlayer2" layoutX="284.0" layoutY="611.5" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileThirdPlayer3" layoutX="267.0" layoutY="629.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileThirdPlayer4" layoutX="284.0" layoutY="629.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
-				<Pane fx:id="excommunicationTileThirdPlayer5" layoutX="284.0" layoutY="646.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileFirstPlayer1" layoutX="171.0" layoutY="614.5" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileFirstPlayer3" layoutX="171.0" layoutY="631.5" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileFirstPlayer2" layoutX="187.5" layoutY="614.5" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileFirstPlayer4" layoutX="187.5" layoutY="631.5" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileFirstPlayer5" layoutX="187.5" layoutY="647.5" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileSecondPlayer1" layoutX="219.5" layoutY="622.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileSecondPlayer2" layoutX="237.0" layoutY="622.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileSecondPlayer4" layoutX="219.5" layoutY="639.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileSecondPlayer3" layoutX="237.0" layoutY="639.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileSecondPlayer5" layoutX="237.0" layoutY="656.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileThirdPlayer1" layoutX="269.0" layoutY="614.5" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileThirdPlayer2" layoutX="286.5" layoutY="614.5" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileThirdPlayer3" layoutX="269.0" layoutY="631.5" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileThirdPlayer4" layoutX="286.5" layoutY="631.5" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
+				<Pane fx:id="excommunicationTileThirdPlayer5" layoutX="286.5" layoutY="648.0" prefHeight="13.0" prefWidth="13.0" style="-fx-background-color: RED;" />
 			</Pane>
 			<VBox fx:id="rightVBox" spacing="10.0" GridPane.columnIndex="1">
 				<JFXTabPane fx:id="playersTabPane">
