@@ -42,7 +42,7 @@ public class ConnectionHandler extends Thread
 			this.login = new Authentication();
 			this.registry.rebind("lorenzo-il-magnifico", this.login);
 		} catch (RemoteException exception) {
-			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			WindowFactory.getInstance().enableWindow();
 			return;
 		}
