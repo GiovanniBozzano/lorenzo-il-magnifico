@@ -142,6 +142,11 @@ public class Server extends Instance
 		return this.databaseSaver;
 	}
 
+	public ScheduledExecutorService getDatabaseKeeper()
+	{
+		return this.databaseKeeper;
+	}
+
 	public ConnectionHandler getConnectionHandler()
 	{
 		return this.connectionHandler;

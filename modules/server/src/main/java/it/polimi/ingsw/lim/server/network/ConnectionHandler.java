@@ -44,6 +44,9 @@ public class ConnectionHandler extends Thread
 			this.registry.rebind("lorenzo-il-magnifico", this.login);
 		} catch (RemoteException exception) {
 			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getInstance().getDatabaseSaver().shutdown();
+			Server.getInstance().getDatabaseKeeper().shutdownNow();
+			Server.getInstance().getDatabase().closeConnection();
 			WindowFactory.getInstance().enableWindow();
 			return;
 		}
@@ -73,6 +76,9 @@ public class ConnectionHandler extends Thread
 			}
 		} catch (IOException exception) {
 			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getInstance().getDatabaseSaver().shutdown();
+			Server.getInstance().getDatabaseKeeper().shutdownNow();
+			Server.getInstance().getDatabase().closeConnection();
 			try {
 				this.registry.unbind("lorenzo-il-magnifico");
 				UnicastRemoteObject.unexportObject(this.registry, true);
