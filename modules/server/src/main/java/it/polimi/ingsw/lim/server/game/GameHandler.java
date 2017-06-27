@@ -576,7 +576,7 @@ public class GameHandler
 
 	public void sendGameUpdate(Player player)
 	{
-		this.timer = 50;
+		this.timer = 100;
 		for (Player otherPlayer : this.turnOrder) {
 			if (otherPlayer.isOnline()) {
 				otherPlayer.getConnection().sendGameTimer(this.timer);

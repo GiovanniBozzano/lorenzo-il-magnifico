@@ -868,10 +868,10 @@
 									<Pane fx:id="player1LeaderCard4Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 								<HBox spacing="5.0">
-									<Pane fx:id="player1LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player1LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player1LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player1LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player1LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player1LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player1LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player1LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
 								</HBox>
 							</VBox>
 						</AnchorPane>
@@ -886,10 +886,10 @@
 									<Pane fx:id="player2LeaderCard4Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 								<HBox spacing="5.0">
-									<Pane fx:id="player2LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player2LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player2LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player2LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player2LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player2LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player2LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player2LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
 								</HBox>
 							</VBox>
 						</AnchorPane>
@@ -904,10 +904,10 @@
 									<Pane fx:id="player3LeaderCard4Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 								<HBox spacing="5.0">
-									<Pane fx:id="player3LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player3LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player3LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player3LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player3LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player3LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player3LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player3LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
 								</HBox>
 							</VBox>
 						</AnchorPane>
@@ -922,10 +922,10 @@
 									<Pane fx:id="player4LeaderCard4Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 								<HBox spacing="5.0">
-									<Pane fx:id="player4LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player4LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player4LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player4LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player4LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player4LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player4LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player4LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
 								</HBox>
 							</VBox>
 						</AnchorPane>
@@ -940,10 +940,10 @@
 									<Pane fx:id="player5LeaderCard4Hand" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
 								</HBox>
 								<HBox spacing="5.0">
-									<Pane fx:id="player5LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player5LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player5LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-									<Pane fx:id="player5LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+									<Pane fx:id="player5LeaderCard1Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player5LeaderCard2Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player5LeaderCard3Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
+									<Pane fx:id="player5LeaderCard4Played" style="-fx-border-color: #757575; -fx-border-width: 2px; -fx-background-image: url('/images/leader_cards/leaders_card_background.png'); -fx-background-size: stretch;" />
 								</HBox>
 							</VBox>
 						</AnchorPane>
