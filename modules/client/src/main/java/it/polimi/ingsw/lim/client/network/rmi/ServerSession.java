@@ -101,9 +101,9 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex, int choicePersonalBonusTileIndex) throws RemoteException
+	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex) throws RemoteException
 	{
-		Client.getInstance().getConnectionHandler().handleGamePersonalBonusTileChosen(choicePlayerIndex, choicePersonalBonusTileIndex);
+		Client.getInstance().getConnectionHandler().handleGamePersonalBonusTileChosen(choicePlayerIndex);
 	}
 
 	@Override

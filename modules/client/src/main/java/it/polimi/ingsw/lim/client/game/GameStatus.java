@@ -81,6 +81,7 @@ public class GameStatus
 		this.setCurrentOwnLeaderCardsHand(ownLeaderCardsHand);
 		for (PlayerInformations playerInformations : playersInformations) {
 			if (this.currentPlayerData.get(playerInformations.getIndex()) != null) {
+				this.currentPlayerData.get(playerInformations.getIndex()).setPersonalBonusTile(playerInformations.getPersonalBonusTile());
 				this.currentPlayerData.get(playerInformations.getIndex()).setDevelopmentCardsBuilding(playerInformations.getDevelopmentCardsBuilding());
 				this.currentPlayerData.get(playerInformations.getIndex()).setDevelopmentCardsCharacter(playerInformations.getDevelopmentCardsCharacter());
 				this.currentPlayerData.get(playerInformations.getIndex()).setDevelopmentCardsTerritory(playerInformations.getDevelopmentCardsTerritory());

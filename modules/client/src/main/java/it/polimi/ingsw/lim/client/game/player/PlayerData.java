@@ -11,6 +11,7 @@ public class PlayerData
 {
 	private final String username;
 	private final Color color;
+	private int personalBonusTile;
 	private final List<Integer> developmentCardsBuilding = new ArrayList<>();
 	private final List<Integer> developmentCardsCharacter = new ArrayList<>();
 	private final List<Integer> developmentCardsTerritory = new ArrayList<>();
@@ -34,6 +35,16 @@ public class PlayerData
 	public Color getColor()
 	{
 		return this.color;
+	}
+
+	public int getPersonalBonusTile()
+	{
+		return this.personalBonusTile;
+	}
+
+	public void setPersonalBonusTile(int personalBonusTile)
+	{
+		this.personalBonusTile = personalBonusTile;
 	}
 
 	public List<Integer> getDevelopmentCardsBuilding()

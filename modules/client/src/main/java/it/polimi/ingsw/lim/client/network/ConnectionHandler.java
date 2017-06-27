@@ -283,13 +283,12 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
-	public void handleGamePersonalBonusTileChosen(int choicePlayerIndex, int choicePeronalBonusTileIndex)
+	public void handleGamePersonalBonusTileChosen(int choicePlayerIndex)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
 		}
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).updatePlayerPersonalBonusTile(choicePlayerIndex, choicePeronalBonusTileIndex));
 			if (choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex()) {
 				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getPersonalBonusTilesChoiceDialog().close());

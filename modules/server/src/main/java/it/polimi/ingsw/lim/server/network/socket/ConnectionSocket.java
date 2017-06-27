@@ -173,9 +173,9 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex, int choicePersonalBonusTileIndex)
+	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex)
 	{
-		new PacketGamePersonalBonusTileChosen(choicePlayerIndex, choicePersonalBonusTileIndex).send(this.out);
+		new PacketGamePersonalBonusTileChosen(choicePlayerIndex).send(this.out);
 	}
 
 	@Override

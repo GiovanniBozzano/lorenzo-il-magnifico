@@ -10,6 +10,7 @@ import java.util.*;
 public class PlayerInformations implements Serializable
 {
 	private final int index;
+	private final int personalBonusTile;
 	private final List<Integer> developmentCardsBuilding;
 	private final List<Integer> developmentCardsCharacter;
 	private final List<Integer> developmentCardsTerritory;
@@ -19,9 +20,10 @@ public class PlayerInformations implements Serializable
 	private final Map<ResourceType, Integer> resourceAmounts;
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions;
 
-	public PlayerInformations(int index, List<Integer> developmentCardsBuilding, List<Integer> developmentCardsCharacter, List<Integer> developmentCardsTerritory, List<Integer> developmentCardsVenture, Map<Integer, Boolean> leaderCardsPlayed, int leaderCardsInHandNumber, Map<ResourceType, Integer> resourceAmounts, Map<FamilyMemberType, BoardPosition> familyMembersPositions)
+	public PlayerInformations(int index, int personalBonusTile, List<Integer> developmentCardsBuilding, List<Integer> developmentCardsCharacter, List<Integer> developmentCardsTerritory, List<Integer> developmentCardsVenture, Map<Integer, Boolean> leaderCardsPlayed, int leaderCardsInHandNumber, Map<ResourceType, Integer> resourceAmounts, Map<FamilyMemberType, BoardPosition> familyMembersPositions)
 	{
 		this.index = index;
+		this.personalBonusTile = personalBonusTile;
 		this.developmentCardsBuilding = new LinkedList<>(developmentCardsBuilding);
 		this.developmentCardsCharacter = new LinkedList<>(developmentCardsCharacter);
 		this.developmentCardsTerritory = new LinkedList<>(developmentCardsTerritory);
@@ -35,6 +37,11 @@ public class PlayerInformations implements Serializable
 	public int getIndex()
 	{
 		return this.index;
+	}
+
+	public int getPersonalBonusTile()
+	{
+		return this.personalBonusTile;
 	}
 
 	public List<Integer> getDevelopmentCardsBuilding()

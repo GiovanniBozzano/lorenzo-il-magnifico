@@ -150,7 +150,7 @@ public class GameHandler
 		this.availablePersonalBonusTiles.remove((Integer) personalBonusTileIndex);
 		for (Connection currentPlayer : this.room.getPlayers()) {
 			if (currentPlayer.getPlayer().isOnline()) {
-				currentPlayer.sendGamePersonalBonusTileChosen(player.getIndex(), personalBonusTileIndex);
+				currentPlayer.sendGamePersonalBonusTileChosen(player.getIndex());
 			}
 		}
 		do {
@@ -711,7 +711,7 @@ public class GameHandler
 					leaderCardsInHandNumber++;
 				}
 			}
-			playersInformations.add(new PlayerInformations(player.getPlayer().getIndex(), developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, leaderCardsPlayed, leaderCardsInHandNumber, player.getPlayer().getPlayerResourceHandler().getResources(), player.getPlayer().getFamilyMembersPositions()));
+			playersInformations.add(new PlayerInformations(player.getPlayer().getIndex(), player.getPlayer().getPersonalBonusTile().getIndex(), developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, leaderCardsPlayed, leaderCardsInHandNumber, player.getPlayer().getPlayerResourceHandler().getResources(), player.getPlayer().getFamilyMembersPositions()));
 		}
 		return playersInformations;
 	}

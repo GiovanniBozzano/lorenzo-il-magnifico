@@ -41,7 +41,7 @@ public interface IServerSession extends Remote
 
 	void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex) throws RemoteException;
 
-	void sendGamePersonalBonusTileChosen(int choicePlayerIndex, int choicePersonalBonusTileIndex) throws RemoteException;
+	void sendGamePersonalBonusTileChosen(int choicePlayerIndex) throws RemoteException;
 
 	void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards) throws RemoteException;
 

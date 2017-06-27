@@ -94,7 +94,7 @@ public abstract class Connection
 
 	public abstract void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex);
 
-	public abstract void sendGamePersonalBonusTileChosen(int choicePlayerIndex, int choicePersonalBonusTileIndex);
+	public abstract void sendGamePersonalBonusTileChosen(int choicePlayerIndex);
 
 	public abstract void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards);
 

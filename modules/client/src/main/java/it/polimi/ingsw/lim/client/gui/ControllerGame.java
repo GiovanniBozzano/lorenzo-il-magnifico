@@ -1266,11 +1266,6 @@ public class ControllerGame extends CustomController
 		Client.getInstance().getBackgroundMediaPlayer().play();
 	}
 
-	public void updatePlayerPersonalBonusTile(int choicePlayerIndex, int choicePersonalBonusTileIndex)
-	{
-		this.playersBoards.get(choicePlayerIndex).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getPersonalBonusTiles().get(choicePersonalBonusTileIndex).getPlayerBoardTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-	}
-
 	public void setOwnTurn()
 	{
 		this.updateGame();
@@ -1930,6 +1925,7 @@ public class ControllerGame extends CustomController
 			pane.setBackground(null);
 		}
 		for (Entry<Integer, PlayerData> playerData : GameStatus.getInstance().getCurrentPlayersData().entrySet()) {
+			this.playersBoards.get(playerData.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getPersonalBonusTiles().get(playerData.getValue().getPersonalBonusTile()).getPlayerBoardTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING)) {
 				pane.setBackground(null);
 				pane.setBorder(null);

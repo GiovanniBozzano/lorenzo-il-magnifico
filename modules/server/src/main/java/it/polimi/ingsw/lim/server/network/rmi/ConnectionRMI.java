@@ -228,11 +228,11 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex, int choicePersonalBonusTileIndex)
+	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex)
 	{
 		this.rmiExecutor.execute(() -> {
 			try {
-				this.serverSession.sendGamePersonalBonusTileChosen(choicePlayerIndex, choicePersonalBonusTileIndex);
+				this.serverSession.sendGamePersonalBonusTileChosen(choicePlayerIndex);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
