@@ -89,16 +89,20 @@ public class Utils
 	 */
 	public static void displayToLog(String text)
 	{
-		if (!WindowFactory.getInstance().isWindowOpen(ControllerMain.class)) {
-			return;
-		}
-		Platform.runLater(() -> {
-			if (((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().getText().length() < 1) {
-				((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().appendText(text);
-			} else {
-				((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().appendText("\n" + text);
+		if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
+			if (!WindowFactory.getInstance().isWindowOpen(ControllerMain.class)) {
+				return;
 			}
-		});
+			Platform.runLater(() -> {
+				if (((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().getText().length() < 1) {
+					((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().appendText(text);
+				} else {
+					((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().appendText("\n" + text);
+				}
+			});
+		} else {
+			Server.getLogger().log(Level.INFO, text);
+		}
 	}
 
 	/**
@@ -108,11 +112,7 @@ public class Utils
 	 */
 	public static void executeCommand(String command)
 	{
-		if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Utils.displayToLog("[Command]: " + command);
-		} else {
-			Server.getLogger().log(Level.INFO, "[Command]: {0}", new Object[] { command });
-		}
+		Utils.displayToLog("[Command]: " + command);
 		String commandType = command;
 		String commandArguments = null;
 		if (command.contains(" ")) {

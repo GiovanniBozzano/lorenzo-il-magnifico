@@ -55,7 +55,7 @@ public class ConnectionHandler extends Thread
 			if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
 				WindowFactory.getInstance().enableWindow();
 			} else {
-				Server.getLogger().log(Level.INFO, "Server setup failed...");
+				Utils.displayToLog("Server setup failed...");
 				Server.getInstance().getCliListener().execute(() -> {
 					ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus());
 					Server.getInstance().setCurrentCliHandler(newCliHandler);
@@ -75,7 +75,7 @@ public class ConnectionHandler extends Thread
 					}
 				});
 			} else {
-				Server.getLogger().log(Level.INFO, "Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
+				Utils.displayToLog("Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
 				Server.getInstance().setCliStatus(CLIStatus.MAIN);
 				Server.getInstance().getCliListener().execute(() -> {
 					ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus());
@@ -115,7 +115,7 @@ public class ConnectionHandler extends Thread
 				if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
 					WindowFactory.getInstance().enableWindow();
 				} else {
-					Server.getLogger().log(Level.INFO, "Server setup failed...");
+					Utils.displayToLog("Server setup failed...");
 					Server.getInstance().getCliListener().execute(() -> {
 						ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus());
 						Server.getInstance().setCurrentCliHandler(newCliHandler);

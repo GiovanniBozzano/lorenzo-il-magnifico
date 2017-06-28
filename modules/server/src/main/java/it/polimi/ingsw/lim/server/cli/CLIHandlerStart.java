@@ -3,8 +3,7 @@ package it.polimi.ingsw.lim.server.cli;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.Server;
-
-import java.util.logging.Level;
+import it.polimi.ingsw.lim.server.utils.Utils;
 
 public class CLIHandlerStart implements ICLIHandler
 {
@@ -21,7 +20,7 @@ public class CLIHandlerStart implements ICLIHandler
 
 	private void askRmiPort()
 	{
-		Server.getLogger().log(Level.INFO, "Enter RMI Port [default 8080]...");
+		Utils.displayToLog("Enter RMI Port [default 8080]...");
 		String input;
 		do {
 			input = Server.getInstance().getCliScanner().nextLine();
@@ -31,11 +30,16 @@ public class CLIHandlerStart implements ICLIHandler
 
 	private void askSocketPort()
 	{
-		Server.getLogger().log(Level.INFO, "Enter Socket Port [default 8081]...");
+		Utils.displayToLog("Enter Socket Port [default 8081]...");
 		String input;
 		do {
 			input = Server.getInstance().getCliScanner().nextLine();
 		} while (!CommonUtils.isInteger(input));
 		this.socketPort = Integer.parseInt(input);
+	}
+
+	public static CLIHandlerStart initialize()
+	{
+		return new CLIHandlerStart();
 	}
 }

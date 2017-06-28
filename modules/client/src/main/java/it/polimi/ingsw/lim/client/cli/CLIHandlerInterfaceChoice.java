@@ -25,18 +25,20 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 				Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		});
-		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(2, cliHandler -> Client.getInstance().setCliStatus(CLIStatus.CONNECTION));
+		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(2, cliHandler -> {
+			Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
+			Client.getInstance().getCliListener().execute(() -> {
+				ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+				Client.getInstance().setCurrentCliHandler(newCliHandler);
+				newCliHandler.execute();
+			});
+		});
 	}
 
 	@Override
 	public void execute()
 	{
 		this.askInterfaceType();
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
 	}
 
 	private void askInterfaceType()
@@ -51,7 +53,8 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 		while (!CommonUtils.isInteger(input) || !CLIHandlerInterfaceChoice.INPUT_HANDLERS.containsKey(Integer.parseInt(input)));
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.get(Integer.parseInt(input)).execute(this);
 	}
-	public static CLIHandlerInterfaceChoice initialize()
+
+	public CLIHandlerInterfaceChoice newInstance()
 	{
 		return new CLIHandlerInterfaceChoice();
 	}

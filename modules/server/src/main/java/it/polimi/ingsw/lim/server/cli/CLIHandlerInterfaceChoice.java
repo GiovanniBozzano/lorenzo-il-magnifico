@@ -7,6 +7,7 @@ import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Main;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.enums.CLIStatus;
+import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,14 +44,19 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 
 	private void askInterfaceType()
 	{
-		Server.getLogger().log(Level.INFO, "Enter Interface Type...");
-		Server.getLogger().log(Level.INFO, "1 - GUI");
-		Server.getLogger().log(Level.INFO, "2 - CLI");
+		Utils.displayToLog("Enter Interface Type...");
+		Utils.displayToLog("1 - GUI");
+		Utils.displayToLog("2 - CLI");
 		String input;
 		do {
 			input = Server.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || !CLIHandlerInterfaceChoice.INPUT_HANDLERS.containsKey(Integer.parseInt(input)));
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.get(Integer.parseInt(input)).execute(this);
+	}
+
+	public static CLIHandlerInterfaceChoice initialize()
+	{
+		return new CLIHandlerInterfaceChoice();
 	}
 }

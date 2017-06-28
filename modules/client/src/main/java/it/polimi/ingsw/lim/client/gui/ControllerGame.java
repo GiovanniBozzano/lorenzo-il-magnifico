@@ -475,7 +475,6 @@ public class ControllerGame extends CustomController
 	@FXML private JFXDialogLayout leaderCardsChoiceDialogLayout;
 	@FXML private HBox leaderCardsChoiceDialogHBox;
 	@FXML private JFXDialog excommunicationChoiceDialog;
-	@FXML private JFXDialogLayout excommunicationChoiceDialogLayout;
 	@FXML private Text excommunicationChoiceDialogText;
 	@FXML private JFXButton excommunicationChoiceDialogSupportButton;
 	@FXML private JFXButton excommunicationChoiceDialogDoNotSupportButton;
@@ -590,6 +589,7 @@ public class ControllerGame extends CustomController
 	private final Map<Integer, Pane> playersBoards = new HashMap<>();
 	private final Map<FamilyMemberType, Pane> dices = new EnumMap<>(FamilyMemberType.class);
 	private final Map<Period, Pane> excommunicationTilesPanes = new EnumMap<>(Period.class);
+	private final Map<Period, List<Pane>> excommunicationTilesPlayersPanes = new EnumMap<>(Period.class);
 	private final Map<Integer, Pane> victoryPointsPanes = new HashMap<>();
 	private final Map<Integer, Pane> militaryPointsPanes = new HashMap<>();
 	private final Map<Integer, Pane> faithPointsPanes = new HashMap<>();
@@ -818,6 +818,9 @@ public class ControllerGame extends CustomController
 		this.excommunicationTilesPanes.put(Period.FIRST, this.excommunicationTileFirst);
 		this.excommunicationTilesPanes.put(Period.SECOND, this.excommunicationTileSecond);
 		this.excommunicationTilesPanes.put(Period.THIRD, this.excommunicationTileThird);
+		this.excommunicationTilesPlayersPanes.put(Period.FIRST, Arrays.asList(this.excommunicationTileFirstPlayer1, this.excommunicationTileFirstPlayer2, this.excommunicationTileFirstPlayer3, this.excommunicationTileFirstPlayer4, this.excommunicationTileFirstPlayer5));
+		this.excommunicationTilesPlayersPanes.put(Period.SECOND, Arrays.asList(this.excommunicationTileSecondPlayer1, this.excommunicationTileSecondPlayer2, this.excommunicationTileSecondPlayer3, this.excommunicationTileSecondPlayer4, this.excommunicationTileSecondPlayer5));
+		this.excommunicationTilesPlayersPanes.put(Period.THIRD, Arrays.asList(this.excommunicationTileThirdPlayer1, this.excommunicationTileThirdPlayer2, this.excommunicationTileThirdPlayer3, this.excommunicationTileThirdPlayer4, this.excommunicationTileThirdPlayer5));
 		this.victoryPointsPanes.put(0, this.victoryPoint0);
 		this.victoryPointsPanes.put(1, this.victoryPoint1);
 		this.victoryPointsPanes.put(2, this.victoryPoint2);
@@ -1920,6 +1923,11 @@ public class ControllerGame extends CustomController
 		for (Pane pane : this.councilPalacePositionsPanes.values()) {
 			pane.setBackground(null);
 		}
+		for (Entry<Period, List<Pane>> ecommunicationTilePlayersPanes : this.excommunicationTilesPlayersPanes.entrySet()) {
+			for (Pane pane : ecommunicationTilePlayersPanes.getValue()) {
+				pane.setBackground(null);
+			}
+		}
 		for (Pane pane : this.roundOrderPositionsPanes.values()) {
 			pane.setBackground(null);
 		}
@@ -2090,7 +2098,10 @@ public class ControllerGame extends CustomController
 				}
 			}
 		}
-		for (Entry<Period, List<Integer>> excommunicationPeriod : GameStatus.getInstance().getCurrentExcommunicatedPlayers().entrySet()) {
+		for (Entry<Period, List<Integer>> excommunicationTilePlayersPanes : GameStatus.getInstance().getCurrentExcommunicatedPlayers().entrySet()) {
+			for (int index = 0; index < excommunicationTilePlayersPanes.getValue().size(); index++) {
+				this.excommunicationTilesPlayersPanes.get(excommunicationTilePlayersPanes.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(GameStatus.getInstance().getCurrentPlayersData().get(excommunicationTilePlayersPanes.getValue().get(index)).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			}
 		}
 		for (Entry<Integer, Integer> orderPosition : GameStatus.getInstance().getCurrentCouncilPalaceOrder().entrySet()) {
 			this.councilPalacePositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));

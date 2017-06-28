@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.client.cli;
 
-import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.cli.IInputHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;

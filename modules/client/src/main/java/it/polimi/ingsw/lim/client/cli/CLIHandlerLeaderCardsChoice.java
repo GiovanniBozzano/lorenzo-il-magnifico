@@ -71,7 +71,8 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 		while (!CommonUtils.isInteger(input) || !this.leaderCards.containsKey(Integer.parseInt(input)));
 		Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(this.leaderCards.get(Integer.parseInt(input)));
 	}
-	public static CLIHandlerLeaderCardsChoice initialize()
+
+	public CLIHandlerLeaderCardsChoice newInstance()
 	{
 		return new CLIHandlerLeaderCardsChoice();
 	}

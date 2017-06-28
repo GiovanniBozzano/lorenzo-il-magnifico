@@ -599,7 +599,7 @@
 				</JFXTabPane>
 				<JFXTabPane fx:id="chatTabPane">
 					<Tab text="Game Log">
-						<AnchorPane fx:id="a">
+						<AnchorPane>
 							<VBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
 								<TextArea fx:id="gameLogTextArea" editable="false" VBox.vgrow="ALWAYS">
 									<font>
@@ -610,7 +610,7 @@
 						</AnchorPane>
 					</Tab>
 					<Tab text="Chat">
-						<AnchorPane fx:id="b">
+						<AnchorPane>
 							<VBox spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
 								<TextArea fx:id="chatTextArea" editable="false" VBox.vgrow="ALWAYS">
 									<font>
@@ -668,7 +668,7 @@
 		</JFXDialogLayout>
 	</JFXDialog>
 	<JFXDialog fx:id="excommunicationChoiceDialog">
-		<JFXDialogLayout fx:id="excommunicationChoiceDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
+		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
 				<VBox spacing="10.0">
 					<Label text="Do you want to support the Church?">
