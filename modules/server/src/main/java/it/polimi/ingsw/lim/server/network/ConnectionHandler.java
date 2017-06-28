@@ -1,8 +1,10 @@
 package it.polimi.ingsw.lim.server.network;
 
+import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.enums.CLIStatus;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.rmi.Authentication;
 import it.polimi.ingsw.lim.server.network.socket.ConnectionSocket;
@@ -17,6 +19,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
 public class ConnectionHandler extends Thread
@@ -45,20 +48,41 @@ public class ConnectionHandler extends Thread
 		} catch (RemoteException exception) {
 			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Server.getInstance().getDatabaseSaver().shutdown();
+			Server.getInstance().setDatabaseSaver(Executors.newSingleThreadExecutor());
 			Server.getInstance().getDatabaseKeeper().shutdownNow();
+			Server.getInstance().setDatabaseKeeper(Executors.newSingleThreadScheduledExecutor());
 			Server.getInstance().getDatabase().closeConnection();
-			WindowFactory.getInstance().enableWindow();
+			if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
+				WindowFactory.getInstance().enableWindow();
+			} else {
+				Server.getLogger().log(Level.INFO, "Server setup failed...");
+				Server.getInstance().getCliListener().execute(() -> {
+					ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus());
+					Server.getInstance().setCurrentCliHandler(newCliHandler);
+					newCliHandler.execute();
+				});
+			}
 			return;
 		}
 		try (ServerSocket serverSocket = new ServerSocket(this.socketPort)) {
-			WindowFactory.getInstance().setNewWindow(Utils.SCENE_MAIN, () -> {
-				Utils.displayToLog("Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
-				Server.getInstance().setExternalIp(Utils.getExternalIpAddress());
-				Platform.runLater(() -> ((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));
-				if (Server.getInstance().getExternalIp() != null) {
-					Utils.displayToLog("Your external IP address is: " + Server.getInstance().getExternalIp());
-				}
-			});
+			if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
+				WindowFactory.getInstance().setNewWindow(Utils.SCENE_MAIN, () -> {
+					Utils.displayToLog("Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
+					Server.getInstance().setExternalIp(Utils.getExternalIpAddress());
+					Platform.runLater(() -> ((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));
+					if (Server.getInstance().getExternalIp() != null) {
+						Utils.displayToLog("Your external IP address is: " + Server.getInstance().getExternalIp());
+					}
+				});
+			} else {
+				Server.getLogger().log(Level.INFO, "Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
+				Server.getInstance().setCliStatus(CLIStatus.MAIN);
+				Server.getInstance().getCliListener().execute(() -> {
+					ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus());
+					Server.getInstance().setCurrentCliHandler(newCliHandler);
+					newCliHandler.execute();
+				});
+			}
 			this.connected = true;
 			while (this.keepGoing) {
 				try {
@@ -77,7 +101,9 @@ public class ConnectionHandler extends Thread
 		} catch (IOException exception) {
 			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Server.getInstance().getDatabaseSaver().shutdown();
+			Server.getInstance().setDatabaseSaver(Executors.newSingleThreadExecutor());
 			Server.getInstance().getDatabaseKeeper().shutdownNow();
+			Server.getInstance().setDatabaseKeeper(Executors.newSingleThreadScheduledExecutor());
 			Server.getInstance().getDatabase().closeConnection();
 			try {
 				this.registry.unbind("lorenzo-il-magnifico");
@@ -85,8 +111,18 @@ public class ConnectionHandler extends Thread
 				UnicastRemoteObject.unexportObject(this.login, true);
 			} catch (RemoteException | NotBoundException nestedException) {
 				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, nestedException);
+			} finally {
+				if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
+					WindowFactory.getInstance().enableWindow();
+				} else {
+					Server.getLogger().log(Level.INFO, "Server setup failed...");
+					Server.getInstance().getCliListener().execute(() -> {
+						ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus());
+						Server.getInstance().setCurrentCliHandler(newCliHandler);
+						newCliHandler.execute();
+					});
+				}
 			}
-			WindowFactory.getInstance().enableWindow();
 		}
 	}
 

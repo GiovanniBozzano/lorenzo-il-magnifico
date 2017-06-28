@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.utils;
 
+import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
@@ -9,10 +10,7 @@ import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.database.Database;
-import it.polimi.ingsw.lim.server.enums.Command;
-import it.polimi.ingsw.lim.server.enums.QueryRead;
-import it.polimi.ingsw.lim.server.enums.QueryValueType;
-import it.polimi.ingsw.lim.server.enums.QueryWrite;
+import it.polimi.ingsw.lim.server.enums.*;
 import it.polimi.ingsw.lim.server.game.actions.*;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
@@ -110,7 +108,11 @@ public class Utils
 	 */
 	public static void executeCommand(String command)
 	{
-		Utils.displayToLog("[Command]: " + command);
+		if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Utils.displayToLog("[Command]: " + command);
+		} else {
+			Server.getLogger().log(Level.INFO, "[Command]: {0}", new Object[] { command });
+		}
 		String commandType = command;
 		String commandArguments = null;
 		if (command.contains(" ")) {
@@ -128,8 +130,17 @@ public class Utils
 				default:
 			}
 		} catch (IllegalArgumentException exception) {
-			Server.getDebugger().log(Level.INFO, "Command does not exist.", exception);
+			Server.getDebugger().log(Level.OFF, "Command does not exist.", exception);
 			Utils.displayToLog("Command does not exist.");
+		} finally {
+			if (Server.getInstance().getCliStatus() != CLIStatus.NONE) {
+				Server.getInstance().setCliStatus(CLIStatus.MAIN);
+				Server.getInstance().getCliListener().execute(() -> {
+					ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus());
+					Server.getInstance().setCurrentCliHandler(newCliHandler);
+					newCliHandler.execute();
+				});
+			}
 		}
 	}
 

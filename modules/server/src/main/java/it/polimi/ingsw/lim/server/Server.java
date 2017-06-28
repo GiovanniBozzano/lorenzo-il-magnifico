@@ -1,10 +1,15 @@
 package it.polimi.ingsw.lim.server;
 
 import it.polimi.ingsw.lim.common.Instance;
+import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
+import it.polimi.ingsw.lim.server.cli.CLIHandlerInterfaceChoice;
+import it.polimi.ingsw.lim.server.cli.CLIHandlerMain;
+import it.polimi.ingsw.lim.server.cli.CLIHandlerStart;
 import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.database.DatabaseSQLite;
+import it.polimi.ingsw.lim.server.enums.CLIStatus;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.network.ConnectionHandler;
@@ -16,18 +21,29 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.*;
 import java.util.logging.Level;
 
 public class Server extends Instance
 {
+	private static final Map<CLIStatus, ICLIHandler> CLI_HANDLERS = new EnumMap<>(CLIStatus.class);
+
+	static {
+		Server.CLI_HANDLERS.put(CLIStatus.INTERFACE_CHOICE, new CLIHandlerInterfaceChoice());
+		Server.CLI_HANDLERS.put(CLIStatus.START, new CLIHandlerStart());
+		Server.CLI_HANDLERS.put(CLIStatus.MAIN, new CLIHandlerMain());
+	}
+
+	private CLIStatus cliStatus = CLIStatus.INTERFACE_CHOICE;
 	private int rmiPort;
 	private int socketPort;
 	private String externalIp;
 	private Database database;
-	private final ExecutorService databaseSaver = Executors.newSingleThreadExecutor();
-	private final ScheduledExecutorService databaseKeeper = Executors.newSingleThreadScheduledExecutor();
+	private ExecutorService databaseSaver = Executors.newSingleThreadExecutor();
+	private ScheduledExecutorService databaseKeeper = Executors.newSingleThreadScheduledExecutor();
 	private ConnectionHandler connectionHandler;
 	private final ConcurrentLinkedQueue<Connection> connections = new ConcurrentLinkedQueue<>();
 	private final ConcurrentLinkedQueue<Room> rooms = new ConcurrentLinkedQueue<>();
@@ -70,6 +86,8 @@ public class Server extends Instance
 	{
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.execute(() -> {
+			this.getCliScanner().close();
+			this.getCliListener().shutdownNow();
 			if (this.connectionHandler != null && this.connectionHandler.isConnected()) {
 				Connection.broadcastChatMessage("Server shutting down...");
 				Connection.disconnectAll();
@@ -112,6 +130,21 @@ public class Server extends Instance
 		return (Server) Instance.getInstance();
 	}
 
+	public static Map<CLIStatus, ICLIHandler> getCliHandlers()
+	{
+		return CLI_HANDLERS;
+	}
+
+	public CLIStatus getCliStatus()
+	{
+		return this.cliStatus;
+	}
+
+	public void setCliStatus(CLIStatus cliStatus)
+	{
+		this.cliStatus = cliStatus;
+	}
+
 	public int getRmiPort()
 	{
 		return this.rmiPort;
@@ -142,9 +175,19 @@ public class Server extends Instance
 		return this.databaseSaver;
 	}
 
+	public void setDatabaseSaver(ExecutorService databaseSaver)
+	{
+		this.databaseSaver = databaseSaver;
+	}
+
 	public ScheduledExecutorService getDatabaseKeeper()
 	{
 		return this.databaseKeeper;
+	}
+
+	public void setDatabaseKeeper(ScheduledExecutorService databaseKeeper)
+	{
+		this.databaseKeeper = databaseKeeper;
 	}
 
 	public ConnectionHandler getConnectionHandler()

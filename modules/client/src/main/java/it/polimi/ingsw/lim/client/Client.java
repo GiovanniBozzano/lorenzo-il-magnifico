@@ -40,7 +40,6 @@ public class Client extends Instance
 	private String username;
 	private ConnectionHandler connectionHandler;
 	private MediaPlayer backgroundMediaPlayer;
-	private MediaPlayer soundsMediaPlayer;
 
 	/**
 	 * <p>Tries to connect to an RMI or Socket Server and, if successful, opens
@@ -92,9 +91,6 @@ public class Client extends Instance
 		executorService.execute(() -> {
 			if (this.backgroundMediaPlayer != null) {
 				this.backgroundMediaPlayer.dispose();
-			}
-			if (this.soundsMediaPlayer != null) {
-				this.soundsMediaPlayer.dispose();
 			}
 			if (this.connectionHandler != null) {
 				this.connectionHandler.disconnect(notifyServer);
@@ -169,15 +165,5 @@ public class Client extends Instance
 	public void setBackgroundMediaPlayer(MediaPlayer backgroundMediaPlayer)
 	{
 		this.backgroundMediaPlayer = backgroundMediaPlayer;
-	}
-
-	public MediaPlayer getSoundsMediaPlayer()
-	{
-		return this.soundsMediaPlayer;
-	}
-
-	public void setSoundsMediaPlayer(MediaPlayer soundsMediaPlayer)
-	{
-		this.soundsMediaPlayer = soundsMediaPlayer;
 	}
 }

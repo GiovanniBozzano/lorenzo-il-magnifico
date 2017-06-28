@@ -1,7 +1,9 @@
 package it.polimi.ingsw.lim.server;
 
 import it.polimi.ingsw.lim.common.Instance;
+import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
+import it.polimi.ingsw.lim.common.utils.LoggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.utils.Utils;
 import javafx.application.Application;
@@ -13,15 +15,27 @@ import java.util.logging.Logger;
 
 public class Main extends Application
 {
+	private static String[] args;
+
 	public static void main(String[] args)
 	{
+		Main.args = args;
 		Server.setDebugger(Logger.getLogger(Server.class.getSimpleName().toUpperCase()));
 		Server.getDebugger().setUseParentHandlers(false);
 		ConsoleHandler consoleHandler = new ConsoleHandler();
 		consoleHandler.setFormatter(new DebuggerFormatter());
 		Server.getDebugger().addHandler(consoleHandler);
+		Server.setLogger(Logger.getLogger("LOGGER"));
+		Server.getLogger().setUseParentHandlers(false);
+		consoleHandler = new ConsoleHandler();
+		consoleHandler.setFormatter(new LoggerFormatter());
+		Server.getLogger().addHandler(consoleHandler);
 		Instance.setInstance(new Server());
-		Main.launch(args);
+		Server.getInstance().getCliListener().execute(() -> {
+			ICLIHandler cliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus());
+			Server.getInstance().setCurrentCliHandler(cliHandler);
+			cliHandler.execute();
+		});
 	}
 
 	@Override
@@ -52,5 +66,10 @@ public class Main extends Application
 	public void stop()
 	{
 		Server.getInstance().stop();
+	}
+
+	public static String[] getArgs()
+	{
+		return Main.args;
 	}
 }

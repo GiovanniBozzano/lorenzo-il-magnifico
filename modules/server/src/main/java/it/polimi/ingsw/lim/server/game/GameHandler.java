@@ -426,6 +426,7 @@ public class GameHandler
 				otherPlayer.getConnection().sendGameTimer(this.timer);
 			}
 		}
+		this.timerExecutor.shutdownNow();
 		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
 		this.timerExecutor.scheduleWithFixedDelay(() -> {
 			this.timer--;
@@ -492,6 +493,7 @@ public class GameHandler
 				otherPlayer.getConnection().sendGameTimer(this.timer);
 			}
 		}
+		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
 		this.timerExecutor.scheduleWithFixedDelay(() -> {
 			this.timer--;
 			if (this.timer == 0) {

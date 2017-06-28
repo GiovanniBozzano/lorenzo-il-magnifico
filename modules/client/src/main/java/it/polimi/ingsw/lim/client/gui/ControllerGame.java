@@ -26,6 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -476,8 +477,8 @@ public class ControllerGame extends CustomController
 	@FXML private JFXDialog excommunicationChoiceDialog;
 	@FXML private JFXDialogLayout excommunicationChoiceDialogLayout;
 	@FXML private Text excommunicationChoiceDialogText;
-	@FXML private JFXButton excommunicationChoiceDialogAcceptButton;
-	@FXML private JFXButton excommunicationChoiceDialogRefuseButton;
+	@FXML private JFXButton excommunicationChoiceDialogSupportButton;
+	@FXML private JFXButton excommunicationChoiceDialogDoNotSupportButton;
 	@FXML private JFXDialog servantsChoiceDialog;
 	@FXML private JFXSlider servantsChoiceDialogSlider;
 	@FXML private JFXButton servantsChoiceDialogAcceptButton;
@@ -739,8 +740,8 @@ public class ControllerGame extends CustomController
 	private void playerDevelopmentCardPaneMouseClicked(MouseEvent event)
 	{
 		if (event.getButton() == MouseButton.SECONDARY && ((Pane) event.getSource()).getBackground() != null) {
-			this.cardDialogText.setText(this.getDevelopmentCardInformations((Pane) event.getSource()));
 			this.cardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
+			this.cardDialogText.setText(this.getDevelopmentCardInformations((Pane) event.getSource()));
 			this.cardDialog.show();
 		}
 	}
@@ -768,17 +769,17 @@ public class ControllerGame extends CustomController
 	}
 
 	@FXML
-	private void handleExcommunicationChoiceDialogAcceptButtonAction()
-	{
-		this.excommunicationChoiceDialog.close();
-		Client.getInstance().getConnectionHandler().sendGameExcommunicationPlayerChoice(true);
-	}
-
-	@FXML
-	private void handleExcommunicationChoiceDialogRefuseButtonAction()
+	private void handleExcommunicationChoiceDialogSupportButtonAction()
 	{
 		this.excommunicationChoiceDialog.close();
 		Client.getInstance().getConnectionHandler().sendGameExcommunicationPlayerChoice(false);
+	}
+
+	@FXML
+	private void handleExcommunicationChoiceDialogDoNotSupportButtonAction()
+	{
+		this.excommunicationChoiceDialog.close();
+		Client.getInstance().getConnectionHandler().sendGameExcommunicationPlayerChoice(true);
 	}
 
 	@FXML
@@ -1254,8 +1255,6 @@ public class ControllerGame extends CustomController
 		}
 		this.leaderCardsTabPane.requestLayout();
 		this.leaderCardsButton.setPrefWidth(((VBox) this.leaderCardsButton.getParent()).getWidth());
-		this.excommunicationChoiceDialogAcceptButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogAcceptButton.getParent()).getWidth());
-		this.excommunicationChoiceDialogRefuseButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogRefuseButton.getParent()).getWidth());
 		this.servantsChoiceDialogAcceptButton.setPrefWidth(((VBox) this.servantsChoiceDialogAcceptButton.getParent()).getWidth());
 		this.servantsChoiceDialogCancelButton.setPrefWidth(((VBox) this.servantsChoiceDialogCancelButton.getParent()).getWidth());
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
@@ -1965,6 +1964,8 @@ public class ControllerGame extends CustomController
 				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("/images/leader_cards/leader_card_background.png").toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
 			int index = 0;
+			int harvestBigCounter = 0;
+			int producionBigCounter = 0;
 			for (Entry<Integer, Boolean> leaderCard : playerData.getValue().getLeaderCardsPlayed().entrySet()) {
 				if (leaderCard.getValue()) {
 					this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
@@ -2053,8 +2054,6 @@ public class ControllerGame extends CustomController
 			if (GameStatus.getInstance().getCurrentPlayersData().size() == 5) {
 				this.prestigePointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.PRESTIGE_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
-			int harvestBigCounter = 0;
-			int producionBigCounter = 0;
 			for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPositionEntry : playerData.getValue().getFamilyMembersPositions().entrySet()) {
 				if (this.boardPositionsPanes.containsKey(familyMemberTypeBoardPositionEntry.getValue())) {
 					this.boardPositionsPanes.get(familyMemberTypeBoardPositionEntry.getValue()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
@@ -2065,7 +2064,7 @@ public class ControllerGame extends CustomController
 						this.harvestBigPositionsLabels.get(this.playersHarvestBigPositions.get(playerData.getValue())).setText(Integer.toString(harvestBigCounter));
 					} else {
 						for (Entry<Integer, Pane> pane : this.harvestBigPositionsPanes.entrySet()) {
-							if (pane.getValue().getBackground() == null) {
+							if (!this.playersHarvestBigPositions.containsValue(pane.getKey())) {
 								this.playersHarvestBigPositions.put(playerData.getValue(), pane.getKey());
 								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 								this.harvestBigPositionsLabels.get(pane.getKey()).setText(Integer.toString(harvestBigCounter));
@@ -2080,7 +2079,7 @@ public class ControllerGame extends CustomController
 						this.productionBigPositionsLabels.get(this.playersProductionBigPositions.get(playerData.getValue())).setText(Integer.toString(producionBigCounter));
 					} else {
 						for (Entry<Integer, Pane> pane : this.productionBigPositionsPanes.entrySet()) {
-							if (pane.getValue().getBackground() == null) {
+							if (!this.playersProductionBigPositions.containsValue(pane.getKey())) {
 								this.playersProductionBigPositions.put(playerData.getValue(), pane.getKey());
 								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 								this.productionBigPositionsLabels.get(pane.getKey()).setText(Integer.toString(producionBigCounter));
@@ -2198,11 +2197,11 @@ public class ControllerGame extends CustomController
 
 	public void showExcommunicationChoiceDialog(Period period)
 	{
-		this.excommunicationChoiceDialogText.setText(GameStatus.getInstance().getExcommunicationTiles().get(GameStatus.getInstance().getCurrentExcommunicationTiles().get(period)).getModifier());
+		this.excommunicationChoiceDialogText.setText(GameStatus.getInstance().getExcommunicationTiles().get(GameStatus.getInstance().getCurrentExcommunicationTiles().get(period)).getModifier().replace("\n", " "));
+		this.excommunicationChoiceDialogSupportButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogSupportButton.getParent()).getWidth());
+		this.excommunicationChoiceDialogDoNotSupportButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogDoNotSupportButton.getParent()).getWidth());
 		this.excommunicationChoiceDialog.show();
-		Client.getInstance().setSoundsMediaPlayer(new MediaPlayer(new Media(this.getClass().getResource("/sounds/excommunication.mp3").toString())));
-		Client.getInstance().getSoundsMediaPlayer().setOnEndOfMedia(() -> Client.getInstance().getBackgroundMediaPlayer().dispose());
-		Client.getInstance().getSoundsMediaPlayer().play();
+		new AudioClip(this.getClass().getResource("/sounds/excommunication.mp3").toString()).play();
 	}
 
 	private void showCouncilPalaceActionChoice(FamilyMemberType familyMemberType)

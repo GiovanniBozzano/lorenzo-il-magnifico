@@ -38,7 +38,7 @@ public class PlayerResourceHandler
 	{
 		this.resources.put(ResourceType.COIN, 0);
 		this.resources.put(ResourceType.COUNCIL_PRIVILEGE, 0);
-		this.resources.put(ResourceType.FAITH_POINT, 0);
+		this.resources.put(ResourceType.FAITH_POINT, 3);
 		this.resources.put(ResourceType.MILITARY_POINT, 0);
 		this.resources.put(ResourceType.PRESTIGE_POINT, 0);
 		this.resources.put(ResourceType.SERVANT, resourcesServant);

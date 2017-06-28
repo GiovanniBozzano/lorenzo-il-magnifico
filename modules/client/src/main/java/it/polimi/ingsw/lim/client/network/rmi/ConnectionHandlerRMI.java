@@ -76,7 +76,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		try {
 			UnicastRemoteObject.unexportObject(this.serverSession, false);
 		} catch (NoSuchObjectException exception) {
-			Client.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 

@@ -670,10 +670,15 @@
 	<JFXDialog fx:id="excommunicationChoiceDialog">
 		<JFXDialogLayout fx:id="excommunicationChoiceDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
-				<VBox>
-					<Text fx:id="excommunicationChoiceDialogText">
+				<VBox spacing="10.0">
+					<Label text="Do you want to support the Church?">
 						<font>
 							<Font name="Roboto Bold" size="12.0" />
+						</font>
+					</Label>
+					<Text fx:id="excommunicationChoiceDialogText" wrappingWidth="200.0">
+						<font>
+							<Font name="Roboto" size="12.0" />
 						</font>
 					</Text>
 					<GridPane hgap="10.0">
@@ -685,14 +690,14 @@
 							<RowConstraints vgrow="SOMETIMES" />
 						</rowConstraints>
 						<VBox>
-							<JFXButton fx:id="excommunicationChoiceDialogAcceptButton" onAction="#handleExcommunicationChoiceDialogAcceptButtonAction" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
+							<JFXButton fx:id="excommunicationChoiceDialogSupportButton" onAction="#handleExcommunicationChoiceDialogSupportButtonAction" style="-fx-background-color: #03A9F4;" text="Support" textFill="WHITE">
 								<font>
 									<Font name="Roboto Bold" size="12.0" />
 								</font>
 							</JFXButton>
 						</VBox>
 						<VBox GridPane.columnIndex="1">
-							<JFXButton fx:id="excommunicationChoiceDialogRefuseButton" onAction="#handleExcommunicationChoiceDialogRefuseButtonAction" style="-fx-background-color: #F44336;" text="Refuse" textFill="WHITE">
+							<JFXButton fx:id="excommunicationChoiceDialogDoNotSupportButton" onAction="#handleExcommunicationChoiceDialogDoNotSupportButtonAction" style="-fx-background-color: #F44336;" text="Do Not Support" textFill="WHITE">
 								<font>
 									<Font name="Roboto Bold" size="12.0" />
 								</font>
