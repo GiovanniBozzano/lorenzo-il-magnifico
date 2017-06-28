@@ -9,9 +9,7 @@ import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.actions.*;
 import it.polimi.ingsw.lim.common.game.cards.*;
-import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
-import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
-import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
+import it.polimi.ingsw.lim.common.game.utils.*;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
@@ -642,89 +640,45 @@ public class ControllerGame extends CustomController
 		if (event.getButton() == MouseButton.PRIMARY && this.pickingDevelopmentCard && this.selectableDevelopmentCards.contains(pane)) {
 			if (this.developmentCardsBuildingPanes.containsValue(pane)) {
 				if (this.selectedDevelopmentCardType == CardType.BUILDING && this.selectedDevelopmentCardIndex.equals(this.developmentCardsBuildingIndexes.get(pane))) {
-					this.pickDevelopmentCardActionButton.setDisable(true);
-					this.selectedDevelopmentCardType = null;
-					this.selectedDevelopmentCardIndex = null;
-					pane.setEffect(null);
-					Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+					this.resetSelectedDevelopmentCard(pane);
 				} else {
 					this.pickDevelopmentCardActionButton.setDisable(false);
 					this.selectedDevelopmentCardType = CardType.BUILDING;
 					this.selectedDevelopmentCardIndex = this.developmentCardsBuildingIndexes.get(pane);
-					for (CardType cardType : CardType.values()) {
-						for (Pane otherPane : this.developmentCardsPanes.get(cardType).values()) {
-							otherPane.setEffect(null);
-							if (this.selectableDevelopmentCards.contains(otherPane)) {
-								Utils.setEffect(otherPane, ControllerGame.MOUSE_OVER_EFFECT);
-							}
-						}
-					}
+					this.resetDevelopmentCardsEffects();
 					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT);
 					Utils.unsetEffect(pane);
 				}
 			} else if (this.developmentCardsCharacterPanes.containsValue(pane)) {
 				if (this.selectedDevelopmentCardType == CardType.CHARACTER && this.selectedDevelopmentCardIndex.equals(this.developmentCardsCharacterIndexes.get(pane))) {
-					this.pickDevelopmentCardActionButton.setDisable(true);
-					this.selectedDevelopmentCardType = null;
-					this.selectedDevelopmentCardIndex = null;
-					pane.setEffect(null);
-					Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+					this.resetSelectedDevelopmentCard(pane);
 				} else {
 					this.pickDevelopmentCardActionButton.setDisable(false);
 					this.selectedDevelopmentCardType = CardType.CHARACTER;
 					this.selectedDevelopmentCardIndex = this.developmentCardsCharacterIndexes.get(pane);
-					for (CardType cardType : CardType.values()) {
-						for (Pane otherPane : this.developmentCardsPanes.get(cardType).values()) {
-							otherPane.setEffect(null);
-							if (this.selectableDevelopmentCards.contains(otherPane)) {
-								Utils.setEffect(otherPane, ControllerGame.MOUSE_OVER_EFFECT);
-							}
-						}
-					}
+					this.resetDevelopmentCardsEffects();
 					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT);
 					Utils.unsetEffect(pane);
 				}
 			} else if (this.developmentCardsTerritoryPanes.containsValue(pane)) {
 				if (this.selectedDevelopmentCardType == CardType.TERRITORY && this.selectedDevelopmentCardIndex.equals(this.developmentCardsTerritoryIndexes.get(pane))) {
-					this.pickDevelopmentCardActionButton.setDisable(true);
-					this.selectedDevelopmentCardType = null;
-					this.selectedDevelopmentCardIndex = null;
-					pane.setEffect(null);
-					Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+					this.resetSelectedDevelopmentCard(pane);
 				} else {
 					this.pickDevelopmentCardActionButton.setDisable(false);
 					this.selectedDevelopmentCardType = CardType.TERRITORY;
 					this.selectedDevelopmentCardIndex = this.developmentCardsTerritoryIndexes.get(pane);
-					for (CardType cardType : CardType.values()) {
-						for (Pane otherPane : this.developmentCardsPanes.get(cardType).values()) {
-							otherPane.setEffect(null);
-							if (this.selectableDevelopmentCards.contains(otherPane)) {
-								Utils.setEffect(otherPane, ControllerGame.MOUSE_OVER_EFFECT);
-							}
-						}
-					}
+					this.resetDevelopmentCardsEffects();
 					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT);
 					Utils.unsetEffect(pane);
 				}
 			} else {
 				if (this.selectedDevelopmentCardType == CardType.VENTURE && this.selectedDevelopmentCardIndex.equals(this.developmentCardsVentureIndexes.get(pane))) {
-					this.pickDevelopmentCardActionButton.setDisable(true);
-					this.selectedDevelopmentCardType = null;
-					this.selectedDevelopmentCardIndex = null;
-					pane.setEffect(null);
-					Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+					this.resetSelectedDevelopmentCard(pane);
 				} else {
 					this.pickDevelopmentCardActionButton.setDisable(false);
 					this.selectedDevelopmentCardType = CardType.VENTURE;
 					this.selectedDevelopmentCardIndex = this.developmentCardsVentureIndexes.get(pane);
-					for (CardType cardType : CardType.values()) {
-						for (Pane otherPane : this.developmentCardsPanes.get(cardType).values()) {
-							otherPane.setEffect(null);
-							if (this.selectableDevelopmentCards.contains(otherPane)) {
-								Utils.setEffect(otherPane, ControllerGame.MOUSE_OVER_EFFECT);
-							}
-						}
-					}
+					this.resetDevelopmentCardsEffects();
 					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT);
 					Utils.unsetEffect(pane);
 				}
@@ -1596,243 +1550,212 @@ public class ControllerGame extends CustomController
 		return mappedFamilyMemberTypes;
 	}
 
+	private void resetSelectedDevelopmentCard(Pane pane)
+	{
+		this.pickDevelopmentCardActionButton.setDisable(true);
+		this.selectedDevelopmentCardType = null;
+		this.selectedDevelopmentCardIndex = null;
+		pane.setEffect(null);
+		Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+	}
+
+	private void resetDevelopmentCardsEffects()
+	{
+		for (CardType cardType : CardType.values()) {
+			for (Pane otherPane : this.developmentCardsPanes.get(cardType).values()) {
+				otherPane.setEffect(null);
+				if (this.selectableDevelopmentCards.contains(otherPane)) {
+					Utils.setEffect(otherPane, ControllerGame.MOUSE_OVER_EFFECT);
+				}
+			}
+		}
+	}
+
 	private String getDevelopmentCardInformations(Pane pane)
 	{
+		if (this.developmentCardsBuildingIndexes.containsKey(pane)) {
+			return this.getDevelopmentCardBuildingInformations(GameStatus.getInstance().getDevelopmentCardsBuilding().get(this.developmentCardsBuildingIndexes.get(pane)));
+		} else if (this.developmentCardsCharacterIndexes.containsKey(pane)) {
+			return this.getDevelopmentCardCharacterInformation(GameStatus.getInstance().getDevelopmentCardsCharacter().get(this.developmentCardsCharacterIndexes.get(pane)));
+		} else if (this.developmentCardsTerritoryIndexes.containsKey(pane)) {
+			return this.getDevelopmentCardTerritoryInformations(GameStatus.getInstance().getDevelopmentCardsTerritory().get(this.developmentCardsTerritoryIndexes.get(pane)));
+		} else if (this.developmentCardsVentureIndexes.containsKey(pane)) {
+			return this.getDevelopmentCardVentureInformations(GameStatus.getInstance().getDevelopmentCardsVenture().get(this.developmentCardsVentureIndexes.get(pane)));
+		}
+		return null;
+	}
+
+	private String getDevelopmentCardBuildingInformations(DevelopmentCardBuildingInformations developmentCardBuildingInformations)
+	{
 		StringBuilder stringBuilder = new StringBuilder();
-		if (this.developmentCardsBuildingPanes.containsValue(pane)) {
-			DevelopmentCardBuildingInformations developmentCardBuildingInformations = GameStatus.getInstance().getDevelopmentCardsBuilding().get(this.developmentCardsBuildingIndexes.get(pane));
-			boolean firstLine = true;
-			if (!developmentCardBuildingInformations.getResourceCostOptions().isEmpty()) {
-				firstLine = false;
-				stringBuilder.append("RESOURCE COST OPTIONS:\n==============");
-				for (ResourceCostOption resourceCostOption : developmentCardBuildingInformations.getResourceCostOptions()) {
-					if (!resourceCostOption.getRequiredResources().isEmpty()) {
-						stringBuilder.append("\nRequired resources:");
-						for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
-							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-							stringBuilder.append(": ");
-							stringBuilder.append(resourceAmount.getAmount());
-						}
+		stringBuilder.append(this.getDevelopmentCardCommonInformations(developmentCardBuildingInformations));
+		stringBuilder.append("\n\nPRODUCTION ACTIVATION COST: ");
+		stringBuilder.append(developmentCardBuildingInformations.getActivationValue());
+		if (!developmentCardBuildingInformations.getResourceTradeOptions().isEmpty()) {
+			stringBuilder.append("\n\nRESOURCE TRADE OPTIONS:");
+			for (ResourceTradeOption resourcetradeOption : developmentCardBuildingInformations.getResourceTradeOptions()) {
+				stringBuilder.append("\n==============");
+				if (!resourcetradeOption.getEmployedResources().isEmpty()) {
+					stringBuilder.append("\nEmployed resources:");
+					for (ResourceAmount resourceAmount : resourcetradeOption.getEmployedResources()) {
+						stringBuilder.append("\n    - ");
+						stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+						stringBuilder.append(": ");
+						stringBuilder.append(resourceAmount.getAmount());
 					}
-					if (!resourceCostOption.getSpentResources().isEmpty()) {
-						stringBuilder.append("\nSpent resources:");
-						for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
-							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-							stringBuilder.append(": ");
-							stringBuilder.append(resourceAmount.getAmount());
-						}
+				}
+				if (!resourcetradeOption.getProducedResources().isEmpty()) {
+					stringBuilder.append("\nProduced resources:");
+					for (ResourceAmount resourceAmount : resourcetradeOption.getProducedResources()) {
+						stringBuilder.append("\n    - ");
+						stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+						stringBuilder.append(": ");
+						stringBuilder.append(resourceAmount.getAmount());
 					}
-					stringBuilder.append("\n==============");
 				}
+				stringBuilder.append("\n==============");
 			}
-			if (developmentCardBuildingInformations.getReward().getActionRewardInformations() != null || !developmentCardBuildingInformations.getReward().getResourceAmounts().isEmpty()) {
-				if (!firstLine) {
-					stringBuilder.append("\n\n");
-				}
-				stringBuilder.append("REWARD:");
-			}
-			if (!developmentCardBuildingInformations.getReward().getResourceAmounts().isEmpty()) {
-				stringBuilder.append("\nInstant resources:");
-				for (ResourceAmount resourceAmount : (developmentCardBuildingInformations.getReward().getResourceAmounts())) {
-					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-			}
-			if (developmentCardBuildingInformations.getReward().getActionRewardInformations() != null) {
-				stringBuilder.append("\nAction reward:\n| ");
-				stringBuilder.append(developmentCardBuildingInformations.getReward().getActionRewardInformations().replace("\n", "\n| "));
-			}
-			stringBuilder.append("\n\nPRODUCTION ACTIVATION COST: ");
-			stringBuilder.append(developmentCardBuildingInformations.getActivationValue());
-			if (!developmentCardBuildingInformations.getResourceTradeOptions().isEmpty()) {
-				stringBuilder.append("\n\nRESOURCE TRADE OPTIONS:");
-				for (ResourceTradeOption resourcetradeOption : developmentCardBuildingInformations.getResourceTradeOptions()) {
-					stringBuilder.append("\n==============");
-					if (!resourcetradeOption.getEmployedResources().isEmpty()) {
-						stringBuilder.append("\nEmployed resources:");
-						for (ResourceAmount resourceAmount : resourcetradeOption.getEmployedResources()) {
-							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-							stringBuilder.append(": ");
-							stringBuilder.append(resourceAmount.getAmount());
-						}
-					}
-					if (!resourcetradeOption.getProducedResources().isEmpty()) {
-						stringBuilder.append("\nProduced resources:");
-						for (ResourceAmount resourceAmount : resourcetradeOption.getProducedResources()) {
-							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-							stringBuilder.append(": ");
-							stringBuilder.append(resourceAmount.getAmount());
-						}
-					}
-					stringBuilder.append("\n==============");
-				}
-			}
-		} else if (this.developmentCardsCharacterPanes.containsValue(pane)) {
-			DevelopmentCardCharacterInformations developmentCardCharacterInformations = GameStatus.getInstance().getDevelopmentCardsCharacter().get(this.developmentCardsCharacterIndexes.get(pane));
-			boolean firstLine = true;
-			if (!developmentCardCharacterInformations.getResourceCostOptions().isEmpty()) {
-				firstLine = false;
-				stringBuilder.append("RESOURCE COST OPTIONS:\n==============");
-				for (ResourceCostOption resourceCostOption : developmentCardCharacterInformations.getResourceCostOptions()) {
-					if (!resourceCostOption.getRequiredResources().isEmpty()) {
-						stringBuilder.append("\nRequired resources:");
-						for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
-							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-							stringBuilder.append(": ");
-							stringBuilder.append(resourceAmount.getAmount());
-						}
-					}
-					if (!resourceCostOption.getSpentResources().isEmpty()) {
-						stringBuilder.append("\nSpent resources:");
-						for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
-							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-							stringBuilder.append(": ");
-							stringBuilder.append(resourceAmount.getAmount());
-						}
-					}
-					stringBuilder.append("\n==============");
-				}
-			}
-			if (developmentCardCharacterInformations.getReward().getActionRewardInformations() != null || !developmentCardCharacterInformations.getReward().getResourceAmounts().isEmpty()) {
-				if (!firstLine) {
-					stringBuilder.append("\n\n");
-				}
-				stringBuilder.append("REWARD:");
-			}
-			if (!developmentCardCharacterInformations.getReward().getResourceAmounts().isEmpty()) {
-				stringBuilder.append("\nInstant resources:");
-				for (ResourceAmount resourceAmount : (developmentCardCharacterInformations.getReward().getResourceAmounts())) {
-					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-			}
-			if (developmentCardCharacterInformations.getReward().getActionRewardInformations() != null) {
-				stringBuilder.append("\nAction reward:\n| ");
-				stringBuilder.append(developmentCardCharacterInformations.getReward().getActionRewardInformations().replace("\n", "\n| "));
-			}
-			if (developmentCardCharacterInformations.getModifierInformations() != null) {
-				stringBuilder.append("\n\nMODIFIER:\n| ");
-				stringBuilder.append(developmentCardCharacterInformations.getModifierInformations().replace("\n", "\n| "));
-			}
-		} else if (this.developmentCardsTerritoryPanes.containsValue(pane)) {
-			DevelopmentCardTerritoryInformations developmentCardTerritoryInformations = GameStatus.getInstance().getDevelopmentCardsTerritory().get(this.developmentCardsTerritoryIndexes.get(pane));
-			boolean firstLine = true;
-			if (!developmentCardTerritoryInformations.getResourceCostOptions().isEmpty()) {
-				firstLine = false;
-				stringBuilder.append("RESOURCE COST OPTIONS:\n==============");
-				for (ResourceCostOption resourceCostOption : developmentCardTerritoryInformations.getResourceCostOptions()) {
-					if (!resourceCostOption.getRequiredResources().isEmpty()) {
-						stringBuilder.append("\nRequired resources:");
-						for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
-							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-							stringBuilder.append(": ");
-							stringBuilder.append(resourceAmount.getAmount());
-						}
-					}
-					if (!resourceCostOption.getSpentResources().isEmpty()) {
-						stringBuilder.append("\nSpent resources:");
-						for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
-							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-							stringBuilder.append(": ");
-							stringBuilder.append(resourceAmount.getAmount());
-						}
-					}
-					stringBuilder.append("\n==============");
-				}
-			}
-			if (developmentCardTerritoryInformations.getReward().getActionRewardInformations() != null || !developmentCardTerritoryInformations.getReward().getResourceAmounts().isEmpty()) {
-				if (!firstLine) {
-					stringBuilder.append("\n\n");
-				}
-				stringBuilder.append("REWARD:");
-			}
-			if (!developmentCardTerritoryInformations.getReward().getResourceAmounts().isEmpty()) {
-				stringBuilder.append("\nInstant resources:");
-				for (ResourceAmount resourceAmount : (developmentCardTerritoryInformations.getReward().getResourceAmounts())) {
-					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-			}
-			if (developmentCardTerritoryInformations.getReward().getActionRewardInformations() != null) {
-				stringBuilder.append("\nAction reward:\n| ");
-				stringBuilder.append(developmentCardTerritoryInformations.getReward().getActionRewardInformations().replace("\n", "\n| "));
-			}
-			stringBuilder.append("\n\nHARVEST ACTIVATION VALUE: ");
-			stringBuilder.append(developmentCardTerritoryInformations.getActivationValue());
-			if (!developmentCardTerritoryInformations.getHarvestResources().isEmpty()) {
-				stringBuilder.append("\n\nHARVEST RESOURCES:");
-				for (ResourceAmount resourceAmount : developmentCardTerritoryInformations.getHarvestResources()) {
-					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-			}
-		} else if (this.developmentCardsVenturePanes.containsValue(pane)) {
-			DevelopmentCardVentureInformations developmentCardVentureInformations = GameStatus.getInstance().getDevelopmentCardsVenture().get(this.developmentCardsVentureIndexes.get(pane));
-			boolean firstLine = true;
-			if (!developmentCardVentureInformations.getResourceCostOptions().isEmpty()) {
-				firstLine = false;
-				stringBuilder.append("RESOURCE COST OPTIONS:\n==============");
-				for (ResourceCostOption resourceCostOption : developmentCardVentureInformations.getResourceCostOptions()) {
-					if (!resourceCostOption.getRequiredResources().isEmpty()) {
-						stringBuilder.append("\nRequired resources:");
-						for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
-							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-							stringBuilder.append(": ");
-							stringBuilder.append(resourceAmount.getAmount());
-						}
-					}
-					if (!resourceCostOption.getSpentResources().isEmpty()) {
-						stringBuilder.append("\nSpent resources:");
-						for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
-							stringBuilder.append("\n    - ");
-							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-							stringBuilder.append(": ");
-							stringBuilder.append(resourceAmount.getAmount());
-						}
-					}
-					stringBuilder.append("\n==============");
-				}
-			}
-			if (developmentCardVentureInformations.getReward().getActionRewardInformations() != null || !developmentCardVentureInformations.getReward().getResourceAmounts().isEmpty()) {
-				if (!firstLine) {
-					stringBuilder.append("\n\n");
-				}
-				stringBuilder.append("REWARD:");
-			}
-			if (!developmentCardVentureInformations.getReward().getResourceAmounts().isEmpty()) {
-				stringBuilder.append("\nInstant resources:");
-				for (ResourceAmount resourceAmount : (developmentCardVentureInformations.getReward().getResourceAmounts())) {
-					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-			}
-			if (developmentCardVentureInformations.getReward().getActionRewardInformations() != null) {
-				stringBuilder.append("\nAction reward:\n| ");
-				stringBuilder.append(developmentCardVentureInformations.getReward().getActionRewardInformations().replace("\n", "\n| "));
-			}
-			stringBuilder.append("\n\nVICTORY VALUE: ");
-			stringBuilder.append(developmentCardVentureInformations.getVictoryValue());
 		}
 		return stringBuilder.toString();
+	}
+
+	private String getDevelopmentCardCharacterInformation(DevelopmentCardCharacterInformations developmentCardCharacterInformations)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(this.getDevelopmentCardCommonInformations(developmentCardCharacterInformations));
+		if (developmentCardCharacterInformations.getModifierInformations() != null) {
+			stringBuilder.append("\n\nMODIFIER:\n| ");
+			stringBuilder.append(developmentCardCharacterInformations.getModifierInformations().replace("\n", "\n| "));
+		}
+		return stringBuilder.toString();
+	}
+
+	private String getDevelopmentCardTerritoryInformations(DevelopmentCardTerritoryInformations developmentCardTerritoryInformations)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(this.getDevelopmentCardCommonInformations(developmentCardTerritoryInformations));
+		stringBuilder.append("\n\nHARVEST ACTIVATION VALUE: ");
+		stringBuilder.append(developmentCardTerritoryInformations.getActivationValue());
+		if (!developmentCardTerritoryInformations.getHarvestResources().isEmpty()) {
+			stringBuilder.append("\n\nHARVEST RESOURCES:");
+			for (ResourceAmount resourceAmount : developmentCardTerritoryInformations.getHarvestResources()) {
+				stringBuilder.append("\n    - ");
+				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(": ");
+				stringBuilder.append(resourceAmount.getAmount());
+			}
+		}
+		return stringBuilder.toString();
+	}
+
+	private String getDevelopmentCardVentureInformations(DevelopmentCardVentureInformations developmentCardVentureInformations)
+	{
+		return this.getDevelopmentCardCommonInformations(developmentCardVentureInformations) + "\n\nVICTORY VALUE: " + developmentCardVentureInformations.getVictoryValue();
+	}
+
+	private String getDevelopmentCardCommonInformations(DevelopmentCardInformations developmentCardInformations)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		boolean firstLine = true;
+		if (!developmentCardInformations.getResourceCostOptions().isEmpty()) {
+			firstLine = false;
+			stringBuilder.append("RESOURCE COST OPTIONS:\n==============");
+			for (ResourceCostOption resourceCostOption : developmentCardInformations.getResourceCostOptions()) {
+				if (!resourceCostOption.getRequiredResources().isEmpty()) {
+					stringBuilder.append("\nRequired resources:");
+					for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
+						stringBuilder.append("\n    - ");
+						stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+						stringBuilder.append(": ");
+						stringBuilder.append(resourceAmount.getAmount());
+					}
+				}
+				if (!resourceCostOption.getSpentResources().isEmpty()) {
+					stringBuilder.append("\nSpent resources:");
+					for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
+						stringBuilder.append("\n    - ");
+						stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+						stringBuilder.append(": ");
+						stringBuilder.append(resourceAmount.getAmount());
+					}
+				}
+				stringBuilder.append("\n==============");
+			}
+		}
+		if (developmentCardInformations.getReward().getActionRewardInformations() != null || !developmentCardInformations.getReward().getResourceAmounts().isEmpty()) {
+			if (!firstLine) {
+				stringBuilder.append("\n\n");
+			}
+			stringBuilder.append("REWARD:");
+		}
+		if (!developmentCardInformations.getReward().getResourceAmounts().isEmpty()) {
+			stringBuilder.append("\nInstant resources:");
+			for (ResourceAmount resourceAmount : (developmentCardInformations.getReward().getResourceAmounts())) {
+				stringBuilder.append("\n    - ");
+				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(": ");
+				stringBuilder.append(resourceAmount.getAmount());
+			}
+		}
+		if (developmentCardInformations.getReward().getActionRewardInformations() != null) {
+			stringBuilder.append("\nAction reward:\n| ");
+			stringBuilder.append(developmentCardInformations.getReward().getActionRewardInformations().replace("\n", "\n| "));
+		}
+		return stringBuilder.toString();
+	}
+
+	private Tooltip getLeaderCardInformations(LeaderCardInformations leaderCardInformations)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(leaderCardInformations.getDisplayName());
+		stringBuilder.append("\n\n");
+		stringBuilder.append(leaderCardInformations.getDescription());
+		stringBuilder.append("\n\nPLAY CONDITIONS:\n==============");
+		for (LeaderCardConditionsOption leaderCardConditionsOption : leaderCardInformations.getConditionsOptions()) {
+			if (!leaderCardConditionsOption.getResourceAmounts().isEmpty()) {
+				stringBuilder.append("\nRequired resources:");
+				for (ResourceAmount resourceAmount : leaderCardConditionsOption.getResourceAmounts()) {
+					stringBuilder.append("\n    - ");
+					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(": ");
+					stringBuilder.append(resourceAmount.getAmount());
+				}
+			}
+			if (!leaderCardConditionsOption.getCardAmounts().isEmpty()) {
+				stringBuilder.append("\nRequired cards:");
+				for (CardAmount cardAmount : leaderCardConditionsOption.getCardAmounts()) {
+					stringBuilder.append("\n    - ");
+					stringBuilder.append(Utils.CARD_TYPES_NAMES.get(cardAmount.getCardType()));
+					stringBuilder.append(": ");
+					stringBuilder.append(cardAmount.getAmount());
+				}
+			}
+			stringBuilder.append("\n==============");
+		}
+		stringBuilder.append("\n\n");
+		if (leaderCardInformations instanceof LeaderCardModifierInformations) {
+			stringBuilder.append("PERMANENT ABILITY:\n");
+			stringBuilder.append(((LeaderCardModifierInformations) leaderCardInformations).getModifier());
+		} else {
+			stringBuilder.append("ONCE PER ROUND ABILITY:");
+			if (!((LeaderCardRewardInformations) leaderCardInformations).getReward().getResourceAmounts().isEmpty()) {
+				stringBuilder.append("\n\nInstant resources:");
+			}
+			for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) leaderCardInformations).getReward().getResourceAmounts()) {
+				stringBuilder.append('\n');
+				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(": ");
+				stringBuilder.append(resourceAmount.getAmount());
+			}
+			if (((LeaderCardRewardInformations) leaderCardInformations).getReward().getActionRewardInformations() != null) {
+				stringBuilder.append("\n\nAction reward:\n");
+				stringBuilder.append(((LeaderCardRewardInformations) leaderCardInformations).getReward().getActionRewardInformations());
+			}
+		}
+		Tooltip tooltip = new Tooltip(stringBuilder.toString());
+		WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+		WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+		return tooltip;
 	}
 
 	private void updateGame()
@@ -1940,6 +1863,7 @@ public class ControllerGame extends CustomController
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsBuilding().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsBuilding().get(playerData.getValue().getDevelopmentCardsBuilding().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+				this.developmentCardsBuildingIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index), playerData.getValue().getDevelopmentCardsBuilding().get(index));
 			}
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER)) {
 				pane.setBackground(null);
@@ -1948,6 +1872,7 @@ public class ControllerGame extends CustomController
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsCharacter().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsCharacter().get(playerData.getValue().getDevelopmentCardsCharacter().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+				this.developmentCardsCharacterIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index), playerData.getValue().getDevelopmentCardsCharacter().get(index));
 			}
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY)) {
 				pane.setBackground(null);
@@ -1956,6 +1881,7 @@ public class ControllerGame extends CustomController
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsTerritory().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsTerritory().get(playerData.getValue().getDevelopmentCardsTerritory().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+				this.developmentCardsTerritoryIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index), playerData.getValue().getDevelopmentCardsTerritory().get(index));
 			}
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE)) {
 				pane.setBackground(null);
@@ -1964,6 +1890,7 @@ public class ControllerGame extends CustomController
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsVenture().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsVenture().get(playerData.getValue().getDevelopmentCardsVenture().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+				this.developmentCardsVentureIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index), playerData.getValue().getDevelopmentCardsVenture().get(index));
 			}
 			for (Pane pane : this.playersLeaderCardsHand.get(playerData.getKey())) {
 				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("/images/leader_cards/leader_card_background.png").toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
@@ -1980,70 +1907,14 @@ public class ControllerGame extends CustomController
 				} else {
 					this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				}
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getDisplayName());
-				stringBuilder.append("\n\n");
-				stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getDescription());
-				stringBuilder.append("\n\n");
-				if (GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()) instanceof LeaderCardModifierInformations) {
-					stringBuilder.append("PERMANENT ABILITY:\n");
-					stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getModifier());
-				} else {
-					stringBuilder.append("ONCE PER ROUND ABILITY:");
-					if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts().isEmpty()) {
-						stringBuilder.append("\n\nInstant resources:");
-					}
-					for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts()) {
-						stringBuilder.append('\n');
-						stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-						stringBuilder.append(": ");
-						stringBuilder.append(resourceAmount.getAmount());
-					}
-					if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getActionRewardInformations() != null) {
-						stringBuilder.append("\n\nAction reward:");
-						stringBuilder.append('\n');
-						stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getActionRewardInformations());
-					}
-				}
-				Tooltip tooltip = new Tooltip(stringBuilder.toString());
-				WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
-				WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
-				Tooltip.install(this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index), tooltip);
+				Tooltip.install(this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index), this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())));
 				index++;
 			}
 			if (playerData.getKey() == GameStatus.getInstance().getOwnPlayerIndex()) {
 				index = 0;
 				for (int leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
 					this.playersLeaderCardsHand.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-					StringBuilder stringBuilder = new StringBuilder();
-					stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName());
-					stringBuilder.append("\n\n");
-					stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDescription());
-					stringBuilder.append("\n\n");
-					if (GameStatus.getInstance().getLeaderCards().get(leaderCard) instanceof LeaderCardModifierInformations) {
-						stringBuilder.append("PERMANENT ABILITY:\n");
-						stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getModifier());
-					} else {
-						stringBuilder.append("ONCE PER ROUND ABILITY:");
-						if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts().isEmpty()) {
-							stringBuilder.append("\n\nInstant resources:");
-						}
-						for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts()) {
-							stringBuilder.append('\n');
-							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-							stringBuilder.append(": ");
-							stringBuilder.append(resourceAmount.getAmount());
-						}
-						if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations() != null) {
-							stringBuilder.append("\n\nAction reward:");
-							stringBuilder.append('\n');
-							stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations());
-						}
-					}
-					Tooltip tooltip = new Tooltip(stringBuilder.toString());
-					WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
-					WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
-					Tooltip.install(this.playersLeaderCardsHand.get(playerData.getKey()).get(index), tooltip);
+					Tooltip.install(this.playersLeaderCardsHand.get(playerData.getKey()).get(index), this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard)));
 					index++;
 				}
 			} else {
@@ -2100,7 +1971,7 @@ public class ControllerGame extends CustomController
 		}
 		for (Entry<Period, List<Integer>> excommunicationTilePlayersPanes : GameStatus.getInstance().getCurrentExcommunicatedPlayers().entrySet()) {
 			for (int index = 0; index < excommunicationTilePlayersPanes.getValue().size(); index++) {
-				this.excommunicationTilesPlayersPanes.get(excommunicationTilePlayersPanes.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(GameStatus.getInstance().getCurrentPlayersData().get(excommunicationTilePlayersPanes.getValue().get(index)).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.excommunicationTilesPlayersPanes.get(excommunicationTilePlayersPanes.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS.get(GameStatus.getInstance().getCurrentPlayersData().get(excommunicationTilePlayersPanes.getValue().get(index)).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
 		}
 		for (Entry<Integer, Integer> orderPosition : GameStatus.getInstance().getCurrentCouncilPalaceOrder().entrySet()) {
@@ -2170,35 +2041,7 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName());
-			stringBuilder.append("\n\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDescription());
-			stringBuilder.append("\n\n");
-			if (GameStatus.getInstance().getLeaderCards().get(leaderCard) instanceof LeaderCardModifierInformations) {
-				stringBuilder.append("PERMANENT ABILITY:\n");
-				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getModifier());
-			} else {
-				stringBuilder.append("ONCE PER ROUND ABILITY:");
-				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts().isEmpty()) {
-					stringBuilder.append("\n\nInstant resources:");
-				}
-				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts()) {
-					stringBuilder.append('\n');
-					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations() != null) {
-					stringBuilder.append("\n\nAction reward:");
-					stringBuilder.append('\n');
-					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations());
-				}
-			}
-			Tooltip tooltip = new Tooltip(stringBuilder.toString());
-			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
-			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
-			Tooltip.install(pane, tooltip);
+			Tooltip.install(pane, this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard)));
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCard));
 			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
@@ -2431,35 +2274,7 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getDisplayName());
-			stringBuilder.append("\n\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getDescription());
-			stringBuilder.append("\n\n");
-			if (GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()) instanceof LeaderCardModifierInformations) {
-				stringBuilder.append("PERMANENT ABILITY:\n");
-				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getModifier());
-			} else {
-				stringBuilder.append("ONCE PER ROUND ABILITY:");
-				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts().isEmpty()) {
-					stringBuilder.append("\n\nInstant resources:");
-				}
-				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getResourceAmounts()) {
-					stringBuilder.append('\n');
-					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getActionRewardInformations() != null) {
-					stringBuilder.append("\n\nAction reward:");
-					stringBuilder.append('\n');
-					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())).getReward().getActionRewardInformations());
-				}
-			}
-			Tooltip tooltip = new Tooltip(stringBuilder.toString());
-			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
-			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
-			Tooltip.install(pane, tooltip);
+			Tooltip.install(pane, this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())));
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
 				this.leaderCardsChoiceDialog.close();
@@ -2482,35 +2297,7 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName());
-			stringBuilder.append("\n\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDescription());
-			stringBuilder.append("\n\n");
-			if (GameStatus.getInstance().getLeaderCards().get(leaderCard) instanceof LeaderCardModifierInformations) {
-				stringBuilder.append("PERMANENT ABILITY:\n");
-				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getModifier());
-			} else {
-				stringBuilder.append("ONCE PER ROUND ABILITY:");
-				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts().isEmpty()) {
-					stringBuilder.append("\n\nInstant resources:");
-				}
-				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts()) {
-					stringBuilder.append('\n');
-					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations() != null) {
-					stringBuilder.append("\n\nAction reward:");
-					stringBuilder.append('\n');
-					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations());
-				}
-			}
-			Tooltip tooltip = new Tooltip(stringBuilder.toString());
-			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
-			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
-			Tooltip.install(pane, tooltip);
+			Tooltip.install(pane, this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard)));
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
 				this.leaderCardsChoiceDialog.close();
@@ -2533,35 +2320,7 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName());
-			stringBuilder.append("\n\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDescription());
-			stringBuilder.append("\n\n");
-			if (GameStatus.getInstance().getLeaderCards().get(leaderCard) instanceof LeaderCardModifierInformations) {
-				stringBuilder.append("PERMANENT ABILITY:\n");
-				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getModifier());
-			} else {
-				stringBuilder.append("ONCE PER ROUND ABILITY:");
-				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts().isEmpty()) {
-					stringBuilder.append("\n\nInstant resources:");
-				}
-				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getResourceAmounts()) {
-					stringBuilder.append('\n');
-					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations() != null) {
-					stringBuilder.append("\n\nAction reward:");
-					stringBuilder.append('\n');
-					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(leaderCard)).getReward().getActionRewardInformations());
-				}
-			}
-			Tooltip tooltip = new Tooltip(stringBuilder.toString());
-			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
-			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
-			Tooltip.install(pane, tooltip);
+			Tooltip.install(pane, this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard)));
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
 				this.leaderCardsChoiceDialog.close();

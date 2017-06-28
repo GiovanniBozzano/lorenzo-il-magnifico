@@ -676,7 +676,7 @@
 							<Font name="Roboto Bold" size="12.0" />
 						</font>
 					</Label>
-					<Text fx:id="excommunicationChoiceDialogText" wrappingWidth="200.0">
+					<Text fx:id="excommunicationChoiceDialogText" wrappingWidth="500.0">
 						<font>
 							<Font name="Roboto" size="12.0" />
 						</font>

@@ -99,6 +99,16 @@ public class Utils
 		Utils.PLAYERS_PLACEHOLDERS.put(Color.YELLOW, "/images/players/player_yellow.png");
 	}
 
+	public static final Map<Color, String> EXCOMMUNICATION_PLAYERS_PLACEHOLDERS = new EnumMap<>(Color.class);
+
+	static {
+		Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS.put(Color.BLUE, "/images/players/player_blue_excommunication.png");
+		Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS.put(Color.GREEN, "/images/players/player_green_excommunication.png");
+		Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS.put(Color.PURPLE, "/images/players/player_purple_excommunication.png");
+		Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS.put(Color.RED, "/images/players/player_red_excommunication.png");
+		Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS.put(Color.YELLOW, "/images/players/player_yellow_excommunication.png");
+	}
+
 	public static final Map<ResourceType, String> RESOURCES_TYPES_NAMES = new EnumMap<>(ResourceType.class);
 
 	static {
