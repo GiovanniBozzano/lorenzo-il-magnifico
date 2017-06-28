@@ -353,6 +353,12 @@ public abstract class ConnectionHandler extends Thread
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurn());
 		} else {
 			Client.getLogger().log(Level.INFO, "Your turn...");
+			Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
+			Client.getInstance().getCliListener().execute(() -> {
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
+				Client.getInstance().setCurrentCliHandler(cliHandler);
+				cliHandler.execute();
+			});
 		}
 	}
 

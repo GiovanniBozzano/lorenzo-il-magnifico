@@ -30,6 +30,7 @@ public class Client extends Instance
 		Client.CLI_HANDLERS.put(CLIStatus.AUTHENTICATION, new CLIHandlerAuthentication());
 		Client.CLI_HANDLERS.put(CLIStatus.PERSONAL_BONUS_TILE_CHOICE, new CLIHandlerPersonalBonusTileChoice());
 		Client.CLI_HANDLERS.put(CLIStatus.LEADER_CARDS_CHOICE, new CLIHandlerLeaderCardsChoice());
+		Client.CLI_HANDLERS.put(CLIStatus.AVAILABLE_ACTIONS, new CLIHandlerAvailableActions());
 	}
 
 	private CLIStatus cliStatus = CLIStatus.INTERFACE_CHOICE;
