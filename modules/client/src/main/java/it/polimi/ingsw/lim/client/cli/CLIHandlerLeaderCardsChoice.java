@@ -16,17 +16,17 @@ import java.util.logging.Level;
 
 public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 {
-	private boolean ownTurn = false;
 	private final Map<Integer, Integer> leaderCards = new HashMap<>();
 
 	@Override
 	public void execute()
 	{
+		leaderCards.clear();
 		for (int index = 0; index < GameStatus.getInstance().getAvailableLeaderCards().size(); index++) {
-			this.leaderCards.put(index + 1, GameStatus.getInstance().getAvailablePersonalBonusTiles().get(index));
-			this.showLeaderCards();
-			this.askLeaderCardsIndex();
+			this.leaderCards.put(index + 1, GameStatus.getInstance().getAvailableLeaderCards().get(index));
 		}
+		this.showLeaderCards();
+		this.askLeaderCardsIndex();
 	}
 
 	public void showLeaderCards()
@@ -57,9 +57,9 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 					stringBuilder.append('\n');
 					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue())).getReward().getActionRewardInformations());
 				}
-				Client.getLogger().log(Level.INFO, stringBuilder.toString());
-				Client.getLogger().log(Level.INFO, "=============================");
 			}
+			Client.getLogger().log(Level.INFO, stringBuilder.toString());
+			Client.getLogger().log(Level.INFO, "=============================");
 		}
 	}
 
@@ -69,8 +69,7 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !this.leaderCards.containsKey(Integer.parseInt(input)) || !this.ownTurn);
-		Client.getLogger().log(Level.INFO, "scelta mandata");
+		while (!CommonUtils.isInteger(input) || !this.leaderCards.containsKey(Integer.parseInt(input)));
 		Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(this.leaderCards.get(Integer.parseInt(input)));
 	}
 }

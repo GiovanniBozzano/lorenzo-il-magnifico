@@ -187,6 +187,8 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			Client.getInstance().setUsername(((AuthenticationInformationsLobbySocket) authenticationInformations).getUsername());
 			if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 				WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(((AuthenticationInformationsLobbySocket) authenticationInformations).getRoomInformations().getRoomType(), ((AuthenticationInformationsLobbySocket) authenticationInformations).getRoomInformations().getPlayerNames())));
+			} else {
+				Client.getLogger().log(Level.INFO, "Waiting for other players...");
 			}
 		} else {
 			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationsGame) authenticationInformations).getExcommunicationTiles());

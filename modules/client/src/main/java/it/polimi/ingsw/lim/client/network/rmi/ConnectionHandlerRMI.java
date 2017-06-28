@@ -255,6 +255,8 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			Client.getInstance().setUsername(username);
 			if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 				WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(((AuthenticationInformationsLobbyRMI) authenticationInformations).getRoomInformations().getRoomType(), ((AuthenticationInformationsLobbyRMI) authenticationInformations).getRoomInformations().getPlayerNames())));
+			} else {
+				Client.getLogger().log(Level.INFO, "Waiting for other players...");
 			}
 		} else {
 			this.clientSession = ((AuthenticationInformationsGameRMI) authenticationInformations).getClientSession();
