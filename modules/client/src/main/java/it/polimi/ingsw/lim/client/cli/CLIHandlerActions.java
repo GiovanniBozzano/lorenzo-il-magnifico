@@ -27,4 +27,10 @@ public class CLIHandlerActions implements ICLIHandler
 	public void execute()
 	{
 	}
+
+	@Override
+	public CLIHandlerActions newInstance()
+	{
+		return new CLIHandlerActions();
+	}
 }

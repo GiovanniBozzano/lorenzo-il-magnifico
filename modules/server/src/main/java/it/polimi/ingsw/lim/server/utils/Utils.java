@@ -136,7 +136,7 @@ public class Utils
 			if (Server.getInstance().getCliStatus() != CLIStatus.NONE) {
 				Server.getInstance().setCliStatus(CLIStatus.MAIN);
 				Server.getInstance().getCliListener().execute(() -> {
-					ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus());
+					ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance();
 					Server.getInstance().setCurrentCliHandler(newCliHandler);
 					newCliHandler.execute();
 				});
