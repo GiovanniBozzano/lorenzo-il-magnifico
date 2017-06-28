@@ -9,6 +9,7 @@ import it.polimi.ingsw.lim.client.gui.ControllerGame;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
+import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
@@ -51,6 +52,12 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		} catch (IOException exception) {
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
 			ConnectionHandler.printConnectionError();
+			Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
+			Client.getInstance().getCliListener().execute(() -> {
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+				Client.getInstance().setCurrentCliHandler(cliHandler);
+				cliHandler.execute();
+			});
 			return;
 		}
 		this.packetListener = new PacketListener();
@@ -58,6 +65,13 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			WindowFactory.getInstance().setNewWindow(Utils.SCENE_AUTHENTICATION);
+		} else {
+			Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
+			Client.getInstance().getCliListener().execute(() -> {
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+				Client.getInstance().setCurrentCliHandler(cliHandler);
+				cliHandler.execute();
+			});
 		}
 	}
 
@@ -172,7 +186,9 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getCouncilPalaceRewardsInformations(), authenticationInformations.getPersonalBonusTilesInformations());
 		if (!authenticationInformations.isGameStarted()) {
 			Client.getInstance().setUsername(((AuthenticationInformationsLobbySocket) authenticationInformations).getUsername());
-			WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(((AuthenticationInformationsLobbySocket) authenticationInformations).getRoomInformations().getRoomType(), ((AuthenticationInformationsLobbySocket) authenticationInformations).getRoomInformations().getPlayerNames())));
+			if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+				WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(((AuthenticationInformationsLobbySocket) authenticationInformations).getRoomInformations().getRoomType(), ((AuthenticationInformationsLobbySocket) authenticationInformations).getRoomInformations().getPlayerNames())));
+			}
 		} else {
 			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationsGame) authenticationInformations).getExcommunicationTiles());
 			Map<Integer, PlayerData> playersData = new HashMap<>();
@@ -211,11 +227,16 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
 			return;
 		}
-		WindowFactory.getInstance().enableWindow();
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			WindowFactory.getInstance().enableWindow();
 			Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(text));
 		} else {
-			Client.getLogger().log(Level.INFO, text);
+			Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
+			Client.getInstance().getCliListener().execute(() -> {
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+				Client.getInstance().setCurrentCliHandler(cliHandler);
+				cliHandler.execute();
+			});
 		}
 	}
 

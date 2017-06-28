@@ -9,6 +9,7 @@ import it.polimi.ingsw.lim.client.gui.ControllerGame;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
+import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
@@ -53,11 +54,24 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		} catch (NotBoundException | MalformedURLException | RemoteException | IllegalArgumentException exception) {
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
 			ConnectionHandler.printConnectionError();
+			Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
+			Client.getInstance().getCliListener().execute(() -> {
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+				Client.getInstance().setCurrentCliHandler(cliHandler);
+				cliHandler.execute();
+			});
 			return;
 		}
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			WindowFactory.getInstance().setNewWindow(Utils.SCENE_AUTHENTICATION);
+		} else {
+			Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
+			Client.getInstance().getCliListener().execute(() -> {
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+				Client.getInstance().setCurrentCliHandler(cliHandler);
+				cliHandler.execute();
+			});
 		}
 	}
 
@@ -113,7 +127,12 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 					Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
 				} else {
 					Client.getLogger().log(Level.INFO, exception.getLocalizedMessage());
-					Client.getCliHandlers().get(CLIStatus.AUTHENTICATION).execute();
+					Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
+					Client.getInstance().getCliListener().execute(() -> {
+						ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+						Client.getInstance().setCurrentCliHandler(cliHandler);
+						cliHandler.execute();
+					});
 				}
 			}
 		});
@@ -136,7 +155,12 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 					Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
 				} else {
 					Client.getLogger().log(Level.INFO, exception.getLocalizedMessage());
-					Client.getCliHandlers().get(CLIStatus.AUTHENTICATION).execute();
+					Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
+					Client.getInstance().getCliListener().execute(() -> {
+						ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+						Client.getInstance().setCurrentCliHandler(cliHandler);
+						cliHandler.execute();
+					});
 				}
 			}
 		});

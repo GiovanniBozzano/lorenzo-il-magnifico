@@ -38,12 +38,6 @@ public class CLIHandlerAuthentication implements ICLIHandler
 		this.askPassword();
 		this.askRoomType();
 		this.askAuthentication();
-		Client.getInstance().setCliStatus(CLIStatus.PERSONAL_BONUS_TILE_CHOICE);
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
 	}
 
 	public void askUsername()

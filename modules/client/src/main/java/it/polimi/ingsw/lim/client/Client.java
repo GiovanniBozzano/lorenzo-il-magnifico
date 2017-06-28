@@ -98,7 +98,14 @@ public class Client extends Instance
 			if (isStopping) {
 				this.getCliScanner().close();
 				this.getCliListener().shutdownNow();
-				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+				if (Client.getInstance().getCliStatus() != CLIStatus.NONE) {
+					Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
+					Client.getInstance().getCliListener().execute(() -> {
+						ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+						Client.getInstance().setCurrentCliHandler(cliHandler);
+						cliHandler.execute();
+					});
+				} else if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 					Platform.runLater(() -> WindowFactory.getInstance().closeWindow());
 				}
 			} else if (Client.getInstance().getCliStatus() == CLIStatus.NONE && WindowFactory.getInstance().isWindowOpen(ControllerConnection.class)) {

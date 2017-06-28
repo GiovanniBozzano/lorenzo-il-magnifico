@@ -30,12 +30,6 @@ public class CLIHandlerConnection implements ICLIHandler
 		this.askIPAddress();
 		this.askPort();
 		Client.getInstance().setup(this.connectionType, this.ip, this.port);
-		Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
 	}
 
 	private void askConnectionType()
