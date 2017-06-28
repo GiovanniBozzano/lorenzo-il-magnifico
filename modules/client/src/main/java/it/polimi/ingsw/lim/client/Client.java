@@ -27,7 +27,7 @@ public class Client extends Instance
 	static {
 		Client.CLI_HANDLERS.put(CLIStatus.INTERFACE_CHOICE, new CLIHandlerInterfaceChoice());
 		Client.CLI_HANDLERS.put(CLIStatus.CONNECTION, new CLIHandlerConnection());
-		Client.CLI_HANDLERS.put(CLIStatus.AUTHENTICATION, new CLIHandlerAuthentication());
+		Client.CLI_HANDLERS.put(CLIStatus.AUTHENTICATION, CLIHandlerAuthentication.initialize());
 		Client.CLI_HANDLERS.put(CLIStatus.PERSONAL_BONUS_TILE_CHOICE, new CLIHandlerPersonalBonusTileChoice());
 		Client.CLI_HANDLERS.put(CLIStatus.LEADER_CARDS_CHOICE, new CLIHandlerLeaderCardsChoice());
 	}

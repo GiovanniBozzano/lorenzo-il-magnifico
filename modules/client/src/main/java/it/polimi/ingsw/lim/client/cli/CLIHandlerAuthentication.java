@@ -76,4 +76,9 @@ public class CLIHandlerAuthentication implements ICLIHandler
 		while (!CommonUtils.isInteger(input) || !CLIHandlerAuthentication.INPUT_HANDLERS_AUTHENTICATION_TYPE.containsKey(Integer.parseInt(input)));
 		CLIHandlerAuthentication.INPUT_HANDLERS_AUTHENTICATION_TYPE.get(Integer.parseInt(input)).execute(this);
 	}
+
+	public static CLIHandlerAuthentication initialize()
+	{
+		return new CLIHandlerAuthentication();
+	}
 }
