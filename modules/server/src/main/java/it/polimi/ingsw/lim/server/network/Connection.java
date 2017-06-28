@@ -108,6 +108,8 @@ public abstract class Connection
 
 	public abstract void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex);
 
+	public abstract void sendGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord);
+
 	public void handleRoomTimerRequest()
 	{
 		Room room = Room.getPlayerRoom(this);

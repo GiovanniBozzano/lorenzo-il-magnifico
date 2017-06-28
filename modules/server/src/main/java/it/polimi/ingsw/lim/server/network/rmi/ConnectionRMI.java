@@ -317,5 +317,18 @@ public class ConnectionRMI extends Connection
 			}
 		});
 	}
+
+	@Override
+	public void sendGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameEnded(playersScores, playerIndexesVictoryPointsRecord);
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
 }
 

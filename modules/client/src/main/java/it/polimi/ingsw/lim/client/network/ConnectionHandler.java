@@ -373,6 +373,13 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
+	public void handleGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
+	{
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+			return;
+		}
+	}
+
 	private void checkInitialization()
 	{
 		try {

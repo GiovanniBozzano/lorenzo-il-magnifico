@@ -152,7 +152,7 @@ public class Utils
 		}
 		List<QueryArgument> queryArguments = new ArrayList<>();
 		queryArguments.add(new QueryArgument(QueryValueType.STRING, username));
-		try (ResultSet resultSet = Utils.sqlRead(QueryRead.GET_PASSWORD_AND_SALT_WITH_USERNAME, queryArguments)) {
+		try (ResultSet resultSet = Utils.sqlRead(QueryRead.CHECK_PLAYER_PASSWORD, queryArguments)) {
 			if (!resultSet.next()) {
 				resultSet.getStatement().close();
 				throw new AuthenticationFailedException("Incorrect username.");
@@ -182,7 +182,7 @@ public class Utils
 		}
 		List<QueryArgument> queryArguments = new ArrayList<>();
 		queryArguments.add(new QueryArgument(QueryValueType.STRING, username));
-		try (ResultSet resultSet = Utils.sqlRead(QueryRead.CHECK_EXISTING_USERNAME, queryArguments)) {
+		try (ResultSet resultSet = Utils.sqlRead(QueryRead.CHECK_EXISTING_PLAYER_USERNAME, queryArguments)) {
 			if (resultSet.next()) {
 				resultSet.getStatement().close();
 				throw new AuthenticationFailedException("Username already taken.");
@@ -196,7 +196,7 @@ public class Utils
 			queryArguments.add(new QueryArgument(QueryValueType.BYTES, salt));
 			Server.getInstance().getDatabaseSaver().execute(() -> {
 				try {
-					Utils.sqlWrite(QueryWrite.INSERT_USERNAME_AND_PASSWORD_AND_SALT, queryArguments);
+					Utils.sqlWrite(QueryWrite.REGISTER_PLAYER, queryArguments);
 				} catch (SQLException exception) {
 					Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				}

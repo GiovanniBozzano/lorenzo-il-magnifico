@@ -39,6 +39,7 @@ class PacketListener extends Thread
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_UPDATE, packet -> Client.getInstance().getConnectionHandler().handleGameUpdate(((PacketGameUpdate) packet).getGameInformations(), ((PacketGameUpdate) packet).getPlayersInformations(), ((PacketGameUpdate) packet).getOwnLeaderCardsHand(), ((PacketGameUpdate) packet).getAvailableActions()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_UPDATE_EXPECTED_ACTION, packet -> Client.getInstance().getConnectionHandler().handleGameUpdateExpectedAction(((PacketGameUpdateExpectedAction) packet).getGameInformations(), ((PacketGameUpdateExpectedAction) packet).getPlayersInformations(), ((PacketGameUpdateExpectedAction) packet).getOwnLeaderCardsHand(), ((PacketGameUpdateExpectedAction) packet).getExpectedAction()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_UPDATE_OTHER_TURN, packet -> Client.getInstance().getConnectionHandler().handleGameUpdateOtherTurn(((PacketGameUpdateOtherTurn) packet).getGameInformations(), ((PacketGameUpdateOtherTurn) packet).getPlayersInformations(), ((PacketGameUpdateOtherTurn) packet).getOwnLeaderCardsHand(), ((PacketGameUpdateOtherTurn) packet).getTurnPlayerIndex()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_ENDED, packet -> Client.getInstance().getConnectionHandler().handleGameEnded(((PacketGameEnded) packet).getPlayersScores(), ((PacketGameEnded) packet).getPlayerIndexesVictoryPointsRecord()));
 	}
 
 	private volatile boolean keepGoing = true;

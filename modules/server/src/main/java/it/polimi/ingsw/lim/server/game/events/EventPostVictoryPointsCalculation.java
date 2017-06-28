@@ -1,15 +1,16 @@
 package it.polimi.ingsw.lim.server.game.events;
 
+import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class EventPostVictoryPointsCalculation extends Event
 {
 	private int victoryPoints;
 
-	public EventPostVictoryPointsCalculation(Player player, int victoryPoints)
+	public EventPostVictoryPointsCalculation(Player player)
 	{
 		super(player);
-		this.victoryPoints = victoryPoints;
+		this.victoryPoints = player.getPlayerResourceHandler().getResources().get(ResourceType.VICTORY_POINT);
 	}
 
 	public int getVictoryPoints()

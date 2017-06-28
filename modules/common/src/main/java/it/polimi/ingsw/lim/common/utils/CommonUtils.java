@@ -16,7 +16,8 @@ import java.io.OutputStream;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import java.util.*;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 public class CommonUtils
@@ -64,6 +65,17 @@ public class CommonUtils
 		inputStream.close();
 		outputStream.close();
 		return jarFolder + fileName;
+	}
+
+	public static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValue(Map<K, V> map)
+	{
+		List<Entry<K, V>> list = new LinkedList<>(map.entrySet());
+		list.sort(Comparator.comparing(Entry::getValue));
+		Map<K, V> result = new LinkedHashMap<>();
+		for (Map.Entry<K, V> entry : list) {
+			result.put(entry.getKey(), entry.getValue());
+		}
+		return result;
 	}
 
 	/**

@@ -110,7 +110,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 		this.effectiveResourceCost = eventPickDevelopmentCard.getResourceCost();
 		this.getBoardPositionReward = eventPickDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
-		if (developmentCard.getCardType() == CardType.TERRITORY && !eventPickDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.getPlayerResourceHandler().isTerritorySlotAvailable(this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
+		if (developmentCard.getCardType() == CardType.TERRITORY && !eventPickDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.isTerritorySlotAvailable(this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
 			return false;
 		}
 		// controlla presenza discountchoice nell'array actionreward

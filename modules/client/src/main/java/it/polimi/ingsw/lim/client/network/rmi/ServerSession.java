@@ -141,4 +141,10 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	{
 		Client.getInstance().getConnectionHandler().handleGameUpdateOtherTurn(gameInformations, playersInformations, ownLeaderCardsHand, turnPlayerIndex);
 	}
+
+	@Override
+	public void sendGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord) throws RemoteException
+	{
+		Client.getInstance().getConnectionHandler().handleGameEnded(playersScores, playerIndexesVictoryPointsRecord);
+	}
 }

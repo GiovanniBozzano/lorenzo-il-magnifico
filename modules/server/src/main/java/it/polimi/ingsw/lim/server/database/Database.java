@@ -12,10 +12,13 @@ public abstract class Database
 	public static final String PREFIX = "lim_";
 	public static final String DATABASE_FILE = "database.db";
 	public static final String TABLE_PLAYERS = "players";
-	public static final String TABLE_PLAYERS_COLUMN_ID = "id";
+	private static final String TABLE_PLAYERS_COLUMN_ID = "id";
 	public static final String TABLE_PLAYERS_COLUMN_USERNAME = "username";
 	@SuppressWarnings("squid:S2068") public static final String TABLE_PLAYERS_COLUMN_PASSWORD = "password";
 	public static final String TABLE_PLAYERS_COLUMN_SALT = "salt";
+	public static final String TABLE_PLAYERS_COLUMN_WON_MATCHES = "won_matches";
+	public static final String TABLE_PLAYERS_COLUMN_LOST_MATCHES = "lost_matches";
+	public static final String TABLE_PLAYERS_COLUMN_VICTORY_POINTS_RECORD = "victory_points_records";
 	private Connection connection;
 
 	protected abstract Connection openConnection();
@@ -41,7 +44,7 @@ public abstract class Database
 	public void createTables()
 	{
 		try {
-			this.getConnection().createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + Database.PREFIX + Database.TABLE_PLAYERS + " (" + Database.TABLE_PLAYERS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Database.TABLE_PLAYERS_COLUMN_USERNAME + " VARCHAR(16) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_PASSWORD + " CHAR(128) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_SALT + " BLOB NOT NULL);");
+			this.getConnection().createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + Database.PREFIX + Database.TABLE_PLAYERS + " (" + Database.TABLE_PLAYERS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Database.TABLE_PLAYERS_COLUMN_USERNAME + " VARCHAR(16) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_PASSWORD + " CHAR(128) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_SALT + " BLOB NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_WON_MATCHES + " INTEGER DEFAULT 0 NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_LOST_MATCHES + " INTEGER DEFAULT 0 NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_VICTORY_POINTS_RECORD + " INTEGER DEFAULT 0 NOT NULL);");
 		} catch (SQLException exception) {
 			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}

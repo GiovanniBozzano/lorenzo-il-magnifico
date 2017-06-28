@@ -7,9 +7,15 @@ import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.ServerSettings;
+import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.enums.LeaderCardType;
+import it.polimi.ingsw.lim.server.enums.QueryRead;
+import it.polimi.ingsw.lim.server.enums.QueryValueType;
+import it.polimi.ingsw.lim.server.enums.QueryWrite;
 import it.polimi.ingsw.lim.server.game.actions.*;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.board.ExcommunicationTile;
@@ -17,19 +23,26 @@ import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.events.EventFirstTurn;
+import it.polimi.ingsw.lim.server.game.events.EventPostVictoryPointsCalculation;
+import it.polimi.ingsw.lim.server.game.events.EventPreVictoryPointsCalculation;
+import it.polimi.ingsw.lim.server.game.events.EventVictoryPointsCalculation;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.player.PlayerResourceHandler;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.utils.QueryArgument;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 public class GameHandler
 {
@@ -326,6 +339,87 @@ public class GameHandler
 				player.getConnection().sendGameLogMessage("==================\n=== GAME ENDED ===\n==================");
 			}
 		}
+		boolean someoneOnline = false;
+		for (Player player : this.turnOrder) {
+			if (player.isOnline()) {
+				someoneOnline = true;
+			}
+		}
+		if (!someoneOnline) {
+			Server.getInstance().getRooms().remove(this.room);
+			return;
+		}
+		Map<Player, Integer> playersScores = new LinkedHashMap<>();
+		for (Player player : this.turnOrder) {
+			EventPreVictoryPointsCalculation eventPreVictoryPointsCalculation = new EventPreVictoryPointsCalculation(player);
+			eventPreVictoryPointsCalculation.applyModifiers(player.getActiveModifiers());
+			player.getPlayerResourceHandler().resetVictoryPoints();
+			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, eventPreVictoryPointsCalculation.getVictoryPoints());
+			EventVictoryPointsCalculation eventVictoryPointsCalculation = new EventVictoryPointsCalculation(player);
+			eventPreVictoryPointsCalculation.applyModifiers(player.getActiveModifiers());
+			player.convertToVictoryPoints(eventVictoryPointsCalculation.isCountingCharacters(), eventVictoryPointsCalculation.isCountingTerritories(), eventVictoryPointsCalculation.isCountingVentures());
+			EventPostVictoryPointsCalculation eventPostVictoryPointsCalculation = new EventPostVictoryPointsCalculation(player);
+			player.getPlayerResourceHandler().resetVictoryPoints();
+			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, eventPostVictoryPointsCalculation.getVictoryPoints());
+			playersScores.put(player, player.getPlayerResourceHandler().getResources().get(ResourceType.VICTORY_POINT));
+		}
+		playersScores = CommonUtils.sortMapByValue(playersScores);
+		Map<Integer, Integer> playerIndexesVictoryPointsRecord = new LinkedHashMap<>();
+		int index = 0;
+		for (Entry<Player, Integer> playerScore : playersScores.entrySet()) {
+			List<QueryArgument> queryArguments = new ArrayList<>();
+			queryArguments.add(new QueryArgument(QueryValueType.STRING, playerScore.getKey().getConnection().getUsername()));
+			try (ResultSet resultSet = Utils.sqlRead(QueryRead.GET_PLAYER_VICTORY_POINTS_RECORD, queryArguments)) {
+				resultSet.next();
+				if (resultSet.getInt(Database.TABLE_PLAYERS_COLUMN_VICTORY_POINTS_RECORD) < playerScore.getValue()) {
+					playerIndexesVictoryPointsRecord.put(playerScore.getKey().getIndex(), playerScore.getValue());
+					queryArguments.clear();
+					queryArguments.add(new QueryArgument(QueryValueType.INTEGER, playerScore.getValue()));
+					queryArguments.add(new QueryArgument(QueryValueType.STRING, playerScore.getKey().getConnection().getUsername()));
+					Server.getInstance().getDatabaseSaver().execute(() -> {
+						try {
+							Utils.sqlWrite(QueryWrite.UPDATE_PLAYER_VICTORY_POINT_RECORD, queryArguments);
+						} catch (SQLException exception) {
+							Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+						}
+					});
+				} else {
+					playerIndexesVictoryPointsRecord.put(playerScore.getKey().getIndex(), resultSet.getInt(Database.TABLE_PLAYERS_COLUMN_VICTORY_POINTS_RECORD));
+				}
+				resultSet.getStatement().close();
+			} catch (SQLException exception) {
+				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+			queryArguments.clear();
+			queryArguments.add(new QueryArgument(QueryValueType.STRING, playerScore.getKey().getConnection().getUsername()));
+			if (index == 0) {
+				Server.getInstance().getDatabaseSaver().execute(() -> {
+					try {
+						Utils.sqlWrite(QueryWrite.UPDATE_PLAYER_VICTORY, queryArguments);
+					} catch (SQLException exception) {
+						Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+					}
+				});
+			} else {
+				Server.getInstance().getDatabaseSaver().execute(() -> {
+					try {
+						Utils.sqlWrite(QueryWrite.UPDATE_PLAYER_DEFEAT, queryArguments);
+					} catch (SQLException exception) {
+						Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+					}
+				});
+			}
+			index++;
+		}
+		Map<Integer, Integer> playersIndexesScores = new LinkedHashMap<>();
+		for (Entry<Player, Integer> playerScore : playersScores.entrySet()) {
+			playersIndexesScores.put(playerScore.getKey().getIndex(), playerScore.getValue());
+		}
+		for (Player player : this.turnOrder) {
+			if (player.isOnline()) {
+				player.getConnection().sendGameEnded(playersIndexesScores, playerIndexesVictoryPointsRecord);
+			}
+		}
 		this.timer = ServerSettings.getInstance().getEndGameTimer();
 		for (Player otherPlayer : this.turnOrder) {
 			if (otherPlayer.isOnline()) {
@@ -376,7 +470,7 @@ public class GameHandler
 	private void calculateExcommunications()
 	{
 		for (Player player : this.turnOrder) {
-			if (player.getPlayerResourceHandler().isExcommunicated(this.currentPeriod)) {
+			if (player.isExcommunicated(this.currentPeriod)) {
 				this.excommunicatedPlayers.get(this.currentPeriod).add(player);
 				player.getActiveModifiers().add(this.boardHandler.getExcommunicationTiles().get(this.currentPeriod).getModifier());
 			} else {

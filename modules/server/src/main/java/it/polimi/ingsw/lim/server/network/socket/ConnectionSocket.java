@@ -214,6 +214,12 @@ public class ConnectionSocket extends Connection
 		new PacketGameUpdateOtherTurn(gameInformations, playersInformations, ownLeaderCardsHand, turnPlayerIndex).send(this.out);
 	}
 
+	@Override
+	public void sendGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
+	{
+		new PacketGameEnded(playersScores, playerIndexesVictoryPointsRecord).send(this.out);
+	}
+
 	ObjectInputStream getIn()
 	{
 		return this.in;

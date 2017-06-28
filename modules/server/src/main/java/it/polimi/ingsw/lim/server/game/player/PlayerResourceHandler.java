@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.server.game.player;
 
-import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 
@@ -11,25 +10,6 @@ import java.util.Map;
 
 public class PlayerResourceHandler
 {
-	private static final Map<Integer, Integer> TERRITORY_SLOTS_CONDITIONS = new HashMap<>();
-
-	static {
-		PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.put(0, 0);
-		PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.put(1, 0);
-		PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.put(2, 3);
-		PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.put(3, 7);
-		PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.put(4, 12);
-		PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.put(5, 18);
-	}
-
-	private static final Map<Period, Integer> EXCOMMUNICATION_CONDITIONS = new EnumMap<>(Period.class);
-
-	static {
-		PlayerResourceHandler.EXCOMMUNICATION_CONDITIONS.put(Period.FIRST, 3);
-		PlayerResourceHandler.EXCOMMUNICATION_CONDITIONS.put(Period.SECOND, 4);
-		PlayerResourceHandler.EXCOMMUNICATION_CONDITIONS.put(Period.THIRD, 5);
-	}
-
 	public static final Map<Integer, Integer> FAITH_POINTS_PRICES = new HashMap<>();
 
 	static {
@@ -148,24 +128,14 @@ public class PlayerResourceHandler
 		}
 	}
 
-	public boolean isTerritorySlotAvailable(int territorySlot)
-	{
-		return PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.containsKey(territorySlot) && this.resources.get(ResourceType.MILITARY_POINT) >= PlayerResourceHandler.TERRITORY_SLOTS_CONDITIONS.get(territorySlot);
-	}
-
-	public boolean isExcommunicated(Period period)
-	{
-		return this.resources.get(ResourceType.FAITH_POINT) < PlayerResourceHandler.EXCOMMUNICATION_CONDITIONS.get(period);
-	}
-
 	public void resetFaithPoints()
 	{
 		this.resources.put(ResourceType.FAITH_POINT, 0);
 	}
 
-	public int convertToVictoryPoints()
+	public void resetVictoryPoints()
 	{
-		return (this.resources.get(ResourceType.COIN) + this.resources.get(ResourceType.WOOD) + this.resources.get(ResourceType.STONE) + this.resources.get(ResourceType.SERVANT)) / 5;
+		this.resources.put(ResourceType.VICTORY_POINT, 0);
 	}
 
 	public Map<ResourceType, Integer> getResources()
