@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.client.cli;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
@@ -22,39 +23,44 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 	{
 		Client.getLogger().log(Level.INFO, "Waiting for other players...");
 		this.askPersonalBonusTileIndex();
+		Client.getInstance().setCliStatus(CLIStatus.LEADER_CARDS_CHOICE);
+		Client.getInstance().getCliListener().execute(() -> {
+			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+			Client.getInstance().setCurrentCliHandler(cliHandler);
+			cliHandler.execute();
+		});
 	}
 
 	public void showPersonalBonusTiles()
 	{
 		Client.getLogger().log(Level.INFO, "Enter PersonalBonusTile choice...");
 		for (Entry<Integer, Integer> personalBonusTile : this.personalBonusTiles.entrySet()) {
-			Client.getLogger().log(Level.INFO, "============ {0} ============", new Object[] { personalBonusTile.getKey() });
 			StringBuilder stringBuilder = new StringBuilder();
+			Client.getLogger().log(Level.INFO, "============ {0} ============", new Object[] { personalBonusTile.getKey() });
 			stringBuilder.append("Production activation cost: ");
-			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionActivationCost());
-			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionInstantResources().isEmpty()) {
+			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionActivationCost());
+			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionInstantResources().isEmpty()) {
 				stringBuilder.append("\n\nProduction bonus resources:");
 			}
-			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionInstantResources()) {
+			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionInstantResources()) {
 				stringBuilder.append('\n');
 				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
 			stringBuilder.append("\n\nHarvest activation cost: ");
-			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getProductionActivationCost());
-			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getHarvestInstantResources().isEmpty()) {
+			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionActivationCost());
+			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getHarvestInstantResources().isEmpty()) {
 				stringBuilder.append("\n\nHarvest bonus resources:");
 			}
-			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getHarvestInstantResources()) {
+			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getHarvestInstantResources()) {
 				stringBuilder.append('\n');
 				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
-			Client.getLogger().log(Level.INFO, "{0}", stringBuilder.toString());
-			Client.getLogger().log(Level.INFO, "============================");
-			GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue());
+			Client.getLogger().log(Level.INFO, stringBuilder.toString());
+			Client.getLogger().log(Level.INFO, "=============================");
 		}
 	}
 
