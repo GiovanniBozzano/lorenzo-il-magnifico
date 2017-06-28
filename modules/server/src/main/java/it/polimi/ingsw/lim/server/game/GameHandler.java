@@ -777,7 +777,16 @@ public class GameHandler
 			councilPalaceOrderInformations.put(currentPlace, player.getIndex());
 			currentPlace++;
 		}
-		return new GameInformations(developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, dices, turnOrderInformations, councilPalaceOrderInformations);
+		Map<Period, List<Integer>> excommunicatedPlayersIndexes = new EnumMap<>(Period.class);
+		excommunicatedPlayersIndexes.put(Period.FIRST, new ArrayList<>());
+		excommunicatedPlayersIndexes.put(Period.SECOND, new ArrayList<>());
+		excommunicatedPlayersIndexes.put(Period.THIRD, new ArrayList<>());
+		for (Entry<Period, List<Player>> period : this.excommunicatedPlayers.entrySet()) {
+			for (Player player : period.getValue()) {
+				excommunicatedPlayersIndexes.get(period.getKey()).add(player.getIndex());
+			}
+		}
+		return new GameInformations(developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, dices, turnOrderInformations, councilPalaceOrderInformations, excommunicatedPlayersIndexes);
 	}
 
 	public List<PlayerInformations> generatePlayersInformations()

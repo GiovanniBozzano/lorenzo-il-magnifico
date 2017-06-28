@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client.network;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.cli.CLIHandlerPersonalBonusTileChoice;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
@@ -10,6 +9,7 @@ import it.polimi.ingsw.lim.client.gui.ControllerGame;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.Instance;
+import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.RoomType;
@@ -245,9 +245,6 @@ public abstract class ConnectionHandler extends Thread
 	public void handleGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles)
 	{
 		GameStatus.getInstance().setAvailablePersonalBonusTiles(availablePersonalBonusTiles);
-		if (Client.getInstance().getCliStatus() == CLIStatus.PERSONAL_BONUS_TILE_CHOICE) {
-			((CLIHandlerPersonalBonusTileChoice) Client.getInstance().getCurrentCliHandler()).setOwnTurn(true);
-		}
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			try {
 				WindowFactory.WINDOW_OPENING_SEMAPHORE.acquire();
@@ -262,6 +259,13 @@ public abstract class ConnectionHandler extends Thread
 			Platform.runLater(() -> {
 				((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + "You are choosing a personal bonus tile");
 				((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showPersonalBonusTilesChoiceDialog();
+			});
+		} else {
+			Client.getInstance().setCliStatus(CLIStatus.PERSONAL_BONUS_TILE_CHOICE);
+			Client.getInstance().getCliListener().execute(() -> {
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+				Client.getInstance().setCurrentCliHandler(cliHandler);
+				cliHandler.execute();
 			});
 		}
 	}

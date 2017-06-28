@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client.cli;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;

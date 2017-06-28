@@ -54,7 +54,6 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		} catch (NotBoundException | MalformedURLException | RemoteException | IllegalArgumentException exception) {
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
 			ConnectionHandler.printConnectionError();
-			Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
 			Client.getInstance().getCliListener().execute(() -> {
 				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
 				Client.getInstance().setCurrentCliHandler(cliHandler);
@@ -127,7 +126,6 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 					Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
 				} else {
 					Client.getLogger().log(Level.INFO, exception.getLocalizedMessage());
-					Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
 					Client.getInstance().getCliListener().execute(() -> {
 						ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
 						Client.getInstance().setCurrentCliHandler(cliHandler);
@@ -155,7 +153,6 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 					Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
 				} else {
 					Client.getLogger().log(Level.INFO, exception.getLocalizedMessage());
-					Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
 					Client.getInstance().getCliListener().execute(() -> {
 						ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
 						Client.getInstance().setCurrentCliHandler(cliHandler);

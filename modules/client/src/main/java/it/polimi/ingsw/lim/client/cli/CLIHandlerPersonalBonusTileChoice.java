@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client.cli;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
@@ -15,23 +14,19 @@ import java.util.logging.Level;
 
 public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 {
-	private boolean ownTurn = false;
 	private final Map<Integer, Integer> personalBonusTiles = new HashMap<>();
 
 	@Override
 	public void execute()
 	{
-		Client.getLogger().log(Level.INFO, "Waiting for other players...");
+		for (int index = 0; index < GameStatus.getInstance().getAvailablePersonalBonusTiles().size(); index++) {
+			this.personalBonusTiles.put(index + 1, GameStatus.getInstance().getAvailablePersonalBonusTiles().get(index));
+		}
+		this.showPersonalBonusTiles();
 		this.askPersonalBonusTileIndex();
-		Client.getInstance().setCliStatus(CLIStatus.LEADER_CARDS_CHOICE);
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
 	}
 
-	public void showPersonalBonusTiles()
+	private void showPersonalBonusTiles()
 	{
 		Client.getLogger().log(Level.INFO, "Enter PersonalBonusTile choice...");
 		for (Entry<Integer, Integer> personalBonusTile : this.personalBonusTiles.entrySet()) {
@@ -70,23 +65,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !this.personalBonusTiles.containsKey(Integer.parseInt(input)) || !this.ownTurn);
+		while (!CommonUtils.isInteger(input) || !this.personalBonusTiles.containsKey(Integer.parseInt(input)));
 		Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(this.personalBonusTiles.get(Integer.parseInt(input)));
-	}
-
-	public boolean isOwnTurn()
-	{
-		return this.ownTurn;
-	}
-
-	public void setOwnTurn(boolean ownTurn)
-	{
-		if (ownTurn) {
-			for (int index = 0; index < GameStatus.getInstance().getAvailablePersonalBonusTiles().size(); index++) {
-				this.personalBonusTiles.put(index + 1, GameStatus.getInstance().getAvailablePersonalBonusTiles().get(index));
-			}
-			this.showPersonalBonusTiles();
-		}
-		this.ownTurn = ownTurn;
 	}
 }

@@ -1,11 +1,13 @@
 package it.polimi.ingsw.lim.common.game;
 
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
+import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.Row;
 
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GameInformations implements Serializable
@@ -17,8 +19,9 @@ public class GameInformations implements Serializable
 	private final Map<FamilyMemberType, Integer> dices;
 	private final Map<Integer, Integer> turnOrder;
 	private final Map<Integer, Integer> councilPalaceOrder;
+	private final Map<Period, List<Integer>> excommunicatedPlayers;
 
-	public GameInformations(Map<Row, Integer> developmentCardsBuilding, Map<Row, Integer> developmentCardsCharacter, Map<Row, Integer> developmentCardsTerritory, Map<Row, Integer> developmentCardsVenture, Map<FamilyMemberType, Integer> dices, Map<Integer, Integer> turnOrder, Map<Integer, Integer> councilPalaceOrder)
+	public GameInformations(Map<Row, Integer> developmentCardsBuilding, Map<Row, Integer> developmentCardsCharacter, Map<Row, Integer> developmentCardsTerritory, Map<Row, Integer> developmentCardsVenture, Map<FamilyMemberType, Integer> dices, Map<Integer, Integer> turnOrder, Map<Integer, Integer> councilPalaceOrder, Map<Period, List<Integer>> excommunicatedPlayers)
 	{
 		this.developmentCardsBuilding = new EnumMap<>(developmentCardsBuilding);
 		this.developmentCardsCharacter = new EnumMap<>(developmentCardsCharacter);
@@ -27,6 +30,7 @@ public class GameInformations implements Serializable
 		this.dices = new EnumMap<>(dices);
 		this.turnOrder = new HashMap<>(turnOrder);
 		this.councilPalaceOrder = new HashMap<>(councilPalaceOrder);
+		this.excommunicatedPlayers = new EnumMap<>(excommunicatedPlayers);
 	}
 
 	public Map<Row, Integer> getDevelopmentCardsBuilding()
@@ -62,5 +66,10 @@ public class GameInformations implements Serializable
 	public Map<Integer, Integer> getCouncilPalaceOrder()
 	{
 		return this.councilPalaceOrder;
+	}
+
+	public Map<Period, List<Integer>> getExcommunicatedPlayers()
+	{
+		return this.excommunicatedPlayers;
 	}
 }

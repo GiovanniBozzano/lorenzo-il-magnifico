@@ -2090,6 +2090,8 @@ public class ControllerGame extends CustomController
 				}
 			}
 		}
+		for (Entry<Period, List<Integer>> excommunicationPeriod : GameStatus.getInstance().getCurrentExcommunicatedPlayers().entrySet()) {
+		}
 		for (Entry<Integer, Integer> orderPosition : GameStatus.getInstance().getCurrentCouncilPalaceOrder().entrySet()) {
 			this.councilPalacePositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		}

@@ -52,7 +52,6 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		} catch (IOException exception) {
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
 			ConnectionHandler.printConnectionError();
-			Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
 			Client.getInstance().getCliListener().execute(() -> {
 				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
 				Client.getInstance().setCurrentCliHandler(cliHandler);
@@ -231,7 +230,6 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			WindowFactory.getInstance().enableWindow();
 			Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(text));
 		} else {
-			Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
 			Client.getInstance().getCliListener().execute(() -> {
 				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
 				Client.getInstance().setCurrentCliHandler(cliHandler);

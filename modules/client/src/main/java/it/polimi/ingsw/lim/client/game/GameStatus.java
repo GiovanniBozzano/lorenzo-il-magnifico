@@ -35,6 +35,7 @@ public class GameStatus
 	private final Map<FamilyMemberType, Integer> currentDices = new EnumMap<>(FamilyMemberType.class);
 	private final Map<Integer, Integer> currentTurnOrder = new HashMap<>();
 	private final Map<Integer, Integer> currentCouncilPalaceOrder = new HashMap<>();
+	private final Map<Period, List<Integer>> currentExcommunicatedPlayers = new EnumMap<>(Period.class);
 	private final Map<Integer, Boolean> currentOwnLeaderCardsHand = new HashMap<>();
 	private int currentTurnPlayerIndex = -1;
 	private final Map<ActionType, List<AvailableAction>> currentAvailableActions = new EnumMap<>(ActionType.class);
@@ -78,6 +79,7 @@ public class GameStatus
 		this.setCurrentDices(gameInformations.getDices());
 		this.setCurrentTurnOrder(gameInformations.getTurnOrder());
 		this.setCurrentCouncilPalaceOrder(gameInformations.getCouncilPalaceOrder());
+		this.setCurrentExcommunicatedPlayers(gameInformations.getExcommunicatedPlayers());
 		this.setCurrentOwnLeaderCardsHand(ownLeaderCardsHand);
 		for (PlayerInformations playerInformations : playersInformations) {
 			if (this.currentPlayerData.get(playerInformations.getIndex()) != null) {
@@ -256,6 +258,17 @@ public class GameStatus
 	{
 		this.currentCouncilPalaceOrder.clear();
 		this.currentCouncilPalaceOrder.putAll(currentCouncilPalaceOrder);
+	}
+
+	public Map<Period, List<Integer>> getCurrentExcommunicatedPlayers()
+	{
+		return this.currentExcommunicatedPlayers;
+	}
+
+	private void setCurrentExcommunicatedPlayers(Map<Period, List<Integer>> currentExcommunicatedPlayers)
+	{
+		this.currentExcommunicatedPlayers.clear();
+		this.currentExcommunicatedPlayers.putAll(currentExcommunicatedPlayers);
 	}
 
 	public Map<Integer, Boolean> getCurrentOwnLeaderCardsHand()
