@@ -68,4 +68,8 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 		while (!CommonUtils.isInteger(input) || !this.personalBonusTiles.containsKey(Integer.parseInt(input)));
 		Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(this.personalBonusTiles.get(Integer.parseInt(input)));
 	}
+	public static CLIHandlerPersonalBonusTileChoice initialize()
+	{
+		return new CLIHandlerPersonalBonusTileChoice();
+	}
 }

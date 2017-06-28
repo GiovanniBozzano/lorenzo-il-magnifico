@@ -21,7 +21,6 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 	@Override
 	public void execute()
 	{
-		leaderCards.clear();
 		for (int index = 0; index < GameStatus.getInstance().getAvailableLeaderCards().size(); index++) {
 			this.leaderCards.put(index + 1, GameStatus.getInstance().getAvailableLeaderCards().get(index));
 		}
@@ -71,5 +70,9 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !this.leaderCards.containsKey(Integer.parseInt(input)));
 		Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(this.leaderCards.get(Integer.parseInt(input)));
+	}
+	public static CLIHandlerLeaderCardsChoice initialize()
+	{
+		return new CLIHandlerLeaderCardsChoice();
 	}
 }

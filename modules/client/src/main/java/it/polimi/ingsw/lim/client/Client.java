@@ -25,11 +25,11 @@ public class Client extends Instance
 	private static final Map<CLIStatus, ICLIHandler> CLI_HANDLERS = new EnumMap<>(CLIStatus.class);
 
 	static {
-		Client.CLI_HANDLERS.put(CLIStatus.INTERFACE_CHOICE, new CLIHandlerInterfaceChoice());
-		Client.CLI_HANDLERS.put(CLIStatus.CONNECTION, new CLIHandlerConnection());
+		Client.CLI_HANDLERS.put(CLIStatus.INTERFACE_CHOICE, CLIHandlerInterfaceChoice.initialize());
+		Client.CLI_HANDLERS.put(CLIStatus.CONNECTION, CLIHandlerConnection.initialize());
 		Client.CLI_HANDLERS.put(CLIStatus.AUTHENTICATION, CLIHandlerAuthentication.initialize());
-		Client.CLI_HANDLERS.put(CLIStatus.PERSONAL_BONUS_TILE_CHOICE, new CLIHandlerPersonalBonusTileChoice());
-		Client.CLI_HANDLERS.put(CLIStatus.LEADER_CARDS_CHOICE, new CLIHandlerLeaderCardsChoice());
+		Client.CLI_HANDLERS.put(CLIStatus.PERSONAL_BONUS_TILE_CHOICE, CLIHandlerPersonalBonusTileChoice.initialize());
+		Client.CLI_HANDLERS.put(CLIStatus.LEADER_CARDS_CHOICE, CLIHandlerLeaderCardsChoice.initialize());
 	}
 
 	private CLIStatus cliStatus = CLIStatus.INTERFACE_CHOICE;

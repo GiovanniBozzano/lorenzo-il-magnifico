@@ -59,4 +59,8 @@ public class CLIHandlerConnection implements ICLIHandler
 		} while (!CommonUtils.isInteger(input));
 		this.port = Integer.parseInt(input);
 	}
+	public static CLIHandlerConnection initialize()
+	{
+		return new CLIHandlerConnection();
+	}
 }

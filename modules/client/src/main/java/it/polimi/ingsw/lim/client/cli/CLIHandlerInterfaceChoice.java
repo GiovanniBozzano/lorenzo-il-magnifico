@@ -51,4 +51,8 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 		while (!CommonUtils.isInteger(input) || !CLIHandlerInterfaceChoice.INPUT_HANDLERS.containsKey(Integer.parseInt(input)));
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.get(Integer.parseInt(input)).execute(this);
 	}
+	public static CLIHandlerInterfaceChoice initialize()
+	{
+		return new CLIHandlerInterfaceChoice();
+	}
 }
