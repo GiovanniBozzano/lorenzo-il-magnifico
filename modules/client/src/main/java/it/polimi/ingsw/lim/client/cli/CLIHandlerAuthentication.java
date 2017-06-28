@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.client.cli;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.cli.IInputHandler;
 import it.polimi.ingsw.lim.common.enums.RoomType;
@@ -37,6 +38,12 @@ public class CLIHandlerAuthentication implements ICLIHandler
 		this.askPassword();
 		this.askRoomType();
 		this.askAuthentication();
+		Client.getInstance().setCliStatus(CLIStatus.PERSONAL_BONUS_TILE_CHOICE);
+		Client.getInstance().getCliListener().execute(() -> {
+			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+			Client.getInstance().setCurrentCliHandler(cliHandler);
+			cliHandler.execute();
+		});
 	}
 
 	public void askUsername()

@@ -32,6 +32,11 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 	public void execute()
 	{
 		this.askInterfaceType();
+		Client.getInstance().getCliListener().execute(() -> {
+			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+			Client.getInstance().setCurrentCliHandler(cliHandler);
+			cliHandler.execute();
+		});
 	}
 
 	private void askInterfaceType()
