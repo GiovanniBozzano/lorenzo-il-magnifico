@@ -54,6 +54,7 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.get(Integer.parseInt(input)).execute(this);
 	}
 
+	@Override
 	public CLIHandlerInterfaceChoice newInstance()
 	{
 		return new CLIHandlerInterfaceChoice();

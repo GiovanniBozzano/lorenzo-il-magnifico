@@ -77,6 +77,7 @@ public class CLIHandlerAuthentication implements ICLIHandler
 		CLIHandlerAuthentication.INPUT_HANDLERS_AUTHENTICATION_TYPE.get(Integer.parseInt(input)).execute(this);
 	}
 
+	@Override
 	public CLIHandlerAuthentication newInstance()
 	{
 		return new CLIHandlerAuthentication();

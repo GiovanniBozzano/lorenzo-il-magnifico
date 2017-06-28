@@ -60,6 +60,7 @@ public class CLIHandlerConnection implements ICLIHandler
 		this.port = Integer.parseInt(input);
 	}
 
+	@Override
 	public CLIHandlerConnection newInstance()
 	{
 		return new CLIHandlerConnection();

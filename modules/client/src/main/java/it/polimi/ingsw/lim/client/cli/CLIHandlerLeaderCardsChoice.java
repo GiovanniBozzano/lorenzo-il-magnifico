@@ -72,6 +72,7 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 		Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(this.leaderCards.get(Integer.parseInt(input)));
 	}
 
+	@Override
 	public CLIHandlerLeaderCardsChoice newInstance()
 	{
 		return new CLIHandlerLeaderCardsChoice();

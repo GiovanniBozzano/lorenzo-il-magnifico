@@ -69,6 +69,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 		Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(this.personalBonusTiles.get(Integer.parseInt(input)));
 	}
 
+	@Override
 	public CLIHandlerPersonalBonusTileChoice newInstance()
 	{
 		return new CLIHandlerPersonalBonusTileChoice();
