@@ -22,7 +22,11 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 	@Override
 	public void execute()
 	{
-		this.askLeaderCardsIndex();
+		for (int index = 0; index < GameStatus.getInstance().getAvailableLeaderCards().size(); index++) {
+			this.leaderCards.put(index + 1, GameStatus.getInstance().getAvailablePersonalBonusTiles().get(index));
+			this.showLeaderCards();
+			this.askLeaderCardsIndex();
+		}
 	}
 
 	public void showLeaderCards()
@@ -66,23 +70,7 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || !this.leaderCards.containsKey(Integer.parseInt(input)) || !this.ownTurn);
+		Client.getLogger().log(Level.INFO, "scelta mandata");
 		Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(this.leaderCards.get(Integer.parseInt(input)));
-		ownTurn = false;
-	}
-
-	public boolean isOwnTurn()
-	{
-		return this.ownTurn;
-	}
-
-	public void setOwnTurn(boolean ownTurn)
-	{
-		if (ownTurn) {
-			for (int index = 0; index < GameStatus.getInstance().getAvailableLeaderCards().size(); index++) {
-				this.leaderCards.put(index + 1, GameStatus.getInstance().getAvailablePersonalBonusTiles().get(index));
-			}
-			this.showLeaderCards();
-		}
-		this.ownTurn = ownTurn;
 	}
 }

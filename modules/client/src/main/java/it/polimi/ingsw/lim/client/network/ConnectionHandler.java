@@ -311,6 +311,13 @@ public abstract class ConnectionHandler extends Thread
 		GameStatus.getInstance().setAvailableLeaderCards(availableLeaderCards);
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showLeaderCardsChoiceDialog());
+		} else {
+			Client.getInstance().setCliStatus(CLIStatus.LEADER_CARDS_CHOICE);
+			Client.getInstance().getCliListener().execute(() -> {
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+				Client.getInstance().setCurrentCliHandler(cliHandler);
+				cliHandler.execute();
+			});
 		}
 	}
 
