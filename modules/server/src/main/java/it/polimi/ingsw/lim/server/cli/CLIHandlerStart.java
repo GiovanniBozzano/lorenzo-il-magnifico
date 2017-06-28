@@ -38,7 +38,8 @@ public class CLIHandlerStart implements ICLIHandler
 		this.socketPort = Integer.parseInt(input);
 	}
 
-	public static CLIHandlerStart initialize()
+	@Override
+	public CLIHandlerStart newInstance()
 	{
 		return new CLIHandlerStart();
 	}

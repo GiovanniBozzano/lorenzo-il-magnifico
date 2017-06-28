@@ -17,7 +17,8 @@ public class CLIHandlerMain implements ICLIHandler
 		Utils.executeCommand(Server.getInstance().getCliScanner().nextLine());
 	}
 
-	public static CLIHandlerMain initialize()
+	@Override
+	public CLIHandlerMain newInstance()
 	{
 		return new CLIHandlerMain();
 	}

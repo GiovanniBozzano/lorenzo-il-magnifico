@@ -32,9 +32,9 @@ public class Server extends Instance
 	private static final Map<CLIStatus, ICLIHandler> CLI_HANDLERS = new EnumMap<>(CLIStatus.class);
 
 	static {
-		Server.CLI_HANDLERS.put(CLIStatus.INTERFACE_CHOICE, CLIHandlerInterfaceChoice.initialize());
-		Server.CLI_HANDLERS.put(CLIStatus.START, CLIHandlerStart.initialize());
-		Server.CLI_HANDLERS.put(CLIStatus.MAIN, CLIHandlerMain.initialize());
+		Server.CLI_HANDLERS.put(CLIStatus.INTERFACE_CHOICE, new CLIHandlerInterfaceChoice());
+		Server.CLI_HANDLERS.put(CLIStatus.START, new CLIHandlerStart());
+		Server.CLI_HANDLERS.put(CLIStatus.MAIN, new CLIHandlerMain());
 	}
 
 	private CLIStatus cliStatus = CLIStatus.INTERFACE_CHOICE;
