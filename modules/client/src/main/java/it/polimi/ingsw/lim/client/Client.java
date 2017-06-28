@@ -101,7 +101,7 @@ public class Client extends Instance
 				if (Client.getInstance().getCliStatus() != CLIStatus.NONE) {
 					Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
 					Client.getInstance().getCliListener().execute(() -> {
-						ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+						ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
 						Client.getInstance().setCurrentCliHandler(cliHandler);
 						cliHandler.execute();
 					});

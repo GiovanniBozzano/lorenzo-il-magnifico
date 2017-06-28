@@ -32,7 +32,7 @@ public class Main extends Application
 		Client.getLogger().addHandler(consoleHandler);
 		Instance.setInstance(new Client());
 		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
 			Client.getInstance().setCurrentCliHandler(cliHandler);
 			cliHandler.execute();
 		});

@@ -53,7 +53,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
 			ConnectionHandler.printConnectionError();
 			Client.getInstance().getCliListener().execute(() -> {
-				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
 				Client.getInstance().setCurrentCliHandler(cliHandler);
 				cliHandler.execute();
 			});
@@ -67,7 +67,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		} else {
 			Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
 			Client.getInstance().getCliListener().execute(() -> {
-				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
 				Client.getInstance().setCurrentCliHandler(cliHandler);
 				cliHandler.execute();
 			});
@@ -233,7 +233,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(text));
 		} else {
 			Client.getInstance().getCliListener().execute(() -> {
-				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
 				Client.getInstance().setCurrentCliHandler(cliHandler);
 				cliHandler.execute();
 			});

@@ -263,7 +263,7 @@ public abstract class ConnectionHandler extends Thread
 		} else {
 			Client.getInstance().setCliStatus(CLIStatus.PERSONAL_BONUS_TILE_CHOICE);
 			Client.getInstance().getCliListener().execute(() -> {
-				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
 				Client.getInstance().setCurrentCliHandler(cliHandler);
 				cliHandler.execute();
 			});
