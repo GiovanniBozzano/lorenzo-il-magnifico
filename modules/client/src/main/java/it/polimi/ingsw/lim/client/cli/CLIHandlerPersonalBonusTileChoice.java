@@ -31,7 +31,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "Enter PersonalBonusTile choice...");
 		for (Entry<Integer, Integer> personalBonusTile : this.personalBonusTiles.entrySet()) {
 			StringBuilder stringBuilder = new StringBuilder();
-			Client.getLogger().log(Level.INFO, "============ {0} ============", new Object[] { personalBonusTile.getKey() });
+			Client.getLogger().log(Level.INFO, "============= {0} =============", new Object[] { personalBonusTile.getKey() });
 			stringBuilder.append("Production activation cost: ");
 			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionActivationCost());
 			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionInstantResources().isEmpty()) {
