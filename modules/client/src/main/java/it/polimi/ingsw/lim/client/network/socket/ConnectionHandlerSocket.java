@@ -9,7 +9,6 @@ import it.polimi.ingsw.lim.client.gui.ControllerGame;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.utils.Utils;
-import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
@@ -215,23 +214,6 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			} else {
 				WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME);
 			}
-		}
-	}
-
-	void handleAuthenticationFailure(String text)
-	{
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
-			return;
-		}
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			WindowFactory.getInstance().enableWindow();
-			Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(text));
-		} else {
-			Client.getInstance().getCliListener().execute(() -> {
-				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-				Client.getInstance().setCurrentCliHandler(cliHandler);
-				cliHandler.execute();
-			});
 		}
 	}
 

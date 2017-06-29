@@ -136,7 +136,7 @@ public abstract class Connection
 		}
 	}
 
-	public void handleGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex)
+	public void handleGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex) throws GameActionFailedException
 	{
 		Room room = Room.getPlayerRoom(this);
 		if (room == null) {
@@ -149,7 +149,7 @@ public abstract class Connection
 		gameHandler.receivePersonalBonusTileChoice(this.getPlayer(), personalBonusTileIndex);
 	}
 
-	public void handleGameLeaderCardPlayerChoice(int leaderCardIndex)
+	public void handleGameLeaderCardPlayerChoice(int leaderCardIndex) throws GameActionFailedException
 	{
 		Room room = Room.getPlayerRoom(this);
 		if (room == null) {
@@ -162,7 +162,7 @@ public abstract class Connection
 		gameHandler.receiveLeaderCardChoice(this.getPlayer(), leaderCardIndex);
 	}
 
-	public void handleGameExcommunicationPlayerChoice(boolean excommunicated)
+	public void handleGameExcommunicationPlayerChoice(boolean excommunicated) throws GameActionFailedException
 	{
 		Room room = Room.getPlayerRoom(this);
 		if (room == null) {
@@ -188,7 +188,7 @@ public abstract class Connection
 		gameHandler.receiveAction(this.getPlayer(), action);
 	}
 
-	public void handleGoodGame(int playerIndex)
+	public void handleGoodGame(int playerIndex) throws GameActionFailedException
 	{
 		Room room = Room.getPlayerRoom(this);
 		if (room == null) {

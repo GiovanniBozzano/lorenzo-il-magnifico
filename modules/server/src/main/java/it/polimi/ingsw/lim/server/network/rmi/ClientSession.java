@@ -43,19 +43,19 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	}
 
 	@Override
-	public void sendGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex) throws RemoteException
+	public void sendGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex) throws RemoteException, GameActionFailedException
 	{
 		this.connectionRmi.handleGamePersonalBonusTilePlayerChoice(personalBonusTileIndex);
 	}
 
 	@Override
-	public void sendGameLeaderCardPlayerChoice(int leaderCardIndex) throws RemoteException
+	public void sendGameLeaderCardPlayerChoice(int leaderCardIndex) throws RemoteException, GameActionFailedException
 	{
 		this.connectionRmi.handleGameLeaderCardPlayerChoice(leaderCardIndex);
 	}
 
 	@Override
-	public void sendGameExcommunicationPlayerChoice(boolean excommunicated) throws RemoteException
+	public void sendGameExcommunicationPlayerChoice(boolean excommunicated) throws RemoteException, GameActionFailedException
 	{
 		this.connectionRmi.handleGameExcommunicationPlayerChoice(excommunicated);
 	}
@@ -67,7 +67,7 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	}
 
 	@Override
-	public void sendGoodGame(int playerIndex) throws RemoteException
+	public void sendGoodGame(int playerIndex) throws RemoteException, GameActionFailedException
 	{
 		this.connectionRmi.handleGoodGame(playerIndex);
 	}

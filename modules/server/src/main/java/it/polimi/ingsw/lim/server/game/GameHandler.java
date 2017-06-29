@@ -276,14 +276,14 @@ public class GameHandler
 		action.apply();
 	}
 
-	public void applyGoodGame(Player sender, int receiverIndex)
+	public void applyGoodGame(Player sender, int receiverIndex) throws GameActionFailedException
 	{
 		Player receiver = this.getPlayerFromIndex(receiverIndex);
 		if (receiver == null) {
-			return;
+			throw new GameActionFailedException("You cannot do this!");
 		}
 		if (this.sentGoodGames.get(sender).contains(receiver)) {
-			return;
+			throw new GameActionFailedException("You cannot do this!");
 		}
 		this.sentGoodGames.get(sender).add(receiver);
 		List<QueryArgument> queryArguments = new ArrayList<>();
@@ -402,7 +402,7 @@ public class GameHandler
 					militaryPointsFirstPlayers.add(player);
 				} else if (militaryPointsSecondPlayers.isEmpty() || player.getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT).equals(militaryPointsSecondPlayers.get(0).getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT))) {
 					militaryPointsSecondPlayers.add(player);
-				} else if (player.getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT) > militaryPointsFirstPlayers.get(0).getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT)) {
+				} else if (player.getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT) > militaryPointsSecondPlayers.get(0).getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT)) {
 					militaryPointsSecondPlayers.clear();
 					militaryPointsSecondPlayers.add(player);
 				}

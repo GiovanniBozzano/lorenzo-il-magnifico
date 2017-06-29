@@ -80,7 +80,7 @@ public class ConnectionRMI extends Connection
 		try {
 			this.serverSession.sendHeartbeat();
 		} catch (RemoteException exception) {
-			Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+			Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 			this.disconnect(false, null);
 		}
 	}
@@ -92,7 +92,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendRoomEntryOther(name);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -105,7 +105,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendRoomExitOther(name);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -118,7 +118,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendRoomTimer(timer);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -131,7 +131,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendDisconnectionLogMessage(text);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -144,7 +144,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendChatMessage(text);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -157,7 +157,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameStarted(excommunicationTiles, councilPrivilegeRewards, playersData, ownPlayerIndex);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -170,7 +170,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameLogMessage(text);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -183,7 +183,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameTimer(timer);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -196,7 +196,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameDisconnectionOther(playerIndex);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -209,7 +209,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGamePersonalBonusTileChoiceRequest(availablePersonalBonusTiles);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -222,7 +222,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGamePersonalBonusTileChoiceOther(choicePlayerIndex);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -235,7 +235,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGamePersonalBonusTileChosen(choicePlayerIndex);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -248,7 +248,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameLeaderCardChoiceRequest(availableLeaderCards);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -261,7 +261,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameLeaderCardChosen();
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -274,7 +274,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameExcommunicationChoiceRequest(period);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -287,7 +287,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameExcommunicationChoiceOther();
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -300,7 +300,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameUpdate(gameInformations, playersInformations, ownLeaderCardsHand, availableActions);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -313,7 +313,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameUpdateExpectedAction(gameInformations, playersInformations, ownLeaderCardsHand, expectedAction);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -326,7 +326,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameUpdateOtherTurn(gameInformations, playersInformations, ownLeaderCardsHand, turnPlayerIndex);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});
@@ -339,7 +339,7 @@ public class ConnectionRMI extends Connection
 			try {
 				this.serverSession.sendGameEnded(playersScores, playerIndexesVictoryPointsRecord);
 			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
 			}
 		});

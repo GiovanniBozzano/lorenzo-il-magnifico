@@ -76,7 +76,7 @@ public class Player
 
 	public void convertToVictoryPoints(boolean countingCharacters, boolean countingTerritories, boolean countingVentures)
 	{
-		this.playerResourceHandler.addResource(ResourceType.VICTORY_POINT, (this.playerResourceHandler.getResources().get(ResourceType.COIN) + this.playerResourceHandler.getResources().get(ResourceType.WOOD) + this.playerResourceHandler.getResources().get(ResourceType.STONE) + this.playerResourceHandler.getResources().get(ResourceType.SERVANT)) / 5);
+		this.playerResourceHandler.addResource(ResourceType.VICTORY_POINT, (this.playerResourceHandler.getResources().get(ResourceType.COIN) + this.playerResourceHandler.getResources().get(ResourceType.SERVANT) + this.playerResourceHandler.getResources().get(ResourceType.STONE) + this.playerResourceHandler.getResources().get(ResourceType.WOOD)) / 5);
 		if (countingCharacters) {
 			this.playerResourceHandler.addResource(ResourceType.VICTORY_POINT, PlayerCardHandler.getDevelopmentCardsCharacterPrices().get(this.playerCardHandler.getDevelopmentCardsNumber(CardType.CHARACTER)));
 		}
@@ -88,6 +88,16 @@ public class Player
 				this.playerResourceHandler.addResource(ResourceType.VICTORY_POINT, developmentCardVenture.getVictoryValue());
 			}
 		}
+	}
+
+	public static Map<Integer, Integer> getTerritorySlotsConditions()
+	{
+		return TERRITORY_SLOTS_CONDITIONS;
+	}
+
+	public static Map<Period, Integer> getExcommunicationConditions()
+	{
+		return EXCOMMUNICATION_CONDITIONS;
 	}
 
 	public Connection getConnection()

@@ -16,13 +16,13 @@ public interface IClientSession extends Remote
 
 	void sendChatMessage(String text) throws RemoteException;
 
-	void sendGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex) throws RemoteException;
+	void sendGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex) throws RemoteException, GameActionFailedException;
 
-	void sendGameLeaderCardPlayerChoice(int leaderCardIndex) throws RemoteException;
+	void sendGameLeaderCardPlayerChoice(int leaderCardIndex) throws RemoteException, GameActionFailedException;
 
-	void sendGameExcommunicationPlayerChoice(boolean excommunicated) throws RemoteException;
+	void sendGameExcommunicationPlayerChoice(boolean excommunicated) throws RemoteException, GameActionFailedException;
 
 	void sendGameAction(ActionInformations action) throws RemoteException, GameActionFailedException;
 
-	void sendGoodGame(int playerIndex) throws RemoteException;
+	void sendGoodGame(int playerIndex) throws RemoteException, GameActionFailedException;
 }

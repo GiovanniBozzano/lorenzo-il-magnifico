@@ -45,10 +45,38 @@ class PacketListener extends Thread
 				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
 			}
 		});
-		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_PERSONAL_BONUS_TILE_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGamePersonalBonusTilePlayerChoice(((PacketGamePersonalBonusTilePlayerChoice) packet).getPersonalBonusTileIndex()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_LEADER_CARD_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGameLeaderCardPlayerChoice(((PacketGameLeaderCardPlayerChoice) packet).getLeaderCardIndex()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_EXCOMMUNICATION_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGameExcommunicationPlayerChoice(((PacketGameExcommunicationPlayerChoice) packet).isExcommunicated()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.GOOD_GAME, (connectionSocket, packet) -> connectionSocket.handleGoodGame(((PacketGoodGame) packet).getPlayerIndex()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_PERSONAL_BONUS_TILE_PLAYER_CHOICE, (connectionSocket, packet) -> {
+			try {
+				connectionSocket.handleGamePersonalBonusTilePlayerChoice(((PacketGamePersonalBonusTilePlayerChoice) packet).getPersonalBonusTileIndex());
+			} catch (GameActionFailedException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
+			}
+		});
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_LEADER_CARD_PLAYER_CHOICE, (connectionSocket, packet) -> {
+			try {
+				connectionSocket.handleGameLeaderCardPlayerChoice(((PacketGameLeaderCardPlayerChoice) packet).getLeaderCardIndex());
+			} catch (GameActionFailedException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
+			}
+		});
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_EXCOMMUNICATION_PLAYER_CHOICE, (connectionSocket, packet) -> {
+			try {
+				connectionSocket.handleGameExcommunicationPlayerChoice(((PacketGameExcommunicationPlayerChoice) packet).isExcommunicated());
+			} catch (GameActionFailedException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
+			}
+		});
+		PacketListener.PACKET_HANDLERS.put(PacketType.GOOD_GAME, (connectionSocket, packet) -> {
+			try {
+				connectionSocket.handleGoodGame(((PacketGoodGame) packet).getPlayerIndex());
+			} catch (GameActionFailedException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
+			}
+		});
 	}
 
 	private final ConnectionSocket connectionSocket;

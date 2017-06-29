@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
+import it.polimi.ingsw.lim.client.gui.ControllerAuthentication;
 import it.polimi.ingsw.lim.client.gui.ControllerConnection;
 import it.polimi.ingsw.lim.client.gui.ControllerGame;
 import it.polimi.ingsw.lim.client.gui.ControllerRoom;
@@ -383,6 +384,21 @@ public abstract class ConnectionHandler extends Thread
 			WindowFactory.getInstance().setNewWindow(Utils.SCENE_AUTHENTICATION);
 		} else {
 			Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
+			Client.getInstance().getCliListener().execute(() -> {
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
+				Client.getInstance().setCurrentCliHandler(cliHandler);
+				cliHandler.execute();
+			});
+		}
+	}
+
+	public static void handleAuthenticationFailed(String text)
+	{
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			WindowFactory.getInstance().enableWindow();
+			Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(text));
+		} else {
+			Client.getLogger().log(Level.INFO, text);
 			Client.getInstance().getCliListener().execute(() -> {
 				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
 				Client.getInstance().setCurrentCliHandler(cliHandler);
