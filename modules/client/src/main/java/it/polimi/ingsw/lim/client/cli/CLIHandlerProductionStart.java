@@ -7,6 +7,7 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsHarvest;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionStart;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class CLIHandlerHarvest implements ICLIHandler
+public class CLIHandlerProductionStart implements ICLIHandler
 {
 	Map<Integer, FamilyMemberType> familyMemberTypes = new HashMap<>();
 	int familyMemberValue;
@@ -27,13 +28,13 @@ public class CLIHandlerHarvest implements ICLIHandler
 		this.showFamilyMembers();
 		this.askFamilyMember();
 		this.askServants();
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsHarvest(this.familyMemberTypes.get(familyMemberValue), servantAmount));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsProductionStart(this.familyMemberTypes.get(familyMemberValue), servantAmount));
 	}
 
 	private void showFamilyMembers()
 	{
 		int index = 0;
-		for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST)) {
+		for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START)) {
 			if (!this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
 				index++;
 				this.familyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
@@ -71,4 +72,3 @@ public class CLIHandlerHarvest implements ICLIHandler
 		return new CLIHandlerInterfaceChoice();
 	}
 }
-

@@ -62,7 +62,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
-			stringBuilder.append("=============================");
+			stringBuilder.append("\n=============================");
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}

@@ -85,7 +85,7 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 			stringBuilder.append(availableAction.getKey());
 			stringBuilder.append(" =============\n");
 			stringBuilder.append(CLIHandlerAvailableActions.ACTION_NAMES.get(availableAction.getValue()));
-			stringBuilder.append("=============================");
+			stringBuilder.append("\n=============================");
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}

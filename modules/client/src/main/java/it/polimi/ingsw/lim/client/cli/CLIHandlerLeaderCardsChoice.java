@@ -66,7 +66,7 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue())).getReward().getActionRewardInformations());
 				}
 			}
-			stringBuilder.append("=============================");
+			stringBuilder.append("\n=============================");
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
