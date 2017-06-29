@@ -1848,14 +1848,8 @@ public class ControllerGame extends CustomController
 		for (Pane pane : this.harvestBigPositionsPanes.values()) {
 			pane.setBackground(null);
 		}
-		for (Label label : this.harvestBigPositionsLabels.values()) {
-			label.setText(null);
-		}
 		for (Pane pane : this.productionBigPositionsPanes.values()) {
 			pane.setBackground(null);
-		}
-		for (Label label : this.productionBigPositionsLabels.values()) {
-			label.setText(null);
 		}
 		for (Pane pane : this.councilPalacePositionsPanes.values()) {
 			pane.setBackground(null);
