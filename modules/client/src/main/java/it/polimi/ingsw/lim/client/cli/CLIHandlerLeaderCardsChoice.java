@@ -32,7 +32,7 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 	{
 		for (Entry<Integer, Integer> currentLeaderCard : this.leaderCards.entrySet()) {
 			StringBuilder stringBuilder = new StringBuilder();
-			Client.getLogger().log(Level.INFO, "============ {0} ============", new Object[] { currentLeaderCard.getKey() });
+			Client.getLogger().log(Level.INFO, "============= {0} =============", new Object[] { currentLeaderCard.getKey() });
 			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue()).getDisplayName());
 			stringBuilder.append("\n\n");
 			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue()).getDescription());
