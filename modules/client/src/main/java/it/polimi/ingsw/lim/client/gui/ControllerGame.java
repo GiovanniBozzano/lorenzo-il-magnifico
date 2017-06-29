@@ -1222,24 +1222,6 @@ public class ControllerGame extends CustomController
 		Client.getInstance().getBackgroundMediaPlayer().play();
 	}
 
-	public void setOwnTurn()
-	{
-		this.updateGame();
-		this.generateAvailableActions();
-		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
-		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "Your turn");
-	}
-
-	public void setOtherTurn()
-	{
-		this.updateGame();
-		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
-		this.actionsVBox.getChildren().clear();
-		JFXNodesList actionsNodesList = new JFXNodesList();
-		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", "Actions", true);
-		this.actionsVBox.getChildren().add(actionsNodesList);
-	}
-
 	private void generateAvailableActions()
 	{
 		this.actionsVBox.getChildren().clear();
@@ -1756,6 +1738,24 @@ public class ControllerGame extends CustomController
 		WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 		WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 		return tooltip;
+	}
+
+	public void setOwnTurn()
+	{
+		this.updateGame();
+		this.generateAvailableActions();
+		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
+		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "Your turn");
+	}
+
+	public void setOtherTurn()
+	{
+		this.updateGame();
+		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
+		this.actionsVBox.getChildren().clear();
+		JFXNodesList actionsNodesList = new JFXNodesList();
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", "Actions", true);
+		this.actionsVBox.getChildren().add(actionsNodesList);
 	}
 
 	private void updateGame()

@@ -58,7 +58,7 @@ public class Room
 			}
 		}
 		if (this.gameHandler.getCurrentPeriod() == null && this.gameHandler.getCurrentRound() == null) {
-			if (this.gameHandler.getTurnOrder().get(this.gameHandler.getPersonalBonusTileChoicePlayerTurnIndex()).getIndex() == player.getPlayer().getIndex()) {
+			if (this.gameHandler.getPersonalBonusTileChoicePlayerTurnIndex() > 0 && this.gameHandler.getPersonalBonusTileChoicePlayerTurnIndex() < this.gameHandler.getTurnOrder().size() && this.gameHandler.getTurnOrder().get(this.gameHandler.getPersonalBonusTileChoicePlayerTurnIndex()).getIndex() == player.getPlayer().getIndex()) {
 				int personalBonusTileIndex = this.gameHandler.getAvailablePersonalBonusTiles().get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailablePersonalBonusTiles().size()));
 				this.gameHandler.applyPersonalBonusTileChoice(player.getPlayer(), personalBonusTileIndex);
 				return;
