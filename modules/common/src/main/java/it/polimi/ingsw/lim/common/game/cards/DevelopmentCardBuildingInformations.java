@@ -26,7 +26,7 @@ public class DevelopmentCardBuildingInformations extends DevelopmentCardInformat
 	public String getInformations()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(this.getDevelopmentCardCommonInformations());
+		stringBuilder.append(this.getCommonInformations());
 		stringBuilder.append("\n\nPRODUCTION ACTIVATION COST: ");
 		stringBuilder.append(this.activationValue);
 		if (!this.resourceTradeOptions.isEmpty()) {

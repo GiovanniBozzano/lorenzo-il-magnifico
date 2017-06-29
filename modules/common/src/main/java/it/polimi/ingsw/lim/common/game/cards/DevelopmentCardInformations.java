@@ -23,7 +23,8 @@ public abstract class DevelopmentCardInformations extends CardInformations
 		this.reward = reward;
 	}
 
-	String getDevelopmentCardCommonInformations()
+	@Override
+	String getCommonInformations()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		boolean firstLine = true;

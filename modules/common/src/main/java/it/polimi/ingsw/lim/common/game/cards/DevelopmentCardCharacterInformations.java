@@ -20,7 +20,7 @@ public class DevelopmentCardCharacterInformations extends DevelopmentCardInforma
 	public String getInformations()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(this.getDevelopmentCardCommonInformations());
+		stringBuilder.append(this.getCommonInformations());
 		if (this.modifierInformations != null) {
 			stringBuilder.append("\n\nMODIFIER:\n| ");
 			stringBuilder.append(this.modifierInformations.replace("\n", "\n| "));

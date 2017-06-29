@@ -20,7 +20,8 @@ public abstract class LeaderCardInformations extends CardInformations
 		this.description = description;
 	}
 
-	public String getLeaderCardCommonInformaitons()
+	@Override
+	String getCommonInformations()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(this.getDisplayName());
