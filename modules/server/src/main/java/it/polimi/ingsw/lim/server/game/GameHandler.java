@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.game;
 
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.*;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
@@ -267,13 +268,12 @@ public class GameHandler
 		}
 	}
 
-	public void receiveAction(Player player, ActionInformations actionInformations)
+	public void receiveAction(Player player, ActionInformations actionInformations) throws GameActionFailedException
 	{
 		IAction action = Utils.getActionsTransformers().get(actionInformations.getActionType()).transform(actionInformations, player);
-		if (action.isLegal()) {
-			this.timerExecutor.shutdownNow();
-			action.apply();
-		}
+		action.isLegal();
+		this.timerExecutor.shutdownNow();
+		action.apply();
 	}
 
 	public void applyGoodGame(Player sender, int receiverIndex)
@@ -874,9 +874,11 @@ public class GameHandler
 			if (leaderCard.isPlayed()) {
 				continue;
 			}
-			if (new ActionLeaderPlay(leaderCard.getIndex(), player).isLegal()) {
+			try {
+				new ActionLeaderPlay(leaderCard.getIndex(), player).isLegal();
 				leaderCardsHand.put(leaderCard.getIndex(), true);
-			} else {
+			} catch (GameActionFailedException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				leaderCardsHand.put(leaderCard.getIndex(), false);
 			}
 		}
@@ -895,19 +897,28 @@ public class GameHandler
 		availableActions.put(ActionType.LEADER_DISCARD, new ArrayList<>());
 		availableActions.put(ActionType.LEADER_PLAY, new ArrayList<>());
 		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
-			if (player.getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionCouncilPalace(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), player).isLegal()) {
+			try {
+				new ActionCouncilPalace(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), player).isLegal();
 				availableActions.get(ActionType.COUNCIL_PALACE).add(new AvailableActionFamilyMember(familyMemberType));
+			} catch (GameActionFailedException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		}
 		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
-			if (player.getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionHarvest(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), player).isLegal()) {
+			try {
+				new ActionHarvest(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), player).isLegal();
 				availableActions.get(ActionType.HARVEST).add(new AvailableActionFamilyMember(familyMemberType));
+			} catch (GameActionFailedException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		}
 		for (MarketSlot marketSlot : MarketSlot.values()) {
 			for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
-				if (player.getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionMarket(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), marketSlot, player).isLegal()) {
+				try {
+					new ActionMarket(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), marketSlot, player).isLegal();
 					availableActions.get(ActionType.MARKET).add(new AvailableActionMarket(familyMemberType, marketSlot));
+				} catch (GameActionFailedException exception) {
+					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				}
 			}
 		}
@@ -930,21 +941,28 @@ public class GameHandler
 					}
 					boolean validFamilyMember = false;
 					if (this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions().isEmpty()) {
-						if (new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, new ArrayList<>(), null, player).isLegal()) {
+						try {
+							new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, new ArrayList<>(), null, player).isLegal();
 							validFamilyMember = true;
+						} catch (GameActionFailedException exception) {
+							Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 						}
 					} else {
 						for (ResourceCostOption resourceCostOption : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions()) {
 							if (discountChoices.isEmpty()) {
-								if (new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, new ArrayList<>(), resourceCostOption, player).isLegal()) {
+								try {
+									new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, new ArrayList<>(), resourceCostOption, player).isLegal();
 									validFamilyMember = true;
 									if (!availableResourceCostOptions.contains(resourceCostOption)) {
 										availableResourceCostOptions.add(resourceCostOption);
 									}
+								} catch (GameActionFailedException exception) {
+									Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 								}
 							} else {
 								for (List<ResourceAmount> discountChoice : discountChoices) {
-									if (new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, discountChoice, resourceCostOption, player).isLegal()) {
+									try {
+										new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, discountChoice, resourceCostOption, player).isLegal();
 										validFamilyMember = true;
 										if (!availableResourceCostOptions.contains(resourceCostOption)) {
 											availableResourceCostOptions.add(resourceCostOption);
@@ -952,6 +970,8 @@ public class GameHandler
 										if (!availableDiscountChoises.contains(discountChoice)) {
 											availableDiscountChoises.add(discountChoice);
 										}
+									} catch (GameActionFailedException exception) {
+										Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 									}
 								}
 							}
@@ -964,28 +984,40 @@ public class GameHandler
 			}
 		}
 		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
-			if (player.getFamilyMembersPositions().get(familyMemberType) == BoardPosition.NONE && new ActionProductionStart(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), player).isLegal()) {
+			try {
+				new ActionProductionStart(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), player).isLegal();
 				availableActions.get(ActionType.PRODUCTION_START).add(new AvailableActionFamilyMember(familyMemberType));
+			} catch (GameActionFailedException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		}
 		for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {
 			if (leaderCard.isPlayed()) {
-				if (new ActionLeaderActivate(leaderCard.getIndex(), player).isLegal()) {
+				try {
+					new ActionLeaderActivate(leaderCard.getIndex(), player).isLegal();
 					availableActions.get(ActionType.LEADER_ACTIVATE).add(new AvailableActionLeaderActivate(leaderCard.getIndex()));
+				} catch (GameActionFailedException exception) {
+					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				}
 			} else {
-				if (new ActionLeaderDiscard(leaderCard.getIndex(), player).isLegal()) {
+				try {
+					new ActionLeaderDiscard(leaderCard.getIndex(), player).isLegal();
 					availableActions.get(ActionType.LEADER_DISCARD).add(new AvailableActionLeaderDiscard(leaderCard.getIndex()));
+				} catch (GameActionFailedException exception) {
+					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				}
-				if (new ActionLeaderPlay(leaderCard.getIndex(), player).isLegal()) {
+				try {
+					new ActionLeaderPlay(leaderCard.getIndex(), player).isLegal();
 					availableActions.get(ActionType.LEADER_PLAY).add(new AvailableActionLeaderPlay(leaderCard.getIndex()));
+				} catch (GameActionFailedException exception) {
+					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				}
 			}
 		}
 		return availableActions;
 	}
 
-	public Player getPlayerFromIndex(int playerIndex)
+	private Player getPlayerFromIndex(int playerIndex)
 	{
 		for (Player player : this.turnOrder) {
 			if (player.getIndex() == playerIndex) {

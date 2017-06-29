@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.server.network.socket;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
+import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
@@ -13,6 +14,7 @@ import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.*;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.ExcommunicationTile;
@@ -35,7 +37,14 @@ class PacketListener extends Thread
 		});
 		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_TIMER_REQUEST, (connectionSocket, packet) -> connectionSocket.handleRoomTimerRequest());
 		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, (connectionSocket, packet) -> connectionSocket.handleChatMessage(((PacketChatMessage) packet).getText()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_ACTION, (connectionSocket, packet) -> connectionSocket.handleGameAction(((PacketGameAction) packet).getAction()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_ACTION, (connectionSocket, packet) -> {
+			try {
+				connectionSocket.handleGameAction(((PacketGameAction) packet).getAction());
+			} catch (GameActionFailedException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
+			}
+		});
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_PERSONAL_BONUS_TILE_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGamePersonalBonusTilePlayerChoice(((PacketGamePersonalBonusTilePlayerChoice) packet).getPersonalBonusTileIndex()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_LEADER_CARD_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGameLeaderCardPlayerChoice(((PacketGameLeaderCardPlayerChoice) packet).getLeaderCardIndex()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_EXCOMMUNICATION_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGameExcommunicationPlayerChoice(((PacketGameExcommunicationPlayerChoice) packet).isExcommunicated()));

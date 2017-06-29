@@ -4,11 +4,14 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.enums.Row;
+import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionChooseRewardGetDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
+import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.actions.ActionChooseRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
@@ -20,6 +23,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 
 public class ActionRewardPickDevelopmentCard extends ActionReward
 {
@@ -59,22 +63,29 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 				List<List<ResourceAmount>> availableDiscountChoises = new ArrayList<>();
 				boolean validCard = false;
 				if (gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(entry.getKey()).get(row).getResourceCostOptions().isEmpty()) {
-					if (new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, new ArrayList<>(), new ArrayList<>(), null, player).isLegal()) {
+					try {
+						new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, new ArrayList<>(), new ArrayList<>(), null, player).isLegal();
 						validCard = true;
+					} catch (GameActionFailedException exception) {
+						Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 					}
 				} else {
 					for (ResourceCostOption resourceCostOption : gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(entry.getKey()).get(row).getResourceCostOptions()) {
 						if (this.instantDiscountChoices.isEmpty()) {
 							if (discountChoices.isEmpty()) {
-								if (new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, new ArrayList<>(), new ArrayList<>(), resourceCostOption, player).isLegal()) {
+								try {
+									new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, new ArrayList<>(), new ArrayList<>(), resourceCostOption, player).isLegal();
 									validCard = true;
 									if (!availableResourceCostOptions.contains(resourceCostOption)) {
 										availableResourceCostOptions.add(resourceCostOption);
 									}
+								} catch (GameActionFailedException exception) {
+									Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 								}
 							} else {
 								for (List<ResourceAmount> discountChoice : discountChoices) {
-									if (new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, new ArrayList<>(), discountChoice, resourceCostOption, player).isLegal()) {
+									try {
+										new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, new ArrayList<>(), discountChoice, resourceCostOption, player).isLegal();
 										validCard = true;
 										if (!availableResourceCostOptions.contains(resourceCostOption)) {
 											availableResourceCostOptions.add(resourceCostOption);
@@ -82,13 +93,16 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 										if (!availableDiscountChoises.contains(discountChoice)) {
 											availableDiscountChoises.add(discountChoice);
 										}
+									} catch (GameActionFailedException exception) {
+										Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 									}
 								}
 							}
 						} else {
 							if (discountChoices.isEmpty()) {
 								for (List<ResourceAmount> instantDiscountChoice : this.instantDiscountChoices) {
-									if (new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, instantDiscountChoice, new ArrayList<>(), resourceCostOption, player).isLegal()) {
+									try {
+										new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, instantDiscountChoice, new ArrayList<>(), resourceCostOption, player).isLegal();
 										validCard = true;
 										if (!availableResourceCostOptions.contains(resourceCostOption)) {
 											availableResourceCostOptions.add(resourceCostOption);
@@ -96,12 +110,15 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 										if (!availableInstantDiscountChoices.contains(instantDiscountChoice)) {
 											availableInstantDiscountChoices.add(instantDiscountChoice);
 										}
+									} catch (GameActionFailedException exception) {
+										Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 									}
 								}
 							} else {
 								for (List<ResourceAmount> instantDiscountChoice : this.instantDiscountChoices) {
 									for (List<ResourceAmount> discountChoice : discountChoices) {
-										if (new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, instantDiscountChoice, discountChoice, resourceCostOption, player).isLegal()) {
+										try {
+											new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, instantDiscountChoice, discountChoice, resourceCostOption, player).isLegal();
 											validCard = true;
 											if (!availableResourceCostOptions.contains(resourceCostOption)) {
 												availableResourceCostOptions.add(resourceCostOption);
@@ -112,6 +129,8 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 											if (!availableDiscountChoises.contains(discountChoice)) {
 												availableDiscountChoises.add(discountChoice);
 											}
+										} catch (GameActionFailedException exception) {
+											Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 										}
 									}
 								}

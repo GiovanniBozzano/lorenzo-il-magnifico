@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsHarvest;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
@@ -33,29 +34,29 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 	}
 
 	@Override
-	public boolean isLegal()
+	public void isLegal() throws GameActionFailedException
 	{
 		// check if the player is inside a room
 		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// check if the game has started
 		GameHandler gameHandler = room.getGameHandler();
 		if (gameHandler == null) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// check if it is the player's turn
 		if (this.player != gameHandler.getTurnPlayer()) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// check whether the server expects the player to make this action
 		if (gameHandler.getExpectedAction() != null) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// check if the family member is usable
 		if (this.player.getFamilyMembersPositions().get(this.getFamilyMemberType()) != BoardPosition.NONE) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// check if the board slot is occupied and get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.HARVEST_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
@@ -65,7 +66,7 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 			for (Player currentPlayer : gameHandler.getTurnOrder()) {
 				if (currentPlayer.isOccupyingBoardPosition(BoardPosition.HARVEST_SMALL)) {
 					if (room.getPlayers().size() < 3) {
-						return false;
+						throw new GameActionFailedException("");
 					} else {
 						this.workSlotType = WorkSlotType.BIG;
 						break;
@@ -75,7 +76,7 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 		}
 		// check if the player has the servants he sent
 		if (this.player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
@@ -85,19 +86,21 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 		EventHarvest eventHarvest = new EventHarvest(this.player, effectiveFamilyMemberValue + effectiveServants);
 		eventHarvest.applyModifiers(this.player.getActiveModifiers());
 		this.effectiveActionValue = eventHarvest.getActionValue();
-		return this.effectiveActionValue >= (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformations(BoardPosition.HARVEST_BIG).getValue() : BoardHandler.getBoardPositionInformations(BoardPosition.HARVEST_SMALL).getValue());
+		if (this.effectiveActionValue < (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformations(BoardPosition.HARVEST_BIG).getValue() : BoardHandler.getBoardPositionInformations(BoardPosition.HARVEST_SMALL).getValue())) {
+			throw new GameActionFailedException("");
+		}
 	}
 
 	@Override
-	public void apply()
+	public void apply() throws GameActionFailedException
 	{
 		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
-			return;
+			throw new GameActionFailedException("");
 		}
 		GameHandler gameHandler = room.getGameHandler();
 		if (gameHandler == null) {
-			return;
+			throw new GameActionFailedException("");
 		}
 		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), this.workSlotType == WorkSlotType.BIG ? BoardPosition.HARVEST_BIG : BoardPosition.HARVEST_SMALL);

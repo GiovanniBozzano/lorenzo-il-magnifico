@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.server.network;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
+import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
@@ -174,7 +175,7 @@ public abstract class Connection
 		gameHandler.receiveExcommunicationChoice(this.getPlayer(), excommunicated);
 	}
 
-	public void handleGameAction(ActionInformations action)
+	public void handleGameAction(ActionInformations action) throws GameActionFailedException
 	{
 		Room room = Room.getPlayerRoom(this);
 		if (room == null) {

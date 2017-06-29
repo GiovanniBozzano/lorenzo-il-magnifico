@@ -1,8 +1,10 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
+import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
+
 public interface IAction
 {
-	boolean isLegal();
+	void isLegal() throws GameActionFailedException;
 
-	void apply();
+	void apply() throws GameActionFailedException;
 }

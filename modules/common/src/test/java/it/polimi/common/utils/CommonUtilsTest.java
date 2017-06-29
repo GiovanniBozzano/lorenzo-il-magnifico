@@ -15,7 +15,7 @@ public class CommonUtilsTest
 	{
 		Random random = new Random(System.currentTimeMillis());
 		Map<Integer, Integer> testMap = new HashMap<>(1000);
-		for (int i = 0; i < 1000; ++i) {
+		for (int index = 0; index < 1000; index++) {
 			testMap.put(random.nextInt(), random.nextInt());
 		}
 		testMap = CommonUtils.sortMapByValue(testMap);
