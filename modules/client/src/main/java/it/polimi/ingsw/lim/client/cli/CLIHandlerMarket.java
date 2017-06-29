@@ -53,7 +53,7 @@ public class CLIHandlerMarket implements ICLIHandler
 	{
 		int index = 0;
 		for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
-			if (!this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType()) && this.marketSlots.get(marketSlot) == ((AvailableActionMarket) availableAction).getMarketSlot()) {
+			if (this.marketSlots.get(marketSlot) == ((AvailableActionMarket) availableAction).getMarketSlot() && !this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
 				index++;
 				this.familyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
 				Client.getLogger().log(Level.INFO, "{0}========", new Object[] { index });
