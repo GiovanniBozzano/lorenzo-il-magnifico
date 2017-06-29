@@ -9,10 +9,8 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -49,21 +47,19 @@ public class CommonUtils
 	{
 	}
 
-	static public String exportResource(String resourceName, String fileName) throws Exception
+	static public String exportResource(String resourceName, String fileName) throws URISyntaxException, IOException
 	{
 		String jarFolder = new File(CommonUtils.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile().getPath().replace('\\', '/');
-		InputStream inputStream = CommonUtils.class.getResourceAsStream(resourceName);
-		OutputStream outputStream = new FileOutputStream(jarFolder + fileName);
-		if (inputStream == null) {
-			throw new Exception("Cannot get resource \"" + resourceName + "\" from jar file.");
+		try (InputStream inputStream = CommonUtils.class.getResourceAsStream(resourceName); OutputStream outputStream = new FileOutputStream(jarFolder + fileName)) {
+			if (inputStream == null) {
+				throw new IOException("Cannot get resource \"" + resourceName + "\" from jar file.");
+			}
+			int readBytes;
+			byte[] buffer = new byte[4096];
+			while ((readBytes = inputStream.read(buffer)) > 0) {
+				outputStream.write(buffer, 0, readBytes);
+			}
 		}
-		int readBytes;
-		byte[] buffer = new byte[4096];
-		while ((readBytes = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, readBytes);
-		}
-		inputStream.close();
-		outputStream.close();
 		return jarFolder + fileName;
 	}
 

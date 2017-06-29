@@ -28,11 +28,15 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 		this.askLeaderCardsIndex();
 	}
 
-	public void showLeaderCards()
+	private void showLeaderCards()
 	{
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Enter Leader Card choice...");
 		for (Entry<Integer, Integer> currentLeaderCard : this.leaderCards.entrySet()) {
-			StringBuilder stringBuilder = new StringBuilder();
-			Client.getLogger().log(Level.INFO, "============= {0} =============", new Object[] { currentLeaderCard.getKey() });
+			stringBuilder.append('\n');
+			stringBuilder.append("============= ");
+			stringBuilder.append(currentLeaderCard.getKey());
+			stringBuilder.append(" =============\n");
 			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue()).getDisplayName());
 			stringBuilder.append("\n\n");
 			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue()).getDescription());
@@ -47,7 +51,7 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 				}
 				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue())).getReward().getResourceAmounts()) {
 					stringBuilder.append('\n');
-					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 					stringBuilder.append(": ");
 					stringBuilder.append(resourceAmount.getAmount());
 				}
@@ -57,9 +61,9 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue())).getReward().getActionRewardInformations());
 				}
 			}
-			Client.getLogger().log(Level.INFO, stringBuilder.toString());
-			Client.getLogger().log(Level.INFO, "=============================");
+			stringBuilder.append("=============================");
 		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private void askLeaderCardsIndex()

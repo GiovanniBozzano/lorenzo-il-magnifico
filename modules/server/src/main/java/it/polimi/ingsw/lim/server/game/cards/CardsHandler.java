@@ -28,20 +28,11 @@ import java.util.logging.Level;
 
 public class CardsHandler
 {
-	private static final Map<CardType, Class<? extends DevelopmentCard>> DEVELOPMENT_CARDS_TYPES = new EnumMap<>(CardType.class);
-
-	static {
-		CardsHandler.DEVELOPMENT_CARDS_TYPES.put(CardType.BUILDING, DevelopmentCardBuilding.class);
-		CardsHandler.DEVELOPMENT_CARDS_TYPES.put(CardType.CHARACTER, DevelopmentCardCharacter.class);
-		CardsHandler.DEVELOPMENT_CARDS_TYPES.put(CardType.TERRITORY, DevelopmentCardTerritory.class);
-		CardsHandler.DEVELOPMENT_CARDS_TYPES.put(CardType.VENTURE, DevelopmentCardVenture.class);
-	}
-
-	public static final Map<Period, List<DevelopmentCardBuilding>> DEVELOPMENT_CARDS_BUILDING = new DevelopmentCardsBuildingBuilder("/json/development_cards_building.json").initialize();
-	public static final Map<Period, List<DevelopmentCardCharacter>> DEVELOPMENT_CARDS_CHARACTER = new DevelopmentCardsCharacterBuilder("/json/development_cards_character.json").initialize();
-	public static final Map<Period, List<DevelopmentCardTerritory>> DEVELOPMENT_CARDS_TERRITORY = new DevelopmentCardsTerritoryBuilder("/json/development_cards_territory.json").initialize();
-	public static final Map<Period, List<DevelopmentCardVenture>> DEVELOPMENT_CARDS_VENTURE = new DevelopmentCardsVentureBuilder("/json/development_cards_venture.json").initialize();
-	public static final List<LeaderCard> LEADER_CARDS = new ArrayList<>();
+	private static final Map<Period, List<DevelopmentCardBuilding>> DEVELOPMENT_CARDS_BUILDING = new DevelopmentCardsBuildingBuilder("/json/development_cards_building.json").initialize();
+	private static final Map<Period, List<DevelopmentCardCharacter>> DEVELOPMENT_CARDS_CHARACTER = new DevelopmentCardsCharacterBuilder("/json/development_cards_character.json").initialize();
+	private static final Map<Period, List<DevelopmentCardTerritory>> DEVELOPMENT_CARDS_TERRITORY = new DevelopmentCardsTerritoryBuilder("/json/development_cards_territory.json").initialize();
+	private static final Map<Period, List<DevelopmentCardVenture>> DEVELOPMENT_CARDS_VENTURE = new DevelopmentCardsVentureBuilder("/json/development_cards_venture.json").initialize();
+	private static final List<LeaderCard> LEADER_CARDS = new ArrayList<>();
 
 	static {
 		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(0, "/images/leader_cards/leader_card_0.png", "Francesco Sforza", "E per dirlo ad un tratto non ci fu guerra famosa nell’Italia, che Francesco Sforza non\nvi si trovasse, e le Repubbliche, Prencipi, Re e Papi andavano a gara per haverlo al suo\nsevigio.", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.VENTURE, 5))), new ArrayList<>()))), new Reward(new ActionRewardHarvest("Perform a Harvest action at value 1. (You can increase\nthis action value only by spending servants; you can’t increase it with Farmer or Peasant\nDevelopment Cards.", 1, false), new ArrayList<>())));
@@ -194,9 +185,24 @@ public class CardsHandler
 		return null;
 	}
 
-	public static Map<CardType, Class<? extends DevelopmentCard>> getDevelopmentCardsTypes()
+	public static Map<Period, List<DevelopmentCardBuilding>> getDevelopmentCardsBuilding()
 	{
-		return CardsHandler.DEVELOPMENT_CARDS_TYPES;
+		return CardsHandler.DEVELOPMENT_CARDS_BUILDING;
+	}
+
+	public static Map<Period, List<DevelopmentCardCharacter>> getDevelopmentCardsCharacter()
+	{
+		return CardsHandler.DEVELOPMENT_CARDS_CHARACTER;
+	}
+
+	public static Map<Period, List<DevelopmentCardTerritory>> getDevelopmentCardsTerritory()
+	{
+		return CardsHandler.DEVELOPMENT_CARDS_TERRITORY;
+	}
+
+	public static Map<Period, List<DevelopmentCardVenture>> getDevelopmentCardsVenture()
+	{
+		return CardsHandler.DEVELOPMENT_CARDS_VENTURE;
 	}
 
 	public static List<LeaderCard> getLeaderCards()

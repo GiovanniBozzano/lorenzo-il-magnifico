@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class PlayerResourceHandler
 {
-	public static final Map<Integer, Integer> FAITH_POINTS_PRICES = new HashMap<>();
+	private static final Map<Integer, Integer> FAITH_POINTS_PRICES = new HashMap<>();
 
 	static {
 		PlayerResourceHandler.FAITH_POINTS_PRICES.put(0, 0);
@@ -136,6 +136,11 @@ public class PlayerResourceHandler
 	public void resetVictoryPoints()
 	{
 		this.resources.put(ResourceType.VICTORY_POINT, 0);
+	}
+
+	public static Map<Integer, Integer> getFaithPointsPrices()
+	{
+		return PlayerResourceHandler.FAITH_POINTS_PRICES;
 	}
 
 	public Map<ResourceType, Integer> getResources()

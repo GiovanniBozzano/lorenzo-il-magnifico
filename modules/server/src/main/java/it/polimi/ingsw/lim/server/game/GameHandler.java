@@ -50,10 +50,10 @@ public class GameHandler
 	private final CardsHandler cardsHandler = new CardsHandler();
 	private final BoardHandler boardHandler;
 	private final Random randomGenerator = new Random(System.nanoTime());
-	private final Map<Period, List<DevelopmentCardBuilding>> developmentCardsBuilding = Utils.deepCopyDevelopmentCards(CardsHandler.DEVELOPMENT_CARDS_BUILDING);
-	private final Map<Period, List<DevelopmentCardCharacter>> developmentCardsCharacters = Utils.deepCopyDevelopmentCards(CardsHandler.DEVELOPMENT_CARDS_CHARACTER);
-	private final Map<Period, List<DevelopmentCardTerritory>> developmentCardsTerritory = Utils.deepCopyDevelopmentCards(CardsHandler.DEVELOPMENT_CARDS_TERRITORY);
-	private final Map<Period, List<DevelopmentCardVenture>> developmentCardsVenture = Utils.deepCopyDevelopmentCards(CardsHandler.DEVELOPMENT_CARDS_VENTURE);
+	private final Map<Period, List<DevelopmentCardBuilding>> developmentCardsBuilding = Utils.deepCopyDevelopmentCards(CardsHandler.getDevelopmentCardsBuilding());
+	private final Map<Period, List<DevelopmentCardCharacter>> developmentCardsCharacters = Utils.deepCopyDevelopmentCards(CardsHandler.getDevelopmentCardsCharacter());
+	private final Map<Period, List<DevelopmentCardTerritory>> developmentCardsTerritory = Utils.deepCopyDevelopmentCards(CardsHandler.getDevelopmentCardsTerritory());
+	private final Map<Period, List<DevelopmentCardVenture>> developmentCardsVenture = Utils.deepCopyDevelopmentCards(CardsHandler.getDevelopmentCardsVenture());
 	private final Map<Integer, PlayerIdentification> playersIdentifications = new HashMap<>();
 	private final Map<FamilyMemberType, Integer> familyMemberTypeValues = new EnumMap<>(FamilyMemberType.class);
 	private final List<Player> turnOrder = new LinkedList<>();
@@ -135,7 +135,7 @@ public class GameHandler
 			}
 			this.availablePersonalBonusTiles.add(PersonalBonusTile.values()[index].getIndex());
 		}
-		List<LeaderCard> leaderCards = Utils.deepCopyLeaderCards(CardsHandler.LEADER_CARDS);
+		List<LeaderCard> leaderCards = Utils.deepCopyLeaderCards(CardsHandler.getLeaderCards());
 		for (Player player : this.turnOrder) {
 			List<Integer> playerAvailableLeaderCards = new ArrayList<>();
 			for (int index = 0; index < 4; index++) {
@@ -240,7 +240,7 @@ public class GameHandler
 			this.excommunicatedPlayers.get(this.currentPeriod).add(player);
 			player.getActiveModifiers().add(this.boardHandler.getExcommunicationTiles().get(this.currentPeriod).getModifier());
 		} else {
-			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, PlayerResourceHandler.FAITH_POINTS_PRICES.get(player.getPlayerResourceHandler().getResources().get(ResourceType.FAITH_POINT)));
+			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, PlayerResourceHandler.getFaithPointsPrices().get(player.getPlayerResourceHandler().getResources().get(ResourceType.FAITH_POINT)));
 			player.getPlayerResourceHandler().resetFaithPoints();
 		}
 		if (this.excommunicationChoosingPlayers.isEmpty()) {
@@ -251,7 +251,7 @@ public class GameHandler
 
 	public void receiveAction(Player player, ActionInformations actionInformations)
 	{
-		IAction action = Utils.ACTIONS_TRANSFORMERS.get(actionInformations.getActionType()).transform(actionInformations, player);
+		IAction action = Utils.getActionsTransformers().get(actionInformations.getActionType()).transform(actionInformations, player);
 		if (action.isLegal()) {
 			this.timerExecutor.shutdownNow();
 			action.apply();
@@ -478,7 +478,7 @@ public class GameHandler
 				if (this.currentPeriod != Period.THIRD) {
 					this.excommunicationChoosingPlayers.add(player);
 				} else {
-					player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, PlayerResourceHandler.FAITH_POINTS_PRICES.get(player.getPlayerResourceHandler().getResources().get(ResourceType.FAITH_POINT)));
+					player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, PlayerResourceHandler.getFaithPointsPrices().get(player.getPlayerResourceHandler().getResources().get(ResourceType.FAITH_POINT)));
 				}
 			}
 		}

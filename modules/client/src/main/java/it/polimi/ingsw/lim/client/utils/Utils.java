@@ -19,7 +19,7 @@ public class Utils
 	public static final String SCENE_CONNECTION = "/fxml/SceneConnection.fxml";
 	public static final String SCENE_ROOM = "/fxml/SceneRoom.fxml";
 	public static final String SCENE_GAME = "/fxml/SceneGame.fxml";
-	public static final Map<Integer, Map<FamilyMemberType, String>> DICES_FAMILY_MEMBER_TYPES = new HashMap<>();
+	private static final Map<Integer, Map<FamilyMemberType, String>> DICES_FAMILY_MEMBER_TYPES = new HashMap<>();
 
 	static {
 		Map<FamilyMemberType, String> dice1FamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
@@ -54,7 +54,7 @@ public class Utils
 		Utils.DICES_FAMILY_MEMBER_TYPES.put(6, dice6FamilyMemberTypes);
 	}
 
-	public static final Map<Color, Map<FamilyMemberType, String>> PLAYERS_FAMILY_MEMBER_TYPES = new EnumMap<>(Color.class);
+	private static final Map<Color, Map<FamilyMemberType, String>> PLAYERS_FAMILY_MEMBER_TYPES = new EnumMap<>(Color.class);
 
 	static {
 		Map<FamilyMemberType, String> bluePlayerFamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
@@ -89,7 +89,7 @@ public class Utils
 		Utils.PLAYERS_FAMILY_MEMBER_TYPES.put(Color.YELLOW, yellowPlayerFamilyMemberTypes);
 	}
 
-	public static final Map<Color, String> PLAYERS_PLACEHOLDERS = new EnumMap<>(Color.class);
+	private static final Map<Color, String> PLAYERS_PLACEHOLDERS = new EnumMap<>(Color.class);
 
 	static {
 		Utils.PLAYERS_PLACEHOLDERS.put(Color.BLUE, "/images/players/player_blue.png");
@@ -99,7 +99,7 @@ public class Utils
 		Utils.PLAYERS_PLACEHOLDERS.put(Color.YELLOW, "/images/players/player_yellow.png");
 	}
 
-	public static final Map<Color, String> EXCOMMUNICATION_PLAYERS_PLACEHOLDERS = new EnumMap<>(Color.class);
+	private static final Map<Color, String> EXCOMMUNICATION_PLAYERS_PLACEHOLDERS = new EnumMap<>(Color.class);
 
 	static {
 		Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS.put(Color.BLUE, "/images/players/player_blue_excommunication.png");
@@ -109,7 +109,7 @@ public class Utils
 		Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS.put(Color.YELLOW, "/images/players/player_yellow_excommunication.png");
 	}
 
-	public static final Map<ResourceType, String> RESOURCES_TYPES_NAMES = new EnumMap<>(ResourceType.class);
+	private static final Map<ResourceType, String> RESOURCES_TYPES_NAMES = new EnumMap<>(ResourceType.class);
 
 	static {
 		Utils.RESOURCES_TYPES_NAMES.put(ResourceType.COIN, "Coins");
@@ -123,7 +123,7 @@ public class Utils
 		Utils.RESOURCES_TYPES_NAMES.put(ResourceType.WOOD, "Wood");
 	}
 
-	public static final Map<CardType, String> CARD_TYPES_NAMES = new EnumMap<>(CardType.class);
+	private static final Map<CardType, String> CARD_TYPES_NAMES = new EnumMap<>(CardType.class);
 
 	static {
 		Utils.CARD_TYPES_NAMES.put(CardType.BUILDING, "Buildings");
@@ -165,5 +165,35 @@ public class Utils
 		});
 		pane.setOnMouseExited(event -> {
 		});
+	}
+
+	public static Map<Integer, Map<FamilyMemberType, String>> getDicesFamilyMemberTypes()
+	{
+		return Utils.DICES_FAMILY_MEMBER_TYPES;
+	}
+
+	public static Map<Color, Map<FamilyMemberType, String>> getPlayersFamilyMemberTypes()
+	{
+		return Utils.PLAYERS_FAMILY_MEMBER_TYPES;
+	}
+
+	public static Map<Color, String> getPlayersPlaceholders()
+	{
+		return Utils.PLAYERS_PLACEHOLDERS;
+	}
+
+	public static Map<Color, String> getExcommunicationPlayersPlaceholders()
+	{
+		return Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS;
+	}
+
+	public static Map<ResourceType, String> getResourcesTypesNames()
+	{
+		return Utils.RESOURCES_TYPES_NAMES;
+	}
+
+	public static Map<CardType, String> getCardTypesNames()
+	{
+		return Utils.CARD_TYPES_NAMES;
 	}
 }

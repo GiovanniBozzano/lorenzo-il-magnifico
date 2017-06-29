@@ -17,6 +17,8 @@ import javafx.scene.text.Font;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -42,7 +44,7 @@ public class ControllerRoom extends CustomController
 			} else {
 				hostServices.showDocument(CommonUtils.exportResource("/guide.pdf", "/Lorenzo il Magnifico Rulebook.pdf"));
 			}
-		} catch (Exception exception) {
+		} catch (URISyntaxException | IOException exception) {
 			Client.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}

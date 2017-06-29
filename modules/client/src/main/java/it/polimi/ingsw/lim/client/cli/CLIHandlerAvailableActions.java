@@ -4,10 +4,10 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
-import it.polimi.ingsw.lim.common.cli.IInputHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,121 +15,73 @@ import java.util.logging.Level;
 
 public class CLIHandlerAvailableActions implements ICLIHandler
 {
-	private final Map<Integer, IInputHandler> inputHandlerActionType = new HashMap<>();
+	private final static Map<CLIStatus, String> ACTION_NAMES = new EnumMap<>(CLIStatus.class);
+
+	static {
+		ACTION_NAMES.put(CLIStatus.SHOW_DEVELOPMENT_CARDS, "Show Development Cards");
+		ACTION_NAMES.put(CLIStatus.SHOW_LEADERS, "Show Leaders");
+		ACTION_NAMES.put(CLIStatus.COUNCIL_PALACE, "Council Palace");
+		ACTION_NAMES.put(CLIStatus.HARVEST, "Harvest");
+		ACTION_NAMES.put(CLIStatus.MARKET, "Market");
+		ACTION_NAMES.put(CLIStatus.PICK_DEVELOPMENT_CARD, "Pick Development Card");
+		ACTION_NAMES.put(CLIStatus.PRODUCTION_START, "Start Production");
+		ACTION_NAMES.put(CLIStatus.LEADER_ACTIVATE, "Activate Leader");
+		ACTION_NAMES.put(CLIStatus.LEADER_DISCARD, "Discard Leader");
+		ACTION_NAMES.put(CLIStatus.LEADER_PLAY, "Play Leader");
+	}
+
+	private final Map<Integer, CLIStatus> availableActions = new HashMap<>();
 
 	@Override
 	public void execute()
 	{
-		this.inputHandlerActionType.put(1, cliHandler -> {
-			Client.getInstance().setCliStatus(CLIStatus.SHOW_CARDS);
-			Client.getInstance().getCliListener().execute(() -> {
-				ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-				Client.getInstance().setCurrentCliHandler(newCliHandler);
-				newCliHandler.execute();
-			});
-		});
-		this.inputHandlerActionType.put(2, cliHandler -> {
-			Client.getInstance().setCliStatus(CLIStatus.SHOW_LEADERS);
-			Client.getInstance().getCliListener().execute(() -> {
-				ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-				Client.getInstance().setCurrentCliHandler(newCliHandler);
-				newCliHandler.execute();
-			});
-		});
+		this.availableActions.put(1, CLIStatus.SHOW_DEVELOPMENT_CARDS);
+		this.availableActions.put(2, CLIStatus.SHOW_LEADERS);
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty()) {
-			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
-				Client.getInstance().setCliStatus(CLIStatus.COUNCIL_PALACE);
-				Client.getInstance().getCliListener().execute(() -> {
-					ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-					Client.getInstance().setCurrentCliHandler(newCliHandler);
-					newCliHandler.execute();
-				});
-			});
+			this.availableActions.put(3, CLIStatus.COUNCIL_PALACE);
 		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST).isEmpty()) {
-			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
-				Client.getInstance().setCliStatus(CLIStatus.HARVEST);
-				Client.getInstance().getCliListener().execute(() -> {
-					ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-					Client.getInstance().setCurrentCliHandler(newCliHandler);
-					newCliHandler.execute();
-				});
-			});
+			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.HARVEST);
 		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET).isEmpty()) {
-			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
-				Client.getInstance().setCliStatus(CLIStatus.MARKET);
-				Client.getInstance().getCliListener().execute(() -> {
-					ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-					Client.getInstance().setCurrentCliHandler(newCliHandler);
-					newCliHandler.execute();
-				});
-			});
+			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.MARKET);
 		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD).isEmpty()) {
-			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
-				Client.getInstance().setCliStatus(CLIStatus.PICK_DEVELOPMENT_CARD);
-				Client.getInstance().getCliListener().execute(() -> {
-					ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-					Client.getInstance().setCurrentCliHandler(newCliHandler);
-					newCliHandler.execute();
-				});
-			});
+			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.PICK_DEVELOPMENT_CARD);
 		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START).isEmpty()) {
-			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
-				Client.getInstance().setCliStatus(CLIStatus.PRODUCTION_START);
-				Client.getInstance().getCliListener().execute(() -> {
-					ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-					Client.getInstance().setCurrentCliHandler(newCliHandler);
-					newCliHandler.execute();
-				});
-			});
+			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.PRODUCTION_START);
 		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty()) {
-			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
-				Client.getInstance().setCliStatus(CLIStatus.LEADER_ACTIVATE);
-				Client.getInstance().getCliListener().execute(() -> {
-					ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-					Client.getInstance().setCurrentCliHandler(newCliHandler);
-					newCliHandler.execute();
-				});
-			});
+			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.LEADER_ACTIVATE);
 		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty()) {
-			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
-				Client.getInstance().setCliStatus(CLIStatus.LEADER_DISCARD);
-				Client.getInstance().getCliListener().execute(() -> {
-					ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-					Client.getInstance().setCurrentCliHandler(newCliHandler);
-					newCliHandler.execute();
-				});
-			});
+			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.LEADER_DISCARD);
 		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
-			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
-				Client.getInstance().setCliStatus(CLIStatus.LEADER_PLAY);
-				Client.getInstance().getCliListener().execute(() -> {
-					ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-					Client.getInstance().setCurrentCliHandler(newCliHandler);
-					newCliHandler.execute();
-				});
-			});
+			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.LEADER_PLAY);
 		}
 		this.showAvailableActions();
 		this.askAction();
 	}
 
-	public void showAvailableActions()
+	private void showAvailableActions()
 	{
-		for (Entry<Integer, IInputHandler> currentavailableAction : this.inputHandlerActionType.entrySet()) {
-			StringBuilder stringBuilder = new StringBuilder();
-			Client.getLogger().log(Level.INFO, "============= {0} =============", new Object[] { currentavailableAction.getKey() });
-			Client.getLogger().log(Level.INFO, currentavailableAction.getValue().toString());
-			Client.getLogger().log(Level.INFO, stringBuilder.toString());
-			Client.getLogger().log(Level.INFO, "=============================");
-			stringBuilder.append("\n\n");
+		StringBuilder stringBuilder = new StringBuilder();
+		boolean firstLine = true;
+		for (Entry<Integer, CLIStatus> availableAction : this.availableActions.entrySet()) {
+			if (!firstLine) {
+				stringBuilder.append('\n');
+			} else {
+				firstLine = false;
+			}
+			stringBuilder.append("============= ");
+			stringBuilder.append(availableAction.getKey());
+			stringBuilder.append(" =============\n");
+			stringBuilder.append(CLIHandlerAvailableActions.ACTION_NAMES.get(availableAction.getValue()));
+			stringBuilder.append("=============================");
 		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private void askAction()
@@ -139,8 +91,13 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !this.inputHandlerActionType.containsKey(Integer.parseInt(input)));
-		this.inputHandlerActionType.get(Integer.parseInt(input)).execute(this);
+		while (!CommonUtils.isInteger(input) || !this.availableActions.containsKey(Integer.parseInt(input)));
+		Client.getInstance().setCliStatus(this.availableActions.get(Integer.parseInt(input)));
+		Client.getInstance().getCliListener().execute(() -> {
+			ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
+			Client.getInstance().setCurrentCliHandler(newCliHandler);
+			newCliHandler.execute();
+		});
 	}
 
 	@Override

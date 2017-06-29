@@ -90,16 +90,16 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 		Map<Integer, DevelopmentCardTerritoryInformations> developmentsCardTerritoryInformations = new HashMap<>();
 		Map<Integer, DevelopmentCardVentureInformations> developmentCardsVentureInformations = new HashMap<>();
 		for (Period period : Period.values()) {
-			for (DevelopmentCardBuilding developmentCardBuilding : CardsHandler.DEVELOPMENT_CARDS_BUILDING.get(period)) {
+			for (DevelopmentCardBuilding developmentCardBuilding : CardsHandler.getDevelopmentCardsBuilding().get(period)) {
 				developmentCardsBuildingsInformations.put(developmentCardBuilding.getIndex(), developmentCardBuilding.getInformations());
 			}
-			for (DevelopmentCardCharacter developmentCardCharacter : CardsHandler.DEVELOPMENT_CARDS_CHARACTER.get(period)) {
+			for (DevelopmentCardCharacter developmentCardCharacter : CardsHandler.getDevelopmentCardsCharacter().get(period)) {
 				developmentCardsCharacterInformations.put(developmentCardCharacter.getIndex(), developmentCardCharacter.getInformations());
 			}
-			for (DevelopmentCardTerritory developmentCardTerritory : CardsHandler.DEVELOPMENT_CARDS_TERRITORY.get(period)) {
+			for (DevelopmentCardTerritory developmentCardTerritory : CardsHandler.getDevelopmentCardsTerritory().get(period)) {
 				developmentsCardTerritoryInformations.put(developmentCardTerritory.getIndex(), developmentCardTerritory.getInformations());
 			}
-			for (DevelopmentCardVenture developmentCardVenture : CardsHandler.DEVELOPMENT_CARDS_VENTURE.get(period)) {
+			for (DevelopmentCardVenture developmentCardVenture : CardsHandler.getDevelopmentCardsVenture().get(period)) {
 				developmentCardsVentureInformations.put(developmentCardVenture.getIndex(), developmentCardVenture.getInformations());
 			}
 		}

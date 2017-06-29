@@ -19,6 +19,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -1236,7 +1237,7 @@ public class ControllerGame extends CustomController
 		actionsNodesList.setSpacing(10.0D);
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", "Actions", false);
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START).isEmpty()) {
-			ControllerGame.setActionButton(familyMemberActionNodesList, "/images/icons/action_family_member.png", "Family Member Actions", false, false, () -> {
+			ControllerGame.setActionButton(familyMemberActionNodesList, "/images/icons/action_family_member.png", "Family Member Actions", false, () -> {
 				if (WindowFactory.isNodesListExpanded(leaderCardsActionNodesList)) {
 					leaderCardsActionNodesList.animateList();
 				}
@@ -1250,16 +1251,16 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty()) {
 				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(councilPalaceActionNodesList, "/images/icons/action_council_palace.png", "Council Palace", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE), new JFXNodesList[] { harvestActionNodesList, marketActionNodesList, pickDevelopmentCardActionNodesList, productionStartActionNodesList });
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", () -> this.showCouncilPalaceActionChoice(FamilyMemberType.BLACK));
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showCouncilPalaceActionChoice(FamilyMemberType.BLACK));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", () -> this.showCouncilPalaceActionChoice(FamilyMemberType.NEUTRAL));
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showCouncilPalaceActionChoice(FamilyMemberType.NEUTRAL));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", () -> this.showCouncilPalaceActionChoice(FamilyMemberType.ORANGE));
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showCouncilPalaceActionChoice(FamilyMemberType.ORANGE));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", () -> this.showCouncilPalaceActionChoice(FamilyMemberType.WHITE));
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showCouncilPalaceActionChoice(FamilyMemberType.WHITE));
 				}
 				councilPalaceActionNodesList.setSpacing(10.0D);
 				councilPalaceActionNodesList.setRotate(180.0D);
@@ -1268,16 +1269,16 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST).isEmpty()) {
 				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(harvestActionNodesList, "/images/icons/action_harvest.png", "Harvest", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST), new JFXNodesList[] { councilPalaceActionNodesList, marketActionNodesList, pickDevelopmentCardActionNodesList, productionStartActionNodesList });
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", () -> this.showHarvestActionChoice(FamilyMemberType.BLACK));
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showHarvestActionChoice(FamilyMemberType.BLACK));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", () -> this.showHarvestActionChoice(FamilyMemberType.NEUTRAL));
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showHarvestActionChoice(FamilyMemberType.NEUTRAL));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", () -> this.showHarvestActionChoice(FamilyMemberType.ORANGE));
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showHarvestActionChoice(FamilyMemberType.ORANGE));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", () -> this.showHarvestActionChoice(FamilyMemberType.WHITE));
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showHarvestActionChoice(FamilyMemberType.WHITE));
 				}
 				harvestActionNodesList.setSpacing(10.0D);
 				harvestActionNodesList.setRotate(180.0D);
@@ -1294,7 +1295,7 @@ public class ControllerGame extends CustomController
 				for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
 					mappedMarketSlots.get(((AvailableActionMarket) availableAction).getMarketSlot()).add(availableAction);
 				}
-				ControllerGame.setActionButton(marketActionNodesList, "/images/icons/action_market.png", "Market", () -> {
+				ControllerGame.setActionButton(marketActionNodesList, "/images/icons/action_market.png", "Market", false, () -> {
 					if (WindowFactory.isNodesListExpanded(councilPalaceActionNodesList)) {
 						councilPalaceActionNodesList.animateList();
 					} else if (WindowFactory.isNodesListExpanded(harvestActionNodesList)) {
@@ -1314,16 +1315,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.FIRST).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market1NodesList, "/images/icons/action_market_1.png", "Market 1", mappedMarketSlots.get(MarketSlot.FIRST), new JFXNodesList[] { market2NodesList, market3NodesList, market4NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.WHITE));
 					}
 					market1NodesList.setSpacing(10.0D);
 					market1NodesList.setRotate(270.0D);
@@ -1332,16 +1333,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.SECOND).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market2NodesList, "/images/icons/action_market_2.png", "Market 2", mappedMarketSlots.get(MarketSlot.SECOND), new JFXNodesList[] { market1NodesList, market3NodesList, market4NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.WHITE));
 					}
 					market2NodesList.setSpacing(10.0D);
 					market2NodesList.setRotate(270.0D);
@@ -1350,16 +1351,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.THIRD).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market3NodesList, "/images/icons/action_market_3.png", "Market 3", mappedMarketSlots.get(MarketSlot.THIRD), new JFXNodesList[] { market1NodesList, market2NodesList, market4NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.WHITE));
 					}
 					market3NodesList.setSpacing(10.0D);
 					market3NodesList.setRotate(270.0D);
@@ -1368,16 +1369,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.FOURTH).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market4NodesList, "/images/icons/action_market_4.png", "Market 4", mappedMarketSlots.get(MarketSlot.FOURTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.WHITE));
 					}
 					market4NodesList.setSpacing(10.0D);
 					market4NodesList.setRotate(270.0D);
@@ -1386,16 +1387,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.FIFTH).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market5NodesList, "/images/icons/action_market_5.png", "Market 5", mappedMarketSlots.get(MarketSlot.FIFTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market4NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.WHITE));
 					}
 					market5NodesList.setSpacing(10.0D);
 					market5NodesList.setRotate(270.0D);
@@ -1404,16 +1405,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.SIXTH).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market6NodesList, "/images/icons/action_market_6.png", "Market 6", mappedMarketSlots.get(MarketSlot.SIXTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market4NodesList, market5NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.WHITE));
 					}
 					market6NodesList.setSpacing(10.0D);
 					market6NodesList.setRotate(270.0D);
@@ -1426,16 +1427,16 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD).isEmpty()) {
 				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(pickDevelopmentCardActionNodesList, "/images/icons/action_pick_development_card.png", "Pick Development Card", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD), new JFXNodesList[] { councilPalaceActionNodesList, harvestActionNodesList, marketActionNodesList, productionStartActionNodesList });
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.BLACK));
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.BLACK));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.NEUTRAL));
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.NEUTRAL));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.ORANGE));
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.ORANGE));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.WHITE));
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.WHITE));
 				}
 				pickDevelopmentCardActionNodesList.setSpacing(10.0D);
 				pickDevelopmentCardActionNodesList.setRotate(180.0D);
@@ -1444,16 +1445,16 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START).isEmpty()) {
 				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(productionStartActionNodesList, "/images/icons/action_production_start.png", "Start Production", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START), new JFXNodesList[] { councilPalaceActionNodesList, harvestActionNodesList, marketActionNodesList, pickDevelopmentCardActionNodesList });
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", () -> this.showProductionStartChoice(FamilyMemberType.BLACK));
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showProductionStartChoice(FamilyMemberType.BLACK));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", () -> this.showProductionStartChoice(FamilyMemberType.NEUTRAL));
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showProductionStartChoice(FamilyMemberType.NEUTRAL));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", () -> this.showProductionStartChoice(FamilyMemberType.ORANGE));
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showProductionStartChoice(FamilyMemberType.ORANGE));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", () -> this.showProductionStartChoice(FamilyMemberType.WHITE));
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showProductionStartChoice(FamilyMemberType.WHITE));
 				}
 				productionStartActionNodesList.setSpacing(10.0D);
 				productionStartActionNodesList.setRotate(180.0D);
@@ -1464,39 +1465,39 @@ public class ControllerGame extends CustomController
 		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
 			leaderCardsActionNodesList.setSpacing(10.0D);
-			ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader.png", "Leader Actions", () -> {
+			ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader.png", "Leader Actions", false, () -> {
 				if (WindowFactory.isNodesListExpanded(familyMemberActionNodesList)) {
 					familyMemberActionNodesList.animateList();
 				}
 			});
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty()) {
-				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_activate.png", "Activate Leader", this::showLeaderActivateChoice);
+				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_activate.png", "Activate Leader", false, this::showLeaderActivateChoice);
 			}
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty()) {
-				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_discard.png", "Discard Leader", this::showLeaderDiscardChoice);
+				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_discard.png", "Discard Leader", false, this::showLeaderDiscardChoice);
 			}
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
-				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_play.png", "Play Leader", this::showLeaderPlayChoice);
+				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_play.png", "Play Leader", false, this::showLeaderPlayChoice);
 			}
 			leaderCardsActionNodesList.setRotate(90.0D);
 			actionsNodesList.addAnimatedNode(leaderCardsActionNodesList);
 		}
-		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_pass_turn.png", "Pass Turn", false, true, () -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPassTurn()));
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_pass_turn.png", "Pass Turn", false, () -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPassTurn()), true);
 		actionsNodesList.setRotate(180.0D);
 		this.actionsVBox.getChildren().add(actionsNodesList);
 	}
 
 	private static void setActionButton(JFXNodesList nodesList, String imagePath, String tooltipText, boolean disabled)
 	{
-		ControllerGame.setActionButton(nodesList, imagePath, tooltipText, disabled, false, null);
+		ControllerGame.setActionButton(nodesList, imagePath, tooltipText, disabled, null, false);
 	}
 
-	private static void setActionButton(JFXNodesList nodesList, String imagePath, String tooltipText, Runnable runnable)
+	private static void setActionButton(JFXNodesList nodesList, String imagePath, String tooltipText, boolean disabled, Runnable runnable)
 	{
-		ControllerGame.setActionButton(nodesList, imagePath, tooltipText, false, false, runnable);
+		ControllerGame.setActionButton(nodesList, imagePath, tooltipText, disabled, runnable, false);
 	}
 
-	private static void setActionButton(JFXNodesList nodesList, String imagePath, String tooltipText, boolean disabled, boolean red, Runnable runnable)
+	private static void setActionButton(JFXNodesList nodesList, String imagePath, String tooltipText, boolean disabled, Runnable runnable, boolean red)
 	{
 		JFXButton button = new JFXButton();
 		if (disabled) {
@@ -1521,7 +1522,7 @@ public class ControllerGame extends CustomController
 
 	private static List<FamilyMemberType> mapFamilyMemberTypes(JFXNodesList nodesList, String imagePath, String tooltipText, List<AvailableAction> availableActions, JFXNodesList[] nodesLists)
 	{
-		ControllerGame.setActionButton(nodesList, imagePath, tooltipText, () -> {
+		ControllerGame.setActionButton(nodesList, imagePath, tooltipText, false, () -> {
 			for (JFXNodesList otherNodesList : nodesLists) {
 				if (WindowFactory.isNodesListExpanded(otherNodesList)) {
 					otherNodesList.animateList();
@@ -1586,7 +1587,7 @@ public class ControllerGame extends CustomController
 					stringBuilder.append("\nEmployed resources:");
 					for (ResourceAmount resourceAmount : resourcetradeOption.getEmployedResources()) {
 						stringBuilder.append("\n    - ");
-						stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+						stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 						stringBuilder.append(": ");
 						stringBuilder.append(resourceAmount.getAmount());
 					}
@@ -1595,7 +1596,7 @@ public class ControllerGame extends CustomController
 					stringBuilder.append("\nProduced resources:");
 					for (ResourceAmount resourceAmount : resourcetradeOption.getProducedResources()) {
 						stringBuilder.append("\n    - ");
-						stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+						stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 						stringBuilder.append(": ");
 						stringBuilder.append(resourceAmount.getAmount());
 					}
@@ -1627,7 +1628,7 @@ public class ControllerGame extends CustomController
 			stringBuilder.append("\n\nHARVEST RESOURCES:");
 			for (ResourceAmount resourceAmount : developmentCardTerritoryInformations.getHarvestResources()) {
 				stringBuilder.append("\n    - ");
-				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -1652,7 +1653,7 @@ public class ControllerGame extends CustomController
 					stringBuilder.append("\nRequired resources:");
 					for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
 						stringBuilder.append("\n    - ");
-						stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+						stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 						stringBuilder.append(": ");
 						stringBuilder.append(resourceAmount.getAmount());
 					}
@@ -1661,7 +1662,7 @@ public class ControllerGame extends CustomController
 					stringBuilder.append("\nSpent resources:");
 					for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
 						stringBuilder.append("\n    - ");
-						stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+						stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 						stringBuilder.append(": ");
 						stringBuilder.append(resourceAmount.getAmount());
 					}
@@ -1679,7 +1680,7 @@ public class ControllerGame extends CustomController
 			stringBuilder.append("\nInstant resources:");
 			for (ResourceAmount resourceAmount : (developmentCardInformations.getReward().getResourceAmounts())) {
 				stringBuilder.append("\n    - ");
-				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -1703,7 +1704,7 @@ public class ControllerGame extends CustomController
 				stringBuilder.append("\nRequired resources:");
 				for (ResourceAmount resourceAmount : leaderCardConditionsOption.getResourceAmounts()) {
 					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+					stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 					stringBuilder.append(": ");
 					stringBuilder.append(resourceAmount.getAmount());
 				}
@@ -1712,7 +1713,7 @@ public class ControllerGame extends CustomController
 				stringBuilder.append("\nRequired cards:");
 				for (CardAmount cardAmount : leaderCardConditionsOption.getCardAmounts()) {
 					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.CARD_TYPES_NAMES.get(cardAmount.getCardType()));
+					stringBuilder.append(Utils.getCardTypesNames().get(cardAmount.getCardType()));
 					stringBuilder.append(": ");
 					stringBuilder.append(cardAmount.getAmount());
 				}
@@ -1730,7 +1731,7 @@ public class ControllerGame extends CustomController
 			}
 			for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) leaderCardInformations).getReward().getResourceAmounts()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -1822,7 +1823,7 @@ public class ControllerGame extends CustomController
 			pane.setBackground(null);
 		}
 		for (Entry<FamilyMemberType, Integer> dice : GameStatus.getInstance().getCurrentDices().entrySet()) {
-			this.dices.get(dice.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.DICES_FAMILY_MEMBER_TYPES.get(dice.getValue()).get(dice.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			this.dices.get(dice.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getDicesFamilyMemberTypes().get(dice.getValue()).get(dice.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		}
 		for (Pane pane : this.victoryPointsPanes.values()) {
 			pane.setBackground(null);
@@ -1858,6 +1859,8 @@ public class ControllerGame extends CustomController
 		for (Pane pane : this.roundOrderPositionsPanes.values()) {
 			pane.setBackground(null);
 		}
+		ColorAdjust greyScaleEffect = new ColorAdjust();
+		greyScaleEffect.setSaturation(-1);
 		for (Entry<Integer, PlayerData> playerData : GameStatus.getInstance().getCurrentPlayersData().entrySet()) {
 			this.playersBoards.get(playerData.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getPersonalBonusTiles().get(playerData.getValue().getPersonalBonusTile()).getPlayerBoardTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING)) {
@@ -1901,6 +1904,7 @@ public class ControllerGame extends CustomController
 			}
 			for (Pane pane : this.playersLeaderCardsPlayed.get(playerData.getKey())) {
 				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("/images/leader_cards/leader_card_background.png").toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				pane.setEffect(null);
 			}
 			int index = 0;
 			for (Entry<Integer, Boolean> leaderCard : playerData.getValue().getLeaderCardsPlayed().entrySet()) {
@@ -1908,6 +1912,7 @@ public class ControllerGame extends CustomController
 					this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				} else {
 					this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+					this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index).setEffect(greyScaleEffect);
 				}
 				Tooltip.install(this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index), this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())));
 				index++;
@@ -1929,35 +1934,35 @@ public class ControllerGame extends CustomController
 					this.playersResources.get(playerData.getKey()).get(resourceAmount.getKey()).setText(Integer.toString(resourceAmount.getValue()));
 				}
 			}
-			this.victoryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.VICTORY_POINT) % 100).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			this.militaryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.MILITARY_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			this.faithPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.FAITH_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			this.victoryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.VICTORY_POINT) % 100).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			this.militaryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.MILITARY_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			this.faithPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.FAITH_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			if (GameStatus.getInstance().getCurrentPlayersData().size() == 5) {
-				this.prestigePointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.PRESTIGE_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.prestigePointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.PRESTIGE_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
 			for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPositionEntry : playerData.getValue().getFamilyMembersPositions().entrySet()) {
 				if (this.boardPositionsPanes.containsKey(familyMemberTypeBoardPositionEntry.getValue())) {
-					this.boardPositionsPanes.get(familyMemberTypeBoardPositionEntry.getValue()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+					this.boardPositionsPanes.get(familyMemberTypeBoardPositionEntry.getValue()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypes().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				} else if (familyMemberTypeBoardPositionEntry.getValue() == BoardPosition.HARVEST_BIG) {
 					if (this.playersHarvestBigPositions.containsKey(playerData.getValue())) {
-						this.harvestBigPositionsPanes.get(this.playersHarvestBigPositions.get(playerData.getValue())).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+						this.harvestBigPositionsPanes.get(this.playersHarvestBigPositions.get(playerData.getValue())).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypes().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 					} else {
 						for (Entry<Integer, Pane> pane : this.harvestBigPositionsPanes.entrySet()) {
 							if (!this.playersHarvestBigPositions.containsValue(pane.getKey())) {
 								this.playersHarvestBigPositions.put(playerData.getValue(), pane.getKey());
-								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypes().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 								break;
 							}
 						}
 					}
 				} else if (familyMemberTypeBoardPositionEntry.getValue() == BoardPosition.PRODUCTION_BIG) {
 					if (this.playersProductionBigPositions.containsKey(playerData.getValue())) {
-						this.productionBigPositionsPanes.get(this.playersProductionBigPositions.get(playerData.getValue())).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+						this.productionBigPositionsPanes.get(this.playersProductionBigPositions.get(playerData.getValue())).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypes().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 					} else {
 						for (Entry<Integer, Pane> pane : this.productionBigPositionsPanes.entrySet()) {
 							if (!this.playersProductionBigPositions.containsValue(pane.getKey())) {
 								this.playersProductionBigPositions.put(playerData.getValue(), pane.getKey());
-								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypes().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 								break;
 							}
 						}
@@ -1967,14 +1972,14 @@ public class ControllerGame extends CustomController
 		}
 		for (Entry<Period, List<Integer>> excommunicationTilePlayersPanes : GameStatus.getInstance().getCurrentExcommunicatedPlayers().entrySet()) {
 			for (int index = 0; index < excommunicationTilePlayersPanes.getValue().size(); index++) {
-				this.excommunicationTilesPlayersPanes.get(excommunicationTilePlayersPanes.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS.get(GameStatus.getInstance().getCurrentPlayersData().get(excommunicationTilePlayersPanes.getValue().get(index)).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.excommunicationTilesPlayersPanes.get(excommunicationTilePlayersPanes.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getExcommunicationPlayersPlaceholders().get(GameStatus.getInstance().getCurrentPlayersData().get(excommunicationTilePlayersPanes.getValue().get(index)).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
 		}
 		for (Entry<Integer, Integer> orderPosition : GameStatus.getInstance().getCurrentCouncilPalaceOrder().entrySet()) {
-			this.councilPalacePositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			this.councilPalacePositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		}
 		for (Entry<Integer, Integer> orderPosition : GameStatus.getInstance().getCurrentTurnOrder().entrySet()) {
-			this.roundOrderPositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_PLACEHOLDERS.get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			this.roundOrderPositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		}
 		this.leaderCardsButton.setDisable(false);
 	}
@@ -1997,7 +2002,7 @@ public class ControllerGame extends CustomController
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getProductionInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -2008,7 +2013,7 @@ public class ControllerGame extends CustomController
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getHarvestInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -2142,7 +2147,7 @@ public class ControllerGame extends CustomController
 								first = false;
 							}
 							stringBuilder.append("- ");
-							stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+							stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 							stringBuilder.append(": ");
 							stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 						}
@@ -2178,7 +2183,7 @@ public class ControllerGame extends CustomController
 									stringBuilder.append("REQUIRED RESOURCES:");
 								}
 								stringBuilder.append("\n- ");
-								stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+								stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 							}
@@ -2189,7 +2194,7 @@ public class ControllerGame extends CustomController
 									stringBuilder.append("SPENT RESOURCES:");
 								}
 								stringBuilder.append("\n- ");
-								stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+								stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 							}
@@ -2228,7 +2233,7 @@ public class ControllerGame extends CustomController
 			this.pickDevelopmentCardChoiceDialog.show();
 		});
 		actionsNodesList.addAnimatedNode(this.pickDevelopmentCardActionButton);
-		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_refuse_reward.png", "Cancel", false, true, () -> {
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_refuse_reward.png", "Cancel", false, () -> {
 			this.pickingDevelopmentCard = false;
 			this.selectedDevelopmentCardType = null;
 			this.selectedDevelopmentCardIndex = null;
@@ -2239,7 +2244,7 @@ public class ControllerGame extends CustomController
 				}
 			}
 			this.generateAvailableActions();
-		});
+		}, true);
 		actionsNodesList.setSpacing(10.0D);
 		actionsNodesList.setRotate(180.0D);
 		this.actionsVBox.getChildren().add(actionsNodesList);

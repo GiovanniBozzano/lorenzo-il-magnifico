@@ -38,7 +38,7 @@ public class Utils
 {
 	public static final String SCENE_MAIN = "/fxml/SceneMain.fxml";
 	public static final String SCENE_START = "/fxml/SceneStart.fxml";
-	public static final Map<ActionType, IActionTransformer> ACTIONS_TRANSFORMERS = new EnumMap<>(ActionType.class);
+	private static final Map<ActionType, IActionTransformer> ACTIONS_TRANSFORMERS = new EnumMap<>(ActionType.class);
 
 	static {
 		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, (actionInformations, player) -> new ActionChooseLorenzoDeMediciLeader(((ActionInformationsChooseLorenzoDeMediciLeader) actionInformations).getLeaderCardIndex(), player));
@@ -238,7 +238,7 @@ public class Utils
 
 	public static LeaderCard getLeaderCardFromIndex(int leaderCardIndex)
 	{
-		for (LeaderCard leaderCard : CardsHandler.LEADER_CARDS) {
+		for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
 			if (leaderCard.getIndex() == leaderCardIndex) {
 				return leaderCard;
 			}
@@ -442,7 +442,7 @@ public class Utils
 	 *
 	 * @throws NoSuchAlgorithmException if the process was not successful.
 	 */
-	public static String sha512Encrypt(String text, byte[] salt) throws NoSuchAlgorithmException
+	private static String sha512Encrypt(String text, byte[] salt) throws NoSuchAlgorithmException
 	{
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
 		messageDigest.update(salt);
@@ -461,10 +461,15 @@ public class Utils
 	 *
 	 * @throws NoSuchAlgorithmException if the process was not successful.
 	 */
-	public static byte[] getSalt() throws NoSuchAlgorithmException
+	private static byte[] getSalt() throws NoSuchAlgorithmException
 	{
 		byte[] salt = new byte[16];
 		SecureRandom.getInstance("SHA1PRNG").nextBytes(salt);
 		return salt;
+	}
+
+	public static Map<ActionType, IActionTransformer> getActionsTransformers()
+	{
+		return Utils.ACTIONS_TRANSFORMERS;
 	}
 }

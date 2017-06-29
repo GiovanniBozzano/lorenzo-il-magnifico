@@ -28,10 +28,13 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 
 	private void showPersonalBonusTiles()
 	{
-		Client.getLogger().log(Level.INFO, "Enter PersonalBonusTile choice...");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Enter Personal Bonus Tile choice...");
 		for (Entry<Integer, Integer> personalBonusTile : this.personalBonusTiles.entrySet()) {
-			StringBuilder stringBuilder = new StringBuilder();
-			Client.getLogger().log(Level.INFO, "============= {0} =============", new Object[] { personalBonusTile.getKey() });
+			stringBuilder.append('\n');
+			stringBuilder.append("============= ");
+			stringBuilder.append(personalBonusTile.getKey());
+			stringBuilder.append(" =============\n");
 			stringBuilder.append("Production activation cost: ");
 			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionActivationCost());
 			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionInstantResources().isEmpty()) {
@@ -39,7 +42,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -50,13 +53,13 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getHarvestInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.RESOURCES_TYPES_NAMES.get(resourceAmount.getResourceType()));
+				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
-			Client.getLogger().log(Level.INFO, stringBuilder.toString());
-			Client.getLogger().log(Level.INFO, "=============================");
+			stringBuilder.append("=============================");
 		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private void askPersonalBonusTileIndex()
