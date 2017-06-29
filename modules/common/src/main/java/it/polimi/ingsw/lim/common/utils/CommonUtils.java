@@ -1,6 +1,8 @@
 package it.polimi.ingsw.lim.common.utils;
 
 import it.polimi.ingsw.lim.common.Instance;
+import it.polimi.ingsw.lim.common.enums.CardType;
+import it.polimi.ingsw.lim.common.enums.ResourceType;
 import javafx.scene.text.Font;
 
 import javax.crypto.BadPaddingException;
@@ -42,6 +44,28 @@ public class CommonUtils
 	public static final Font ROBOTO_CONDENSED_LIGHT = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/RobotoCondensed-Light.ttf"), 12);
 	public static final Font ROBOTO_CONDENSED_LIGHT_ITALIC = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/RobotoCondensed-LightItalic.ttf"), 12);
 	public static final Font ROBOTO_CONDENSED_REGULAR = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/RobotoCondensed-Regular.ttf"), 12);
+	private static final Map<ResourceType, String> RESOURCES_TYPES_NAMES = new EnumMap<>(ResourceType.class);
+
+	static {
+		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.COIN, "Coins");
+		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.COUNCIL_PRIVILEGE, "Council privileges");
+		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.FAITH_POINT, "Faith points");
+		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.MILITARY_POINT, "Military points");
+		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.PRESTIGE_POINT, "Prestige points");
+		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.SERVANT, "Servants");
+		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.STONE, "Stone");
+		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.VICTORY_POINT, "Victory points");
+		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.WOOD, "Wood");
+	}
+
+	private static final Map<CardType, String> CARD_TYPES_NAMES = new EnumMap<>(CardType.class);
+
+	static {
+		CommonUtils.CARD_TYPES_NAMES.put(CardType.BUILDING, "Buildings");
+		CommonUtils.CARD_TYPES_NAMES.put(CardType.CHARACTER, "Characters");
+		CommonUtils.CARD_TYPES_NAMES.put(CardType.TERRITORY, "Territories");
+		CommonUtils.CARD_TYPES_NAMES.put(CardType.VENTURE, "Ventures");
+	}
 
 	private CommonUtils()
 	{
@@ -137,5 +161,15 @@ public class CommonUtils
 			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 		return null;
+	}
+
+	public static Map<ResourceType, String> getResourcesTypesNames()
+	{
+		return CommonUtils.RESOURCES_TYPES_NAMES;
+	}
+
+	public static Map<CardType, String> getCardTypesNames()
+	{
+		return CommonUtils.CARD_TYPES_NAMES;
 	}
 }

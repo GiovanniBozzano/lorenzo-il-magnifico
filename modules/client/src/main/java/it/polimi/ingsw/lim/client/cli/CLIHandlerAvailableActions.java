@@ -65,6 +65,12 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 		this.askAction();
 	}
 
+	@Override
+	public CLIHandlerAvailableActions newInstance()
+	{
+		return new CLIHandlerAvailableActions();
+	}
+
 	private void showAvailableActions()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -98,11 +104,5 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 			Client.getInstance().setCurrentCliHandler(newCliHandler);
 			newCliHandler.execute();
 		});
-	}
-
-	@Override
-	public CLIHandlerAvailableActions newInstance()
-	{
-		return new CLIHandlerAvailableActions();
 	}
 }

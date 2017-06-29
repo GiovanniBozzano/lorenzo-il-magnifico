@@ -16,6 +16,18 @@ public class DevelopmentCardCharacterInformations extends DevelopmentCardInforma
 		this.modifierInformations = modifierInformations;
 	}
 
+	@Override
+	public String getInformations()
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(this.getDevelopmentCardCommonInformations());
+		if (this.modifierInformations != null) {
+			stringBuilder.append("\n\nMODIFIER:\n| ");
+			stringBuilder.append(this.modifierInformations.replace("\n", "\n| "));
+		}
+		return stringBuilder.toString();
+	}
+
 	public String getModifierInformations()
 	{
 		return this.modifierInformations;

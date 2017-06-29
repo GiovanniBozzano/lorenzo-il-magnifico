@@ -1,10 +1,8 @@
 package it.polimi.ingsw.lim.client.utils;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.Color;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -113,29 +111,6 @@ public class Utils
 		Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS.put(Color.YELLOW, "/images/players/player_yellow_excommunication.png");
 	}
 
-	private static final Map<ResourceType, String> RESOURCES_TYPES_NAMES = new EnumMap<>(ResourceType.class);
-
-	static {
-		Utils.RESOURCES_TYPES_NAMES.put(ResourceType.COIN, "Coins");
-		Utils.RESOURCES_TYPES_NAMES.put(ResourceType.COUNCIL_PRIVILEGE, "Council privileges");
-		Utils.RESOURCES_TYPES_NAMES.put(ResourceType.FAITH_POINT, "Faith points");
-		Utils.RESOURCES_TYPES_NAMES.put(ResourceType.MILITARY_POINT, "Military points");
-		Utils.RESOURCES_TYPES_NAMES.put(ResourceType.PRESTIGE_POINT, "Prestige points");
-		Utils.RESOURCES_TYPES_NAMES.put(ResourceType.SERVANT, "Servants");
-		Utils.RESOURCES_TYPES_NAMES.put(ResourceType.STONE, "Stone");
-		Utils.RESOURCES_TYPES_NAMES.put(ResourceType.VICTORY_POINT, "Victory points");
-		Utils.RESOURCES_TYPES_NAMES.put(ResourceType.WOOD, "Wood");
-	}
-
-	private static final Map<CardType, String> CARD_TYPES_NAMES = new EnumMap<>(CardType.class);
-
-	static {
-		Utils.CARD_TYPES_NAMES.put(CardType.BUILDING, "Buildings");
-		Utils.CARD_TYPES_NAMES.put(CardType.CHARACTER, "Characters");
-		Utils.CARD_TYPES_NAMES.put(CardType.TERRITORY, "Territories");
-		Utils.CARD_TYPES_NAMES.put(CardType.VENTURE, "Ventures");
-	}
-
 	private Utils()
 	{
 	}
@@ -204,15 +179,5 @@ public class Utils
 	public static Map<Color, String> getExcommunicationPlayersPlaceholders()
 	{
 		return Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS;
-	}
-
-	public static Map<ResourceType, String> getResourcesTypesNames()
-	{
-		return Utils.RESOURCES_TYPES_NAMES;
-	}
-
-	public static Map<CardType, String> getCardTypesNames()
-	{
-		return Utils.CARD_TYPES_NAMES;
 	}
 }

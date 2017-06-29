@@ -16,10 +16,11 @@ import java.util.Map.Entry;
 public class GameStatus
 {
 	private static final GameStatus INSTANCE = new GameStatus();
-	private final Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuilding = new HashMap<>();
-	private final Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacter = new HashMap<>();
-	private final Map<Integer, DevelopmentCardTerritoryInformations> developmentCardsTerritory = new HashMap<>();
-	private final Map<Integer, DevelopmentCardVentureInformations> developmentCardsVenture = new HashMap<>();
+	private final Map<Integer, DevelopmentCardInformations> developmentCardsBuilding = new HashMap<>();
+	private final Map<Integer, DevelopmentCardInformations> developmentCardsCharacter = new HashMap<>();
+	private final Map<Integer, DevelopmentCardInformations> developmentCardsTerritory = new HashMap<>();
+	private final Map<Integer, DevelopmentCardInformations> developmentCardsVenture = new HashMap<>();
+	private final Map<CardType, Map<Integer, DevelopmentCardInformations>> developmentCards = new EnumMap<>(CardType.class);
 	private final Map<Integer, LeaderCardInformations> leaderCards = new HashMap<>();
 	private final Map<Integer, ExcommunicationTileInformations> excommunicationTiles = new HashMap<>();
 	private final Map<Integer, PersonalBonusTileInformations> personalBonusTiles = new HashMap<>();
@@ -44,6 +45,10 @@ public class GameStatus
 
 	private GameStatus()
 	{
+		this.developmentCards.put(CardType.BUILDING, this.developmentCardsBuilding);
+		this.developmentCards.put(CardType.CHARACTER, this.developmentCardsCharacter);
+		this.developmentCards.put(CardType.TERRITORY, this.developmentCardsTerritory);
+		this.developmentCards.put(CardType.VENTURE, this.developmentCardsVenture);
 		this.currentDevelopmentCards.put(CardType.BUILDING, this.currentDevelopmentCardsBuilding);
 		this.currentDevelopmentCards.put(CardType.CHARACTER, this.currentDevelopmentCardsCharacter);
 		this.currentDevelopmentCards.put(CardType.TERRITORY, this.currentDevelopmentCardsTerritory);
@@ -109,24 +114,29 @@ public class GameStatus
 		return GameStatus.INSTANCE;
 	}
 
-	public Map<Integer, DevelopmentCardBuildingInformations> getDevelopmentCardsBuilding()
+	public Map<Integer, DevelopmentCardInformations> getDevelopmentCardsBuilding()
 	{
 		return this.developmentCardsBuilding;
 	}
 
-	public Map<Integer, DevelopmentCardCharacterInformations> getDevelopmentCardsCharacter()
+	public Map<Integer, DevelopmentCardInformations> getDevelopmentCardsCharacter()
 	{
 		return this.developmentCardsCharacter;
 	}
 
-	public Map<Integer, DevelopmentCardTerritoryInformations> getDevelopmentCardsTerritory()
+	public Map<Integer, DevelopmentCardInformations> getDevelopmentCardsTerritory()
 	{
 		return this.developmentCardsTerritory;
 	}
 
-	public Map<Integer, DevelopmentCardVentureInformations> getDevelopmentCardsVenture()
+	public Map<Integer, DevelopmentCardInformations> getDevelopmentCardsVenture()
 	{
 		return this.developmentCardsVenture;
+	}
+
+	public Map<CardType, Map<Integer, DevelopmentCardInformations>> getDevelopmentCards()
+	{
+		return this.developmentCards;
 	}
 
 	public Map<Integer, LeaderCardInformations> getLeaderCards()
@@ -229,6 +239,11 @@ public class GameStatus
 	{
 		this.currentDevelopmentCardsVenture.clear();
 		this.currentDevelopmentCardsVenture.putAll(currentDevelopmentCardsVenture);
+	}
+
+	public Map<CardType, Map<Row, Integer>> getCurrentDevelopmentCards()
+	{
+		return this.currentDevelopmentCards;
 	}
 
 	public Map<FamilyMemberType, Integer> getCurrentDices()

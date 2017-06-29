@@ -16,6 +16,12 @@ public class DevelopmentCardVentureInformations extends DevelopmentCardInformati
 		this.victoryValue = victoryValue;
 	}
 
+	@Override
+	public String getInformations()
+	{
+		return this.getDevelopmentCardCommonInformations() + "\n\nVICTORY VALUE: " + this.victoryValue;
+	}
+
 	public int getVictoryValue()
 	{
 		return this.victoryValue;

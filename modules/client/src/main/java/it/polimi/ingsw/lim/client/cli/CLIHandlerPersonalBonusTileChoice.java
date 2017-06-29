@@ -2,7 +2,6 @@ package it.polimi.ingsw.lim.client.cli;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
-import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -26,6 +25,12 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 		this.askPersonalBonusTileIndex();
 	}
 
+	@Override
+	public CLIHandlerPersonalBonusTileChoice newInstance()
+	{
+		return new CLIHandlerPersonalBonusTileChoice();
+	}
+
 	private void showPersonalBonusTiles()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -42,7 +47,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
+				stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -53,7 +58,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getHarvestInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
+				stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -70,11 +75,5 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !this.personalBonusTiles.containsKey(Integer.parseInt(input)));
 		Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(this.personalBonusTiles.get(Integer.parseInt(input)));
-	}
-
-	@Override
-	public CLIHandlerPersonalBonusTileChoice newInstance()
-	{
-		return new CLIHandlerPersonalBonusTileChoice();
 	}
 }

@@ -41,6 +41,12 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 		this.askInterfaceType();
 	}
 
+	@Override
+	public CLIHandlerInterfaceChoice newInstance()
+	{
+		return new CLIHandlerInterfaceChoice();
+	}
+
 	private void askInterfaceType()
 	{
 		Client.getLogger().log(Level.INFO, "Enter Interface Type...");
@@ -52,11 +58,5 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !CLIHandlerInterfaceChoice.INPUT_HANDLERS.containsKey(Integer.parseInt(input)));
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.get(Integer.parseInt(input)).execute(this);
-	}
-
-	@Override
-	public CLIHandlerInterfaceChoice newInstance()
-	{
-		return new CLIHandlerInterfaceChoice();
 	}
 }

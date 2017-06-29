@@ -14,6 +14,12 @@ public class LeaderCardModifierInformations extends LeaderCardInformations
 		this.modifier = modifier;
 	}
 
+	@Override
+	public String getInformations()
+	{
+		return this.getLeaderCardCommonInformaitons() + "PERMANENT ABILITY:\n" + this.modifier;
+	}
+
 	public String getModifier()
 	{
 		return this.modifier;

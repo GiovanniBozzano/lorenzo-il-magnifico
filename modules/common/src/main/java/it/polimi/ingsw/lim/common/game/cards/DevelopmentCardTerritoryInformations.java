@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.RewardInformations;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,25 @@ public class DevelopmentCardTerritoryInformations extends DevelopmentCardInforma
 		super(displayName, texturePath, CardType.TERRITORY, resourceCostOptions, reward);
 		this.activationValue = activationValue;
 		this.harvestResources = new ArrayList<>(harvestResources);
+	}
+
+	@Override
+	public String getInformations()
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(this.getDevelopmentCardCommonInformations());
+		stringBuilder.append("\n\nHARVEST ACTIVATION VALUE: ");
+		stringBuilder.append(this.activationValue);
+		if (!this.harvestResources.isEmpty()) {
+			stringBuilder.append("\n\nHARVEST RESOURCES:");
+			for (ResourceAmount resourceAmount : this.harvestResources) {
+				stringBuilder.append("\n    - ");
+				stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
+				stringBuilder.append(": ");
+				stringBuilder.append(resourceAmount.getAmount());
+			}
+		}
+		return stringBuilder.toString();
 	}
 
 	public int getActivationValue()

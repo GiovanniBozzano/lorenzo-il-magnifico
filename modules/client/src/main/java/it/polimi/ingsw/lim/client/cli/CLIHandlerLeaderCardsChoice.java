@@ -2,7 +2,6 @@ package it.polimi.ingsw.lim.client.cli;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
-import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.game.cards.LeaderCardModifierInformations;
 import it.polimi.ingsw.lim.common.game.cards.LeaderCardRewardInformations;
@@ -28,6 +27,12 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 		this.askLeaderCardsIndex();
 	}
 
+	@Override
+	public CLIHandlerLeaderCardsChoice newInstance()
+	{
+		return new CLIHandlerLeaderCardsChoice();
+	}
+
 	private void showLeaderCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -51,7 +56,7 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 				}
 				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue())).getReward().getResourceAmounts()) {
 					stringBuilder.append('\n');
-					stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
+					stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 					stringBuilder.append(": ");
 					stringBuilder.append(resourceAmount.getAmount());
 				}
@@ -74,11 +79,5 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !this.leaderCards.containsKey(Integer.parseInt(input)));
 		Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(this.leaderCards.get(Integer.parseInt(input)));
-	}
-
-	@Override
-	public CLIHandlerLeaderCardsChoice newInstance()
-	{
-		return new CLIHandlerLeaderCardsChoice();
 	}
 }

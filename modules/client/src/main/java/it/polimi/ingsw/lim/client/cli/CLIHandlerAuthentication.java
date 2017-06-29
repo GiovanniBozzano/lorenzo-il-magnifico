@@ -39,6 +39,12 @@ public class CLIHandlerAuthentication implements ICLIHandler
 		this.askAuthentication();
 	}
 
+	@Override
+	public CLIHandlerAuthentication newInstance()
+	{
+		return new CLIHandlerAuthentication();
+	}
+
 	private void askUsername()
 	{
 		Client.getLogger().log(Level.INFO, "Enter Username...");
@@ -75,11 +81,5 @@ public class CLIHandlerAuthentication implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !CLIHandlerAuthentication.INPUT_HANDLERS_AUTHENTICATION_TYPE.containsKey(Integer.parseInt(input)));
 		CLIHandlerAuthentication.INPUT_HANDLERS_AUTHENTICATION_TYPE.get(Integer.parseInt(input)).execute(this);
-	}
-
-	@Override
-	public CLIHandlerAuthentication newInstance()
-	{
-		return new CLIHandlerAuthentication();
 	}
 }

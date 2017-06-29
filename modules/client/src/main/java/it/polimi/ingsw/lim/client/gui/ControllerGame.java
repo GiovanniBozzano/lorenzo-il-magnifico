@@ -8,8 +8,8 @@ import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.actions.*;
-import it.polimi.ingsw.lim.common.game.cards.*;
-import it.polimi.ingsw.lim.common.game.utils.*;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
@@ -1561,134 +1561,15 @@ public class ControllerGame extends CustomController
 	private String getDevelopmentCardInformations(Pane pane)
 	{
 		if (this.developmentCardsBuildingIndexes.containsKey(pane)) {
-			return this.getDevelopmentCardBuildingInformations(GameStatus.getInstance().getDevelopmentCardsBuilding().get(this.developmentCardsBuildingIndexes.get(pane)));
+			return GameStatus.getInstance().getDevelopmentCardsBuilding().get(this.developmentCardsBuildingIndexes.get(pane)).getInformations();
 		} else if (this.developmentCardsCharacterIndexes.containsKey(pane)) {
-			return this.getDevelopmentCardCharacterInformation(GameStatus.getInstance().getDevelopmentCardsCharacter().get(this.developmentCardsCharacterIndexes.get(pane)));
+			return GameStatus.getInstance().getDevelopmentCardsCharacter().get(this.developmentCardsCharacterIndexes.get(pane)).getInformations();
 		} else if (this.developmentCardsTerritoryIndexes.containsKey(pane)) {
-			return this.getDevelopmentCardTerritoryInformations(GameStatus.getInstance().getDevelopmentCardsTerritory().get(this.developmentCardsTerritoryIndexes.get(pane)));
+			return GameStatus.getInstance().getDevelopmentCardsTerritory().get(this.developmentCardsTerritoryIndexes.get(pane)).getInformations();
 		} else if (this.developmentCardsVentureIndexes.containsKey(pane)) {
-			return this.getDevelopmentCardVentureInformations(GameStatus.getInstance().getDevelopmentCardsVenture().get(this.developmentCardsVentureIndexes.get(pane)));
+			return GameStatus.getInstance().getDevelopmentCardsVenture().get(this.developmentCardsVentureIndexes.get(pane)).getInformations();
 		}
 		return null;
-	}
-
-	private String getDevelopmentCardBuildingInformations(DevelopmentCardBuildingInformations developmentCardBuildingInformations)
-	{
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(this.getDevelopmentCardCommonInformations(developmentCardBuildingInformations));
-		stringBuilder.append("\n\nPRODUCTION ACTIVATION COST: ");
-		stringBuilder.append(developmentCardBuildingInformations.getActivationValue());
-		if (!developmentCardBuildingInformations.getResourceTradeOptions().isEmpty()) {
-			stringBuilder.append("\n\nRESOURCE TRADE OPTIONS:");
-			for (ResourceTradeOption resourcetradeOption : developmentCardBuildingInformations.getResourceTradeOptions()) {
-				stringBuilder.append("\n==============");
-				if (!resourcetradeOption.getEmployedResources().isEmpty()) {
-					stringBuilder.append("\nEmployed resources:");
-					for (ResourceAmount resourceAmount : resourcetradeOption.getEmployedResources()) {
-						stringBuilder.append("\n    - ");
-						stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-						stringBuilder.append(": ");
-						stringBuilder.append(resourceAmount.getAmount());
-					}
-				}
-				if (!resourcetradeOption.getProducedResources().isEmpty()) {
-					stringBuilder.append("\nProduced resources:");
-					for (ResourceAmount resourceAmount : resourcetradeOption.getProducedResources()) {
-						stringBuilder.append("\n    - ");
-						stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-						stringBuilder.append(": ");
-						stringBuilder.append(resourceAmount.getAmount());
-					}
-				}
-				stringBuilder.append("\n==============");
-			}
-		}
-		return stringBuilder.toString();
-	}
-
-	private String getDevelopmentCardCharacterInformation(DevelopmentCardCharacterInformations developmentCardCharacterInformations)
-	{
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(this.getDevelopmentCardCommonInformations(developmentCardCharacterInformations));
-		if (developmentCardCharacterInformations.getModifierInformations() != null) {
-			stringBuilder.append("\n\nMODIFIER:\n| ");
-			stringBuilder.append(developmentCardCharacterInformations.getModifierInformations().replace("\n", "\n| "));
-		}
-		return stringBuilder.toString();
-	}
-
-	private String getDevelopmentCardTerritoryInformations(DevelopmentCardTerritoryInformations developmentCardTerritoryInformations)
-	{
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(this.getDevelopmentCardCommonInformations(developmentCardTerritoryInformations));
-		stringBuilder.append("\n\nHARVEST ACTIVATION VALUE: ");
-		stringBuilder.append(developmentCardTerritoryInformations.getActivationValue());
-		if (!developmentCardTerritoryInformations.getHarvestResources().isEmpty()) {
-			stringBuilder.append("\n\nHARVEST RESOURCES:");
-			for (ResourceAmount resourceAmount : developmentCardTerritoryInformations.getHarvestResources()) {
-				stringBuilder.append("\n    - ");
-				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-				stringBuilder.append(": ");
-				stringBuilder.append(resourceAmount.getAmount());
-			}
-		}
-		return stringBuilder.toString();
-	}
-
-	private String getDevelopmentCardVentureInformations(DevelopmentCardVentureInformations developmentCardVentureInformations)
-	{
-		return this.getDevelopmentCardCommonInformations(developmentCardVentureInformations) + "\n\nVICTORY VALUE: " + developmentCardVentureInformations.getVictoryValue();
-	}
-
-	private String getDevelopmentCardCommonInformations(DevelopmentCardInformations developmentCardInformations)
-	{
-		StringBuilder stringBuilder = new StringBuilder();
-		boolean firstLine = true;
-		if (!developmentCardInformations.getResourceCostOptions().isEmpty()) {
-			firstLine = false;
-			stringBuilder.append("RESOURCE COST OPTIONS:\n==============");
-			for (ResourceCostOption resourceCostOption : developmentCardInformations.getResourceCostOptions()) {
-				if (!resourceCostOption.getRequiredResources().isEmpty()) {
-					stringBuilder.append("\nRequired resources:");
-					for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
-						stringBuilder.append("\n    - ");
-						stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-						stringBuilder.append(": ");
-						stringBuilder.append(resourceAmount.getAmount());
-					}
-				}
-				if (!resourceCostOption.getSpentResources().isEmpty()) {
-					stringBuilder.append("\nSpent resources:");
-					for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
-						stringBuilder.append("\n    - ");
-						stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-						stringBuilder.append(": ");
-						stringBuilder.append(resourceAmount.getAmount());
-					}
-				}
-				stringBuilder.append("\n==============");
-			}
-		}
-		if (developmentCardInformations.getReward().getActionRewardInformations() != null || !developmentCardInformations.getReward().getResourceAmounts().isEmpty()) {
-			if (!firstLine) {
-				stringBuilder.append("\n\n");
-			}
-			stringBuilder.append("REWARD:");
-		}
-		if (!developmentCardInformations.getReward().getResourceAmounts().isEmpty()) {
-			stringBuilder.append("\nInstant resources:");
-			for (ResourceAmount resourceAmount : (developmentCardInformations.getReward().getResourceAmounts())) {
-				stringBuilder.append("\n    - ");
-				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-				stringBuilder.append(": ");
-				stringBuilder.append(resourceAmount.getAmount());
-			}
-		}
-		if (developmentCardInformations.getReward().getActionRewardInformations() != null) {
-			stringBuilder.append("\nAction reward:\n| ");
-			stringBuilder.append(developmentCardInformations.getReward().getActionRewardInformations().replace("\n", "\n| "));
-		}
-		return stringBuilder.toString();
 	}
 
 	private String getResourcesInformations(List<ResourceAmount> resourceAmounts)
@@ -1702,65 +1583,11 @@ public class ControllerGame extends CustomController
 				firstLine = false;
 			}
 			stringBuilder.append("- ");
-			stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
+			stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 			stringBuilder.append(": ");
 			stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 		}
 		return stringBuilder.toString();
-	}
-
-	private Tooltip getLeaderCardInformations(LeaderCardInformations leaderCardInformations)
-	{
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(leaderCardInformations.getDisplayName());
-		stringBuilder.append("\n\n");
-		stringBuilder.append(leaderCardInformations.getDescription());
-		stringBuilder.append("\n\nPLAY CONDITIONS:\n==============");
-		for (LeaderCardConditionsOption leaderCardConditionsOption : leaderCardInformations.getConditionsOptions()) {
-			if (!leaderCardConditionsOption.getResourceAmounts().isEmpty()) {
-				stringBuilder.append("\nRequired resources:");
-				for (ResourceAmount resourceAmount : leaderCardConditionsOption.getResourceAmounts()) {
-					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-			}
-			if (!leaderCardConditionsOption.getCardAmounts().isEmpty()) {
-				stringBuilder.append("\nRequired cards:");
-				for (CardAmount cardAmount : leaderCardConditionsOption.getCardAmounts()) {
-					stringBuilder.append("\n    - ");
-					stringBuilder.append(Utils.getCardTypesNames().get(cardAmount.getCardType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(cardAmount.getAmount());
-				}
-			}
-			stringBuilder.append("\n==============");
-		}
-		stringBuilder.append("\n\n");
-		if (leaderCardInformations instanceof LeaderCardModifierInformations) {
-			stringBuilder.append("PERMANENT ABILITY:\n");
-			stringBuilder.append(((LeaderCardModifierInformations) leaderCardInformations).getModifier());
-		} else {
-			stringBuilder.append("ONCE PER ROUND ABILITY:");
-			if (!((LeaderCardRewardInformations) leaderCardInformations).getReward().getResourceAmounts().isEmpty()) {
-				stringBuilder.append("\n\nInstant resources:");
-			}
-			for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) leaderCardInformations).getReward().getResourceAmounts()) {
-				stringBuilder.append('\n');
-				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-				stringBuilder.append(": ");
-				stringBuilder.append(resourceAmount.getAmount());
-			}
-			if (((LeaderCardRewardInformations) leaderCardInformations).getReward().getActionRewardInformations() != null) {
-				stringBuilder.append("\n\nAction reward:\n");
-				stringBuilder.append(((LeaderCardRewardInformations) leaderCardInformations).getReward().getActionRewardInformations());
-			}
-		}
-		Tooltip tooltip = new Tooltip(stringBuilder.toString());
-		WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
-		WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
-		return tooltip;
 	}
 
 	public void setOwnTurn()
@@ -1931,14 +1758,21 @@ public class ControllerGame extends CustomController
 					this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 					this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index).setEffect(greyScaleEffect);
 				}
-				Tooltip.install(this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index), this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())));
+				this.playersLeaderCardsHand.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
+				WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+				WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+				Tooltip.install(this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index), tooltip);
 				index++;
 			}
 			if (playerData.getKey() == GameStatus.getInstance().getOwnPlayerIndex()) {
 				index = 0;
 				for (int leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
 					this.playersLeaderCardsHand.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-					Tooltip.install(this.playersLeaderCardsHand.get(playerData.getKey()).get(index), this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard)));
+					Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
+					WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+					WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+					Tooltip.install(this.playersLeaderCardsHand.get(playerData.getKey()).get(index), tooltip);
 					index++;
 				}
 			} else {
@@ -2019,7 +1853,7 @@ public class ControllerGame extends CustomController
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getProductionInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
+				stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -2030,7 +1864,7 @@ public class ControllerGame extends CustomController
 			}
 			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getHarvestInstantResources()) {
 				stringBuilder.append('\n');
-				stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
+				stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");
 				stringBuilder.append(resourceAmount.getAmount());
 			}
@@ -2059,7 +1893,10 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			Tooltip.install(pane, this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard)));
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
+			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCard));
 			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
@@ -2190,7 +2027,7 @@ public class ControllerGame extends CustomController
 							}
 							for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
 								stringBuilder.append("\n- ");
-								stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
+								stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 							}
@@ -2199,7 +2036,7 @@ public class ControllerGame extends CustomController
 							}
 							for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
 								stringBuilder.append("\n- ");
-								stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
+								stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 							}
@@ -2294,7 +2131,10 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			Tooltip.install(pane, this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey())));
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
+			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
 				this.leaderCardsChoiceDialog.close();
@@ -2317,7 +2157,10 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			Tooltip.install(pane, this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard)));
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
+			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
 				this.leaderCardsChoiceDialog.close();
@@ -2340,7 +2183,10 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			Tooltip.install(pane, this.getLeaderCardInformations(GameStatus.getInstance().getLeaderCards().get(leaderCard)));
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
+			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
 				this.leaderCardsChoiceDialog.close();

@@ -31,6 +31,12 @@ public class CLIHandlerConnection implements ICLIHandler
 		Client.getInstance().setup(this.connectionType, this.ip, this.port);
 	}
 
+	@Override
+	public CLIHandlerConnection newInstance()
+	{
+		return new CLIHandlerConnection();
+	}
+
 	private void askConnectionType()
 	{
 		Client.getLogger().log(Level.INFO, "Enter Connection Type...");
@@ -58,11 +64,5 @@ public class CLIHandlerConnection implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		} while (!CommonUtils.isInteger(input));
 		this.port = Integer.parseInt(input);
-	}
-
-	@Override
-	public CLIHandlerConnection newInstance()
-	{
-		return new CLIHandlerConnection();
 	}
 }

@@ -14,6 +14,7 @@ import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
 import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsLobbySocket;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
@@ -186,7 +187,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		this.sendDisconnectionAcknowledgement();
 	}
 
-	void handleAuthenticationConfirmation(it.polimi.ingsw.lim.common.network.AuthenticationInformations authenticationInformations)
+	void handleAuthenticationConfirmation(AuthenticationInformations authenticationInformations)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
 			return;
