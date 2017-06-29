@@ -23,7 +23,7 @@ public class Packet implements Serializable
 		try {
 			out.writeObject(this);
 		} catch (IOException exception) {
-			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Instance.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 

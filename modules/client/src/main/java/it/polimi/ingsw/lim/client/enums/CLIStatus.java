@@ -19,5 +19,4 @@ public enum CLIStatus
 	LEADER_ACTIVATE,
 	LEADER_DISCARD,
 	LEADER_PLAY
-
 }

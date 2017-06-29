@@ -64,7 +64,8 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 					Client.getInstance().setCurrentCliHandler(newCliHandler);
 					newCliHandler.execute();
 				});
-			});		}
+			});
+		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD).isEmpty()) {
 			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
 				Client.getInstance().setCliStatus(CLIStatus.PICK_DEVELOPMENT_CARD);
@@ -73,7 +74,8 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 					Client.getInstance().setCurrentCliHandler(newCliHandler);
 					newCliHandler.execute();
 				});
-			});		}
+			});
+		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START).isEmpty()) {
 			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
 				Client.getInstance().setCliStatus(CLIStatus.PRODUCTION_START);
@@ -82,7 +84,8 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 					Client.getInstance().setCurrentCliHandler(newCliHandler);
 					newCliHandler.execute();
 				});
-			});		}
+			});
+		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty()) {
 			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
 				Client.getInstance().setCliStatus(CLIStatus.LEADER_ACTIVATE);
@@ -91,7 +94,8 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 					Client.getInstance().setCurrentCliHandler(newCliHandler);
 					newCliHandler.execute();
 				});
-			});		}
+			});
+		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty()) {
 			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
 				Client.getInstance().setCliStatus(CLIStatus.LEADER_DISCARD);
@@ -100,7 +104,8 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 					Client.getInstance().setCurrentCliHandler(newCliHandler);
 					newCliHandler.execute();
 				});
-			});		}
+			});
+		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
 			this.inputHandlerActionType.put(this.inputHandlerActionType.size() + 1, cliHandler -> {
 				Client.getInstance().setCliStatus(CLIStatus.LEADER_PLAY);
@@ -109,14 +114,15 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 					Client.getInstance().setCurrentCliHandler(newCliHandler);
 					newCliHandler.execute();
 				});
-			});		}
+			});
+		}
 		this.showAvailableActions();
 		this.askAction();
 	}
 
 	public void showAvailableActions()
 	{
-		for (Entry<Integer, IInputHandler > currentavailableAction : this.inputHandlerActionType.entrySet()) {
+		for (Entry<Integer, IInputHandler> currentavailableAction : this.inputHandlerActionType.entrySet()) {
 			StringBuilder stringBuilder = new StringBuilder();
 			Client.getLogger().log(Level.INFO, "============= {0} =============", new Object[] { currentavailableAction.getKey() });
 			Client.getLogger().log(Level.INFO, currentavailableAction.getValue().toString());

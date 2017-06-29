@@ -92,7 +92,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 				this.socket.close();
 			}
 		} catch (IOException exception) {
-			Client.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 

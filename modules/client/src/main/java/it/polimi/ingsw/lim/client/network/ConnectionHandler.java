@@ -133,6 +133,11 @@ public abstract class ConnectionHandler extends Thread
 		this.checkInitialization();
 	}
 
+	public synchronized void sendGoodGame(int playerIndex)
+	{
+		this.checkInitialization();
+	}
+
 	public void handleRoomEntryOther(String name)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
@@ -394,6 +399,9 @@ public abstract class ConnectionHandler extends Thread
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
 			return;
+		}
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showEndGame(playersScores, playerIndexesVictoryPointsRecord));
 		}
 	}
 

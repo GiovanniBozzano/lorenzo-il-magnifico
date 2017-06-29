@@ -49,21 +49,6 @@ public class ControllerGame extends CustomController
 	}
 
 	@FXML private Pane gameBoard;
-	@FXML private Pane playerBoard1DevelopmentCardsVenture;
-	@FXML private Pane playerBoard2DevelopmentCardsVenture;
-	@FXML private Pane playerBoard3DevelopmentCardsVenture;
-	@FXML private Pane playerBoard4DevelopmentCardsVenture;
-	@FXML private Pane playerBoard5DevelopmentCardsVenture;
-	@FXML private Pane playerBoard1DevelopmentCardsCharacter;
-	@FXML private Pane playerBoard2DevelopmentCardsCharacter;
-	@FXML private Pane playerBoard3DevelopmentCardsCharacter;
-	@FXML private Pane playerBoard4DevelopmentCardsCharacter;
-	@FXML private Pane playerBoard5DevelopmentCardsCharacter;
-	@FXML private Pane playerBoard1;
-	@FXML private Pane playerBoard2;
-	@FXML private Pane playerBoard3;
-	@FXML private Pane playerBoard4;
-	@FXML private Pane playerBoard5;
 	@FXML private Pane diceBlack;
 	@FXML private Pane diceWhite;
 	@FXML private Pane diceOrange;
@@ -307,6 +292,28 @@ public class ControllerGame extends CustomController
 	@FXML private Pane slotVenture2;
 	@FXML private Pane slotVenture3;
 	@FXML private Pane slotVenture4;
+	@FXML private VBox rightVBox;
+	@FXML private JFXTabPane playersTabPane;
+	@FXML private Tab player1Tab;
+	@FXML private Tab player2Tab;
+	@FXML private Tab player3Tab;
+	@FXML private Tab player4Tab;
+	@FXML private Tab player5Tab;
+	@FXML private Pane playerBoard1DevelopmentCardsVenture;
+	@FXML private Pane playerBoard2DevelopmentCardsVenture;
+	@FXML private Pane playerBoard3DevelopmentCardsVenture;
+	@FXML private Pane playerBoard4DevelopmentCardsVenture;
+	@FXML private Pane playerBoard5DevelopmentCardsVenture;
+	@FXML private Pane playerBoard1DevelopmentCardsCharacter;
+	@FXML private Pane playerBoard2DevelopmentCardsCharacter;
+	@FXML private Pane playerBoard3DevelopmentCardsCharacter;
+	@FXML private Pane playerBoard4DevelopmentCardsCharacter;
+	@FXML private Pane playerBoard5DevelopmentCardsCharacter;
+	@FXML private Pane playerBoard1;
+	@FXML private Pane playerBoard2;
+	@FXML private Pane playerBoard3;
+	@FXML private Pane playerBoard4;
+	@FXML private Pane playerBoard5;
 	@FXML private Pane player1Venture1;
 	@FXML private Pane player1Venture2;
 	@FXML private Pane player1Venture3;
@@ -447,20 +454,7 @@ public class ControllerGame extends CustomController
 	@FXML private Label player5Wood;
 	@FXML private Label player5Stone;
 	@FXML private Label player5Servant;
-	@FXML private Tab player1Tab;
-	@FXML private Tab player2Tab;
-	@FXML private Tab player3Tab;
-	@FXML private Tab player4Tab;
-	@FXML private Tab player5Tab;
-	@FXML private Tab leaderCardsPlayer1Tab;
-	@FXML private Tab leaderCardsPlayer2Tab;
-	@FXML private Tab leaderCardsPlayer3Tab;
-	@FXML private Tab leaderCardsPlayer4Tab;
-	@FXML private Tab leaderCardsPlayer5Tab;
-	@FXML private VBox rightVBox;
-	@FXML private JFXTabPane playersTabPane;
 	@FXML private JFXTabPane chatTabPane;
-	@FXML private JFXTabPane leaderCardsTabPane;
 	@FXML private TextArea chatTextArea;
 	@FXML private TextArea gameLogTextArea;
 	@FXML private VBox actionsVBox;
@@ -492,6 +486,12 @@ public class ControllerGame extends CustomController
 	@FXML private ScrollPane cardDialogScrollPane;
 	@FXML private Text cardDialogText;
 	@FXML private JFXDialog leaderCardsDialog;
+	@FXML private JFXTabPane leaderCardsTabPane;
+	@FXML private Tab leaderCardsPlayer1Tab;
+	@FXML private Tab leaderCardsPlayer2Tab;
+	@FXML private Tab leaderCardsPlayer3Tab;
+	@FXML private Tab leaderCardsPlayer4Tab;
+	@FXML private Tab leaderCardsPlayer5Tab;
 	@FXML private Pane player1LeaderCard1Hand;
 	@FXML private Pane player1LeaderCard2Hand;
 	@FXML private Pane player1LeaderCard3Hand;
@@ -532,6 +532,9 @@ public class ControllerGame extends CustomController
 	@FXML private Pane player5LeaderCard2Played;
 	@FXML private Pane player5LeaderCard3Played;
 	@FXML private Pane player5LeaderCard4Played;
+	@FXML private JFXDialog endGameDialog;
+	@FXML private Label endGameDialogTitle;
+	@FXML private VBox endGameDialogPlayersVBox;
 	private static final DropShadow MOUSE_OVER_EFFECT = new DropShadow();
 
 	static {
@@ -746,6 +749,12 @@ public class ControllerGame extends CustomController
 	private void handlePickDevelopmentCardChoiceDialogCancelButtonAction()
 	{
 		this.pickDevelopmentCardChoiceDialog.close();
+	}
+
+	@FXML
+	private void handleEndGameDialogDisconnectButtonAction()
+	{
+		Client.getInstance().disconnect(false, true);
 	}
 
 	@Override
@@ -1094,6 +1103,11 @@ public class ControllerGame extends CustomController
 		this.leaderCardsDialog.setTransitionType(DialogTransition.CENTER);
 		this.leaderCardsDialog.setDialogContainer(this.getStackPane());
 		this.leaderCardsDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.endGameDialog);
+		this.endGameDialog.setTransitionType(DialogTransition.CENTER);
+		this.endGameDialog.setDialogContainer(this.getStackPane());
+		this.endGameDialog.setOverlayClose(false);
+		this.endGameDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getStylesheets().add(Client.getInstance().getClass().getResource("/css/jfoenix-nodes-list-button.css").toExternalForm());
 		for (CardType cardType : CardType.values()) {
 			for (Pane pane : this.developmentCardsPanes.get(cardType).values()) {
@@ -2331,6 +2345,39 @@ public class ControllerGame extends CustomController
 		this.leaderCardsChoiceDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsChoiceDialogHBox.getChildren().size() + this.leaderCardsChoiceDialogHBox.getSpacing() * (this.leaderCardsChoiceDialogHBox.getChildren().size() - 1) + this.leaderCardsChoiceDialogLayout.getInsets().getLeft() + this.leaderCardsChoiceDialogLayout.getInsets().getRight());
 		this.leaderCardsChoiceDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + 20.0D);
 		this.leaderCardsChoiceDialog.show();
+	}
+
+	public void showEndGame(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
+	{
+		if (new ArrayList<>(playersScores.keySet()).get(0) == GameStatus.getInstance().getOwnPlayerIndex()) {
+			this.endGameDialogTitle.setText("VICTORY");
+			this.endGameDialogTitle.setTextFill(Color.web("#2E7D32"));
+		} else {
+			this.endGameDialogTitle.setText("DEFEAT");
+			this.endGameDialogTitle.setTextFill(Color.web("#B71C1C"));
+		}
+		int index = 1;
+		GridPane gridPane = new GridPane();
+		gridPane.setGridLinesVisible(true);
+		ColumnConstraints columnConstraints = new ColumnConstraints();
+		gridPane.getColumnConstraints().add(columnConstraints);
+		gridPane.getColumnConstraints().add(columnConstraints);
+		for (Entry<Integer, Integer> playerScore : playersScores.entrySet()) {
+			RowConstraints rowConstraints = new RowConstraints();
+			gridPane.getRowConstraints().add(rowConstraints);
+			Label label = new Label(index + " - " + playerScore.getValue() + " Points " + GameStatus.getInstance().getCurrentPlayersData().get(playerScore.getKey()).getUsername() + " (Record: " + playerIndexesVictoryPointsRecord.get(playerScore.getKey()) + " Points)");
+			VBox vBox = new VBox();
+			JFXButton button = new JFXButton("Send Good Game");
+			button.setOnAction((event) -> {
+				button.setDisable(true);
+				Client.getInstance().getConnectionHandler().sendGoodGame(playerScore.getKey());
+			});
+			vBox.getChildren().add(button);
+			gridPane.add(label, 0, index - 1);
+			gridPane.add(vBox, 1, index - 1);
+		}
+		this.endGameDialogPlayersVBox.getChildren().add(gridPane);
+		this.endGameDialog.show();
 	}
 
 	public TextArea getChatTextArea()

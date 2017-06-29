@@ -913,4 +913,23 @@
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
+	<JFXDialog fx:id="endGameDialog">
+		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
+			<body>
+				<VBox alignment="CENTER" spacing="20.0">
+					<Label fx:id="endGameDialogTitle" style="-fx-border-color: #757575; -fx-border-width: 2px;">
+						<font>
+							<Font name="Roboto" size="12.0" />
+						</font>
+					</Label>
+					<VBox fx:id="endGameDialogPlayersVBox" spacing="10.0" />
+					<JFXButton onAction="#handleEndGameDialogDisconnectButtonAction" text="Disconnect">
+						<font>
+							<Font name="Roboto" size="12.0" />
+						</font>
+					</JFXButton>
+				</VBox>
+			</body>
+		</JFXDialogLayout>
+	</JFXDialog>
 </StackPane>
