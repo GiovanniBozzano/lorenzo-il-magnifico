@@ -8,6 +8,7 @@ import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 
 import java.rmi.RemoteException;
@@ -65,9 +66,9 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
-	public void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex) throws RemoteException
+	public void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, List<ResourceAmount>> councilPrivilegeRewards, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex) throws RemoteException
 	{
-		Client.getInstance().getConnectionHandler().handleGameStarted(excommunicationTiles, playersData, ownPlayerIndex);
+		Client.getInstance().getConnectionHandler().handleGameStarted(excommunicationTiles, councilPrivilegeRewards, playersData, ownPlayerIndex);
 	}
 
 	@Override

@@ -1,11 +1,15 @@
 package it.polimi.ingsw.lim.client.utils;
 
+import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.Color;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.Effect;
 import javafx.scene.layout.Pane;
 
@@ -165,6 +169,21 @@ public class Utils
 		});
 		pane.setOnMouseExited(event -> {
 		});
+	}
+
+	public static void sendChatMessage(TextField textField, TextArea textArea)
+	{
+		String trimmedText = textField.getText().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
+		if (trimmedText.length() < 1) {
+			return;
+		}
+		textField.clear();
+		Client.getInstance().getConnectionHandler().sendChatMessage(trimmedText);
+		if (textArea.getText().length() < 1) {
+			textArea.appendText("[ME]: " + trimmedText);
+		} else {
+			textArea.appendText("\n[ME]: " + trimmedText);
+		}
 	}
 
 	public static Map<Integer, Map<FamilyMemberType, String>> getDicesFamilyMemberTypes()

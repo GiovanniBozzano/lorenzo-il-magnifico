@@ -2,13 +2,13 @@ package it.polimi.ingsw.lim.client.game;
 
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.common.enums.*;
-import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.*;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -22,9 +22,9 @@ public class GameStatus
 	private final Map<Integer, DevelopmentCardVentureInformations> developmentCardsVenture = new HashMap<>();
 	private final Map<Integer, LeaderCardInformations> leaderCards = new HashMap<>();
 	private final Map<Integer, ExcommunicationTileInformations> excommunicationTiles = new HashMap<>();
-	private final Map<Integer, CouncilPalaceRewardInformations> councilPalaceRewards = new HashMap<>();
 	private final Map<Integer, PersonalBonusTileInformations> personalBonusTiles = new HashMap<>();
 	private final Map<Period, Integer> currentExcommunicationTiles = new EnumMap<>(Period.class);
+	private final Map<Integer, List<ResourceAmount>> currentCouncilPrivilegeRewards = new HashMap<>();
 	private final Map<Integer, PlayerData> currentPlayerData = new HashMap<>();
 	private int ownPlayerIndex;
 	private final Map<Row, Integer> currentDevelopmentCardsBuilding = new EnumMap<>(Row.class);
@@ -50,7 +50,7 @@ public class GameStatus
 		this.currentDevelopmentCards.put(CardType.VENTURE, this.currentDevelopmentCardsVenture);
 	}
 
-	public void setup(Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuilding, Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacter, Map<Integer, DevelopmentCardTerritoryInformations> developmentCardsTerritory, Map<Integer, DevelopmentCardVentureInformations> developmentCardsVenture, Map<Integer, LeaderCardInformations> leaderCards, Map<Integer, ExcommunicationTileInformations> excommunicationTiles, Map<Integer, CouncilPalaceRewardInformations> councilPalaceRewards, Map<Integer, PersonalBonusTileInformations> personalBonusTiles)
+	public void setup(Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuilding, Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacter, Map<Integer, DevelopmentCardTerritoryInformations> developmentCardsTerritory, Map<Integer, DevelopmentCardVentureInformations> developmentCardsVenture, Map<Integer, LeaderCardInformations> leaderCards, Map<Integer, ExcommunicationTileInformations> excommunicationTiles, Map<Integer, PersonalBonusTileInformations> personalBonusTiles)
 	{
 		this.developmentCardsBuilding.clear();
 		this.developmentCardsBuilding.putAll(developmentCardsBuilding);
@@ -64,8 +64,6 @@ public class GameStatus
 		this.leaderCards.putAll(leaderCards);
 		this.excommunicationTiles.clear();
 		this.excommunicationTiles.putAll(excommunicationTiles);
-		this.councilPalaceRewards.clear();
-		this.councilPalaceRewards.putAll(councilPalaceRewards);
 		this.personalBonusTiles.clear();
 		this.personalBonusTiles.putAll(personalBonusTiles);
 	}
@@ -141,11 +139,6 @@ public class GameStatus
 		return this.excommunicationTiles;
 	}
 
-	public Map<Integer, CouncilPalaceRewardInformations> getCouncilPalaceRewards()
-	{
-		return this.councilPalaceRewards;
-	}
-
 	public Map<Integer, PersonalBonusTileInformations> getPersonalBonusTiles()
 	{
 		return this.personalBonusTiles;
@@ -160,6 +153,17 @@ public class GameStatus
 	{
 		this.currentExcommunicationTiles.clear();
 		this.currentExcommunicationTiles.putAll(currentExcommunicationTiles);
+	}
+
+	public Map<Integer, List<ResourceAmount>> getCurrentCouncilPrivilegeRewards()
+	{
+		return this.currentCouncilPrivilegeRewards;
+	}
+
+	public void setCurrentCouncilPrivilegeRewards(Map<Integer, List<ResourceAmount>> currentCouncilPrivilegeRewards)
+	{
+		this.currentCouncilPrivilegeRewards.clear();
+		this.currentCouncilPrivilegeRewards.putAll(currentCouncilPrivilegeRewards);
 	}
 
 	public Map<Integer, PlayerData> getCurrentPlayersData()

@@ -37,7 +37,6 @@ public class Player
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
 	private final List<Modifier> activeModifiers = new ArrayList<>();
 	private final List<Modifier> temporaryModifiers = new ArrayList<>();
-	private final List<Integer> councilPrivileges = new ArrayList<>();
 	private PersonalBonusTile personalBonusTile;
 	private int availableTurns = 4;
 	private boolean isOnline = true;
@@ -124,11 +123,6 @@ public class Player
 	public List<Modifier> getActiveModifiers()
 	{
 		return this.activeModifiers;
-	}
-
-	public List<Integer> getCouncilPrivileges()
-	{
-		return this.councilPrivileges;
 	}
 
 	public List<Modifier> getTemporaryModifiers()

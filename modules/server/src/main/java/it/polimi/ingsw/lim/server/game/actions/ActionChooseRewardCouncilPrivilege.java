@@ -1,15 +1,14 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
+import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.player.Player;
-import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 {
 	private transient final Player player;
 
-	public ActionChooseRewardCouncilPrivilege(List<List<Integer>> councilPalaceRewardIndexes, Player player)
+	public ActionChooseRewardCouncilPrivilege(List<Integer> councilPalaceRewardIndexes, Player player)
 	{
 		super(councilPalaceRewardIndexes);
 		this.player = player;
@@ -48,37 +47,17 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE) {
 			return false;
 		}
-		for (List<Integer> differentIndexes : this.getCouncilPalaceRewardIndexes()) {
-			boolean validIndexes = false;
-			for (Integer councilPrivilegesCount : this.player.getCouncilPrivileges()) {
-				if (councilPrivilegesCount == differentIndexes.size()) {
-					validIndexes = true;
-					break;
-				}
-			}
-			if (!validIndexes) {
-				return false;
-			}
+		if (this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE) != this.getCouncilPrivilegeRewardIndexes().size()) {
+			return false;
 		}
-		for (List<Integer> differentIndexes : this.getCouncilPalaceRewardIndexes()) {
-			// check if all rewards are different
-			Set<Integer> set = new HashSet<>(differentIndexes);
-			if ((differentIndexes.size() > BoardHandler.getCouncilPrivilegeRewards().size() && set.size() != BoardHandler.getCouncilPrivilegeRewards().size()) || set.size() != differentIndexes.size()) {
+		// check if all rewards are different
+		Set<Integer> set = new HashSet<>(this.getCouncilPrivilegeRewardIndexes());
+		if ((this.getCouncilPrivilegeRewardIndexes().size() > gameHandler.getBoardHandler().getMatchCouncilPrivilegeRewards().size() && set.size() != gameHandler.getBoardHandler().getMatchCouncilPrivilegeRewards().size()) || set.size() != this.getCouncilPrivilegeRewardIndexes().size()) {
+			return false;
+		}
+		for (int councilPrivilegeReward : this.getCouncilPrivilegeRewardIndexes()) {
+			if (!gameHandler.getBoardHandler().getMatchCouncilPrivilegeRewards().keySet().contains(councilPrivilegeReward)) {
 				return false;
-			}
-			for (int councilPalaceRewardIndex : differentIndexes) {
-				boolean validIndex = false;
-				for (CouncilPalaceReward councilPalaceReward : BoardHandler.getCouncilPrivilegeRewards()) {
-					if (councilPalaceReward.getIndex() == councilPalaceRewardIndex) {
-						validIndex = true;
-					}
-					if (validIndex) {
-						break;
-					}
-				}
-				if (!validIndex) {
-					return false;
-				}
 			}
 		}
 		return true;
@@ -95,12 +74,10 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 		if (gameHandler == null) {
 			return;
 		}
-		this.player.getCouncilPrivileges().clear();
+		this.player.getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
 		List<ResourceAmount> resourceReward = new ArrayList<>();
-		for (List<Integer> differentIndexes : this.getCouncilPalaceRewardIndexes()) {
-			for (int councilPalaceRewardIndex : differentIndexes) {
-				resourceReward.addAll(BoardHandler.getCouncilPrivilegeRewards().get(councilPalaceRewardIndex).getResourceAmounts());
-			}
+		for (int councilPalaceRewardIndex : this.getCouncilPrivilegeRewardIndexes()) {
+			resourceReward.addAll(gameHandler.getBoardHandler().getMatchCouncilPrivilegeRewards().get(councilPalaceRewardIndex));
 		}
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.COUNCIL_PRIVILEGE);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());

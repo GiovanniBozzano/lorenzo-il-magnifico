@@ -19,6 +19,7 @@ import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
@@ -200,12 +201,13 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
-	public void handleGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersIdentifications, int ownPlayerIndex)
+	public void handleGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, List<ResourceAmount>> councilPrivilegeRewards, Map<Integer, PlayerIdentification> playersIdentifications, int ownPlayerIndex)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerRoom.class)) {
 			return;
 		}
 		GameStatus.getInstance().setCurrentExcommunicationTiles(excommunicationTiles);
+		GameStatus.getInstance().setCurrentCouncilPrivilegeRewards(councilPrivilegeRewards);
 		Map<Integer, PlayerData> playersData = new HashMap<>();
 		for (Entry<Integer, PlayerIdentification> entry : playersIdentifications.entrySet()) {
 			playersData.put(entry.getKey(), new PlayerData(entry.getValue().getUsername(), entry.getValue().getColor()));

@@ -7,15 +7,15 @@ import java.util.List;
 
 public class ActionInformationsChooseRewardCouncilPrivilege extends ActionInformations
 {
-	private final List<List<Integer>> councilPalaceRewardIndexes;
+	private final List<Integer> councilPalaceRewardIndexes;
 
-	public ActionInformationsChooseRewardCouncilPrivilege(List<List<Integer>> councilPalaceRewardIndexes)
+	public ActionInformationsChooseRewardCouncilPrivilege(List<Integer> councilPalaceRewardIndexes)
 	{
 		super(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 		this.councilPalaceRewardIndexes = new ArrayList<>(councilPalaceRewardIndexes);
 	}
 
-	public List<List<Integer>> getCouncilPalaceRewardIndexes()
+	public List<Integer> getCouncilPrivilegeRewardIndexes()
 	{
 		return this.councilPalaceRewardIndexes;
 	}

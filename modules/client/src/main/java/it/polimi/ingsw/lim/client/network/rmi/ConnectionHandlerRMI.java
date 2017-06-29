@@ -54,12 +54,13 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		} catch (NotBoundException | MalformedURLException | RemoteException | IllegalArgumentException exception) {
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
 			ConnectionHandler.printConnectionError();
-			Client.getInstance().getCliListener().shutdownNow();
-			Client.getInstance().getCliListener().execute(() -> {
-				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-				Client.getInstance().setCurrentCliHandler(cliHandler);
-				cliHandler.execute();
-			});
+			if (Client.getInstance().getCliStatus() != CLIStatus.NONE) {
+				Client.getInstance().getCliListener().execute(() -> {
+					ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
+					Client.getInstance().setCurrentCliHandler(cliHandler);
+					cliHandler.execute();
+				});
+			}
 			return;
 		}
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
@@ -265,7 +266,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 
 	private void finalizeAuthentication(String username, AuthenticationInformations authenticationInformations)
 	{
-		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getCouncilPalaceRewardsInformations(), authenticationInformations.getPersonalBonusTilesInformations());
+		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getPersonalBonusTilesInformations());
 		if (!authenticationInformations.isGameStarted()) {
 			this.clientSession = ((AuthenticationInformationsLobbyRMI) authenticationInformations).getClientSession();
 			Client.getInstance().setUsername(username);
@@ -277,6 +278,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		} else {
 			this.clientSession = ((AuthenticationInformationsGameRMI) authenticationInformations).getClientSession();
 			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationsGameRMI) authenticationInformations).getExcommunicationTiles());
+			GameStatus.getInstance().setCurrentCouncilPrivilegeRewards(((AuthenticationInformationsGameRMI) authenticationInformations).getCouncilPrivilegeRewards());
 			Map<Integer, PlayerData> playersData = new HashMap<>();
 			for (Entry<Integer, PlayerIdentification> entry : ((AuthenticationInformationsGameRMI) authenticationInformations).getPlayersIdentifications().entrySet()) {
 				playersData.put(entry.getKey(), new PlayerData(entry.getValue().getUsername(), entry.getValue().getColor()));

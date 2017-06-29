@@ -1,61 +1,49 @@
-[
-	{
-		"resourceAmounts": [
-			{
-				"type": "STANDARD",
-				"resourceType": "WOOD",
-				"amount": 1
-			},
-			{
-				"type": "STANDARD",
-				"resourceType": "STONE",
-				"amount": 1
-			}
-		]
-	},
-	{
-		"resourceAmounts": [
-			{
-				"type": "STANDARD",
-				"resourceType": "SERVANT",
-				"amount": 2
-			}
-		]
-	},
-	{
-		"resourceAmounts": [
-			{
-				"type": "STANDARD",
-				"resourceType": "COIN",
-				"amount": 2
-			}
-		]
-	},
-	{
-		"resourceAmounts": [
-			{
-				"type": "STANDARD",
-				"resourceType": "MILITARY_POINT",
-				"amount": 2
-			}
-		]
-	},
-	{
-		"resourceAmounts": [
-			{
-				"type": "STANDARD",
-				"resourceType": "FAITH_POINT",
-				"amount": 1
-			}
-		]
-	},
-	{
-		"resourceAmounts": [
-			{
-				"type": "STANDARD",
-				"resourceType": "PRESTIGE_POINT",
-				"amount": 1
-			}
-		]
-	}
-]
+{
+	"0": [
+		{
+			"type": "STANDARD",
+			"resourceType": "WOOD",
+			"amount": 1
+		},
+		{
+			"type": "STANDARD",
+			"resourceType": "STONE",
+			"amount": 1
+		}
+	],
+	"1": [
+		{
+			"type": "STANDARD",
+			"resourceType": "SERVANT",
+			"amount": 2
+		}
+	],
+	"2": [
+		{
+			"type": "STANDARD",
+			"resourceType": "COIN",
+			"amount": 2
+		}
+	],
+	"3": [
+		{
+			"type": "STANDARD",
+			"resourceType": "MILITARY_POINT",
+			"amount": 2
+		}
+	],
+	"4": [
+		{
+			"type": "STANDARD",
+			"resourceType": "FAITH_POINT",
+			"amount": 1
+		}
+	],
+	"5": [
+		{
+			"type": "STANDARD",
+			"resourceType": "PRESTIGE_POINT",
+			"amount": 1
+		}
+	]
+}

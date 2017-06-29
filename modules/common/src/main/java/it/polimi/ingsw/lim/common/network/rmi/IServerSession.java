@@ -7,6 +7,7 @@ import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -29,7 +30,7 @@ public interface IServerSession extends Remote
 
 	void sendChatMessage(String text) throws RemoteException;
 
-	void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex) throws RemoteException;
+	void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, List<ResourceAmount>> councilPalaceRewards, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex) throws RemoteException;
 
 	void sendGameLogMessage(String text) throws RemoteException;
 

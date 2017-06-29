@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.common.network;
 
-import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.*;
@@ -17,7 +16,6 @@ public abstract class AuthenticationInformations implements Serializable
 	private Map<Integer, DevelopmentCardVentureInformations> developmentCardsVentureInformations;
 	private Map<Integer, LeaderCardInformations> leaderCardsInformations;
 	private Map<Integer, ExcommunicationTileInformations> excommunicationTilesInformations;
-	private Map<Integer, CouncilPalaceRewardInformations> councilPalaceRewardsInformations;
 	private Map<Integer, PersonalBonusTileInformations> personalBonusTilesInformations;
 	private boolean gameStarted;
 
@@ -79,16 +77,6 @@ public abstract class AuthenticationInformations implements Serializable
 	public void setExcommunicationTilesInformations(Map<Integer, ExcommunicationTileInformations> excommunicationTilesInformations)
 	{
 		this.excommunicationTilesInformations = new HashMap<>(excommunicationTilesInformations);
-	}
-
-	public Map<Integer, CouncilPalaceRewardInformations> getCouncilPalaceRewardsInformations()
-	{
-		return this.councilPalaceRewardsInformations;
-	}
-
-	public void setCouncilPalaceRewardsInformations(Map<Integer, CouncilPalaceRewardInformations> councilPalaceRewardsInformations)
-	{
-		this.councilPalaceRewardsInformations = new HashMap<>(councilPalaceRewardsInformations);
 	}
 
 	public Map<Integer, PersonalBonusTileInformations> getPersonalBonusTilesInformations()

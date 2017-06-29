@@ -52,11 +52,13 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		} catch (IOException exception) {
 			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
 			ConnectionHandler.printConnectionError();
-			Client.getInstance().getCliListener().execute(() -> {
-				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-				Client.getInstance().setCurrentCliHandler(cliHandler);
-				cliHandler.execute();
-			});
+			if (Client.getInstance().getCliStatus() != CLIStatus.NONE) {
+				Client.getInstance().getCliListener().execute(() -> {
+					ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
+					Client.getInstance().setCurrentCliHandler(cliHandler);
+					cliHandler.execute();
+				});
+			}
 			return;
 		}
 		this.packetListener = new PacketListener();
@@ -189,7 +191,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
 			return;
 		}
-		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getCouncilPalaceRewardsInformations(), authenticationInformations.getPersonalBonusTilesInformations());
+		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getPersonalBonusTilesInformations());
 		if (!authenticationInformations.isGameStarted()) {
 			Client.getInstance().setUsername(((AuthenticationInformationsLobbySocket) authenticationInformations).getUsername());
 			if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
@@ -199,6 +201,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			}
 		} else {
 			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationsGame) authenticationInformations).getExcommunicationTiles());
+			GameStatus.getInstance().setCurrentCouncilPrivilegeRewards(((AuthenticationInformationsGame) authenticationInformations).getCouncilPrivilegeRewards());
 			Map<Integer, PlayerData> playersData = new HashMap<>();
 			for (Entry<Integer, PlayerIdentification> entry : ((AuthenticationInformationsGame) authenticationInformations).getPlayersIdentifications().entrySet()) {
 				playersData.put(entry.getKey(), new PlayerData(entry.getValue().getUsername(), entry.getValue().getColor()));

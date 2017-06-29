@@ -94,15 +94,32 @@ public class GameHandler
 				thirdPeriodExcommunicationTiles.add(excommunicationTile);
 			}
 		}
-		Map<Period, ExcommunicationTile> excommunicationTiles = new EnumMap<>(Period.class);
-		excommunicationTiles.put(Period.FIRST, firstPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(firstPeriodExcommunicationTiles.size())));
-		excommunicationTiles.put(Period.SECOND, secondPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(secondPeriodExcommunicationTiles.size())));
-		excommunicationTiles.put(Period.THIRD, thirdPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(thirdPeriodExcommunicationTiles.size())));
-		this.boardHandler = new BoardHandler(excommunicationTiles);
-		Map<Period, Integer> excommunicationTilesIndexes = new EnumMap<>(Period.class);
-		excommunicationTilesIndexes.put(Period.FIRST, excommunicationTiles.get(Period.FIRST).getIndex());
-		excommunicationTilesIndexes.put(Period.SECOND, excommunicationTiles.get(Period.SECOND).getIndex());
-		excommunicationTilesIndexes.put(Period.THIRD, excommunicationTiles.get(Period.THIRD).getIndex());
+		Map<Period, ExcommunicationTile> matchExcommunicationTiles = new EnumMap<>(Period.class);
+		matchExcommunicationTiles.put(Period.FIRST, firstPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(firstPeriodExcommunicationTiles.size())));
+		matchExcommunicationTiles.put(Period.SECOND, secondPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(secondPeriodExcommunicationTiles.size())));
+		matchExcommunicationTiles.put(Period.THIRD, thirdPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(thirdPeriodExcommunicationTiles.size())));
+		Map<Integer, List<ResourceAmount>> matchCouncilPrivilegeRewards = new HashMap<>();
+		if (this.room.getRoomType() == RoomType.EXTENDED) {
+			matchCouncilPrivilegeRewards.putAll(BoardHandler.getCouncilPrivilegeRewards());
+		} else {
+			for (Entry<Integer, List<ResourceAmount>> councilPrivilegeReward : BoardHandler.getCouncilPrivilegeRewards().entrySet()) {
+				boolean valid = true;
+				for (ResourceAmount resourceAmount : councilPrivilegeReward.getValue()) {
+					if (resourceAmount.getResourceType() == ResourceType.PRESTIGE_POINT) {
+						valid = false;
+						break;
+					}
+				}
+				if (valid) {
+					matchCouncilPrivilegeRewards.put(councilPrivilegeReward.getKey(), councilPrivilegeReward.getValue());
+				}
+			}
+		}
+		this.boardHandler = new BoardHandler(matchExcommunicationTiles, matchCouncilPrivilegeRewards);
+		Map<Period, Integer> matchExcommunicationTilesIndexes = new EnumMap<>(Period.class);
+		matchExcommunicationTilesIndexes.put(Period.FIRST, matchExcommunicationTiles.get(Period.FIRST).getIndex());
+		matchExcommunicationTilesIndexes.put(Period.SECOND, matchExcommunicationTiles.get(Period.SECOND).getIndex());
+		matchExcommunicationTilesIndexes.put(Period.THIRD, matchExcommunicationTiles.get(Period.THIRD).getIndex());
 		for (Period period : Period.values()) {
 			Collections.shuffle(this.developmentCardsBuilding.get(period), this.randomGenerator);
 			Collections.shuffle(this.developmentCardsCharacters.get(period), this.randomGenerator);
@@ -125,7 +142,7 @@ public class GameHandler
 		this.personalBonusTileChoicePlayerTurnIndex = this.turnOrder.size() - 1;
 		int startingCoins = 5;
 		for (Player player : this.turnOrder) {
-			player.getConnection().sendGameStarted(excommunicationTilesIndexes, this.playersIdentifications, player.getIndex());
+			player.getConnection().sendGameStarted(matchExcommunicationTilesIndexes, matchCouncilPrivilegeRewards, this.playersIdentifications, player.getIndex());
 			player.getPlayerResourceHandler().addResource(ResourceType.COIN, startingCoins);
 			startingCoins++;
 		}
@@ -238,7 +255,7 @@ public class GameHandler
 		this.excommunicationChoosingPlayers.remove(player);
 		if (excommunicated) {
 			this.excommunicatedPlayers.get(this.currentPeriod).add(player);
-			player.getActiveModifiers().add(this.boardHandler.getExcommunicationTiles().get(this.currentPeriod).getModifier());
+			player.getActiveModifiers().add(this.boardHandler.getMatchExcommunicationTiles().get(this.currentPeriod).getModifier());
 		} else {
 			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, PlayerResourceHandler.getFaithPointsPrices().get(player.getPlayerResourceHandler().getResources().get(ResourceType.FAITH_POINT)));
 			player.getPlayerResourceHandler().resetFaithPoints();
@@ -473,7 +490,7 @@ public class GameHandler
 		for (Player player : this.turnOrder) {
 			if (player.isExcommunicated(this.currentPeriod)) {
 				this.excommunicatedPlayers.get(this.currentPeriod).add(player);
-				player.getActiveModifiers().add(this.boardHandler.getExcommunicationTiles().get(this.currentPeriod).getModifier());
+				player.getActiveModifiers().add(this.boardHandler.getMatchExcommunicationTiles().get(this.currentPeriod).getModifier());
 			} else {
 				if (this.currentPeriod != Period.THIRD) {
 					this.excommunicationChoosingPlayers.add(player);

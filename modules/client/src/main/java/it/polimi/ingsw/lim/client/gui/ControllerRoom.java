@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.Main;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.gui.CustomController;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -52,17 +53,7 @@ public class ControllerRoom extends CustomController
 	@FXML
 	private void handleChatTextAreaAction(ActionEvent event)
 	{
-		String text = ((TextField) event.getSource()).getText().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
-		if (text.length() < 1) {
-			return;
-		}
-		((TextField) event.getSource()).clear();
-		Client.getInstance().getConnectionHandler().sendChatMessage(text);
-		if (this.chatTextArea.getText().length() < 1) {
-			this.chatTextArea.appendText("[ME]: " + text);
-		} else {
-			this.chatTextArea.appendText("\n[ME]: " + text);
-		}
+		Utils.sendChatMessage((TextField) event.getSource(), this.chatTextArea);
 	}
 
 	@Override

@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
@@ -472,6 +473,9 @@ public class ControllerGame extends CustomController
 	@FXML private HBox pickDevelopmentCardChoiceDialogResourceCostOptionsHBox;
 	@FXML private JFXButton pickDevelopmentCardChoiceDialogAcceptButton;
 	@FXML private JFXButton pickDevelopmentCardChoiceDialogCancelButton;
+	@FXML private JFXDialog expectedActionChooseRewardCouncilPrivilegeDialog;
+	@FXML private Pane expectedActionChooseRewardCouncilPrivilegeDialogPane;
+	@FXML private JFXButton expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton;
 	@FXML private JFXDialog cardDialog;
 	@FXML private JFXDialogLayout cardDialogLayout;
 	@FXML private Pane cardDialogPane;
@@ -708,17 +712,7 @@ public class ControllerGame extends CustomController
 	@FXML
 	private void handleChatTextAreaAction(ActionEvent event)
 	{
-		String text = ((TextField) event.getSource()).getText().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
-		if (text.length() < 1) {
-			return;
-		}
-		((TextField) event.getSource()).clear();
-		Client.getInstance().getConnectionHandler().sendChatMessage(text);
-		if (this.chatTextArea.getText().length() < 1) {
-			this.chatTextArea.appendText("[ME]: " + text);
-		} else {
-			this.chatTextArea.appendText("\n[ME]: " + text);
-		}
+		Utils.sendChatMessage((TextField) event.getSource(), this.chatTextArea);
 	}
 
 	@FXML
@@ -1087,6 +1081,11 @@ public class ControllerGame extends CustomController
 		this.pickDevelopmentCardChoiceDialog.setDialogContainer(this.getStackPane());
 		this.pickDevelopmentCardChoiceDialog.setOverlayClose(false);
 		this.pickDevelopmentCardChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.expectedActionChooseRewardCouncilPrivilegeDialog);
+		this.expectedActionChooseRewardCouncilPrivilegeDialog.setTransitionType(DialogTransition.CENTER);
+		this.expectedActionChooseRewardCouncilPrivilegeDialog.setDialogContainer(this.getStackPane());
+		this.expectedActionChooseRewardCouncilPrivilegeDialog.setOverlayClose(false);
+		this.expectedActionChooseRewardCouncilPrivilegeDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.cardDialog);
 		this.cardDialog.setTransitionType(DialogTransition.CENTER);
 		this.cardDialog.setDialogContainer(this.getStackPane());
@@ -1692,6 +1691,24 @@ public class ControllerGame extends CustomController
 		return stringBuilder.toString();
 	}
 
+	private String getResourcesInformations(List<ResourceAmount> resourceAmounts)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		boolean firstLine = true;
+		for (ResourceAmount resourceAmount : resourceAmounts) {
+			if (!firstLine) {
+				stringBuilder.append('\n');
+			} else {
+				firstLine = false;
+			}
+			stringBuilder.append("- ");
+			stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
+			stringBuilder.append(": ");
+			stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
+		}
+		return stringBuilder.toString();
+	}
+
 	private Tooltip getLeaderCardInformations(LeaderCardInformations leaderCardInformations)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -2133,39 +2150,31 @@ public class ControllerGame extends CustomController
 			this.selectedResourceCostOption = null;
 			for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
 				if (((AvailableActionPickDevelopmentCard) availableAction).getCardType() == this.selectedDevelopmentCardType && ((AvailableActionPickDevelopmentCard) availableAction).getRow() == GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex)) {
-					List<Pane> discountChoicesPanes = new ArrayList<>();
+					List<AnchorPane> discountChoicesAnchorPanes = new ArrayList<>();
 					for (List<ResourceAmount> discountChoice : ((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices()) {
-						Pane pane = new Pane();
-						discountChoicesPanes.add(pane);
+						AnchorPane anchorPane = new AnchorPane();
+						discountChoicesAnchorPanes.add(anchorPane);
 						Text text = new Text();
-						StringBuilder stringBuilder = new StringBuilder();
-						boolean first = true;
-						for (ResourceAmount resourceAmount : discountChoice) {
-							if (!first) {
-								stringBuilder.append('\n');
-							} else {
-								first = false;
-							}
-							stringBuilder.append("- ");
-							stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-							stringBuilder.append(": ");
-							stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
-						}
-						text.setText(stringBuilder.toString());
-						pane.getChildren().add(text);
-						pane.setOnMouseClicked(childEvent -> {
+						text.setText(this.getResourcesInformations(discountChoice));
+						anchorPane.getChildren().add(text);
+						AnchorPane.setTopAnchor(text, 0.0);
+						AnchorPane.setBottomAnchor(text, 0.0);
+						AnchorPane.setLeftAnchor(text, 0.0);
+						AnchorPane.setRightAnchor(text, 0.0);
+						anchorPane.setOnMouseClicked(childEvent -> {
+							this.selectedDiscountChoice.clear();
 							this.selectedDiscountChoice.addAll(discountChoice);
 							if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty() || this.selectedResourceCostOption != null) {
 								this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
 							}
-							pane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
-							for (Pane otherPane : discountChoicesPanes) {
-								if (otherPane != pane) {
-									otherPane.setEffect(null);
+							anchorPane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
+							for (AnchorPane otherAnchorPane : discountChoicesAnchorPanes) {
+								if (otherAnchorPane != anchorPane) {
+									otherAnchorPane.setEffect(null);
 								}
 							}
 						});
-						this.pickDevelopmentCardChoiceDialogDiscountChoicesHBox.getChildren().add(pane);
+						this.pickDevelopmentCardChoiceDialogDiscountChoicesHBox.getChildren().add(anchorPane);
 					}
 					if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty()) {
 						this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
@@ -2176,23 +2185,19 @@ public class ControllerGame extends CustomController
 							resourceCostOptionsAnchorPanes.add(anchorPane);
 							Text text = new Text();
 							StringBuilder stringBuilder = new StringBuilder();
-							boolean first = true;
+							if (!resourceCostOption.getRequiredResources().isEmpty()) {
+								stringBuilder.append("REQUIRED RESOURCES:");
+							}
 							for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
-								if (first) {
-									first = false;
-									stringBuilder.append("REQUIRED RESOURCES:");
-								}
 								stringBuilder.append("\n- ");
 								stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
 								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
 							}
-							first = true;
+							if (!resourceCostOption.getSpentResources().isEmpty()) {
+								stringBuilder.append("SPENT RESOURCES:");
+							}
 							for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
-								if (first) {
-									first = false;
-									stringBuilder.append("SPENT RESOURCES:");
-								}
 								stringBuilder.append("\n- ");
 								stringBuilder.append(Utils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 								stringBuilder.append(": ");
@@ -2354,6 +2359,45 @@ public class ControllerGame extends CustomController
 
 	private void showExpectedActionChooseRewardCouncilPrivilege(ExpectedActionChooseRewardCouncilPrivilege expectedAction)
 	{
+		Map<Integer, Integer> selectedCouncilPrivilegesRewards = new HashMap<>();
+		for (int councilPrivilegeIndex = 0; councilPrivilegeIndex < expectedAction.getCouncilPrivilegesNumber(); councilPrivilegeIndex++) {
+			HBox hBox = new HBox();
+			List<AnchorPane> councilPalaceRewardsAnchorPanes = new ArrayList<>();
+			for (Entry<Integer, List<ResourceAmount>> councilPalaceReward : GameStatus.getInstance().getCurrentCouncilPrivilegeRewards().entrySet()) {
+				AnchorPane anchorPane = new AnchorPane();
+				councilPalaceRewardsAnchorPanes.add(anchorPane);
+				Text text = new Text();
+				text.setText(this.getResourcesInformations(councilPalaceReward.getValue()));
+				anchorPane.getChildren().add(text);
+				int currentCouncilPrivilegeIndex = councilPrivilegeIndex;
+				AnchorPane.setTopAnchor(text, 0.0);
+				AnchorPane.setBottomAnchor(text, 0.0);
+				AnchorPane.setLeftAnchor(text, 0.0);
+				AnchorPane.setRightAnchor(text, 0.0);
+				anchorPane.setOnMouseClicked(childEvent -> {
+					selectedCouncilPrivilegesRewards.put(currentCouncilPrivilegeIndex, councilPalaceReward.getKey());
+					anchorPane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
+					for (AnchorPane otherAnchorPane : councilPalaceRewardsAnchorPanes) {
+						if (otherAnchorPane != anchorPane) {
+							otherAnchorPane.setEffect(null);
+						}
+					}
+				});
+				hBox.getChildren().add(anchorPane);
+				anchorPane.getChildren().add(text);
+				hBox.setAlignment(Pos.CENTER);
+				hBox.setSpacing(20.0D);
+				hBox.setPadding(new Insets(20.0D, 20.0D, 20.0D, 20.0D));
+			}
+			this.expectedActionChooseRewardCouncilPrivilegeDialogPane.getChildren().add(hBox);
+		}
+		this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.setOnAction(childEvent -> {
+			this.expectedActionChooseRewardCouncilPrivilegeDialog.close();
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardCouncilPrivilege(new ArrayList<>(selectedCouncilPrivilegesRewards.values())));
+		});
+		this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.setPrefWidth(((VBox) this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.getParent()).getWidth());
+		this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.requestLayout();
+		this.expectedActionChooseRewardCouncilPrivilegeDialog.show();
 	}
 
 	private void showExpectedActionChooseRewardHarvest(ExpectedActionChooseRewardHarvest expectedAction)

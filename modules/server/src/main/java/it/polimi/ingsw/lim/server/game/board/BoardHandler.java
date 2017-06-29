@@ -6,11 +6,11 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.Period;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.BoardPositionInformations;
-import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,13 +22,15 @@ import java.util.logging.Level;
 public class BoardHandler
 {
 	private static final Map<BoardPosition, BoardPositionInformations> BOARD_POSITIONS_INFORMATIONS = new BoardPositionsInformationsBuilder("/json/board_positions_informations.json").initialize();
-	private static final List<CouncilPalaceReward> COUNCIL_PRIVILEGE_REWARDS = new CouncilPrivilegeRewardsBuilder("/json/council_privilege_rewards.json").initialize();
-	private final Map<Period, ExcommunicationTile> excommunicationTiles;
+	private static final Map<Integer, List<ResourceAmount>> COUNCIL_PRIVILEGE_REWARDS = new CouncilPrivilegeRewardsBuilder("/json/council_privilege_rewards.json").initialize();
+	private final Map<Period, ExcommunicationTile> matchExcommunicationTiles;
+	private final Map<Integer, List<ResourceAmount>> matchCouncilPrivilegeRewards;
 	private final List<Player> councilPalaceOrder = new LinkedList<>();
 
-	public BoardHandler(Map<Period, ExcommunicationTile> excommunicationTiles)
+	public BoardHandler(Map<Period, ExcommunicationTile> matchExcommunicationTiles, Map<Integer, List<ResourceAmount>> matchCouncilPrivilegeRewards)
 	{
-		this.excommunicationTiles = new EnumMap<>(excommunicationTiles);
+		this.matchExcommunicationTiles = new EnumMap<>(matchExcommunicationTiles);
+		this.matchCouncilPrivilegeRewards = new HashMap<>(matchCouncilPrivilegeRewards);
 	}
 
 	public static BoardPositionInformations getBoardPositionInformations(BoardPosition boardPosition)
@@ -39,23 +41,28 @@ public class BoardHandler
 		return new BoardPositionInformations(0, new ArrayList<>());
 	}
 
-	public Map<Period, Integer> getExcommunicationTilesIndexes()
+	public Map<Period, Integer> getMatchExcommunicationTilesIndexes()
 	{
-		Map<Period, Integer> excommunicationTilesIndexes = new EnumMap<>(Period.class);
-		for (Entry<Period, ExcommunicationTile> excommunicationTile : this.excommunicationTiles.entrySet()) {
-			excommunicationTilesIndexes.put(excommunicationTile.getKey(), excommunicationTile.getValue().getIndex());
+		Map<Period, Integer> matchExcommunicationTilesIndexes = new EnumMap<>(Period.class);
+		for (Entry<Period, ExcommunicationTile> excommunicationTile : this.matchExcommunicationTiles.entrySet()) {
+			matchExcommunicationTilesIndexes.put(excommunicationTile.getKey(), excommunicationTile.getValue().getIndex());
 		}
-		return excommunicationTilesIndexes;
+		return matchExcommunicationTilesIndexes;
 	}
 
-	public static List<CouncilPalaceReward> getCouncilPrivilegeRewards()
+	public static Map<Integer, List<ResourceAmount>> getCouncilPrivilegeRewards()
 	{
 		return BoardHandler.COUNCIL_PRIVILEGE_REWARDS;
 	}
 
-	public Map<Period, ExcommunicationTile> getExcommunicationTiles()
+	public Map<Period, ExcommunicationTile> getMatchExcommunicationTiles()
 	{
-		return this.excommunicationTiles;
+		return this.matchExcommunicationTiles;
+	}
+
+	public Map<Integer, List<ResourceAmount>> getMatchCouncilPrivilegeRewards()
+	{
+		return this.matchCouncilPrivilegeRewards;
 	}
 
 	public List<Player> getCouncilPalaceOrder()
@@ -98,16 +105,16 @@ public class BoardHandler
 			this.jsonFile = jsonFile;
 		}
 
-		List<CouncilPalaceReward> initialize()
+		Map<Integer, List<ResourceAmount>> initialize()
 		{
 			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
-				return CouncilPrivilegeRewardsBuilder.GSON.fromJson(reader, new TypeToken<List<CouncilPalaceReward>>()
+				return CouncilPrivilegeRewardsBuilder.GSON.fromJson(reader, new TypeToken<Map<Integer, List<ResourceAmount>>>()
 				{
 				}.getType());
 			} catch (IOException exception) {
 				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
-			return new ArrayList<>();
+			return new HashMap<>();
 		}
 	}
 }

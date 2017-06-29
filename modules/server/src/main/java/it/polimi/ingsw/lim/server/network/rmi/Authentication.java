@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.server.network.rmi;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
-import it.polimi.ingsw.lim.common.game.CouncilPalaceRewardInformations;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
 import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
@@ -16,11 +15,9 @@ import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.board.ExcommunicationTile;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
-import it.polimi.ingsw.lim.server.game.utils.CouncilPalaceReward;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
@@ -111,10 +108,6 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
 			excommunicationTilesInformations.put(excommunicationTile.getIndex(), new ExcommunicationTileInformations(excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
 		}
-		Map<Integer, CouncilPalaceRewardInformations> councilPalaceRewardsInformations = new HashMap<>();
-		for (CouncilPalaceReward councilPalaceReward : BoardHandler.getCouncilPrivilegeRewards()) {
-			councilPalaceRewardsInformations.put(councilPalaceReward.getIndex(), councilPalaceReward.getInformations());
-		}
 		Map<Integer, PersonalBonusTileInformations> personalBonusTilesInformations = new HashMap<>();
 		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
 			personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getPlayerBoardTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
@@ -151,7 +144,6 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
 			authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
 			authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
-			authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
 			authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
 			authenticationInformations.setGameStarted(false);
 			authenticationInformations.setRoomInformations(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
@@ -182,10 +174,10 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
 			authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
 			authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
-			authenticationInformations.setCouncilPalaceRewardsInformations(councilPalaceRewardsInformations);
 			authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
 			authenticationInformations.setGameStarted(true);
-			authenticationInformations.setExcommunicationTiles(playerRoom.getGameHandler().getBoardHandler().getExcommunicationTilesIndexes());
+			authenticationInformations.setExcommunicationTiles(playerRoom.getGameHandler().getBoardHandler().getMatchExcommunicationTilesIndexes());
+			authenticationInformations.setCouncilPrivilegeRewards(playerRoom.getGameHandler().getBoardHandler().getMatchCouncilPrivilegeRewards());
 			authenticationInformations.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
 			authenticationInformations.setOwnPlayerIndex(connectionRmi.getPlayer().getIndex());
 			if (playerRoom.getGameHandler().getCurrentPeriod() != null && playerRoom.getGameHandler().getCurrentRound() != null) {

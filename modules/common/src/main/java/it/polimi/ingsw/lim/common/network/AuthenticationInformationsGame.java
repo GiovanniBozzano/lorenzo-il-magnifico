@@ -6,12 +6,14 @@ import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 
 import java.util.*;
 
 public class AuthenticationInformationsGame extends AuthenticationInformations
 {
 	private Map<Period, Integer> excommunicationTiles;
+	private Map<Integer, List<ResourceAmount>> councilPrivilegeRewards;
 	private Map<Integer, PlayerIdentification> playersIdentifications;
 	private int ownPlayerIndex;
 	private boolean gameInitialized;
@@ -29,6 +31,16 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 	public void setExcommunicationTiles(Map<Period, Integer> excommunicationTiles)
 	{
 		this.excommunicationTiles = new EnumMap<>(excommunicationTiles);
+	}
+
+	public Map<Integer, List<ResourceAmount>> getCouncilPrivilegeRewards()
+	{
+		return this.councilPrivilegeRewards;
+	}
+
+	public void setCouncilPrivilegeRewards(Map<Integer, List<ResourceAmount>> councilPrivilegeRewards)
+	{
+		this.councilPrivilegeRewards = councilPrivilegeRewards;
 	}
 
 	public Map<Integer, PlayerIdentification> getPlayersIdentifications()
