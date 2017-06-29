@@ -453,6 +453,10 @@ public class ControllerGame extends CustomController
 	@FXML private VBox actionsVBox;
 	@FXML private JFXButton leaderCardsButton;
 	@FXML private Label timerLabel;
+	@FXML private JFXDialog dialog;
+	@FXML private JFXDialogLayout dialogLayout;
+	@FXML private Label dialogLabel;
+	@FXML private JFXButton dialogOkButton;
 	@FXML private JFXDialog personalBonusTilesChoiceDialog;
 	@FXML private JFXDialogLayout personalBonusTilesChoiceDialogLayout;
 	@FXML private HBox personalBonusTilesChoiceDialogHBox;
@@ -719,6 +723,13 @@ public class ControllerGame extends CustomController
 	private void handleLeaderCardsButtonAction()
 	{
 		this.leaderCardsDialog.show();
+	}
+
+	@FXML
+	public void handleDialogOkButtonAction()
+	{
+		this.dialog.close();
+		this.getStackPane().getScene().getRoot().requestFocus();
 	}
 
 	@FXML
@@ -1056,6 +1067,10 @@ public class ControllerGame extends CustomController
 		this.playersResources.put(2, this.player3Resources);
 		this.playersResources.put(3, this.player4Resources);
 		this.playersResources.put(4, this.player5Resources);
+		this.getStackPane().getChildren().remove(this.dialog);
+		this.dialog.setTransitionType(DialogTransition.CENTER);
+		this.dialog.setDialogContainer(this.getStackPane());
+		this.dialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.personalBonusTilesChoiceDialog);
 		this.personalBonusTilesChoiceDialog.setTransitionType(DialogTransition.CENTER);
 		this.personalBonusTilesChoiceDialog.setDialogContainer(this.getStackPane());
@@ -1835,6 +1850,12 @@ public class ControllerGame extends CustomController
 			this.roundOrderPositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		}
 		this.leaderCardsButton.setDisable(false);
+	}
+
+	public void showDialog(String message)
+	{
+		this.dialogLabel.setText(message);
+		this.dialog.show();
 	}
 
 	public void showPersonalBonusTilesChoice()

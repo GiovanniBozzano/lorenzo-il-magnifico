@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
@@ -38,38 +39,38 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 	}
 
 	@Override
-	public boolean isLegal()
+	public void isLegal() throws GameActionFailedException
 	{
 		// check if the player is inside a room
 		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// check if the game has started
 		GameHandler gameHandler = room.getGameHandler();
 		if (gameHandler == null) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// check if it is the player's turn
 		if (this.player != gameHandler.getTurnPlayer()) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// check whether the server expects the player to make this action
 		if (gameHandler.getExpectedAction() != null) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// check if the family member is usable
 		if (this.player.getFamilyMembersPositions().get(this.getFamilyMemberType()) != BoardPosition.NONE) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// check if the card is already taken
 		DevelopmentCard developmentCard = gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).get(this.getRow());
 		if (developmentCard == null) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// check if the player has developmentcard space available
 		if (!this.player.getPlayerCardHandler().canAddDevelopmentCard(this.getCardType())) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow()), gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
@@ -79,7 +80,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		if (this.getFamilyMemberType() != FamilyMemberType.NEUTRAL) {
 			for (FamilyMemberType currentFamilyMemberType : this.player.getFamilyMembersPositions().keySet()) {
 				if (currentFamilyMemberType != FamilyMemberType.NEUTRAL && BoardPosition.getDevelopmentCardsColumnPositions(this.getCardType()).contains(this.player.getFamilyMembersPositions().get(currentFamilyMemberType))) {
-					return false;
+					throw new GameActionFailedException("");
 				}
 			}
 		}
@@ -97,7 +98,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		}
 		// check if the player has the servants he sent
 		if (this.player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
@@ -105,14 +106,14 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		int effectiveServantsValue = eventUseServants.getServants();
 		// controllo che la carta contenga il cost option
 		if ((this.getResourceCostOption() == null && !developmentCard.getResourceCostOptions().isEmpty()) || (this.getResourceCostOption() != null && !developmentCard.getResourceCostOptions().contains(this.getResourceCostOption()))) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		// check if the player has the requiredResources
 		if (this.getResourceCostOption() != null) {
 			for (ResourceAmount requiredResources : this.getResourceCostOption().getRequiredResources()) {
 				int playerResources = this.player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
 				if (playerResources < requiredResources.getAmount()) {
-					return false;
+					throw new GameActionFailedException("");
 				}
 			}
 		}
@@ -123,10 +124,10 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		this.getBoardPositionReward = eventPickDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
 		if (developmentCard.getCardType() == CardType.TERRITORY && !eventPickDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.isTerritorySlotAvailable(this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		if (this.getResourceCostOption() == null && !this.getDiscountChoice().isEmpty()) {
-			return false;
+			throw new GameActionFailedException("");
 		}
 		if (this.getResourceCostOption() != null) {
 			if (this.getDiscountChoice().isEmpty()) {
@@ -138,7 +139,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 					}
 				}
 				if (!validDiscountChoice) {
-					return false;
+					throw new GameActionFailedException("");
 				}
 			} else {
 				boolean validDiscountChoice = false;
@@ -149,7 +150,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 					}
 				}
 				if (!validDiscountChoice) {
-					return false;
+					throw new GameActionFailedException("");
 				}
 			}
 		}
@@ -169,22 +170,24 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		for (ResourceAmount resourceCost : this.effectiveResourceCost) {
 			int playerResources = this.player.getPlayerResourceHandler().getResources().get(resourceCost.getResourceType());
 			if (playerResources < resourceCost.getAmount()) {
-				return false;
+				throw new GameActionFailedException("");
 			}
 		}
-		return eventPickDevelopmentCard.getActionValue() >= BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue();
+		if (eventPickDevelopmentCard.getActionValue() < BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue()) {
+			throw new GameActionFailedException("");
+		}
 	}
 
 	@Override
-	public void apply()
+	public void apply() throws GameActionFailedException
 	{
 		Room room = Room.getPlayerRoom(this.player.getConnection());
 		if (room == null) {
-			return;
+			throw new GameActionFailedException("");
 		}
 		GameHandler gameHandler = room.getGameHandler();
 		if (gameHandler == null) {
-			return;
+			throw new GameActionFailedException("");
 		}
 		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow()));

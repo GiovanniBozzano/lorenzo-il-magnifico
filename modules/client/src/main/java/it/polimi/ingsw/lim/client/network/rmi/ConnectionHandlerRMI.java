@@ -12,6 +12,7 @@ import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
+import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
@@ -106,7 +107,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, false);
 			} catch (AuthenticationFailedException exception) {
-				Client.getDebugger().log(Level.INFO, exception.getLocalizedMessage(), exception);
+				Client.getDebugger().log(Level.OFF, exception.getLocalizedMessage(), exception);
 				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 					WindowFactory.getInstance().enableWindow();
 					Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
@@ -133,9 +134,9 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 				Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, false);
 			} catch (AuthenticationFailedException exception) {
-				Client.getDebugger().log(Level.INFO, exception.getLocalizedMessage(), exception);
-				WindowFactory.getInstance().enableWindow();
+				Client.getDebugger().log(Level.OFF, exception.getLocalizedMessage(), exception);
 				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+					WindowFactory.getInstance().enableWindow();
 					Platform.runLater(() -> ((ControllerAuthentication) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
 				} else {
 					Client.getLogger().log(Level.INFO, exception.getLocalizedMessage());
@@ -229,6 +230,12 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			} catch (RemoteException exception) {
 				Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
 				Client.getInstance().disconnect(false, false);
+			} catch (GameActionFailedException exception) {
+				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog("Action failed: " + exception.getLocalizedMessage()));
+				} else {
+					Client.getLogger().log(Level.INFO, "Action failed: " + exception.getLocalizedMessage());
+				}
 			}
 		});
 	}

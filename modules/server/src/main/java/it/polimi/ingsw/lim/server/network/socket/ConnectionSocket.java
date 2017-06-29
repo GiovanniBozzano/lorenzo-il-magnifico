@@ -54,11 +54,11 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public synchronized void disconnect(boolean waitPacketListener, String message)
+	public synchronized void disconnect(boolean waitPacketListener, String text)
 	{
-		super.disconnect(waitPacketListener, message);
-		if (message != null) {
-			this.sendDisconnectionLogMessage(message);
+		super.disconnect(waitPacketListener, text);
+		if (text != null) {
+			this.sendDisconnectionLogMessage(text);
 			try {
 				this.socket.setSoTimeout(3000);
 				Packet packet;
@@ -219,6 +219,11 @@ public class ConnectionSocket extends Connection
 	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)
 	{
 		new PacketGameUpdateOtherTurn(gameInformations, playersInformations, ownLeaderCardsHand, turnPlayerIndex).send(this.out);
+	}
+
+	void sendGameActionFailed(String text)
+	{
+		new PacketGameActionFailed(text).send(this.out);
 	}
 
 	@Override

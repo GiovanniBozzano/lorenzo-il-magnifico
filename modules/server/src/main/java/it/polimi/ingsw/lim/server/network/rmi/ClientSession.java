@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.network.rmi;
 
+import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
 import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
 
@@ -60,7 +61,7 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	}
 
 	@Override
-	public void sendGameAction(ActionInformations action) throws RemoteException
+	public void sendGameAction(ActionInformations action) throws RemoteException, GameActionFailedException
 	{
 		this.connectionRmi.handleGameAction(action);
 	}

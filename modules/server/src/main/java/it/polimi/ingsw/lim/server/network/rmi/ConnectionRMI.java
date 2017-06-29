@@ -30,7 +30,7 @@ public class ConnectionRMI extends Connection
 	private final ExecutorService rmiExecutor = Executors.newSingleThreadExecutor();
 	private final IServerSession serverSession;
 
-	ConnectionRMI(String name, IServerSession serverSession)
+	public ConnectionRMI(String name, IServerSession serverSession)
 	{
 		super(name);
 		this.serverSession = serverSession;
