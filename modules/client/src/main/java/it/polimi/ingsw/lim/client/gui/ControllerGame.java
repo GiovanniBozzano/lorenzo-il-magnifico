@@ -234,22 +234,12 @@ public class ControllerGame extends CustomController
 	@FXML private Pane productionBig3;
 	@FXML private Pane productionBig4;
 	@FXML private Pane productionBig5;
-	@FXML private Label productionBigLabel1;
-	@FXML private Label productionBigLabel2;
-	@FXML private Label productionBigLabel3;
-	@FXML private Label productionBigLabel4;
-	@FXML private Label productionBigLabel5;
 	@FXML private Pane harvestSmall;
 	@FXML private Pane harvestBig1;
 	@FXML private Pane harvestBig2;
 	@FXML private Pane harvestBig3;
 	@FXML private Pane harvestBig4;
 	@FXML private Pane harvestBig5;
-	@FXML private Label harvestBigLabel1;
-	@FXML private Label harvestBigLabel2;
-	@FXML private Label harvestBigLabel3;
-	@FXML private Label harvestBigLabel4;
-	@FXML private Label harvestBigLabel5;
 	@FXML private Pane market1;
 	@FXML private Pane market2;
 	@FXML private Pane market3;
@@ -599,9 +589,7 @@ public class ControllerGame extends CustomController
 	private final Map<Integer, Pane> councilPalacePositionsPanes = new HashMap<>();
 	private final Map<Integer, Pane> roundOrderPositionsPanes = new HashMap<>();
 	private final Map<Integer, Pane> harvestBigPositionsPanes = new HashMap<>();
-	private final Map<Integer, Label> harvestBigPositionsLabels = new HashMap<>();
 	private final Map<Integer, Pane> productionBigPositionsPanes = new HashMap<>();
-	private final Map<Integer, Label> productionBigPositionsLabels = new HashMap<>();
 	private final Map<Row, Pane> developmentCardsBuildingPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsCharacterPanes = new EnumMap<>(Row.class);
 	private final Map<Row, Pane> developmentCardsTerritoryPanes = new EnumMap<>(Row.class);
@@ -952,21 +940,11 @@ public class ControllerGame extends CustomController
 		this.harvestBigPositionsPanes.put(2, this.harvestBig3);
 		this.harvestBigPositionsPanes.put(3, this.harvestBig4);
 		this.harvestBigPositionsPanes.put(4, this.harvestBig5);
-		this.harvestBigPositionsLabels.put(0, this.harvestBigLabel1);
-		this.harvestBigPositionsLabels.put(1, this.harvestBigLabel2);
-		this.harvestBigPositionsLabels.put(2, this.harvestBigLabel3);
-		this.harvestBigPositionsLabels.put(3, this.harvestBigLabel4);
-		this.harvestBigPositionsLabels.put(4, this.harvestBigLabel5);
 		this.productionBigPositionsPanes.put(0, this.productionBig1);
 		this.productionBigPositionsPanes.put(1, this.productionBig2);
 		this.productionBigPositionsPanes.put(2, this.productionBig3);
 		this.productionBigPositionsPanes.put(3, this.productionBig4);
 		this.productionBigPositionsPanes.put(4, this.productionBig5);
-		this.productionBigPositionsLabels.put(0, this.productionBigLabel1);
-		this.productionBigPositionsLabels.put(1, this.productionBigLabel2);
-		this.productionBigPositionsLabels.put(2, this.productionBigLabel3);
-		this.productionBigPositionsLabels.put(3, this.productionBigLabel4);
-		this.productionBigPositionsLabels.put(4, this.productionBigLabel5);
 		this.developmentCardsBuildingPanes.put(Row.FIRST, this.building1);
 		this.developmentCardsBuildingPanes.put(Row.SECOND, this.building2);
 		this.developmentCardsBuildingPanes.put(Row.THIRD, this.building3);
@@ -1908,8 +1886,6 @@ public class ControllerGame extends CustomController
 				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("/images/leader_cards/leader_card_background.png").toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
 			int index = 0;
-			int harvestBigCounter = 0;
-			int producionBigCounter = 0;
 			for (Entry<Integer, Boolean> leaderCard : playerData.getValue().getLeaderCardsPlayed().entrySet()) {
 				if (leaderCard.getValue()) {
 					this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
@@ -1946,31 +1922,25 @@ public class ControllerGame extends CustomController
 				if (this.boardPositionsPanes.containsKey(familyMemberTypeBoardPositionEntry.getValue())) {
 					this.boardPositionsPanes.get(familyMemberTypeBoardPositionEntry.getValue()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				} else if (familyMemberTypeBoardPositionEntry.getValue() == BoardPosition.HARVEST_BIG) {
-					harvestBigCounter++;
 					if (this.playersHarvestBigPositions.containsKey(playerData.getValue())) {
 						this.harvestBigPositionsPanes.get(this.playersHarvestBigPositions.get(playerData.getValue())).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-						this.harvestBigPositionsLabels.get(this.playersHarvestBigPositions.get(playerData.getValue())).setText(Integer.toString(harvestBigCounter));
 					} else {
 						for (Entry<Integer, Pane> pane : this.harvestBigPositionsPanes.entrySet()) {
 							if (!this.playersHarvestBigPositions.containsValue(pane.getKey())) {
 								this.playersHarvestBigPositions.put(playerData.getValue(), pane.getKey());
 								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-								this.harvestBigPositionsLabels.get(pane.getKey()).setText(Integer.toString(harvestBigCounter));
 								break;
 							}
 						}
 					}
 				} else if (familyMemberTypeBoardPositionEntry.getValue() == BoardPosition.PRODUCTION_BIG) {
-					producionBigCounter++;
 					if (this.playersProductionBigPositions.containsKey(playerData.getValue())) {
 						this.productionBigPositionsPanes.get(this.playersProductionBigPositions.get(playerData.getValue())).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-						this.productionBigPositionsLabels.get(this.playersProductionBigPositions.get(playerData.getValue())).setText(Integer.toString(producionBigCounter));
 					} else {
 						for (Entry<Integer, Pane> pane : this.productionBigPositionsPanes.entrySet()) {
 							if (!this.playersProductionBigPositions.containsValue(pane.getKey())) {
 								this.playersProductionBigPositions.put(playerData.getValue(), pane.getKey());
 								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.PLAYERS_FAMILY_MEMBER_TYPES.get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-								this.productionBigPositionsLabels.get(pane.getKey()).setText(Integer.toString(producionBigCounter));
 								break;
 							}
 						}
