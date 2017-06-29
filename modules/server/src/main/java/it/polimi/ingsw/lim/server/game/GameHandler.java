@@ -389,6 +389,44 @@ public class GameHandler
 			return;
 		}
 		Map<Player, Integer> playersScores = new LinkedHashMap<>();
+		List<Player> militaryPointsFirstPlayers = new ArrayList<>();
+		List<Player> militaryPointsSecondPlayers = new ArrayList<>();
+		for (Player player : this.turnOrder) {
+			if (militaryPointsFirstPlayers.isEmpty()) {
+				militaryPointsFirstPlayers.add(player);
+			} else {
+				if (player.getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT).equals(militaryPointsFirstPlayers.get(0).getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT))) {
+					militaryPointsFirstPlayers.add(player);
+				} else if (player.getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT) > militaryPointsFirstPlayers.get(0).getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT)) {
+					militaryPointsFirstPlayers.clear();
+					militaryPointsFirstPlayers.add(player);
+				} else if (militaryPointsSecondPlayers.isEmpty() || player.getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT).equals(militaryPointsSecondPlayers.get(0).getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT))) {
+					militaryPointsSecondPlayers.add(player);
+				} else if (player.getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT) > militaryPointsFirstPlayers.get(0).getPlayerResourceHandler().getResources().get(ResourceType.MILITARY_POINT)) {
+					militaryPointsSecondPlayers.clear();
+					militaryPointsSecondPlayers.add(player);
+				}
+			}
+		}
+		List<Player> prestigePointsFirstPlayers = new ArrayList<>();
+		List<Player> prestigePointsSecondPlayers = new ArrayList<>();
+		for (Player player : this.turnOrder) {
+			if (prestigePointsFirstPlayers.isEmpty()) {
+				prestigePointsFirstPlayers.add(player);
+			} else {
+				if (player.getPlayerResourceHandler().getResources().get(ResourceType.PRESTIGE_POINT).equals(prestigePointsFirstPlayers.get(0).getPlayerResourceHandler().getResources().get(ResourceType.PRESTIGE_POINT))) {
+					prestigePointsFirstPlayers.add(player);
+				} else if (player.getPlayerResourceHandler().getResources().get(ResourceType.PRESTIGE_POINT) > prestigePointsFirstPlayers.get(0).getPlayerResourceHandler().getResources().get(ResourceType.PRESTIGE_POINT)) {
+					prestigePointsFirstPlayers.clear();
+					prestigePointsFirstPlayers.add(player);
+				} else if (prestigePointsSecondPlayers.isEmpty() || player.getPlayerResourceHandler().getResources().get(ResourceType.PRESTIGE_POINT).equals(prestigePointsSecondPlayers.get(0).getPlayerResourceHandler().getResources().get(ResourceType.PRESTIGE_POINT))) {
+					prestigePointsSecondPlayers.add(player);
+				} else if (player.getPlayerResourceHandler().getResources().get(ResourceType.PRESTIGE_POINT) > prestigePointsSecondPlayers.get(0).getPlayerResourceHandler().getResources().get(ResourceType.PRESTIGE_POINT)) {
+					prestigePointsSecondPlayers.clear();
+					prestigePointsSecondPlayers.add(player);
+				}
+			}
+		}
 		for (Player player : this.turnOrder) {
 			EventPreVictoryPointsCalculation eventPreVictoryPointsCalculation = new EventPreVictoryPointsCalculation(player);
 			eventPreVictoryPointsCalculation.applyModifiers(player.getActiveModifiers());
@@ -397,6 +435,16 @@ public class GameHandler
 			EventVictoryPointsCalculation eventVictoryPointsCalculation = new EventVictoryPointsCalculation(player);
 			eventPreVictoryPointsCalculation.applyModifiers(player.getActiveModifiers());
 			player.convertToVictoryPoints(eventVictoryPointsCalculation.isCountingCharacters(), eventVictoryPointsCalculation.isCountingTerritories(), eventVictoryPointsCalculation.isCountingVentures());
+			if (militaryPointsFirstPlayers.contains(player)) {
+				player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, 5);
+			} else if (militaryPointsSecondPlayers.contains(player)) {
+				player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, 2);
+			}
+			if (prestigePointsFirstPlayers.contains(player)) {
+				player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, player.getPlayerResourceHandler().getResources().get(ResourceType.PRESTIGE_POINT) * 2);
+			} else if (prestigePointsSecondPlayers.contains(player)) {
+				player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, player.getPlayerResourceHandler().getResources().get(ResourceType.PRESTIGE_POINT));
+			}
 			EventPostVictoryPointsCalculation eventPostVictoryPointsCalculation = new EventPostVictoryPointsCalculation(player);
 			player.getPlayerResourceHandler().resetVictoryPoints();
 			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, eventPostVictoryPointsCalculation.getVictoryPoints());
