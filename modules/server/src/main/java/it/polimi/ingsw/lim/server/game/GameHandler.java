@@ -510,8 +510,12 @@ public class GameHandler
 				}
 			}
 		}, 1L, 1L, TimeUnit.SECONDS);
-		for (Player player : this.excommunicationChoosingPlayers) {
-			player.getConnection().sendGameExcommunicationChoiceRequest(this.currentPeriod);
+		for (Player player : this.turnOrder) {
+			if (this.excommunicationChoosingPlayers.contains(player)) {
+				player.getConnection().sendGameExcommunicationChoiceRequest(this.currentPeriod);
+			} else {
+				player.getConnection().sendGameExoommunicationChoiceOther();
+			}
 		}
 	}
 

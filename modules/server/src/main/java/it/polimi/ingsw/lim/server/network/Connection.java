@@ -102,6 +102,8 @@ public abstract class Connection
 
 	public abstract void sendGameExcommunicationChoiceRequest(Period period);
 
+	public abstract void sendGameExoommunicationChoiceOther();
+
 	public abstract void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions);
 
 	public abstract void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, ExpectedAction expectedAction);

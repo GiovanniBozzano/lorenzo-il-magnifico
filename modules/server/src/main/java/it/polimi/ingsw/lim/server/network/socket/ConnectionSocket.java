@@ -189,12 +189,18 @@ public class ConnectionSocket extends Connection
 	{
 		new Packet(PacketType.GAME_LEADER_CARD_CHOSEN).send(this.out);
 	}
-
+	@Override
+	public void sendGameExoommunicationChoiceOther()
+	{
+		new Packet(PacketType.GAME_EXCOMMUNICATION_CHOICE_OTHER).send(this.out);
+	}
 	@Override
 	public void sendGameExcommunicationChoiceRequest(Period period)
 	{
 		new PacketGameExcommunicationChoiceRequest(period).send(this.out);
 	}
+
+
 
 	@Override
 	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)

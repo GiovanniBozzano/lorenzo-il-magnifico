@@ -263,7 +263,7 @@ public abstract class ConnectionHandler extends Thread
 			WindowFactory.WINDOW_OPENING_SEMAPHORE.release();
 			Platform.runLater(() -> {
 				((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + "You are choosing a personal bonus tile");
-				((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showPersonalBonusTilesChoiceDialog();
+				((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showPersonalBonusTilesChoice();
 			});
 		} else {
 			Client.getInstance().setCliStatus(CLIStatus.PERSONAL_BONUS_TILE_CHOICE);
@@ -315,7 +315,7 @@ public abstract class ConnectionHandler extends Thread
 		}
 		GameStatus.getInstance().setAvailableLeaderCards(availableLeaderCards);
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showLeaderCardsChoiceDialog());
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showLeaderCardsChoice());
 		} else {
 			Client.getInstance().setCliStatus(CLIStatus.LEADER_CARDS_CHOICE);
 			Client.getInstance().getCliListener().execute(() -> {
@@ -342,7 +342,17 @@ public abstract class ConnectionHandler extends Thread
 			return;
 		}
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showExcommunicationChoiceDialog(period));
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showExcommunicationChoice(period));
+		}
+	}
+
+	public void handleGameExcommunicationChoiceOther()
+	{
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerGame.class)) {
+			return;
+		}
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showExcommunicationChoiceOther());
 		}
 	}
 

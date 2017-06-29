@@ -15,6 +15,7 @@ import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
@@ -1997,7 +1998,7 @@ public class ControllerGame extends CustomController
 		this.leaderCardsButton.setDisable(false);
 	}
 
-	public void showPersonalBonusTilesChoiceDialog()
+	public void showPersonalBonusTilesChoice()
 	{
 		this.personalBonusTilesChoiceDialog.show();
 		this.personalBonusTilesChoiceDialogHBox.getChildren().clear();
@@ -2046,7 +2047,7 @@ public class ControllerGame extends CustomController
 		this.personalBonusTilesChoiceDialog.show();
 	}
 
-	public void showLeaderCardsChoiceDialog()
+	public void showLeaderCardsChoice()
 	{
 		this.leaderCardsChoiceDialogHBox.getChildren().clear();
 		for (Integer leaderCard : GameStatus.getInstance().getAvailableLeaderCards()) {
@@ -2065,8 +2066,22 @@ public class ControllerGame extends CustomController
 		this.leaderCardsChoiceDialog.show();
 	}
 
-	public void showExcommunicationChoiceDialog(Period period)
+	public void showExcommunicationChoiceOther()
 	{
+		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
+		this.actionsVBox.getChildren().clear();
+		JFXNodesList actionsNodesList = new JFXNodesList();
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", "Actions", true);
+		this.actionsVBox.getChildren().add(actionsNodesList);
+	}
+
+	public void showExcommunicationChoice(Period period)
+	{
+		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
+		this.actionsVBox.getChildren().clear();
+		JFXNodesList actionsNodesList = new JFXNodesList();
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", "Actions", true);
+		this.actionsVBox.getChildren().add(actionsNodesList);
 		this.excommunicationChoiceDialogText.setText(GameStatus.getInstance().getExcommunicationTiles().get(GameStatus.getInstance().getCurrentExcommunicationTiles().get(period)).getModifier().replace("\n", " "));
 		this.excommunicationChoiceDialogSupportButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogSupportButton.getParent()).getWidth());
 		this.excommunicationChoiceDialogDoNotSupportButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogDoNotSupportButton.getParent()).getWidth());
@@ -2356,27 +2371,38 @@ public class ControllerGame extends CustomController
 			this.endGameDialogTitle.setText("DEFEAT");
 			this.endGameDialogTitle.setTextFill(Color.web("#B71C1C"));
 		}
-		int index = 1;
 		GridPane gridPane = new GridPane();
-		gridPane.setGridLinesVisible(true);
-		ColumnConstraints columnConstraints = new ColumnConstraints();
-		gridPane.getColumnConstraints().add(columnConstraints);
-		gridPane.getColumnConstraints().add(columnConstraints);
+		gridPane.setHgap(10.0D);
+		gridPane.setVgap(10.0D);
+		ColumnConstraints columnConstraints1 = new ColumnConstraints();
+		columnConstraints1.setPercentWidth(75.0D);
+		gridPane.getColumnConstraints().add(columnConstraints1);
+		ColumnConstraints columnConstraints2 = new ColumnConstraints();
+		columnConstraints2.setPercentWidth(25.0D);
+		columnConstraints2.setHalignment(HPos.RIGHT);
+		gridPane.getColumnConstraints().add(columnConstraints2);
+		int index = 1;
 		for (Entry<Integer, Integer> playerScore : playersScores.entrySet()) {
 			RowConstraints rowConstraints = new RowConstraints();
 			gridPane.getRowConstraints().add(rowConstraints);
-			Label label = new Label(index + " - " + playerScore.getValue() + " Points " + GameStatus.getInstance().getCurrentPlayersData().get(playerScore.getKey()).getUsername() + " (Record: " + playerIndexesVictoryPointsRecord.get(playerScore.getKey()) + " Points)");
+			Label label = new Label(index + " - " + GameStatus.getInstance().getCurrentPlayersData().get(playerScore.getKey()).getUsername() + " - " + playerScore.getValue() + " Points " + " (Record: " + playerIndexesVictoryPointsRecord.get(playerScore.getKey()) + " Points)");
+			label.setFont(CommonUtils.ROBOTO_BOLD);
 			VBox vBox = new VBox();
 			JFXButton button = new JFXButton("Send Good Game");
+			button.setFont(CommonUtils.ROBOTO_BOLD);
+			button.setBackground(new Background(new BackgroundFill(Color.web("#66BB6A"), CornerRadii.EMPTY, Insets.EMPTY)));
 			button.setOnAction((event) -> {
 				button.setDisable(true);
 				Client.getInstance().getConnectionHandler().sendGoodGame(playerScore.getKey());
 			});
+			rowConstraints.setPrefHeight(button.getHeight());
 			vBox.getChildren().add(button);
 			gridPane.add(label, 0, index - 1);
 			gridPane.add(vBox, 1, index - 1);
+			index++;
 		}
 		this.endGameDialogPlayersVBox.getChildren().add(gridPane);
+		gridPane.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 		this.endGameDialog.show();
 	}
 

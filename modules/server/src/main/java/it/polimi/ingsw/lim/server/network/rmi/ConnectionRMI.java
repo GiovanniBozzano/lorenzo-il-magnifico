@@ -280,6 +280,19 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
+	public void sendGameExoommunicationChoiceOther()
+	{
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.serverSession.sendGameExcommunicationChoiceOther();
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
 	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)
 	{
 		this.rmiExecutor.execute(() -> {
