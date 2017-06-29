@@ -882,14 +882,14 @@
 	<JFXDialog fx:id="endGameDialog">
 		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
-				<VBox alignment="CENTER" spacing="20.0">
+				<VBox alignment="CENTER" spacing="30.0">
 					<Label fx:id="endGameDialogTitle">
 						<font>
 							<Font name="Roboto Bold" size="42.0" />
 						</font>
 					</Label>
 					<VBox fx:id="endGameDialogPlayersVBox" spacing="10.0" />
-					<JFXButton onAction="#handleEndGameDialogDisconnectButtonAction" style="-fx-background-color: #F44336;" text="Disconnect">
+					<JFXButton onAction="#handleEndGameDialogDisconnectButtonAction" style="-fx-background-color: #F44336;" text="Disconnect" textFill="WHITE">
 						<font>
 							<Font name="Roboto Bold" size="12.0" />
 						</font>

@@ -47,21 +47,7 @@ public class ConnectionHandler extends Thread
 			this.registry.rebind("lorenzo-il-magnifico", this.login);
 		} catch (RemoteException exception) {
 			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Server.getInstance().getDatabaseSaver().shutdown();
-			Server.getInstance().setDatabaseSaver(Executors.newSingleThreadExecutor());
-			Server.getInstance().getDatabaseKeeper().shutdownNow();
-			Server.getInstance().setDatabaseKeeper(Executors.newSingleThreadScheduledExecutor());
-			Server.getInstance().getDatabase().closeConnection();
-			if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
-				WindowFactory.getInstance().enableWindow();
-			} else {
-				Utils.displayToLog("Server setup failed...");
-				Server.getInstance().getCliListener().execute(() -> {
-					ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance();
-					Server.getInstance().setCurrentCliHandler(newCliHandler);
-					newCliHandler.execute();
-				});
-			}
+			ConnectionHandler.handleSetupError();
 			return;
 		}
 		try (ServerSocket serverSocket = new ServerSocket(this.socketPort)) {
@@ -100,11 +86,6 @@ public class ConnectionHandler extends Thread
 			}
 		} catch (IOException exception) {
 			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			Server.getInstance().getDatabaseSaver().shutdown();
-			Server.getInstance().setDatabaseSaver(Executors.newSingleThreadExecutor());
-			Server.getInstance().getDatabaseKeeper().shutdownNow();
-			Server.getInstance().setDatabaseKeeper(Executors.newSingleThreadScheduledExecutor());
-			Server.getInstance().getDatabase().closeConnection();
 			try {
 				this.registry.unbind("lorenzo-il-magnifico");
 				UnicastRemoteObject.unexportObject(this.registry, true);
@@ -112,17 +93,27 @@ public class ConnectionHandler extends Thread
 			} catch (RemoteException | NotBoundException nestedException) {
 				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, nestedException);
 			} finally {
-				if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
-					WindowFactory.getInstance().enableWindow();
-				} else {
-					Utils.displayToLog("Server setup failed...");
-					Server.getInstance().getCliListener().execute(() -> {
-						ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance();
-						Server.getInstance().setCurrentCliHandler(newCliHandler);
-						newCliHandler.execute();
-					});
-				}
+				ConnectionHandler.handleSetupError();
 			}
+		}
+	}
+
+	private static void handleSetupError()
+	{
+		Server.getInstance().getDatabaseSaver().shutdown();
+		Server.getInstance().setDatabaseSaver(Executors.newSingleThreadExecutor());
+		Server.getInstance().getDatabaseKeeper().shutdownNow();
+		Server.getInstance().setDatabaseKeeper(Executors.newSingleThreadScheduledExecutor());
+		Server.getInstance().getDatabase().closeConnection();
+		if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
+			WindowFactory.getInstance().enableWindow();
+		} else {
+			Utils.displayToLog("Server setup failed...");
+			Server.getInstance().getCliListener().execute(() -> {
+				ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance();
+				Server.getInstance().setCurrentCliHandler(newCliHandler);
+				newCliHandler.execute();
+			});
 		}
 	}
 

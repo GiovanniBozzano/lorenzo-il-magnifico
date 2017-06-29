@@ -72,6 +72,7 @@ public class GameHandler
 	private final List<Player> excommunicationChoosingPlayers = new ArrayList<>();
 	private ScheduledExecutorService timerExecutor;
 	private int timer;
+	private final Map<Player, List<Player>> sentGoodGames = new HashMap<>();
 
 	GameHandler(Room room)
 	{
@@ -140,12 +141,6 @@ public class GameHandler
 		this.excommunicatedPlayers.put(Period.SECOND, new ArrayList<>());
 		this.excommunicatedPlayers.put(Period.THIRD, new ArrayList<>());
 		this.personalBonusTileChoicePlayerTurnIndex = this.turnOrder.size() - 1;
-		int startingCoins = 5;
-		for (Player player : this.turnOrder) {
-			player.getConnection().sendGameStarted(matchExcommunicationTilesIndexes, matchCouncilPrivilegeRewards, this.playersIdentifications, player.getIndex());
-			player.getPlayerResourceHandler().addResource(ResourceType.COIN, startingCoins);
-			startingCoins++;
-		}
 		for (int index = 0; index < PersonalBonusTile.values().length; index++) {
 			if (index == 4 && this.room.getRoomType() == RoomType.NORMAL) {
 				break;
@@ -153,7 +148,10 @@ public class GameHandler
 			this.availablePersonalBonusTiles.add(PersonalBonusTile.values()[index].getIndex());
 		}
 		List<LeaderCard> leaderCards = Utils.deepCopyLeaderCards(CardsHandler.getLeaderCards());
+		int startingCoins = 5;
 		for (Player player : this.turnOrder) {
+			player.getConnection().sendGameStarted(matchExcommunicationTilesIndexes, matchCouncilPrivilegeRewards, this.playersIdentifications, player.getIndex());
+			player.getPlayerResourceHandler().addResource(ResourceType.COIN, startingCoins);
 			List<Integer> playerAvailableLeaderCards = new ArrayList<>();
 			for (int index = 0; index < 4; index++) {
 				LeaderCard leaderCard = leaderCards.get(this.randomGenerator.nextInt(leaderCards.size()));
@@ -161,6 +159,8 @@ public class GameHandler
 				playerAvailableLeaderCards.add(leaderCard.getIndex());
 			}
 			this.availableLeaderCards.put(player, playerAvailableLeaderCards);
+			this.sentGoodGames.put(player, new ArrayList<>());
+			startingCoins++;
 		}
 		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex));
 	}
@@ -261,6 +261,7 @@ public class GameHandler
 			player.getPlayerResourceHandler().resetFaithPoints();
 		}
 		if (this.excommunicationChoosingPlayers.isEmpty()) {
+			this.timerExecutor.shutdownNow();
 			this.checkedExcommunications = true;
 			this.setupRound();
 		}
@@ -273,6 +274,27 @@ public class GameHandler
 			this.timerExecutor.shutdownNow();
 			action.apply();
 		}
+	}
+
+	public void applyGoodGame(Player sender, int receiverIndex)
+	{
+		Player receiver = this.getPlayerFromIndex(receiverIndex);
+		if (receiver == null) {
+			return;
+		}
+		if (this.sentGoodGames.get(sender).contains(receiver)) {
+			return;
+		}
+		this.sentGoodGames.get(sender).add(receiver);
+		List<QueryArgument> queryArguments = new ArrayList<>();
+		queryArguments.add(new QueryArgument(QueryValueType.STRING, receiver.getConnection().getUsername()));
+		Server.getInstance().getDatabaseSaver().execute(() -> {
+			try {
+				Utils.sqlWrite(QueryWrite.UPDATE_GOOD_GAMES, queryArguments);
+			} catch (SQLException exception) {
+				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+		});
 	}
 
 	private void setupRound()

@@ -52,29 +52,12 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			this.serverSession = new ServerSession();
 			this.login = (IAuthentication) Naming.lookup("rmi://" + Client.getInstance().getIp() + ":" + Client.getInstance().getPort() + "/lorenzo-il-magnifico");
 		} catch (NotBoundException | MalformedURLException | RemoteException | IllegalArgumentException exception) {
-			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
-			ConnectionHandler.printConnectionError();
-			if (Client.getInstance().getCliStatus() != CLIStatus.NONE) {
-				Client.getInstance().getCliListener().execute(() -> {
-					ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-					Client.getInstance().setCurrentCliHandler(cliHandler);
-					cliHandler.execute();
-				});
-			}
+			Client.getDebugger().log(Level.OFF, "Could not connect to host.", exception);
+			ConnectionHandler.handleConnectionError();
 			return;
 		}
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			WindowFactory.getInstance().setNewWindow(Utils.SCENE_AUTHENTICATION);
-		} else {
-			Client.getInstance().getCliListener().shutdownNow();
-			Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
-			Client.getInstance().getCliListener().execute(() -> {
-				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-				Client.getInstance().setCurrentCliHandler(cliHandler);
-				cliHandler.execute();
-			});
-		}
+		ConnectionHandler.handleConnectionSuccess();
 	}
 
 	@Override

@@ -51,30 +51,14 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			this.out = new ObjectOutputStream(this.socket.getOutputStream());
 			this.in = new ObjectInputStream(this.socket.getInputStream());
 		} catch (IOException exception) {
-			Client.getDebugger().log(Level.INFO, "Could not connect to host.", exception);
-			ConnectionHandler.printConnectionError();
-			if (Client.getInstance().getCliStatus() != CLIStatus.NONE) {
-				Client.getInstance().getCliListener().execute(() -> {
-					ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-					Client.getInstance().setCurrentCliHandler(cliHandler);
-					cliHandler.execute();
-				});
-			}
+			Client.getDebugger().log(Level.OFF, "Could not connect to host.", exception);
+			ConnectionHandler.handleConnectionError();
 			return;
 		}
 		this.packetListener = new PacketListener();
 		this.packetListener.start();
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			WindowFactory.getInstance().setNewWindow(Utils.SCENE_AUTHENTICATION);
-		} else {
-			Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
-			Client.getInstance().getCliListener().execute(() -> {
-				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-				Client.getInstance().setCurrentCliHandler(cliHandler);
-				cliHandler.execute();
-			});
-		}
+		ConnectionHandler.handleConnectionSuccess();
 	}
 
 	@Override

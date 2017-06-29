@@ -39,21 +39,6 @@ public abstract class ConnectionHandler extends Thread
 	@Override
 	public abstract void run();
 
-	public static void printConnectionError()
-	{
-		WindowFactory.getInstance().enableWindow();
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerConnection) WindowFactory.getInstance().getCurrentWindow()).showDialog("Could not connect to host"));
-		} else {
-			Client.getLogger().log(Level.INFO, "Could not connect to host");
-		}
-		if (Client.getInstance().getCliStatus() != CLIStatus.NONE) {
-			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
-			Client.getLogger().log(Level.INFO, "1 - RMI");
-			Client.getLogger().log(Level.INFO, "2 - Socket");
-		}
-	}
-
 	public void disconnect(boolean notifyServer)
 	{
 		try {
@@ -428,6 +413,38 @@ public abstract class ConnectionHandler extends Thread
 		} catch (InterruptedException exception) {
 			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
+		}
+	}
+
+	public static void handleConnectionError()
+	{
+		WindowFactory.getInstance().enableWindow();
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerConnection) WindowFactory.getInstance().getCurrentWindow()).showDialog("Could not connect to host"));
+		} else {
+			Client.getLogger().log(Level.INFO, "Could not connect to host");
+			Client.getLogger().log(Level.INFO, "Enter Connection Type...");
+			Client.getLogger().log(Level.INFO, "1 - RMI");
+			Client.getLogger().log(Level.INFO, "2 - Socket");
+			Client.getInstance().getCliListener().execute(() -> {
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
+				Client.getInstance().setCurrentCliHandler(cliHandler);
+				cliHandler.execute();
+			});
+		}
+	}
+
+	public static void handleConnectionSuccess()
+	{
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			WindowFactory.getInstance().setNewWindow(Utils.SCENE_AUTHENTICATION);
+		} else {
+			Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
+			Client.getInstance().getCliListener().execute(() -> {
+				ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
+				Client.getInstance().setCurrentCliHandler(cliHandler);
+				cliHandler.execute();
+			});
 		}
 	}
 

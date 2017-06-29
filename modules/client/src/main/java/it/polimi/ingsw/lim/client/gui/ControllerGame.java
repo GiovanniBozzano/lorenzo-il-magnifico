@@ -1616,10 +1616,12 @@ public class ControllerGame extends CustomController
 	private void updateGame()
 	{
 		this.leaderCardsChoiceDialog.close();
+		this.excommunicationChoiceDialog.close();
 		this.cardDialog.close();
 		this.leaderCardsDialog.close();
 		this.servantsChoiceDialog.close();
 		this.pickDevelopmentCardChoiceDialog.close();
+		this.expectedActionChooseRewardCouncilPrivilegeDialog.close();
 		this.pickingDevelopmentCard = false;
 		this.selectedDevelopmentCardType = null;
 		this.selectedDevelopmentCardIndex = null;
@@ -2279,10 +2281,10 @@ public class ControllerGame extends CustomController
 		gridPane.setHgap(10.0D);
 		gridPane.setVgap(10.0D);
 		ColumnConstraints columnConstraints1 = new ColumnConstraints();
-		columnConstraints1.setPercentWidth(75.0D);
+		columnConstraints1.setPercentWidth(65.0D);
 		gridPane.getColumnConstraints().add(columnConstraints1);
 		ColumnConstraints columnConstraints2 = new ColumnConstraints();
-		columnConstraints2.setPercentWidth(25.0D);
+		columnConstraints2.setPercentWidth(35.0D);
 		columnConstraints2.setHalignment(HPos.RIGHT);
 		gridPane.getColumnConstraints().add(columnConstraints2);
 		int index = 1;
@@ -2299,7 +2301,7 @@ public class ControllerGame extends CustomController
 				button.setDisable(true);
 				Client.getInstance().getConnectionHandler().sendGoodGame(playerScore.getKey());
 			});
-			rowConstraints.setPrefHeight(button.getHeight());
+			rowConstraints.setPrefHeight(23.0D);
 			vBox.getChildren().add(button);
 			gridPane.add(label, 0, index - 1);
 			gridPane.add(vBox, 1, index - 1);
