@@ -249,6 +249,20 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		});
 	}
 
+	@Override
+	public synchronized void sendGoodGame(int playerIndex)
+	{
+		super.sendGoodGame(playerIndex);
+		this.rmiExecutor.execute(() -> {
+			try {
+				this.clientSession.sendGoodGame(playerIndex);
+			} catch (RemoteException exception) {
+				Client.getDebugger().log(Level.INFO, DebuggerFormatter.RMI_ERROR, exception);
+				Client.getInstance().disconnect(false, false);
+			}
+		});
+	}
+
 	private void finalizeAuthentication(String username, AuthenticationInformations authenticationInformations)
 	{
 		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getCouncilPalaceRewardsInformations(), authenticationInformations.getPersonalBonusTilesInformations());

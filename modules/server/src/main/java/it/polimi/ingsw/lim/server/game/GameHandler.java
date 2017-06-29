@@ -712,6 +712,7 @@ public class GameHandler
 		this.timerExecutor.scheduleWithFixedDelay(() -> {
 			this.timer--;
 			if (this.timer == 0) {
+				this.expectedAction = null;
 				if (this.currentPhase == Phase.LEADER) {
 					this.timer = ServerSettings.getInstance().getGameActionTimer();
 					this.sendGameUpdate(player);
@@ -943,6 +944,16 @@ public class GameHandler
 			}
 		}
 		return availableActions;
+	}
+
+	public Player getPlayerFromIndex(int playerIndex)
+	{
+		for (Player player : this.turnOrder) {
+			if (player.getIndex() == playerIndex) {
+				return player;
+			}
+		}
+		return null;
 	}
 
 	public CardsHandler getCardsHandler()

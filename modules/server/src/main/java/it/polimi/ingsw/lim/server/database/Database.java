@@ -19,6 +19,7 @@ public abstract class Database
 	public static final String TABLE_PLAYERS_COLUMN_WON_MATCHES = "won_matches";
 	public static final String TABLE_PLAYERS_COLUMN_LOST_MATCHES = "lost_matches";
 	public static final String TABLE_PLAYERS_COLUMN_VICTORY_POINTS_RECORD = "victory_points_records";
+	public static final String TABLE_PLAYERS_COLUMN_GOOD_GAMES = "good_games";
 	private Connection connection;
 
 	protected abstract Connection openConnection();
@@ -44,7 +45,7 @@ public abstract class Database
 	public void createTables()
 	{
 		try {
-			this.getConnection().createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + Database.PREFIX + Database.TABLE_PLAYERS + " (" + Database.TABLE_PLAYERS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Database.TABLE_PLAYERS_COLUMN_USERNAME + " VARCHAR(16) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_PASSWORD + " CHAR(128) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_SALT + " BLOB NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_WON_MATCHES + " INTEGER DEFAULT 0 NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_LOST_MATCHES + " INTEGER DEFAULT 0 NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_VICTORY_POINTS_RECORD + " INTEGER DEFAULT 0 NOT NULL);");
+			this.getConnection().createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " + Database.PREFIX + Database.TABLE_PLAYERS + " (" + Database.TABLE_PLAYERS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Database.TABLE_PLAYERS_COLUMN_USERNAME + " VARCHAR(16) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_PASSWORD + " CHAR(128) NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_SALT + " BLOB NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_WON_MATCHES + " INTEGER DEFAULT 0 NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_LOST_MATCHES + " INTEGER DEFAULT 0 NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_VICTORY_POINTS_RECORD + " INTEGER DEFAULT 0 NOT NULL, " + Database.TABLE_PLAYERS_COLUMN_GOOD_GAMES + " INTEGER DEFAULT 0 NOT NULL);");
 		} catch (SQLException exception) {
 			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}

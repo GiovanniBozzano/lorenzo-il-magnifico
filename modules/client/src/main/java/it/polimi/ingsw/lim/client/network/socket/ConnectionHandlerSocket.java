@@ -171,6 +171,13 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 	}
 
 	@Override
+	public synchronized void sendGoodGame(int playerIndex)
+	{
+		super.sendGoodGame(playerIndex);
+		new PacketGoodGame(playerIndex).send(this.out);
+	}
+
+	@Override
 	public void handleDisconnectionLogMessage(String text)
 	{
 		super.handleDisconnectionLogMessage(text);

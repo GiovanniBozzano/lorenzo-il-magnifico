@@ -8,15 +8,23 @@ import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.enums.QueryValueType;
+import it.polimi.ingsw.lim.server.enums.QueryWrite;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.player.Player;
+import it.polimi.ingsw.lim.server.utils.QueryArgument;
+import it.polimi.ingsw.lim.server.utils.Utils;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.logging.Level;
 
 public abstract class Connection
 {
@@ -184,6 +192,31 @@ public abstract class Connection
 			return;
 		}
 		gameHandler.receiveAction(this.getPlayer(), action);
+	}
+
+	public void handleGoodGame(int playerIndex)
+	{
+		Room room = Room.getPlayerRoom(this);
+		if (room == null) {
+			return;
+		}
+		GameHandler gameHandler = room.getGameHandler();
+		if (gameHandler == null) {
+			return;
+		}
+		Player player = gameHandler.getPlayerFromIndex(playerIndex);
+		if (player == null) {
+			return;
+		}
+		List<QueryArgument> queryArguments = new ArrayList<>();
+		queryArguments.add(new QueryArgument(QueryValueType.STRING, player.getConnection().getUsername()));
+		Server.getInstance().getDatabaseSaver().execute(() -> {
+			try {
+				Utils.sqlWrite(QueryWrite.UPDATE_GOOD_GAMES, queryArguments);
+			} catch (SQLException exception) {
+				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+		});
 	}
 
 	public String getUsername()

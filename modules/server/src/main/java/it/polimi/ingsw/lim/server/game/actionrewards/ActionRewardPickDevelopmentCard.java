@@ -6,7 +6,7 @@ import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionChooseRewardGetDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
-import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardGetDevelopmentCard;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.game.GameHandler;
@@ -125,7 +125,7 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 			}
 		}
 		if (!availableActions.isEmpty()) {
-			return new ExpectedActionChooseRewardGetDevelopmentCard(this.maximumRows, availableActions, this.instantDiscountChoices);
+			return new ExpectedActionChooseRewardPickDevelopmentCard(this.maximumRows, availableActions, this.instantDiscountChoices);
 		}
 		return null;
 	}

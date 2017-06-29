@@ -576,6 +576,18 @@ public class ControllerGame extends CustomController
 		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setHeight(40.0D);
 	}
 
+	private static final Map<ActionType, IExpectedActionHandler> EXPECTED_ACTION_HANDLERS = new EnumMap<>(ActionType.class);
+
+	static {
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, (controllerGame, expectedAction) -> controllerGame.showExpectedActionChooseLorenzoDeMediciLeader((ExpectedActionChooseLorenzoDeMediciLeader) expectedAction));
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE, (controllerGame, expectedAction) -> controllerGame.showExpectedActionChooseRewardCouncilPrivilege((ExpectedActionChooseRewardCouncilPrivilege) expectedAction));
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_HARVEST, (controllerGame, expectedAction) -> controllerGame.showExpectedActionChooseRewardHarvest((ExpectedActionChooseRewardHarvest) expectedAction));
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD, (controllerGame, expectedAction) -> controllerGame.showExpectedActionChooseRewardPickDevelopmentCard((ExpectedActionChooseRewardPickDevelopmentCard) expectedAction));
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PRODUCTION_START, (controllerGame, expectedAction) -> controllerGame.showExpectedActionChooseRewardProductionStart((ExpectedActionChooseRewardProductionStart) expectedAction));
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.PRODUCTION_TRADE, (controllerGame, expectedAction) -> controllerGame.showExpectedActionProductionTrade((ExpectedActionProductionTrade) expectedAction));
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER, (controllerGame, expectedAction) -> controllerGame.showExpectedActionChooseRewardTemporaryModifier());
+	}
+
 	private final Map<Integer, Tab> playersTabs = new HashMap<>();
 	private final Map<Integer, Tab> leaderCardsTabs = new HashMap<>();
 	private final Map<Integer, Pane> playersBoards = new HashMap<>();
@@ -1738,7 +1750,12 @@ public class ControllerGame extends CustomController
 		this.updateGame();
 		this.generateAvailableActions();
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
-		this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "Your turn");
+	}
+
+	public void setOwnTurnExpectedAction(ExpectedAction expectedAction)
+	{
+		this.updateGame();
+		ControllerGame.EXPECTED_ACTION_HANDLERS.get(expectedAction.getActionType()).execute(this, expectedAction);
 	}
 
 	public void setOtherTurn()
@@ -2324,6 +2341,34 @@ public class ControllerGame extends CustomController
 		this.leaderCardsChoiceDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsChoiceDialogHBox.getChildren().size() + this.leaderCardsChoiceDialogHBox.getSpacing() * (this.leaderCardsChoiceDialogHBox.getChildren().size() - 1) + this.leaderCardsChoiceDialogLayout.getInsets().getLeft() + this.leaderCardsChoiceDialogLayout.getInsets().getRight());
 		this.leaderCardsChoiceDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + 20.0D);
 		this.leaderCardsChoiceDialog.show();
+	}
+
+	private void showExpectedActionChooseLorenzoDeMediciLeader(ExpectedActionChooseLorenzoDeMediciLeader expectedAction)
+	{
+	}
+
+	private void showExpectedActionChooseRewardCouncilPrivilege(ExpectedActionChooseRewardCouncilPrivilege expectedAction)
+	{
+	}
+
+	private void showExpectedActionChooseRewardHarvest(ExpectedActionChooseRewardHarvest expectedAction)
+	{
+	}
+
+	private void showExpectedActionChooseRewardPickDevelopmentCard(ExpectedActionChooseRewardPickDevelopmentCard expectedAction)
+	{
+	}
+
+	private void showExpectedActionChooseRewardProductionStart(ExpectedActionChooseRewardProductionStart expectedAction)
+	{
+	}
+
+	private void showExpectedActionProductionTrade(ExpectedActionProductionTrade expectedAction)
+	{
+	}
+
+	private void showExpectedActionChooseRewardTemporaryModifier()
+	{
 	}
 
 	public void showEndGame(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)

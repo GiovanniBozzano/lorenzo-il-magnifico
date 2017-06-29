@@ -22,4 +22,6 @@ public interface IClientSession extends Remote
 	void sendGameExcommunicationPlayerChoice(boolean excommunicated) throws RemoteException;
 
 	void sendGameAction(ActionInformations action) throws RemoteException;
+
+	void sendGoodGame(int playerIndex) throws RemoteException;
 }

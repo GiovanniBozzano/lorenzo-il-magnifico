@@ -66,6 +66,12 @@ public class ClientSession extends UnicastRemoteObject implements IClientSession
 	}
 
 	@Override
+	public void sendGoodGame(int playerIndex) throws RemoteException
+	{
+		this.connectionRmi.handleGoodGame(playerIndex);
+	}
+
+	@Override
 	public boolean equals(Object object)
 	{
 		if (this == object) {

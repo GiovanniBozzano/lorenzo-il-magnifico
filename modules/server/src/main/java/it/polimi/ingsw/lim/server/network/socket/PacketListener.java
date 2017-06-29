@@ -42,6 +42,7 @@ class PacketListener extends Thread
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_PERSONAL_BONUS_TILE_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGamePersonalBonusTilePlayerChoice(((PacketGamePersonalBonusTilePlayerChoice) packet).getPersonalBonusTileIndex()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_LEADER_CARD_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGameLeaderCardPlayerChoice(((PacketGameLeaderCardPlayerChoice) packet).getLeaderCardIndex()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_EXCOMMUNICATION_PLAYER_CHOICE, (connectionSocket, packet) -> connectionSocket.handleGameExcommunicationPlayerChoice(((PacketGameExcommunicationPlayerChoice) packet).isExcommunicated()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.GOOD_GAME, (connectionSocket, packet) -> connectionSocket.handleGoodGame(((PacketGoodGame) packet).getPlayerIndex()));
 	}
 
 	private final ConnectionSocket connectionSocket;

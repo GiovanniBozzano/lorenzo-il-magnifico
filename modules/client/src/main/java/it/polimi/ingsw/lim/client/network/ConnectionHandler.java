@@ -365,6 +365,7 @@ public abstract class ConnectionHandler extends Thread
 		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
 		GameStatus.getInstance().setCurrentAvailableActions(availableActions);
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + "Your turn"));
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurn());
 		} else {
 			Client.getLogger().log(Level.INFO, "Your turn...");
@@ -384,6 +385,9 @@ public abstract class ConnectionHandler extends Thread
 		}
 		GameStatus.getInstance().setCurrentTurnPlayerIndex(GameStatus.getInstance().getOwnPlayerIndex());
 		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurnExpectedAction(expectedAction));
+		}
 	}
 
 	public void handleGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)
