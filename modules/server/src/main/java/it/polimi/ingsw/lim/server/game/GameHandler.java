@@ -165,7 +165,7 @@ public class GameHandler
 		}
 	}
 
-	public void start()
+	void start()
 	{
 		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex));
 	}
@@ -283,10 +283,7 @@ public class GameHandler
 	public void applyGoodGame(Player sender, int receiverIndex) throws GameActionFailedException
 	{
 		Player receiver = this.getPlayerFromIndex(receiverIndex);
-		if (receiver == null) {
-			throw new GameActionFailedException("You cannot do this!");
-		}
-		if (this.sentGoodGames.get(sender).contains(receiver)) {
+		if (receiver == null || this.sentGoodGames.get(sender).contains(receiver) || sender == receiver) {
 			throw new GameActionFailedException("You cannot do this!");
 		}
 		this.sentGoodGames.get(sender).add(receiver);
@@ -301,7 +298,7 @@ public class GameHandler
 		});
 	}
 
-	private void setupRound()
+	public void setupRound()
 	{
 		if (this.currentRound == null) {
 			// the game is being started
@@ -469,7 +466,7 @@ public class GameHandler
 					queryArguments.add(new QueryArgument(QueryValueType.STRING, playerScore.getKey().getConnection().getUsername()));
 					Server.getInstance().getDatabaseSaver().execute(() -> {
 						try {
-							Utils.sqlWrite(QueryWrite.UPDATE_PLAYER_VICTORY_POINT_RECORD, queryArguments);
+							Utils.sqlWrite(QueryWrite.UPDATE_PLAYER_VICTORY_POINTS_RECORD, queryArguments);
 						} catch (SQLException exception) {
 							Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 						}

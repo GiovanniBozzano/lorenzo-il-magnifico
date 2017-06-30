@@ -29,7 +29,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 	private transient final Player player;
 	private transient boolean columnOccupied = false;
 	private transient boolean getBoardPositionReward = true;
-	private transient List<ResourceAmount> effectiveResourceCost;
+	private final transient List<ResourceAmount> effectiveResourceCost = new ArrayList<>();
 
 	public ActionChooseRewardPickDevelopmentCard(int servants, CardType cardType, Row row, Row instantRewardRow, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption, Player player)
 	{
@@ -96,7 +96,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 		// check if the family member and servants value is high enough
 		EventPickDevelopmentCard eventPickDevelopmentCard = new EventPickDevelopmentCard(this.player, this.getCardType(), this.getRow(), this.getResourceCostOption() == null ? null : this.getResourceCostOption().getSpentResources(), BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue() + effectiveServantsValue);
 		eventPickDevelopmentCard.applyModifiers(this.player.getActiveModifiers());
-		this.effectiveResourceCost = eventPickDevelopmentCard.getResourceCost();
+		this.effectiveResourceCost.addAll(eventPickDevelopmentCard.getResourceCost());
 		this.getBoardPositionReward = eventPickDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
 		if (developmentCard.getCardType() == CardType.TERRITORY && !eventPickDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.isTerritorySlotAvailable(this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {

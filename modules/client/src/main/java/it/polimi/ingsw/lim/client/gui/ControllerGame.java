@@ -479,6 +479,8 @@ public class ControllerGame extends CustomController
 	@FXML private JFXButton pickDevelopmentCardChoiceDialogCancelButton;
 	@FXML private JFXDialog expectedActionChooseRewardCouncilPrivilegeDialog;
 	@FXML private Pane expectedActionChooseRewardCouncilPrivilegeDialogPane;
+	@FXML private JFXDialog expectedActionChooseTemporaryModifierDialog;
+	@FXML private HBox expectedActionChooseTemporaryModifierDialogHBox;
 	@FXML private JFXButton expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton;
 	@FXML private JFXDialog cardDialog;
 	@FXML private JFXDialogLayout cardDialogLayout;
@@ -1101,6 +1103,11 @@ public class ControllerGame extends CustomController
 		this.expectedActionChooseRewardCouncilPrivilegeDialog.setDialogContainer(this.getStackPane());
 		this.expectedActionChooseRewardCouncilPrivilegeDialog.setOverlayClose(false);
 		this.expectedActionChooseRewardCouncilPrivilegeDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.expectedActionChooseTemporaryModifierDialog);
+		this.expectedActionChooseTemporaryModifierDialog.setTransitionType(DialogTransition.CENTER);
+		this.expectedActionChooseTemporaryModifierDialog.setDialogContainer(this.getStackPane());
+		this.expectedActionChooseTemporaryModifierDialog.setOverlayClose(false);
+		this.expectedActionChooseTemporaryModifierDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.cardDialog);
 		this.cardDialog.setTransitionType(DialogTransition.CENTER);
 		this.cardDialog.setDialogContainer(this.getStackPane());
@@ -1217,6 +1224,14 @@ public class ControllerGame extends CustomController
 		Utils.resizeChildrenNode(this.playerBoard5, this.ratio, this.ratio);
 		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsVenture, this.ratio, this.ratio);
 		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsCharacter, this.ratio, this.ratio);
+		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
+			Pane pane = new Pane();
+			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getFamilyMemberTypesTextures().get(familyMemberType)).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			pane.setPrefSize(64.0D, 64.0D);
+			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardTemporaryModifier(familyMemberType)));
+			this.expectedActionChooseTemporaryModifierDialogHBox.getChildren().add(pane);
+		}
 		this.cardDialogPane.setPrefWidth(this.building1.getWidth() * 4);
 		this.cardDialogPane.setPrefHeight(this.building1.getHeight() * 4);
 		this.cardDialogScrollPane.setPrefHeight(this.building1.getHeight() * 4);
@@ -1234,6 +1249,8 @@ public class ControllerGame extends CustomController
 		this.leaderCardsButton.setPrefWidth(((VBox) this.leaderCardsButton.getParent()).getWidth());
 		this.servantsChoiceDialogAcceptButton.setPrefWidth(((VBox) this.servantsChoiceDialogAcceptButton.getParent()).getWidth());
 		this.servantsChoiceDialogCancelButton.setPrefWidth(((VBox) this.servantsChoiceDialogCancelButton.getParent()).getWidth());
+		this.dialogLayout.setPrefWidth(300.0D);
+		this.dialogOkButton.setPrefWidth(((VBox) this.dialogOkButton.getParent()).getWidth());
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
 		this.getStage().setX(bounds.getWidth() / 2 - this.getStage().getWidth() / 2);
 		this.getStage().setY(bounds.getHeight() / 2 - this.getStage().getHeight() / 2);
@@ -1630,6 +1647,7 @@ public class ControllerGame extends CustomController
 
 	private void updateGame()
 	{
+		this.dialog.close();
 		this.leaderCardsChoiceDialog.close();
 		this.excommunicationChoiceDialog.close();
 		this.cardDialog.close();
@@ -1637,6 +1655,7 @@ public class ControllerGame extends CustomController
 		this.servantsChoiceDialog.close();
 		this.pickDevelopmentCardChoiceDialog.close();
 		this.expectedActionChooseRewardCouncilPrivilegeDialog.close();
+		this.expectedActionChooseTemporaryModifierDialog.close();
 		this.pickingDevelopmentCard = false;
 		this.selectedDevelopmentCardType = null;
 		this.selectedDevelopmentCardIndex = null;
@@ -1684,7 +1703,7 @@ public class ControllerGame extends CustomController
 			pane.setBackground(null);
 		}
 		for (Entry<FamilyMemberType, Integer> dice : GameStatus.getInstance().getCurrentDices().entrySet()) {
-			this.dices.get(dice.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getDicesFamilyMemberTypes().get(dice.getValue()).get(dice.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			this.dices.get(dice.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getDicesFamilyMemberTypesTextures().get(dice.getValue()).get(dice.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		}
 		for (Pane pane : this.victoryPointsPanes.values()) {
 			pane.setBackground(null);
@@ -1802,35 +1821,35 @@ public class ControllerGame extends CustomController
 					this.playersResources.get(playerData.getKey()).get(resourceAmount.getKey()).setText(Integer.toString(resourceAmount.getValue()));
 				}
 			}
-			this.victoryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.VICTORY_POINT) % 100).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			this.militaryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.MILITARY_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			this.faithPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.FAITH_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			this.victoryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.VICTORY_POINT) % 100).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholdersTextures().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			this.militaryPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.MILITARY_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholdersTextures().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			this.faithPointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.FAITH_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholdersTextures().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			if (GameStatus.getInstance().getCurrentPlayersData().size() == 5) {
-				this.prestigePointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.PRESTIGE_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.prestigePointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.PRESTIGE_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholdersTextures().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
 			for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPositionEntry : playerData.getValue().getFamilyMembersPositions().entrySet()) {
 				if (this.boardPositionsPanes.containsKey(familyMemberTypeBoardPositionEntry.getValue())) {
-					this.boardPositionsPanes.get(familyMemberTypeBoardPositionEntry.getValue()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypes().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+					this.boardPositionsPanes.get(familyMemberTypeBoardPositionEntry.getValue()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypesTextures().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				} else if (familyMemberTypeBoardPositionEntry.getValue() == BoardPosition.HARVEST_BIG) {
 					if (this.playersHarvestBigPositions.containsKey(playerData.getValue())) {
-						this.harvestBigPositionsPanes.get(this.playersHarvestBigPositions.get(playerData.getValue())).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypes().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+						this.harvestBigPositionsPanes.get(this.playersHarvestBigPositions.get(playerData.getValue())).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypesTextures().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 					} else {
 						for (Entry<Integer, Pane> pane : this.harvestBigPositionsPanes.entrySet()) {
 							if (!this.playersHarvestBigPositions.containsValue(pane.getKey())) {
 								this.playersHarvestBigPositions.put(playerData.getValue(), pane.getKey());
-								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypes().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypesTextures().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 								break;
 							}
 						}
 					}
 				} else if (familyMemberTypeBoardPositionEntry.getValue() == BoardPosition.PRODUCTION_BIG) {
 					if (this.playersProductionBigPositions.containsKey(playerData.getValue())) {
-						this.productionBigPositionsPanes.get(this.playersProductionBigPositions.get(playerData.getValue())).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypes().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+						this.productionBigPositionsPanes.get(this.playersProductionBigPositions.get(playerData.getValue())).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypesTextures().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 					} else {
 						for (Entry<Integer, Pane> pane : this.productionBigPositionsPanes.entrySet()) {
 							if (!this.playersProductionBigPositions.containsValue(pane.getKey())) {
 								this.playersProductionBigPositions.put(playerData.getValue(), pane.getKey());
-								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypes().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+								pane.getValue().setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypesTextures().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 								break;
 							}
 						}
@@ -1840,14 +1859,14 @@ public class ControllerGame extends CustomController
 		}
 		for (Entry<Period, List<Integer>> excommunicationTilePlayersPanes : GameStatus.getInstance().getCurrentExcommunicatedPlayers().entrySet()) {
 			for (int index = 0; index < excommunicationTilePlayersPanes.getValue().size(); index++) {
-				this.excommunicationTilesPlayersPanes.get(excommunicationTilePlayersPanes.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getExcommunicationPlayersPlaceholders().get(GameStatus.getInstance().getCurrentPlayersData().get(excommunicationTilePlayersPanes.getValue().get(index)).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.excommunicationTilesPlayersPanes.get(excommunicationTilePlayersPanes.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getExcommunicationPlayersPlaceholdersTextures().get(GameStatus.getInstance().getCurrentPlayersData().get(excommunicationTilePlayersPanes.getValue().get(index)).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
 		}
 		for (Entry<Integer, Integer> orderPosition : GameStatus.getInstance().getCurrentCouncilPalaceOrder().entrySet()) {
-			this.councilPalacePositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			this.councilPalacePositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholdersTextures().get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		}
 		for (Entry<Integer, Integer> orderPosition : GameStatus.getInstance().getCurrentTurnOrder().entrySet()) {
-			this.roundOrderPositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholders().get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			this.roundOrderPositionsPanes.get(orderPosition.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholdersTextures().get(GameStatus.getInstance().getCurrentPlayersData().get(orderPosition.getValue()).getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		}
 		this.leaderCardsButton.setDisable(false);
 	}
@@ -2260,10 +2279,7 @@ public class ControllerGame extends CustomController
 			}
 			this.expectedActionChooseRewardCouncilPrivilegeDialogPane.getChildren().add(hBox);
 		}
-		this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.setOnAction(childEvent -> {
-			this.expectedActionChooseRewardCouncilPrivilegeDialog.close();
-			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardCouncilPrivilege(new ArrayList<>(selectedCouncilPrivilegesRewards.values())));
-		});
+		this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardCouncilPrivilege(new ArrayList<>(selectedCouncilPrivilegesRewards.values()))));
 		this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.setPrefWidth(((VBox) this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.getParent()).getWidth());
 		this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.requestLayout();
 		this.expectedActionChooseRewardCouncilPrivilegeDialog.show();
@@ -2287,6 +2303,7 @@ public class ControllerGame extends CustomController
 
 	private void showExpectedActionChooseRewardTemporaryModifier()
 	{
+		this.expectedActionChooseTemporaryModifierDialog.show();
 	}
 
 	public void showEndGame(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
@@ -2314,18 +2331,21 @@ public class ControllerGame extends CustomController
 			gridPane.getRowConstraints().add(rowConstraints);
 			Label label = new Label(index + " - " + GameStatus.getInstance().getCurrentPlayersData().get(playerScore.getKey()).getUsername() + " - " + playerScore.getValue() + " Points " + " (Record: " + playerIndexesVictoryPointsRecord.get(playerScore.getKey()) + " Points)");
 			label.setFont(CommonUtils.ROBOTO_BOLD);
-			VBox vBox = new VBox();
-			JFXButton button = new JFXButton("Send Good Game");
-			button.setFont(CommonUtils.ROBOTO_BOLD);
-			button.setBackground(new Background(new BackgroundFill(Color.web("#66BB6A"), CornerRadii.EMPTY, Insets.EMPTY)));
-			button.setOnAction((event) -> {
-				button.setDisable(true);
-				Client.getInstance().getConnectionHandler().sendGoodGame(playerScore.getKey());
-			});
-			rowConstraints.setPrefHeight(23.0D);
-			vBox.getChildren().add(button);
+			if (playerScore.getKey() != GameStatus.getInstance().getOwnPlayerIndex()) {
+				VBox vBox = new VBox();
+				JFXButton button = new JFXButton("Send Good Game");
+				button.setTextFill(Color.WHITE);
+				button.setFont(CommonUtils.ROBOTO_BOLD);
+				button.setStyle("-fx-background-color: #66BB6A;");
+				button.setOnAction((event) -> {
+					button.setDisable(true);
+					Client.getInstance().getConnectionHandler().sendGoodGame(playerScore.getKey());
+				});
+				vBox.getChildren().add(button);
+				gridPane.add(vBox, 1, index - 1);
+			}
+			rowConstraints.setPrefHeight(25.0D);
 			gridPane.add(label, 0, index - 1);
-			gridPane.add(vBox, 1, index - 1);
 			index++;
 		}
 		this.endGameDialogPlayersVBox.getChildren().add(gridPane);

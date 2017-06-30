@@ -607,7 +607,7 @@
 		<JFXDialogLayout fx:id="dialogLayout">
 			<body>
 				<VBox spacing="10.0">
-					<Label text="Starting Failed">
+					<Label text="Action Failed">
 						<font>
 							<Font name="Roboto Bold" size="12.0" />
 						</font>
@@ -783,6 +783,13 @@
 						</JFXButton>
 					</VBox>
 				</VBox>
+			</body>
+		</JFXDialogLayout>
+	</JFXDialog>
+	<JFXDialog fx:id="expectedActionChooseTemporaryModifierDialog">
+		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
+			<body>
+				<HBox fx:id="expectedActionChooseTemporaryModifierDialogHBox" alignment="CENTER" spacing="20.0" />
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>

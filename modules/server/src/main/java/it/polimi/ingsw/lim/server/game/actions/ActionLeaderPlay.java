@@ -51,6 +51,9 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			throw new GameActionFailedException("Player doesn't have this Leader Card");
 		}
 		// check if the player's resources are enough
+		if (this.leaderCard.getConditionsOptions().isEmpty()) {
+			return;
+		}
 		for (LeaderCardConditionsOption leaderCardConditionsOption : this.leaderCard.getConditionsOptions()) {
 			boolean availableConditionOption = true;
 			if (leaderCardConditionsOption.getResourceAmounts() != null) {

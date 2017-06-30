@@ -120,7 +120,9 @@ public class Server extends Instance
 				this.database.closeConnection();
 				this.connectionHandler = null;
 			}
-			Platform.runLater(() -> WindowFactory.getInstance().closeWindow());
+			if (this.cliStatus == CLIStatus.NONE) {
+				Platform.runLater(() -> WindowFactory.getInstance().closeWindow());
+			}
 		});
 		executorService.shutdown();
 	}

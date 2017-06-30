@@ -77,6 +77,9 @@ public class ConnectionRMI extends Connection
 	@Override
 	public void sendHeartbeat()
 	{
+		if (this.serverSession == null) {
+			return;
+		}
 		try {
 			this.serverSession.sendHeartbeat();
 		} catch (RemoteException exception) {
@@ -89,6 +92,9 @@ public class ConnectionRMI extends Connection
 	public void sendRoomEntryOther(String name)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendRoomEntryOther(name);
 			} catch (RemoteException exception) {
@@ -102,6 +108,9 @@ public class ConnectionRMI extends Connection
 	public void sendRoomExitOther(String name)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendRoomExitOther(name);
 			} catch (RemoteException exception) {
@@ -115,6 +124,9 @@ public class ConnectionRMI extends Connection
 	public void sendRoomTimer(int timer)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendRoomTimer(timer);
 			} catch (RemoteException exception) {
@@ -128,6 +140,9 @@ public class ConnectionRMI extends Connection
 	public void sendDisconnectionLogMessage(String text)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendDisconnectionLogMessage(text);
 			} catch (RemoteException exception) {
@@ -141,6 +156,9 @@ public class ConnectionRMI extends Connection
 	public void sendChatMessage(String text)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendChatMessage(text);
 			} catch (RemoteException exception) {
@@ -154,6 +172,9 @@ public class ConnectionRMI extends Connection
 	public void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, List<ResourceAmount>> councilPrivilegeRewards, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGameStarted(excommunicationTiles, councilPrivilegeRewards, playersData, ownPlayerIndex);
 			} catch (RemoteException exception) {
@@ -167,6 +188,9 @@ public class ConnectionRMI extends Connection
 	public void sendGameLogMessage(String text)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGameLogMessage(text);
 			} catch (RemoteException exception) {
@@ -180,6 +204,9 @@ public class ConnectionRMI extends Connection
 	public void sendGameTimer(int timer)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGameTimer(timer);
 			} catch (RemoteException exception) {
@@ -193,6 +220,9 @@ public class ConnectionRMI extends Connection
 	public void sendGameDisconnectionOther(int playerIndex)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGameDisconnectionOther(playerIndex);
 			} catch (RemoteException exception) {
@@ -206,6 +236,9 @@ public class ConnectionRMI extends Connection
 	public void sendGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGamePersonalBonusTileChoiceRequest(availablePersonalBonusTiles);
 			} catch (RemoteException exception) {
@@ -219,6 +252,9 @@ public class ConnectionRMI extends Connection
 	public void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGamePersonalBonusTileChoiceOther(choicePlayerIndex);
 			} catch (RemoteException exception) {
@@ -232,6 +268,9 @@ public class ConnectionRMI extends Connection
 	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGamePersonalBonusTileChosen(choicePlayerIndex);
 			} catch (RemoteException exception) {
@@ -245,6 +284,9 @@ public class ConnectionRMI extends Connection
 	public void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGameLeaderCardChoiceRequest(availableLeaderCards);
 			} catch (RemoteException exception) {
@@ -258,6 +300,9 @@ public class ConnectionRMI extends Connection
 	public void sendGameLeaderCardChosen()
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGameLeaderCardChosen();
 			} catch (RemoteException exception) {
@@ -271,6 +316,9 @@ public class ConnectionRMI extends Connection
 	public void sendGameExcommunicationChoiceRequest(Period period)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGameExcommunicationChoiceRequest(period);
 			} catch (RemoteException exception) {
@@ -284,6 +332,9 @@ public class ConnectionRMI extends Connection
 	public void sendGameExoommunicationChoiceOther()
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGameExcommunicationChoiceOther();
 			} catch (RemoteException exception) {
@@ -297,6 +348,9 @@ public class ConnectionRMI extends Connection
 	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGameUpdate(gameInformations, playersInformations, ownLeaderCardsHand, availableActions);
 			} catch (RemoteException exception) {
@@ -310,6 +364,9 @@ public class ConnectionRMI extends Connection
 	public void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, ExpectedAction expectedAction)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGameUpdateExpectedAction(gameInformations, playersInformations, ownLeaderCardsHand, expectedAction);
 			} catch (RemoteException exception) {
@@ -323,6 +380,9 @@ public class ConnectionRMI extends Connection
 	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGameUpdateOtherTurn(gameInformations, playersInformations, ownLeaderCardsHand, turnPlayerIndex);
 			} catch (RemoteException exception) {
@@ -336,6 +396,9 @@ public class ConnectionRMI extends Connection
 	public void sendGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
 	{
 		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
 			try {
 				this.serverSession.sendGameEnded(playersScores, playerIndexesVictoryPointsRecord);
 			} catch (RemoteException exception) {

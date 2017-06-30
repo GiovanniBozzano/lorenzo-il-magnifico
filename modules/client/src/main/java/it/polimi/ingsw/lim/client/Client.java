@@ -18,7 +18,6 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
 
 public class Client extends Instance
 {
@@ -98,7 +97,6 @@ public class Client extends Instance
 			if (this.connectionHandler != null) {
 				this.connectionHandler.disconnect(notifyServer);
 				this.connectionHandler = null;
-				Client.getDebugger().log(Level.INFO, "Connection closed.");
 			}
 			if (isStopping) {
 				this.getCliScanner().close();

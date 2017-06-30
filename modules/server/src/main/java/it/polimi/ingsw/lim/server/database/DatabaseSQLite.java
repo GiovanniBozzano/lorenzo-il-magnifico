@@ -24,7 +24,7 @@ public class DatabaseSQLite extends Database
 	{
 		try {
 			if (new File(this.databaseLocation).createNewFile()) {
-				Server.getDebugger().log(Level.SEVERE, "Database created.");
+				Server.getDebugger().log(Level.INFO, "Database created.");
 			}
 		} catch (IOException exception) {
 			Server.getDebugger().log(Level.INFO, "Unable to create database.", exception);

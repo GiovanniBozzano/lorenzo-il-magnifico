@@ -11,6 +11,7 @@ import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.player.Player;
 
 import java.util.List;
@@ -62,7 +63,10 @@ public abstract class Connection
 		Server.getInstance().getConnections().remove(this);
 		if (this.player != null) {
 			this.player.setOnline(false);
-			this.player.getRoom().handlePlayerDisconnection(this);
+		}
+		Room room = Room.getPlayerRoom(this);
+		if (room != null) {
+			room.handlePlayerDisconnection(this);
 		}
 	}
 
@@ -110,7 +114,10 @@ public abstract class Connection
 
 	public void handleRoomTimerRequest()
 	{
-		this.sendRoomTimer(this.player.getRoom().getTimer());
+		Room room = Room.getPlayerRoom(this);
+		if (room != null) {
+			this.sendRoomTimer(room.getTimer());
+		}
 	}
 
 	public void handleChatMessage(String text)
