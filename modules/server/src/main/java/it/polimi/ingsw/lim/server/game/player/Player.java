@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.game.player;
 
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardVenture;
@@ -31,6 +32,7 @@ public class Player
 	}
 
 	private Connection connection;
+	private final Room room;
 	private final int index;
 	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler();
 	private final PlayerResourceHandler playerResourceHandler = new PlayerResourceHandler(3, 2, 2);
@@ -44,9 +46,10 @@ public class Player
 	private int currentProductionValue = 0;
 	private final List<Integer> availableLeaderCards = new ArrayList<>();
 
-	public Player(Connection connection, int index)
+	public Player(Connection connection, Room room, int index)
 	{
 		this.connection = connection;
+		this.room = room;
 		this.index = index;
 		this.familyMembersPositions.put(FamilyMemberType.BLACK, BoardPosition.NONE);
 		this.familyMembersPositions.put(FamilyMemberType.ORANGE, BoardPosition.NONE);
@@ -108,6 +111,11 @@ public class Player
 	public void setConnection(Connection connection)
 	{
 		this.connection = connection;
+	}
+
+	public Room getRoom()
+	{
+		return this.room;
 	}
 
 	public int getIndex()

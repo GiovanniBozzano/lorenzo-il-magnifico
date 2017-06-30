@@ -8,8 +8,6 @@ import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsCouncilPalace;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
-import it.polimi.ingsw.lim.server.game.GameHandler;
-import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
@@ -29,22 +27,12 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 	@Override
 	public void isLegal() throws GameActionFailedException
 	{
-		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		// check if the game has started
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
 		// check if it is the player's turn
-		if (this.player != gameHandler.getTurnPlayer()) {
+		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
 			throw new GameActionFailedException("");
 		}
 		// check whether the server expects the player to make this action
-		if (gameHandler.getExpectedAction() != null) {
+		if (this.player.getRoom().getGameHandler().getExpectedAction() != null) {
 			throw new GameActionFailedException("");
 		}
 		// check if the family member is usable
@@ -52,7 +40,7 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 			throw new GameActionFailedException("");
 		}
 		// get effective family member value
-		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.COUNCIL_PALACE, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
+		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.COUNCIL_PALACE, this.player.getRoom().getGameHandler().getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
 		eventPlaceFamilyMember.applyModifiers(this.player.getActiveModifiers());
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		// check if the player has the servants he sent
@@ -72,16 +60,8 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 	@Override
 	public void apply() throws GameActionFailedException
 	{
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
-		if (!gameHandler.getBoardHandler().getCouncilPalaceOrder().contains(this.player)) {
-			gameHandler.getBoardHandler().getCouncilPalaceOrder().add(this.player);
+		if (!this.player.getRoom().getGameHandler().getBoardHandler().getCouncilPalaceOrder().contains(this.player)) {
+			this.player.getRoom().getGameHandler().getBoardHandler().getCouncilPalaceOrder().add(this.player);
 		}
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), BoardPosition.COUNCIL_PALACE);
 		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformations(BoardPosition.COUNCIL_PALACE).getResourceAmounts(), ResourcesSource.COUNCIL_PALACE);
@@ -89,10 +69,10 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		int councilPrivilegesCount = this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
-			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
-			gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
+			this.player.getRoom().getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
 			return;
 		}
-		gameHandler.nextTurn();
+		this.player.getRoom().getGameHandler().nextTurn();
 	}
 }

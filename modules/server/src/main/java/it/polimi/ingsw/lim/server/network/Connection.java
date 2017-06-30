@@ -11,8 +11,6 @@ import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.game.GameHandler;
-import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.player.Player;
 
 import java.util.List;
@@ -64,12 +62,8 @@ public abstract class Connection
 		Server.getInstance().getConnections().remove(this);
 		if (this.player != null) {
 			this.player.setOnline(false);
+			this.player.getRoom().handlePlayerDisconnection(this);
 		}
-		Room room = Room.getPlayerRoom(this);
-		if (room == null) {
-			return;
-		}
-		room.handlePlayerDisconnection(this);
 	}
 
 	public abstract void sendHeartbeat();
@@ -116,20 +110,12 @@ public abstract class Connection
 
 	public void handleRoomTimerRequest()
 	{
-		Room room = Room.getPlayerRoom(this);
-		if (room == null) {
-			return;
-		}
-		this.sendRoomTimer(room.getTimer());
+		this.sendRoomTimer(this.player.getRoom().getTimer());
 	}
 
 	public void handleChatMessage(String text)
 	{
-		Room room = Room.getPlayerRoom(this);
-		if (room == null) {
-			return;
-		}
-		for (Connection otherConnection : room.getPlayers()) {
+		for (Connection otherConnection : this.player.getRoom().getPlayers()) {
 			if (otherConnection != this && (otherConnection.getPlayer() == null || otherConnection.getPlayer().isOnline())) {
 				otherConnection.sendChatMessage("[" + this.getUsername() + "]: " + text);
 			}
@@ -138,67 +124,42 @@ public abstract class Connection
 
 	public void handleGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex) throws GameActionFailedException
 	{
-		Room room = Room.getPlayerRoom(this);
-		if (room == null) {
+		if (this.player.getRoom().getGameHandler() == null) {
 			return;
 		}
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			return;
-		}
-		gameHandler.receivePersonalBonusTileChoice(this.getPlayer(), personalBonusTileIndex);
+		this.player.getRoom().getGameHandler().receivePersonalBonusTileChoice(this.getPlayer(), personalBonusTileIndex);
 	}
 
 	public void handleGameLeaderCardPlayerChoice(int leaderCardIndex) throws GameActionFailedException
 	{
-		Room room = Room.getPlayerRoom(this);
-		if (room == null) {
+		if (this.player.getRoom().getGameHandler() == null) {
 			return;
 		}
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			return;
-		}
-		gameHandler.receiveLeaderCardChoice(this.getPlayer(), leaderCardIndex);
+		this.player.getRoom().getGameHandler().receiveLeaderCardChoice(this.getPlayer(), leaderCardIndex);
 	}
 
 	public void handleGameExcommunicationPlayerChoice(boolean excommunicated) throws GameActionFailedException
 	{
-		Room room = Room.getPlayerRoom(this);
-		if (room == null) {
+		if (this.player.getRoom().getGameHandler() == null) {
 			return;
 		}
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			return;
-		}
-		gameHandler.receiveExcommunicationChoice(this.getPlayer(), excommunicated);
+		this.player.getRoom().getGameHandler().receiveExcommunicationChoice(this.getPlayer(), excommunicated);
 	}
 
 	public void handleGameAction(ActionInformations action) throws GameActionFailedException
 	{
-		Room room = Room.getPlayerRoom(this);
-		if (room == null) {
+		if (this.player.getRoom().getGameHandler() == null) {
 			return;
 		}
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			return;
-		}
-		gameHandler.receiveAction(this.getPlayer(), action);
+		this.player.getRoom().getGameHandler().receiveAction(this.getPlayer(), action);
 	}
 
 	public void handleGoodGame(int playerIndex) throws GameActionFailedException
 	{
-		Room room = Room.getPlayerRoom(this);
-		if (room == null) {
+		if (this.player.getRoom().getGameHandler() == null) {
 			return;
 		}
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			return;
-		}
-		gameHandler.applyGoodGame(this.player, playerIndex);
+		this.player.getRoom().getGameHandler().applyGoodGame(this.player, playerIndex);
 	}
 
 	public String getUsername()

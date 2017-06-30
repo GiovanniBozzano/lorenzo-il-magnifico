@@ -9,8 +9,6 @@ import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncil
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
-import it.polimi.ingsw.lim.server.game.GameHandler;
-import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.player.Player;
@@ -35,22 +33,12 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 	@Override
 	public void isLegal() throws GameActionFailedException
 	{
-		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		// check if the game has started
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
 		// check if it is the player's turn
-		if (this.player != gameHandler.getTurnPlayer()) {
+		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
 			throw new GameActionFailedException("");
 		}
 		// check whether the server expects the player to make this action
-		if (gameHandler.getExpectedAction() != ActionType.PRODUCTION_TRADE) {
+		if (this.player.getRoom().getGameHandler().getExpectedAction() != ActionType.PRODUCTION_TRADE) {
 			throw new GameActionFailedException("");
 		}
 		//ckeck trades' correctness
@@ -81,14 +69,6 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 	@Override
 	public void apply() throws GameActionFailedException
 	{
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
 		List<DevelopmentCardBuilding> developmentCardsBuilding = new ArrayList<>();
 		for (int index : this.getChosenDevelopmentCardsBuilding().keySet()) {
 			developmentCardsBuilding.add(this.player.getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, index, DevelopmentCardBuilding.class));
@@ -105,15 +85,15 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		int councilPrivilegesCount = this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
-			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
-			gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
+			this.player.getRoom().getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
 			return;
 		}
-		if (gameHandler.getCurrentPhase() == Phase.LEADER) {
-			gameHandler.setExpectedAction(null);
-			gameHandler.sendGameUpdate(this.player);
+		if (this.player.getRoom().getGameHandler().getCurrentPhase() == Phase.LEADER) {
+			this.player.getRoom().getGameHandler().setExpectedAction(null);
+			this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
 			return;
 		}
-		gameHandler.nextTurn();
+		this.player.getRoom().getGameHandler().nextTurn();
 	}
 }

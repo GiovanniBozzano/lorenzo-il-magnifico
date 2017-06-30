@@ -7,8 +7,6 @@ import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncil
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
-import it.polimi.ingsw.lim.server.game.GameHandler;
-import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
@@ -42,26 +40,16 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 	@Override
 	public void isLegal() throws GameActionFailedException
 	{
-		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		// check if the game has started
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
 		// check if it is the player's turn
-		if (this.player != gameHandler.getTurnPlayer()) {
+		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
 			throw new GameActionFailedException("");
 		}
 		// check whether the server expects the player to make this action
-		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD) {
+		if (this.player.getRoom().getGameHandler().getExpectedAction() != ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD) {
 			throw new GameActionFailedException("");
 		}
 		// check if the card is already taken
-		DevelopmentCard developmentCard = gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).get(this.getRow());
+		DevelopmentCard developmentCard = this.player.getRoom().getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).get(this.getRow());
 		if (developmentCard == null) {
 			throw new GameActionFailedException("");
 		}
@@ -73,7 +61,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 			throw new GameActionFailedException("");
 		}
 		// check if the board column is occupied
-		for (Connection currentPlayer : room.getPlayers()) {
+		for (Connection currentPlayer : this.player.getRoom().getGameHandler().getRoom().getPlayers()) {
 			for (BoardPosition boardPosition : BoardPosition.getDevelopmentCardsColumnPositions(this.getCardType())) {
 				if (currentPlayer.getPlayer().isOccupyingBoardPosition(boardPosition)) {
 					this.columnOccupied = true;
@@ -183,15 +171,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 	@Override
 	public void apply() throws GameActionFailedException
 	{
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
-		DevelopmentCard developmentCard = gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).get(this.getRow());
+		DevelopmentCard developmentCard = this.player.getRoom().getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).get(this.getRow());
 		this.player.getPlayerCardHandler().addDevelopmentCard(developmentCard);
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		this.player.getPlayerResourceHandler().subtractResources(this.effectiveResourceCost);
@@ -205,24 +185,24 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 		if (developmentCard.getCardType() == CardType.CHARACTER && ((DevelopmentCardCharacter) developmentCard).getModifier() != null) {
 			this.player.getActiveModifiers().add(((DevelopmentCardCharacter) developmentCard).getModifier());
 		}
-		gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).put(this.getRow(), null);
+		this.player.getRoom().getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).put(this.getRow(), null);
 		if (developmentCard.getReward().getActionReward() != null && developmentCard.getReward().getActionReward().getRequestedAction() != null) {
 			this.player.setCurrentActionReward(developmentCard.getReward().getActionReward());
-			gameHandler.setExpectedAction(developmentCard.getReward().getActionReward().getRequestedAction());
-			gameHandler.sendGameUpdateExpectedAction(this.player, developmentCard.getReward().getActionReward().createExpectedAction(gameHandler, this.player));
+			this.player.getRoom().getGameHandler().setExpectedAction(developmentCard.getReward().getActionReward().getRequestedAction());
+			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, developmentCard.getReward().getActionReward().createExpectedAction(this.player.getRoom().getGameHandler(), this.player));
 			return;
 		}
 		int councilPrivilegesCount = this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
-			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
-			gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
+			this.player.getRoom().getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
 			return;
 		}
-		if (gameHandler.getCurrentPhase() == Phase.LEADER) {
-			gameHandler.setExpectedAction(null);
-			gameHandler.sendGameUpdate(this.player);
+		if (this.player.getRoom().getGameHandler().getCurrentPhase() == Phase.LEADER) {
+			this.player.getRoom().getGameHandler().setExpectedAction(null);
+			this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
 			return;
 		}
-		gameHandler.nextTurn();
+		this.player.getRoom().getGameHandler().nextTurn();
 	}
 }

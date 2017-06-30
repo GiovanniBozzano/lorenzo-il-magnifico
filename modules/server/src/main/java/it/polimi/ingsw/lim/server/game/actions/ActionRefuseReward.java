@@ -3,8 +3,6 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsRefuseReward;
-import it.polimi.ingsw.lim.server.game.GameHandler;
-import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 
@@ -21,22 +19,12 @@ public class ActionRefuseReward extends ActionInformationsRefuseReward implement
 	@Override
 	public void isLegal() throws GameActionFailedException
 	{
-		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		// check if the game has started
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
 		// check if it is the player's turn
-		if (this.player != gameHandler.getTurnPlayer()) {
+		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
 			throw new GameActionFailedException("");
 		}
 		// check whether the server expects the player to make this action
-		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD) {
+		if (this.player.getRoom().getGameHandler().getExpectedAction() != ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD) {
 			throw new GameActionFailedException("");
 		}
 	}
@@ -44,19 +32,11 @@ public class ActionRefuseReward extends ActionInformationsRefuseReward implement
 	@Override
 	public void apply() throws GameActionFailedException
 	{
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
-		if (gameHandler.getCurrentPhase() == Phase.LEADER) {
-			gameHandler.setExpectedAction(null);
-			gameHandler.sendGameUpdate(this.player);
+		if (this.player.getRoom().getGameHandler().getCurrentPhase() == Phase.LEADER) {
+			this.player.getRoom().getGameHandler().setExpectedAction(null);
+			this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
 			return;
 		}
-		gameHandler.nextTurn();
+		this.player.getRoom().getGameHandler().nextTurn();
 	}
 }

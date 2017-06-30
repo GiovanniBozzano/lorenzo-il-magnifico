@@ -136,6 +136,7 @@ public class Room
 			this.timerExecutor.shutdownNow();
 		}
 		this.gameHandler = new GameHandler(this);
+		this.gameHandler.start();
 	}
 
 	public void dispose()
@@ -146,16 +147,6 @@ public class Room
 		if (this.gameHandler != null) {
 			this.gameHandler.getTimerExecutor().shutdownNow();
 		}
-	}
-
-	public static Room getPlayerRoom(Connection connection)
-	{
-		for (Room room : Server.getInstance().getRooms()) {
-			if (room.getPlayers().contains(connection)) {
-				return room;
-			}
-		}
-		return null;
 	}
 
 	public static Room getPlayerRoom(String username)
@@ -188,6 +179,11 @@ public class Room
 	public GameHandler getGameHandler()
 	{
 		return this.gameHandler;
+	}
+
+	public void setGameHandler(GameHandler gameHandler)
+	{
+		this.gameHandler = gameHandler;
 	}
 
 	public boolean isEndGame()

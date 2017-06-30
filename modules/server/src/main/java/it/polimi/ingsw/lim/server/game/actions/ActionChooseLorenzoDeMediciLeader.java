@@ -6,8 +6,6 @@ import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseLorenzoDeMediciLeader;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
-import it.polimi.ingsw.lim.server.game.GameHandler;
-import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardModifier;
@@ -32,27 +30,17 @@ public class ActionChooseLorenzoDeMediciLeader extends ActionInformationsChooseL
 	@Override
 	public void isLegal() throws GameActionFailedException
 	{
-		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		// check if the game has started
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
 		// check if it is the player's turn
-		if (this.player != gameHandler.getTurnPlayer()) {
+		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
 			throw new GameActionFailedException("");
 		}
 		// check whether the server expects the player to make this action
-		if (gameHandler.getExpectedAction() != null) {
+		if (this.player.getRoom().getGameHandler().getExpectedAction() != null) {
 			throw new GameActionFailedException("");
 		}
 		// check if the chosen leader card is valid
 		List<Integer> availableLeaderCards = new ArrayList<>();
-		for (Player otherPlayer : gameHandler.getTurnOrder()) {
+		for (Player otherPlayer : this.player.getRoom().getGameHandler().getTurnOrder()) {
 			if (otherPlayer != this.player) {
 				for (LeaderCard leaderCard : otherPlayer.getPlayerCardHandler().getLeaderCards()) {
 					if (leaderCard.isPlayed()) {
@@ -69,15 +57,7 @@ public class ActionChooseLorenzoDeMediciLeader extends ActionInformationsChooseL
 	@Override
 	public void apply() throws GameActionFailedException
 	{
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
-		gameHandler.setCurrentPhase(Phase.LEADER);
+		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.LEADER);
 		this.player.getPlayerCardHandler().getLeaderCards().remove(this.player.getPlayerCardHandler().getLeaderCardFromIndex(14));
 		LeaderCard leaderCard = CardsHandler.getleaderCardFromIndex(this.getLeaderCardIndex());
 		if (leaderCard == null) {
@@ -94,18 +74,18 @@ public class ActionChooseLorenzoDeMediciLeader extends ActionInformationsChooseL
 			this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 			if (((LeaderCardReward) leaderCard).getReward().getActionReward() != null && ((LeaderCardReward) leaderCard).getReward().getActionReward().getRequestedAction() != null) {
 				this.player.setCurrentActionReward(((LeaderCardReward) leaderCard).getReward().getActionReward());
-				gameHandler.setExpectedAction(((LeaderCardReward) leaderCard).getReward().getActionReward().getRequestedAction());
-				gameHandler.sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward().createExpectedAction(gameHandler, this.player));
+				this.player.getRoom().getGameHandler().setExpectedAction(((LeaderCardReward) leaderCard).getReward().getActionReward().getRequestedAction());
+				this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward().createExpectedAction(this.player.getRoom().getGameHandler(), this.player));
 				return;
 			}
 			int councilPrivilegesCount = this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 			if (councilPrivilegesCount > 0) {
-				gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
-				gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
+				this.player.getRoom().getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+				this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
 				return;
 			}
 		}
-		gameHandler.setExpectedAction(null);
-		gameHandler.sendGameUpdate(this.player);
+		this.player.getRoom().getGameHandler().setExpectedAction(null);
+		this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
 	}
 }

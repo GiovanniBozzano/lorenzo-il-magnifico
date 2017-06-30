@@ -7,8 +7,6 @@ import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncil
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.enums.WorkSlotType;
-import it.polimi.ingsw.lim.server.game.GameHandler;
-import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardTerritory;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
@@ -36,22 +34,12 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 	@Override
 	public void isLegal() throws GameActionFailedException
 	{
-		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		// check if the game has started
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
 		// check if it is the player's turn
-		if (this.player != gameHandler.getTurnPlayer()) {
+		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
 			throw new GameActionFailedException("");
 		}
 		// check whether the server expects the player to make this action
-		if (gameHandler.getExpectedAction() != null) {
+		if (this.player.getRoom().getGameHandler().getExpectedAction() != null) {
 			throw new GameActionFailedException("");
 		}
 		// check if the family member is usable
@@ -59,13 +47,13 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 			throw new GameActionFailedException("");
 		}
 		// check if the board slot is occupied and get effective family member value
-		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.HARVEST_SMALL, gameHandler.getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
+		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.HARVEST_SMALL, this.player.getRoom().getGameHandler().getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
 		eventPlaceFamilyMember.applyModifiers(this.player.getActiveModifiers());
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
-			for (Player currentPlayer : gameHandler.getTurnOrder()) {
+			for (Player currentPlayer : this.player.getRoom().getGameHandler().getTurnOrder()) {
 				if (currentPlayer.isOccupyingBoardPosition(BoardPosition.HARVEST_SMALL)) {
-					if (room.getPlayers().size() < 3) {
+					if (this.player.getRoom().getGameHandler().getRoom().getPlayers().size() < 3) {
 						throw new GameActionFailedException("");
 					} else {
 						this.workSlotType = WorkSlotType.BIG;
@@ -94,15 +82,7 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 	@Override
 	public void apply() throws GameActionFailedException
 	{
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
-		gameHandler.setCurrentPhase(Phase.FAMILY_MEMBER);
+		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.FAMILY_MEMBER);
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), this.workSlotType == WorkSlotType.BIG ? BoardPosition.HARVEST_BIG : BoardPosition.HARVEST_SMALL);
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		List<ResourceAmount> resourceReward = new ArrayList<>();
@@ -117,10 +97,10 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		int councilPrivilegesCount = this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
-			gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
-			gameHandler.sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
+			this.player.getRoom().getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
 			return;
 		}
-		gameHandler.nextTurn();
+		this.player.getRoom().getGameHandler().nextTurn();
 	}
 }

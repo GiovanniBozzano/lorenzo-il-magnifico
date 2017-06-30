@@ -4,8 +4,6 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardTemporaryModifier;
-import it.polimi.ingsw.lim.server.game.GameHandler;
-import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.player.Player;
@@ -23,22 +21,12 @@ public class ActionChooseRewardTemporaryModifier extends ActionInformationsChoos
 	@Override
 	public void isLegal() throws GameActionFailedException
 	{
-		// check if the player is inside a room
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		// check if the game has started
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
 		// check if it is the player's turn
-		if (this.player != gameHandler.getTurnPlayer()) {
+		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
 			throw new GameActionFailedException("");
 		}
 		// check whether the server expects the player to make this action
-		if (gameHandler.getExpectedAction() != ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER) {
+		if (this.player.getRoom().getGameHandler().getExpectedAction() != ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER) {
 			throw new GameActionFailedException("");
 		}
 		// check whether the chosen family member il colored
@@ -50,14 +38,6 @@ public class ActionChooseRewardTemporaryModifier extends ActionInformationsChoos
 	@Override
 	public void apply() throws GameActionFailedException
 	{
-		Room room = Room.getPlayerRoom(this.player.getConnection());
-		if (room == null) {
-			throw new GameActionFailedException("");
-		}
-		GameHandler gameHandler = room.getGameHandler();
-		if (gameHandler == null) {
-			throw new GameActionFailedException("");
-		}
 		Modifier<EventPlaceFamilyMember> modifier = new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "")
 		{
 			@Override
@@ -71,7 +51,7 @@ public class ActionChooseRewardTemporaryModifier extends ActionInformationsChoos
 		};
 		this.player.getTemporaryModifiers().add(modifier);
 		this.player.getActiveModifiers().add(modifier);
-		gameHandler.setExpectedAction(null);
-		gameHandler.sendGameUpdate(this.player);
+		this.player.getRoom().getGameHandler().setExpectedAction(null);
+		this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
 	}
 }

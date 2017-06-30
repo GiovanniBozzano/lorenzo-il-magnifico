@@ -75,7 +75,7 @@ public class GameHandler
 	private int timer;
 	private final Map<Player, List<Player>> sentGoodGames = new HashMap<>();
 
-	GameHandler(Room room)
+	public GameHandler(Room room)
 	{
 		this.room = room;
 		List<ExcommunicationTile> firstPeriodExcommunicationTiles = new ArrayList<>();
@@ -131,7 +131,7 @@ public class GameHandler
 		this.familyMemberTypeValues.put(FamilyMemberType.NEUTRAL, 0);
 		int currentIndex = 0;
 		for (Connection connection : this.room.getPlayers()) {
-			connection.setPlayer(new Player(connection, currentIndex));
+			connection.setPlayer(new Player(connection, this.room, currentIndex));
 			this.playersIdentifications.put(currentIndex, new PlayerIdentification(connection.getUsername(), Color.values()[currentIndex]));
 			this.turnOrder.add(connection.getPlayer());
 			this.firstTurn.put(connection.getPlayer(), true);
@@ -163,6 +163,10 @@ public class GameHandler
 			this.sentGoodGames.put(player, new ArrayList<>());
 			startingCoins++;
 		}
+	}
+
+	public void start()
+	{
 		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex));
 	}
 
@@ -1075,6 +1079,11 @@ public class GameHandler
 		return null;
 	}
 
+	public Room getRoom()
+	{
+		return this.room;
+	}
+
 	public CardsHandler getCardsHandler()
 	{
 		return this.cardsHandler;
@@ -1108,6 +1117,11 @@ public class GameHandler
 	public Player getTurnPlayer()
 	{
 		return this.turnPlayer;
+	}
+
+	public void setTurnPlayer(Player turnPlayer)
+	{
+		this.turnPlayer = turnPlayer;
 	}
 
 	public Period getCurrentPeriod()
@@ -1168,5 +1182,10 @@ public class GameHandler
 	ScheduledExecutorService getTimerExecutor()
 	{
 		return this.timerExecutor;
+	}
+
+	public void setTimerExecutor(ScheduledExecutorService timerExecutor)
+	{
+		this.timerExecutor = timerExecutor;
 	}
 }
