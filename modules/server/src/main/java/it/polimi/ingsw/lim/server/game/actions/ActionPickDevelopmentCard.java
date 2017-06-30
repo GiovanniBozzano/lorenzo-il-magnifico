@@ -41,24 +41,24 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("It's not this player's turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != null) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("This action was not expected");
 		}
 		// check if the family member is usable
 		if (this.player.getFamilyMembersPositions().get(this.getFamilyMemberType()) != BoardPosition.NONE) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("Selected Family Member has already been used");
 		}
 		// check if the card is already taken
 		DevelopmentCard developmentCard = this.player.getRoom().getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).get(this.getRow());
 		if (developmentCard == null) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("This Development Card has already been taken");
 		}
 		// check if the player has developmentcard space available
 		if (!this.player.getPlayerCardHandler().canAddDevelopmentCard(this.getCardType())) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("Player doesn't have enough space available on his board");
 		}
 		// get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow()), this.player.getRoom().getGameHandler().getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
@@ -68,7 +68,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		if (this.getFamilyMemberType() != FamilyMemberType.NEUTRAL) {
 			for (FamilyMemberType currentFamilyMemberType : this.player.getFamilyMembersPositions().keySet()) {
 				if (currentFamilyMemberType != FamilyMemberType.NEUTRAL && BoardPosition.getDevelopmentCardsColumnPositions(this.getCardType()).contains(this.player.getFamilyMembersPositions().get(currentFamilyMemberType))) {
-					throw new GameActionFailedException("");
+					throw new GameActionFailedException("Player cannot perform action because he already has a Family Member on this Tower");
 				}
 			}
 		}
@@ -86,13 +86,13 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		}
 		// check if the player has the servants he sent
 		if (this.player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("Player doesn't have the number of servants he wants to use");
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
 		eventUseServants.applyModifiers(this.player.getActiveModifiers());
 		int effectiveServantsValue = eventUseServants.getServants();
-		// controllo che la carta contenga il cost option
+		// check if the card contains costoption array
 		if ((this.getResourceCostOption() == null && !developmentCard.getResourceCostOptions().isEmpty()) || (this.getResourceCostOption() != null && !developmentCard.getResourceCostOptions().contains(this.getResourceCostOption()))) {
 			throw new GameActionFailedException("");
 		}
@@ -101,7 +101,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			for (ResourceAmount requiredResources : this.getResourceCostOption().getRequiredResources()) {
 				int playerResources = this.player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
 				if (playerResources < requiredResources.getAmount()) {
-					throw new GameActionFailedException("");
+					throw new GameActionFailedException("Player doesn't have the necessary resources to perform this action");
 				}
 			}
 		}
@@ -112,7 +112,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		this.getBoardPositionReward = eventPickDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
 		if (developmentCard.getCardType() == CardType.TERRITORY && !eventPickDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.isTerritorySlotAvailable(this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("Player doesn't have enough military points to unlock the slot necessary to perform this action");
 		}
 		if (this.getResourceCostOption() == null && !this.getDiscountChoice().isEmpty()) {
 			throw new GameActionFailedException("");

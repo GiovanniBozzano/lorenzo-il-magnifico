@@ -29,15 +29,15 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("It's not this player's turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != null) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("This action was not expected");
 		}
 		// check if the family member is usable
 		if (this.player.getFamilyMembersPositions().get(this.getFamilyMemberType()) != BoardPosition.NONE) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("Selected Family Member has already been used");
 		}
 		// get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.COUNCIL_PALACE, this.player.getRoom().getGameHandler().getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
@@ -45,7 +45,7 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		// check if the player has the servants he sent
 		if (this.player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("Player doesn't have the number of servants he wants to use");
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
@@ -53,7 +53,7 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
 		if (effectiveFamilyMemberValue + effectiveServants < BoardHandler.getBoardPositionInformations(BoardPosition.COUNCIL_PALACE).getValue()) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("The value of the selected Family Member is not enough to perform this action");
 		}
 	}
 

@@ -32,11 +32,11 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("It's not this player's turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != null) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("This action was not expected");
 		}
 		// check if the player has the leader card
 		boolean owned = false;
@@ -48,7 +48,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			}
 		}
 		if (!owned) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("Player doesn't have this Leader Card");
 		}
 		// check if the player's resources are enough
 		for (LeaderCardConditionsOption leaderCardConditionsOption : this.leaderCard.getConditionsOptions()) {
@@ -72,16 +72,17 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 				}
 			}
 			if (availableConditionOption) {
-				throw new GameActionFailedException("");
+				return;
 			}
 		}
+		throw new GameActionFailedException("Player doesn't have the necessary resources to perform this action");
 	}
 
 	@Override
 	public void apply() throws GameActionFailedException
 	{
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.LEADER);
-		// check Lollo
+		// check Lorenzo Il Magnifico
 		if (this.leaderCard.getIndex() == 14) {
 			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) this.leaderCard).getReward().getActionReward().createExpectedAction(this.player.getRoom().getGameHandler(), this.player));
 			return;
