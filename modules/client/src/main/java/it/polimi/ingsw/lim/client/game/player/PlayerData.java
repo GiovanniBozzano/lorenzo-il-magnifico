@@ -16,7 +16,7 @@ public class PlayerData
 	private final List<Integer> developmentCardsCharacter = new ArrayList<>();
 	private final List<Integer> developmentCardsTerritory = new ArrayList<>();
 	private final List<Integer> developmentCardsVenture = new ArrayList<>();
-	// leaderCardsPlayed boolean--> true if the card is a reward leaderCard type and it can be activated
+	// leaderCardsPlayed boolean = true if the card is a reward leaderCard type and it can be activated
 	private final Map<Integer, Boolean> leaderCardsPlayed = new HashMap<>();
 	private int leaderCardsInHandNumber;
 	private final Map<ResourceType, Integer> resourceAmounts = new EnumMap<>(ResourceType.class);

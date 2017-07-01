@@ -37,6 +37,7 @@ public class GameStatus
 	private final Map<Integer, Integer> currentTurnOrder = new HashMap<>();
 	private final Map<Integer, Integer> currentCouncilPalaceOrder = new HashMap<>();
 	private final Map<Period, List<Integer>> currentExcommunicatedPlayers = new EnumMap<>(Period.class);
+	// currentOwnLeaderCardsHand boolean = true if the card can be played
 	private final Map<Integer, Boolean> currentOwnLeaderCardsHand = new HashMap<>();
 	private int currentTurnPlayerIndex = -1;
 	private final Map<ActionType, List<Serializable>> currentAvailableActions = new EnumMap<>(ActionType.class);

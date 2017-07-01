@@ -32,8 +32,13 @@ public class Client extends Instance
 		Client.CLI_HANDLERS.put(CLIStatus.AVAILABLE_ACTIONS, new CLIHandlerAvailableActions());
 		Client.CLI_HANDLERS.put(CLIStatus.SHOW_DEVELOPMENT_CARDS, new CLIHandlerShowDevelopmentCards());
 		Client.CLI_HANDLERS.put(CLIStatus.HARVEST, new CLIHandlerHarvest());
+		Client.CLI_HANDLERS.put(CLIStatus.PRODUCTION_START, new CLIHandlerProductionStart());
 		Client.CLI_HANDLERS.put(CLIStatus.MARKET, new CLIHandlerMarket());
+		Client.CLI_HANDLERS.put(CLIStatus.COUNCIL_PALACE, new CLIHandlerCouncilPalace());
 		Client.CLI_HANDLERS.put(CLIStatus.LEADER_DISCARD, new CLIHandlerLeaderDiscard());
+		Client.CLI_HANDLERS.put(CLIStatus.LEADER_ACTIVATE, new CLIHandlerLeaderActivate());
+		Client.CLI_HANDLERS.put(CLIStatus.LEADER_PLAY, new CLIHandlerLeaderPlay());
+		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OWN_LEADERS, new CLIHandlerShowOwnLeaders());
 	}
 
 	private CLIStatus cliStatus = CLIStatus.INTERFACE_CHOICE;
