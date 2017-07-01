@@ -224,7 +224,7 @@ public abstract class ConnectionHandler extends Thread
 			WindowFactory.WINDOW_OPENING_SEMAPHORE.release();
 			Platform.runLater(() -> {
 				((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + "You are choosing a personal bonus tile");
-				((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showPersonalBonusTilesChoice();
+				((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showPersonalBonusTiles();
 			});
 		} else {
 			Client.getInstance().setCliStatus(CLIStatus.PERSONAL_BONUS_TILE_CHOICE);
@@ -255,7 +255,7 @@ public abstract class ConnectionHandler extends Thread
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			if (choicePlayerIndex == GameStatus.getInstance().getOwnPlayerIndex()) {
 				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getPersonalBonusTilesChoiceDialog().close());
+					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getPersonalBonusTilesDialog().close());
 				}
 			} else {
 				Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + GameStatus.getInstance().getCurrentPlayersData().get(choicePlayerIndex).getUsername() + " has chosen a personal bonus tile"));
@@ -267,7 +267,7 @@ public abstract class ConnectionHandler extends Thread
 	{
 		GameStatus.getInstance().setAvailableLeaderCards(availableLeaderCards);
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showLeaderCardsChoice());
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showLeaderCards());
 		} else {
 			Client.getInstance().setCliStatus(CLIStatus.LEADER_CARDS_CHOICE);
 			Client.getInstance().getCliListener().execute(() -> {
@@ -281,21 +281,21 @@ public abstract class ConnectionHandler extends Thread
 	public void handleGameLeaderCardChosen()
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getLeaderCardsChoiceDialog().close());
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getLeaderCardsDialog().close());
 		}
 	}
 
 	public void handleGameExcommunicationChoiceRequest(Period period)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showExcommunicationChoice(period));
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showExcommunication(period));
 		}
 	}
 
 	public void handleGameExcommunicationChoiceOther()
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showExcommunicationChoiceOther());
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showExcommunicationOther());
 		}
 	}
 

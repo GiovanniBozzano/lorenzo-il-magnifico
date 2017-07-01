@@ -169,9 +169,9 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			} catch (GameActionFailedException exception) {
 				Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog("Action failed: " + exception.getLocalizedMessage()));
+					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
 				} else {
-					Client.getLogger().log(Level.INFO, "Action failed: " + exception.getLocalizedMessage());
+					Client.getLogger().log(Level.INFO, "Action Failed: " + exception.getLocalizedMessage());
 				}
 			}
 		});
@@ -190,9 +190,9 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			} catch (GameActionFailedException exception) {
 				Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog("Action failed: " + exception.getLocalizedMessage()));
+					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
 				} else {
-					Client.getLogger().log(Level.INFO, "Action failed: " + exception.getLocalizedMessage());
+					Client.getLogger().log(Level.INFO, "Action Failed: " + exception.getLocalizedMessage());
 				}
 			}
 		});
@@ -211,9 +211,9 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			} catch (GameActionFailedException exception) {
 				Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog("Action failed: " + exception.getLocalizedMessage()));
+					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
 				} else {
-					Client.getLogger().log(Level.INFO, "Action failed: " + exception.getLocalizedMessage());
+					Client.getLogger().log(Level.INFO, "Action Failed: " + exception.getLocalizedMessage());
 				}
 			}
 		});
@@ -232,9 +232,9 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			} catch (GameActionFailedException exception) {
 				Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog("Action failed: " + exception.getLocalizedMessage()));
+					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
 				} else {
-					Client.getLogger().log(Level.INFO, "Action failed: " + exception.getLocalizedMessage());
+					Client.getLogger().log(Level.INFO, "Action Failed: " + exception.getLocalizedMessage());
 				}
 			}
 		});
@@ -253,9 +253,9 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 			} catch (GameActionFailedException exception) {
 				Client.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog("Action failed: " + exception.getLocalizedMessage()));
+					Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog(exception.getLocalizedMessage()));
 				} else {
-					Client.getLogger().log(Level.INFO, "Action failed: " + exception.getLocalizedMessage());
+					Client.getLogger().log(Level.INFO, "Action Failed: " + exception.getLocalizedMessage());
 				}
 			}
 		});

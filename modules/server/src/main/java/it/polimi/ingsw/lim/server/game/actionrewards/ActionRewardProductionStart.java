@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.server.game.actionrewards;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardProductionStart;
-import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class ActionRewardProductionStart extends ActionReward
@@ -19,7 +18,7 @@ public class ActionRewardProductionStart extends ActionReward
 	}
 
 	@Override
-	public ExpectedAction createExpectedAction(GameHandler gameHandler, Player player)
+	public ExpectedAction createExpectedAction(Player player)
 	{
 		return new ExpectedActionChooseRewardProductionStart(this.value);
 	}

@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsPickDevelopmentCard;
-import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
@@ -15,10 +14,9 @@ import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
-import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
-import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
+import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,34 +112,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		if (developmentCard.getCardType() == CardType.TERRITORY && !eventPickDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.isTerritorySlotAvailable(this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
 			throw new GameActionFailedException("Player doesn't have enough military points to unlock the slot necessary to perform this action");
 		}
-		if (this.getResourceCostOption() == null && !this.getDiscountChoice().isEmpty()) {
-			throw new GameActionFailedException("");
-		}
-		if (this.getResourceCostOption() != null) {
-			if (this.getDiscountChoice().isEmpty()) {
-				boolean validDiscountChoice = true;
-				for (Modifier modifier : this.player.getActiveModifiers()) {
-					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == this.getCardType() && (((ModifierPickDevelopmentCard) modifier).getDiscountChoices() != null || !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty())) {
-						validDiscountChoice = false;
-						break;
-					}
-				}
-				if (!validDiscountChoice) {
-					throw new GameActionFailedException("");
-				}
-			} else {
-				boolean validDiscountChoice = false;
-				for (Modifier modifier : this.player.getActiveModifiers()) {
-					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == this.getCardType() && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices() != null && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices().contains(this.getDiscountChoice())) {
-						validDiscountChoice = true;
-						break;
-					}
-				}
-				if (!validDiscountChoice) {
-					throw new GameActionFailedException("");
-				}
-			}
-		}
+		Utils.checkValidDiscount(this.player, this.getCardType(), this.getDiscountChoice(), this.getResourceCostOption());
 		if (!this.getDiscountChoice().isEmpty()) {
 			for (ResourceAmount effectiveResourceAmount : this.effectiveResourceCost) {
 				for (ResourceAmount discountResourceAmount : this.getDiscountChoice()) {
@@ -186,16 +157,10 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			this.player.getActiveModifiers().add(((DevelopmentCardCharacter) developmentCard).getModifier());
 		}
 		this.player.getRoom().getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).put(this.getRow(), null);
-		if (developmentCard.getReward().getActionReward() != null && developmentCard.getReward().getActionReward().getRequestedAction() != null) {
-			this.player.setCurrentActionReward(developmentCard.getReward().getActionReward());
-			this.player.getRoom().getGameHandler().setExpectedAction(developmentCard.getReward().getActionReward().getRequestedAction());
-			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, developmentCard.getReward().getActionReward().createExpectedAction(this.player.getRoom().getGameHandler(), this.player));
+		if (Utils.sendActionReward(this.player, developmentCard.getReward().getActionReward())) {
 			return;
 		}
-		int councilPrivilegesCount = this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
-		if (councilPrivilegesCount > 0) {
-			this.player.getRoom().getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
-			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
+		if (Utils.sendCouncilPrivileges(this.player)) {
 			return;
 		}
 		this.player.getRoom().getGameHandler().nextTurn();

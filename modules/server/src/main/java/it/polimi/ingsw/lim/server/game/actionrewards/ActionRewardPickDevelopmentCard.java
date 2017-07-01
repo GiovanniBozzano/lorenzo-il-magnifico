@@ -5,14 +5,13 @@ import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.AvailableActionChooseRewardGetDevelopmentCard;
+import it.polimi.ingsw.lim.common.game.actions.AvailableActionChooseRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.actions.ActionChooseRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
@@ -38,9 +37,9 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 	}
 
 	@Override
-	public ExpectedAction createExpectedAction(GameHandler gameHandler, Player player)
+	public ExpectedAction createExpectedAction(Player player)
 	{
-		List<AvailableActionChooseRewardGetDevelopmentCard> availableActions = new ArrayList<>();
+		List<AvailableActionChooseRewardPickDevelopmentCard> availableActions = new ArrayList<>();
 		for (Entry<CardType, Row> entry : this.maximumRows.entrySet()) {
 			List<List<ResourceAmount>> discountChoices = new ArrayList<>();
 			for (Modifier modifier : player.getActiveModifiers()) {
@@ -55,14 +54,14 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 				}
 			}
 			for (Row row : rows) {
-				if (gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(entry.getKey()).get(row) == null) {
+				if (player.getRoom().getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(entry.getKey()).get(row) == null) {
 					continue;
 				}
 				List<ResourceCostOption> availableResourceCostOptions = new ArrayList<>();
 				List<List<ResourceAmount>> availableInstantDiscountChoices = new ArrayList<>();
 				List<List<ResourceAmount>> availableDiscountChoises = new ArrayList<>();
 				boolean validCard = false;
-				if (gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(entry.getKey()).get(row).getResourceCostOptions().isEmpty()) {
+				if (player.getRoom().getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(entry.getKey()).get(row).getResourceCostOptions().isEmpty()) {
 					try {
 						new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), entry.getKey(), row, Row.FOURTH, new ArrayList<>(), new ArrayList<>(), null, player).isLegal();
 						validCard = true;
@@ -70,7 +69,7 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 						Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 					}
 				} else {
-					for (ResourceCostOption resourceCostOption : gameHandler.getCardsHandler().getCurrentDevelopmentCards().get(entry.getKey()).get(row).getResourceCostOptions()) {
+					for (ResourceCostOption resourceCostOption : player.getRoom().getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(entry.getKey()).get(row).getResourceCostOptions()) {
 						if (this.instantDiscountChoices.isEmpty()) {
 							if (discountChoices.isEmpty()) {
 								try {
@@ -139,12 +138,12 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 					}
 				}
 				if (validCard) {
-					availableActions.add(new AvailableActionChooseRewardGetDevelopmentCard(entry.getKey(), row, availableResourceCostOptions, availableInstantDiscountChoices, availableDiscountChoises));
+					availableActions.add(new AvailableActionChooseRewardPickDevelopmentCard(entry.getKey(), row, availableResourceCostOptions, availableInstantDiscountChoices, availableDiscountChoises));
 				}
 			}
 		}
 		if (!availableActions.isEmpty()) {
-			return new ExpectedActionChooseRewardPickDevelopmentCard(this.maximumRows, availableActions, this.instantDiscountChoices);
+			return new ExpectedActionChooseRewardPickDevelopmentCard(availableActions);
 		}
 		return null;
 	}

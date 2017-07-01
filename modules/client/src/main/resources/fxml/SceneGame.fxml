@@ -582,7 +582,7 @@
 				<HBox alignment="CENTER_LEFT" spacing="10.0">
 					<VBox fx:id="actionsVBox" />
 					<VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-						<JFXButton fx:id="leaderCardsButton" disable="true" onAction="#handleLeaderCardsButtonAction" style="-fx-background-color: #03A9F4;" text="Leader Cards" textFill="WHITE">
+						<JFXButton fx:id="leaderCardsButton" disable="true" onAction="#handlePlayersLeaderCardsButtonAction" style="-fx-background-color: #03A9F4;" text="Leader Cards" textFill="WHITE">
 							<font>
 								<Font name="Roboto Bold" size="14.0" />
 							</font>
@@ -629,21 +629,21 @@
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="personalBonusTilesChoiceDialog">
-		<JFXDialogLayout fx:id="personalBonusTilesChoiceDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
+	<JFXDialog fx:id="personalBonusTilesDialog">
+		<JFXDialogLayout fx:id="personalBonusTilesDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
-				<HBox fx:id="personalBonusTilesChoiceDialogHBox" spacing="30.0" />
+				<HBox fx:id="personalBonusTilesDialogHBox" spacing="30.0" />
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="leaderCardsChoiceDialog">
-		<JFXDialogLayout fx:id="leaderCardsChoiceDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
+	<JFXDialog fx:id="leaderCardsDialog">
+		<JFXDialogLayout fx:id="leaderCardsDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
-				<HBox fx:id="leaderCardsChoiceDialogHBox" spacing="20.0" />
+				<HBox fx:id="leaderCardsDialogHBox" spacing="20.0" />
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="excommunicationChoiceDialog">
+	<JFXDialog fx:id="excommunicationDialog">
 		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
 				<VBox spacing="20.0">
@@ -652,7 +652,7 @@
 							<Font name="Roboto Bold" size="12.0" />
 						</font>
 					</Label>
-					<Text fx:id="excommunicationChoiceDialogText" textAlignment="JUSTIFY" wrappingWidth="500.0">
+					<Text fx:id="excommunicationDialogText" textAlignment="JUSTIFY" wrappingWidth="500.0">
 						<font>
 							<Font name="Roboto" size="12.0" />
 						</font>
@@ -666,14 +666,14 @@
 							<RowConstraints vgrow="SOMETIMES" />
 						</rowConstraints>
 						<VBox>
-							<JFXButton fx:id="excommunicationChoiceDialogSupportButton" onAction="#handleExcommunicationChoiceDialogSupportButtonAction" style="-fx-background-color: #03A9F4;" text="Support" textFill="WHITE">
+							<JFXButton fx:id="excommunicationDialogSupportButton" onAction="#handleExcommunicationDialogSupportButtonAction" style="-fx-background-color: #03A9F4;" text="Support" textFill="WHITE">
 								<font>
 									<Font name="Roboto Bold" size="12.0" />
 								</font>
 							</JFXButton>
 						</VBox>
 						<VBox GridPane.columnIndex="1">
-							<JFXButton fx:id="excommunicationChoiceDialogDoNotSupportButton" onAction="#handleExcommunicationChoiceDialogDoNotSupportButtonAction" style="-fx-background-color: #F44336;" text="Do Not Support" textFill="WHITE">
+							<JFXButton fx:id="excommunicationDialogDoNotSupportButton" onAction="#handleExcommunicationDialogDoNotSupportButtonAction" style="-fx-background-color: #F44336;" text="Do Not Support" textFill="WHITE">
 								<font>
 									<Font name="Roboto Bold" size="12.0" />
 								</font>
@@ -684,11 +684,11 @@
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="servantsChoiceDialog">
+	<JFXDialog fx:id="servantsDialog">
 		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
 				<VBox spacing="60.0">
-					<JFXSlider fx:id="servantsChoiceDialogSlider" indicatorPosition="RIGHT" majorTickUnit="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" styleClass="jfx-slider-style" />
+					<JFXSlider fx:id="servantsDialogSlider" indicatorPosition="RIGHT" majorTickUnit="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" styleClass="jfx-slider-style" />
 					<GridPane hgap="10.0">
 						<columnConstraints>
 							<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
@@ -698,14 +698,14 @@
 							<RowConstraints vgrow="SOMETIMES" />
 						</rowConstraints>
 						<VBox>
-							<JFXButton fx:id="servantsChoiceDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
+							<JFXButton fx:id="servantsDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
 								<font>
 									<Font name="Roboto Bold" size="12.0" />
 								</font>
 							</JFXButton>
 						</VBox>
 						<VBox GridPane.columnIndex="1">
-							<JFXButton fx:id="servantsChoiceDialogCancelButton" onAction="#handleServantsChoiceDialogCancelButtonAction" style="-fx-background-color: #F44336;" text="Cancel" textFill="WHITE">
+							<JFXButton fx:id="servantsDialogCancelButton" onAction="#handleServantsDialogCancelButtonAction" style="-fx-background-color: #F44336;" text="Cancel" textFill="WHITE">
 								<font>
 									<Font name="Roboto Bold" size="12.0" />
 								</font>
@@ -716,11 +716,11 @@
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="pickDevelopmentCardChoiceDialog">
+	<JFXDialog fx:id="pickDevelopmentCardDialog">
 		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
 				<VBox spacing="60.0">
-					<JFXSlider fx:id="pickDevelopmentCardChoiceDialogSlider" indicatorPosition="RIGHT" majorTickUnit="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" styleClass="jfx-slider-style" />
+					<JFXSlider fx:id="pickDevelopmentCardDialogSlider" indicatorPosition="RIGHT" majorTickUnit="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" styleClass="jfx-slider-style" />
 					<VBox spacing="20.0">
 						<VBox spacing="10.0">
 							<Label text="Discount choices:">
@@ -729,7 +729,7 @@
 								</font>
 							</Label>
 							<Pane style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;">
-								<HBox fx:id="pickDevelopmentCardChoiceDialogDiscountChoicesHBox" alignment="CENTER" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
+								<HBox fx:id="pickDevelopmentCardDialogDiscountChoicesHBox" alignment="CENTER" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
 							</Pane>
 						</VBox>
 						<VBox spacing="10.0">
@@ -739,7 +739,7 @@
 								</font>
 							</Label>
 							<Pane style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;">
-								<HBox fx:id="pickDevelopmentCardChoiceDialogResourceCostOptionsHBox" alignment="CENTER" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
+								<HBox fx:id="pickDevelopmentCardDialogResourceCostOptionsHBox" alignment="CENTER" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
 							</Pane>
 						</VBox>
 						<GridPane hgap="10.0">
@@ -751,14 +751,14 @@
 								<RowConstraints vgrow="SOMETIMES" />
 							</rowConstraints>
 							<VBox>
-								<JFXButton fx:id="pickDevelopmentCardChoiceDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
+								<JFXButton fx:id="pickDevelopmentCardDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
 									<font>
 										<Font name="Roboto Bold" size="12.0" />
 									</font>
 								</JFXButton>
 							</VBox>
 							<VBox GridPane.columnIndex="1">
-								<JFXButton fx:id="pickDevelopmentCardChoiceDialogCancelButton" onAction="#handlePickDevelopmentCardChoiceDialogCancelButtonAction" style="-fx-background-color: #F44336;" text="Cancel" textFill="WHITE">
+								<JFXButton fx:id="pickDevelopmentCardDialogCancelButton" onAction="#handlePickDevelopmentCardDialogCancelButtonAction" style="-fx-background-color: #F44336;" text="Cancel" textFill="WHITE">
 									<font>
 										<Font name="Roboto Bold" size="12.0" />
 									</font>
@@ -770,13 +770,31 @@
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="expectedActionChooseRewardCouncilPrivilegeDialog">
+	<JFXDialog fx:id="expectedChooseLorenzoDeMediciLeaderDialog">
+		<JFXDialogLayout fx:id="expectedChooseLorenzoDeMediciLeaderDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
+			<body>
+				<VBox fx:id="expectedChooseLorenzoDeMediciLeaderDialogVBox" spacing="20.0">
+					<Label text="Copy the ability of another Leader Card already played by another player. Once you decide the ability to copy, it can’t be changed.">
+						<font>
+							<Font name="Roboto Bold" size="12.0" />
+						</font>
+					</Label>
+				</VBox>
+			</body>
+		</JFXDialogLayout>
+	</JFXDialog>
+	<JFXDialog fx:id="expectedChooseRewardCouncilPrivilegeDialog">
 		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
 				<VBox spacing="20.0">
-					<Pane fx:id="expectedActionChooseRewardCouncilPrivilegeDialogPane" style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;" />
+					<Label fx:id="expectedChooseRewardCouncilPrivilegeDialogLabel">
+						<font>
+							<Font name="Roboto Bold" size="12.0" />
+						</font>
+					</Label>
+					<Pane fx:id="expectedChooseRewardCouncilPrivilegeDialogPane" style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;" />
 					<VBox>
-						<JFXButton fx:id="expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
+						<JFXButton fx:id="expectedChooseRewardCouncilPrivilegeDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
 							<font>
 								<Font name="Roboto Bold" size="12.0" />
 							</font>
@@ -786,21 +804,146 @@
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="expectedActionChooseTemporaryModifierDialog">
+	<JFXDialog fx:id="expectedChooseRewardServantsDialog">
 		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
-				<HBox fx:id="expectedActionChooseTemporaryModifierDialogHBox" alignment="CENTER" spacing="20.0" />
+				<VBox spacing="60.0">
+					<VBox spacing="20.0">
+						<Label fx:id="expectedChooseRewardServantsDialogLabel">
+							<font>
+								<Font name="Roboto Bold" size="12.0" />
+							</font>
+						</Label>
+						<JFXSlider fx:id="expectedChooseRewardServantsDialogSlider" indicatorPosition="RIGHT" majorTickUnit="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" styleClass="jfx-slider-style" />
+					</VBox>
+					<VBox>
+						<JFXButton fx:id="expectedChooseRewardServantsDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
+							<font>
+								<Font name="Roboto Bold" size="12.0" />
+							</font>
+						</JFXButton>
+					</VBox>
+				</VBox>
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="cardDialog">
-		<JFXDialogLayout fx:id="cardDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
+	<JFXDialog fx:id="expectedChooseRewardPickDevelopmentCardDialog">
+		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
+			<body>
+				<VBox spacing="60.0">
+					<JFXSlider fx:id="expectedChooseRewardPickDevelopmentCardDialogSlider" indicatorPosition="RIGHT" majorTickUnit="1.0" minorTickCount="0" showTickMarks="true" snapToTicks="true" styleClass="jfx-slider-style" />
+					<VBox spacing="20.0">
+						<GridPane hgap="5.0" vgap="5.0">
+							<columnConstraints>
+								<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+								<ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="50.0" />
+							</columnConstraints>
+							<rowConstraints>
+								<RowConstraints vgrow="SOMETIMES" />
+								<RowConstraints vgrow="SOMETIMES" />
+							</rowConstraints>
+							<Label minWidth="-Infinity" text="Instant reward row:">
+								<font>
+									<Font name="Roboto Bold" size="12.0" />
+								</font>
+							</Label>
+							<JFXRadioButton fx:id="expectedChooseRewardPickDevelopmentCardDialogThirdRow" nodeOrientation="RIGHT_TO_LEFT" onAction="#handleExpectedChooseRewardPickDevelopmentCardDialogThirdRowAction" text="Third" GridPane.columnIndex="1">
+								<toggleGroup>
+									<ToggleGroup fx:id="expectedChooseRewardPickDevelopmentCardDialogRow" />
+								</toggleGroup>
+								<font>
+									<Font name="Roboto" size="12.0" />
+								</font>
+							</JFXRadioButton>
+							<JFXRadioButton fx:id="expectedChooseRewardPickDevelopmentCardDialogFourthRow" nodeOrientation="RIGHT_TO_LEFT" onAction="#handleExpectedChooseRewardPickDevelopmentCardDialogFourthRowAction" text="Fourth" toggleGroup="$expectedChooseRewardPickDevelopmentCardDialogRow" GridPane.columnIndex="1" GridPane.rowIndex="1">
+								<font>
+									<Font name="Roboto" size="12.0" />
+								</font>
+							</JFXRadioButton>
+							<VBox.margin>
+								<Insets top="5.0" />
+							</VBox.margin>
+						</GridPane>
+						<VBox spacing="10.0">
+							<Label text="Instant discount choices:">
+								<font>
+									<Font name="Roboto Bold" size="12.0" />
+								</font>
+							</Label>
+							<Pane style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;">
+								<HBox fx:id="expectedChooseRewardPickDevelopmentCardDialogInstantDiscountChoicesHBox" alignment="CENTER" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
+							</Pane>
+						</VBox>
+						<VBox spacing="10.0">
+							<Label text="Discount choices:">
+								<font>
+									<Font name="Roboto Bold" size="12.0" />
+								</font>
+							</Label>
+							<Pane style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;">
+								<HBox fx:id="expectedChooseRewardPickDevelopmentCardDialogDiscountChoicesHBox" alignment="CENTER" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
+							</Pane>
+						</VBox>
+						<VBox spacing="10.0">
+							<Label text="Resource cost options:">
+								<font>
+									<Font name="Roboto Bold" size="12.0" />
+								</font>
+							</Label>
+							<Pane style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;">
+								<HBox fx:id="expectedChooseRewardPickDevelopmentCardDialogResourceCostOptionsHBox" alignment="CENTER" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
+							</Pane>
+						</VBox>
+						<GridPane hgap="10.0">
+							<columnConstraints>
+								<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+								<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+							</columnConstraints>
+							<rowConstraints>
+								<RowConstraints vgrow="SOMETIMES" />
+							</rowConstraints>
+							<VBox>
+								<JFXButton fx:id="expectedChooseRewardPickDevelopmentCardDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
+									<font>
+										<Font name="Roboto Bold" size="12.0" />
+									</font>
+								</JFXButton>
+							</VBox>
+							<VBox GridPane.columnIndex="1">
+								<JFXButton fx:id="expectedChooseRewardPickDevelopmentCardDialogCancelButton" onAction="#handleExpectedChooseRewardPickDevelopmentCardDialogCancelButtonAction" style="-fx-background-color: #F44336;" text="Cancel" textFill="WHITE">
+									<font>
+										<Font name="Roboto Bold" size="12.0" />
+									</font>
+								</JFXButton>
+							</VBox>
+						</GridPane>
+					</VBox>
+				</VBox>
+			</body>
+		</JFXDialogLayout>
+	</JFXDialog>
+	<JFXDialog fx:id="expectedChooseRewardTemporaryModifierDialog">
+		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
+			<body>
+				<VBox spacing="20.0">
+					<Label text="One of your colored Family Members has a value of 6, regardless of its related die.">
+						<font>
+							<Font name="Roboto Bold" size="12.0" />
+						</font>
+					</Label>
+					<HBox fx:id="expectedChooseRewardTemporaryModifierDialogHBox" alignment="CENTER" spacing="20.0" />
+				</VBox>
+			</body>
+		</JFXDialogLayout>
+	</JFXDialog>
+	<JFXDialog fx:id="developmentCardDialog">
+		<JFXDialogLayout fx:id="developmentCardDialogLayout" style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
 				<HBox spacing="20.0">
-					<Pane fx:id="cardDialogPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
-					<ScrollPane fx:id="cardDialogScrollPane" fitToWidth="true">
+					<Pane fx:id="developmentCardDialogPane" style="-fx-border-color: #757575; -fx-border-width: 2px;" />
+					<ScrollPane fx:id="developmentCardDialogScrollPane" fitToWidth="true">
 						<HBox alignment="CENTER_LEFT">
-							<Text fx:id="cardDialogText">
+							<Text fx:id="developmentCardDialogText">
 								<font>
 									<Font name="Roboto" size="12.0" />
 								</font>
@@ -814,10 +957,10 @@
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
-	<JFXDialog fx:id="leaderCardsDialog">
+	<JFXDialog fx:id="playersLeaderCardsDialog">
 		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>
-				<JFXTabPane fx:id="leaderCardsTabPane">
+				<JFXTabPane fx:id="playersLeaderCardsTabPane">
 					<Tab fx:id="leaderCardsPlayer1Tab">
 						<AnchorPane>
 							<VBox spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">

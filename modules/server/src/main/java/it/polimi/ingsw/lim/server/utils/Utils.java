@@ -2,19 +2,31 @@ package it.polimi.ingsw.lim.server.utils;
 
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.Period;
+import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
+import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.*;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.enums.*;
+import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
+import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.actions.*;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
+import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
+import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
+import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
+import it.polimi.ingsw.lim.server.game.player.Player;
+import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.Connection;
 import javafx.application.Platform;
@@ -244,6 +256,110 @@ public class Utils
 			}
 		}
 		return null;
+	}
+
+	public static void checkValidDiscount(Player player, CardType cardType, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption) throws GameActionFailedException
+	{
+		if (resourceCostOption == null && !discountChoice.isEmpty()) {
+			throw new GameActionFailedException("");
+		}
+		Utils.checkValidDiscountInternal(player, cardType, discountChoice, resourceCostOption);
+	}
+
+	public static void checkValidDiscount(Player player, CardType cardType, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption) throws GameActionFailedException
+	{
+		if (resourceCostOption == null && (!instantDiscountChoice.isEmpty() || !discountChoice.isEmpty())) {
+			throw new GameActionFailedException("");
+		}
+		if (resourceCostOption != null && ((instantDiscountChoice.isEmpty() && !((ActionRewardPickDevelopmentCard) player.getCurrentActionReward()).getInstantDiscountChoices().isEmpty()) || (!instantDiscountChoice.isEmpty() && !((ActionRewardPickDevelopmentCard) player.getCurrentActionReward()).getInstantDiscountChoices().contains(instantDiscountChoice)))) {
+			throw new GameActionFailedException("");
+		}
+		Utils.checkValidDiscountInternal(player, cardType, discountChoice, resourceCostOption);
+	}
+
+	private static void checkValidDiscountInternal(Player player, CardType cardType, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption) throws GameActionFailedException
+	{
+		if (resourceCostOption != null) {
+			if (discountChoice.isEmpty()) {
+				boolean validDiscountChoice = true;
+				for (Modifier modifier : player.getActiveModifiers()) {
+					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && (((ModifierPickDevelopmentCard) modifier).getDiscountChoices() != null || !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty())) {
+						validDiscountChoice = false;
+						break;
+					}
+				}
+				if (!validDiscountChoice) {
+					throw new GameActionFailedException("");
+				}
+			} else {
+				boolean validDiscountChoice = false;
+				for (Modifier modifier : player.getActiveModifiers()) {
+					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices() != null && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices().contains(discountChoice)) {
+						validDiscountChoice = true;
+						break;
+					}
+				}
+				if (!validDiscountChoice) {
+					throw new GameActionFailedException("");
+				}
+			}
+		}
+	}
+
+	public static void checkAvailableProductionCards(Player player)
+	{
+		List<Integer> availableCards = new ArrayList<>();
+		for (DevelopmentCardBuilding developmentCardBuilding : player.getPlayerCardHandler().getDevelopmentCards(CardType.BUILDING, DevelopmentCardBuilding.class)) {
+			if (developmentCardBuilding.getActivationValue() <= player.getCurrentProductionValue()) {
+				availableCards.add(developmentCardBuilding.getIndex());
+			}
+		}
+		if (availableCards.isEmpty()) {
+			if (Utils.sendCouncilPrivileges(player)) {
+				return;
+			}
+			if (player.getRoom().getGameHandler().getCurrentPhase() == Phase.LEADER) {
+				player.getRoom().getGameHandler().setExpectedAction(null);
+				player.getRoom().getGameHandler().sendGameUpdate(player);
+				return;
+			}
+			player.getRoom().getGameHandler().nextTurn();
+			return;
+		}
+		player.getRoom().getGameHandler().sendGameUpdateExpectedAction(player, new ExpectedActionProductionTrade(availableCards));
+	}
+
+	public static void subtractDiscount(List<ResourceAmount> resourceAmounts, List<ResourceAmount> discountChoice)
+	{
+		for (ResourceAmount effectiveResourceAmount : resourceAmounts) {
+			for (ResourceAmount discountResourceAmount : discountChoice) {
+				if (discountResourceAmount.getResourceType() == effectiveResourceAmount.getResourceType()) {
+					effectiveResourceAmount.setAmount(effectiveResourceAmount.getAmount() - discountResourceAmount.getAmount());
+				}
+			}
+		}
+	}
+
+	public static boolean sendCouncilPrivileges(Player player)
+	{
+		int councilPrivilegesCount = player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+		if (councilPrivilegesCount > 0) {
+			player.getRoom().getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
+			player.getRoom().getGameHandler().sendGameUpdateExpectedAction(player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean sendActionReward(Player player, ActionReward actionReward)
+	{
+		if (actionReward != null && actionReward.getRequestedAction() != null) {
+			player.setCurrentActionReward(actionReward);
+			player.getRoom().getGameHandler().setExpectedAction(actionReward.getRequestedAction());
+			player.getRoom().getGameHandler().sendGameUpdateExpectedAction(player, actionReward.createExpectedAction(player));
+			return true;
+		}
+		return false;
 	}
 
 	/**

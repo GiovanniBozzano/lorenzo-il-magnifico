@@ -457,38 +457,55 @@ public class ControllerGame extends CustomController
 	@FXML private JFXDialogLayout dialogLayout;
 	@FXML private Label dialogLabel;
 	@FXML private JFXButton dialogOkButton;
-	@FXML private JFXDialog personalBonusTilesChoiceDialog;
-	@FXML private JFXDialogLayout personalBonusTilesChoiceDialogLayout;
-	@FXML private HBox personalBonusTilesChoiceDialogHBox;
-	@FXML private JFXDialog leaderCardsChoiceDialog;
-	@FXML private JFXDialogLayout leaderCardsChoiceDialogLayout;
-	@FXML private HBox leaderCardsChoiceDialogHBox;
-	@FXML private JFXDialog excommunicationChoiceDialog;
-	@FXML private Text excommunicationChoiceDialogText;
-	@FXML private JFXButton excommunicationChoiceDialogSupportButton;
-	@FXML private JFXButton excommunicationChoiceDialogDoNotSupportButton;
-	@FXML private JFXDialog servantsChoiceDialog;
-	@FXML private JFXSlider servantsChoiceDialogSlider;
-	@FXML private JFXButton servantsChoiceDialogAcceptButton;
-	@FXML private JFXButton servantsChoiceDialogCancelButton;
-	@FXML private JFXDialog pickDevelopmentCardChoiceDialog;
-	@FXML private JFXSlider pickDevelopmentCardChoiceDialogSlider;
-	@FXML private HBox pickDevelopmentCardChoiceDialogDiscountChoicesHBox;
-	@FXML private HBox pickDevelopmentCardChoiceDialogResourceCostOptionsHBox;
-	@FXML private JFXButton pickDevelopmentCardChoiceDialogAcceptButton;
-	@FXML private JFXButton pickDevelopmentCardChoiceDialogCancelButton;
-	@FXML private JFXDialog expectedActionChooseRewardCouncilPrivilegeDialog;
-	@FXML private Pane expectedActionChooseRewardCouncilPrivilegeDialogPane;
-	@FXML private JFXDialog expectedActionChooseTemporaryModifierDialog;
-	@FXML private HBox expectedActionChooseTemporaryModifierDialogHBox;
-	@FXML private JFXButton expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton;
-	@FXML private JFXDialog cardDialog;
-	@FXML private JFXDialogLayout cardDialogLayout;
-	@FXML private Pane cardDialogPane;
-	@FXML private ScrollPane cardDialogScrollPane;
-	@FXML private Text cardDialogText;
+	@FXML private JFXDialog personalBonusTilesDialog;
+	@FXML private JFXDialogLayout personalBonusTilesDialogLayout;
+	@FXML private HBox personalBonusTilesDialogHBox;
 	@FXML private JFXDialog leaderCardsDialog;
-	@FXML private JFXTabPane leaderCardsTabPane;
+	@FXML private JFXDialogLayout leaderCardsDialogLayout;
+	@FXML private HBox leaderCardsDialogHBox;
+	@FXML private JFXDialog excommunicationDialog;
+	@FXML private Text excommunicationDialogText;
+	@FXML private JFXButton excommunicationDialogSupportButton;
+	@FXML private JFXButton excommunicationDialogDoNotSupportButton;
+	@FXML private JFXDialog servantsDialog;
+	@FXML private JFXSlider servantsDialogSlider;
+	@FXML private JFXButton servantsDialogAcceptButton;
+	@FXML private JFXButton servantsDialogCancelButton;
+	@FXML private JFXDialog pickDevelopmentCardDialog;
+	@FXML private JFXSlider pickDevelopmentCardDialogSlider;
+	@FXML private HBox pickDevelopmentCardDialogDiscountChoicesHBox;
+	@FXML private HBox pickDevelopmentCardDialogResourceCostOptionsHBox;
+	@FXML private JFXButton pickDevelopmentCardDialogAcceptButton;
+	@FXML private JFXButton pickDevelopmentCardDialogCancelButton;
+	@FXML private JFXDialog expectedChooseLorenzoDeMediciLeaderDialog;
+	@FXML private JFXDialogLayout expectedChooseLorenzoDeMediciLeaderDialogLayout;
+	@FXML private VBox expectedChooseLorenzoDeMediciLeaderDialogVBox;
+	@FXML private JFXDialog expectedChooseRewardCouncilPrivilegeDialog;
+	@FXML private Label expectedChooseRewardCouncilPrivilegeDialogLabel;
+	@FXML private Pane expectedChooseRewardCouncilPrivilegeDialogPane;
+	@FXML private JFXDialog expectedChooseRewardServantsDialog;
+	@FXML private Label expectedChooseRewardServantsDialogLabel;
+	@FXML private JFXSlider expectedChooseRewardServantsDialogSlider;
+	@FXML private JFXButton expectedChooseRewardServantsDialogAcceptButton;
+	@FXML private JFXDialog expectedChooseRewardPickDevelopmentCardDialog;
+	@FXML private JFXSlider expectedChooseRewardPickDevelopmentCardDialogSlider;
+	@FXML private JFXRadioButton expectedChooseRewardPickDevelopmentCardDialogThirdRow;
+	@FXML private JFXRadioButton expectedChooseRewardPickDevelopmentCardDialogFourthRow;
+	@FXML private HBox expectedChooseRewardPickDevelopmentCardDialogInstantDiscountChoicesHBox;
+	@FXML private HBox expectedChooseRewardPickDevelopmentCardDialogDiscountChoicesHBox;
+	@FXML private HBox expectedChooseRewardPickDevelopmentCardDialogResourceCostOptionsHBox;
+	@FXML private JFXButton expectedChooseRewardPickDevelopmentCardDialogAcceptButton;
+	@FXML private JFXButton expectedChooseRewardPickDevelopmentCardDialogCancelButton;
+	@FXML private JFXDialog expectedChooseRewardTemporaryModifierDialog;
+	@FXML private HBox expectedChooseRewardTemporaryModifierDialogHBox;
+	@FXML private JFXButton expectedChooseRewardCouncilPrivilegeDialogAcceptButton;
+	@FXML private JFXDialog developmentCardDialog;
+	@FXML private JFXDialogLayout developmentCardDialogLayout;
+	@FXML private Pane developmentCardDialogPane;
+	@FXML private ScrollPane developmentCardDialogScrollPane;
+	@FXML private Text developmentCardDialogText;
+	@FXML private JFXDialog playersLeaderCardsDialog;
+	@FXML private JFXTabPane playersLeaderCardsTabPane;
 	@FXML private Tab leaderCardsPlayer1Tab;
 	@FXML private Tab leaderCardsPlayer2Tab;
 	@FXML private Tab leaderCardsPlayer3Tab;
@@ -590,13 +607,13 @@ public class ControllerGame extends CustomController
 	private static final Map<ActionType, IExpectedActionHandler> EXPECTED_ACTION_HANDLERS = new EnumMap<>(ActionType.class);
 
 	static {
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, (controllerGame, expectedAction) -> controllerGame.showExpectedActionChooseLorenzoDeMediciLeader((ExpectedActionChooseLorenzoDeMediciLeader) expectedAction));
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE, (controllerGame, expectedAction) -> controllerGame.showExpectedActionChooseRewardCouncilPrivilege((ExpectedActionChooseRewardCouncilPrivilege) expectedAction));
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_HARVEST, (controllerGame, expectedAction) -> controllerGame.showExpectedActionChooseRewardHarvest((ExpectedActionChooseRewardHarvest) expectedAction));
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD, (controllerGame, expectedAction) -> controllerGame.showExpectedActionChooseRewardPickDevelopmentCard((ExpectedActionChooseRewardPickDevelopmentCard) expectedAction));
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PRODUCTION_START, (controllerGame, expectedAction) -> controllerGame.showExpectedActionChooseRewardProductionStart((ExpectedActionChooseRewardProductionStart) expectedAction));
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.PRODUCTION_TRADE, (controllerGame, expectedAction) -> controllerGame.showExpectedActionProductionTrade((ExpectedActionProductionTrade) expectedAction));
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER, (controllerGame, expectedAction) -> controllerGame.showExpectedActionChooseRewardTemporaryModifier());
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, (controllerGame, expectedAction) -> controllerGame.showExpectedChooseLorenzoDeMediciLeader((ExpectedActionChooseLorenzoDeMediciLeader) expectedAction));
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE, (controllerGame, expectedAction) -> controllerGame.showExpectedChooseRewardCouncilPrivilege((ExpectedActionChooseRewardCouncilPrivilege) expectedAction));
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_HARVEST, (controllerGame, expectedAction) -> controllerGame.showExpectedChooseRewardHarvest((ExpectedActionChooseRewardHarvest) expectedAction));
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD, (controllerGame, expectedAction) -> controllerGame.showExpectedChooseRewardPickDevelopmentCard((ExpectedActionChooseRewardPickDevelopmentCard) expectedAction));
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PRODUCTION_START, (controllerGame, expectedAction) -> controllerGame.showExpectedChooseRewardProductionStart((ExpectedActionChooseRewardProductionStart) expectedAction));
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.PRODUCTION_TRADE, (controllerGame, expectedAction) -> controllerGame.showExpectedProductionTrade((ExpectedActionProductionTrade) expectedAction));
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER, (controllerGame, expectedAction) -> controllerGame.showExpectedChooseRewardTemporaryModifier());
 	}
 
 	private final Map<Integer, Tab> playersTabs = new HashMap<>();
@@ -645,6 +662,8 @@ public class ControllerGame extends CustomController
 	private final List<Pane> selectableDevelopmentCards = new ArrayList<>();
 	private CardType selectedDevelopmentCardType;
 	private Integer selectedDevelopmentCardIndex;
+	private Row selectedInstantRewardRow;
+	private final List<ResourceAmount> selectedInstantDiscountChoice = new ArrayList<>();
 	private final List<ResourceAmount> selectedDiscountChoice = new ArrayList<>();
 	private ResourceCostOption selectedResourceCostOption;
 
@@ -699,9 +718,9 @@ public class ControllerGame extends CustomController
 				}
 			}
 		} else if (event.getButton() == MouseButton.SECONDARY && pane.getBackground() != null) {
-			this.cardDialogPane.setBackground(pane.getBackground());
-			this.cardDialogText.setText(this.getDevelopmentCardInformations(pane));
-			this.cardDialog.show();
+			this.developmentCardDialogPane.setBackground(pane.getBackground());
+			this.developmentCardDialogText.setText(this.getDevelopmentCardInformations(pane));
+			this.developmentCardDialog.show();
 		}
 	}
 
@@ -709,9 +728,9 @@ public class ControllerGame extends CustomController
 	private void playerDevelopmentCardPaneMouseClicked(MouseEvent event)
 	{
 		if (event.getButton() == MouseButton.SECONDARY && ((Pane) event.getSource()).getBackground() != null) {
-			this.cardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
-			this.cardDialogText.setText(this.getDevelopmentCardInformations((Pane) event.getSource()));
-			this.cardDialog.show();
+			this.developmentCardDialogPane.setBackground(((Pane) event.getSource()).getBackground());
+			this.developmentCardDialogText.setText(this.getDevelopmentCardInformations((Pane) event.getSource()));
+			this.developmentCardDialog.show();
 		}
 	}
 
@@ -722,9 +741,9 @@ public class ControllerGame extends CustomController
 	}
 
 	@FXML
-	private void handleLeaderCardsButtonAction()
+	private void handlePlayersLeaderCardsButtonAction()
 	{
-		this.leaderCardsDialog.show();
+		this.playersLeaderCardsDialog.show();
 	}
 
 	@FXML
@@ -735,29 +754,47 @@ public class ControllerGame extends CustomController
 	}
 
 	@FXML
-	private void handleExcommunicationChoiceDialogSupportButtonAction()
+	private void handleExcommunicationDialogSupportButtonAction()
 	{
-		this.excommunicationChoiceDialog.close();
+		this.excommunicationDialog.close();
 		Client.getInstance().getConnectionHandler().sendGameExcommunicationPlayerChoice(false);
 	}
 
 	@FXML
-	private void handleExcommunicationChoiceDialogDoNotSupportButtonAction()
+	private void handleExcommunicationDialogDoNotSupportButtonAction()
 	{
-		this.excommunicationChoiceDialog.close();
+		this.excommunicationDialog.close();
 		Client.getInstance().getConnectionHandler().sendGameExcommunicationPlayerChoice(true);
 	}
 
 	@FXML
-	private void handleServantsChoiceDialogCancelButtonAction()
+	private void handleServantsDialogCancelButtonAction()
 	{
-		this.servantsChoiceDialog.close();
+		this.servantsDialog.close();
 	}
 
 	@FXML
-	private void handlePickDevelopmentCardChoiceDialogCancelButtonAction()
+	private void handlePickDevelopmentCardDialogCancelButtonAction()
 	{
-		this.pickDevelopmentCardChoiceDialog.close();
+		this.pickDevelopmentCardDialog.close();
+	}
+
+	@FXML
+	private void handleExpectedChooseRewardPickDevelopmentCardDialogThirdRowAction()
+	{
+		this.selectedInstantRewardRow = Row.THIRD;
+	}
+
+	@FXML
+	private void handleExpectedChooseRewardPickDevelopmentCardDialogFourthRowAction()
+	{
+		this.selectedInstantRewardRow = Row.FOURTH;
+	}
+
+	@FXML
+	void handleExpectedChooseRewardPickDevelopmentCardDialogCancelButtonAction()
+	{
+		this.expectedChooseRewardPickDevelopmentCardDialog.close();
 	}
 
 	@FXML
@@ -1073,49 +1110,64 @@ public class ControllerGame extends CustomController
 		this.dialog.setTransitionType(DialogTransition.CENTER);
 		this.dialog.setDialogContainer(this.getStackPane());
 		this.dialog.setPadding(new Insets(24, 24, 24, 24));
-		this.getStackPane().getChildren().remove(this.personalBonusTilesChoiceDialog);
-		this.personalBonusTilesChoiceDialog.setTransitionType(DialogTransition.CENTER);
-		this.personalBonusTilesChoiceDialog.setDialogContainer(this.getStackPane());
-		this.personalBonusTilesChoiceDialog.setOverlayClose(false);
-		this.personalBonusTilesChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
-		this.getStackPane().getChildren().remove(this.leaderCardsChoiceDialog);
-		this.leaderCardsChoiceDialog.setTransitionType(DialogTransition.CENTER);
-		this.leaderCardsChoiceDialog.setDialogContainer(this.getStackPane());
-		this.leaderCardsChoiceDialog.setOverlayClose(false);
-		this.leaderCardsChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
-		this.getStackPane().getChildren().remove(this.excommunicationChoiceDialog);
-		this.excommunicationChoiceDialog.setTransitionType(DialogTransition.CENTER);
-		this.excommunicationChoiceDialog.setDialogContainer(this.getStackPane());
-		this.excommunicationChoiceDialog.setOverlayClose(false);
-		this.excommunicationChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
-		this.getStackPane().getChildren().remove(this.servantsChoiceDialog);
-		this.servantsChoiceDialog.setTransitionType(DialogTransition.CENTER);
-		this.servantsChoiceDialog.setDialogContainer(this.getStackPane());
-		this.servantsChoiceDialog.setOverlayClose(false);
-		this.servantsChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
-		this.getStackPane().getChildren().remove(this.pickDevelopmentCardChoiceDialog);
-		this.pickDevelopmentCardChoiceDialog.setTransitionType(DialogTransition.CENTER);
-		this.pickDevelopmentCardChoiceDialog.setDialogContainer(this.getStackPane());
-		this.pickDevelopmentCardChoiceDialog.setOverlayClose(false);
-		this.pickDevelopmentCardChoiceDialog.setPadding(new Insets(24, 24, 24, 24));
-		this.getStackPane().getChildren().remove(this.expectedActionChooseRewardCouncilPrivilegeDialog);
-		this.expectedActionChooseRewardCouncilPrivilegeDialog.setTransitionType(DialogTransition.CENTER);
-		this.expectedActionChooseRewardCouncilPrivilegeDialog.setDialogContainer(this.getStackPane());
-		this.expectedActionChooseRewardCouncilPrivilegeDialog.setOverlayClose(false);
-		this.expectedActionChooseRewardCouncilPrivilegeDialog.setPadding(new Insets(24, 24, 24, 24));
-		this.getStackPane().getChildren().remove(this.expectedActionChooseTemporaryModifierDialog);
-		this.expectedActionChooseTemporaryModifierDialog.setTransitionType(DialogTransition.CENTER);
-		this.expectedActionChooseTemporaryModifierDialog.setDialogContainer(this.getStackPane());
-		this.expectedActionChooseTemporaryModifierDialog.setOverlayClose(false);
-		this.expectedActionChooseTemporaryModifierDialog.setPadding(new Insets(24, 24, 24, 24));
-		this.getStackPane().getChildren().remove(this.cardDialog);
-		this.cardDialog.setTransitionType(DialogTransition.CENTER);
-		this.cardDialog.setDialogContainer(this.getStackPane());
-		this.cardDialogLayout.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.personalBonusTilesDialog);
+		this.personalBonusTilesDialog.setTransitionType(DialogTransition.CENTER);
+		this.personalBonusTilesDialog.setDialogContainer(this.getStackPane());
+		this.personalBonusTilesDialog.setOverlayClose(false);
+		this.personalBonusTilesDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.leaderCardsDialog);
 		this.leaderCardsDialog.setTransitionType(DialogTransition.CENTER);
 		this.leaderCardsDialog.setDialogContainer(this.getStackPane());
+		this.leaderCardsDialog.setOverlayClose(false);
 		this.leaderCardsDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.excommunicationDialog);
+		this.excommunicationDialog.setTransitionType(DialogTransition.CENTER);
+		this.excommunicationDialog.setDialogContainer(this.getStackPane());
+		this.excommunicationDialog.setOverlayClose(false);
+		this.excommunicationDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.servantsDialog);
+		this.servantsDialog.setTransitionType(DialogTransition.CENTER);
+		this.servantsDialog.setDialogContainer(this.getStackPane());
+		this.servantsDialog.setOverlayClose(false);
+		this.servantsDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.pickDevelopmentCardDialog);
+		this.pickDevelopmentCardDialog.setTransitionType(DialogTransition.CENTER);
+		this.pickDevelopmentCardDialog.setDialogContainer(this.getStackPane());
+		this.pickDevelopmentCardDialog.setOverlayClose(false);
+		this.pickDevelopmentCardDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.expectedChooseLorenzoDeMediciLeaderDialog);
+		this.expectedChooseLorenzoDeMediciLeaderDialog.setTransitionType(DialogTransition.CENTER);
+		this.expectedChooseLorenzoDeMediciLeaderDialog.setDialogContainer(this.getStackPane());
+		this.expectedChooseLorenzoDeMediciLeaderDialog.setOverlayClose(false);
+		this.expectedChooseLorenzoDeMediciLeaderDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.expectedChooseRewardCouncilPrivilegeDialog);
+		this.expectedChooseRewardCouncilPrivilegeDialog.setTransitionType(DialogTransition.CENTER);
+		this.expectedChooseRewardCouncilPrivilegeDialog.setDialogContainer(this.getStackPane());
+		this.expectedChooseRewardCouncilPrivilegeDialog.setOverlayClose(false);
+		this.expectedChooseRewardCouncilPrivilegeDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.expectedChooseRewardServantsDialog);
+		this.expectedChooseRewardServantsDialog.setTransitionType(DialogTransition.CENTER);
+		this.expectedChooseRewardServantsDialog.setDialogContainer(this.getStackPane());
+		this.expectedChooseRewardServantsDialog.setOverlayClose(false);
+		this.expectedChooseRewardServantsDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.expectedChooseRewardPickDevelopmentCardDialog);
+		this.expectedChooseRewardPickDevelopmentCardDialog.setTransitionType(DialogTransition.CENTER);
+		this.expectedChooseRewardPickDevelopmentCardDialog.setDialogContainer(this.getStackPane());
+		this.expectedChooseRewardPickDevelopmentCardDialog.setOverlayClose(false);
+		this.expectedChooseRewardPickDevelopmentCardDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.expectedChooseRewardTemporaryModifierDialog);
+		this.expectedChooseRewardTemporaryModifierDialog.setTransitionType(DialogTransition.CENTER);
+		this.expectedChooseRewardTemporaryModifierDialog.setDialogContainer(this.getStackPane());
+		this.expectedChooseRewardTemporaryModifierDialog.setOverlayClose(false);
+		this.expectedChooseRewardTemporaryModifierDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.developmentCardDialog);
+		this.developmentCardDialog.setTransitionType(DialogTransition.CENTER);
+		this.developmentCardDialog.setDialogContainer(this.getStackPane());
+		this.developmentCardDialogLayout.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.playersLeaderCardsDialog);
+		this.playersLeaderCardsDialog.setTransitionType(DialogTransition.CENTER);
+		this.playersLeaderCardsDialog.setDialogContainer(this.getStackPane());
+		this.playersLeaderCardsDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.endGameDialog);
 		this.endGameDialog.setTransitionType(DialogTransition.CENTER);
 		this.endGameDialog.setDialogContainer(this.getStackPane());
@@ -1143,7 +1195,7 @@ public class ControllerGame extends CustomController
 		}
 		for (Entry<Integer, Tab> tab : this.leaderCardsTabs.entrySet()) {
 			if (!GameStatus.getInstance().getCurrentPlayersData().keySet().contains(tab.getKey())) {
-				this.leaderCardsTabPane.getTabs().remove(tab.getValue());
+				this.playersLeaderCardsTabPane.getTabs().remove(tab.getValue());
 			} else {
 				tab.getValue().setText((GameStatus.getInstance().getOwnPlayerIndex() == tab.getKey() ? "[ME] " : "") + GameStatus.getInstance().getCurrentPlayersData().get(tab.getKey()).getUsername());
 			}
@@ -1225,16 +1277,18 @@ public class ControllerGame extends CustomController
 		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsVenture, this.ratio, this.ratio);
 		Utils.resizeChildrenNode(this.playerBoard5DevelopmentCardsCharacter, this.ratio, this.ratio);
 		for (FamilyMemberType familyMemberType : FamilyMemberType.values()) {
-			Pane pane = new Pane();
-			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getFamilyMemberTypesTextures().get(familyMemberType)).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			pane.setPrefSize(64.0D, 64.0D);
-			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
-			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardTemporaryModifier(familyMemberType)));
-			this.expectedActionChooseTemporaryModifierDialogHBox.getChildren().add(pane);
+			if (familyMemberType != FamilyMemberType.NEUTRAL) {
+				Pane pane = new Pane();
+				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getFamilyMemberTypesTextures().get(familyMemberType)).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				pane.setPrefSize(64.0D, 64.0D);
+				Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+				pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardTemporaryModifier(familyMemberType)));
+				this.expectedChooseRewardTemporaryModifierDialogHBox.getChildren().add(pane);
+			}
 		}
-		this.cardDialogPane.setPrefWidth(this.building1.getWidth() * 4);
-		this.cardDialogPane.setPrefHeight(this.building1.getHeight() * 4);
-		this.cardDialogScrollPane.setPrefHeight(this.building1.getHeight() * 4);
+		this.developmentCardDialogPane.setPrefWidth(this.building1.getWidth() * 4);
+		this.developmentCardDialogPane.setPrefHeight(this.building1.getHeight() * 4);
+		this.developmentCardDialogScrollPane.setPrefHeight(this.building1.getHeight() * 4);
 		for (Integer playerIndex : GameStatus.getInstance().getCurrentPlayersData().keySet()) {
 			for (Pane pane : this.playersLeaderCardsHand.get(playerIndex)) {
 				pane.setPrefWidth(this.building1.getWidth() * 2.5);
@@ -1245,10 +1299,14 @@ public class ControllerGame extends CustomController
 				pane.setPrefHeight(this.building1.getHeight() * 2.5);
 			}
 		}
-		this.leaderCardsTabPane.requestLayout();
+		this.playersLeaderCardsTabPane.requestLayout();
+		((StackPane) ((JFXRippler) ((AnchorPane) this.expectedChooseRewardPickDevelopmentCardDialogThirdRow.getChildrenUnmodifiable().get(1)).getChildren().get(0)).getChildren().get(0)).setPadding(new Insets(0.0D));
+		this.expectedChooseRewardPickDevelopmentCardDialogThirdRow.getChildrenUnmodifiable().get(0).setTranslateX(10.0D);
+		((StackPane) ((JFXRippler) ((AnchorPane) this.expectedChooseRewardPickDevelopmentCardDialogFourthRow.getChildrenUnmodifiable().get(1)).getChildren().get(0)).getChildren().get(0)).setPadding(new Insets(0.0D));
+		this.expectedChooseRewardPickDevelopmentCardDialogFourthRow.getChildrenUnmodifiable().get(0).setTranslateX(10.0D);
 		this.leaderCardsButton.setPrefWidth(((VBox) this.leaderCardsButton.getParent()).getWidth());
-		this.servantsChoiceDialogAcceptButton.setPrefWidth(((VBox) this.servantsChoiceDialogAcceptButton.getParent()).getWidth());
-		this.servantsChoiceDialogCancelButton.setPrefWidth(((VBox) this.servantsChoiceDialogCancelButton.getParent()).getWidth());
+		this.servantsDialogAcceptButton.setPrefWidth(((VBox) this.servantsDialogAcceptButton.getParent()).getWidth());
+		this.servantsDialogCancelButton.setPrefWidth(((VBox) this.servantsDialogCancelButton.getParent()).getWidth());
 		this.dialogLayout.setPrefWidth(300.0D);
 		this.dialogOkButton.setPrefWidth(((VBox) this.dialogOkButton.getParent()).getWidth());
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
@@ -1282,16 +1340,16 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty()) {
 				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(councilPalaceActionNodesList, "/images/icons/action_council_palace.png", "Council Palace", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE), new JFXNodesList[] { harvestActionNodesList, marketActionNodesList, pickDevelopmentCardActionNodesList, productionStartActionNodesList });
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showCouncilPalaceActionChoice(FamilyMemberType.BLACK));
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showCouncilPalace(FamilyMemberType.BLACK));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showCouncilPalaceActionChoice(FamilyMemberType.NEUTRAL));
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showCouncilPalace(FamilyMemberType.NEUTRAL));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showCouncilPalaceActionChoice(FamilyMemberType.ORANGE));
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showCouncilPalace(FamilyMemberType.ORANGE));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showCouncilPalaceActionChoice(FamilyMemberType.WHITE));
+					ControllerGame.setActionButton(councilPalaceActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showCouncilPalace(FamilyMemberType.WHITE));
 				}
 				councilPalaceActionNodesList.setSpacing(10.0D);
 				councilPalaceActionNodesList.setRotate(180.0D);
@@ -1300,16 +1358,16 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST).isEmpty()) {
 				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(harvestActionNodesList, "/images/icons/action_harvest.png", "Harvest", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST), new JFXNodesList[] { councilPalaceActionNodesList, marketActionNodesList, pickDevelopmentCardActionNodesList, productionStartActionNodesList });
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showHarvestActionChoice(FamilyMemberType.BLACK));
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showHarvest(FamilyMemberType.BLACK));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showHarvestActionChoice(FamilyMemberType.NEUTRAL));
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showHarvest(FamilyMemberType.NEUTRAL));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showHarvestActionChoice(FamilyMemberType.ORANGE));
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showHarvest(FamilyMemberType.ORANGE));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showHarvestActionChoice(FamilyMemberType.WHITE));
+					ControllerGame.setActionButton(harvestActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showHarvest(FamilyMemberType.WHITE));
 				}
 				harvestActionNodesList.setSpacing(10.0D);
 				harvestActionNodesList.setRotate(180.0D);
@@ -1346,16 +1404,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.FIRST).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market1NodesList, "/images/icons/action_market_1.png", "Market 1", mappedMarketSlots.get(MarketSlot.FIRST), new JFXNodesList[] { market2NodesList, market3NodesList, market4NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarket(MarketSlot.FIRST, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarket(MarketSlot.FIRST, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarket(MarketSlot.FIRST, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIRST, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market1NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarket(MarketSlot.FIRST, FamilyMemberType.WHITE));
 					}
 					market1NodesList.setSpacing(10.0D);
 					market1NodesList.setRotate(270.0D);
@@ -1364,16 +1422,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.SECOND).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market2NodesList, "/images/icons/action_market_2.png", "Market 2", mappedMarketSlots.get(MarketSlot.SECOND), new JFXNodesList[] { market1NodesList, market3NodesList, market4NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarket(MarketSlot.SECOND, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarket(MarketSlot.SECOND, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarket(MarketSlot.SECOND, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SECOND, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market2NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarket(MarketSlot.SECOND, FamilyMemberType.WHITE));
 					}
 					market2NodesList.setSpacing(10.0D);
 					market2NodesList.setRotate(270.0D);
@@ -1382,16 +1440,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.THIRD).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market3NodesList, "/images/icons/action_market_3.png", "Market 3", mappedMarketSlots.get(MarketSlot.THIRD), new JFXNodesList[] { market1NodesList, market2NodesList, market4NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarket(MarketSlot.THIRD, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarket(MarketSlot.THIRD, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarket(MarketSlot.THIRD, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarketActionChoice(MarketSlot.THIRD, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market3NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarket(MarketSlot.THIRD, FamilyMemberType.WHITE));
 					}
 					market3NodesList.setSpacing(10.0D);
 					market3NodesList.setRotate(270.0D);
@@ -1400,16 +1458,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.FOURTH).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market4NodesList, "/images/icons/action_market_4.png", "Market 4", mappedMarketSlots.get(MarketSlot.FOURTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market5NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarket(MarketSlot.FOURTH, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarket(MarketSlot.FOURTH, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarket(MarketSlot.FOURTH, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FOURTH, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market4NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarket(MarketSlot.FOURTH, FamilyMemberType.WHITE));
 					}
 					market4NodesList.setSpacing(10.0D);
 					market4NodesList.setRotate(270.0D);
@@ -1418,16 +1476,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.FIFTH).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market5NodesList, "/images/icons/action_market_5.png", "Market 5", mappedMarketSlots.get(MarketSlot.FIFTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market4NodesList, market6NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarket(MarketSlot.FIFTH, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarket(MarketSlot.FIFTH, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarket(MarketSlot.FIFTH, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarketActionChoice(MarketSlot.FIFTH, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market5NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarket(MarketSlot.FIFTH, FamilyMemberType.WHITE));
 					}
 					market5NodesList.setSpacing(10.0D);
 					market5NodesList.setRotate(270.0D);
@@ -1436,16 +1494,16 @@ public class ControllerGame extends CustomController
 				if (!mappedMarketSlots.get(MarketSlot.SIXTH).isEmpty()) {
 					List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(market6NodesList, "/images/icons/action_market_6.png", "Market 6", mappedMarketSlots.get(MarketSlot.SIXTH), new JFXNodesList[] { market1NodesList, market2NodesList, market3NodesList, market4NodesList, market5NodesList });
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.BLACK));
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showMarket(MarketSlot.SIXTH, FamilyMemberType.BLACK));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.NEUTRAL));
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showMarket(MarketSlot.SIXTH, FamilyMemberType.NEUTRAL));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.ORANGE));
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showMarket(MarketSlot.SIXTH, FamilyMemberType.ORANGE));
 					}
 					if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarketActionChoice(MarketSlot.SIXTH, FamilyMemberType.WHITE));
+						ControllerGame.setActionButton(market6NodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showMarket(MarketSlot.SIXTH, FamilyMemberType.WHITE));
 					}
 					market6NodesList.setSpacing(10.0D);
 					market6NodesList.setRotate(270.0D);
@@ -1458,16 +1516,16 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD).isEmpty()) {
 				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(pickDevelopmentCardActionNodesList, "/images/icons/action_pick_development_card.png", "Pick Development Card", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD), new JFXNodesList[] { councilPalaceActionNodesList, harvestActionNodesList, marketActionNodesList, productionStartActionNodesList });
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.BLACK));
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showPickDevelopmentCard(FamilyMemberType.BLACK));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.NEUTRAL));
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showPickDevelopmentCard(FamilyMemberType.NEUTRAL));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.ORANGE));
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showPickDevelopmentCard(FamilyMemberType.ORANGE));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showPickDevelopmentCardActionChoice(FamilyMemberType.WHITE));
+					ControllerGame.setActionButton(pickDevelopmentCardActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showPickDevelopmentCard(FamilyMemberType.WHITE));
 				}
 				pickDevelopmentCardActionNodesList.setSpacing(10.0D);
 				pickDevelopmentCardActionNodesList.setRotate(180.0D);
@@ -1476,16 +1534,16 @@ public class ControllerGame extends CustomController
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START).isEmpty()) {
 				List<FamilyMemberType> mappedFamilyMemberTypes = ControllerGame.mapFamilyMemberTypes(productionStartActionNodesList, "/images/icons/action_production_start.png", "Start Production", GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START), new JFXNodesList[] { councilPalaceActionNodesList, harvestActionNodesList, marketActionNodesList, pickDevelopmentCardActionNodesList });
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.BLACK)) {
-					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showProductionStartChoice(FamilyMemberType.BLACK));
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_black.png", "Black Family Member", false, () -> this.showProductionStart(FamilyMemberType.BLACK));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.NEUTRAL)) {
-					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showProductionStartChoice(FamilyMemberType.NEUTRAL));
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_neutral.png", "Neutral Family Member", false, () -> this.showProductionStart(FamilyMemberType.NEUTRAL));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.ORANGE)) {
-					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showProductionStartChoice(FamilyMemberType.ORANGE));
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_orange.png", "Orange Family Member", false, () -> this.showProductionStart(FamilyMemberType.ORANGE));
 				}
 				if (mappedFamilyMemberTypes.contains(FamilyMemberType.WHITE)) {
-					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showProductionStartChoice(FamilyMemberType.WHITE));
+					ControllerGame.setActionButton(productionStartActionNodesList, "/images/icons/action_family_member_type_white.png", "White Family Member", false, () -> this.showProductionStart(FamilyMemberType.WHITE));
 				}
 				productionStartActionNodesList.setSpacing(10.0D);
 				productionStartActionNodesList.setRotate(180.0D);
@@ -1502,13 +1560,13 @@ public class ControllerGame extends CustomController
 				}
 			});
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty()) {
-				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_activate.png", "Activate Leader", false, this::showLeaderActivateChoice);
+				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_activate.png", "Activate Leader", false, this::showLeaderActivate);
 			}
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty()) {
-				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_discard.png", "Discard Leader", false, this::showLeaderDiscardChoice);
+				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_discard.png", "Discard Leader", false, this::showLeaderDiscard);
 			}
 			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
-				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_play.png", "Play Leader", false, this::showLeaderPlayChoice);
+				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_play.png", "Play Leader", false, this::showLeaderPlay);
 			}
 			leaderCardsActionNodesList.setRotate(90.0D);
 			actionsNodesList.addAnimatedNode(leaderCardsActionNodesList);
@@ -1648,17 +1706,18 @@ public class ControllerGame extends CustomController
 	private void updateGame()
 	{
 		this.dialog.close();
-		this.leaderCardsChoiceDialog.close();
-		this.excommunicationChoiceDialog.close();
-		this.cardDialog.close();
 		this.leaderCardsDialog.close();
-		this.servantsChoiceDialog.close();
-		this.pickDevelopmentCardChoiceDialog.close();
-		this.expectedActionChooseRewardCouncilPrivilegeDialog.close();
-		this.expectedActionChooseTemporaryModifierDialog.close();
+		this.excommunicationDialog.close();
+		this.developmentCardDialog.close();
+		this.playersLeaderCardsDialog.close();
+		this.servantsDialog.close();
+		this.pickDevelopmentCardDialog.close();
+		this.expectedChooseLorenzoDeMediciLeaderDialog.close();
+		this.expectedChooseRewardCouncilPrivilegeDialog.close();
+		this.expectedChooseRewardServantsDialog.close();
+		this.expectedChooseRewardPickDevelopmentCardDialog.close();
+		this.expectedChooseRewardTemporaryModifierDialog.close();
 		this.pickingDevelopmentCard = false;
-		this.selectedDevelopmentCardType = null;
-		this.selectedDevelopmentCardIndex = null;
 		for (CardType cardType : CardType.values()) {
 			for (Pane otherPane : this.developmentCardsPanes.get(cardType).values()) {
 				otherPane.setEffect(null);
@@ -1877,10 +1936,10 @@ public class ControllerGame extends CustomController
 		this.dialog.show();
 	}
 
-	public void showPersonalBonusTilesChoice()
+	public void showPersonalBonusTiles()
 	{
-		this.personalBonusTilesChoiceDialog.show();
-		this.personalBonusTilesChoiceDialogHBox.getChildren().clear();
+		this.personalBonusTilesDialog.show();
+		this.personalBonusTilesDialogHBox.getChildren().clear();
 		for (Integer personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
 			Pane pane = new Pane();
 			pane.setPrefWidth(76.0D * this.ratio);
@@ -1919,16 +1978,16 @@ public class ControllerGame extends CustomController
 				this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "You have chosen a personal bonus tile");
 				Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex);
 			});
-			this.personalBonusTilesChoiceDialogHBox.getChildren().add(pane);
+			this.personalBonusTilesDialogHBox.getChildren().add(pane);
 		}
-		this.personalBonusTilesChoiceDialogLayout.setPrefWidth(76.0D * this.ratio * this.personalBonusTilesChoiceDialogHBox.getChildren().size() + this.personalBonusTilesChoiceDialogHBox.getSpacing() * (this.personalBonusTilesChoiceDialogHBox.getChildren().size() - 1) + this.personalBonusTilesChoiceDialogLayout.getInsets().getLeft() + this.personalBonusTilesChoiceDialogLayout.getInsets().getRight());
-		this.personalBonusTilesChoiceDialogLayout.setPrefHeight(650.0D * this.ratio + this.personalBonusTilesChoiceDialogLayout.getInsets().getTop() + this.personalBonusTilesChoiceDialogLayout.getInsets().getTop() + 20.0D);
-		this.personalBonusTilesChoiceDialog.show();
+		this.personalBonusTilesDialogLayout.setPrefWidth(76.0D * this.ratio * this.personalBonusTilesDialogHBox.getChildren().size() + this.personalBonusTilesDialogHBox.getSpacing() * (this.personalBonusTilesDialogHBox.getChildren().size() - 1) + this.personalBonusTilesDialogLayout.getInsets().getLeft() + this.personalBonusTilesDialogLayout.getInsets().getRight());
+		this.personalBonusTilesDialogLayout.setPrefHeight(650.0D * this.ratio + this.personalBonusTilesDialogLayout.getInsets().getTop() + this.personalBonusTilesDialogLayout.getInsets().getTop() + 20.0D);
+		this.personalBonusTilesDialog.show();
 	}
 
-	public void showLeaderCardsChoice()
+	public void showLeaderCards()
 	{
-		this.leaderCardsChoiceDialogHBox.getChildren().clear();
+		this.leaderCardsDialogHBox.getChildren().clear();
 		for (Integer leaderCard : GameStatus.getInstance().getAvailableLeaderCards()) {
 			Pane pane = new Pane();
 			pane.setPrefWidth(this.territory1.getWidth() * 3);
@@ -1941,14 +2000,14 @@ public class ControllerGame extends CustomController
 			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCard));
-			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
+			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}
-		this.leaderCardsChoiceDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsChoiceDialogHBox.getChildren().size() + this.leaderCardsChoiceDialogHBox.getSpacing() * (this.leaderCardsChoiceDialogHBox.getChildren().size() - 1) + this.leaderCardsChoiceDialogLayout.getInsets().getLeft() + this.leaderCardsChoiceDialogLayout.getInsets().getRight());
-		this.leaderCardsChoiceDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + 20.0D);
-		this.leaderCardsChoiceDialog.show();
+		this.leaderCardsDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());
+		this.leaderCardsDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsDialogLayout.getInsets().getTop() + this.leaderCardsDialogLayout.getInsets().getTop() + 20.0D);
+		this.leaderCardsDialog.show();
 	}
 
-	public void showExcommunicationChoiceOther()
+	public void showExcommunicationOther()
 	{
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
 		this.actionsVBox.getChildren().clear();
@@ -1957,55 +2016,57 @@ public class ControllerGame extends CustomController
 		this.actionsVBox.getChildren().add(actionsNodesList);
 	}
 
-	public void showExcommunicationChoice(Period period)
+	public void showExcommunication(Period period)
 	{
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", "Actions", true);
 		this.actionsVBox.getChildren().add(actionsNodesList);
-		this.excommunicationChoiceDialogText.setText(GameStatus.getInstance().getExcommunicationTiles().get(GameStatus.getInstance().getCurrentExcommunicationTiles().get(period)).getModifier().replace("\n", " "));
-		this.excommunicationChoiceDialogSupportButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogSupportButton.getParent()).getWidth());
-		this.excommunicationChoiceDialogDoNotSupportButton.setPrefWidth(((VBox) this.excommunicationChoiceDialogDoNotSupportButton.getParent()).getWidth());
-		this.excommunicationChoiceDialog.show();
+		this.excommunicationDialogText.setText(GameStatus.getInstance().getExcommunicationTiles().get(GameStatus.getInstance().getCurrentExcommunicationTiles().get(period)).getModifier().replace("\n", " "));
+		this.excommunicationDialogSupportButton.setPrefWidth(((VBox) this.excommunicationDialogSupportButton.getParent()).getWidth());
+		this.excommunicationDialogDoNotSupportButton.setPrefWidth(((VBox) this.excommunicationDialogDoNotSupportButton.getParent()).getWidth());
+		this.excommunicationDialog.show();
 		new AudioClip(this.getClass().getResource("/sounds/excommunication.mp3").toString()).play();
 	}
 
-	private void showCouncilPalaceActionChoice(FamilyMemberType familyMemberType)
+	private void showCouncilPalace(FamilyMemberType familyMemberType)
 	{
-		this.servantsChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		this.servantsChoiceDialogSlider.setValue(0);
-		this.servantsChoiceDialogAcceptButton.setOnAction((event) -> {
-			this.servantsChoiceDialog.close();
-			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsCouncilPalace(familyMemberType, (int) this.servantsChoiceDialogSlider.getValue()));
+		this.servantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		this.servantsDialogSlider.setValue(0);
+		this.servantsDialogAcceptButton.setOnAction((event) -> {
+			this.servantsDialog.close();
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsCouncilPalace(familyMemberType, (int) this.servantsDialogSlider.getValue()));
 		});
-		this.servantsChoiceDialog.show();
+		this.servantsDialog.show();
 	}
 
-	private void showHarvestActionChoice(FamilyMemberType familyMemberType)
+	private void showHarvest(FamilyMemberType familyMemberType)
 	{
-		this.servantsChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		this.servantsChoiceDialogSlider.setValue(0);
-		this.servantsChoiceDialogAcceptButton.setOnAction((event) -> {
-			this.servantsChoiceDialog.close();
-			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsHarvest(familyMemberType, (int) this.servantsChoiceDialogSlider.getValue()));
+		this.servantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		this.servantsDialogSlider.setValue(0);
+		this.servantsDialogAcceptButton.setOnAction((event) -> {
+			this.servantsDialog.close();
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsHarvest(familyMemberType, (int) this.servantsDialogSlider.getValue()));
 		});
-		this.servantsChoiceDialog.show();
+		this.servantsDialog.show();
 	}
 
-	private void showMarketActionChoice(MarketSlot marketSlot, FamilyMemberType familyMemberType)
+	private void showMarket(MarketSlot marketSlot, FamilyMemberType familyMemberType)
 	{
-		this.servantsChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		this.servantsChoiceDialogSlider.setValue(0);
-		this.servantsChoiceDialogAcceptButton.setOnAction((event) -> {
-			this.servantsChoiceDialog.close();
-			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsMarket(familyMemberType, (int) this.servantsChoiceDialogSlider.getValue(), marketSlot));
+		this.servantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		this.servantsDialogSlider.setValue(0);
+		this.servantsDialogAcceptButton.setOnAction((event) -> {
+			this.servantsDialog.close();
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsMarket(familyMemberType, (int) this.servantsDialogSlider.getValue(), marketSlot));
 		});
-		this.servantsChoiceDialog.show();
+		this.servantsDialog.show();
 	}
 
-	private void showPickDevelopmentCardActionChoice(FamilyMemberType familyMemberType)
+	private void showPickDevelopmentCard(FamilyMemberType familyMemberType)
 	{
+		this.selectedDevelopmentCardType = null;
+		this.selectedDevelopmentCardIndex = null;
 		this.pickingDevelopmentCard = true;
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
@@ -2020,11 +2081,11 @@ public class ControllerGame extends CustomController
 		this.pickDevelopmentCardActionButton.setGraphic(imageView);
 		this.pickDevelopmentCardActionButton.getStyleClass().add("animated-option-button-green");
 		this.pickDevelopmentCardActionButton.setOnMouseClicked(event -> {
-			this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(true);
-			this.pickDevelopmentCardChoiceDialogDiscountChoicesHBox.getChildren().clear();
-			this.pickDevelopmentCardChoiceDialogResourceCostOptionsHBox.getChildren().clear();
-			this.pickDevelopmentCardChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-			this.pickDevelopmentCardChoiceDialogSlider.setValue(0);
+			this.pickDevelopmentCardDialogAcceptButton.setDisable(true);
+			this.pickDevelopmentCardDialogDiscountChoicesHBox.getChildren().clear();
+			this.pickDevelopmentCardDialogResourceCostOptionsHBox.getChildren().clear();
+			this.pickDevelopmentCardDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+			this.pickDevelopmentCardDialogSlider.setValue(0);
 			this.selectedDiscountChoice.clear();
 			this.selectedResourceCostOption = null;
 			for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
@@ -2044,7 +2105,7 @@ public class ControllerGame extends CustomController
 							this.selectedDiscountChoice.clear();
 							this.selectedDiscountChoice.addAll(discountChoice);
 							if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty() || this.selectedResourceCostOption != null) {
-								this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
+								this.pickDevelopmentCardDialogAcceptButton.setDisable(false);
 							}
 							anchorPane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
 							for (AnchorPane otherAnchorPane : discountChoicesAnchorPanes) {
@@ -2053,10 +2114,10 @@ public class ControllerGame extends CustomController
 								}
 							}
 						});
-						this.pickDevelopmentCardChoiceDialogDiscountChoicesHBox.getChildren().add(anchorPane);
+						this.pickDevelopmentCardDialogDiscountChoicesHBox.getChildren().add(anchorPane);
 					}
 					if (((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty()) {
-						this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
+						this.pickDevelopmentCardDialogAcceptButton.setDisable(false);
 					} else {
 						List<AnchorPane> resourceCostOptionsAnchorPanes = new ArrayList<>();
 						for (ResourceCostOption resourceCostOption : ((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions()) {
@@ -2065,23 +2126,13 @@ public class ControllerGame extends CustomController
 							Text text = new Text();
 							StringBuilder stringBuilder = new StringBuilder();
 							if (!resourceCostOption.getRequiredResources().isEmpty()) {
-								stringBuilder.append("REQUIRED RESOURCES:");
+								stringBuilder.append("REQUIRED RESOURCES:\n");
 							}
-							for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
-								stringBuilder.append("\n- ");
-								stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-								stringBuilder.append(": ");
-								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
-							}
+							stringBuilder.append(this.getResourcesInformations(resourceCostOption.getRequiredResources()));
 							if (!resourceCostOption.getSpentResources().isEmpty()) {
-								stringBuilder.append("SPENT RESOURCES:");
+								stringBuilder.append("SPENT RESOURCES:\n");
 							}
-							for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
-								stringBuilder.append("\n- ");
-								stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-								stringBuilder.append(": ");
-								stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
-							}
+							stringBuilder.append(this.getResourcesInformations(resourceCostOption.getSpentResources()));
 							text.setText(stringBuilder.toString());
 							anchorPane.getChildren().add(text);
 							AnchorPane.setTopAnchor(text, 0.0);
@@ -2091,7 +2142,7 @@ public class ControllerGame extends CustomController
 							anchorPane.setOnMouseClicked(childEvent -> {
 								this.selectedResourceCostOption = resourceCostOption;
 								if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty() || !this.selectedDiscountChoice.isEmpty()) {
-									this.pickDevelopmentCardChoiceDialogAcceptButton.setDisable(false);
+									this.pickDevelopmentCardDialogAcceptButton.setDisable(false);
 								}
 								anchorPane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
 								for (AnchorPane otherAnchorPane : resourceCostOptionsAnchorPanes) {
@@ -2100,27 +2151,25 @@ public class ControllerGame extends CustomController
 									}
 								}
 							});
-							this.pickDevelopmentCardChoiceDialogResourceCostOptionsHBox.getChildren().add(anchorPane);
+							this.pickDevelopmentCardDialogResourceCostOptionsHBox.getChildren().add(anchorPane);
 						}
 					}
 					break;
 				}
 			}
-			this.pickDevelopmentCardChoiceDialogAcceptButton.setOnAction(childEvent -> {
-				this.pickDevelopmentCardChoiceDialog.close();
-				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPickDevelopmentCard(familyMemberType, (int) this.pickDevelopmentCardChoiceDialogSlider.getValue(), this.selectedDevelopmentCardType, GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex), this.selectedDiscountChoice, this.selectedResourceCostOption));
+			this.pickDevelopmentCardDialogAcceptButton.setOnAction(childEvent -> {
+				this.pickDevelopmentCardDialog.close();
+				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPickDevelopmentCard(familyMemberType, (int) this.pickDevelopmentCardDialogSlider.getValue(), this.selectedDevelopmentCardType, GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex), this.selectedDiscountChoice, this.selectedResourceCostOption));
 			});
-			this.pickDevelopmentCardChoiceDialogAcceptButton.setPrefWidth(((VBox) this.pickDevelopmentCardChoiceDialogAcceptButton.getParent()).getWidth());
-			this.pickDevelopmentCardChoiceDialogCancelButton.setPrefWidth(((VBox) this.pickDevelopmentCardChoiceDialogCancelButton.getParent()).getWidth());
-			this.pickDevelopmentCardChoiceDialogAcceptButton.requestLayout();
-			this.pickDevelopmentCardChoiceDialogCancelButton.requestLayout();
-			this.pickDevelopmentCardChoiceDialog.show();
+			this.pickDevelopmentCardDialogAcceptButton.setPrefWidth(((VBox) this.pickDevelopmentCardDialogAcceptButton.getParent()).getWidth());
+			this.pickDevelopmentCardDialogCancelButton.setPrefWidth(((VBox) this.pickDevelopmentCardDialogCancelButton.getParent()).getWidth());
+			this.pickDevelopmentCardDialogAcceptButton.requestLayout();
+			this.pickDevelopmentCardDialogCancelButton.requestLayout();
+			this.pickDevelopmentCardDialog.show();
 		});
 		actionsNodesList.addAnimatedNode(this.pickDevelopmentCardActionButton);
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_refuse_reward.png", "Cancel", false, () -> {
 			this.pickingDevelopmentCard = false;
-			this.selectedDevelopmentCardType = null;
-			this.selectedDevelopmentCardIndex = null;
 			for (CardType cardType : CardType.values()) {
 				for (Pane pane : this.developmentCardsPanes.get(cardType).values()) {
 					pane.setEffect(null);
@@ -2149,21 +2198,21 @@ public class ControllerGame extends CustomController
 		}
 	}
 
-	private void showProductionStartChoice(FamilyMemberType familyMemberType)
+	private void showProductionStart(FamilyMemberType familyMemberType)
 	{
-		this.servantsChoiceDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		this.servantsChoiceDialogSlider.setValue(0);
-		this.servantsChoiceDialogAcceptButton.setOnAction((event) -> {
-			this.servantsChoiceDialog.close();
-			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsProductionStart(familyMemberType, (int) this.servantsChoiceDialogSlider.getValue()));
+		this.servantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		this.servantsDialogSlider.setValue(0);
+		this.servantsDialogAcceptButton.setOnAction((event) -> {
+			this.servantsDialog.close();
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsProductionStart(familyMemberType, (int) this.servantsDialogSlider.getValue()));
 		});
-		this.servantsChoiceDialog.show();
+		this.servantsDialog.show();
 	}
 
-	private void showLeaderActivateChoice()
+	private void showLeaderActivate()
 	{
-		this.leaderCardsChoiceDialog.setOverlayClose(true);
-		this.leaderCardsChoiceDialogHBox.getChildren().clear();
+		this.leaderCardsDialog.setOverlayClose(true);
+		this.leaderCardsDialogHBox.getChildren().clear();
 		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().entrySet()) {
 			if (!leaderCard.getValue()) {
 				continue;
@@ -2179,20 +2228,20 @@ public class ControllerGame extends CustomController
 			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
-				this.leaderCardsChoiceDialog.close();
+				this.leaderCardsDialog.close();
 				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderActivate(leaderCard.getKey()));
 			});
-			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
+			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}
-		this.leaderCardsChoiceDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsChoiceDialogHBox.getChildren().size() + this.leaderCardsChoiceDialogHBox.getSpacing() * (this.leaderCardsChoiceDialogHBox.getChildren().size() - 1) + this.leaderCardsChoiceDialogLayout.getInsets().getLeft() + this.leaderCardsChoiceDialogLayout.getInsets().getRight());
-		this.leaderCardsChoiceDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + 20.0D);
-		this.leaderCardsChoiceDialog.show();
+		this.leaderCardsDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());
+		this.leaderCardsDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsDialogLayout.getInsets().getTop() + this.leaderCardsDialogLayout.getInsets().getTop() + 20.0D);
+		this.leaderCardsDialog.show();
 	}
 
-	private void showLeaderDiscardChoice()
+	private void showLeaderDiscard()
 	{
-		this.leaderCardsChoiceDialog.setOverlayClose(true);
-		this.leaderCardsChoiceDialogHBox.getChildren().clear();
+		this.leaderCardsDialog.setOverlayClose(true);
+		this.leaderCardsDialogHBox.getChildren().clear();
 		for (Integer leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
 			Pane pane = new Pane();
 			pane.setPrefWidth(this.territory1.getWidth() * 3);
@@ -2205,20 +2254,20 @@ public class ControllerGame extends CustomController
 			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
-				this.leaderCardsChoiceDialog.close();
+				this.leaderCardsDialog.close();
 				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderDiscard(leaderCard));
 			});
-			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
+			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}
-		this.leaderCardsChoiceDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsChoiceDialogHBox.getChildren().size() + this.leaderCardsChoiceDialogHBox.getSpacing() * (this.leaderCardsChoiceDialogHBox.getChildren().size() - 1) + this.leaderCardsChoiceDialogLayout.getInsets().getLeft() + this.leaderCardsChoiceDialogLayout.getInsets().getRight());
-		this.leaderCardsChoiceDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + 20.0D);
-		this.leaderCardsChoiceDialog.show();
+		this.leaderCardsDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());
+		this.leaderCardsDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsDialogLayout.getInsets().getTop() + this.leaderCardsDialogLayout.getInsets().getTop() + 20.0D);
+		this.leaderCardsDialog.show();
 	}
 
-	private void showLeaderPlayChoice()
+	private void showLeaderPlay()
 	{
-		this.leaderCardsChoiceDialog.setOverlayClose(true);
-		this.leaderCardsChoiceDialogHBox.getChildren().clear();
+		this.leaderCardsDialog.setOverlayClose(true);
+		this.leaderCardsDialogHBox.getChildren().clear();
 		for (Integer leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
 			Pane pane = new Pane();
 			pane.setPrefWidth(this.territory1.getWidth() * 3);
@@ -2231,22 +2280,53 @@ public class ControllerGame extends CustomController
 			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
-				this.leaderCardsChoiceDialog.close();
+				this.leaderCardsDialog.close();
 				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderPlay(leaderCard));
 			});
-			this.leaderCardsChoiceDialogHBox.getChildren().add(pane);
+			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}
-		this.leaderCardsChoiceDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsChoiceDialogHBox.getChildren().size() + this.leaderCardsChoiceDialogHBox.getSpacing() * (this.leaderCardsChoiceDialogHBox.getChildren().size() - 1) + this.leaderCardsChoiceDialogLayout.getInsets().getLeft() + this.leaderCardsChoiceDialogLayout.getInsets().getRight());
-		this.leaderCardsChoiceDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + this.leaderCardsChoiceDialogLayout.getInsets().getTop() + 20.0D);
-		this.leaderCardsChoiceDialog.show();
+		this.leaderCardsDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());
+		this.leaderCardsDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsDialogLayout.getInsets().getTop() + this.leaderCardsDialogLayout.getInsets().getTop() + 20.0D);
+		this.leaderCardsDialog.show();
 	}
 
-	private void showExpectedActionChooseLorenzoDeMediciLeader(ExpectedActionChooseLorenzoDeMediciLeader expectedAction)
+	private void showExpectedChooseLorenzoDeMediciLeader(ExpectedActionChooseLorenzoDeMediciLeader expectedAction)
 	{
+		this.expectedChooseLorenzoDeMediciLeaderDialogVBox.getChildren().clear();
+		int maximumCards = 1;
+		for (Entry<Integer, List<Integer>> availableLeaderCards : expectedAction.getAvailableLeaderCards().entrySet()) {
+			HBox hBox = new HBox();
+			hBox.setAlignment(Pos.CENTER);
+			hBox.setSpacing(20.0D);
+			int leaderCardsCount = 0;
+			for (Integer leaderCard : availableLeaderCards.getValue()) {
+				Pane pane = new Pane();
+				pane.setPrefWidth(this.territory1.getWidth() * 2);
+				pane.setPrefHeight(this.territory1.getHeight() * 2);
+				pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
+				WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+				WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+				Tooltip.install(pane, tooltip);
+				Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+				pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseLorenzoDeMediciLeader(leaderCard)));
+				hBox.getChildren().add(pane);
+				leaderCardsCount++;
+			}
+			if (leaderCardsCount > maximumCards) {
+				maximumCards = leaderCardsCount;
+			}
+			this.expectedChooseLorenzoDeMediciLeaderDialogVBox.getChildren().add(hBox);
+		}
+		this.expectedChooseLorenzoDeMediciLeaderDialogLayout.setPrefWidth(this.territory1.getWidth() * 2 * maximumCards + 20.0D * (maximumCards - 1) + this.expectedChooseLorenzoDeMediciLeaderDialogLayout.getInsets().getLeft() + this.expectedChooseLorenzoDeMediciLeaderDialogLayout.getInsets().getRight());
+		this.expectedChooseLorenzoDeMediciLeaderDialogLayout.setPrefHeight(this.territory1.getHeight() * 2 + this.expectedChooseLorenzoDeMediciLeaderDialogLayout.getInsets().getTop() + this.expectedChooseLorenzoDeMediciLeaderDialogLayout.getInsets().getTop() + 20.0D);
+		this.expectedChooseLorenzoDeMediciLeaderDialog.show();
 	}
 
-	private void showExpectedActionChooseRewardCouncilPrivilege(ExpectedActionChooseRewardCouncilPrivilege expectedAction)
+	private void showExpectedChooseRewardCouncilPrivilege(ExpectedActionChooseRewardCouncilPrivilege expectedAction)
 	{
+		this.expectedChooseRewardCouncilPrivilegeDialogLabel.setText("Choose " + expectedAction.getCouncilPrivilegesNumber() + " different Council Privilege rewards.");
 		Map<Integer, Integer> selectedCouncilPrivilegesRewards = new HashMap<>();
 		for (int councilPrivilegeIndex = 0; councilPrivilegeIndex < expectedAction.getCouncilPrivilegesNumber(); councilPrivilegeIndex++) {
 			HBox hBox = new HBox();
@@ -2277,33 +2357,198 @@ public class ControllerGame extends CustomController
 				hBox.setSpacing(20.0D);
 				hBox.setPadding(new Insets(20.0D, 20.0D, 20.0D, 20.0D));
 			}
-			this.expectedActionChooseRewardCouncilPrivilegeDialogPane.getChildren().add(hBox);
+			this.expectedChooseRewardCouncilPrivilegeDialogPane.getChildren().add(hBox);
 		}
-		this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardCouncilPrivilege(new ArrayList<>(selectedCouncilPrivilegesRewards.values()))));
-		this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.setPrefWidth(((VBox) this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.getParent()).getWidth());
-		this.expectedActionChooseRewardCouncilPrivilegeDialogAcceptButton.requestLayout();
-		this.expectedActionChooseRewardCouncilPrivilegeDialog.show();
+		this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardCouncilPrivilege(new ArrayList<>(selectedCouncilPrivilegesRewards.values()))));
+		this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.setPrefWidth(((VBox) this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.getParent()).getWidth());
+		this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.requestLayout();
+		this.expectedChooseRewardCouncilPrivilegeDialog.show();
 	}
 
-	private void showExpectedActionChooseRewardHarvest(ExpectedActionChooseRewardHarvest expectedAction)
+	private void showExpectedChooseRewardHarvest(ExpectedActionChooseRewardHarvest expectedAction)
+	{
+		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Harvest action of value " + expectedAction.getValue() + ".");
+		this.expectedChooseRewardServantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		this.expectedChooseRewardServantsDialogSlider.setValue(0);
+		this.expectedChooseRewardServantsDialogAcceptButton.setOnAction((event) -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardHarvest((int) this.servantsDialogSlider.getValue())));
+		this.expectedChooseRewardServantsDialogAcceptButton.setPrefWidth(((VBox) this.expectedChooseRewardServantsDialogAcceptButton.getParent()).getWidth());
+		this.expectedChooseRewardServantsDialog.show();
+	}
+
+	private void showExpectedChooseRewardPickDevelopmentCard(ExpectedActionChooseRewardPickDevelopmentCard expectedAction)
+	{
+		this.selectedDevelopmentCardType = null;
+		this.selectedDevelopmentCardIndex = null;
+		this.pickingDevelopmentCard = true;
+		this.actionsVBox.getChildren().clear();
+		JFXNodesList actionsNodesList = new JFXNodesList();
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_pick_development_card.png", "Pick Development Card", false);
+		this.pickDevelopmentCardActionButton = new JFXButton();
+		this.pickDevelopmentCardActionButton.setDisable(true);
+		Tooltip tooltip = new Tooltip("Accept");
+		WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+		WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+		this.pickDevelopmentCardActionButton.setTooltip(tooltip);
+		ImageView imageView = new ImageView(new Image(Client.class.getResource("/images/icons/action.png").toString()));
+		this.pickDevelopmentCardActionButton.setGraphic(imageView);
+		this.pickDevelopmentCardActionButton.getStyleClass().add("animated-option-button-green");
+		this.pickDevelopmentCardActionButton.setOnMouseClicked(event -> {
+			this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.setDisable(true);
+			this.expectedChooseRewardPickDevelopmentCardDialogInstantDiscountChoicesHBox.getChildren().clear();
+			this.expectedChooseRewardPickDevelopmentCardDialogDiscountChoicesHBox.getChildren().clear();
+			this.expectedChooseRewardPickDevelopmentCardDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+			this.expectedChooseRewardPickDevelopmentCardDialogSlider.setValue(0);
+			this.expectedChooseRewardPickDevelopmentCardDialogFourthRow.setSelected(true);
+			this.selectedInstantRewardRow = Row.FOURTH;
+			this.selectedInstantDiscountChoice.clear();
+			this.selectedDiscountChoice.clear();
+			this.selectedResourceCostOption = null;
+			for (AvailableAction availableAction : expectedAction.getAvailableActions()) {
+				if (((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getCardType() == this.selectedDevelopmentCardType && ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getRow() == GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex)) {
+					List<AnchorPane> instantDiscountChoicesAnchorPanes = new ArrayList<>();
+					for (List<ResourceAmount> instantDiscountChoice : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getInstantDiscountChoices()) {
+						AnchorPane anchorPane = new AnchorPane();
+						instantDiscountChoicesAnchorPanes.add(anchorPane);
+						Text text = new Text();
+						text.setText(this.getResourcesInformations(instantDiscountChoice));
+						anchorPane.getChildren().add(text);
+						AnchorPane.setTopAnchor(text, 0.0);
+						AnchorPane.setBottomAnchor(text, 0.0);
+						AnchorPane.setLeftAnchor(text, 0.0);
+						AnchorPane.setRightAnchor(text, 0.0);
+						anchorPane.setOnMouseClicked(childEvent -> {
+							this.selectedInstantDiscountChoice.clear();
+							this.selectedInstantDiscountChoice.addAll(instantDiscountChoice);
+							if ((((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty() || this.selectedResourceCostOption != null) && (((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty() || !this.selectedDiscountChoice.isEmpty())) {
+								this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.setDisable(false);
+							}
+							anchorPane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
+							for (AnchorPane otherAnchorPane : instantDiscountChoicesAnchorPanes) {
+								if (otherAnchorPane != anchorPane) {
+									otherAnchorPane.setEffect(null);
+								}
+							}
+						});
+						this.expectedChooseRewardPickDevelopmentCardDialogInstantDiscountChoicesHBox.getChildren().add(anchorPane);
+					}
+					List<AnchorPane> discountChoicesAnchorPanes = new ArrayList<>();
+					for (List<ResourceAmount> discountChoice : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getDiscountChoices()) {
+						AnchorPane anchorPane = new AnchorPane();
+						discountChoicesAnchorPanes.add(anchorPane);
+						Text text = new Text();
+						text.setText(this.getResourcesInformations(discountChoice));
+						anchorPane.getChildren().add(text);
+						AnchorPane.setTopAnchor(text, 0.0);
+						AnchorPane.setBottomAnchor(text, 0.0);
+						AnchorPane.setLeftAnchor(text, 0.0);
+						AnchorPane.setRightAnchor(text, 0.0);
+						anchorPane.setOnMouseClicked(childEvent -> {
+							this.selectedDiscountChoice.clear();
+							this.selectedDiscountChoice.addAll(discountChoice);
+							if ((((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty() || this.selectedResourceCostOption != null) && (((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getInstantDiscountChoices().isEmpty() || !this.selectedInstantDiscountChoice.isEmpty())) {
+								this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.setDisable(false);
+							}
+							anchorPane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
+							for (AnchorPane otherAnchorPane : discountChoicesAnchorPanes) {
+								if (otherAnchorPane != anchorPane) {
+									otherAnchorPane.setEffect(null);
+								}
+							}
+						});
+						this.expectedChooseRewardPickDevelopmentCardDialogDiscountChoicesHBox.getChildren().add(anchorPane);
+					}
+					if (((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getResourceCostOptions().isEmpty()) {
+						this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.setDisable(false);
+					} else {
+						List<AnchorPane> resourceCostOptionsAnchorPanes = new ArrayList<>();
+						for (ResourceCostOption resourceCostOption : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getResourceCostOptions()) {
+							AnchorPane anchorPane = new AnchorPane();
+							resourceCostOptionsAnchorPanes.add(anchorPane);
+							Text text = new Text();
+							StringBuilder stringBuilder = new StringBuilder();
+							if (!resourceCostOption.getRequiredResources().isEmpty()) {
+								stringBuilder.append("REQUIRED RESOURCES:\n");
+							}
+							stringBuilder.append(this.getResourcesInformations(resourceCostOption.getRequiredResources()));
+							if (!resourceCostOption.getSpentResources().isEmpty()) {
+								stringBuilder.append("SPENT RESOURCES:\n");
+							}
+							stringBuilder.append(this.getResourcesInformations(resourceCostOption.getSpentResources()));
+							text.setText(stringBuilder.toString());
+							anchorPane.getChildren().add(text);
+							AnchorPane.setTopAnchor(text, 0.0);
+							AnchorPane.setBottomAnchor(text, 0.0);
+							AnchorPane.setLeftAnchor(text, 0.0);
+							AnchorPane.setRightAnchor(text, 0.0);
+							anchorPane.setOnMouseClicked(childEvent -> {
+								this.selectedResourceCostOption = resourceCostOption;
+								if ((((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getInstantDiscountChoices().isEmpty() || !this.selectedInstantDiscountChoice.isEmpty()) && (((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty())) {
+									this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.setDisable(false);
+								}
+								anchorPane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
+								for (AnchorPane otherAnchorPane : resourceCostOptionsAnchorPanes) {
+									if (otherAnchorPane != anchorPane) {
+										otherAnchorPane.setEffect(null);
+									}
+								}
+							});
+							this.expectedChooseRewardPickDevelopmentCardDialogResourceCostOptionsHBox.getChildren().add(anchorPane);
+						}
+					}
+					break;
+				}
+			}
+			this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardPickDevelopmentCard((int) this.expectedChooseRewardPickDevelopmentCardDialogSlider.getValue(), this.selectedDevelopmentCardType, GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex), this.selectedInstantRewardRow, this.selectedInstantDiscountChoice, this.selectedDiscountChoice, this.selectedResourceCostOption)));
+			this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.setPrefWidth(((VBox) this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.getParent()).getWidth());
+			this.expectedChooseRewardPickDevelopmentCardDialogCancelButton.setPrefWidth(((VBox) this.expectedChooseRewardPickDevelopmentCardDialogCancelButton.getParent()).getWidth());
+			this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.requestLayout();
+			this.expectedChooseRewardPickDevelopmentCardDialogCancelButton.requestLayout();
+			this.expectedChooseRewardPickDevelopmentCardDialog.show();
+		});
+		actionsNodesList.addAnimatedNode(this.pickDevelopmentCardActionButton);
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_refuse_reward.png", "Refuse Reward", false, () -> {
+			this.pickingDevelopmentCard = false;
+			for (CardType cardType : CardType.values()) {
+				for (Pane pane : this.developmentCardsPanes.get(cardType).values()) {
+					pane.setEffect(null);
+					Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
+				}
+			}
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsRefuseReward());
+		}, true);
+		actionsNodesList.setSpacing(10.0D);
+		actionsNodesList.setRotate(180.0D);
+		this.actionsVBox.getChildren().add(actionsNodesList);
+		this.selectableDevelopmentCards.clear();
+		for (AvailableActionChooseRewardPickDevelopmentCard availableActionChooseRewardPickDevelopmentCard : expectedAction.getAvailableActions()) {
+			this.selectableDevelopmentCards.add(this.developmentCardsPanes.get(availableActionChooseRewardPickDevelopmentCard.getCardType()).get(availableActionChooseRewardPickDevelopmentCard.getRow()));
+		}
+		for (CardType cardType : CardType.values()) {
+			for (Pane pane : this.developmentCardsPanes.get(cardType).values()) {
+				if (!this.selectableDevelopmentCards.contains(pane)) {
+					Utils.unsetEffect(pane);
+				}
+			}
+		}
+	}
+
+	private void showExpectedChooseRewardProductionStart(ExpectedActionChooseRewardProductionStart expectedAction)
+	{
+		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Production action of value " + expectedAction.getValue() + ".");
+		this.expectedChooseRewardServantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		this.expectedChooseRewardServantsDialogSlider.setValue(0);
+		this.expectedChooseRewardServantsDialogAcceptButton.setOnAction((event) -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardProductionStart((int) this.servantsDialogSlider.getValue())));
+		this.expectedChooseRewardServantsDialogAcceptButton.setPrefWidth(((VBox) this.expectedChooseRewardServantsDialogAcceptButton.getParent()).getWidth());
+		this.expectedChooseRewardServantsDialog.show();
+	}
+
+	private void showExpectedProductionTrade(ExpectedActionProductionTrade expectedAction)
 	{
 	}
 
-	private void showExpectedActionChooseRewardPickDevelopmentCard(ExpectedActionChooseRewardPickDevelopmentCard expectedAction)
+	private void showExpectedChooseRewardTemporaryModifier()
 	{
-	}
-
-	private void showExpectedActionChooseRewardProductionStart(ExpectedActionChooseRewardProductionStart expectedAction)
-	{
-	}
-
-	private void showExpectedActionProductionTrade(ExpectedActionProductionTrade expectedAction)
-	{
-	}
-
-	private void showExpectedActionChooseRewardTemporaryModifier()
-	{
-		this.expectedActionChooseTemporaryModifierDialog.show();
+		this.expectedChooseRewardTemporaryModifierDialog.show();
 	}
 
 	public void showEndGame(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
@@ -2368,13 +2613,13 @@ public class ControllerGame extends CustomController
 		return this.timerLabel;
 	}
 
-	public JFXDialog getPersonalBonusTilesChoiceDialog()
+	public JFXDialog getPersonalBonusTilesDialog()
 	{
-		return this.personalBonusTilesChoiceDialog;
+		return this.personalBonusTilesDialog;
 	}
 
-	public JFXDialog getLeaderCardsChoiceDialog()
+	public JFXDialog getLeaderCardsDialog()
 	{
-		return this.leaderCardsChoiceDialog;
+		return this.leaderCardsDialog;
 	}
 }

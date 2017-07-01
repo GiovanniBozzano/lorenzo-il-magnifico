@@ -1,9 +1,9 @@
 {
 	"roomTimer": 5,
 	"extendedRoomTimer": 5,
-	"personalBonusTileChoiceTimer": 2,
-	"leaderCardsChoiceTimer": 2,
-	"excommunicationChoiceTimer": 2,
-	"gameActionTimer": 2,
+	"personalBonusTileChoiceTimer": 60,
+	"leaderCardsChoiceTimer": 60,
+	"excommunicationChoiceTimer": 60,
+	"gameActionTimer": 120,
 	"endGameTimer": 60
 }

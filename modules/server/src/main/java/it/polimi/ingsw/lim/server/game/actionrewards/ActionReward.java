@@ -2,7 +2,6 @@ package it.polimi.ingsw.lim.server.game.actionrewards;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
-import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.player.Player;
 
 public abstract class ActionReward
@@ -16,7 +15,7 @@ public abstract class ActionReward
 		this.requestedAction = requestedAction;
 	}
 
-	public abstract ExpectedAction createExpectedAction(GameHandler gameHandler, Player player);
+	public abstract ExpectedAction createExpectedAction(Player player);
 
 	public String getDescription()
 	{
