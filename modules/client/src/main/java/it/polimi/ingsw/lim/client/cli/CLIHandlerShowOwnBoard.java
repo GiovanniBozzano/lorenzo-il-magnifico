@@ -4,22 +4,32 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
 public class CLIHandlerShowOwnBoard implements ICLIHandler
 {
-	private static final Map<Integer, Runnable> PLAYER_FAMILY_MEMBERS = new HashMap<>();
+	private static final Map<Integer, Runnable> PLAYER_INFORMATION = new HashMap<>();
+	private static final Map<Integer, CardType> CARD_TYPE_CHOICE = new HashMap<>();
 
 	static {
-		CLIHandlerShowOwnBoard.PLAYER_FAMILY_MEMBERS.put(1, CLIHandlerShowOwnBoard::showPlayerFamilyMembers);
+		CARD_TYPE_CHOICE.put(1, CardType.BUILDING);
+		CARD_TYPE_CHOICE.put(2, CardType.CHARACTER);
+		CARD_TYPE_CHOICE.put(3, CardType.TERRITORY);
+		CARD_TYPE_CHOICE.put(4, CardType.VENTURE);
+	}
+
+	static {
+		CLIHandlerShowOwnBoard.PLAYER_INFORMATION.put(1, CLIHandlerShowOwnBoard::showPlayerFamilyMembers);
+		CLIHandlerShowOwnBoard.PLAYER_INFORMATION.put(2, CLIHandlerShowOwnBoard::showPlayerResources);
+		CLIHandlerShowOwnBoard.PLAYER_INFORMATION.put(3, CLIHandlerShowOwnBoard::showPlayerDevelopmentCards);
 	}
 
 	@Override
@@ -42,20 +52,32 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		}
 	}
 
-	private void showPlayerResources(Map<ResourceType, Integer> information)
+	private static void showPlayerResources()
 	{
-		for (ResourceType resourceType : information.keySet()) {
-			Client.getLogger().log(Level.INFO, "{0}=", new Object[] { resourceType });
-			Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { information.get(resourceType) });
+		for (Entry<ResourceType, Integer> resourceTypeAmount : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().entrySet()) {
+			Client.getLogger().log(Level.INFO, "{0}=", new Object[] { CommonUtils.getResourcesTypesNames().get(resourceTypeAmount.getKey()) });
+			Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { resourceTypeAmount.getValue() });
 		}
 	}
 
-	private void showPlayerDevelopmentCards(List<Integer> information)
+	private static void showPlayerDevelopmentCards()
 	{
+		Client.getLogger().log(Level.INFO, "Enter Card Type...");
+		Client.getLogger().log(Level.INFO, "1 - Own Building Cards");
+		Client.getLogger().log(Level.INFO, "2 - Own Character Cards");
+		Client.getLogger().log(Level.INFO, "3 - Own Territory Cards");
+		Client.getLogger().log(Level.INFO, "4 - Own Venture Cards");
+		String input;
+		do {
+			input = Client.getInstance().getCliScanner().nextLine();
+		}
+		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.containsKey(Integer.parseInt(input)));
 		StringBuilder stringBuilder = new StringBuilder();
-		for (int index : information) {
+		int index = 0;
+		for (int value : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getDevelopmentCards().get(CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input)))) {
+			index++;
 			Client.getLogger().log(Level.INFO, "{0}===========", new Object[] { index });
-			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(cardType).get(index).getInformations());
+			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input))).get(value).getInformations());
 		}
 	}
 
@@ -64,15 +86,11 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "Enter what you want to see...");
 		Client.getLogger().log(Level.INFO, "1 - Own Family Members' Positions");
 		Client.getLogger().log(Level.INFO, "2 - Own Resources");
-		Client.getLogger().log(Level.INFO, "3 - Own Building Cards");
-		Client.getLogger().log(Level.INFO, "4 - Own Character Cards");
-		Client.getLogger().log(Level.INFO, "5 - Own Territory Cards");
-		Client.getLogger().log(Level.INFO, "6 - Own Venture Cards");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnBoard.PLAYER_FAMILY_MEMBERS.containsKey(Integer.parseInt(input)));
-		CLIHandlerShowOwnBoard.PLAYER_FAMILY_MEMBERS.get(Integer.parseInt(input)).run();
+		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnBoard.PLAYER_INFORMATION.containsKey(Integer.parseInt(input)));
+		CLIHandlerShowOwnBoard.PLAYER_INFORMATION.get(Integer.parseInt(input)).run();
 	}
 }

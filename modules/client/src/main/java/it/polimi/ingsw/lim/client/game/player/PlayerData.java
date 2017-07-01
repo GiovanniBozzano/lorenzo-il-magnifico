@@ -1,9 +1,6 @@
 package it.polimi.ingsw.lim.client.game.player;
 
-import it.polimi.ingsw.lim.common.enums.BoardPosition;
-import it.polimi.ingsw.lim.common.enums.Color;
-import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.enums.*;
 
 import java.util.*;
 
@@ -16,16 +13,21 @@ public class PlayerData
 	private final List<Integer> developmentCardsCharacter = new ArrayList<>();
 	private final List<Integer> developmentCardsTerritory = new ArrayList<>();
 	private final List<Integer> developmentCardsVenture = new ArrayList<>();
+	private final Map<CardType, List<Integer>> developmentCards = new HashMap<>();
 	// leaderCardsPlayed boolean = true if the card is a reward leaderCard type and it can be activated
 	private final Map<Integer, Boolean> leaderCardsPlayed = new HashMap<>();
 	private int leaderCardsInHandNumber;
 	private final Map<ResourceType, Integer> resourceAmounts = new EnumMap<>(ResourceType.class);
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
 
-	public PlayerData(String username, Color color)
+	public PlayerData(String username, Color color, Map<CardType, List<Integer>> developmentCards)
 	{
 		this.username = username;
 		this.color = color;
+		this.developmentCards.put(CardType.BUILDING, developmentCardsBuilding);
+		this.developmentCards.put(CardType.CHARACTER, developmentCardsCharacter);
+		this.developmentCards.put(CardType.TERRITORY, developmentCardsTerritory);
+		this.developmentCards.put(CardType.VENTURE, developmentCardsVenture);
 	}
 
 	public String getUsername()
@@ -90,6 +92,11 @@ public class PlayerData
 	{
 		this.developmentCardsVenture.clear();
 		this.developmentCardsVenture.addAll(developmentCardsVenture);
+	}
+
+	public Map<CardType, List<Integer>> getDevelopmentCards()
+	{
+		return this.developmentCards;
 	}
 
 	public Map<Integer, Boolean> getLeaderCardsPlayed()
