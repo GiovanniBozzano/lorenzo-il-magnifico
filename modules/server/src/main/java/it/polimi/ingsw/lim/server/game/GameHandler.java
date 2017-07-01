@@ -693,7 +693,7 @@ public class GameHandler
 		return index + 1 >= this.turnOrder.size() ? this.turnOrder.get(0) : this.turnOrder.get(index + 1);
 	}
 
-	void sendGamePersonalBonusTileChoiceRequest(Player player)
+	private void sendGamePersonalBonusTileChoiceRequest(Player player)
 	{
 		player.getConnection().sendGamePersonalBonusTileChoiceRequest(this.availablePersonalBonusTiles);
 		this.timer = ServerSettings.getInstance().getPersonalBonusTileChoiceTimer();
@@ -728,7 +728,7 @@ public class GameHandler
 		}
 	}
 
-	void sendLeaderCardsChoiceRequest()
+	private void sendLeaderCardsChoiceRequest()
 	{
 		for (Entry<Player, List<Integer>> playerAvailableLeaderCards : this.availableLeaderCards.entrySet()) {
 			if (!playerAvailableLeaderCards.getKey().isOnline()) {
@@ -1041,29 +1041,6 @@ public class GameHandler
 				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		}
-		for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {
-			if (leaderCard.isPlayed()) {
-				try {
-					new ActionLeaderActivate(leaderCard.getIndex(), player).isLegal();
-					availableActions.get(ActionType.LEADER_ACTIVATE).add(new AvailableActionLeaderActivate(leaderCard.getIndex()));
-				} catch (GameActionFailedException exception) {
-					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-				}
-			} else {
-				try {
-					new ActionLeaderDiscard(leaderCard.getIndex(), player).isLegal();
-					availableActions.get(ActionType.LEADER_DISCARD).add(new AvailableActionLeaderDiscard(leaderCard.getIndex()));
-				} catch (GameActionFailedException exception) {
-					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-				}
-				try {
-					new ActionLeaderPlay(leaderCard.getIndex(), player).isLegal();
-					availableActions.get(ActionType.LEADER_PLAY).add(new AvailableActionLeaderPlay(leaderCard.getIndex()));
-				} catch (GameActionFailedException exception) {
-					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-				}
-			}
-		}
 		return availableActions;
 	}
 
@@ -1137,7 +1114,7 @@ public class GameHandler
 		this.currentPhase = currentPhase;
 	}
 
-	public boolean isCheckedExcommunications()
+	boolean isCheckedExcommunications()
 	{
 		return this.checkedExcommunications;
 	}
