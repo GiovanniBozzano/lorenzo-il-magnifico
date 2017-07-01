@@ -17,9 +17,9 @@ import java.util.logging.Level;
 
 public class CLIHandlerCouncilPalace implements ICLIHandler
 {
-	Map<Integer, FamilyMemberType> familyMemberTypes = new HashMap<>();
-	int familyMemberValue;
-	int servantAmount;
+	private Map<Integer, FamilyMemberType> familyMemberTypes = new HashMap<>();
+	private int familyMemberValue;
+	private int servantAmount;
 
 	@Override
 	public void execute()

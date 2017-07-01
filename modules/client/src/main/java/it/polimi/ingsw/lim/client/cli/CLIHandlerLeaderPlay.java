@@ -13,7 +13,7 @@ import java.util.logging.Level;
 public class CLIHandlerLeaderPlay implements ICLIHandler
 {
 	private final Map<Integer, Integer> leaderCards = new HashMap<>();
-	int leaderCardIndex;
+	private int leaderCardIndex;
 
 	@Override
 	public void execute()

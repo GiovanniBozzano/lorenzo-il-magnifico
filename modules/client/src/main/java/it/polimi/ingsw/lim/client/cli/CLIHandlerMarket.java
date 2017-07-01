@@ -21,9 +21,9 @@ public class CLIHandlerMarket implements ICLIHandler
 {
 	Map<Integer, FamilyMemberType> familyMemberTypes = new HashMap<>();
 	Map<Integer, MarketSlot> marketSlots = new HashMap<>();
-	int marketSlot;
-	int familyMemberValue;
-	int servantAmount;
+	private int marketSlot;
+	private int familyMemberValue;
+	private int servantAmount;
 
 	@Override
 	public void execute()
