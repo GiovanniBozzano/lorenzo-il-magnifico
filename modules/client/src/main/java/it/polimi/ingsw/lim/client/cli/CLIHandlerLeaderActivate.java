@@ -3,14 +3,14 @@ package it.polimi.ingsw.lim.client.cli;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderPlay;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderActivate;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class CLIHandlerLeaderPlay implements ICLIHandler
+public class CLIHandlerLeaderActivate implements ICLIHandler
 {
 	private final Map<Integer, Integer> leaderCards = new HashMap<>();
 	int leaderCardIndex;
@@ -18,9 +18,9 @@ public class CLIHandlerLeaderPlay implements ICLIHandler
 	@Override
 	public void execute()
 	{
-		this.showHandLeaderCards();
-		this.askPlayLeaderCardIndex();
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderPlay(this.leaderCardIndex));
+		this.showPlayedLeaderCards();
+		this.askActivateLeaderCardIndex();
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderActivate(this.leaderCardIndex));
 	}
 
 	@Override
@@ -29,12 +29,12 @@ public class CLIHandlerLeaderPlay implements ICLIHandler
 		return new CLIHandlerLeaderCardsChoice();
 	}
 
-	private void showHandLeaderCards()
+	private void showPlayedLeaderCards()
 	{
 		int index = 0;
-		Client.getLogger().log(Level.INFO, "Enter Play Leader Card choice...");
-		for (int leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
-			if (GameStatus.getInstance().getCurrentOwnLeaderCardsHand().get(leaderCard)) {
+		Client.getLogger().log(Level.INFO, "Enter Activate Leader Card choice...");
+		for (int leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().keySet()) {
+			if (GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().get(leaderCard)) {
 				index++;
 				this.leaderCards.put(index, leaderCard);
 				Client.getLogger().log(Level.INFO, "{0}===", new Object[] { index });
@@ -43,7 +43,7 @@ public class CLIHandlerLeaderPlay implements ICLIHandler
 		}
 	}
 
-	private void askPlayLeaderCardIndex()
+	private void askActivateLeaderCardIndex()
 	{
 		String input;
 		do {

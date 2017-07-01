@@ -32,8 +32,7 @@ public class CLIHandlerLeaderDiscard implements ICLIHandler
 	private void showHandLeaderCards()
 	{
 		int index = 0;
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Discard Leader Card choice...");
+		Client.getLogger().log(Level.INFO, "Enter Discard Leader Card choice...");
 		for (int leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
 			index++;
 			this.leaderCards.put(index, leaderCard);
