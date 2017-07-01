@@ -44,7 +44,6 @@ public class Player
 	private boolean isOnline = true;
 	private ActionReward currentActionReward;
 	private int currentProductionValue = 0;
-	private final List<Integer> availableLeaderCards = new ArrayList<>();
 
 	public Player(Connection connection, Room room, int index)
 	{
@@ -93,12 +92,12 @@ public class Player
 		}
 	}
 
-	public static Map<Integer, Integer> getTerritorySlotsConditions()
+	static Map<Integer, Integer> getTerritorySlotsConditions()
 	{
 		return TERRITORY_SLOTS_CONDITIONS;
 	}
 
-	public static Map<Period, Integer> getExcommunicationConditions()
+	static Map<Period, Integer> getExcommunicationConditions()
 	{
 		return EXCOMMUNICATION_CONDITIONS;
 	}
@@ -201,16 +200,5 @@ public class Player
 	public void setCurrentProductionValue(int currentProductionValue)
 	{
 		this.currentProductionValue = currentProductionValue;
-	}
-
-	public List<Integer> getAvailableLeaderCards()
-	{
-		return this.availableLeaderCards;
-	}
-
-	public void setAvailableLeaderCards(List<Integer> availableLeaderCards)
-	{
-		this.availableLeaderCards.clear();
-		this.availableLeaderCards.addAll(availableLeaderCards);
 	}
 }

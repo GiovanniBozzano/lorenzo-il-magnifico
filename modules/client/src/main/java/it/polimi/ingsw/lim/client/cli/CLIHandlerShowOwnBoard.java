@@ -11,27 +11,15 @@ import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 public class CLIHandlerShowOwnBoard implements ICLIHandler
 {
-	private static final Map<Integer, Map<FamilyMemberType, BoardPosition>> PLAYER_FAMILY_MEMBERS = new HashMap<>();
-	private static final Map<Integer, Map<ResourceType, Integer>> PLAYER_RESOURCES = new HashMap<>();
-	private static Map<Integer, List<Integer>> PLAYER_DEVELOPMENT_CARDS = new HashMap<>();
+	private static final Map<Integer, Runnable> PLAYER_FAMILY_MEMBERS = new HashMap<>();
 
 	static {
-		PLAYER_FAMILY_MEMBERS.put(1, GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getFamilyMembersPositions());
-	}
-
-	static {
-		PLAYER_RESOURCES.put(2, GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts());
-	}
-
-	static {
-		PLAYER_DEVELOPMENT_CARDS.put(3, GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getDevelopmentCardsBuilding());
-		PLAYER_DEVELOPMENT_CARDS.put(4, GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getDevelopmentCardsCharacter());
-		PLAYER_DEVELOPMENT_CARDS.put(5, GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getDevelopmentCardsTerritory());
-		PLAYER_DEVELOPMENT_CARDS.put(6, GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getDevelopmentCardsVenture());
+		CLIHandlerShowOwnBoard.PLAYER_FAMILY_MEMBERS.put(1, CLIHandlerShowOwnBoard::showPlayerFamilyMembers);
 	}
 
 	@Override
@@ -46,11 +34,11 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		return new CLIHandlerShowOwnLeaders();
 	}
 
-	private void showPlayerFamilyMembers(Map<FamilyMemberType, BoardPosition> information)
+	private static void showPlayerFamilyMembers()
 	{
-		for (FamilyMemberType familyMemberType : information.keySet()) {
-			Client.getLogger().log(Level.INFO, "{0}===", new Object[] { familyMemberType });
-			Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { information.get(familyMemberType) });
+		for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPosition : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getFamilyMembersPositions().entrySet()) {
+			Client.getLogger().log(Level.INFO, "{0}===", new Object[] { familyMemberTypeBoardPosition.getKey().name() });
+			Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { familyMemberTypeBoardPosition.getValue().name() });
 		}
 	}
 
@@ -84,13 +72,7 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnBoard.PLAYER_FAMILY_MEMBERS.containsKey(Integer.parseInt(input)) || !CLIHandlerShowOwnBoard.PLAYER_RESOURCES.containsKey(Integer.parseInt(input)) || !CLIHandlerShowOwnBoard.PLAYER_DEVELOPMENT_CARDS.containsKey(Integer.parseInt(input)));
-		if (CLIHandlerShowOwnBoard.PLAYER_FAMILY_MEMBERS.containsKey(Integer.parseInt(input))) {
-			this.showPlayerFamilyMembers(CLIHandlerShowOwnBoard.PLAYER_FAMILY_MEMBERS.get(Integer.parseInt(input)));
-		} else if (CLIHandlerShowOwnBoard.PLAYER_RESOURCES.containsKey(Integer.parseInt(input))) {
-			this.showPlayerResources(CLIHandlerShowOwnBoard.PLAYER_RESOURCES.get(Integer.parseInt(input)));
-		} else {
-			this.showPlayerDevelopmentCards(CLIHandlerShowOwnBoard.PLAYER_DEVELOPMENT_CARDS.get(Integer.parseInt(input)));
-		}
+		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnBoard.PLAYER_FAMILY_MEMBERS.containsKey(Integer.parseInt(input)));
+		CLIHandlerShowOwnBoard.PLAYER_FAMILY_MEMBERS.get(Integer.parseInt(input)).run();
 	}
 }

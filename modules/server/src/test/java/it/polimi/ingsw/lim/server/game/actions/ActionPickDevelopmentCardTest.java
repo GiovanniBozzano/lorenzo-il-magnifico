@@ -6,6 +6,7 @@ import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
+import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.player.Player;
@@ -40,6 +41,7 @@ public class ActionPickDevelopmentCardTest
 		room.setGameHandler(gameHandler);
 		gameHandler.setTimerExecutor(Executors.newSingleThreadScheduledExecutor());
 		Player player = new Player(new ConnectionRMI(null, null), room, 0);
+		player.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
 		player.getPlayerResourceHandler().addResource(ResourceType.SERVANT, 10);
 		gameHandler.getTurnOrder().add(player);
 		gameHandler.setupRound();

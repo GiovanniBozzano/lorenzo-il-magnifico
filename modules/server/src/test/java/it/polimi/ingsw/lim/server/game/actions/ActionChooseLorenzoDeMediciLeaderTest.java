@@ -8,6 +8,7 @@ import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardLorenzoDeMediciLeader;
+import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
@@ -40,8 +41,10 @@ public class ActionChooseLorenzoDeMediciLeaderTest
 		gameHandler.setExpectedAction(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER);
 		gameHandler.setTimerExecutor(Executors.newSingleThreadScheduledExecutor());
 		Player player = new Player(new ConnectionRMI(null, null), room, 0);
+		player.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
 		player.setCurrentActionReward(new ActionRewardLorenzoDeMediciLeader(null));
 		Player otherPlayer = new Player(new ConnectionRMI(null, null), room, 1);
+		otherPlayer.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
 		LeaderCardReward leaderCard = new LeaderCardReward(0, null, null, null, new ArrayList<>(), new Reward(null, new ArrayList<>()));
 		leaderCard.setPlayed(true);
 		otherPlayer.getPlayerCardHandler().getLeaderCards().add(leaderCard);

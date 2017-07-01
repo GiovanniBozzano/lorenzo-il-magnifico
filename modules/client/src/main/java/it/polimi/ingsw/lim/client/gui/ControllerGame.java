@@ -2307,20 +2307,23 @@ public class ControllerGame extends CustomController
 	{
 		this.leaderCardsDialog.setOverlayClose(true);
 		this.leaderCardsDialogHBox.getChildren().clear();
-		for (Integer leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
+		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().entrySet()) {
+			if (!leaderCard.getValue()) {
+				continue;
+			}
 			Pane pane = new Pane();
 			pane.setPrefWidth(this.territory1.getWidth() * 3);
 			pane.setPrefHeight(this.territory1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
-			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
+			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
 			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
 				this.leaderCardsDialog.close();
-				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderPlay(leaderCard));
+				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderPlay(leaderCard.getKey()));
 			});
 			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}

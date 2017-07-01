@@ -7,6 +7,7 @@ import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardPickDevelopmentCard;
+import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.player.Player;
@@ -42,6 +43,7 @@ public class ActionChooseRewardPickDevelopmentCardTest
 		gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD);
 		gameHandler.setTimerExecutor(Executors.newSingleThreadScheduledExecutor());
 		Player player = new Player(new ConnectionRMI(null, null), room, 0);
+		player.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
 		player.getPlayerResourceHandler().addResource(ResourceType.SERVANT, 10);
 		player.setCurrentActionReward(new ActionRewardPickDevelopmentCard(null, new EnumMap<>(CardType.class), new ArrayList<>()));
 		gameHandler.getTurnOrder().add(player);

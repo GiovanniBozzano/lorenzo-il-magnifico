@@ -184,9 +184,9 @@ public class GameHandler
 		this.timerExecutor.shutdownNow();
 		player.setPersonalBonusTile(PersonalBonusTile.fromIndex(personalBonusTileIndex));
 		this.availablePersonalBonusTiles.remove((Integer) personalBonusTileIndex);
-		for (Connection currentPlayer : this.room.getPlayers()) {
-			if (currentPlayer.getPlayer().isOnline()) {
-				currentPlayer.sendGamePersonalBonusTileChosen(player.getIndex());
+		for (Player currentPlayer : this.turnOrder) {
+			if (currentPlayer.isOnline()) {
+				currentPlayer.getConnection().sendGamePersonalBonusTileChosen(player.getIndex());
 			}
 		}
 		this.personalBonusTileChoicePlayerTurnIndex--;
@@ -557,7 +557,7 @@ public class GameHandler
 		}
 	}
 
-	private void calculateExcommunications()
+	void calculateExcommunications()
 	{
 		for (Player player : this.turnOrder) {
 			if (player.isExcommunicated(this.currentPeriod)) {
@@ -644,8 +644,8 @@ public class GameHandler
 			}
 		}
 		boolean endRound = true;
-		for (Connection player : this.room.getPlayers()) {
-			if (player.getPlayer().getAvailableTurns() > 0) {
+		for (Player player : this.turnOrder) {
+			if (player.getAvailableTurns() > 0) {
 				endRound = false;
 				break;
 			}
@@ -693,7 +693,7 @@ public class GameHandler
 		return index + 1 >= this.turnOrder.size() ? this.turnOrder.get(0) : this.turnOrder.get(index + 1);
 	}
 
-	private void sendGamePersonalBonusTileChoiceRequest(Player player)
+	void sendGamePersonalBonusTileChoiceRequest(Player player)
 	{
 		player.getConnection().sendGamePersonalBonusTileChoiceRequest(this.availablePersonalBonusTiles);
 		this.timer = ServerSettings.getInstance().getPersonalBonusTileChoiceTimer();
@@ -728,7 +728,7 @@ public class GameHandler
 		}
 	}
 
-	private void sendLeaderCardsChoiceRequest()
+	void sendLeaderCardsChoiceRequest()
 	{
 		for (Entry<Player, List<Integer>> playerAvailableLeaderCards : this.availableLeaderCards.entrySet()) {
 			if (!playerAvailableLeaderCards.getKey().isOnline()) {
@@ -886,33 +886,33 @@ public class GameHandler
 	public List<PlayerInformations> generatePlayersInformations()
 	{
 		List<PlayerInformations> playersInformations = new ArrayList<>();
-		for (Connection player : this.room.getPlayers()) {
+		for (Player player : this.turnOrder) {
 			List<Integer> developmentCardsBuildingInformations = new ArrayList<>();
-			for (DevelopmentCardBuilding developmentCardBuilding : player.getPlayer().getPlayerCardHandler().getDevelopmentCards(CardType.BUILDING, DevelopmentCardBuilding.class)) {
+			for (DevelopmentCardBuilding developmentCardBuilding : player.getPlayerCardHandler().getDevelopmentCards(CardType.BUILDING, DevelopmentCardBuilding.class)) {
 				developmentCardsBuildingInformations.add(developmentCardBuilding.getIndex());
 			}
 			List<Integer> developmentCardsCharacterInformations = new ArrayList<>();
-			for (DevelopmentCardCharacter developmentCardCharacter : player.getPlayer().getPlayerCardHandler().getDevelopmentCards(CardType.CHARACTER, DevelopmentCardCharacter.class)) {
+			for (DevelopmentCardCharacter developmentCardCharacter : player.getPlayerCardHandler().getDevelopmentCards(CardType.CHARACTER, DevelopmentCardCharacter.class)) {
 				developmentCardsCharacterInformations.add(developmentCardCharacter.getIndex());
 			}
 			List<Integer> developmentCardsTerritoryInformations = new ArrayList<>();
-			for (DevelopmentCardTerritory developmentCardTerritory : player.getPlayer().getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
+			for (DevelopmentCardTerritory developmentCardTerritory : player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
 				developmentCardsTerritoryInformations.add(developmentCardTerritory.getIndex());
 			}
 			List<Integer> developmentCardsVentureInformations = new ArrayList<>();
-			for (DevelopmentCardVenture developmentCardVenture : player.getPlayer().getPlayerCardHandler().getDevelopmentCards(CardType.VENTURE, DevelopmentCardVenture.class)) {
+			for (DevelopmentCardVenture developmentCardVenture : player.getPlayerCardHandler().getDevelopmentCards(CardType.VENTURE, DevelopmentCardVenture.class)) {
 				developmentCardsVentureInformations.add(developmentCardVenture.getIndex());
 			}
 			Map<Integer, Boolean> leaderCardsPlayed = new HashMap<>();
 			int leaderCardsInHandNumber = 0;
-			for (LeaderCard leaderCard : player.getPlayer().getPlayerCardHandler().getLeaderCards()) {
+			for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {
 				if (leaderCard.isPlayed()) {
 					leaderCardsPlayed.put(leaderCard.getIndex(), leaderCard.getLeaderCardType() != LeaderCardType.MODIFIER && !((LeaderCardReward) leaderCard).isActivated());
 				} else {
 					leaderCardsInHandNumber++;
 				}
 			}
-			playersInformations.add(new PlayerInformations(player.getPlayer().getIndex(), player.getPlayer().getPersonalBonusTile().getIndex(), developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, leaderCardsPlayed, leaderCardsInHandNumber, player.getPlayer().getPlayerResourceHandler().getResources(), player.getPlayer().getFamilyMembersPositions()));
+			playersInformations.add(new PlayerInformations(player.getIndex(), player.getPersonalBonusTile().getIndex(), developmentCardsBuildingInformations, developmentCardsCharacterInformations, developmentCardsTerritoryInformations, developmentCardsVentureInformations, leaderCardsPlayed, leaderCardsInHandNumber, player.getPlayerResourceHandler().getResources(), player.getFamilyMembersPositions()));
 		}
 		return playersInformations;
 	}
@@ -1137,6 +1137,11 @@ public class GameHandler
 		this.currentPhase = currentPhase;
 	}
 
+	public boolean isCheckedExcommunications()
+	{
+		return this.checkedExcommunications;
+	}
+
 	public ActionType getExpectedAction()
 	{
 		return this.expectedAction;
@@ -1155,6 +1160,11 @@ public class GameHandler
 	int getPersonalBonusTileChoicePlayerTurnIndex()
 	{
 		return this.personalBonusTileChoicePlayerTurnIndex;
+	}
+
+	void setPersonalBonusTileChoicePlayerTurnIndex(int personalBonusTileChoicePlayerTurnIndex)
+	{
+		this.personalBonusTileChoicePlayerTurnIndex = personalBonusTileChoicePlayerTurnIndex;
 	}
 
 	Map<Player, List<Integer>> getAvailableLeaderCards()

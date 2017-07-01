@@ -9,6 +9,7 @@ import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardTemporaryModifier;
+import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.network.rmi.ConnectionRMI;
 import org.junit.After;
@@ -38,6 +39,7 @@ public class ActionChooseRewardTemporaryModifierTest
 		gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER);
 		gameHandler.setTimerExecutor(Executors.newSingleThreadScheduledExecutor());
 		Player player = new Player(new ConnectionRMI(null, null), room, 0);
+		player.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
 		player.setCurrentActionReward(new ActionRewardTemporaryModifier(null));
 		gameHandler.getTurnOrder().add(player);
 		gameHandler.setupRound();
