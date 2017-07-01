@@ -23,7 +23,7 @@ import java.util.List;
 
 public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsChooseRewardPickDevelopmentCard implements IAction
 {
-	private transient final Player player;
+	private final transient Player player;
 	private transient boolean columnOccupied = false;
 	private transient boolean getBoardPositionReward = true;
 	private final transient List<ResourceAmount> effectiveResourceCost = new ArrayList<>();

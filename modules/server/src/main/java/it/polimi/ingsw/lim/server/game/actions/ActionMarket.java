@@ -17,7 +17,7 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 
 public class ActionMarket extends ActionInformationsMarket implements IAction
 {
-	private transient final Player player;
+	private final transient Player player;
 
 	public ActionMarket(FamilyMemberType familyMemberType, int servants, MarketSlot marketSlot, Player player)
 	{

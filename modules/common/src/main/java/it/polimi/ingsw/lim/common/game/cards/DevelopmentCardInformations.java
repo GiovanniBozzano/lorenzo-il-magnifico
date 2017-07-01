@@ -61,7 +61,7 @@ public abstract class DevelopmentCardInformations extends CardInformations
 		}
 		if (!this.reward.getResourceAmounts().isEmpty()) {
 			stringBuilder.append("\nInstant resources:");
-			for (ResourceAmount resourceAmount : (this.reward.getResourceAmounts())) {
+			for (ResourceAmount resourceAmount : this.reward.getResourceAmounts()) {
 				stringBuilder.append("\n    - ");
 				stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
 				stringBuilder.append(": ");

@@ -55,6 +55,12 @@ public class ActionPickDevelopmentCardTest
 		this.actionPickDevelopmentCard.isLegal();
 	}
 
+	@Test
+	public void testApply() throws GameActionFailedException
+	{
+		this.actionPickDevelopmentCard.apply();
+	}
+
 	@After
 	public void tearDown()
 	{

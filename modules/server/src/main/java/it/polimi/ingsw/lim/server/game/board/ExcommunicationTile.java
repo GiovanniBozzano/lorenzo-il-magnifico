@@ -41,11 +41,9 @@ public enum ExcommunicationTile
 		@Override
 		public void apply(EventGainResources event)
 		{
-			{
-				for (ResourceAmount resourceAmount : event.getResourceAmounts()) {
-					if (resourceAmount.getResourceType() == ResourceType.COIN) {
-						resourceAmount.setAmount(resourceAmount.getAmount() - 1);
-					}
+			for (ResourceAmount resourceAmount : event.getResourceAmounts()) {
+				if (resourceAmount.getResourceType() == ResourceType.COIN) {
+					resourceAmount.setAmount(resourceAmount.getAmount() - 1);
 				}
 			}
 		}
@@ -55,11 +53,9 @@ public enum ExcommunicationTile
 		@Override
 		public void apply(EventGainResources event)
 		{
-			{
-				for (ResourceAmount resourceAmount : event.getResourceAmounts()) {
-					if (resourceAmount.getResourceType() == ResourceType.WOOD || resourceAmount.getResourceType() == ResourceType.STONE) {
-						resourceAmount.setAmount(resourceAmount.getAmount() - 1);
-					}
+			for (ResourceAmount resourceAmount : event.getResourceAmounts()) {
+				if (resourceAmount.getResourceType() == ResourceType.WOOD || resourceAmount.getResourceType() == ResourceType.STONE) {
+					resourceAmount.setAmount(resourceAmount.getAmount() - 1);
 				}
 			}
 		}

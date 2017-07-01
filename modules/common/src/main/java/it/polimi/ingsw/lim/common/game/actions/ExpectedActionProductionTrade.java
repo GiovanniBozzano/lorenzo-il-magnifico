@@ -1,21 +1,23 @@
 package it.polimi.ingsw.lim.common.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
+import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExpectedActionProductionTrade extends ExpectedAction
 {
-	private final List<Integer> availableCards;
+	private final Map<Integer, List<ResourceTradeOption>> availableCards;
 
-	public ExpectedActionProductionTrade(List<Integer> availableCards)
+	public ExpectedActionProductionTrade(Map<Integer, List<ResourceTradeOption>> availableCards)
 	{
 		super(ActionType.PRODUCTION_TRADE);
-		this.availableCards = new ArrayList<>(availableCards);
+		this.availableCards = new HashMap<>(availableCards);
 	}
 
-	public List<Integer> getAvailableCards()
+	public Map<Integer, List<ResourceTradeOption>> getAvailableCards()
 	{
 		return this.availableCards;
 	}

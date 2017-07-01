@@ -198,14 +198,14 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 					if (((AuthenticationInformationsGame) authenticationInformations).getTurnPlayerIndex() != ((AuthenticationInformationsGame) authenticationInformations).getOwnPlayerIndex()) {
 						GameStatus.getInstance().setCurrentTurnPlayerIndex(((AuthenticationInformationsGame) authenticationInformations).getTurnPlayerIndex());
 						if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-							Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn());
+							Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::setOtherTurn);
 						} else {
 							Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(((AuthenticationInformationsGame) authenticationInformations).getTurnPlayerIndex()).getUsername() });
 						}
 					} else {
 						GameStatus.getInstance().setCurrentAvailableActions(((AuthenticationInformationsGame) authenticationInformations).getAvailableActions());
 						if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-							Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurn());
+							Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::setOwnTurn);
 						} else {
 							Client.getLogger().log(Level.INFO, "Your turn...");
 						}

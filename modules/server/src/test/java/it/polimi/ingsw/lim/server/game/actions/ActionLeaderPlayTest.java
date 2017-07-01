@@ -50,6 +50,12 @@ public class ActionLeaderPlayTest
 		this.actionLeaderPlay.isLegal();
 	}
 
+	@Test
+	public void testApply() throws GameActionFailedException
+	{
+		this.actionLeaderPlay.apply();
+	}
+
 	@After
 	public void tearDown()
 	{

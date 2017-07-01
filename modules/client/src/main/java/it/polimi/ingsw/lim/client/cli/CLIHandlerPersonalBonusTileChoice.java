@@ -52,7 +52,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 				stringBuilder.append(resourceAmount.getAmount());
 			}
 			stringBuilder.append("\n\nHarvest activation cost: ");
-			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionActivationCost());
+			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getHarvestActivationCost());
 			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getHarvestInstantResources().isEmpty()) {
 				stringBuilder.append("\n\nHarvest bonus resources:");
 			}

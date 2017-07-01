@@ -50,6 +50,12 @@ public class ActionLeaderDiscardTest
 		this.actionLeaderDiscard.isLegal();
 	}
 
+	@Test
+	public void testApply() throws GameActionFailedException
+	{
+		this.actionLeaderDiscard.apply();
+	}
+
 	@After
 	public void tearDown()
 	{

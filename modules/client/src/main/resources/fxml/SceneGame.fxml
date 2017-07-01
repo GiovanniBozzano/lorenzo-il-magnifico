@@ -922,6 +922,49 @@
 			</body>
 		</JFXDialogLayout>
 	</JFXDialog>
+	<JFXDialog fx:id="expectedProductionTradeDialog">
+		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
+			<body>
+				<VBox spacing="20.0">
+					<VBox fx:id="expectedProductionTradeDialogVBox" spacing="20.0">
+						<VBox spacing="10.0">
+							<Label text="Instant discount choices:">
+								<font>
+									<Font name="Roboto Bold" size="12.0" />
+								</font>
+							</Label>
+							<Pane style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;">
+								<HBox alignment="CENTER" spacing="20.0" style="-fx-padding: 20 20 20 20;" />
+							</Pane>
+						</VBox>
+					</VBox>
+					<GridPane hgap="10.0">
+						<columnConstraints>
+							<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+							<ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+						</columnConstraints>
+						<rowConstraints>
+							<RowConstraints vgrow="SOMETIMES" />
+						</rowConstraints>
+						<VBox>
+							<JFXButton fx:id="expectedProductionTradeDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
+								<font>
+									<Font name="Roboto Bold" size="12.0" />
+								</font>
+							</JFXButton>
+						</VBox>
+						<VBox GridPane.columnIndex="1">
+							<JFXButton fx:id="expectedProductionTradeDialogCancelButton" onAction="#handleExpectedProductionTradeDialogCancelButtonAction" style="-fx-background-color: #F44336;" text="Cancel" textFill="WHITE">
+								<font>
+									<Font name="Roboto Bold" size="12.0" />
+								</font>
+							</JFXButton>
+						</VBox>
+					</GridPane>
+				</VBox>
+			</body>
+		</JFXDialogLayout>
+	</JFXDialog>
 	<JFXDialog fx:id="expectedChooseRewardTemporaryModifierDialog">
 		<JFXDialogLayout style="-fx-border-color: #757575; -fx-border-width: 2px;">
 			<body>

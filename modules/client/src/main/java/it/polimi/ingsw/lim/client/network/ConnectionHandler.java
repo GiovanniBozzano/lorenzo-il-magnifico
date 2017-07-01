@@ -16,7 +16,6 @@ import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.game.GameInformations;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
-import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
@@ -25,6 +24,7 @@ import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -267,7 +267,7 @@ public abstract class ConnectionHandler extends Thread
 	{
 		GameStatus.getInstance().setAvailableLeaderCards(availableLeaderCards);
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showLeaderCards());
+			Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::showLeaderCards);
 		} else {
 			Client.getInstance().setCliStatus(CLIStatus.LEADER_CARDS_CHOICE);
 			Client.getInstance().getCliListener().execute(() -> {
@@ -295,18 +295,18 @@ public abstract class ConnectionHandler extends Thread
 	public void handleGameExcommunicationChoiceOther()
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showExcommunicationOther());
+			Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::showExcommunicationOther);
 		}
 	}
 
-	public void handleGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)
+	public void handleGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<Serializable>> availableActions)
 	{
 		GameStatus.getInstance().setCurrentTurnPlayerIndex(GameStatus.getInstance().getOwnPlayerIndex());
 		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
 		GameStatus.getInstance().setCurrentAvailableActions(availableActions);
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
 			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().appendText((((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getGameLogTextArea().getText().length() < 1 ? "" : '\n') + "Your turn"));
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurn());
+			Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::setOwnTurn);
 		} else {
 			Client.getLogger().log(Level.INFO, "Your turn...");
 			Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
@@ -339,7 +339,7 @@ public abstract class ConnectionHandler extends Thread
 		}
 		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn());
+			Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::setOtherTurn);
 		}
 	}
 

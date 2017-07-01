@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ActionChooseLorenzoDeMediciLeader extends ActionInformationsChooseLorenzoDeMediciLeader implements IAction
 {
-	private transient final Player player;
+	private final transient Player player;
 
 	public ActionChooseLorenzoDeMediciLeader(int leaderCardIndex, Player player)
 	{

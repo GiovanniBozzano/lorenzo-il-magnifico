@@ -51,6 +51,12 @@ public class ActionLeaderActivateTest
 		this.actionLeaderActivate.isLegal();
 	}
 
+	@Test
+	public void testApply() throws GameActionFailedException
+	{
+		this.actionLeaderActivate.apply();
+	}
+
 	@After
 	public void tearDown()
 	{

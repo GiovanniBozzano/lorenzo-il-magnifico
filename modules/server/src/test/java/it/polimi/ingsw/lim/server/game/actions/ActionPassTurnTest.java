@@ -45,6 +45,12 @@ public class ActionPassTurnTest
 		this.actionPassTurn.isLegal();
 	}
 
+	@Test
+	public void testApply() throws GameActionFailedException
+	{
+		this.actionPassTurn.apply();
+	}
+
 	@After
 	public void tearDown()
 	{

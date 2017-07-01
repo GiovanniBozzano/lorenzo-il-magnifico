@@ -8,11 +8,11 @@ import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.MarketSlot;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsMarket;
-import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionMarket;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,13 +33,13 @@ public class CLIHandlerMarket implements ICLIHandler
 		this.showFamilyMembers();
 		this.askFamilyMember();
 		this.askServants();
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsMarket(this.familyMemberTypes.get(familyMemberValue), servantAmount, this.marketSlots.get(marketSlot)));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsMarket(this.familyMemberTypes.get(this.familyMemberValue), this.servantAmount, this.marketSlots.get(this.marketSlot)));
 	}
 
 	private void showMarketSlots()
 	{
 		int index = 0;
-		for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
+		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
 			if (!this.marketSlots.containsValue(((AvailableActionMarket) availableAction).getMarketSlot())) {
 				index++;
 				this.marketSlots.put(index, ((AvailableActionMarket) availableAction).getMarketSlot());
@@ -52,8 +52,8 @@ public class CLIHandlerMarket implements ICLIHandler
 	private void showFamilyMembers()
 	{
 		int index = 0;
-		for (AvailableAction availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
-			if (this.marketSlots.get(marketSlot) == ((AvailableActionMarket) availableAction).getMarketSlot() && !this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
+		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
+			if (this.marketSlots.get(this.marketSlot) == ((AvailableActionMarket) availableAction).getMarketSlot() && !this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
 				index++;
 				this.familyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
 				Client.getLogger().log(Level.INFO, "{0}========", new Object[] { index });

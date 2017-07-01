@@ -14,7 +14,7 @@ import java.util.logging.Level;
 
 public class CLIHandlerShowDevelopmentCards implements ICLIHandler
 {
-	private final static Map<Integer, CardType> CARD_TYPE_CHOICE = new HashMap<>();
+	private static final Map<Integer, CardType> CARD_TYPE_CHOICE = new HashMap<>();
 
 	static {
 		CARD_TYPE_CHOICE.put(1, CardType.BUILDING);

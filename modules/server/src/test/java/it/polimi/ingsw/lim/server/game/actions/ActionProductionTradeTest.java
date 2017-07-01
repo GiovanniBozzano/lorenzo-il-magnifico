@@ -48,6 +48,12 @@ public class ActionProductionTradeTest
 		this.actionProductionTrade.isLegal();
 	}
 
+	@Test
+	public void testApply() throws GameActionFailedException
+	{
+		this.actionProductionTrade.apply();
+	}
+
 	@After
 	public void tearDown()
 	{

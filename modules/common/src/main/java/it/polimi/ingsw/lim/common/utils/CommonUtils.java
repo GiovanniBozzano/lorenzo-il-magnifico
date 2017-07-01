@@ -71,7 +71,7 @@ public class CommonUtils
 	{
 	}
 
-	static public String exportResource(String resourceName, String fileName) throws URISyntaxException, IOException
+	public static String exportResource(String resourceName, String fileName) throws URISyntaxException, IOException
 	{
 		String jarFolder = new File(CommonUtils.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile().getPath().replace('\\', '/');
 		try (InputStream inputStream = CommonUtils.class.getResourceAsStream(resourceName); OutputStream outputStream = new FileOutputStream(jarFolder + fileName)) {

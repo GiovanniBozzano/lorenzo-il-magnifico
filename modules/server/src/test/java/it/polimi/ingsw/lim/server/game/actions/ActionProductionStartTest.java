@@ -50,6 +50,12 @@ public class ActionProductionStartTest
 		this.actionProductionStart.isLegal();
 	}
 
+	@Test
+	public void testApply() throws GameActionFailedException
+	{
+		this.actionProductionStart.apply();
+	}
+
 	@After
 	public void tearDown()
 	{

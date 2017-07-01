@@ -15,7 +15,7 @@ import java.util.logging.Level;
 
 public class CLIHandlerAvailableActions implements ICLIHandler
 {
-	private final static Map<CLIStatus, String> ACTION_NAMES = new EnumMap<>(CLIStatus.class);
+	private static final Map<CLIStatus, String> ACTION_NAMES = new EnumMap<>(CLIStatus.class);
 
 	static {
 		ACTION_NAMES.put(CLIStatus.SHOW_DEVELOPMENT_CARDS, "Show Development Cards");

@@ -8,7 +8,7 @@ import java.util.*;
 
 public class PlayerCardHandler
 {
-	private final static Map<Integer, Integer> DEVELOPMENT_CARDS_CHARACTER_PRICES = new HashMap<>();
+	private static final Map<Integer, Integer> DEVELOPMENT_CARDS_CHARACTER_PRICES = new HashMap<>();
 
 	static {
 		PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES.put(0, 0);
@@ -20,7 +20,7 @@ public class PlayerCardHandler
 		PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES.put(6, 21);
 	}
 
-	private final static Map<Integer, Integer> DEVELOPMENT_CARDS_TERRITORY_PRICES = new HashMap<>();
+	private static final Map<Integer, Integer> DEVELOPMENT_CARDS_TERRITORY_PRICES = new HashMap<>();
 
 	static {
 		PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES.put(0, 0);

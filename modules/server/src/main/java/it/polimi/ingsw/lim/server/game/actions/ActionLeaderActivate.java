@@ -12,8 +12,7 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 
 public class ActionLeaderActivate extends ActionInformationsLeaderActivate implements IAction
 {
-	private transient final Player player;
-	private transient LeaderCard leaderCard;
+	private final transient Player player;
 
 	public ActionLeaderActivate(int leaderCardIndex, Player player)
 	{
@@ -33,23 +32,22 @@ public class ActionLeaderActivate extends ActionInformationsLeaderActivate imple
 			throw new GameActionFailedException("This action was not expected");
 		}
 		// check if the player has the leader card
-		boolean owned = false;
+		LeaderCard leaderCard = null;
 		for (LeaderCard currentLeaderCard : this.player.getPlayerCardHandler().getLeaderCards()) {
 			if (this.getLeaderCardIndex() == currentLeaderCard.getIndex() && currentLeaderCard instanceof LeaderCardReward) {
-				this.leaderCard = currentLeaderCard;
-				owned = true;
+				leaderCard = currentLeaderCard;
 				break;
 			}
 		}
-		if (!owned) {
+		if (leaderCard == null) {
 			throw new GameActionFailedException("Player doesn't have this Leader Card");
 		}
 		// check if the leader card has been played
-		if (!this.leaderCard.isPlayed()) {
+		if (!leaderCard.isPlayed()) {
 			throw new GameActionFailedException("This Leader Card hasn't been played yet");
 		}
 		// check if the leader card hasn't been already activated
-		if (((LeaderCardReward) this.leaderCard).isActivated()) {
+		if (((LeaderCardReward) leaderCard).isActivated()) {
 			throw new GameActionFailedException("This Leader Card has already been activated");
 		}
 	}
@@ -57,12 +55,22 @@ public class ActionLeaderActivate extends ActionInformationsLeaderActivate imple
 	@Override
 	public void apply() throws GameActionFailedException
 	{
+		LeaderCard leaderCard = null;
+		for (LeaderCard currentLeaderCard : this.player.getPlayerCardHandler().getLeaderCards()) {
+			if (this.getLeaderCardIndex() == currentLeaderCard.getIndex() && currentLeaderCard instanceof LeaderCardReward) {
+				leaderCard = currentLeaderCard;
+				break;
+			}
+		}
+		if (leaderCard == null) {
+			throw new GameActionFailedException("Player doesn't have this Leader Card");
+		}
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.LEADER);
-		((LeaderCardReward) this.leaderCard).setActivated(true);
-		EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) this.leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
+		((LeaderCardReward) leaderCard).setActivated(true);
+		EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-		if (Utils.sendActionReward(this.player, ((LeaderCardReward) this.leaderCard).getReward().getActionReward())) {
+		if (Utils.sendActionReward(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward())) {
 			return;
 		}
 		if (Utils.sendCouncilPrivileges(this.player)) {

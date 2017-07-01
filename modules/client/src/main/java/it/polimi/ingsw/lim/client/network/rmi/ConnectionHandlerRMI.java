@@ -289,14 +289,14 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 						if (((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex() != ((AuthenticationInformationsGameRMI) authenticationInformations).getOwnPlayerIndex()) {
 							GameStatus.getInstance().setCurrentTurnPlayerIndex(((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex());
 							if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-								Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOtherTurn());
+								Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::setOtherTurn);
 							} else {
 								Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(((AuthenticationInformationsGameRMI) authenticationInformations).getTurnPlayerIndex()).getUsername() });
 							}
 						} else {
 							GameStatus.getInstance().setCurrentAvailableActions(((AuthenticationInformationsGameRMI) authenticationInformations).getAvailableActions());
 							if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-								Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurn());
+								Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::setOwnTurn);
 							} else {
 								Client.getLogger().log(Level.INFO, "Your turn...");
 							}

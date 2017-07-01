@@ -47,6 +47,12 @@ public class ActionRefuseRewardTest
 		this.actionRefuseReward.isLegal();
 	}
 
+	@Test
+	public void testApply() throws GameActionFailedException
+	{
+		this.actionRefuseReward.apply();
+	}
+
 	@After
 	public void tearDown()
 	{

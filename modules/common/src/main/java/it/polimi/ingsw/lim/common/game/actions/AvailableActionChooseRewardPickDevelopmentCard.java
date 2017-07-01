@@ -5,10 +5,11 @@ import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AvailableActionChooseRewardPickDevelopmentCard extends AvailableAction
+public class AvailableActionChooseRewardPickDevelopmentCard implements Serializable
 {
 	private final CardType cardType;
 	private final Row row;

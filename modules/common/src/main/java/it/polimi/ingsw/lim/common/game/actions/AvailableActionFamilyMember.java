@@ -2,7 +2,9 @@ package it.polimi.ingsw.lim.common.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 
-public class AvailableActionFamilyMember extends AvailableAction
+import java.io.Serializable;
+
+public class AvailableActionFamilyMember implements Serializable
 {
 	private final FamilyMemberType familyMemberType;
 

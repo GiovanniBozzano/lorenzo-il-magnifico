@@ -50,6 +50,12 @@ public class ActionHarvestTest
 		this.actionHarvest.isLegal();
 	}
 
+	@Test
+	public void testApply() throws GameActionFailedException
+	{
+		this.actionHarvest.apply();
+	}
+
 	@After
 	public void tearDown()
 	{

@@ -3,10 +3,10 @@ package it.polimi.ingsw.lim.common.network.socket.packets.server;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.game.GameInformations;
-import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 
+import java.io.Serializable;
 import java.util.*;
 
 public class PacketGameUpdate extends Packet
@@ -14,9 +14,9 @@ public class PacketGameUpdate extends Packet
 	private final GameInformations gameInformations;
 	private final List<PlayerInformations> playersInformations;
 	private final Map<Integer, Boolean> ownLeaderCardsHand;
-	private final Map<ActionType, List<AvailableAction>> availableActions;
+	private final Map<ActionType, List<Serializable>> availableActions;
 
-	public PacketGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<AvailableAction>> availableActions)
+	public PacketGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<Serializable>> availableActions)
 	{
 		super(PacketType.GAME_UPDATE);
 		this.gameInformations = gameInformations;
@@ -40,7 +40,7 @@ public class PacketGameUpdate extends Packet
 		return this.ownLeaderCardsHand;
 	}
 
-	public Map<ActionType, List<AvailableAction>> getAvailableActions()
+	public Map<ActionType, List<Serializable>> getAvailableActions()
 	{
 		return this.availableActions;
 	}

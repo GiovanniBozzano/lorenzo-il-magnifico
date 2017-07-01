@@ -36,6 +36,7 @@ import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.QueryArgument;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -934,9 +935,9 @@ public class GameHandler
 		return leaderCardsHand;
 	}
 
-	public Map<ActionType, List<AvailableAction>> generateAvailableActions(Player player)
+	public Map<ActionType, List<Serializable>> generateAvailableActions(Player player)
 	{
-		Map<ActionType, List<AvailableAction>> availableActions = new EnumMap<>(ActionType.class);
+		Map<ActionType, List<Serializable>> availableActions = new EnumMap<>(ActionType.class);
 		availableActions.put(ActionType.COUNCIL_PALACE, new ArrayList<>());
 		availableActions.put(ActionType.HARVEST, new ArrayList<>());
 		availableActions.put(ActionType.MARKET, new ArrayList<>());
@@ -1114,11 +1115,6 @@ public class GameHandler
 	public Player getTurnPlayer()
 	{
 		return this.turnPlayer;
-	}
-
-	public void setTurnPlayer(Player turnPlayer)
-	{
-		this.turnPlayer = turnPlayer;
 	}
 
 	public Period getCurrentPeriod()

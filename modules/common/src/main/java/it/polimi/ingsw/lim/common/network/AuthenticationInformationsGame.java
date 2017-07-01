@@ -3,11 +3,11 @@ package it.polimi.ingsw.lim.common.network;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.GameInformations;
-import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 
+import java.io.Serializable;
 import java.util.*;
 
 public class AuthenticationInformationsGame extends AuthenticationInformations
@@ -21,7 +21,7 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 	private List<PlayerInformations> playersInformations;
 	private Map<Integer, Boolean> ownLeaderCardsHand;
 	private int turnPlayerIndex;
-	private Map<ActionType, List<AvailableAction>> availableActions;
+	private Map<ActionType, List<Serializable>> availableActions;
 
 	public Map<Period, Integer> getExcommunicationTiles()
 	{
@@ -113,12 +113,12 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 		this.turnPlayerIndex = turnPlayerIndex;
 	}
 
-	public Map<ActionType, List<AvailableAction>> getAvailableActions()
+	public Map<ActionType, List<Serializable>> getAvailableActions()
 	{
 		return this.availableActions;
 	}
 
-	public void setAvailableActions(Map<ActionType, List<AvailableAction>> availableActions)
+	public void setAvailableActions(Map<ActionType, List<Serializable>> availableActions)
 	{
 		this.availableActions = new EnumMap<>(availableActions);
 	}

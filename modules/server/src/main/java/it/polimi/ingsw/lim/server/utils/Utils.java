@@ -10,6 +10,7 @@ import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.*;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
+import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
@@ -308,10 +309,25 @@ public class Utils
 
 	public static void checkAvailableProductionCards(Player player)
 	{
-		List<Integer> availableCards = new ArrayList<>();
+		Map<Integer, List<ResourceTradeOption>> availableCards = new HashMap<>();
 		for (DevelopmentCardBuilding developmentCardBuilding : player.getPlayerCardHandler().getDevelopmentCards(CardType.BUILDING, DevelopmentCardBuilding.class)) {
 			if (developmentCardBuilding.getActivationValue() <= player.getCurrentProductionValue()) {
-				availableCards.add(developmentCardBuilding.getIndex());
+				List<ResourceTradeOption> availableResourceTradeOptions = new ArrayList<>();
+				for (ResourceTradeOption resourceTradeOption : developmentCardBuilding.getResourceTradeOptions()) {
+					boolean availableResourceTradeOption = true;
+					for (ResourceAmount resourceAmount : resourceTradeOption.getEmployedResources()) {
+						if (player.getPlayerResourceHandler().getResources().get(resourceAmount.getResourceType()) >= resourceAmount.getAmount()) {
+							availableResourceTradeOption = false;
+							break;
+						}
+					}
+					if (availableResourceTradeOption) {
+						availableResourceTradeOptions.add(resourceTradeOption);
+					}
+				}
+				if (!availableResourceTradeOptions.isEmpty()) {
+					availableCards.put(developmentCardBuilding.getIndex(), availableResourceTradeOptions);
+				}
 			}
 		}
 		if (availableCards.isEmpty()) {

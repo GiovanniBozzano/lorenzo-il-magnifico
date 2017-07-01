@@ -15,8 +15,7 @@ import java.util.Collections;
 
 public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard implements IAction
 {
-	private transient final Player player;
-	private transient LeaderCard leaderCard;
+	private final transient Player player;
 
 	public ActionLeaderDiscard(int leaderCardIndex, Player player)
 	{
@@ -36,20 +35,19 @@ public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard impleme
 			throw new GameActionFailedException("This action was not expected");
 		}
 		// check if the player has the leader card
-		boolean owned = false;
+		LeaderCard leaderCard = null;
 		for (LeaderCard currentLeaderCard : this.player.getPlayerCardHandler().getLeaderCards()) {
 			if (this.getLeaderCardIndex() != currentLeaderCard.getIndex()) {
 				continue;
 			}
-			this.leaderCard = currentLeaderCard;
-			owned = true;
+			leaderCard = currentLeaderCard;
 			break;
 		}
-		if (!owned) {
+		if (leaderCard == null) {
 			throw new GameActionFailedException("The Player does not have this Leader Card");
 		}
 		// check if the leader card has been played
-		if (this.leaderCard.isPlayed()) {
+		if (leaderCard.isPlayed()) {
 			throw new GameActionFailedException("This Leader Card has already been played");
 		}
 	}
@@ -58,7 +56,18 @@ public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard impleme
 	public void apply() throws GameActionFailedException
 	{
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.LEADER);
-		this.player.getPlayerCardHandler().getLeaderCards().remove(this.leaderCard);
+		LeaderCard leaderCard = null;
+		for (LeaderCard currentLeaderCard : this.player.getPlayerCardHandler().getLeaderCards()) {
+			if (this.getLeaderCardIndex() != currentLeaderCard.getIndex()) {
+				continue;
+			}
+			leaderCard = currentLeaderCard;
+			break;
+		}
+		if (leaderCard == null) {
+			throw new GameActionFailedException("The Player does not have this Leader Card");
+		}
+		this.player.getPlayerCardHandler().getLeaderCards().remove(leaderCard);
 		EventGainResources eventGainResources = new EventGainResources(this.player, Collections.singletonList(new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, 1)), ResourcesSource.LEADER_CARDS);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());

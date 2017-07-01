@@ -17,7 +17,7 @@ import java.util.Set;
 
 public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChooseRewardCouncilPrivilege implements IAction
 {
-	private transient final Player player;
+	private final transient Player player;
 
 	public ActionChooseRewardCouncilPrivilege(List<Integer> councilPalaceRewardIndexes, Player player)
 	{

@@ -24,7 +24,7 @@ import java.util.List;
 
 public class ActionHarvest extends ActionInformationsHarvest implements IAction
 {
-	private transient final Player player;
+	private final transient Player player;
 	private transient WorkSlotType workSlotType;
 	private transient int effectiveActionValue;
 

@@ -3,13 +3,13 @@ package it.polimi.ingsw.lim.client.game;
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.GameInformations;
-import it.polimi.ingsw.lim.common.game.actions.AvailableAction;
 import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.*;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -39,7 +39,7 @@ public class GameStatus
 	private final Map<Period, List<Integer>> currentExcommunicatedPlayers = new EnumMap<>(Period.class);
 	private final Map<Integer, Boolean> currentOwnLeaderCardsHand = new HashMap<>();
 	private int currentTurnPlayerIndex = -1;
-	private final Map<ActionType, List<AvailableAction>> currentAvailableActions = new EnumMap<>(ActionType.class);
+	private final Map<ActionType, List<Serializable>> currentAvailableActions = new EnumMap<>(ActionType.class);
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private final List<Integer> availableLeaderCards = new ArrayList<>();
 
@@ -311,12 +311,12 @@ public class GameStatus
 		this.currentTurnPlayerIndex = currentTurnPlayerIndex;
 	}
 
-	public Map<ActionType, List<AvailableAction>> getCurrentAvailableActions()
+	public Map<ActionType, List<Serializable>> getCurrentAvailableActions()
 	{
 		return this.currentAvailableActions;
 	}
 
-	public void setCurrentAvailableActions(Map<ActionType, List<AvailableAction>> currentAvailableActions)
+	public void setCurrentAvailableActions(Map<ActionType, List<Serializable>> currentAvailableActions)
 	{
 		this.currentAvailableActions.clear();
 		this.currentAvailableActions.putAll(currentAvailableActions);

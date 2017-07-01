@@ -1,6 +1,8 @@
 package it.polimi.ingsw.lim.common.game.actions;
 
-public class AvailableActionLeaderDiscard extends AvailableAction
+import java.io.Serializable;
+
+public class AvailableActionLeaderDiscard implements Serializable
 {
 	private final int leaderCardIndex;
 

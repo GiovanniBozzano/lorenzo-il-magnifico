@@ -16,13 +16,18 @@ public interface IClientSession extends Remote
 
 	void sendChatMessage(String text) throws RemoteException;
 
+	@SuppressWarnings("squid:S1160")
 	void sendGamePersonalBonusTilePlayerChoice(int personalBonusTileIndex) throws RemoteException, GameActionFailedException;
 
+	@SuppressWarnings("squid:S1160")
 	void sendGameLeaderCardPlayerChoice(int leaderCardIndex) throws RemoteException, GameActionFailedException;
 
+	@SuppressWarnings("squid:S1160")
 	void sendGameExcommunicationPlayerChoice(boolean excommunicated) throws RemoteException, GameActionFailedException;
 
+	@SuppressWarnings("squid:S1160")
 	void sendGameAction(ActionInformations action) throws RemoteException, GameActionFailedException;
 
+	@SuppressWarnings("squid:S1160")
 	void sendGoodGame(int playerIndex) throws RemoteException, GameActionFailedException;
 }

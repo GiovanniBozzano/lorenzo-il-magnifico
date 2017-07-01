@@ -16,8 +16,7 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 
 public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IAction
 {
-	private transient final Player player;
-	private transient LeaderCard leaderCard;
+	private final transient Player player;
 
 	public ActionLeaderPlay(int leaderCardIndex, Player player)
 	{
@@ -37,27 +36,26 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			throw new GameActionFailedException("This action was not expected");
 		}
 		// check if the player has the leader card
-		boolean owned = false;
+		LeaderCard leaderCard = null;
 		for (LeaderCard currentLeaderCard : this.player.getPlayerCardHandler().getLeaderCards()) {
 			if (this.getLeaderCardIndex() == currentLeaderCard.getIndex()) {
-				this.leaderCard = currentLeaderCard;
-				owned = true;
+				leaderCard = currentLeaderCard;
 				break;
 			}
 		}
-		if (!owned) {
+		if (leaderCard == null) {
 			throw new GameActionFailedException("Player doesn't have this Leader Card");
 		}
 		// check if the player's resources are enough
-		if (this.leaderCard.getConditionsOptions().isEmpty()) {
+		if (leaderCard.getConditionsOptions().isEmpty()) {
 			return;
 		}
-		if (this.leaderCard.getIndex() == 14) {
+		if (leaderCard.getIndex() == 14) {
 			boolean availableCardsToCopy = false;
 			for (Player otherPlayer : this.player.getRoom().getGameHandler().getTurnOrder()) {
 				if (otherPlayer != this.player) {
-					for (LeaderCard leaderCard : otherPlayer.getPlayerCardHandler().getLeaderCards()) {
-						if (leaderCard.isPlayed()) {
+					for (LeaderCard currentLeaderCard : otherPlayer.getPlayerCardHandler().getLeaderCards()) {
+						if (currentLeaderCard.isPlayed()) {
 							availableCardsToCopy = true;
 							break;
 						}
@@ -71,7 +69,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 				throw new GameActionFailedException("No other Leader Cards are available");
 			}
 		}
-		for (LeaderCardConditionsOption leaderCardConditionsOption : this.leaderCard.getConditionsOptions()) {
+		for (LeaderCardConditionsOption leaderCardConditionsOption : leaderCard.getConditionsOptions()) {
 			boolean availableConditionOption = true;
 			if (leaderCardConditionsOption.getResourceAmounts() != null) {
 				for (ResourceAmount requiredResources : leaderCardConditionsOption.getResourceAmounts()) {
@@ -102,21 +100,31 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 	public void apply() throws GameActionFailedException
 	{
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.LEADER);
+		LeaderCard leaderCard = null;
+		for (LeaderCard currentLeaderCard : this.player.getPlayerCardHandler().getLeaderCards()) {
+			if (this.getLeaderCardIndex() == currentLeaderCard.getIndex()) {
+				leaderCard = currentLeaderCard;
+				break;
+			}
+		}
+		if (leaderCard == null) {
+			throw new GameActionFailedException("Player doesn't have this Leader Card");
+		}
 		// check Lorenzo Il Magnifico
-		if (this.leaderCard.getIndex() == 14) {
-			this.player.setCurrentActionReward(((LeaderCardReward) this.leaderCard).getReward().getActionReward());
-			this.player.getRoom().getGameHandler().setExpectedAction(((LeaderCardReward) this.leaderCard).getReward().getActionReward().getRequestedAction());
-			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) this.leaderCard).getReward().getActionReward().createExpectedAction(this.player));
+		if (leaderCard.getIndex() == 14) {
+			this.player.setCurrentActionReward(((LeaderCardReward) leaderCard).getReward().getActionReward());
+			this.player.getRoom().getGameHandler().setExpectedAction(((LeaderCardReward) leaderCard).getReward().getActionReward().getRequestedAction());
+			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward().createExpectedAction(this.player));
 			return;
 		}
-		if (this.leaderCard instanceof LeaderCardModifier) {
-			this.player.getActiveModifiers().add(((LeaderCardModifier) this.leaderCard).getModifier());
+		if (leaderCard instanceof LeaderCardModifier) {
+			this.player.getActiveModifiers().add(((LeaderCardModifier) leaderCard).getModifier());
 		} else {
-			((LeaderCardReward) this.leaderCard).setActivated(true);
-			EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) this.leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
+			((LeaderCardReward) leaderCard).setActivated(true);
+			EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 			eventGainResources.applyModifiers(this.player.getActiveModifiers());
 			this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-			if (Utils.sendActionReward(this.player, ((LeaderCardReward) this.leaderCard).getReward().getActionReward())) {
+			if (Utils.sendActionReward(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward())) {
 				return;
 			}
 			if (Utils.sendCouncilPrivileges(this.player)) {

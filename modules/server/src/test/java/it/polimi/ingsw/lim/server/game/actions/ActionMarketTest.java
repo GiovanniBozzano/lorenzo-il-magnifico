@@ -49,6 +49,12 @@ public class ActionMarketTest
 		this.actionMarket.isLegal();
 	}
 
+	@Test
+	public void testApply() throws GameActionFailedException
+	{
+		this.actionMarket.apply();
+	}
+
 	@After
 	public void tearDown()
 	{

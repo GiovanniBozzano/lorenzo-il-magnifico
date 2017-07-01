@@ -56,7 +56,7 @@ public class Utils
 		Utils.DICES_FAMILY_MEMBER_TYPES_TEXTURES.put(6, dice6FamilyMemberTypes);
 	}
 
-	private static final Map<FamilyMemberType, String> FAMILY_MEMBER_TYPES_TEXTURES = new HashMap<>();
+	private static final Map<FamilyMemberType, String> FAMILY_MEMBER_TYPES_TEXTURES = new EnumMap<>(FamilyMemberType.class);
 
 	static {
 		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.BLACK, "/images/icons/action_family_member_type_black.png");

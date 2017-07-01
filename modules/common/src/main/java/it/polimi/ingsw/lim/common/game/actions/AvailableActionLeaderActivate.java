@@ -1,6 +1,8 @@
 package it.polimi.ingsw.lim.common.game.actions;
 
-public class AvailableActionLeaderActivate extends AvailableAction
+import java.io.Serializable;
+
+public class AvailableActionLeaderActivate implements Serializable
 {
 	private final int leaderCardIndex;
 
