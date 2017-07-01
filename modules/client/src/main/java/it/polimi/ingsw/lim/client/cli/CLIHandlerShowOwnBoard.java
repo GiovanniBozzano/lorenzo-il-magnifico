@@ -76,9 +76,11 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		int index = 0;
 		for (int value : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getDevelopmentCards().get(CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input)))) {
 			index++;
-			Client.getLogger().log(Level.INFO, "{0}===========", new Object[] { index });
+			stringBuilder.append(index);
+			stringBuilder.append("===========\n");
 			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input))).get(value).getInformations());
 		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private void askOwnInformation()

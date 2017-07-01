@@ -19,7 +19,7 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 
 	static {
 		ACTION_NAMES.put(CLIStatus.SHOW_DEVELOPMENT_CARDS, "Show Development Cards");
-		ACTION_NAMES.put(CLIStatus.SHOW_LEADERS, "Show Leaders");
+		ACTION_NAMES.put(CLIStatus.SHOW_OWN_LEADERS, "Show Leaders");
 		ACTION_NAMES.put(CLIStatus.COUNCIL_PALACE, "Council Palace");
 		ACTION_NAMES.put(CLIStatus.HARVEST, "Harvest");
 		ACTION_NAMES.put(CLIStatus.MARKET, "Market");
@@ -36,7 +36,7 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 	public void execute()
 	{
 		this.availableActions.put(1, CLIStatus.SHOW_DEVELOPMENT_CARDS);
-		this.availableActions.put(2, CLIStatus.SHOW_LEADERS);
+		this.availableActions.put(2, CLIStatus.SHOW_OWN_LEADERS);
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty()) {
 			this.availableActions.put(3, CLIStatus.COUNCIL_PALACE);
 		}
