@@ -11,6 +11,7 @@ import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.player.Player;
+import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
@@ -60,6 +61,7 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 	@Override
 	public void apply() throws GameActionFailedException
 	{
+		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.FAMILY_MEMBER);
 		if (!this.player.getRoom().getGameHandler().getBoardHandler().getCouncilPalaceOrder().contains(this.player)) {
 			this.player.getRoom().getGameHandler().getBoardHandler().getCouncilPalaceOrder().add(this.player);
 		}

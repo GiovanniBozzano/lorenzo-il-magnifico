@@ -36,15 +36,15 @@ public class PlayerResourceHandler
 
 	PlayerResourceHandler(int resourcesServant, int resourcesStone, int resourcesWood)
 	{
-		this.resources.put(ResourceType.COIN, 0);
+		this.resources.put(ResourceType.COIN, 100);
 		this.resources.put(ResourceType.COUNCIL_PRIVILEGE, 0);
 		this.resources.put(ResourceType.FAITH_POINT, 0);
 		this.resources.put(ResourceType.MILITARY_POINT, 0);
 		this.resources.put(ResourceType.PRESTIGE_POINT, 0);
-		this.resources.put(ResourceType.SERVANT, resourcesServant);
-		this.resources.put(ResourceType.STONE, resourcesStone);
+		this.resources.put(ResourceType.SERVANT, 100);
+		this.resources.put(ResourceType.STONE, 100);
 		this.resources.put(ResourceType.VICTORY_POINT, 0);
-		this.resources.put(ResourceType.WOOD, resourcesWood);
+		this.resources.put(ResourceType.WOOD, 100);
 		for (ResourceType resourceType : ResourceType.values()) {
 			this.temporaryResources.put(resourceType, 0);
 		}

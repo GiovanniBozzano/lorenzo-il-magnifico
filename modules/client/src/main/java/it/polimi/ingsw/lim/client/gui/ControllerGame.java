@@ -2391,7 +2391,6 @@ public class ControllerGame extends CustomController
 				councilPalaceRewardsAnchorPanes.add(anchorPane);
 				Text text = new Text();
 				text.setText(this.getResourcesInformations(councilPalaceReward.getValue()));
-				anchorPane.getChildren().add(text);
 				int currentCouncilPrivilegeIndex = councilPrivilegeIndex;
 				AnchorPane.setTopAnchor(text, 0.0);
 				AnchorPane.setBottomAnchor(text, 0.0);

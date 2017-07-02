@@ -760,6 +760,7 @@ public class GameHandler
 
 	public void sendGameUpdate(Player player)
 	{
+		this.timerExecutor.shutdownNow();
 		this.timer = ServerSettings.getInstance().getGameActionTimer();
 		for (Player otherPlayer : this.turnOrder) {
 			if (otherPlayer.isOnline()) {
@@ -1033,6 +1034,29 @@ public class GameHandler
 				availableActions.get(ActionType.PRODUCTION_START).add(new AvailableActionFamilyMember(familyMemberType));
 			} catch (GameActionFailedException exception) {
 				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+		}
+		for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {
+			if (leaderCard.isPlayed()) {
+				try {
+					new ActionLeaderActivate(leaderCard.getIndex(), player).isLegal();
+					availableActions.get(ActionType.LEADER_ACTIVATE).add(new AvailableActionLeaderActivate(leaderCard.getIndex()));
+				} catch (GameActionFailedException exception) {
+					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				}
+			} else {
+				try {
+					new ActionLeaderDiscard(leaderCard.getIndex(), player).isLegal();
+					availableActions.get(ActionType.LEADER_DISCARD).add(new AvailableActionLeaderDiscard(leaderCard.getIndex()));
+				} catch (GameActionFailedException exception) {
+					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				}
+				try {
+					new ActionLeaderPlay(leaderCard.getIndex(), player).isLegal();
+					availableActions.get(ActionType.LEADER_PLAY).add(new AvailableActionLeaderPlay(leaderCard.getIndex()));
+				} catch (GameActionFailedException exception) {
+					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				}
 			}
 		}
 		return availableActions;
