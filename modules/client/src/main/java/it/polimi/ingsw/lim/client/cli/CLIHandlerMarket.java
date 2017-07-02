@@ -59,7 +59,7 @@ public class CLIHandlerMarket implements ICLIHandler
 				index++;
 			}
 		}
-		Client.getLogger().log(Level.INFO, stringBuilder.toString());
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private void askMarketSlot()
