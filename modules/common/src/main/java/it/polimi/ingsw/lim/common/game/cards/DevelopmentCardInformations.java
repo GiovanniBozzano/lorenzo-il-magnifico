@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.common.game.cards;
 
-import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.RewardInformations;
@@ -11,14 +10,12 @@ import java.util.List;
 
 public abstract class DevelopmentCardInformations extends CardInformations
 {
-	private final CardType cardType;
 	private final List<ResourceCostOption> resourceCostOptions;
 	private final RewardInformations reward;
 
-	DevelopmentCardInformations(String texturePath, String displayName, CardType cardType, List<ResourceCostOption> resourceCostOptions, RewardInformations reward)
+	DevelopmentCardInformations(String texturePath, String displayName, List<ResourceCostOption> resourceCostOptions, RewardInformations reward)
 	{
 		super(texturePath, displayName);
-		this.cardType = cardType;
 		this.resourceCostOptions = new ArrayList<>(resourceCostOptions);
 		this.reward = reward;
 	}
@@ -73,20 +70,5 @@ public abstract class DevelopmentCardInformations extends CardInformations
 			stringBuilder.append(this.reward.getActionRewardInformations().replace("\n", "\n| "));
 		}
 		return stringBuilder.toString();
-	}
-
-	public CardType getCardType()
-	{
-		return this.cardType;
-	}
-
-	public List<ResourceCostOption> getResourceCostOptions()
-	{
-		return this.resourceCostOptions;
-	}
-
-	public RewardInformations getReward()
-	{
-		return this.reward;
 	}
 }

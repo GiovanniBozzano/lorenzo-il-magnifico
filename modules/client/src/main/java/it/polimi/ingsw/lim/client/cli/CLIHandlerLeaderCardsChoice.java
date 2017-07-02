@@ -3,9 +3,6 @@ package it.polimi.ingsw.lim.client.cli;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardModifierInformations;
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardRewardInformations;
-import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.HashMap;
@@ -20,9 +17,6 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 	@Override
 	public void execute()
 	{
-		for (int index = 0; index < GameStatus.getInstance().getAvailableLeaderCards().size(); index++) {
-			this.leaderCards.put(index + 1, GameStatus.getInstance().getAvailableLeaderCards().get(index));
-		}
 		this.showLeaderCards();
 		this.askLeaderCardsIndex();
 	}
@@ -35,37 +29,17 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 
 	private void showLeaderCards()
 	{
+		for (int index = 0; index < GameStatus.getInstance().getAvailableLeaderCards().size(); index++) {
+			this.leaderCards.put(index + 1, GameStatus.getInstance().getAvailableLeaderCards().get(index));
+		}
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Enter Leader Card choice...");
-		for (Entry<Integer, Integer> currentLeaderCard : this.leaderCards.entrySet()) {
+		for (Entry<Integer, Integer> leaderCard : this.leaderCards.entrySet()) {
 			stringBuilder.append('\n');
 			stringBuilder.append("============= ");
-			stringBuilder.append(currentLeaderCard.getKey());
+			stringBuilder.append(leaderCard.getKey());
 			stringBuilder.append(" =============\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue()).getDisplayName());
-			stringBuilder.append("\n\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue()).getDescription());
-			stringBuilder.append("\n\n");
-			if (GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue()) instanceof LeaderCardModifierInformations) {
-				stringBuilder.append("PERMANENT ABILITY:\n");
-				stringBuilder.append(((LeaderCardModifierInformations) GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue())).getModifier());
-			} else {
-				stringBuilder.append("ONCE PER ROUND ABILITY:");
-				if (!((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue())).getReward().getResourceAmounts().isEmpty()) {
-					stringBuilder.append("\n\nInstant resources:");
-				}
-				for (ResourceAmount resourceAmount : ((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue())).getReward().getResourceAmounts()) {
-					stringBuilder.append('\n');
-					stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-					stringBuilder.append(": ");
-					stringBuilder.append(resourceAmount.getAmount());
-				}
-				if (((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue())).getReward().getActionRewardInformations() != null) {
-					stringBuilder.append("\n\nAction reward:");
-					stringBuilder.append('\n');
-					stringBuilder.append(((LeaderCardRewardInformations) GameStatus.getInstance().getLeaderCards().get(currentLeaderCard.getValue())).getReward().getActionRewardInformations());
-				}
-			}
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getValue()).getInformations());
 			stringBuilder.append("\n=============================");
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });

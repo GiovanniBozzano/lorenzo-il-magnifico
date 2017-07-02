@@ -31,16 +31,25 @@ public class CLIHandlerLeaderActivate implements ICLIHandler
 
 	private void showPlayedLeaderCards()
 	{
-		int index = 0;
 		Client.getLogger().log(Level.INFO, "Enter Activate Leader Card choice...");
+		StringBuilder stringBuilder = new StringBuilder();
+		int index = 1;
+		boolean firstLine = true;
 		for (int leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().keySet()) {
 			if (GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().get(leaderCard)) {
-				index++;
+				if (!firstLine) {
+					stringBuilder.append('\n');
+				} else {
+					firstLine = false;
+				}
 				this.leaderCards.put(index, leaderCard);
-				Client.getLogger().log(Level.INFO, "{0}===", new Object[] { index });
-				Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName() });
+				stringBuilder.append(index);
+				stringBuilder.append(" ========\n");
+				stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName());
+				index++;
 			}
 		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private void askActivateLeaderCardIndex()

@@ -98,7 +98,7 @@ public abstract class Connection
 
 	public abstract void sendDisconnectionLogMessage(String text);
 
-	public abstract void sendChatMessage(String text);
+	protected abstract void sendChatMessage(String text);
 
 	public abstract void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, List<ResourceAmount>> councilPalaceRewards, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex);
 

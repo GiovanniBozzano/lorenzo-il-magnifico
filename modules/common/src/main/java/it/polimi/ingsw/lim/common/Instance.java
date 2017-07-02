@@ -1,7 +1,5 @@
 package it.polimi.ingsw.lim.common;
 
-import it.polimi.ingsw.lim.common.cli.ICLIHandler;
-
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,7 +12,6 @@ public abstract class Instance
 	private static Instance instance;
 	private final ExecutorService cliListener = Executors.newSingleThreadExecutor();
 	private final Scanner cliScanner = new Scanner(System.in);
-	private ICLIHandler currentCliHandler;
 
 	public abstract void stop();
 
@@ -56,15 +53,5 @@ public abstract class Instance
 	public Scanner getCliScanner()
 	{
 		return this.cliScanner;
-	}
-
-	public ICLIHandler getCurrentCliHandler()
-	{
-		return this.currentCliHandler;
-	}
-
-	public void setCurrentCliHandler(ICLIHandler currentCliHandler)
-	{
-		this.currentCliHandler = currentCliHandler;
 	}
 }

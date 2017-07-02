@@ -215,7 +215,8 @@ public abstract class ConnectionHandler extends Thread
 	{
 		GameStatus.getInstance().setCurrentTurnPlayerIndex(GameStatus.getInstance().getOwnPlayerIndex());
 		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
-		Client.getInstance().getInterfaceHandler().handleGameUpdateExpectedAction(expectedAction);
+		GameStatus.getInstance().setCurrentExpectedAction(expectedAction);
+		Client.getInstance().getInterfaceHandler().handleGameUpdateExpectedAction();
 	}
 
 	public void handleGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)

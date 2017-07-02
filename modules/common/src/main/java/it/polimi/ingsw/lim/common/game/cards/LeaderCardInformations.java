@@ -13,7 +13,7 @@ public abstract class LeaderCardInformations extends CardInformations
 	private final List<LeaderCardConditionsOption> conditionsOptions;
 	private final String description;
 
-	public LeaderCardInformations(String texturePath, String displayName, String description, List<LeaderCardConditionsOption> conditionsOptions)
+	LeaderCardInformations(String texturePath, String displayName, String description, List<LeaderCardConditionsOption> conditionsOptions)
 	{
 		super(texturePath, displayName);
 		this.conditionsOptions = new ArrayList<>(conditionsOptions);
@@ -51,15 +51,5 @@ public abstract class LeaderCardInformations extends CardInformations
 		}
 		stringBuilder.append("\n\n");
 		return stringBuilder.toString();
-	}
-
-	public List<LeaderCardConditionsOption> getConditionsOptions()
-	{
-		return this.conditionsOptions;
-	}
-
-	public String getDescription()
-	{
-		return this.description;
 	}
 }

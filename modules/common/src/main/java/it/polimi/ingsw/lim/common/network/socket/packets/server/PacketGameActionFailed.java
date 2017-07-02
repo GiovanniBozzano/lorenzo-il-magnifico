@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 
 public class PacketGameActionFailed extends Packet
 {
-	private String text;
+	private final String text;
 
 	public PacketGameActionFailed(String text)
 	{

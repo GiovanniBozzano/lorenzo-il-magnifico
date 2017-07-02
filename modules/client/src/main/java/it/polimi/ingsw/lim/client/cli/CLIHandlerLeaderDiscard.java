@@ -20,7 +20,6 @@ public class CLIHandlerLeaderDiscard implements ICLIHandler
 	{
 		this.showHandLeaderCards();
 		this.askDiscardLeaderCardIndex();
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderDiscard(this.leaderCardIndex));
 	}
 
 	@Override
@@ -31,14 +30,23 @@ public class CLIHandlerLeaderDiscard implements ICLIHandler
 
 	private void showHandLeaderCards()
 	{
-		int index = 0;
 		Client.getLogger().log(Level.INFO, "Enter Discard Leader Card choice...");
+		StringBuilder stringBuilder = new StringBuilder();
+		int index = 1;
+		boolean firstLine = true;
 		for (int leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
-			index++;
+			if (!firstLine) {
+				stringBuilder.append('\n');
+			} else {
+				firstLine = false;
+			}
 			this.leaderCards.put(index, leaderCard);
-			Client.getLogger().log(Level.INFO, "{0}===", new Object[] { index });
-			Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName() });
+			stringBuilder.append(index);
+			stringBuilder.append(" ========\n");
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName());
+			index++;
 		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private void askDiscardLeaderCardIndex()
@@ -48,6 +56,6 @@ public class CLIHandlerLeaderDiscard implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || !this.leaderCards.containsKey(Integer.parseInt(input)));
-		this.leaderCardIndex = this.leaderCards.get(Integer.parseInt(input));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderDiscard(this.leaderCards.get(Integer.parseInt(input))));
 	}
 }

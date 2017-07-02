@@ -20,7 +20,6 @@ public class CLIHandlerLeaderPlay implements ICLIHandler
 	{
 		this.showHandLeaderCards();
 		this.askPlayLeaderCardIndex();
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderPlay(this.leaderCardIndex));
 	}
 
 	@Override
@@ -31,16 +30,25 @@ public class CLIHandlerLeaderPlay implements ICLIHandler
 
 	private void showHandLeaderCards()
 	{
-		int index = 0;
 		Client.getLogger().log(Level.INFO, "Enter Play Leader Card choice...");
+		StringBuilder stringBuilder = new StringBuilder();
+		int index = 1;
+		boolean firstLine = true;
 		for (int leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
 			if (GameStatus.getInstance().getCurrentOwnLeaderCardsHand().get(leaderCard)) {
-				index++;
+				if (!firstLine) {
+					stringBuilder.append('\n');
+				} else {
+					firstLine = false;
+				}
 				this.leaderCards.put(index, leaderCard);
-				Client.getLogger().log(Level.INFO, "{0}===", new Object[] { index });
-				Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName() });
+				stringBuilder.append(index);
+				stringBuilder.append(" ========\n");
+				stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName());
+				index++;
 			}
 		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private void askPlayLeaderCardIndex()
@@ -50,6 +58,6 @@ public class CLIHandlerLeaderPlay implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || !this.leaderCards.containsKey(Integer.parseInt(input)));
-		this.leaderCardIndex = this.leaderCards.get(Integer.parseInt(input));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderPlay(this.leaderCards.get(Integer.parseInt(input))));
 	}
 }

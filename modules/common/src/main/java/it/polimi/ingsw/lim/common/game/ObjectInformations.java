@@ -6,7 +6,7 @@ public class ObjectInformations implements Serializable
 {
 	private final String texturePath;
 
-	public ObjectInformations(String texturePath)
+	protected ObjectInformations(String texturePath)
 	{
 		this.texturePath = texturePath;
 	}

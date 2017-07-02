@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.client.game;
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
 import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
 import it.polimi.ingsw.lim.common.game.cards.*;
@@ -41,6 +42,7 @@ public class GameStatus
 	private final Map<Integer, Boolean> currentOwnLeaderCardsHand = new HashMap<>();
 	private int currentTurnPlayerIndex = -1;
 	private final Map<ActionType, List<Serializable>> currentAvailableActions = new EnumMap<>(ActionType.class);
+	private ExpectedAction currentExpectedAction;
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private final List<Integer> availableLeaderCards = new ArrayList<>();
 
@@ -321,6 +323,16 @@ public class GameStatus
 	{
 		this.currentAvailableActions.clear();
 		this.currentAvailableActions.putAll(currentAvailableActions);
+	}
+
+	public ExpectedAction getCurrentExpectedAction()
+	{
+		return this.currentExpectedAction;
+	}
+
+	public void setCurrentExpectedAction(ExpectedAction currentExpectedAction)
+	{
+		this.currentExpectedAction = currentExpectedAction;
 	}
 
 	public List<Integer> getAvailablePersonalBonusTiles()

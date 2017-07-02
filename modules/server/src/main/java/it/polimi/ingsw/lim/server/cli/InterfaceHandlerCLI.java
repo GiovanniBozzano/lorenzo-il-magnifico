@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.server.cli;
 
-import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.server.IInterfaceHandler;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.enums.CLIStatus;
@@ -13,11 +12,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void start()
 	{
-		Server.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance();
-			Server.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
+		Server.getInstance().getCliListener().execute(() -> Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override
@@ -37,22 +32,14 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	{
 		Server.getInstance().getInterfaceHandler().displayToLog("Server waiting on RMI port " + rmiPort + " and Socket port " + socketPort);
 		Server.getInstance().setCliStatus(CLIStatus.MAIN);
-		Server.getInstance().getCliListener().execute(() -> {
-			ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance();
-			Server.getInstance().setCurrentCliHandler(newCliHandler);
-			newCliHandler.execute();
-		});
+		Server.getInstance().getCliListener().execute(() -> Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override
 	public void setupError()
 	{
 		Server.getInstance().getInterfaceHandler().displayToLog("Server setup failed...");
-		Server.getInstance().getCliListener().execute(() -> {
-			ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance();
-			Server.getInstance().setCurrentCliHandler(newCliHandler);
-			newCliHandler.execute();
-		});
+		Server.getInstance().getCliListener().execute(() -> Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override
@@ -65,10 +52,6 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	public void handleCommandExecuted()
 	{
 		Server.getInstance().setCliStatus(CLIStatus.MAIN);
-		Server.getInstance().getCliListener().execute(() -> {
-			ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance();
-			Server.getInstance().setCurrentCliHandler(newCliHandler);
-			newCliHandler.execute();
-		});
+		Server.getInstance().getCliListener().execute(() -> Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance().execute());
 	}
 }

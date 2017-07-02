@@ -29,11 +29,7 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 		});
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(2, cliHandler -> {
 			Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
-			Client.getInstance().getCliListener().execute(() -> {
-				ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-				Client.getInstance().setCurrentCliHandler(newCliHandler);
-				newCliHandler.execute();
-			});
+			Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).execute());
 		});
 	}
 

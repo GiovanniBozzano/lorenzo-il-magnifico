@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client;
 
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
 import javafx.stage.Stage;
@@ -52,7 +51,7 @@ public interface IInterfaceHandler
 
 	void handleGameUpdate();
 
-	void handleGameUpdateExpectedAction(ExpectedAction expectedAction);
+	void handleGameUpdateExpectedAction();
 
 	void handleGameUpdateOtherTurnLog(int turnPlayerIndex);
 

@@ -73,15 +73,17 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			}
 		}
 		// check if the board column is occupied
-		for (Player currentPlayer : this.player.getRoom().getGameHandler().getTurnOrder()) {
-			for (BoardPosition boardPosition : BoardPosition.getDevelopmentCardsColumnPositions(this.getCardType())) {
-				if (currentPlayer.isOccupyingBoardPosition(boardPosition)) {
-					this.columnOccupied = true;
+		if (!eventPlaceFamilyMember.isIgnoreOccupiedTax()) {
+			for (Player currentPlayer : this.player.getRoom().getGameHandler().getTurnOrder()) {
+				for (BoardPosition boardPosition : BoardPosition.getDevelopmentCardsColumnPositions(this.getCardType())) {
+					if (currentPlayer.isOccupyingBoardPosition(boardPosition)) {
+						this.columnOccupied = true;
+						break;
+					}
+				}
+				if (this.columnOccupied) {
 					break;
 				}
-			}
-			if (this.columnOccupied) {
-				break;
 			}
 		}
 		// check if the player has the servants he sent

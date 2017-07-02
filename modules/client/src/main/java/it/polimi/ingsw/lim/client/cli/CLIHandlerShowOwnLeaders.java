@@ -1,11 +1,13 @@
 package it.polimi.ingsw.lim.client.cli;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 public class CLIHandlerShowOwnLeaders implements ICLIHandler
@@ -13,8 +15,8 @@ public class CLIHandlerShowOwnLeaders implements ICLIHandler
 	private static final Map<Integer, Runnable> LEADER_CARDS_CHOICE = new HashMap<>();
 
 	static {
-		LEADER_CARDS_CHOICE.put(1, CLIHandlerShowOwnLeaders::showLeaderCardsChoice);
-		LEADER_CARDS_CHOICE.put(2, CLIHandlerShowOwnLeaders::showLeaderCardsChoice);
+		LEADER_CARDS_CHOICE.put(1, CLIHandlerShowOwnLeaders::showLeaderCardsHand);
+		LEADER_CARDS_CHOICE.put(2, CLIHandlerShowOwnLeaders::showLeaderCardsPlayed);
 	}
 
 	@Override
@@ -42,17 +44,49 @@ public class CLIHandlerShowOwnLeaders implements ICLIHandler
 		CLIHandlerShowOwnLeaders.LEADER_CARDS_CHOICE.get(Integer.parseInt(input)).run();
 	}
 
-	private static void showLeaderCardsChoice()
+	private static void showLeaderCardsHand()
 	{
-		int index = 0;
-		/*for (int leaderCard : chosenLeaderCards.keySet()) {
+		StringBuilder stringBuilder = new StringBuilder();
+		int index = 1;
+		boolean firstLine = true;
+		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().entrySet()) {
+			if (!firstLine) {
+				stringBuilder.append('\n');
+			} else {
+				firstLine = false;
+			}
+			stringBuilder.append(index);
+			stringBuilder.append(" ========\n");
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
+			if (!leaderCard.getValue()) {
+				Client.getLogger().log(Level.INFO, "\nThe current card cannot be played\n");
+				Client.getLogger().log(Level.INFO, "=================================\n");
+			}
 			index++;
-			Client.getLogger().log(Level.INFO, "{0}===", new Object[] { index });
-			Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { GameStatus.getInstance().getLeaderCards().get(leaderCard).getDisplayName() });
-			if (!GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().get(leaderCard)) {
-				Client.getLogger().log(Level.INFO, "The current card cannot be activated\n");
+		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
+	}
+
+	private static void showLeaderCardsPlayed()
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		int index = 1;
+		boolean firstLine = true;
+		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().entrySet()) {
+			if (!firstLine) {
+				stringBuilder.append('\n');
+			} else {
+				firstLine = false;
+			}
+			stringBuilder.append(index);
+			stringBuilder.append(" ========\n");
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
+			if (!leaderCard.getValue()) {
+				Client.getLogger().log(Level.INFO, "\nThe current card cannot be activated\n");
 				Client.getLogger().log(Level.INFO, "====================================\n");
 			}
-		}*/
+			index++;
+		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 }

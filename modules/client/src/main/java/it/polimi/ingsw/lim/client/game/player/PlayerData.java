@@ -13,7 +13,7 @@ public class PlayerData
 	private final List<Integer> developmentCardsCharacter = new ArrayList<>();
 	private final List<Integer> developmentCardsTerritory = new ArrayList<>();
 	private final List<Integer> developmentCardsVenture = new ArrayList<>();
-	private final Map<CardType, List<Integer>> developmentCards = new HashMap<>();
+	private final Map<CardType, List<Integer>> developmentCards = new EnumMap<>(CardType.class);
 	// leaderCardsPlayed boolean = true if the card is a reward leaderCard type and it can be activated
 	private final Map<Integer, Boolean> leaderCardsPlayed = new HashMap<>();
 	private int leaderCardsInHandNumber;
@@ -24,10 +24,10 @@ public class PlayerData
 	{
 		this.username = username;
 		this.color = color;
-		this.developmentCards.put(CardType.BUILDING, developmentCardsBuilding);
-		this.developmentCards.put(CardType.CHARACTER, developmentCardsCharacter);
-		this.developmentCards.put(CardType.TERRITORY, developmentCardsTerritory);
-		this.developmentCards.put(CardType.VENTURE, developmentCardsVenture);
+		this.developmentCards.put(CardType.BUILDING, this.developmentCardsBuilding);
+		this.developmentCards.put(CardType.CHARACTER, this.developmentCardsCharacter);
+		this.developmentCards.put(CardType.TERRITORY, this.developmentCardsTerritory);
+		this.developmentCards.put(CardType.VENTURE, this.developmentCardsVenture);
 	}
 
 	public String getUsername()

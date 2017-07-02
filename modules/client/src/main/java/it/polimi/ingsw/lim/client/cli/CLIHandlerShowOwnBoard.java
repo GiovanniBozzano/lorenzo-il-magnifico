@@ -44,20 +44,51 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		return new CLIHandlerShowOwnLeaders();
 	}
 
+	private void askOwnInformation()
+	{
+		Client.getLogger().log(Level.INFO, "Enter what you want to see...");
+		Client.getLogger().log(Level.INFO, "1 - Own Family Members' Positions");
+		Client.getLogger().log(Level.INFO, "2 - Own Resources");
+		String input;
+		do {
+			input = Client.getInstance().getCliScanner().nextLine();
+		}
+		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnBoard.PLAYER_INFORMATION.containsKey(Integer.parseInt(input)));
+		CLIHandlerShowOwnBoard.PLAYER_INFORMATION.get(Integer.parseInt(input)).run();
+	}
+
 	private static void showPlayerFamilyMembers()
 	{
+		StringBuilder stringBuilder = new StringBuilder();
+		boolean firstLine = true;
 		for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPosition : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getFamilyMembersPositions().entrySet()) {
-			Client.getLogger().log(Level.INFO, "{0}===", new Object[] { familyMemberTypeBoardPosition.getKey().name() });
-			Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { familyMemberTypeBoardPosition.getValue().name() });
+			if (!firstLine) {
+				stringBuilder.append('\n');
+			} else {
+				firstLine = false;
+			}
+			stringBuilder.append(familyMemberTypeBoardPosition.getKey().name());
+			stringBuilder.append(" ===");
+			stringBuilder.append(familyMemberTypeBoardPosition.getValue().name());
 		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private static void showPlayerResources()
 	{
+		StringBuilder stringBuilder = new StringBuilder();
+		boolean firstLine = true;
 		for (Entry<ResourceType, Integer> resourceTypeAmount : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().entrySet()) {
-			Client.getLogger().log(Level.INFO, "{0}=", new Object[] { CommonUtils.getResourcesTypesNames().get(resourceTypeAmount.getKey()) });
-			Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { resourceTypeAmount.getValue() });
+			if (!firstLine) {
+				stringBuilder.append('\n');
+			} else {
+				firstLine = false;
+			}
+			stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceTypeAmount.getKey()));
+			stringBuilder.append(" ===");
+			stringBuilder.append(resourceTypeAmount.getValue());
 		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private static void showPlayerDevelopmentCards()
@@ -73,26 +104,19 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.containsKey(Integer.parseInt(input)));
 		StringBuilder stringBuilder = new StringBuilder();
-		int index = 0;
+		int index = 1;
+		boolean firstLine = true;
 		for (int value : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getDevelopmentCards().get(CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input)))) {
-			index++;
+			if (!firstLine) {
+				stringBuilder.append('\n');
+			} else {
+				firstLine = false;
+			}
 			stringBuilder.append(index);
-			stringBuilder.append("===========\n");
+			stringBuilder.append(" ========\n");
 			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input))).get(value).getInformations());
+			index++;
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
-	}
-
-	private void askOwnInformation()
-	{
-		Client.getLogger().log(Level.INFO, "Enter what you want to see...");
-		Client.getLogger().log(Level.INFO, "1 - Own Family Members' Positions");
-		Client.getLogger().log(Level.INFO, "2 - Own Resources");
-		String input;
-		do {
-			input = Client.getInstance().getCliScanner().nextLine();
-		}
-		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnBoard.PLAYER_INFORMATION.containsKey(Integer.parseInt(input)));
-		CLIHandlerShowOwnBoard.PLAYER_INFORMATION.get(Integer.parseInt(input)).run();
 	}
 }

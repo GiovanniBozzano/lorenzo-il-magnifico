@@ -18,9 +18,6 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 	@Override
 	public void execute()
 	{
-		for (int index = 0; index < GameStatus.getInstance().getAvailablePersonalBonusTiles().size(); index++) {
-			this.personalBonusTiles.put(index + 1, GameStatus.getInstance().getAvailablePersonalBonusTiles().get(index));
-		}
 		this.showPersonalBonusTiles();
 		this.askPersonalBonusTileIndex();
 	}
@@ -33,6 +30,9 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 
 	private void showPersonalBonusTiles()
 	{
+		for (int index = 0; index < GameStatus.getInstance().getAvailablePersonalBonusTiles().size(); index++) {
+			this.personalBonusTiles.put(index + 1, GameStatus.getInstance().getAvailablePersonalBonusTiles().get(index));
+		}
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Enter Personal Bonus Tile choice...");
 		for (Entry<Integer, Integer> personalBonusTile : this.personalBonusTiles.entrySet()) {

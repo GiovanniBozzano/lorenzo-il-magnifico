@@ -19,11 +19,10 @@ import java.util.logging.Level;
 
 public class CLIHandlerMarket implements ICLIHandler
 {
-	Map<Integer, FamilyMemberType> familyMemberTypes = new HashMap<>();
-	Map<Integer, MarketSlot> marketSlots = new HashMap<>();
+	private final Map<Integer, FamilyMemberType> familyMemberTypes = new HashMap<>();
+	private final Map<Integer, MarketSlot> marketSlots = new HashMap<>();
 	private int marketSlot;
 	private int familyMemberValue;
-	private int servantAmount;
 
 	@Override
 	public void execute()
@@ -33,33 +32,34 @@ public class CLIHandlerMarket implements ICLIHandler
 		this.showFamilyMembers();
 		this.askFamilyMember();
 		this.askServants();
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsMarket(this.familyMemberTypes.get(this.familyMemberValue), this.servantAmount, this.marketSlots.get(this.marketSlot)));
+	}
+
+	@Override
+	public CLIHandlerInterfaceChoice newInstance()
+	{
+		return new CLIHandlerInterfaceChoice();
 	}
 
 	private void showMarketSlots()
 	{
-		int index = 0;
+		StringBuilder stringBuilder = new StringBuilder();
+		int index = 1;
+		boolean firstLine = true;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
 			if (!this.marketSlots.containsValue(((AvailableActionMarket) availableAction).getMarketSlot())) {
-				index++;
+				if (!firstLine) {
+					stringBuilder.append('\n');
+				} else {
+					firstLine = false;
+				}
 				this.marketSlots.put(index, ((AvailableActionMarket) availableAction).getMarketSlot());
-				Client.getLogger().log(Level.INFO, "{0}========", new Object[] { index });
-				Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { ((AvailableActionFamilyMember) availableAction).getFamilyMemberType() });
-			}
-		}
-	}
-
-	private void showFamilyMembers()
-	{
-		int index = 0;
-		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
-			if (this.marketSlots.get(this.marketSlot) == ((AvailableActionMarket) availableAction).getMarketSlot() && !this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
+				stringBuilder.append(index);
+				stringBuilder.append(" ========");
+				stringBuilder.append(((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
 				index++;
-				this.familyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
-				Client.getLogger().log(Level.INFO, "{0}========", new Object[] { index });
-				Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { ((AvailableActionFamilyMember) availableAction).getFamilyMemberType() });
 			}
 		}
+		Client.getLogger().log(Level.INFO, stringBuilder.toString());
 	}
 
 	private void askMarketSlot()
@@ -71,6 +71,28 @@ public class CLIHandlerMarket implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !this.marketSlots.containsKey(Integer.parseInt(input)));
 		this.marketSlot = Integer.parseInt(input);
+	}
+
+	private void showFamilyMembers()
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		int index = 1;
+		boolean firstLine = true;
+		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
+			if (this.marketSlots.get(this.marketSlot) == ((AvailableActionMarket) availableAction).getMarketSlot() && !this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
+				if (!firstLine) {
+					stringBuilder.append('\n');
+				} else {
+					firstLine = false;
+				}
+				this.familyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
+				stringBuilder.append(index);
+				stringBuilder.append(" ========\n");
+				stringBuilder.append(((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
+				index++;
+			}
+		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private void askFamilyMember()
@@ -92,12 +114,6 @@ public class CLIHandlerMarket implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		this.servantAmount = Integer.parseInt(input);
-	}
-
-	@Override
-	public CLIHandlerInterfaceChoice newInstance()
-	{
-		return new CLIHandlerInterfaceChoice();
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsMarket(this.familyMemberTypes.get(this.familyMemberValue), Integer.parseInt(input), this.marketSlots.get(this.marketSlot)));
 	}
 }

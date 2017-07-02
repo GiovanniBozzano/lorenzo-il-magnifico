@@ -171,10 +171,10 @@ public class GameHandler
 		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex));
 	}
 
-	public void receivePersonalBonusTileChoice(Player player, int personalBonusTileIndex)
+	public void receivePersonalBonusTileChoice(Player player, int personalBonusTileIndex) throws GameActionFailedException
 	{
 		if (this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex) != player || !this.availablePersonalBonusTiles.contains(personalBonusTileIndex)) {
-			return;
+			throw new GameActionFailedException("You cannot do this!");
 		}
 		this.applyPersonalBonusTileChoice(player, personalBonusTileIndex);
 	}
@@ -203,10 +203,10 @@ public class GameHandler
 		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex));
 	}
 
-	public void receiveLeaderCardChoice(Player player, int leaderCardIndex)
+	public void receiveLeaderCardChoice(Player player, int leaderCardIndex) throws GameActionFailedException
 	{
 		if (!this.leaderCardsChoosingPlayers.contains(player) || !this.availableLeaderCards.get(player).contains(leaderCardIndex)) {
-			return;
+			throw new GameActionFailedException("You cannot do this!");
 		}
 		this.applyLeaderCardChoice(player, leaderCardIndex);
 	}
@@ -246,10 +246,10 @@ public class GameHandler
 		}
 	}
 
-	public void receiveExcommunicationChoice(Player player, boolean excommunicated)
+	public void receiveExcommunicationChoice(Player player, boolean excommunicated) throws GameActionFailedException
 	{
 		if (!this.excommunicationChoosingPlayers.contains(player)) {
-			return;
+			throw new GameActionFailedException("You cannot do this!");
 		}
 		this.applyExcommunicationChoice(player, excommunicated);
 	}
@@ -1033,29 +1033,6 @@ public class GameHandler
 				availableActions.get(ActionType.PRODUCTION_START).add(new AvailableActionFamilyMember(familyMemberType));
 			} catch (GameActionFailedException exception) {
 				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-			}
-		}
-		for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {
-			if (leaderCard.isPlayed()) {
-				try {
-					new ActionLeaderActivate(leaderCard.getIndex(), player).isLegal();
-					availableActions.get(ActionType.LEADER_ACTIVATE).add(new AvailableActionLeaderActivate(leaderCard.getIndex()));
-				} catch (GameActionFailedException exception) {
-					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-				}
-			} else {
-				try {
-					new ActionLeaderDiscard(leaderCard.getIndex(), player).isLegal();
-					availableActions.get(ActionType.LEADER_DISCARD).add(new AvailableActionLeaderDiscard(leaderCard.getIndex()));
-				} catch (GameActionFailedException exception) {
-					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-				}
-				try {
-					new ActionLeaderPlay(leaderCard.getIndex(), player).isLegal();
-					availableActions.get(ActionType.LEADER_PLAY).add(new AvailableActionLeaderPlay(leaderCard.getIndex()));
-				} catch (GameActionFailedException exception) {
-					Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-				}
 			}
 		}
 		return availableActions;

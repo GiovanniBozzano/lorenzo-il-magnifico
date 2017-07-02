@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.common.game.cards;
 
-import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.RewardInformations;
 
@@ -12,7 +11,7 @@ public class DevelopmentCardVentureInformations extends DevelopmentCardInformati
 
 	public DevelopmentCardVentureInformations(String displayName, String texturePath, List<ResourceCostOption> resourceCostOptions, RewardInformations reward, int victoryValue)
 	{
-		super(displayName, texturePath, CardType.VENTURE, resourceCostOptions, reward);
+		super(displayName, texturePath, resourceCostOptions, reward);
 		this.victoryValue = victoryValue;
 	}
 
@@ -20,10 +19,5 @@ public class DevelopmentCardVentureInformations extends DevelopmentCardInformati
 	public String getInformations()
 	{
 		return this.getCommonInformations() + "\n\nVICTORY VALUE: " + this.victoryValue;
-	}
-
-	public int getVictoryValue()
-	{
-		return this.victoryValue;
 	}
 }

@@ -17,9 +17,8 @@ import java.util.logging.Level;
 
 public class CLIHandlerHarvest implements ICLIHandler
 {
-	private Map<Integer, FamilyMemberType> familyMemberTypes = new HashMap<>();
+	private final Map<Integer, FamilyMemberType> familyMemberTypes = new HashMap<>();
 	private int familyMemberValue;
-	private int servantAmount;
 
 	@Override
 	public void execute()
@@ -27,20 +26,34 @@ public class CLIHandlerHarvest implements ICLIHandler
 		this.showFamilyMembers();
 		this.askFamilyMember();
 		this.askServants();
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsHarvest(this.familyMemberTypes.get(familyMemberValue), servantAmount));
+	}
+
+	@Override
+	public CLIHandlerInterfaceChoice newInstance()
+	{
+		return new CLIHandlerInterfaceChoice();
 	}
 
 	private void showFamilyMembers()
 	{
-		int index = 0;
+		StringBuilder stringBuilder = new StringBuilder();
+		int index = 1;
+		boolean firstLine = true;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST)) {
 			if (!this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
-				index++;
+				if (!firstLine) {
+					stringBuilder.append('\n');
+				} else {
+					firstLine = false;
+				}
 				this.familyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
-				Client.getLogger().log(Level.INFO, "{0}========", new Object[] { index });
-				Client.getLogger().log(Level.INFO, "{0}\n", new Object[] { ((AvailableActionFamilyMember) availableAction).getFamilyMemberType() });
+				stringBuilder.append(index);
+				stringBuilder.append(" ========\n");
+				stringBuilder.append(((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
+				index++;
 			}
 		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private void askFamilyMember()
@@ -62,13 +75,7 @@ public class CLIHandlerHarvest implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		this.servantAmount = Integer.parseInt(input);
-	}
-
-	@Override
-	public CLIHandlerInterfaceChoice newInstance()
-	{
-		return new CLIHandlerInterfaceChoice();
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsHarvest(this.familyMemberTypes.get(this.familyMemberValue), Integer.parseInt(input)));
 	}
 }
 

@@ -13,7 +13,7 @@ public abstract class LeaderCard extends Card
 	private final String description;
 	private boolean played = false;
 
-	public LeaderCard(int index, String texturePath, String displayName, String description, LeaderCardType leaderCardType, List<LeaderCardConditionsOption> conditionsOptions)
+	protected LeaderCard(int index, String texturePath, String displayName, String description, LeaderCardType leaderCardType, List<LeaderCardConditionsOption> conditionsOptions)
 	{
 		super(index, texturePath, displayName);
 		this.description = description;

@@ -8,7 +8,7 @@ public class ActionInformations implements Serializable
 {
 	private final ActionType actionType;
 
-	public ActionInformations(ActionType actionType)
+	ActionInformations(ActionType actionType)
 	{
 		this.actionType = actionType;
 	}

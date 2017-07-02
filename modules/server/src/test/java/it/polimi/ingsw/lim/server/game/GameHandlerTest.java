@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.server.game;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
+import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.cli.InterfaceHandlerCLI;
@@ -54,7 +55,7 @@ public class GameHandlerTest
 	}
 
 	@Test
-	public void testReceivePersonalBonusTileChoice()
+	public void testReceivePersonalBonusTileChoice() throws GameActionFailedException
 	{
 		this.gameHandler.setPersonalBonusTileChoicePlayerTurnIndex(0);
 		this.gameHandler.receivePersonalBonusTileChoice(this.player, 0);
@@ -62,7 +63,7 @@ public class GameHandlerTest
 	}
 
 	@Test
-	public void testReceiveLeaderCardChoice()
+	public void testReceiveLeaderCardChoice() throws GameActionFailedException
 	{
 		this.gameHandler.getLeaderCardsChoosingPlayers().add(this.player);
 		List<Integer> playerAvailableLeaderCards = new ArrayList<>();
@@ -73,7 +74,7 @@ public class GameHandlerTest
 	}
 
 	@Test
-	public void testReceiveExcommunicationChoice()
+	public void testReceiveExcommunicationChoice() throws GameActionFailedException
 	{
 		this.gameHandler.getExcommunicationChoosingPlayers().add(this.player);
 		this.gameHandler.receiveExcommunicationChoice(this.player, false);

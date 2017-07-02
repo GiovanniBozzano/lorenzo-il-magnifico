@@ -22,11 +22,6 @@ public abstract class Modifier<T extends Event>
 		}
 	}
 
-	public Class<T> getEventClass()
-	{
-		return this.eventClass;
-	}
-
 	public String getDescription()
 	{
 		return this.description;

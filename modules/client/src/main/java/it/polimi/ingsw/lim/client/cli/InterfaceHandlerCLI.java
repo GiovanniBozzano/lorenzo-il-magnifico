@@ -4,9 +4,7 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.IInterfaceHandler;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
-import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
 import javafx.stage.Stage;
@@ -19,11 +17,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void start()
 	{
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
+		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override
@@ -36,11 +30,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	{
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
+		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override
@@ -105,11 +95,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	public void handleGamePersonalBonusTileChoiceRequest()
 	{
 		Client.getInstance().setCliStatus(CLIStatus.PERSONAL_BONUS_TILE_CHOICE);
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
+		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override
@@ -126,11 +112,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	public void handleGameLeaderCardChoiceRequest()
 	{
 		Client.getInstance().setCliStatus(CLIStatus.LEADER_CARDS_CHOICE);
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
+		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override
@@ -153,15 +135,11 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	public void handleGameUpdate()
 	{
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
+		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override
-	public void handleGameUpdateExpectedAction(ExpectedAction expectedAction)
+	public void handleGameUpdateExpectedAction()
 	{
 	}
 
@@ -185,33 +163,21 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	public void handleConnectionError()
 	{
 		Client.getLogger().log(Level.INFO, "Could not connect to host");
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
+		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override
 	public void handleConnectionSuccess()
 	{
 		Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
+		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override
 	public void handleAuthenticationFailed(String text)
 	{
 		Client.getLogger().log(Level.INFO, text);
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
+		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override
@@ -238,6 +204,6 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleGameActionFailed(String text)
 	{
-		Client.getLogger().log(Level.INFO, "Action Failed: " + text);
+		Client.getLogger().log(Level.INFO, "Action Failed: {0} ", new Object[] { text });
 	}
 }

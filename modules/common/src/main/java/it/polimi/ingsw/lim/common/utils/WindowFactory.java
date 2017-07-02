@@ -49,11 +49,6 @@ public class WindowFactory
 		this.setNewWindow(fxmlFileLocation, postShowing, null);
 	}
 
-	public void setNewWindow(String fxmlFileLocation, Stage stage)
-	{
-		this.setNewWindow(fxmlFileLocation, null, stage);
-	}
-
 	/**
 	 * <p>Opens a new window. Executes an optional thread before showing the new
 	 * window and another one after it has been shown.

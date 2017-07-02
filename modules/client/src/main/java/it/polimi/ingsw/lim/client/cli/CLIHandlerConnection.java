@@ -20,7 +20,6 @@ public class CLIHandlerConnection implements ICLIHandler
 
 	private ConnectionType connectionType;
 	private String ip;
-	private int port;
 
 	@Override
 	public void execute()
@@ -28,7 +27,6 @@ public class CLIHandlerConnection implements ICLIHandler
 		this.askConnectionType();
 		this.askIPAddress();
 		this.askPort();
-		Client.getInstance().setup(this.connectionType, this.ip, this.port);
 	}
 
 	@Override
@@ -63,6 +61,6 @@ public class CLIHandlerConnection implements ICLIHandler
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		} while (!CommonUtils.isInteger(input));
-		this.port = Integer.parseInt(input);
+		Client.getInstance().setup(this.connectionType, this.ip, Integer.parseInt(input));
 	}
 }

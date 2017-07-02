@@ -12,7 +12,7 @@ public abstract class PacketAuthentication extends Packet
 	private final String password;
 	private final RoomType roomType;
 
-	public PacketAuthentication(PacketType packetType, String username, String password, RoomType roomType)
+	PacketAuthentication(PacketType packetType, String username, String password, RoomType roomType)
 	{
 		super(packetType);
 		this.version = CommonUtils.VERSION;

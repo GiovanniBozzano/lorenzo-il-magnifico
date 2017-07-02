@@ -37,6 +37,18 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 	{
 		this.availableActions.put(1, CLIStatus.SHOW_DEVELOPMENT_CARDS);
 		this.availableActions.put(2, CLIStatus.SHOW_OWN_LEADERS);
+		this.showAvailableActions();
+		this.askAction();
+	}
+
+	@Override
+	public CLIHandlerAvailableActions newInstance()
+	{
+		return new CLIHandlerAvailableActions();
+	}
+
+	private void showAvailableActions()
+	{
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty()) {
 			this.availableActions.put(3, CLIStatus.COUNCIL_PALACE);
 		}
@@ -61,18 +73,6 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
 			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.LEADER_PLAY);
 		}
-		this.showAvailableActions();
-		this.askAction();
-	}
-
-	@Override
-	public CLIHandlerAvailableActions newInstance()
-	{
-		return new CLIHandlerAvailableActions();
-	}
-
-	private void showAvailableActions()
-	{
 		StringBuilder stringBuilder = new StringBuilder();
 		boolean firstLine = true;
 		for (Entry<Integer, CLIStatus> availableAction : this.availableActions.entrySet()) {
@@ -99,10 +99,6 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !this.availableActions.containsKey(Integer.parseInt(input)));
 		Client.getInstance().setCliStatus(this.availableActions.get(Integer.parseInt(input)));
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler newCliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus());
-			Client.getInstance().setCurrentCliHandler(newCliHandler);
-			newCliHandler.execute();
-		});
+		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).execute());
 	}
 }

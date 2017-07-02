@@ -6,7 +6,6 @@ import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
 import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsLobbyRMI;
@@ -183,9 +182,9 @@ public class InterfaceHandlerGUI implements IInterfaceHandler
 	}
 
 	@Override
-	public void handleGameUpdateExpectedAction(ExpectedAction expectedAction)
+	public void handleGameUpdateExpectedAction()
 	{
-		Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurnExpectedAction(expectedAction));
+		Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).setOwnTurnExpectedAction());
 	}
 
 	@Override

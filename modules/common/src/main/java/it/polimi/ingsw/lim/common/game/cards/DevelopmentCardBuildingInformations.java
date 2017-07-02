@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.common.game.cards;
 
-import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
@@ -17,7 +16,7 @@ public class DevelopmentCardBuildingInformations extends DevelopmentCardInformat
 
 	public DevelopmentCardBuildingInformations(String displayName, String texturePath, List<ResourceCostOption> resourceCostOptions, RewardInformations reward, int activationValue, List<ResourceTradeOption> resourceTradeOptions)
 	{
-		super(displayName, texturePath, CardType.BUILDING, resourceCostOptions, reward);
+		super(displayName, texturePath, resourceCostOptions, reward);
 		this.activationValue = activationValue;
 		this.resourceTradeOptions = new ArrayList<>(resourceTradeOptions);
 	}
@@ -55,15 +54,5 @@ public class DevelopmentCardBuildingInformations extends DevelopmentCardInformat
 			}
 		}
 		return stringBuilder.toString();
-	}
-
-	public int getActivationValue()
-	{
-		return this.activationValue;
-	}
-
-	public List<ResourceTradeOption> getResourceTradeOptions()
-	{
-		return this.resourceTradeOptions;
 	}
 }

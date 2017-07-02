@@ -615,13 +615,13 @@ public class ControllerGame extends CustomController
 	private static final Map<ActionType, IExpectedActionHandler> EXPECTED_ACTION_HANDLERS = new EnumMap<>(ActionType.class);
 
 	static {
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, (controllerGame, expectedAction) -> controllerGame.showExpectedChooseLorenzoDeMediciLeader((ExpectedActionChooseLorenzoDeMediciLeader) expectedAction));
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE, (controllerGame, expectedAction) -> controllerGame.showExpectedChooseRewardCouncilPrivilege((ExpectedActionChooseRewardCouncilPrivilege) expectedAction));
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_HARVEST, (controllerGame, expectedAction) -> controllerGame.showExpectedChooseRewardHarvest((ExpectedActionChooseRewardHarvest) expectedAction));
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD, (controllerGame, expectedAction) -> controllerGame.showExpectedChooseRewardPickDevelopmentCard((ExpectedActionChooseRewardPickDevelopmentCard) expectedAction));
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PRODUCTION_START, (controllerGame, expectedAction) -> controllerGame.showExpectedChooseRewardProductionStart((ExpectedActionChooseRewardProductionStart) expectedAction));
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.PRODUCTION_TRADE, (controllerGame, expectedAction) -> controllerGame.showExpectedProductionTrade((ExpectedActionProductionTrade) expectedAction));
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER, (controllerGame, expectedAction) -> controllerGame.showExpectedChooseRewardTemporaryModifier());
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, ControllerGame::showExpectedChooseLorenzoDeMediciLeader);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE, ControllerGame::showExpectedChooseRewardCouncilPrivilege);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_HARVEST, ControllerGame::showExpectedChooseRewardHarvest);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD, ControllerGame::showExpectedChooseRewardPickDevelopmentCard);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PRODUCTION_START, ControllerGame::showExpectedChooseRewardProductionStart);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.PRODUCTION_TRADE, ControllerGame::showExpectedProductionTrade);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER, ControllerGame::showExpectedChooseRewardTemporaryModifier);
 	}
 
 	private final Map<Integer, Tab> playersTabs = new HashMap<>();
@@ -677,7 +677,7 @@ public class ControllerGame extends CustomController
 	private ResourceCostOption selectedResourceCostOption;
 	private boolean pickingTradeCards = false;
 	private final List<Pane> selectableTradeCards = new ArrayList<>();
-	private List<Integer> selectedTradeCardIndexes = new ArrayList<>();
+	private final List<Integer> selectedTradeCardIndexes = new ArrayList<>();
 
 	@FXML
 	private void boardDevelopmentCardPaneMouseClicked(MouseEvent event)
@@ -1584,20 +1584,35 @@ public class ControllerGame extends CustomController
 			familyMemberActionNodesList.setRotate(270.0D);
 			actionsNodesList.addAnimatedNode(familyMemberActionNodesList);
 		}
-		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty() || !GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
+		boolean canActivateLeader = false;
+		for (boolean canBeActivated : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().values()) {
+			if (canBeActivated) {
+				canActivateLeader = true;
+				break;
+			}
+		}
+		boolean canDiscardLeader = !GameStatus.getInstance().getCurrentOwnLeaderCardsHand().isEmpty();
+		boolean canPlayLeader = false;
+		for (boolean canBePlayed : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().values()) {
+			if (canBePlayed) {
+				canPlayLeader = true;
+				break;
+			}
+		}
+		if (canActivateLeader || canDiscardLeader || canPlayLeader) {
 			leaderCardsActionNodesList.setSpacing(10.0D);
 			ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader.png", "Leader Actions", false, () -> {
 				if (WindowFactory.isNodesListExpanded(familyMemberActionNodesList)) {
 					familyMemberActionNodesList.animateList();
 				}
 			});
-			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_ACTIVATE).isEmpty()) {
+			if (canActivateLeader) {
 				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_activate.png", "Activate Leader", false, this::showLeaderActivate);
 			}
-			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_DISCARD).isEmpty()) {
+			if (canDiscardLeader) {
 				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_discard.png", "Discard Leader", false, this::showLeaderDiscard);
 			}
-			if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.LEADER_PLAY).isEmpty()) {
+			if (canPlayLeader) {
 				ControllerGame.setActionButton(leaderCardsActionNodesList, "/images/icons/action_leader_play.png", "Play Leader", false, this::showLeaderPlay);
 			}
 			leaderCardsActionNodesList.setRotate(90.0D);
@@ -1701,25 +1716,7 @@ public class ControllerGame extends CustomController
 		return null;
 	}
 
-	private String getResourcesInformations(List<ResourceAmount> resourceAmounts)
-	{
-		StringBuilder stringBuilder = new StringBuilder();
-		boolean firstLine = true;
-		for (ResourceAmount resourceAmount : resourceAmounts) {
-			if (!firstLine) {
-				stringBuilder.append('\n');
-			} else {
-				firstLine = false;
-			}
-			stringBuilder.append("- ");
-			stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-			stringBuilder.append(": ");
-			stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
-		}
-		return stringBuilder.toString();
-	}
-
-	public void setOwnTurn()
+	void setOwnTurn()
 	{
 		this.updateGame();
 		this.closeDilogs();
@@ -1727,13 +1724,13 @@ public class ControllerGame extends CustomController
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
 	}
 
-	public void setOwnTurnExpectedAction(ExpectedAction expectedAction)
+	void setOwnTurnExpectedAction()
 	{
 		this.updateGame();
-		ControllerGame.EXPECTED_ACTION_HANDLERS.get(expectedAction.getActionType()).execute(this, expectedAction);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.get(GameStatus.getInstance().getCurrentExpectedAction().getActionType()).execute(this);
 	}
 
-	public void setOtherTurn()
+	void setOtherTurn()
 	{
 		this.updateGame();
 		this.closeDilogs();
@@ -1991,13 +1988,13 @@ public class ControllerGame extends CustomController
 		this.leaderCardsButton.setDisable(false);
 	}
 
-	public void showDialog(String message)
+	void showDialog(String message)
 	{
 		this.dialogLabel.setText(message);
 		this.dialog.show();
 	}
 
-	public void showPersonalBonusTiles()
+	void showPersonalBonusTiles()
 	{
 		this.personalBonusTilesDialog.show();
 		this.personalBonusTilesDialogHBox.getChildren().clear();
@@ -2046,7 +2043,7 @@ public class ControllerGame extends CustomController
 		this.personalBonusTilesDialog.show();
 	}
 
-	public void showLeaderCards()
+	void showLeaderCards()
 	{
 		this.leaderCardsDialogHBox.getChildren().clear();
 		ColorAdjust greyScaleEffect = new ColorAdjust();
@@ -2076,7 +2073,7 @@ public class ControllerGame extends CustomController
 		this.leaderCardsDialog.show();
 	}
 
-	public void showExcommunicationOther()
+	void showExcommunicationOther()
 	{
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
 		this.actionsVBox.getChildren().clear();
@@ -2085,7 +2082,7 @@ public class ControllerGame extends CustomController
 		this.actionsVBox.getChildren().add(actionsNodesList);
 	}
 
-	public void showExcommunication(Period period)
+	void showExcommunication(Period period)
 	{
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
 		this.actionsVBox.getChildren().clear();
@@ -2164,7 +2161,7 @@ public class ControllerGame extends CustomController
 						AnchorPane anchorPane = new AnchorPane();
 						discountChoicesAnchorPanes.add(anchorPane);
 						Text text = new Text();
-						text.setText(this.getResourcesInformations(discountChoice));
+						text.setText(Utils.getResourcesInformations(discountChoice));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2197,11 +2194,11 @@ public class ControllerGame extends CustomController
 							if (!resourceCostOption.getRequiredResources().isEmpty()) {
 								stringBuilder.append("REQUIRED RESOURCES:\n");
 							}
-							stringBuilder.append(this.getResourcesInformations(resourceCostOption.getRequiredResources()));
+							stringBuilder.append(Utils.getResourcesInformations(resourceCostOption.getRequiredResources()));
 							if (!resourceCostOption.getSpentResources().isEmpty()) {
 								stringBuilder.append("SPENT RESOURCES:\n");
 							}
-							stringBuilder.append(this.getResourcesInformations(resourceCostOption.getSpentResources()));
+							stringBuilder.append(Utils.getResourcesInformations(resourceCostOption.getSpentResources()));
 							text.setText(stringBuilder.toString());
 							anchorPane.getChildren().add(text);
 							AnchorPane.setTopAnchor(text, 0.0);
@@ -2360,11 +2357,11 @@ public class ControllerGame extends CustomController
 		this.leaderCardsDialog.show();
 	}
 
-	private void showExpectedChooseLorenzoDeMediciLeader(ExpectedActionChooseLorenzoDeMediciLeader expectedAction)
+	private void showExpectedChooseLorenzoDeMediciLeader()
 	{
 		this.expectedChooseLorenzoDeMediciLeaderDialogVBox.getChildren().clear();
 		int maximumCards = 1;
-		for (Entry<Integer, List<Integer>> availableLeaderCards : expectedAction.getAvailableLeaderCards().entrySet()) {
+		for (Entry<Integer, List<Integer>> availableLeaderCards : ((ExpectedActionChooseLorenzoDeMediciLeader) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableLeaderCards().entrySet()) {
 			HBox hBox = new HBox();
 			hBox.setAlignment(Pos.CENTER);
 			hBox.setSpacing(20.0D);
@@ -2394,19 +2391,19 @@ public class ControllerGame extends CustomController
 		this.expectedChooseLorenzoDeMediciLeaderDialog.show();
 	}
 
-	private void showExpectedChooseRewardCouncilPrivilege(ExpectedActionChooseRewardCouncilPrivilege expectedAction)
+	private void showExpectedChooseRewardCouncilPrivilege()
 	{
-		this.expectedChooseRewardCouncilPrivilegeDialogLabel.setText("Choose " + expectedAction.getCouncilPrivilegesNumber() + " different Council Privilege rewards.");
+		this.expectedChooseRewardCouncilPrivilegeDialogLabel.setText("Choose " + ((ExpectedActionChooseRewardCouncilPrivilege) GameStatus.getInstance().getCurrentExpectedAction()).getCouncilPrivilegesNumber() + " different Council Privilege rewards.");
 		this.expectedChooseRewardCouncilPrivilegeDialogPane.getChildren().clear();
 		Map<Integer, Integer> selectedCouncilPrivilegesRewards = new HashMap<>();
-		for (int councilPrivilegeIndex = 0; councilPrivilegeIndex < expectedAction.getCouncilPrivilegesNumber(); councilPrivilegeIndex++) {
+		for (int councilPrivilegeIndex = 0; councilPrivilegeIndex < ((ExpectedActionChooseRewardCouncilPrivilege) GameStatus.getInstance().getCurrentExpectedAction()).getCouncilPrivilegesNumber(); councilPrivilegeIndex++) {
 			HBox hBox = new HBox();
 			List<AnchorPane> councilPalaceRewardsAnchorPanes = new ArrayList<>();
 			for (Entry<Integer, List<ResourceAmount>> councilPalaceReward : GameStatus.getInstance().getCurrentCouncilPrivilegeRewards().entrySet()) {
 				AnchorPane anchorPane = new AnchorPane();
 				councilPalaceRewardsAnchorPanes.add(anchorPane);
 				Text text = new Text();
-				text.setText(this.getResourcesInformations(councilPalaceReward.getValue()));
+				text.setText(Utils.getResourcesInformations(councilPalaceReward.getValue()));
 				int currentCouncilPrivilegeIndex = councilPrivilegeIndex;
 				AnchorPane.setTopAnchor(text, 0.0);
 				AnchorPane.setBottomAnchor(text, 0.0);
@@ -2435,9 +2432,9 @@ public class ControllerGame extends CustomController
 		this.expectedChooseRewardCouncilPrivilegeDialog.show();
 	}
 
-	private void showExpectedChooseRewardHarvest(ExpectedActionChooseRewardHarvest expectedAction)
+	private void showExpectedChooseRewardHarvest()
 	{
-		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Harvest action of value " + expectedAction.getValue() + ".");
+		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Harvest action of value " + ((ExpectedActionChooseRewardHarvest) GameStatus.getInstance().getCurrentExpectedAction()).getValue() + ".");
 		this.expectedChooseRewardServantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		this.expectedChooseRewardServantsDialogSlider.setValue(0);
 		this.expectedChooseRewardServantsDialogAcceptButton.setOnAction(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardHarvest((int) this.servantsDialogSlider.getValue())));
@@ -2445,7 +2442,7 @@ public class ControllerGame extends CustomController
 		this.expectedChooseRewardServantsDialog.show();
 	}
 
-	private void showExpectedChooseRewardPickDevelopmentCard(ExpectedActionChooseRewardPickDevelopmentCard expectedAction)
+	private void showExpectedChooseRewardPickDevelopmentCard()
 	{
 		this.selectedDevelopmentCardType = null;
 		this.selectedDevelopmentCardIndex = null;
@@ -2474,14 +2471,14 @@ public class ControllerGame extends CustomController
 			this.selectedInstantDiscountChoice.clear();
 			this.selectedDiscountChoice.clear();
 			this.selectedResourceCostOption = null;
-			for (Serializable availableAction : expectedAction.getAvailableActions()) {
+			for (Serializable availableAction : ((ExpectedActionChooseRewardPickDevelopmentCard) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableActions()) {
 				if (((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getCardType() == this.selectedDevelopmentCardType && ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getRow() == GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex)) {
 					List<AnchorPane> instantDiscountChoicesAnchorPanes = new ArrayList<>();
 					for (List<ResourceAmount> instantDiscountChoice : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getInstantDiscountChoices()) {
 						AnchorPane anchorPane = new AnchorPane();
 						instantDiscountChoicesAnchorPanes.add(anchorPane);
 						Text text = new Text();
-						text.setText(this.getResourcesInformations(instantDiscountChoice));
+						text.setText(Utils.getResourcesInformations(instantDiscountChoice));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2507,7 +2504,7 @@ public class ControllerGame extends CustomController
 						AnchorPane anchorPane = new AnchorPane();
 						discountChoicesAnchorPanes.add(anchorPane);
 						Text text = new Text();
-						text.setText(this.getResourcesInformations(discountChoice));
+						text.setText(Utils.getResourcesInformations(discountChoice));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2540,11 +2537,11 @@ public class ControllerGame extends CustomController
 							if (!resourceCostOption.getRequiredResources().isEmpty()) {
 								stringBuilder.append("REQUIRED RESOURCES:\n");
 							}
-							stringBuilder.append(this.getResourcesInformations(resourceCostOption.getRequiredResources()));
+							stringBuilder.append(Utils.getResourcesInformations(resourceCostOption.getRequiredResources()));
 							if (!resourceCostOption.getSpentResources().isEmpty()) {
 								stringBuilder.append("SPENT RESOURCES:\n");
 							}
-							stringBuilder.append(this.getResourcesInformations(resourceCostOption.getSpentResources()));
+							stringBuilder.append(Utils.getResourcesInformations(resourceCostOption.getSpentResources()));
 							text.setText(stringBuilder.toString());
 							anchorPane.getChildren().add(text);
 							AnchorPane.setTopAnchor(text, 0.0);
@@ -2591,7 +2588,7 @@ public class ControllerGame extends CustomController
 		actionsNodesList.setRotate(180.0D);
 		this.actionsVBox.getChildren().add(actionsNodesList);
 		this.selectableDevelopmentCards.clear();
-		for (AvailableActionChooseRewardPickDevelopmentCard availableActionChooseRewardPickDevelopmentCard : expectedAction.getAvailableActions()) {
+		for (AvailableActionChooseRewardPickDevelopmentCard availableActionChooseRewardPickDevelopmentCard : ((ExpectedActionChooseRewardPickDevelopmentCard) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableActions()) {
 			this.selectableDevelopmentCards.add(this.developmentCardsPanes.get(availableActionChooseRewardPickDevelopmentCard.getCardType()).get(availableActionChooseRewardPickDevelopmentCard.getRow()));
 		}
 		for (CardType cardType : CardType.values()) {
@@ -2603,9 +2600,9 @@ public class ControllerGame extends CustomController
 		}
 	}
 
-	private void showExpectedChooseRewardProductionStart(ExpectedActionChooseRewardProductionStart expectedAction)
+	private void showExpectedChooseRewardProductionStart()
 	{
-		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Production action of value " + expectedAction.getValue() + ".");
+		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Production action of value " + ((ExpectedActionChooseRewardProductionStart) GameStatus.getInstance().getCurrentExpectedAction()).getValue() + ".");
 		this.expectedChooseRewardServantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		this.expectedChooseRewardServantsDialogSlider.setValue(0);
 		this.expectedChooseRewardServantsDialogAcceptButton.setOnAction(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardProductionStart((int) this.servantsDialogSlider.getValue())));
@@ -2613,7 +2610,7 @@ public class ControllerGame extends CustomController
 		this.expectedChooseRewardServantsDialog.show();
 	}
 
-	private void showExpectedProductionTrade(ExpectedActionProductionTrade expectedAction)
+	private void showExpectedProductionTrade()
 	{
 		this.selectedTradeCardIndexes.clear();
 		this.pickingTradeCards = true;
@@ -2650,11 +2647,11 @@ public class ControllerGame extends CustomController
 					vBox.getChildren().add(label);
 					vBox.getChildren().add(pane);
 					List<AnchorPane> resourceTradeOptionsAnchorPanes = new ArrayList<>();
-					for (ResourceTradeOption resourceTradeOption : expectedAction.getAvailableCards().get(tradeCard)) {
+					for (ResourceTradeOption resourceTradeOption : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().get(tradeCard)) {
 						AnchorPane anchorPane = new AnchorPane();
 						resourceTradeOptionsAnchorPanes.add(anchorPane);
 						Text text = new Text();
-						text.setText("EMPLOYED RESOURCES:\n" + this.getResourcesInformations(resourceTradeOption.getEmployedResources()) + "\nPRODUCED RESOURES:\n" + this.getResourcesInformations(resourceTradeOption.getProducedResources()));
+						text.setText("EMPLOYED RESOURCES:\n" + Utils.getResourcesInformations(resourceTradeOption.getEmployedResources()) + "\nPRODUCED RESOURES:\n" + Utils.getResourcesInformations(resourceTradeOption.getProducedResources()));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2694,7 +2691,7 @@ public class ControllerGame extends CustomController
 		actionsNodesList.addAnimatedNode(pickTradeCardsActionButton);
 		this.actionsVBox.getChildren().add(actionsNodesList);
 		this.selectableTradeCards.clear();
-		for (Integer availableCard : expectedAction.getAvailableCards().keySet()) {
+		for (Integer availableCard : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().keySet()) {
 			this.selectableTradeCards.add(this.playerDevelopmentCardsBuildingIndexes.getInverse(availableCard));
 		}
 		for (Pane pane : this.playersDevelopmentCards.get(GameStatus.getInstance().getOwnPlayerIndex()).get(CardType.BUILDING)) {
@@ -2709,7 +2706,7 @@ public class ControllerGame extends CustomController
 		this.expectedChooseRewardTemporaryModifierDialog.show();
 	}
 
-	public void showEndGame(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
+	void showEndGame(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
 	{
 		if (new ArrayList<>(playersScores.keySet()).get(0) == GameStatus.getInstance().getOwnPlayerIndex()) {
 			this.endGameDialogTitle.setText("VICTORY");
@@ -2756,22 +2753,22 @@ public class ControllerGame extends CustomController
 		this.endGameDialog.show();
 	}
 
-	public TextArea getChatTextArea()
+	TextArea getChatTextArea()
 	{
 		return this.chatTextArea;
 	}
 
-	public TextArea getGameLogTextArea()
+	TextArea getGameLogTextArea()
 	{
 		return this.gameLogTextArea;
 	}
 
-	public Label getTimerLabel()
+	Label getTimerLabel()
 	{
 		return this.timerLabel;
 	}
 
-	public JFXDialog getPersonalBonusTilesDialog()
+	JFXDialog getPersonalBonusTilesDialog()
 	{
 		return this.personalBonusTilesDialog;
 	}
