@@ -7,7 +7,6 @@ import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 
 public class CLIHandlerLeaderCardsChoice implements ICLIHandler
@@ -29,18 +28,18 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 
 	private void showLeaderCards()
 	{
-		for (int index = 0; index < GameStatus.getInstance().getAvailableLeaderCards().size(); index++) {
-			this.leaderCards.put(index + 1, GameStatus.getInstance().getAvailableLeaderCards().get(index));
-		}
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Enter Leader Card choice...");
-		for (Entry<Integer, Integer> leaderCard : this.leaderCards.entrySet()) {
+		int index = 1;
+		for (Integer leaderCard : GameStatus.getInstance().getAvailableLeaderCards()) {
 			stringBuilder.append('\n');
 			stringBuilder.append("============= ");
-			stringBuilder.append(leaderCard.getKey());
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard));
 			stringBuilder.append(" =============\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getValue()).getInformations());
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
 			stringBuilder.append("\n=============================");
+			this.leaderCards.put(index, leaderCard);
+			index++;
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}

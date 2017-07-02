@@ -74,13 +74,9 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.LEADER_PLAY);
 		}
 		StringBuilder stringBuilder = new StringBuilder();
-		boolean firstLine = true;
+		stringBuilder.append("Enter Action choice...");
 		for (Entry<Integer, CLIStatus> availableAction : this.availableActions.entrySet()) {
-			if (!firstLine) {
-				stringBuilder.append('\n');
-			} else {
-				firstLine = false;
-			}
+			stringBuilder.append('\n');
 			stringBuilder.append("============= ");
 			stringBuilder.append(availableAction.getKey());
 			stringBuilder.append(" =============\n");
@@ -92,7 +88,6 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 
 	private void askAction()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Action choice...");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();

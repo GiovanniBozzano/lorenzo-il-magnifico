@@ -36,19 +36,15 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 	private void showResourceChoices()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Choose Council Privilege rewards");
 		int index = 1;
-		boolean firstLine = true;
 		for (Entry<Integer, List<ResourceAmount>> councilPrivilegeReward : GameStatus.getInstance().getCurrentCouncilPrivilegeRewards().entrySet()) {
 			if (!this.councilPrivilegeRewards.containsValue(councilPrivilegeReward.getKey())) {
-				if (!firstLine) {
-					stringBuilder.append('\n');
-				} else {
-					firstLine = false;
-				}
-				this.councilPrivilegeRewards.put(index, councilPrivilegeReward.getKey());
+				stringBuilder.append('\n');
 				stringBuilder.append(index);
 				stringBuilder.append(" ========");
 				stringBuilder.append(ResourceAmount.getResourcesInformations(councilPrivilegeReward.getValue(), false));
+				this.councilPrivilegeRewards.put(index, councilPrivilegeReward.getKey());
 				index++;
 			}
 		}
@@ -65,6 +61,7 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 			}
 			while (!CommonUtils.isInteger(input) || !this.councilPrivilegeRewards.containsKey(Integer.parseInt(input)));
 			this.chosenCouncilPrivilegeRewards.add(Integer.parseInt(input));
+			Client.getLogger().log(Level.INFO, "{0} registered", new Object[] { CommonUtils.isInteger(input) });
 			index++;
 		}
 		while (index < ((ExpectedActionChooseRewardCouncilPrivilege) GameStatus.getInstance().getCurrentExpectedAction()).getCouncilPrivilegesNumber());

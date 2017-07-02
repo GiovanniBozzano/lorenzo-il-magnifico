@@ -10,6 +10,7 @@ import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
 import javafx.stage.Stage;
 
 import java.util.Map;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
 public class InterfaceHandlerCLI implements IInterfaceHandler
@@ -29,6 +30,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	public void disconnect()
 	{
 		Client.getInstance().getCliListener().shutdownNow();
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
 		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
@@ -94,6 +96,8 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleGamePersonalBonusTileChoiceRequest()
 	{
+		Client.getInstance().getCliListener().shutdownNow();
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.PERSONAL_BONUS_TILE_CHOICE);
 		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
@@ -111,6 +115,8 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleGameLeaderCardChoiceRequest()
 	{
+		Client.getInstance().getCliListener().shutdownNow();
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.LEADER_CARDS_CHOICE);
 		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
@@ -118,6 +124,10 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleGameExcommunicationChoiceRequest(Period period)
 	{
+		Client.getInstance().getCliListener().shutdownNow();
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
+		Client.getInstance().setCliStatus(CLIStatus.EXCOMMUNICATION_CHOICE);
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 	}
 
 	@Override
@@ -134,6 +144,8 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleGameUpdate()
 	{
+		Client.getInstance().getCliListener().shutdownNow();
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
 		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
@@ -152,6 +164,10 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleGameUpdateOther()
 	{
+		Client.getInstance().getCliListener().shutdownNow();
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
+		Client.getInstance().setCliStatus(CLIStatus.GAME_ENDED);
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 	}
 
 	@Override
@@ -163,12 +179,16 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	public void handleConnectionError()
 	{
 		Client.getLogger().log(Level.INFO, "Could not connect to host");
+		Client.getInstance().getCliListener().shutdownNow();
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override
 	public void handleConnectionSuccess()
 	{
+		Client.getInstance().getCliListener().shutdownNow();
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
 		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
@@ -177,6 +197,8 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	public void handleAuthenticationFailed(String text)
 	{
 		Client.getLogger().log(Level.INFO, text);
+		Client.getInstance().getCliListener().shutdownNow();
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
 
