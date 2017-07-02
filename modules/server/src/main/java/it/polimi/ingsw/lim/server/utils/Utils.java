@@ -319,7 +319,7 @@ public class Utils
 				for (ResourceTradeOption resourceTradeOption : developmentCardBuilding.getResourceTradeOptions()) {
 					boolean availableResourceTradeOption = true;
 					for (ResourceAmount resourceAmount : resourceTradeOption.getEmployedResources()) {
-						if (player.getPlayerResourceHandler().getResources().get(resourceAmount.getResourceType()) >= resourceAmount.getAmount()) {
+						if (player.getPlayerResourceHandler().getResources().get(resourceAmount.getResourceType()) < resourceAmount.getAmount()) {
 							availableResourceTradeOption = false;
 							break;
 						}

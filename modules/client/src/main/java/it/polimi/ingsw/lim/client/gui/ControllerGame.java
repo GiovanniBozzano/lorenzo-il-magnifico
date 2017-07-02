@@ -1768,6 +1768,10 @@ public class ControllerGame extends CustomController
 			pane.setEffect(null);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 		}
+		this.developmentCardsBuildingIndexes.clear();
+		this.developmentCardsCharacterIndexes.clear();
+		this.developmentCardsTerritoryIndexes.clear();
+		this.developmentCardsVentureIndexes.clear();
 		for (Row row : Row.values()) {
 			this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(null);
 			this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBorder(null);
@@ -1856,6 +1860,7 @@ public class ControllerGame extends CustomController
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsBuilding().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsBuilding().get(playerData.getValue().getDevelopmentCardsBuilding().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+				this.developmentCardsBuildingIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index), playerData.getValue().getDevelopmentCardsBuilding().get(index));
 				if (playerData.getKey() == GameStatus.getInstance().getOwnPlayerIndex()) {
 					this.playerDevelopmentCardsBuildingIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index), playerData.getValue().getDevelopmentCardsBuilding().get(index));
 				}
@@ -1867,6 +1872,7 @@ public class ControllerGame extends CustomController
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsCharacter().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsCharacter().get(playerData.getValue().getDevelopmentCardsCharacter().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+				this.developmentCardsCharacterIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index), playerData.getValue().getDevelopmentCardsCharacter().get(index));
 			}
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY)) {
 				pane.setBackground(null);
@@ -1875,6 +1881,7 @@ public class ControllerGame extends CustomController
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsTerritory().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsTerritory().get(playerData.getValue().getDevelopmentCardsTerritory().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+				this.developmentCardsTerritoryIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index), playerData.getValue().getDevelopmentCardsTerritory().get(index));
 			}
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE)) {
 				pane.setBackground(null);
@@ -1883,6 +1890,7 @@ public class ControllerGame extends CustomController
 			for (int index = 0; index < playerData.getValue().getDevelopmentCardsVenture().size(); index++) {
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsVenture().get(playerData.getValue().getDevelopmentCardsVenture().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
+				this.developmentCardsVentureIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index), playerData.getValue().getDevelopmentCardsVenture().get(index));
 			}
 			for (Pane pane : this.playersLeaderCardsHand.get(playerData.getKey())) {
 				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("/images/leader_cards/leader_card_background.png").toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
@@ -2630,7 +2638,7 @@ public class ControllerGame extends CustomController
 						AnchorPane anchorPane = new AnchorPane();
 						resourceTradeOptionsAnchorPanes.add(anchorPane);
 						Text text = new Text();
-						text.setText("PRODUCED RESOURCES:\n" + this.getResourcesInformations(resourceTradeOption.getEmployedResources()) + "\nEMPLOYED RESOURES:\n" + this.getResourcesInformations(resourceTradeOption.getProducedResources()));
+						text.setText("EMPLOYED RESOURCES:\n" + this.getResourcesInformations(resourceTradeOption.getEmployedResources()) + "\nPRODUCED RESOURES:\n" + this.getResourcesInformations(resourceTradeOption.getProducedResources()));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2657,6 +2665,7 @@ public class ControllerGame extends CustomController
 						});
 						hBox.getChildren().add(anchorPane);
 					}
+					this.expectedProductionTradeDialogVBox.getChildren().add(vBox);
 				}
 			}
 			this.expectedProductionTradeDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsProductionTrade(selectedTradeOptions)));
