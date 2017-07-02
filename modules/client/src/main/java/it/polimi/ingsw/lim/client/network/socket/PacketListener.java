@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lim.client.network.socket;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
@@ -18,7 +17,7 @@ class PacketListener extends Thread
 
 	static {
 		PacketListener.PACKET_HANDLERS.put(PacketType.AUTHENTICATION_CONFIRMATION, packet -> ((ConnectionHandlerSocket) Client.getInstance().getConnectionHandler()).handleAuthenticationConfirmation(((PacketAuthenticationConfirmation) packet).getAuthenticationInformations()));
-		PacketListener.PACKET_HANDLERS.put(PacketType.AUTHENTICATION_FAILURE, packet -> ConnectionHandler.handleAuthenticationFailed(((PacketAuthenticationFailure) packet).getText()));
+		PacketListener.PACKET_HANDLERS.put(PacketType.AUTHENTICATION_FAILURE, packet -> Client.getInstance().getInterfaceHandler().handleAuthenticationFailed(((PacketAuthenticationFailure) packet).getText()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, packet -> Client.getInstance().getConnectionHandler().handleChatMessage(((PacketChatMessage) packet).getText()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.DISCONNECTION_LOG_MESSAGE, packet -> (Client.getInstance().getConnectionHandler()).handleDisconnectionLogMessage(((PacketDisconnectionLogMessage) packet).getText()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_ACTION_FAILED, packet -> ((ConnectionHandlerSocket) Client.getInstance().getConnectionHandler()).handleGameActionFailed(((PacketGameActionFailed) packet).getText()));

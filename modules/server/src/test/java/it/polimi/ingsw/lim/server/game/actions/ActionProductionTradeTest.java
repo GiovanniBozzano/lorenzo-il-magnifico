@@ -5,6 +5,7 @@ import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.cli.InterfaceHandlerCLI;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
@@ -32,6 +33,7 @@ public class ActionProductionTradeTest
 		consoleHandler.setFormatter(new DebuggerFormatter());
 		Server.getDebugger().addHandler(consoleHandler);
 		Server.setInstance(new Server());
+		Server.getInstance().setInterfaceHandler(new InterfaceHandlerCLI());
 		Room room = new Room(RoomType.NORMAL);
 		GameHandler gameHandler = new GameHandler(room);
 		room.setGameHandler(gameHandler);

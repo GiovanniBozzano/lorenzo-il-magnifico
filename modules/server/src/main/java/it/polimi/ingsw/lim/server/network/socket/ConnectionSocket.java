@@ -16,7 +16,6 @@ import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.network.Connection;
-import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -46,7 +45,7 @@ public class ConnectionSocket extends Connection
 			this.packetListener = new PacketListener(this);
 			this.packetListener.start();
 			this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
-			Utils.displayToLog("Socket connection accepted from: " + socket.getInetAddress().getHostAddress());
+			Server.getInstance().getInterfaceHandler().displayToLog("Socket connection accepted from: " + socket.getInetAddress().getHostAddress());
 		} catch (IOException exception) {
 			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			this.disconnect(true, null);
@@ -88,7 +87,7 @@ public class ConnectionSocket extends Connection
 				Thread.currentThread().interrupt();
 			}
 		}
-		Utils.displayToLog("Socket Player" + (this.getUsername() != null ? " " + this.getUsername() : "") + " disconnected.");
+		Server.getInstance().getInterfaceHandler().displayToLog("Socket Player" + (this.getUsername() != null ? " " + this.getUsername() : "") + " disconnected.");
 	}
 
 	@Override

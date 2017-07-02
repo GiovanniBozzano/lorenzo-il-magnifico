@@ -12,7 +12,6 @@ import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.network.Connection;
-import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.io.Serializable;
 import java.rmi.NoSuchObjectException;
@@ -71,7 +70,7 @@ public class ConnectionRMI extends Connection
 			}
 		}
 		this.rmiExecutor.shutdownNow();
-		Utils.displayToLog("RMI Player: " + this.getUsername() + " disconnected.");
+		Server.getInstance().getInterfaceHandler().displayToLog("RMI Player: " + this.getUsername() + " disconnected.");
 	}
 
 	@Override

@@ -1,11 +1,9 @@
 package it.polimi.ingsw.lim.server;
 
 import it.polimi.ingsw.lim.common.Instance;
-import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.LoggerFormatter;
-import it.polimi.ingsw.lim.common.utils.WindowFactory;
-import it.polimi.ingsw.lim.server.utils.Utils;
+import it.polimi.ingsw.lim.server.cli.InterfaceHandlerCLI;
 import javafx.application.Application;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -31,11 +29,8 @@ public class Main extends Application
 		consoleHandler.setFormatter(new LoggerFormatter());
 		Server.getLogger().addHandler(consoleHandler);
 		Instance.setInstance(new Server());
-		Server.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance();
-			Server.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
+		Server.getInstance().setInterfaceHandler(new InterfaceHandlerCLI());
+		Server.getInstance().getInterfaceHandler().start();
 	}
 
 	@Override
@@ -59,10 +54,7 @@ public class Main extends Application
 		Font.loadFont(this.getClass().getResourceAsStream("/font/roboto/RobotoCondensed-Light.ttf"), 12);
 		Font.loadFont(this.getClass().getResourceAsStream("/font/roboto/RobotoCondensed-LightItalic.ttf"), 12);
 		Font.loadFont(this.getClass().getResourceAsStream("/font/roboto/RobotoCondensed-Regular.ttf"), 12);
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_START, () -> {
-			Server.getInstance().getCliScanner().close();
-			Server.getInstance().getCliListener().shutdownNow();
-		}, stage);
+		Server.getInstance().getInterfaceHandler().start(stage);
 	}
 
 	@Override

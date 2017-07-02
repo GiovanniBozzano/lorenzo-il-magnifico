@@ -2,16 +2,12 @@ package it.polimi.ingsw.lim.client;
 
 import it.polimi.ingsw.lim.client.cli.*;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
-import it.polimi.ingsw.lim.client.gui.ControllerConnection;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.network.rmi.ConnectionHandlerRMI;
 import it.polimi.ingsw.lim.client.network.socket.ConnectionHandlerSocket;
-import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
-import it.polimi.ingsw.lim.common.utils.WindowFactory;
-import javafx.application.Platform;
 import javafx.scene.media.MediaPlayer;
 
 import java.util.EnumMap;
@@ -47,6 +43,7 @@ public class Client extends Instance
 	private int port;
 	private String username;
 	private ConnectionHandler connectionHandler;
+	private IInterfaceHandler interfaceHandler;
 	private MediaPlayer backgroundMediaPlayer;
 
 	/**
@@ -105,22 +102,9 @@ public class Client extends Instance
 				this.connectionHandler = null;
 			}
 			if (isStopping) {
-				this.getCliScanner().close();
-				this.getCliListener().shutdownNow();
-				if (Client.getInstance().getCliStatus() != CLIStatus.NONE) {
-					Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
-					Client.getInstance().getCliListener().execute(() -> {
-						ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-						Client.getInstance().setCurrentCliHandler(cliHandler);
-						cliHandler.execute();
-					});
-				} else if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-					Platform.runLater(() -> WindowFactory.getInstance().closeWindow());
-				}
-			} else if (Client.getInstance().getCliStatus() == CLIStatus.NONE && WindowFactory.getInstance().isWindowOpen(ControllerConnection.class)) {
-				WindowFactory.getInstance().enableWindow();
-			} else if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-				WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION);
+				this.interfaceHandler.stop();
+			} else {
+				this.interfaceHandler.disconnect();
 			}
 		});
 		executorService.shutdown();
@@ -169,6 +153,16 @@ public class Client extends Instance
 	public ConnectionHandler getConnectionHandler()
 	{
 		return this.connectionHandler;
+	}
+
+	public IInterfaceHandler getInterfaceHandler()
+	{
+		return this.interfaceHandler;
+	}
+
+	public void setInterfaceHandler(IInterfaceHandler interfaceHandler)
+	{
+		this.interfaceHandler = interfaceHandler;
 	}
 
 	public MediaPlayer getBackgroundMediaPlayer()

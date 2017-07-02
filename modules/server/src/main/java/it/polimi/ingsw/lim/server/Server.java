@@ -13,7 +13,6 @@ import it.polimi.ingsw.lim.server.enums.CLIStatus;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.network.ConnectionHandler;
-import javafx.application.Platform;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -45,6 +44,7 @@ public class Server extends Instance
 	private ExecutorService databaseSaver = Executors.newSingleThreadExecutor();
 	private ScheduledExecutorService databaseKeeper = Executors.newSingleThreadScheduledExecutor();
 	private ConnectionHandler connectionHandler;
+	private IInterfaceHandler interfaceHandler;
 	private final ConcurrentLinkedQueue<Connection> connections = new ConcurrentLinkedQueue<>();
 	private final ConcurrentLinkedQueue<Room> rooms = new ConcurrentLinkedQueue<>();
 
@@ -86,8 +86,6 @@ public class Server extends Instance
 	{
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.execute(() -> {
-			this.getCliScanner().close();
-			this.getCliListener().shutdownNow();
 			if (this.connectionHandler != null && this.connectionHandler.isConnected()) {
 				Connection.broadcastChatMessage("Server shutting down...");
 				Connection.disconnectAll();
@@ -120,9 +118,7 @@ public class Server extends Instance
 				this.database.closeConnection();
 				this.connectionHandler = null;
 			}
-			if (this.cliStatus == CLIStatus.NONE) {
-				Platform.runLater(() -> WindowFactory.getInstance().closeWindow());
-			}
+			this.interfaceHandler.stop();
 		});
 		executorService.shutdown();
 	}
@@ -195,6 +191,16 @@ public class Server extends Instance
 	public ConnectionHandler getConnectionHandler()
 	{
 		return this.connectionHandler;
+	}
+
+	public IInterfaceHandler getInterfaceHandler()
+	{
+		return this.interfaceHandler;
+	}
+
+	public void setInterfaceHandler(IInterfaceHandler interfaceHandler)
+	{
+		this.interfaceHandler = interfaceHandler;
 	}
 
 	public Queue<Connection> getConnections()

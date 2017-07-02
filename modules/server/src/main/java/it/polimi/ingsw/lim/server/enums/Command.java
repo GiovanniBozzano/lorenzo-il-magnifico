@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.server.enums;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.network.Connection;
-import it.polimi.ingsw.lim.server.utils.Utils;
 
 public enum Command
 {
@@ -15,7 +14,7 @@ public enum Command
 		if (text != null && !text.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "").isEmpty()) {
 			Connection.broadcastChatMessage("[SERVER]: " + text.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, ""));
 		} else {
-			Utils.displayToLog("Missing command arguments.");
+			Server.getInstance().getInterfaceHandler().displayToLog("Missing command arguments.");
 		}
 	}
 
@@ -31,10 +30,10 @@ public enum Command
 				}
 			}
 			if (!found) {
-				Utils.displayToLog("Player does not exist.");
+				Server.getInstance().getInterfaceHandler().displayToLog("Player does not exist.");
 			}
 		} else {
-			Utils.displayToLog("Missing command arguments.");
+			Server.getInstance().getInterfaceHandler().displayToLog("Missing command arguments.");
 		}
 	}
 }

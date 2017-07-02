@@ -7,7 +7,7 @@ import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Main;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.enums.CLIStatus;
-import it.polimi.ingsw.lim.server.utils.Utils;
+import it.polimi.ingsw.lim.server.gui.InterfaceHandlerGUI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +20,7 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 	static {
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(1, cliHandler -> {
 			Server.getInstance().setCliStatus(CLIStatus.NONE);
+			Server.getInstance().setInterfaceHandler(new InterfaceHandlerGUI());
 			try {
 				Main.launch(Main.class, Main.getArgs());
 			} catch (Exception exception) {
@@ -44,9 +45,9 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 
 	private void askInterfaceType()
 	{
-		Utils.displayToLog("Enter Interface Type...");
-		Utils.displayToLog("1 - GUI");
-		Utils.displayToLog("2 - CLI");
+		Server.getInstance().getInterfaceHandler().displayToLog("Enter Interface Type...");
+		Server.getInstance().getInterfaceHandler().displayToLog("1 - GUI");
+		Server.getInstance().getInterfaceHandler().displayToLog("2 - CLI");
 		String input;
 		do {
 			input = Server.getInstance().getCliScanner().nextLine();

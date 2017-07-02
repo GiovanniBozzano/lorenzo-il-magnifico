@@ -1,14 +1,9 @@
 package it.polimi.ingsw.lim.client.network.socket;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
-import it.polimi.ingsw.lim.client.gui.ControllerAuthentication;
-import it.polimi.ingsw.lim.client.gui.ControllerGame;
-import it.polimi.ingsw.lim.client.gui.ControllerRoom;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
-import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
@@ -21,8 +16,6 @@ import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.*;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
-import it.polimi.ingsw.lim.common.utils.WindowFactory;
-import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -51,13 +44,13 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			this.in = new ObjectInputStream(this.socket.getInputStream());
 		} catch (IOException exception) {
 			Client.getDebugger().log(Level.OFF, "Could not connect to host.", exception);
-			ConnectionHandler.handleConnectionError();
+			Client.getInstance().getInterfaceHandler().handleConnectionError();
 			return;
 		}
 		this.packetListener = new PacketListener();
 		this.packetListener.start();
 		this.getHeartbeat().scheduleAtFixedRate(this::sendHeartbeat, 0L, 3L, TimeUnit.SECONDS);
-		ConnectionHandler.handleConnectionSuccess();
+		Client.getInstance().getInterfaceHandler().handleConnectionSuccess();
 	}
 
 	@Override
@@ -172,17 +165,10 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 
 	void handleAuthenticationConfirmation(AuthenticationInformations authenticationInformations)
 	{
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE && !WindowFactory.getInstance().isWindowOpen(ControllerAuthentication.class)) {
-			return;
-		}
 		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getPersonalBonusTilesInformations());
 		if (!authenticationInformations.isGameStarted()) {
 			Client.getInstance().setUsername(((AuthenticationInformationsLobbySocket) authenticationInformations).getUsername());
-			if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-				WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(((AuthenticationInformationsLobbySocket) authenticationInformations).getRoomInformations().getRoomType(), ((AuthenticationInformationsLobbySocket) authenticationInformations).getRoomInformations().getPlayerNames())));
-			} else {
-				Client.getLogger().log(Level.INFO, "Waiting for other players...");
-			}
+			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccess(authenticationInformations);
 		} else {
 			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationsGame) authenticationInformations).getExcommunicationTiles());
 			GameStatus.getInstance().setCurrentCouncilPrivilegeRewards(((AuthenticationInformationsGame) authenticationInformations).getCouncilPrivilegeRewards());
@@ -192,38 +178,13 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			}
 			GameStatus.getInstance().setCurrentPlayerData(playersData);
 			GameStatus.getInstance().setOwnPlayerIndex(((AuthenticationInformationsGame) authenticationInformations).getOwnPlayerIndex());
-			if (((AuthenticationInformationsGame) authenticationInformations).isGameInitialized()) {
-				GameStatus.getInstance().updateGameStatus(((AuthenticationInformationsGame) authenticationInformations).getGameInformations(), ((AuthenticationInformationsGame) authenticationInformations).getPlayersInformations(), ((AuthenticationInformationsGame) authenticationInformations).getOwnLeaderCardsHand());
-				WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, () -> {
-					if (((AuthenticationInformationsGame) authenticationInformations).getTurnPlayerIndex() != ((AuthenticationInformationsGame) authenticationInformations).getOwnPlayerIndex()) {
-						GameStatus.getInstance().setCurrentTurnPlayerIndex(((AuthenticationInformationsGame) authenticationInformations).getTurnPlayerIndex());
-						if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-							Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::setOtherTurn);
-						} else {
-							Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(((AuthenticationInformationsGame) authenticationInformations).getTurnPlayerIndex()).getUsername() });
-						}
-					} else {
-						GameStatus.getInstance().setCurrentAvailableActions(((AuthenticationInformationsGame) authenticationInformations).getAvailableActions());
-						if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-							Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::setOwnTurn);
-						} else {
-							Client.getLogger().log(Level.INFO, "Your turn...");
-						}
-					}
-				});
-			} else {
-				WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME);
-			}
+			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccessGameStarted(((AuthenticationInformationsGame) authenticationInformations));
 		}
 	}
 
-	public void handleGameActionFailed(String text)
+	void handleGameActionFailed(String text)
 	{
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog(text));
-		} else {
-			Client.getLogger().log(Level.INFO, "Action Failed: " + text);
-		}
+		Client.getInstance().getInterfaceHandler().handleGameActionFailed(text);
 	}
 
 	ObjectInputStream getIn()

@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.cli.InterfaceHandlerCLI;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.player.Player;
@@ -33,6 +34,7 @@ public class GameHandlerTest
 		consoleHandler.setFormatter(new DebuggerFormatter());
 		Server.getDebugger().addHandler(consoleHandler);
 		Server.setInstance(new Server());
+		Server.getInstance().setInterfaceHandler(new InterfaceHandlerCLI());
 		Room room = new Room(RoomType.NORMAL);
 		this.gameHandler = new GameHandler(room);
 		room.setGameHandler(this.gameHandler);

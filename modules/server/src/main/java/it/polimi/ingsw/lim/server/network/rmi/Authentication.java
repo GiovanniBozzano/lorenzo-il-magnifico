@@ -39,7 +39,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	{
 		String trimmedUsername = username.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		Utils.checkLogin(version, trimmedUsername, password);
-		Utils.displayToLog("RMI Player logged in as: " + trimmedUsername);
+		Server.getInstance().getInterfaceHandler().displayToLog("RMI Player logged in as: " + trimmedUsername);
 		return this.finalizeAuthentication(trimmedUsername, roomType, serverSession);
 	}
 
@@ -48,7 +48,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	{
 		String trimmedUsername = username.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
 		Utils.checkRegistration(version, trimmedUsername, password);
-		Utils.displayToLog("RMI Player registerd as: " + trimmedUsername);
+		Server.getInstance().getInterfaceHandler().displayToLog("RMI Player registerd as: " + trimmedUsername);
 		return this.finalizeAuthentication(trimmedUsername, roomType, serverSession);
 	}
 

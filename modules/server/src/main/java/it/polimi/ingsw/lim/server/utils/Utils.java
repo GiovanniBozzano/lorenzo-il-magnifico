@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.server.utils;
 
-import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.Period;
@@ -13,7 +12,6 @@ import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
-import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.enums.*;
@@ -31,9 +29,7 @@ import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
-import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.Connection;
-import javafx.application.Platform;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -99,36 +95,13 @@ public class Utils
 	}
 
 	/**
-	 * <p>Prints a string to the log visible in the main screen.
-	 *
-	 * @param text the string to print.
-	 */
-	public static void displayToLog(String text)
-	{
-		if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
-			if (!WindowFactory.getInstance().isWindowOpen(ControllerMain.class)) {
-				return;
-			}
-			Platform.runLater(() -> {
-				if (((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().getText().length() < 1) {
-					((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().appendText(text);
-				} else {
-					((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().appendText("\n" + text);
-				}
-			});
-		} else {
-			Server.getLogger().log(Level.INFO, text);
-		}
-	}
-
-	/**
 	 * <p>Executes the given command.
 	 *
 	 * @param command the command to execute.
 	 */
 	public static void executeCommand(String command)
 	{
-		Utils.displayToLog("[Command]: " + command);
+		Server.getInstance().getInterfaceHandler().displayToLog("[Command]: " + command);
 		String commandType = command;
 		String commandArguments = null;
 		if (command.contains(" ")) {
@@ -147,16 +120,9 @@ public class Utils
 			}
 		} catch (IllegalArgumentException exception) {
 			Server.getDebugger().log(Level.OFF, "Command does not exist.", exception);
-			Utils.displayToLog("Command does not exist.");
+			Server.getInstance().getInterfaceHandler().displayToLog("Command does not exist.");
 		} finally {
-			if (Server.getInstance().getCliStatus() != CLIStatus.NONE) {
-				Server.getInstance().setCliStatus(CLIStatus.MAIN);
-				Server.getInstance().getCliListener().execute(() -> {
-					ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance();
-					Server.getInstance().setCurrentCliHandler(newCliHandler);
-					newCliHandler.execute();
-				});
-			}
+			Server.getInstance().getInterfaceHandler().handleCommandExecuted();
 		}
 	}
 

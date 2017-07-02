@@ -1,15 +1,9 @@
 package it.polimi.ingsw.lim.server.network;
 
-import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
-import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.enums.CLIStatus;
-import it.polimi.ingsw.lim.server.gui.ControllerMain;
 import it.polimi.ingsw.lim.server.network.rmi.Authentication;
 import it.polimi.ingsw.lim.server.network.socket.ConnectionSocket;
-import it.polimi.ingsw.lim.server.utils.Utils;
-import javafx.application.Platform;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -51,24 +45,7 @@ public class ConnectionHandler extends Thread
 			return;
 		}
 		try (ServerSocket serverSocket = new ServerSocket(this.socketPort)) {
-			if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
-				WindowFactory.getInstance().setNewWindow(Utils.SCENE_MAIN, () -> {
-					Utils.displayToLog("Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
-					Server.getInstance().setExternalIp(Utils.getExternalIpAddress());
-					Platform.runLater(() -> ((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getConnectionLabel().setText(Server.getInstance().getExternalIp() == null ? "External IP: Offline, RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort() : "External IP: " + Server.getInstance().getExternalIp() + ", RMI port: " + Server.getInstance().getRmiPort() + ", Socket port: " + Server.getInstance().getSocketPort()));
-					if (Server.getInstance().getExternalIp() != null) {
-						Utils.displayToLog("Your external IP address is: " + Server.getInstance().getExternalIp());
-					}
-				});
-			} else {
-				Utils.displayToLog("Server waiting on RMI port " + this.rmiPort + " and Socket port " + this.socketPort);
-				Server.getInstance().setCliStatus(CLIStatus.MAIN);
-				Server.getInstance().getCliListener().execute(() -> {
-					ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance();
-					Server.getInstance().setCurrentCliHandler(newCliHandler);
-					newCliHandler.execute();
-				});
-			}
+			Server.getInstance().getInterfaceHandler().setupSuccess(this.rmiPort, this.socketPort);
 			this.connected = true;
 			while (this.keepGoing) {
 				try {
@@ -105,16 +82,7 @@ public class ConnectionHandler extends Thread
 		Server.getInstance().getDatabaseKeeper().shutdownNow();
 		Server.getInstance().setDatabaseKeeper(Executors.newSingleThreadScheduledExecutor());
 		Server.getInstance().getDatabase().closeConnection();
-		if (Server.getInstance().getCliStatus() == CLIStatus.NONE) {
-			WindowFactory.getInstance().enableWindow();
-		} else {
-			Utils.displayToLog("Server setup failed...");
-			Server.getInstance().getCliListener().execute(() -> {
-				ICLIHandler newCliHandler = Server.getCliHandlers().get(Server.getInstance().getCliStatus()).newInstance();
-				Server.getInstance().setCurrentCliHandler(newCliHandler);
-				newCliHandler.execute();
-			});
-		}
+		Server.getInstance().getInterfaceHandler().setupError();
 	}
 
 	public synchronized void end()

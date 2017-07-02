@@ -1,11 +1,9 @@
 package it.polimi.ingsw.lim.client;
 
-import it.polimi.ingsw.lim.client.utils.Utils;
+import it.polimi.ingsw.lim.client.cli.InterfaceHandlerCLI;
 import it.polimi.ingsw.lim.common.Instance;
-import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.LoggerFormatter;
-import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -31,21 +29,15 @@ public class Main extends Application
 		consoleHandler.setFormatter(new LoggerFormatter());
 		Client.getLogger().addHandler(consoleHandler);
 		Instance.setInstance(new Client());
-		Client.getInstance().getCliListener().execute(() -> {
-			ICLIHandler cliHandler = Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance();
-			Client.getInstance().setCurrentCliHandler(cliHandler);
-			cliHandler.execute();
-		});
+		Client.getInstance().setInterfaceHandler(new InterfaceHandlerCLI());
+		Client.getInstance().getInterfaceHandler().start();
 	}
 
 	@Override
 	public void start(Stage stage)
 	{
 		Main.application = this;
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_CONNECTION, () -> {
-			Client.getInstance().getCliScanner().close();
-			Client.getInstance().getCliListener().shutdownNow();
-		}, stage);
+		Client.getInstance().getInterfaceHandler().start(stage);
 	}
 
 	@Override

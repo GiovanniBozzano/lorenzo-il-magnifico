@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.client.cli;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.Main;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
+import it.polimi.ingsw.lim.client.gui.InterfaceHandlerGUI;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.cli.IInputHandler;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -19,6 +20,7 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 	static {
 		CLIHandlerInterfaceChoice.INPUT_HANDLERS.put(1, cliHandler -> {
 			Client.getInstance().setCliStatus(CLIStatus.NONE);
+			Client.getInstance().setInterfaceHandler(new InterfaceHandlerGUI());
 			try {
 				Main.launch(Main.class, Main.getArgs());
 			} catch (Exception exception) {

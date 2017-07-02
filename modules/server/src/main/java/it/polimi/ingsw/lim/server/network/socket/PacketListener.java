@@ -134,10 +134,10 @@ class PacketListener extends Thread
 			try {
 				if (packet.getPacketType() == PacketType.LOGIN) {
 					Utils.checkLogin(((PacketLogin) packet).getVersion(), trimmedUsername, ((PacketLogin) packet).getPassword());
-					Utils.displayToLog("Socket Player logged in as: " + trimmedUsername);
+					Server.getInstance().getInterfaceHandler().displayToLog("Socket Player logged in as: " + trimmedUsername);
 				} else if (packet.getPacketType() == PacketType.REGISTRATION) {
 					Utils.checkRegistration(((PacketRegistration) packet).getVersion(), trimmedUsername, ((PacketRegistration) packet).getPassword());
-					Utils.displayToLog("Socket Player registerd as: " + trimmedUsername);
+					Server.getInstance().getInterfaceHandler().displayToLog("Socket Player registerd as: " + trimmedUsername);
 				}
 			} catch (AuthenticationFailedException exception) {
 				Server.getDebugger().log(Level.INFO, "Socket Client failed authentication.", exception);

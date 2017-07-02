@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.server.cli;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.utils.Utils;
 
 public class CLIHandlerStart implements ICLIHandler
 {
@@ -20,7 +19,7 @@ public class CLIHandlerStart implements ICLIHandler
 
 	private void askRmiPort()
 	{
-		Utils.displayToLog("Enter RMI Port [default 8080]...");
+		Server.getInstance().getInterfaceHandler().displayToLog("Enter RMI Port [default 8080]...");
 		String input;
 		do {
 			input = Server.getInstance().getCliScanner().nextLine();
@@ -30,7 +29,7 @@ public class CLIHandlerStart implements ICLIHandler
 
 	private void askSocketPort()
 	{
-		Utils.displayToLog("Enter Socket Port [default 8081]...");
+		Server.getInstance().getInterfaceHandler().displayToLog("Enter Socket Port [default 8081]...");
 		String input;
 		do {
 			input = Server.getInstance().getCliScanner().nextLine();
