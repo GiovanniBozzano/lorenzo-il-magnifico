@@ -29,27 +29,23 @@ public class CLIHandlerProductionStart implements ICLIHandler
 	}
 
 	@Override
-	public CLIHandlerInterfaceChoice newInstance()
+	public CLIHandlerProductionStart newInstance()
 	{
-		return new CLIHandlerInterfaceChoice();
+		return new CLIHandlerProductionStart();
 	}
 
 	private void showFamilyMembers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Enter Family Member Choice...");
 		int index = 0;
-		boolean firstLine = true;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START)) {
 			if (!this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
-				if (!firstLine) {
-					stringBuilder.append('\n');
-				} else {
-					firstLine = false;
-				}
-				this.familyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
+				stringBuilder.append('\n');
 				stringBuilder.append(index);
 				stringBuilder.append(" ========\n");
 				stringBuilder.append(((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
+				this.familyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
 				index++;
 			}
 		}
@@ -58,7 +54,6 @@ public class CLIHandlerProductionStart implements ICLIHandler
 
 	private void askFamilyMember()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Family Member Choice...");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();

@@ -10,7 +10,7 @@ public abstract class Instance
 	private static Logger debugger;
 	private static Logger logger;
 	private static Instance instance;
-	private final ExecutorService cliListener = Executors.newSingleThreadExecutor();
+	private ExecutorService cliListener = Executors.newSingleThreadExecutor();
 	private final Scanner cliScanner = new Scanner(System.in);
 
 	public abstract void stop();
@@ -48,6 +48,11 @@ public abstract class Instance
 	public ExecutorService getCliListener()
 	{
 		return this.cliListener;
+	}
+
+	public void setCliListener(ExecutorService cliListener)
+	{
+		this.cliListener = cliListener;
 	}
 
 	public Scanner getCliScanner()

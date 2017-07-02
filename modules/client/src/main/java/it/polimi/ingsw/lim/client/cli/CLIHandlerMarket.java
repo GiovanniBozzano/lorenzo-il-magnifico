@@ -35,27 +35,23 @@ public class CLIHandlerMarket implements ICLIHandler
 	}
 
 	@Override
-	public CLIHandlerInterfaceChoice newInstance()
+	public CLIHandlerMarket newInstance()
 	{
-		return new CLIHandlerInterfaceChoice();
+		return new CLIHandlerMarket();
 	}
 
 	private void showMarketSlots()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Enter Market Slot Choice...");
 		int index = 1;
-		boolean firstLine = true;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
 			if (!this.marketSlots.containsValue(((AvailableActionMarket) availableAction).getMarketSlot())) {
-				if (!firstLine) {
-					stringBuilder.append('\n');
-				} else {
-					firstLine = false;
-				}
-				this.marketSlots.put(index, ((AvailableActionMarket) availableAction).getMarketSlot());
+				stringBuilder.append('\n');
 				stringBuilder.append(index);
 				stringBuilder.append(" ========");
 				stringBuilder.append(((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
+				this.marketSlots.put(index, ((AvailableActionMarket) availableAction).getMarketSlot());
 				index++;
 			}
 		}
@@ -64,7 +60,6 @@ public class CLIHandlerMarket implements ICLIHandler
 
 	private void askMarketSlot()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Market Slot Choice...");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
@@ -76,15 +71,11 @@ public class CLIHandlerMarket implements ICLIHandler
 	private void showFamilyMembers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Enter Family Member...");
 		int index = 1;
-		boolean firstLine = true;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
 			if (this.marketSlots.get(this.marketSlot) == ((AvailableActionMarket) availableAction).getMarketSlot() && !this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
-				if (!firstLine) {
-					stringBuilder.append('\n');
-				} else {
-					firstLine = false;
-				}
+				stringBuilder.append('\n');
 				this.familyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
 				stringBuilder.append(index);
 				stringBuilder.append(" ========\n");

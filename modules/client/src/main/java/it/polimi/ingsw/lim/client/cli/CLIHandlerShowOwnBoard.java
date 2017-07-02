@@ -39,9 +39,9 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 	}
 
 	@Override
-	public CLIHandlerShowOwnLeaders newInstance()
+	public CLIHandlerShowOwnBoard newInstance()
 	{
-		return new CLIHandlerShowOwnLeaders();
+		return new CLIHandlerShowOwnBoard();
 	}
 
 	private void askOwnInformation()
@@ -60,13 +60,9 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 	private static void showPlayerFamilyMembers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		boolean firstLine = true;
+		stringBuilder.append("Player Family Memebers:");
 		for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPosition : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getFamilyMembersPositions().entrySet()) {
-			if (!firstLine) {
-				stringBuilder.append('\n');
-			} else {
-				firstLine = false;
-			}
+			stringBuilder.append('\n');
 			stringBuilder.append(familyMemberTypeBoardPosition.getKey().name());
 			stringBuilder.append(" ===");
 			stringBuilder.append(familyMemberTypeBoardPosition.getValue().name());
@@ -77,13 +73,9 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 	private static void showPlayerResources()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		boolean firstLine = true;
+		stringBuilder.append("Player Resources:");
 		for (Entry<ResourceType, Integer> resourceTypeAmount : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().entrySet()) {
-			if (!firstLine) {
-				stringBuilder.append('\n');
-			} else {
-				firstLine = false;
-			}
+			stringBuilder.append('\n');
 			stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceTypeAmount.getKey()));
 			stringBuilder.append(" ===");
 			stringBuilder.append(resourceTypeAmount.getValue());
@@ -104,18 +96,11 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.containsKey(Integer.parseInt(input)));
 		StringBuilder stringBuilder = new StringBuilder();
-		int index = 1;
-		boolean firstLine = true;
+		stringBuilder.append(CommonUtils.getCardTypesNames().get(CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input))));
+		stringBuilder.append(" cards:");
 		for (int value : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getDevelopmentCards().get(CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input)))) {
-			if (!firstLine) {
-				stringBuilder.append('\n');
-			} else {
-				firstLine = false;
-			}
-			stringBuilder.append(index);
-			stringBuilder.append(" ========\n");
+			stringBuilder.append("\n========\n");
 			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input))).get(value).getInformations());
-			index++;
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
