@@ -2049,6 +2049,8 @@ public class ControllerGame extends CustomController
 	public void showLeaderCards()
 	{
 		this.leaderCardsDialogHBox.getChildren().clear();
+		ColorAdjust greyScaleEffect = new ColorAdjust();
+		greyScaleEffect.setSaturation(-1);
 		for (Integer leaderCard : GameStatus.getInstance().getAvailableLeaderCards()) {
 			Pane pane = new Pane();
 			pane.setPrefWidth(this.territory1.getWidth() * 3);
@@ -2063,6 +2065,7 @@ public class ControllerGame extends CustomController
 			pane.setOnMouseClicked(event -> {
 				for (Node node : this.leaderCardsDialogHBox.getChildren()) {
 					node.setDisable(true);
+					node.setEffect(greyScaleEffect);
 				}
 				Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCard);
 			});
@@ -2394,6 +2397,7 @@ public class ControllerGame extends CustomController
 	private void showExpectedChooseRewardCouncilPrivilege(ExpectedActionChooseRewardCouncilPrivilege expectedAction)
 	{
 		this.expectedChooseRewardCouncilPrivilegeDialogLabel.setText("Choose " + expectedAction.getCouncilPrivilegesNumber() + " different Council Privilege rewards.");
+		this.expectedChooseRewardCouncilPrivilegeDialogPane.getChildren().clear();
 		Map<Integer, Integer> selectedCouncilPrivilegesRewards = new HashMap<>();
 		for (int councilPrivilegeIndex = 0; councilPrivilegeIndex < expectedAction.getCouncilPrivilegesNumber(); councilPrivilegeIndex++) {
 			HBox hBox = new HBox();
@@ -2462,6 +2466,7 @@ public class ControllerGame extends CustomController
 			this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.setDisable(true);
 			this.expectedChooseRewardPickDevelopmentCardDialogInstantDiscountChoicesHBox.getChildren().clear();
 			this.expectedChooseRewardPickDevelopmentCardDialogDiscountChoicesHBox.getChildren().clear();
+			this.expectedChooseRewardPickDevelopmentCardDialogResourceCostOptionsHBox.getChildren().clear();
 			this.expectedChooseRewardPickDevelopmentCardDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 			this.expectedChooseRewardPickDevelopmentCardDialogSlider.setValue(0);
 			this.expectedChooseRewardPickDevelopmentCardDialogFourthRow.setSelected(true);
@@ -2769,10 +2774,5 @@ public class ControllerGame extends CustomController
 	public JFXDialog getPersonalBonusTilesDialog()
 	{
 		return this.personalBonusTilesDialog;
-	}
-
-	public JFXDialog getLeaderCardsDialog()
-	{
-		return this.leaderCardsDialog;
 	}
 }
