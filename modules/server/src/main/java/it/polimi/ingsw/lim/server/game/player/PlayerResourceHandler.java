@@ -66,21 +66,15 @@ public class PlayerResourceHandler
 
 	private void fixResourcesCap()
 	{
-		if (this.resources.get(ResourceType.FAITH_POINT) > 25) {
-			this.resources.put(ResourceType.FAITH_POINT, 25);
-		}
 		if (this.resources.get(ResourceType.FAITH_POINT) > 15) {
 			this.resources.put(ResourceType.FAITH_POINT, 15);
+		}
+		if (this.resources.get(ResourceType.MILITARY_POINT) > 25) {
+			this.resources.put(ResourceType.MILITARY_POINT, 25);
 		}
 		if (this.resources.get(ResourceType.PRESTIGE_POINT) > 9) {
 			this.resources.put(ResourceType.PRESTIGE_POINT, 9);
 		}
-	}
-
-	public void addTemporaryResource(ResourceType resourceType, int amount)
-	{
-		this.temporaryResources.put(resourceType, this.temporaryResources.get(resourceType) + amount);
-		this.fixTemporaryResourcesCap();
 	}
 
 	public void addTemporaryResources(List<ResourceAmount> resourceAmounts)
@@ -113,18 +107,6 @@ public class PlayerResourceHandler
 	{
 		for (ResourceAmount resourceAmount : resourceAmounts) {
 			this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
-		}
-	}
-
-	public void subtractTemporaryResource(ResourceType resourceType, int amount)
-	{
-		this.temporaryResources.put(resourceType, this.resources.get(resourceType) - amount);
-	}
-
-	public void subtractTemporaryResources(List<ResourceAmount> resourceAmounts)
-	{
-		for (ResourceAmount resourceAmount : resourceAmounts) {
-			this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
 		}
 	}
 

@@ -70,7 +70,7 @@ public class ActionLeaderActivate extends ActionInformationsLeaderActivate imple
 		((LeaderCardReward) leaderCard).setActivated(true);
 		EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
-		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+		this.player.getPlayerResourceHandler().addResources(eventGainResources.getResourceAmounts());
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " activated his leader card " + leaderCard.getDisplayName());
 		if (Utils.sendActionReward(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward())) {
 			return;

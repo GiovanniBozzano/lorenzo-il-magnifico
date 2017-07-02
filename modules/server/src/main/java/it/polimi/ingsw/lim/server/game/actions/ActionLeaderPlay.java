@@ -115,8 +115,11 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward().createExpectedAction(this.player));
 			return;
 		}
+		leaderCard.setPlayed(true);
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " played his leader card " + leaderCard.getDisplayName());
-		Utils.activateLeaderCard(this.player, leaderCard);
+		if (Utils.activateLeaderCard(this.player, leaderCard)) {
+			return;
+		}
 		this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
 	}
 }

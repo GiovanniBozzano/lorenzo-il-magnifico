@@ -389,7 +389,7 @@ public class Utils
 			((LeaderCardReward) leaderCard).setActivated(true);
 			EventGainResources eventGainResources = new EventGainResources(player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 			eventGainResources.applyModifiers(player.getActiveModifiers());
-			player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+			player.getPlayerResourceHandler().addResources(eventGainResources.getResourceAmounts());
 			if (Utils.sendActionReward(player, ((LeaderCardReward) leaderCard).getReward().getActionReward())) {
 				return true;
 			}

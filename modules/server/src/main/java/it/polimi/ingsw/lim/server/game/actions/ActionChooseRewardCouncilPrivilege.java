@@ -62,12 +62,14 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 		this.player.getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.COUNCIL_PRIVILEGE);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
-		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " chose council privileges rewards");
 		if (this.player.getRoom().getGameHandler().getCurrentPhase() == Phase.LEADER) {
+			this.player.getPlayerResourceHandler().addResources(eventGainResources.getResourceAmounts());
+			this.player.getRoom().getGameHandler().setExpectedAction(null);
 			this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
 			return;
 		}
+		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		this.player.getRoom().getGameHandler().nextTurn();
 	}
 }

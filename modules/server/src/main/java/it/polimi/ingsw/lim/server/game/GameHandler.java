@@ -336,6 +336,11 @@ public class GameHandler
 		} while (!this.turnPlayer.isOnline());
 		this.rollDices();
 		this.drawCards();
+		for (LeaderCard leaderCard : this.turnPlayer.getPlayerCardHandler().getLeaderCards()) {
+			if (leaderCard instanceof LeaderCardReward) {
+				((LeaderCardReward) leaderCard).setActivated(false);
+			}
+		}
 		this.turnPlayer.decreaseAvailableTurns();
 		this.sendGameUpdate(this.turnPlayer);
 	}
@@ -629,11 +634,6 @@ public class GameHandler
 		}
 		for (ResourceType resourceType : ResourceType.values()) {
 			this.turnPlayer.getPlayerResourceHandler().getTemporaryResources().put(resourceType, 0);
-		}
-		for (LeaderCard leaderCard : this.turnPlayer.getPlayerCardHandler().getLeaderCards()) {
-			if (leaderCard instanceof LeaderCardReward) {
-				((LeaderCardReward) leaderCard).setActivated(false);
-			}
 		}
 		boolean endRound = true;
 		for (Player player : this.turnOrder) {
