@@ -80,7 +80,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 		int effectiveServantsValue = eventUseServants.getServants();
 		// check if the card contains cost option array
 		if ((this.getResourceCostOption() == null && !developmentCard.getResourceCostOptions().isEmpty()) || (this.getResourceCostOption() != null && !developmentCard.getResourceCostOptions().contains(this.getResourceCostOption()))) {
-			throw new GameActionFailedException("This card doesn't have any cost");
+			throw new GameActionFailedException("This cost option is not present in the current card");
 		}
 		// check if the player has the requiredResources
 		if (this.getResourceCostOption() != null) {

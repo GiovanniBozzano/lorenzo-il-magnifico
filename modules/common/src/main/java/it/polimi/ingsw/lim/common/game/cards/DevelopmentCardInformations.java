@@ -55,4 +55,14 @@ public abstract class DevelopmentCardInformations extends CardInformations
 		}
 		return stringBuilder.toString();
 	}
+
+	public List<ResourceCostOption> getResourceCostOptions()
+	{
+		return this.resourceCostOptions;
+	}
+
+	public RewardInformations getReward()
+	{
+		return this.reward;
+	}
 }
