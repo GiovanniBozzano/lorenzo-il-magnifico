@@ -140,8 +140,12 @@ public abstract class Connection
 
 	public void handleChatMessage(String text)
 	{
-		for (Connection otherConnection : this.player.getRoom().getPlayers()) {
-			if (otherConnection != this && (otherConnection.getPlayer() == null || otherConnection.getPlayer().isOnline())) {
+		Room room = Room.getPlayerRoom(this.username);
+		if (room == null) {
+			return;
+		}
+		for (Connection otherConnection : room.getPlayers()) {
+			if (otherConnection != this) {
 				otherConnection.sendChatMessage("[" + this.getUsername() + "]: " + text);
 			}
 		}

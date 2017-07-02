@@ -217,6 +217,15 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		}
 	}
 
+	public void handleGameActionFailed(String text)
+	{
+		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
+			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showDialog(text));
+		} else {
+			Client.getLogger().log(Level.INFO, "Action Failed: " + text);
+		}
+	}
+
 	ObjectInputStream getIn()
 	{
 		return this.in;

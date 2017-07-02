@@ -32,30 +32,10 @@ class PacketListener extends Thread
 	private static final Map<PacketType, IPacketHandler> PACKET_HANDLERS = new EnumMap<>(PacketType.class);
 
 	static {
-		PacketListener.PACKET_HANDLERS.put(PacketType.HEARTBEAT, (connectionSocket, packet) -> {
-			// This method is empty because it is only called to check the connection.
-		});
-		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_TIMER_REQUEST, (connectionSocket, packet) -> connectionSocket.handleRoomTimerRequest());
 		PacketListener.PACKET_HANDLERS.put(PacketType.CHAT_MESSAGE, (connectionSocket, packet) -> connectionSocket.handleChatMessage(((PacketChatMessage) packet).getText()));
 		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_ACTION, (connectionSocket, packet) -> {
 			try {
 				connectionSocket.handleGameAction(((PacketGameAction) packet).getAction());
-			} catch (GameActionFailedException exception) {
-				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
-			}
-		});
-		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_PERSONAL_BONUS_TILE_PLAYER_CHOICE, (connectionSocket, packet) -> {
-			try {
-				connectionSocket.handleGamePersonalBonusTilePlayerChoice(((PacketGamePersonalBonusTilePlayerChoice) packet).getPersonalBonusTileIndex());
-			} catch (GameActionFailedException exception) {
-				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
-			}
-		});
-		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_LEADER_CARD_PLAYER_CHOICE, (connectionSocket, packet) -> {
-			try {
-				connectionSocket.handleGameLeaderCardPlayerChoice(((PacketGameLeaderCardPlayerChoice) packet).getLeaderCardIndex());
 			} catch (GameActionFailedException exception) {
 				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
@@ -69,6 +49,22 @@ class PacketListener extends Thread
 				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
 			}
 		});
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_LEADER_CARD_PLAYER_CHOICE, (connectionSocket, packet) -> {
+			try {
+				connectionSocket.handleGameLeaderCardPlayerChoice(((PacketGameLeaderCardPlayerChoice) packet).getLeaderCardIndex());
+			} catch (GameActionFailedException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
+			}
+		});
+		PacketListener.PACKET_HANDLERS.put(PacketType.GAME_PERSONAL_BONUS_TILE_PLAYER_CHOICE, (connectionSocket, packet) -> {
+			try {
+				connectionSocket.handleGamePersonalBonusTilePlayerChoice(((PacketGamePersonalBonusTilePlayerChoice) packet).getPersonalBonusTileIndex());
+			} catch (GameActionFailedException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
+			}
+		});
 		PacketListener.PACKET_HANDLERS.put(PacketType.GOOD_GAME, (connectionSocket, packet) -> {
 			try {
 				connectionSocket.handleGoodGame(((PacketGoodGame) packet).getPlayerIndex());
@@ -77,6 +73,10 @@ class PacketListener extends Thread
 				connectionSocket.sendGameActionFailed(exception.getLocalizedMessage());
 			}
 		});
+		PacketListener.PACKET_HANDLERS.put(PacketType.HEARTBEAT, (connectionSocket, packet) -> {
+			// This method is empty because it is only called to check the connection.
+		});
+		PacketListener.PACKET_HANDLERS.put(PacketType.ROOM_TIMER_REQUEST, (connectionSocket, packet) -> connectionSocket.handleRoomTimerRequest());
 	}
 
 	private final ConnectionSocket connectionSocket;
