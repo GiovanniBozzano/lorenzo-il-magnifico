@@ -56,7 +56,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		}
 		// check if the player has developmentcard space available
 		if (!this.player.getPlayerCardHandler().canAddDevelopmentCard(this.getCardType())) {
-			throw new GameActionFailedException("You don't have enough space available on his board");
+			throw new GameActionFailedException("You don't have enough space available on your board");
 		}
 		// get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow()), this.player.getRoom().getGameHandler().getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
@@ -90,9 +90,9 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
 		eventUseServants.applyModifiers(this.player.getActiveModifiers());
 		int effectiveServantsValue = eventUseServants.getServants();
-		// check if the card contains costoption array
+		// check if the card contains cost option array
 		if ((this.getResourceCostOption() == null && !developmentCard.getResourceCostOptions().isEmpty()) || (this.getResourceCostOption() != null && !developmentCard.getResourceCostOptions().contains(this.getResourceCostOption()))) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("This card doesn't have any cost");
 		}
 		// check if the player has the requiredResources
 		if (this.getResourceCostOption() != null) {
