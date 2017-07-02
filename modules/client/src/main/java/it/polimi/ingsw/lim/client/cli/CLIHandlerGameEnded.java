@@ -10,8 +10,8 @@ public class CLIHandlerGameEnded implements ICLIHandler
 	}
 
 	@Override
-	public CLIHandlerExcommunicationChoice newInstance()
+	public CLIHandlerGameEnded newInstance()
 	{
-		return new CLIHandlerExcommunicationChoice();
+		return new CLIHandlerGameEnded();
 	}
 }
