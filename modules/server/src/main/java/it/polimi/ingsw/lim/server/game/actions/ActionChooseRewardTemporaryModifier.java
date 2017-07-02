@@ -23,7 +23,7 @@ public class ActionChooseRewardTemporaryModifier extends ActionInformationsChoos
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("It's not this player's turn");
+			throw new GameActionFailedException("It's not your turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER) {
@@ -31,7 +31,7 @@ public class ActionChooseRewardTemporaryModifier extends ActionInformationsChoos
 		}
 		// check whether the chosen family member is colored
 		if (this.getFamilyMemberType() == FamilyMemberType.NEUTRAL) {
-			throw new GameActionFailedException("Action cannot be performed because the selected Family Member is the Neutral one");
+			throw new GameActionFailedException("This action cannot be performed because the selected Family Member is the Neutral one");
 		}
 	}
 

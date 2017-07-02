@@ -39,7 +39,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("It's not this player's turn");
+			throw new GameActionFailedException("It's not your turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD) {
@@ -52,7 +52,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 		}
 		// check if the player has developmentcard space available
 		if (!this.player.getPlayerCardHandler().canAddDevelopmentCard(this.getCardType())) {
-			throw new GameActionFailedException("Player doesn't have enough space available on his board");
+			throw new GameActionFailedException("You don't have enough space available on your board");
 		}
 		if (this.getInstantRewardRow() != Row.THIRD && this.getInstantRewardRow() != Row.FOURTH) {
 			throw new GameActionFailedException("");
@@ -71,7 +71,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 		}
 		// check if the player has the servants he sent
 		if (this.player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
-			throw new GameActionFailedException("Player doesn't have the number of servants he wants to use");
+			throw new GameActionFailedException("You don't have the number of servants you want to use");
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
@@ -86,7 +86,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 			for (ResourceAmount requiredResources : this.getResourceCostOption().getRequiredResources()) {
 				int playerResources = this.player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
 				if (playerResources < requiredResources.getAmount()) {
-					throw new GameActionFailedException("Player doesn't have the required resources to perform this action");
+					throw new GameActionFailedException("You don't have the required resources to perform this action");
 				}
 			}
 		}
@@ -97,7 +97,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 		this.getBoardPositionReward = eventPickDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
 		if (developmentCard.getCardType() == CardType.TERRITORY && !eventPickDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.isTerritorySlotAvailable(this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
-			throw new GameActionFailedException("Player doesn't have enough military points to unlock the slot necessary to perform this action");
+			throw new GameActionFailedException("You don't have enough military points to unlock the slot necessary to perform this action");
 		}
 		Utils.checkValidDiscount(this.player, this.getCardType(), this.getInstantDiscountChoice(), this.getDiscountChoice(), this.getResourceCostOption());
 		// check the presence of discountchoice in actionreward array

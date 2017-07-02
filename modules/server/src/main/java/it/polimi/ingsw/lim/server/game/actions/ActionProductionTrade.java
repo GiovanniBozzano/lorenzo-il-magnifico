@@ -35,7 +35,7 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("It's not this player's turn");
+			throw new GameActionFailedException("It's not your turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != ActionType.PRODUCTION_TRADE) {
@@ -46,10 +46,10 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 		for (Entry<Integer, ResourceTradeOption> chosenDevelopmentCardBuilding : this.getChosenDevelopmentCardsBuilding().entrySet()) {
 			DevelopmentCardBuilding developmentCardBuilding = this.player.getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, chosenDevelopmentCardBuilding.getKey(), DevelopmentCardBuilding.class);
 			if (developmentCardBuilding == null) {
-				throw new GameActionFailedException("");
+				throw new GameActionFailedException("You don't have this card");
 			}
 			if (!developmentCardBuilding.getResourceTradeOptions().contains(chosenDevelopmentCardBuilding.getValue())) {
-				throw new GameActionFailedException("");
+				throw new GameActionFailedException("This trade option is not present in the current card");
 			}
 			for (ResourceAmount resourceAmount : chosenDevelopmentCardBuilding.getValue().getEmployedResources()) {
 				if (employedResources.containsKey(resourceAmount.getResourceType())) {
@@ -61,7 +61,7 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 		}
 		for (Entry<ResourceType, Integer> employedResource : employedResources.entrySet()) {
 			if (this.player.getPlayerResourceHandler().getResources().get(employedResource.getKey()) < employedResource.getValue()) {
-				throw new GameActionFailedException("");
+				throw new GameActionFailedException("You don't have enough resources to perform the trade");
 			}
 		}
 	}

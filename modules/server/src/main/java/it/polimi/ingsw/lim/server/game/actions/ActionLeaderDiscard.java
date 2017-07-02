@@ -28,7 +28,7 @@ public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard impleme
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("It is not this player's turn");
+			throw new GameActionFailedException("It is not your turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != null) {
@@ -44,7 +44,7 @@ public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard impleme
 			break;
 		}
 		if (leaderCard == null) {
-			throw new GameActionFailedException("The Player does not have this Leader Card");
+			throw new GameActionFailedException("You don't have this Leader Card");
 		}
 		// check if the leader card has been played
 		if (leaderCard.isPlayed()) {
@@ -65,7 +65,7 @@ public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard impleme
 			break;
 		}
 		if (leaderCard == null) {
-			throw new GameActionFailedException("The Player does not have this Leader Card");
+			throw new GameActionFailedException("You don't have this Leader Card");
 		}
 		this.player.getPlayerCardHandler().getLeaderCards().remove(leaderCard);
 		EventGainResources eventGainResources = new EventGainResources(this.player, Collections.singletonList(new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, 1)), ResourcesSource.LEADER_CARDS);

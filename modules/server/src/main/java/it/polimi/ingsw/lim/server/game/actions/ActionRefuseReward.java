@@ -21,7 +21,7 @@ public class ActionRefuseReward extends ActionInformationsRefuseReward implement
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("It's not this player's turn");
+			throw new GameActionFailedException("It's not your turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD) {

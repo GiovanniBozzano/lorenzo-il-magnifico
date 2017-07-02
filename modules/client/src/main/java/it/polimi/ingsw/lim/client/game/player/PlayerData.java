@@ -20,7 +20,7 @@ public class PlayerData
 	private final Map<ResourceType, Integer> resourceAmounts = new EnumMap<>(ResourceType.class);
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
 
-	public PlayerData(String username, Color color, Map<CardType, List<Integer>> developmentCards)
+	public PlayerData(String username, Color color)
 	{
 		this.username = username;
 		this.color = color;

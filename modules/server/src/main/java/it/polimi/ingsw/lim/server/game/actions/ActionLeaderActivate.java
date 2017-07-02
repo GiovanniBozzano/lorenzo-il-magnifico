@@ -25,7 +25,7 @@ public class ActionLeaderActivate extends ActionInformationsLeaderActivate imple
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("It's not this player's turn");
+			throw new GameActionFailedException("It's not your turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != null) {
@@ -40,7 +40,7 @@ public class ActionLeaderActivate extends ActionInformationsLeaderActivate imple
 			}
 		}
 		if (leaderCard == null) {
-			throw new GameActionFailedException("Player doesn't have this Leader Card");
+			throw new GameActionFailedException("You don't have this Leader Card");
 		}
 		// check if the leader card has been played
 		if (!leaderCard.isPlayed()) {
@@ -63,7 +63,7 @@ public class ActionLeaderActivate extends ActionInformationsLeaderActivate imple
 			}
 		}
 		if (leaderCard == null) {
-			throw new GameActionFailedException("Player doesn't have this Leader Card");
+			throw new GameActionFailedException("You don't have this Leader Card");
 		}
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.LEADER);
 		((LeaderCardReward) leaderCard).setActivated(true);

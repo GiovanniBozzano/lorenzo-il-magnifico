@@ -51,7 +51,7 @@ public class ActionChooseLorenzoDeMediciLeader extends ActionInformationsChooseL
 		this.player.getPlayerCardHandler().getLeaderCards().remove(this.player.getPlayerCardHandler().getLeaderCardFromIndex(14));
 		LeaderCard leaderCard = CardsHandler.getleaderCardFromIndex(this.getLeaderCardIndex());
 		if (leaderCard == null) {
-			throw new GameActionFailedException("Cannot select Lorenzo Il Magnifico from player's cards");
+			throw new GameActionFailedException("Cannot select Lorenzo Il Magnifico from your cards");
 		}
 		leaderCard.setPlayed(true);
 		this.player.getPlayerCardHandler().getLeaderCards().add(leaderCard);

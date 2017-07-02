@@ -29,7 +29,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("It's not this player's turn");
+			throw new GameActionFailedException("It's not your turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != null) {
@@ -44,7 +44,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			}
 		}
 		if (leaderCard == null) {
-			throw new GameActionFailedException("Player doesn't have this Leader Card");
+			throw new GameActionFailedException("You don't have this Leader Card");
 		}
 		// check if the player's resources are enough
 		if (leaderCard.getConditionsOptions().isEmpty()) {
@@ -93,7 +93,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 				return;
 			}
 		}
-		throw new GameActionFailedException("Player doesn't have the necessary resources to perform this action");
+		throw new GameActionFailedException("You don't have the necessary resources to perform this action");
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			}
 		}
 		if (leaderCard == null) {
-			throw new GameActionFailedException("Player doesn't have this Leader Card");
+			throw new GameActionFailedException("You don't have this Leader Card");
 		}
 		// check Lorenzo Il Magnifico
 		if (leaderCard.getIndex() == 14) {
