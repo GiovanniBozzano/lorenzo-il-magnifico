@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.client.utils;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.common.enums.Color;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -14,7 +13,6 @@ import javafx.scene.layout.Pane;
 
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Utils
@@ -123,24 +121,6 @@ public class Utils
 
 	private Utils()
 	{
-	}
-
-	public static String getResourcesInformations(List<ResourceAmount> resourceAmounts)
-	{
-		StringBuilder stringBuilder = new StringBuilder();
-		boolean firstLine = true;
-		for (ResourceAmount resourceAmount : resourceAmounts) {
-			if (!firstLine) {
-				stringBuilder.append('\n');
-			} else {
-				firstLine = false;
-			}
-			stringBuilder.append("- ");
-			stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-			stringBuilder.append(": ");
-			stringBuilder.append(Integer.toString(resourceAmount.getAmount()));
-		}
-		return stringBuilder.toString();
 	}
 
 	public static void resizeChildrenNode(Pane pane, double widthRatio, double heightRatio)

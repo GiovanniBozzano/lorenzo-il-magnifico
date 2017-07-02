@@ -283,14 +283,7 @@ public class Utils
 			if (developmentCardBuilding.getActivationValue() <= player.getCurrentProductionValue()) {
 				List<ResourceTradeOption> availableResourceTradeOptions = new ArrayList<>();
 				for (ResourceTradeOption resourceTradeOption : developmentCardBuilding.getResourceTradeOptions()) {
-					boolean availableResourceTradeOption = true;
-					for (ResourceAmount resourceAmount : resourceTradeOption.getEmployedResources()) {
-						if (player.getPlayerResourceHandler().getResources().get(resourceAmount.getResourceType()) < resourceAmount.getAmount()) {
-							availableResourceTradeOption = false;
-							break;
-						}
-					}
-					if (availableResourceTradeOption) {
+					if (player.getPlayerResourceHandler().canAffordResources(resourceTradeOption.getEmployedResources())) {
 						availableResourceTradeOptions.add(resourceTradeOption);
 					}
 				}

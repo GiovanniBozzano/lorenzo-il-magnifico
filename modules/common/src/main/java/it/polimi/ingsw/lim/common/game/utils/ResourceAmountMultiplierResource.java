@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.common.game.utils;
 
 import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.Objects;
 
@@ -16,11 +17,6 @@ public class ResourceAmountMultiplierResource extends ResourceAmount
 		this.resourceAmountDivider = amountDivider;
 	}
 
-	public ResourceType getResourceTypeMultiplier()
-	{
-		return this.resourceTypeMultiplier;
-	}
-
 	@Override
 	public boolean equals(Object resourceAmount)
 	{
@@ -31,6 +27,17 @@ public class ResourceAmountMultiplierResource extends ResourceAmount
 	public int hashCode()
 	{
 		return Objects.hash(super.hashCode(), this.getResourceType(), this.getAmount(), this.resourceTypeMultiplier, this.resourceAmountDivider);
+	}
+
+	@Override
+	public String getInformations()
+	{
+		return "- " + CommonUtils.getResourcesTypesNames().get(this.getResourceType()) + ": " + this.getAmount() + " x " + this.resourceAmountDivider + " " + CommonUtils.getResourcesTypesNames().get(this.resourceTypeMultiplier);
+	}
+
+	public ResourceType getResourceTypeMultiplier()
+	{
+		return this.resourceTypeMultiplier;
 	}
 
 	public int getResourceAmountDivider()

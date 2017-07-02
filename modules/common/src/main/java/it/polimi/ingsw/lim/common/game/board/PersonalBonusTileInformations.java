@@ -24,6 +24,25 @@ public class PersonalBonusTileInformations extends ObjectInformations
 		this.harvestInstantResources = new ArrayList<>(harvestInstantResources);
 	}
 
+	@Override
+	public String getInformations()
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Production activation cost: ");
+		stringBuilder.append(this.productionActivationCost);
+		if (!this.productionInstantResources.isEmpty()) {
+			stringBuilder.append("\n\nProduction bonus resources:");
+		}
+		stringBuilder.append(ResourceAmount.getResourcesInformations(this.productionInstantResources, true));
+		stringBuilder.append("\n\nHarvest activation cost: ");
+		stringBuilder.append(this.harvestActivationCost);
+		if (!this.harvestInstantResources.isEmpty()) {
+			stringBuilder.append("\n\nHarvest bonus resources:");
+		}
+		stringBuilder.append(ResourceAmount.getResourcesInformations(this.harvestInstantResources, true));
+		return stringBuilder.toString();
+	}
+
 	public String getPlayerBoardTexturePath()
 	{
 		return this.playerBoardTexturePath;

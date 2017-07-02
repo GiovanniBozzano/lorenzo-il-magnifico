@@ -4,7 +4,6 @@ import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.common.game.utils.RewardInformations;
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,25 +29,15 @@ public class DevelopmentCardBuildingInformations extends DevelopmentCardInformat
 		stringBuilder.append(this.activationValue);
 		if (!this.resourceTradeOptions.isEmpty()) {
 			stringBuilder.append("\n\nRESOURCE TRADE OPTIONS:");
-			for (ResourceTradeOption resourcetradeOption : this.resourceTradeOptions) {
+			for (ResourceTradeOption resourceTradeOption : this.resourceTradeOptions) {
 				stringBuilder.append("\n==============");
-				if (!resourcetradeOption.getEmployedResources().isEmpty()) {
+				if (!resourceTradeOption.getEmployedResources().isEmpty()) {
 					stringBuilder.append("\nEmployed resources:");
-					for (ResourceAmount resourceAmount : resourcetradeOption.getEmployedResources()) {
-						stringBuilder.append("\n    - ");
-						stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-						stringBuilder.append(": ");
-						stringBuilder.append(resourceAmount.getAmount());
-					}
+					stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getEmployedResources(), true));
 				}
-				if (!resourcetradeOption.getProducedResources().isEmpty()) {
+				if (!resourceTradeOption.getProducedResources().isEmpty()) {
 					stringBuilder.append("\nProduced resources:");
-					for (ResourceAmount resourceAmount : resourcetradeOption.getProducedResources()) {
-						stringBuilder.append("\n    - ");
-						stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-						stringBuilder.append(": ");
-						stringBuilder.append(resourceAmount.getAmount());
-					}
+					stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getProducedResources(), true));
 				}
 				stringBuilder.append("\n==============");
 			}

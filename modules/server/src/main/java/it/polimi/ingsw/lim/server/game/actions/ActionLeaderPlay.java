@@ -2,9 +2,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderPlay;
-import it.polimi.ingsw.lim.common.game.utils.CardAmount;
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
-import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.player.Player;
@@ -70,21 +68,13 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 		for (LeaderCardConditionsOption leaderCardConditionsOption : leaderCard.getConditionsOptions()) {
 			boolean availableConditionOption = true;
 			if (leaderCardConditionsOption.getResourceAmounts() != null) {
-				for (ResourceAmount requiredResources : leaderCardConditionsOption.getResourceAmounts()) {
-					int playerResources = this.player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
-					if (playerResources < requiredResources.getAmount()) {
-						availableConditionOption = false;
-						break;
-					}
+				if (!this.player.getPlayerResourceHandler().canAffordResources(leaderCardConditionsOption.getResourceAmounts())) {
+					availableConditionOption = false;
 				}
 			}
 			if (leaderCardConditionsOption.getCardAmounts() != null) {
-				for (CardAmount requiredCards : leaderCardConditionsOption.getCardAmounts()) {
-					int playerCards = this.player.getPlayerCardHandler().getDevelopmentCardsNumber(requiredCards.getCardType());
-					if (playerCards < requiredCards.getAmount()) {
-						availableConditionOption = false;
-						break;
-					}
+				if (!this.player.getPlayerCardHandler().hasEnoughCards(leaderCardConditionsOption.getCardAmounts())) {
+					availableConditionOption = false;
 				}
 			}
 			if (availableConditionOption) {

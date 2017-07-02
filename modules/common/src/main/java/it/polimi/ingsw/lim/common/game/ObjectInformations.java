@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.common.game;
 
 import java.io.Serializable;
 
-public class ObjectInformations implements Serializable
+public abstract class ObjectInformations implements Serializable
 {
 	private final String texturePath;
 
@@ -15,4 +15,6 @@ public class ObjectInformations implements Serializable
 	{
 		return this.texturePath;
 	}
+
+	public abstract String getInformations();
 }

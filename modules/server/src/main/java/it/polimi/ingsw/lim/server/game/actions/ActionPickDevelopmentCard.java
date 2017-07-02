@@ -100,11 +100,8 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		}
 		// check if the player has the requiredResources
 		if (this.getResourceCostOption() != null) {
-			for (ResourceAmount requiredResources : this.getResourceCostOption().getRequiredResources()) {
-				int playerResources = this.player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
-				if (playerResources < requiredResources.getAmount()) {
-					throw new GameActionFailedException("You do not have the necessary resources to perform this action");
-				}
+			if (!this.player.getPlayerResourceHandler().canAffordResources(this.getResourceCostOption().getRequiredResources())) {
+				throw new GameActionFailedException("You do not have the necessary resources to perform this action");
 			}
 		}
 		// check if the family member and servants value is high enough
@@ -130,11 +127,8 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			this.effectiveResourceCost.add(new ResourceAmount(ResourceType.COIN, 3));
 		}
 		// prendo prezzo finale e controllo che il giocatore abbia le risorse necessarie
-		for (ResourceAmount resourceCost : this.effectiveResourceCost) {
-			int playerResources = this.player.getPlayerResourceHandler().getResources().get(resourceCost.getResourceType());
-			if (playerResources < resourceCost.getAmount()) {
-				throw new GameActionFailedException("You do not have enough resources to get the card");
-			}
+		if (!this.player.getPlayerResourceHandler().canAffordResources(this.effectiveResourceCost)) {
+			throw new GameActionFailedException("You do not have enough resources to get the card");
 		}
 		if (eventPickDevelopmentCard.getActionValue() < BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue()) {
 			throw new GameActionFailedException("The action value is too low to get this card");

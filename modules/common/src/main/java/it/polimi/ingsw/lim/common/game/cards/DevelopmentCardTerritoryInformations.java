@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.common.game.cards;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.RewardInformations;
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +28,7 @@ public class DevelopmentCardTerritoryInformations extends DevelopmentCardInforma
 		stringBuilder.append(this.activationValue);
 		if (!this.harvestResources.isEmpty()) {
 			stringBuilder.append("\n\nHARVEST RESOURCES:");
-			for (ResourceAmount resourceAmount : this.harvestResources) {
-				stringBuilder.append("\n    - ");
-				stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-				stringBuilder.append(": ");
-				stringBuilder.append(resourceAmount.getAmount());
-			}
+			stringBuilder.append(ResourceAmount.getResourcesInformations(this.harvestResources, true));
 		}
 		return stringBuilder.toString();
 	}

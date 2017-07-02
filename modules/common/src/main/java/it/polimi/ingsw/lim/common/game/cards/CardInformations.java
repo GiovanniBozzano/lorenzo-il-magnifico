@@ -12,8 +12,6 @@ public abstract class CardInformations extends ObjectInformations
 		this.displayName = displayName;
 	}
 
-	public abstract String getInformations();
-
 	abstract String getCommonInformations();
 
 	public String getDisplayName()

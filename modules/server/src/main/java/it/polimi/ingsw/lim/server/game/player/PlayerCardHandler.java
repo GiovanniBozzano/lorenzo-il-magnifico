@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.game.player;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
+import it.polimi.ingsw.lim.common.game.utils.CardAmount;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 
@@ -41,6 +42,16 @@ public class PlayerCardHandler
 		this.developmentCards.put(CardType.CHARACTER, new ArrayList<>());
 		this.developmentCards.put(CardType.TERRITORY, new ArrayList<>());
 		this.developmentCards.put(CardType.VENTURE, new ArrayList<>());
+	}
+
+	public boolean hasEnoughCards(List<CardAmount> cardAmounts)
+	{
+		for (CardAmount cardAmount : cardAmounts) {
+			if (this.developmentCards.get(cardAmount.getCardType()).size() < cardAmount.getAmount()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public <T extends DevelopmentCard> List<T> getDevelopmentCards(CardType cardType, Class<T> cardClass)

@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.client.cli;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
-import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.HashMap;
@@ -40,28 +39,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 			stringBuilder.append("============= ");
 			stringBuilder.append(personalBonusTile.getKey());
 			stringBuilder.append(" =============\n");
-			stringBuilder.append("Production activation cost: ");
-			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionActivationCost());
-			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionInstantResources().isEmpty()) {
-				stringBuilder.append("\n\nProduction bonus resources:");
-			}
-			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getProductionInstantResources()) {
-				stringBuilder.append('\n');
-				stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-				stringBuilder.append(": ");
-				stringBuilder.append(resourceAmount.getAmount());
-			}
-			stringBuilder.append("\n\nHarvest activation cost: ");
-			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getHarvestActivationCost());
-			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getHarvestInstantResources().isEmpty()) {
-				stringBuilder.append("\n\nHarvest bonus resources:");
-			}
-			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()).getHarvestInstantResources()) {
-				stringBuilder.append('\n');
-				stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-				stringBuilder.append(": ");
-				stringBuilder.append(resourceAmount.getAmount());
-			}
+			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile.getValue()));
 			stringBuilder.append("\n=============================");
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });

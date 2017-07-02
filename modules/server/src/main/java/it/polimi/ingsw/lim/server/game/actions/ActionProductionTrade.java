@@ -2,7 +2,6 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionTrade;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
@@ -16,7 +15,6 @@ import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -43,7 +41,7 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 			throw new GameActionFailedException("This action was not expected");
 		}
 		//ckeck trades' correctness
-		Map<ResourceType, Integer> employedResources = new EnumMap<>(ResourceType.class);
+		List<ResourceAmount> employedResources = new ArrayList<>();
 		for (Entry<Integer, ResourceTradeOption> chosenDevelopmentCardBuilding : this.getChosenDevelopmentCardsBuilding().entrySet()) {
 			DevelopmentCardBuilding developmentCardBuilding = this.player.getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, chosenDevelopmentCardBuilding.getKey(), DevelopmentCardBuilding.class);
 			if (developmentCardBuilding == null) {
@@ -52,18 +50,10 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 			if (!developmentCardBuilding.getResourceTradeOptions().contains(chosenDevelopmentCardBuilding.getValue())) {
 				throw new GameActionFailedException("This trade option is not present in the current card");
 			}
-			for (ResourceAmount resourceAmount : chosenDevelopmentCardBuilding.getValue().getEmployedResources()) {
-				if (employedResources.containsKey(resourceAmount.getResourceType())) {
-					employedResources.put(resourceAmount.getResourceType(), employedResources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
-				} else {
-					employedResources.put(resourceAmount.getResourceType(), resourceAmount.getAmount());
-				}
-			}
+			employedResources.addAll(chosenDevelopmentCardBuilding.getValue().getEmployedResources());
 		}
-		for (Entry<ResourceType, Integer> employedResource : employedResources.entrySet()) {
-			if (this.player.getPlayerResourceHandler().getResources().get(employedResource.getKey()) < employedResource.getValue()) {
-				throw new GameActionFailedException("You don't have enough resources to perform the trade");
-			}
+		if (!this.player.getPlayerResourceHandler().canAffordResources(employedResources)) {
+			throw new GameActionFailedException("You don't have enough resources to perform the trade");
 		}
 	}
 

@@ -35,7 +35,7 @@ public class Player
 	private final Room room;
 	private final int index;
 	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler();
-	private final PlayerResourceHandler playerResourceHandler = new PlayerResourceHandler(3, 2, 2);
+	private final PlayerResourceHandler playerResourceHandler = new PlayerResourceHandler(this, 3, 2, 2);
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
 	private final List<Modifier> activeModifiers = new ArrayList<>();
 	private final List<Modifier> temporaryModifiers = new ArrayList<>();

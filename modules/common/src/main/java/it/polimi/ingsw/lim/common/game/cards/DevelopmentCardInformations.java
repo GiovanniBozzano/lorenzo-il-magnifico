@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.common.game.cards;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.RewardInformations;
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,21 +30,11 @@ public abstract class DevelopmentCardInformations extends CardInformations
 			for (ResourceCostOption resourceCostOption : this.resourceCostOptions) {
 				if (!resourceCostOption.getRequiredResources().isEmpty()) {
 					stringBuilder.append("\nRequired resources:");
-					for (ResourceAmount resourceAmount : resourceCostOption.getRequiredResources()) {
-						stringBuilder.append("\n    - ");
-						stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-						stringBuilder.append(": ");
-						stringBuilder.append(resourceAmount.getAmount());
-					}
+					stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
 				}
 				if (!resourceCostOption.getSpentResources().isEmpty()) {
 					stringBuilder.append("\nSpent resources:");
-					for (ResourceAmount resourceAmount : resourceCostOption.getSpentResources()) {
-						stringBuilder.append("\n    - ");
-						stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-						stringBuilder.append(": ");
-						stringBuilder.append(resourceAmount.getAmount());
-					}
+					stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
 				}
 				stringBuilder.append("\n==============");
 			}
@@ -58,12 +47,7 @@ public abstract class DevelopmentCardInformations extends CardInformations
 		}
 		if (!this.reward.getResourceAmounts().isEmpty()) {
 			stringBuilder.append("\nInstant resources:");
-			for (ResourceAmount resourceAmount : this.reward.getResourceAmounts()) {
-				stringBuilder.append("\n    - ");
-				stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-				stringBuilder.append(": ");
-				stringBuilder.append(resourceAmount.getAmount());
-			}
+			stringBuilder.append(ResourceAmount.getResourcesInformations(this.reward.getResourceAmounts(), true));
 		}
 		if (this.reward.getActionRewardInformations() != null) {
 			stringBuilder.append("\nAction reward:\n| ");

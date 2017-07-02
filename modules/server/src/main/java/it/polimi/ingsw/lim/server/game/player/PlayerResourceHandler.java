@@ -2,6 +2,8 @@ package it.polimi.ingsw.lim.server.game.player;
 
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmountMultiplierCard;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmountMultiplierResource;
 
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -31,11 +33,13 @@ public class PlayerResourceHandler
 		PlayerResourceHandler.FAITH_POINTS_PRICES.put(15, 30);
 	}
 
+	private final Player player;
 	private final Map<ResourceType, Integer> resources = new EnumMap<>(ResourceType.class);
 	private final Map<ResourceType, Integer> temporaryResources = new EnumMap<>(ResourceType.class);
 
-	PlayerResourceHandler(int resourcesServant, int resourcesStone, int resourcesWood)
+	PlayerResourceHandler(Player player, int resourcesServant, int resourcesStone, int resourcesWood)
 	{
+		this.player = player;
 		this.resources.put(ResourceType.COIN, 100);
 		this.resources.put(ResourceType.COUNCIL_PRIVILEGE, 0);
 		this.resources.put(ResourceType.FAITH_POINT, 0);
@@ -50,6 +54,29 @@ public class PlayerResourceHandler
 		}
 	}
 
+	public boolean canAffordResource(ResourceType resourceType, int resourceAmount)
+	{
+		return this.resources.get(resourceType) >= resourceAmount;
+	}
+
+	public boolean canAffordResources(List<ResourceAmount> resourceAmounts)
+	{
+		for (ResourceAmount resourceAmount : resourceAmounts) {
+			if (resourceAmount instanceof ResourceAmountMultiplierCard) {
+				if (this.resources.get(resourceAmount.getResourceType()) < resourceAmount.getAmount() * this.player.getPlayerCardHandler().getDevelopmentCardsNumber(((ResourceAmountMultiplierCard) resourceAmount).getCardTypeMultiplier())) {
+					return false;
+				}
+			} else if (resourceAmount instanceof ResourceAmountMultiplierResource) {
+				if (this.resources.get(resourceAmount.getResourceType()) < resourceAmount.getAmount() * this.resources.get(((ResourceAmountMultiplierResource) resourceAmount).getResourceTypeMultiplier()) / ((ResourceAmountMultiplierResource) resourceAmount).getResourceAmountDivider()) {
+					return false;
+				}
+			} else if (this.resources.get(resourceAmount.getResourceType()) < resourceAmount.getAmount()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public void addResource(ResourceType resourceType, int amount)
 	{
 		this.resources.put(resourceType, this.resources.get(resourceType) + amount);
@@ -59,7 +86,13 @@ public class PlayerResourceHandler
 	public void addResources(List<ResourceAmount> resourceAmounts)
 	{
 		for (ResourceAmount resourceAmount : resourceAmounts) {
-			this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
+			if (resourceAmount instanceof ResourceAmountMultiplierCard) {
+				this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount() * this.player.getPlayerCardHandler().getDevelopmentCardsNumber(((ResourceAmountMultiplierCard) resourceAmount).getCardTypeMultiplier()));
+			} else if (resourceAmount instanceof ResourceAmountMultiplierResource) {
+				this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount() * this.resources.get(((ResourceAmountMultiplierResource) resourceAmount).getResourceTypeMultiplier()) / ((ResourceAmountMultiplierResource) resourceAmount).getResourceAmountDivider());
+			} else {
+				this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
+			}
 		}
 		this.fixResourcesCap();
 	}
@@ -80,7 +113,13 @@ public class PlayerResourceHandler
 	public void addTemporaryResources(List<ResourceAmount> resourceAmounts)
 	{
 		for (ResourceAmount resourceAmount : resourceAmounts) {
-			this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
+			if (resourceAmount instanceof ResourceAmountMultiplierCard) {
+				this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount() * this.player.getPlayerCardHandler().getDevelopmentCardsNumber(((ResourceAmountMultiplierCard) resourceAmount).getCardTypeMultiplier()));
+			} else if (resourceAmount instanceof ResourceAmountMultiplierResource) {
+				this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount() * this.resources.get(((ResourceAmountMultiplierResource) resourceAmount).getResourceTypeMultiplier()) / ((ResourceAmountMultiplierResource) resourceAmount).getResourceAmountDivider());
+			} else {
+				this.temporaryResources.put(resourceAmount.getResourceType(), this.temporaryResources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
+			}
 		}
 		this.fixTemporaryResourcesCap();
 	}
@@ -106,7 +145,13 @@ public class PlayerResourceHandler
 	public void subtractResources(List<ResourceAmount> resourceAmounts)
 	{
 		for (ResourceAmount resourceAmount : resourceAmounts) {
-			this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
+			if (resourceAmount instanceof ResourceAmountMultiplierCard) {
+				this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount() * this.player.getPlayerCardHandler().getDevelopmentCardsNumber(((ResourceAmountMultiplierCard) resourceAmount).getCardTypeMultiplier()));
+			} else if (resourceAmount instanceof ResourceAmountMultiplierResource) {
+				this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount() * this.resources.get(((ResourceAmountMultiplierResource) resourceAmount).getResourceTypeMultiplier()) / ((ResourceAmountMultiplierResource) resourceAmount).getResourceAmountDivider());
+			} else {
+				this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) - resourceAmount.getAmount());
+			}
 		}
 	}
 

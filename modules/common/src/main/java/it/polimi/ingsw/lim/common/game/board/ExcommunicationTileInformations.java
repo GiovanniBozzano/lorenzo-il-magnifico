@@ -12,7 +12,8 @@ public class ExcommunicationTileInformations extends ObjectInformations
 		this.modifier = modifier;
 	}
 
-	public String getModifier()
+	@Override
+	public String getInformations()
 	{
 		return this.modifier;
 	}

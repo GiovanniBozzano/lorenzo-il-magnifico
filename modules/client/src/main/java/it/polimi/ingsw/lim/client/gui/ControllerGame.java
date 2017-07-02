@@ -1237,7 +1237,7 @@ public class ControllerGame extends CustomController
 		}
 		for (Entry<Period, Integer> excommunicationTile : GameStatus.getInstance().getCurrentExcommunicationTiles().entrySet()) {
 			this.excommunicationTilesPanes.get(excommunicationTile.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getExcommunicationTiles().get(excommunicationTile.getValue()).getTexturePath()).toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getExcommunicationTiles().get(excommunicationTile.getValue()).getModifier());
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getExcommunicationTiles().get(excommunicationTile.getValue()).getInformations());
 			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(this.excommunicationTilesPanes.get(excommunicationTile.getKey()), tooltip);
@@ -2004,30 +2004,7 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(650.0D * this.ratio);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append("Production activation cost: ");
-			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getProductionActivationCost());
-			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getProductionInstantResources().isEmpty()) {
-				stringBuilder.append("\n\nProduction bonus resources:");
-			}
-			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getProductionInstantResources()) {
-				stringBuilder.append('\n');
-				stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-				stringBuilder.append(": ");
-				stringBuilder.append(resourceAmount.getAmount());
-			}
-			stringBuilder.append("\n\nHarvest activation cost: ");
-			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getHarvestActivationCost());
-			if (!GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getHarvestInstantResources().isEmpty()) {
-				stringBuilder.append("\n\nHarvest bonus resources:");
-			}
-			for (ResourceAmount resourceAmount : GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getHarvestInstantResources()) {
-				stringBuilder.append('\n');
-				stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceAmount.getResourceType()));
-				stringBuilder.append(": ");
-				stringBuilder.append(resourceAmount.getAmount());
-			}
-			Tooltip tooltip = new Tooltip(stringBuilder.toString());
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getInformations());
 			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(pane, tooltip);
@@ -2089,7 +2066,7 @@ public class ControllerGame extends CustomController
 		JFXNodesList actionsNodesList = new JFXNodesList();
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", "Actions", true);
 		this.actionsVBox.getChildren().add(actionsNodesList);
-		this.excommunicationDialogText.setText(GameStatus.getInstance().getExcommunicationTiles().get(GameStatus.getInstance().getCurrentExcommunicationTiles().get(period)).getModifier().replace("\n", " "));
+		this.excommunicationDialogText.setText(GameStatus.getInstance().getExcommunicationTiles().get(GameStatus.getInstance().getCurrentExcommunicationTiles().get(period)).getInformations().replace("\n", " "));
 		this.excommunicationDialogSupportButton.setPrefWidth(((VBox) this.excommunicationDialogSupportButton.getParent()).getWidth());
 		this.excommunicationDialogDoNotSupportButton.setPrefWidth(((VBox) this.excommunicationDialogDoNotSupportButton.getParent()).getWidth());
 		this.excommunicationDialog.show();
@@ -2161,7 +2138,7 @@ public class ControllerGame extends CustomController
 						AnchorPane anchorPane = new AnchorPane();
 						discountChoicesAnchorPanes.add(anchorPane);
 						Text text = new Text();
-						text.setText(Utils.getResourcesInformations(discountChoice));
+						text.setText(ResourceAmount.getResourcesInformations(discountChoice, false));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2194,11 +2171,11 @@ public class ControllerGame extends CustomController
 							if (!resourceCostOption.getRequiredResources().isEmpty()) {
 								stringBuilder.append("REQUIRED RESOURCES:\n");
 							}
-							stringBuilder.append(Utils.getResourcesInformations(resourceCostOption.getRequiredResources()));
+							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
 							if (!resourceCostOption.getSpentResources().isEmpty()) {
 								stringBuilder.append("SPENT RESOURCES:\n");
 							}
-							stringBuilder.append(Utils.getResourcesInformations(resourceCostOption.getSpentResources()));
+							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
 							text.setText(stringBuilder.toString());
 							anchorPane.getChildren().add(text);
 							AnchorPane.setTopAnchor(text, 0.0);
@@ -2403,7 +2380,7 @@ public class ControllerGame extends CustomController
 				AnchorPane anchorPane = new AnchorPane();
 				councilPalaceRewardsAnchorPanes.add(anchorPane);
 				Text text = new Text();
-				text.setText(Utils.getResourcesInformations(councilPalaceReward.getValue()));
+				text.setText(ResourceAmount.getResourcesInformations(councilPalaceReward.getValue(), false));
 				int currentCouncilPrivilegeIndex = councilPrivilegeIndex;
 				AnchorPane.setTopAnchor(text, 0.0);
 				AnchorPane.setBottomAnchor(text, 0.0);
@@ -2478,7 +2455,7 @@ public class ControllerGame extends CustomController
 						AnchorPane anchorPane = new AnchorPane();
 						instantDiscountChoicesAnchorPanes.add(anchorPane);
 						Text text = new Text();
-						text.setText(Utils.getResourcesInformations(instantDiscountChoice));
+						text.setText(ResourceAmount.getResourcesInformations(instantDiscountChoice, false));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2504,7 +2481,7 @@ public class ControllerGame extends CustomController
 						AnchorPane anchorPane = new AnchorPane();
 						discountChoicesAnchorPanes.add(anchorPane);
 						Text text = new Text();
-						text.setText(Utils.getResourcesInformations(discountChoice));
+						text.setText(ResourceAmount.getResourcesInformations(discountChoice, false));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2537,11 +2514,11 @@ public class ControllerGame extends CustomController
 							if (!resourceCostOption.getRequiredResources().isEmpty()) {
 								stringBuilder.append("REQUIRED RESOURCES:\n");
 							}
-							stringBuilder.append(Utils.getResourcesInformations(resourceCostOption.getRequiredResources()));
+							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
 							if (!resourceCostOption.getSpentResources().isEmpty()) {
 								stringBuilder.append("SPENT RESOURCES:\n");
 							}
-							stringBuilder.append(Utils.getResourcesInformations(resourceCostOption.getSpentResources()));
+							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
 							text.setText(stringBuilder.toString());
 							anchorPane.getChildren().add(text);
 							AnchorPane.setTopAnchor(text, 0.0);
@@ -2651,7 +2628,7 @@ public class ControllerGame extends CustomController
 						AnchorPane anchorPane = new AnchorPane();
 						resourceTradeOptionsAnchorPanes.add(anchorPane);
 						Text text = new Text();
-						text.setText("EMPLOYED RESOURCES:\n" + Utils.getResourcesInformations(resourceTradeOption.getEmployedResources()) + "\nPRODUCED RESOURES:\n" + Utils.getResourcesInformations(resourceTradeOption.getProducedResources()));
+						text.setText("EMPLOYED RESOURCES:\n" + ResourceAmount.getResourcesInformations(resourceTradeOption.getEmployedResources(), false) + "\nPRODUCED RESOURES:\n" + ResourceAmount.getResourcesInformations(resourceTradeOption.getProducedResources(), false));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
