@@ -114,12 +114,6 @@ public class ServerSession extends UnicastRemoteObject implements IServerSession
 	}
 
 	@Override
-	public void sendGameLeaderCardChosen() throws RemoteException
-	{
-		Client.getInstance().getConnectionHandler().handleGameLeaderCardChosen();
-	}
-
-	@Override
 	public void sendGameExcommunicationChoiceRequest(Period period) throws RemoteException
 	{
 		Client.getInstance().getConnectionHandler().handleGameExcommunicationChoiceRequest(period);

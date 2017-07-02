@@ -55,11 +55,11 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 	@Override
 	public void apply() throws GameActionFailedException
 	{
-		this.player.getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
 		List<ResourceAmount> resourceReward = new ArrayList<>();
 		for (int councilPalaceRewardIndex : this.getCouncilPrivilegeRewardIndexes()) {
 			resourceReward.addAll(this.player.getRoom().getGameHandler().getBoardHandler().getMatchCouncilPrivilegeRewards().get(councilPalaceRewardIndex));
 		}
+		this.player.getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.COUNCIL_PRIVILEGE);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());

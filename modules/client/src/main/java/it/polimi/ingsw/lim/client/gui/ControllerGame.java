@@ -21,6 +21,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
@@ -1721,6 +1722,7 @@ public class ControllerGame extends CustomController
 	public void setOwnTurn()
 	{
 		this.updateGame();
+		this.closeDilogs();
 		this.generateAvailableActions();
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
 	}
@@ -1734,6 +1736,7 @@ public class ControllerGame extends CustomController
 	public void setOtherTurn()
 	{
 		this.updateGame();
+		this.closeDilogs();
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
@@ -1741,7 +1744,7 @@ public class ControllerGame extends CustomController
 		this.actionsVBox.getChildren().add(actionsNodesList);
 	}
 
-	private void updateGame()
+	private void closeDilogs()
 	{
 		this.dialog.close();
 		this.leaderCardsDialog.close();
@@ -1756,6 +1759,10 @@ public class ControllerGame extends CustomController
 		this.expectedChooseRewardPickDevelopmentCardDialog.close();
 		this.expectedProductionTradeDialog.close();
 		this.expectedChooseRewardTemporaryModifierDialog.close();
+	}
+
+	private void updateGame()
+	{
 		this.pickingDevelopmentCard = false;
 		this.pickingTradeCards = false;
 		for (CardType cardType : CardType.values()) {
@@ -2053,7 +2060,12 @@ public class ControllerGame extends CustomController
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
-			pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCard));
+			pane.setOnMouseClicked(event -> {
+				for (Node node : this.leaderCardsDialogHBox.getChildren()) {
+					node.setDisable(true);
+				}
+				Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(leaderCard);
+			});
 			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}
 		this.leaderCardsDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());

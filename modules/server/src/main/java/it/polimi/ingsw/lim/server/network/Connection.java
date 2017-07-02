@@ -116,8 +116,6 @@ public abstract class Connection
 
 	public abstract void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards);
 
-	public abstract void sendGameLeaderCardChosen();
-
 	public abstract void sendGameExcommunicationChoiceRequest(Period period);
 
 	public abstract void sendGameExoommunicationChoiceOther();

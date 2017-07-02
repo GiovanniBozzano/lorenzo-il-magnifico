@@ -297,22 +297,6 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGameLeaderCardChosen()
-	{
-		this.rmiExecutor.execute(() -> {
-			if (this.serverSession == null) {
-				return;
-			}
-			try {
-				this.serverSession.sendGameLeaderCardChosen();
-			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
-				this.disconnect(false, null);
-			}
-		});
-	}
-
-	@Override
 	public void sendGameExcommunicationChoiceRequest(Period period)
 	{
 		this.rmiExecutor.execute(() -> {

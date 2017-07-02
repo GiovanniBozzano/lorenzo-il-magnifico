@@ -243,8 +243,6 @@ public class GameHandler
 			this.availableLeaderCards.clear();
 			this.availableLeaderCards.putAll(newlyAvailableLeaderCards);
 			this.sendLeaderCardsChoiceRequest();
-		} else if ((this.timer > 3 || this.availableLeaderCards.get(player).isEmpty()) && player.isOnline()) {
-			player.getConnection().sendGameLeaderCardChosen();
 		}
 	}
 
@@ -797,6 +795,7 @@ public class GameHandler
 			this.timer--;
 			if (this.timer == 0) {
 				this.expectedAction = null;
+				player.getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
 				if (this.currentPhase == Phase.LEADER) {
 					this.timer = ServerSettings.getInstance().getGameActionTimer();
 					this.sendGameUpdate(player);

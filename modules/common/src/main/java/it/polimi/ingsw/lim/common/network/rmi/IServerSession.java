@@ -46,8 +46,6 @@ public interface IServerSession extends Remote
 
 	void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards) throws RemoteException;
 
-	void sendGameLeaderCardChosen() throws RemoteException;
-
 	void sendGameExcommunicationChoiceRequest(Period period) throws RemoteException;
 
 	void sendGameExcommunicationChoiceOther() throws RemoteException;

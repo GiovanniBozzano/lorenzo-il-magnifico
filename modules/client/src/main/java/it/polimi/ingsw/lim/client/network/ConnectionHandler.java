@@ -278,13 +278,6 @@ public abstract class ConnectionHandler extends Thread
 		}
 	}
 
-	public void handleGameLeaderCardChosen()
-	{
-		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
-			Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).getLeaderCardsDialog().close());
-		}
-	}
-
 	public void handleGameExcommunicationChoiceRequest(Period period)
 	{
 		if (Client.getInstance().getCliStatus() == CLIStatus.NONE) {
