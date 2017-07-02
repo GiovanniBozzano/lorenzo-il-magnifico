@@ -40,7 +40,6 @@ public class Client extends Instance
 		Client.CLI_HANDLERS.put(CLIStatus.LEADER_PLAY, new CLIHandlerLeaderPlay());
 		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OWN_LEADERS, new CLIHandlerShowOwnLeaders());
 		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OWN_BOARD, new CLIHandlerShowOwnBoard());
-
 	}
 
 	private CLIStatus cliStatus = CLIStatus.INTERFACE_CHOICE;
