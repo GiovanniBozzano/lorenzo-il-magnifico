@@ -5,6 +5,7 @@ import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
@@ -135,6 +136,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 		if (developmentCard.getCardType() == CardType.CHARACTER && ((DevelopmentCardCharacter) developmentCard).getModifier() != null) {
 			this.player.getActiveModifiers().add(((DevelopmentCardCharacter) developmentCard).getModifier());
 		}
+		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " picked " + CommonUtils.getCardTypesNames().get(developmentCard.getCardType()).toLowerCase() + " card " + developmentCard.getDisplayName());
 		this.player.getRoom().getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).put(this.getRow(), null);
 		if (Utils.sendActionReward(this.player, developmentCard.getReward().getActionReward())) {
 			return;

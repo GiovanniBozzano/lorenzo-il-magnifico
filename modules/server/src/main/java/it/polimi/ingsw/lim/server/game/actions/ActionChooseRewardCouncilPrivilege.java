@@ -9,6 +9,7 @@ import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
+import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,23 +31,23 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("It's not your turn");
+			throw new GameActionFailedException("It is not your turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE) {
 			throw new GameActionFailedException("This action was not expected");
 		}
 		if (this.player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE) != this.getCouncilPrivilegeRewardIndexes().size()) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("You did not send the right rewards amount");
 		}
 		// check if all rewards are different
 		Set<Integer> set = new HashSet<>(this.getCouncilPrivilegeRewardIndexes());
 		if ((this.getCouncilPrivilegeRewardIndexes().size() > this.player.getRoom().getGameHandler().getBoardHandler().getMatchCouncilPrivilegeRewards().size() && set.size() != this.player.getRoom().getGameHandler().getBoardHandler().getMatchCouncilPrivilegeRewards().size()) || set.size() != this.getCouncilPrivilegeRewardIndexes().size()) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("All the rewards have to be different");
 		}
 		for (int councilPrivilegeReward : this.getCouncilPrivilegeRewardIndexes()) {
 			if (!this.player.getRoom().getGameHandler().getBoardHandler().getMatchCouncilPrivilegeRewards().keySet().contains(councilPrivilegeReward)) {
-				throw new GameActionFailedException("");
+				throw new GameActionFailedException("The rewards you chose are not valid");
 			}
 		}
 	}
@@ -62,6 +63,7 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.COUNCIL_PRIVILEGE);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " chose council privileges rewards");
 		if (this.player.getRoom().getGameHandler().getCurrentPhase() == Phase.LEADER) {
 			this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
 			return;

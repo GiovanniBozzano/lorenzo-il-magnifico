@@ -15,6 +15,7 @@ import it.polimi.ingsw.lim.server.game.events.EventProductionStart;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
+import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 public class ActionProductionStart extends ActionInformationsProductionStart implements IAction
@@ -88,6 +89,7 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		this.player.setCurrentProductionValue(this.effectiveActionValue);
 		this.player.getRoom().getGameHandler().setExpectedAction(ActionType.PRODUCTION_TRADE);
+		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " started a production with his " + this.getFamilyMemberType().name().toLowerCase() + " family member");
 		Utils.checkAvailableProductionCards(this.player);
 	}
 }

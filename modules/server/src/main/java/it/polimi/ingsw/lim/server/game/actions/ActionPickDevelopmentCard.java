@@ -5,6 +5,7 @@ import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
+import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
@@ -16,6 +17,7 @@ import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
+import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("It's not your turn");
+			throw new GameActionFailedException("It is not your turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != null) {
@@ -84,7 +86,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		}
 		// check if the player has the servants he sent
 		if (this.player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
-			throw new GameActionFailedException("You don't have the number of servants you want to use");
+			throw new GameActionFailedException("You do not have the number of servants you want to use");
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
@@ -92,14 +94,14 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		int effectiveServantsValue = eventUseServants.getServants();
 		// check if the card contains cost option array
 		if ((this.getResourceCostOption() == null && !developmentCard.getResourceCostOptions().isEmpty()) || (this.getResourceCostOption() != null && !developmentCard.getResourceCostOptions().contains(this.getResourceCostOption()))) {
-			throw new GameActionFailedException("This card doesn't have any cost");
+			throw new GameActionFailedException("This card does not have any cost");
 		}
 		// check if the player has the requiredResources
 		if (this.getResourceCostOption() != null) {
 			for (ResourceAmount requiredResources : this.getResourceCostOption().getRequiredResources()) {
 				int playerResources = this.player.getPlayerResourceHandler().getResources().get(requiredResources.getResourceType());
 				if (playerResources < requiredResources.getAmount()) {
-					throw new GameActionFailedException("You don't have the necessary resources to perform this action");
+					throw new GameActionFailedException("You do not have the necessary resources to perform this action");
 				}
 			}
 		}
@@ -110,7 +112,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		this.getBoardPositionReward = eventPickDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
 		if (developmentCard.getCardType() == CardType.TERRITORY && !eventPickDevelopmentCard.isIgnoreTerritoriesSlotLock() && !this.player.isTerritorySlotAvailable(this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class).size())) {
-			throw new GameActionFailedException("You don't have enough military points to unlock the slot necessary to perform this action");
+			throw new GameActionFailedException("You do not have enough military points to unlock the slot necessary to perform this action");
 		}
 		Utils.checkValidDiscount(this.player, this.getCardType(), this.getDiscountChoice(), this.getResourceCostOption());
 		if (!this.getDiscountChoice().isEmpty()) {
@@ -129,7 +131,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		for (ResourceAmount resourceCost : this.effectiveResourceCost) {
 			int playerResources = this.player.getPlayerResourceHandler().getResources().get(resourceCost.getResourceType());
 			if (playerResources < resourceCost.getAmount()) {
-				throw new GameActionFailedException("You don't have enough resources to get the card");
+				throw new GameActionFailedException("You do not have enough resources to get the card");
 			}
 		}
 		if (eventPickDevelopmentCard.getActionValue() < BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue()) {
@@ -156,6 +158,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		if (developmentCard.getCardType() == CardType.CHARACTER && ((DevelopmentCardCharacter) developmentCard).getModifier() != null) {
 			this.player.getActiveModifiers().add(((DevelopmentCardCharacter) developmentCard).getModifier());
 		}
+		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " picked " + CommonUtils.getCardTypesNames().get(developmentCard.getCardType()).toLowerCase() + " card " + developmentCard.getDisplayName() + " with his " + this.getFamilyMemberType().name().toLowerCase() + " family member");
 		this.player.getRoom().getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).put(this.getRow(), null);
 		if (Utils.sendActionReward(this.player, developmentCard.getReward().getActionReward())) {
 			return;

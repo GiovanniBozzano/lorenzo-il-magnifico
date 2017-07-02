@@ -57,6 +57,24 @@ public abstract class Connection
 		}
 	}
 
+	public static void broadcastLogMessage(Room room, String text)
+	{
+		for (Connection connection : room.getPlayers()) {
+			if (connection.getPlayer().isOnline()) {
+				connection.sendGameLogMessage(text);
+			}
+		}
+	}
+
+	public static void broadcastLogMessageToOthers(Player player, String text)
+	{
+		for (Connection connection : player.getRoom().getPlayers()) {
+			if (connection.getPlayer() != player && connection.getPlayer().isOnline()) {
+				connection.sendGameLogMessage(text);
+			}
+		}
+	}
+
 	public void disconnect(boolean flag, String message)
 	{
 		this.heartbeat.shutdownNow();

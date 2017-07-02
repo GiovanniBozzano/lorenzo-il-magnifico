@@ -24,6 +24,9 @@ import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
+import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardModifier;
+import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
+import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
@@ -262,7 +265,7 @@ public class Utils
 	public static void checkValidDiscount(Player player, CardType cardType, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption) throws GameActionFailedException
 	{
 		if (resourceCostOption == null && !discountChoice.isEmpty()) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("You chose a discount but the there is not cost");
 		}
 		Utils.checkValidDiscountInternal(player, cardType, discountChoice, resourceCostOption);
 	}
@@ -270,10 +273,10 @@ public class Utils
 	public static void checkValidDiscount(Player player, CardType cardType, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption) throws GameActionFailedException
 	{
 		if (resourceCostOption == null && (!instantDiscountChoice.isEmpty() || !discountChoice.isEmpty())) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("You chose a discount but the there is not cost");
 		}
 		if (resourceCostOption != null && ((instantDiscountChoice.isEmpty() && !((ActionRewardPickDevelopmentCard) player.getCurrentActionReward()).getInstantDiscountChoices().isEmpty()) || (!instantDiscountChoice.isEmpty() && !((ActionRewardPickDevelopmentCard) player.getCurrentActionReward()).getInstantDiscountChoices().contains(instantDiscountChoice)))) {
-			throw new GameActionFailedException("");
+			throw new GameActionFailedException("You had to choose a discount");
 		}
 		Utils.checkValidDiscountInternal(player, cardType, discountChoice, resourceCostOption);
 	}
@@ -290,7 +293,7 @@ public class Utils
 					}
 				}
 				if (!validDiscountChoice) {
-					throw new GameActionFailedException("");
+					throw new GameActionFailedException("The discount you chose is not valid");
 				}
 			} else {
 				boolean validDiscountChoice = false;
@@ -301,7 +304,7 @@ public class Utils
 					}
 				}
 				if (!validDiscountChoice) {
-					throw new GameActionFailedException("");
+					throw new GameActionFailedException("The discount you chose is not valid");
 				}
 			}
 		}
@@ -374,6 +377,25 @@ public class Utils
 			player.getRoom().getGameHandler().setExpectedAction(actionReward.getRequestedAction());
 			player.getRoom().getGameHandler().sendGameUpdateExpectedAction(player, actionReward.createExpectedAction(player));
 			return true;
+		}
+		return false;
+	}
+
+	public static boolean activateLeaderCard(Player player, LeaderCard leaderCard)
+	{
+		if (leaderCard instanceof LeaderCardModifier) {
+			player.getActiveModifiers().add(((LeaderCardModifier) leaderCard).getModifier());
+		} else {
+			((LeaderCardReward) leaderCard).setActivated(true);
+			EventGainResources eventGainResources = new EventGainResources(player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
+			eventGainResources.applyModifiers(player.getActiveModifiers());
+			player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+			if (Utils.sendActionReward(player, ((LeaderCardReward) leaderCard).getReward().getActionReward())) {
+				return true;
+			}
+			if (Utils.sendCouncilPrivileges(player)) {
+				return true;
+			}
 		}
 		return false;
 	}

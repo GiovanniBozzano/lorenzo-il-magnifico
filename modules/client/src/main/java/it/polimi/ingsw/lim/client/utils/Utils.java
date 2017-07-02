@@ -59,10 +59,9 @@ public class Utils
 	private static final Map<FamilyMemberType, String> FAMILY_MEMBER_TYPES_TEXTURES = new EnumMap<>(FamilyMemberType.class);
 
 	static {
-		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.BLACK, "/images/icons/action_family_member_type_black.png");
-		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.NEUTRAL, "/images/icons/action_family_member_type_neutral.png");
-		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.ORANGE, "/images/icons/action_family_member_type_orange.png");
-		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.WHITE, "/images/icons/action_family_member_type_white.png");
+		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.BLACK, "/images/icons/family_member_type_black.png");
+		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.ORANGE, "/images/icons/family_member_type_orange.png");
+		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.WHITE, "/images/icons/family_member_type_white.png");
 	}
 
 	private static final Map<Color, Map<FamilyMemberType, String>> PLAYERS_FAMILY_MEMBER_TYPES_TEXTURES = new EnumMap<>(Color.class);

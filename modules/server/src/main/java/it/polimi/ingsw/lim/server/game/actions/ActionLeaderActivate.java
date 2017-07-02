@@ -8,6 +8,7 @@ import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
+import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 public class ActionLeaderActivate extends ActionInformationsLeaderActivate implements IAction
@@ -25,7 +26,7 @@ public class ActionLeaderActivate extends ActionInformationsLeaderActivate imple
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("It's not your turn");
+			throw new GameActionFailedException("It is not your turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != null) {
@@ -40,11 +41,11 @@ public class ActionLeaderActivate extends ActionInformationsLeaderActivate imple
 			}
 		}
 		if (leaderCard == null) {
-			throw new GameActionFailedException("You don't have this Leader Card");
+			throw new GameActionFailedException("You do not have this Leader Card");
 		}
 		// check if the leader card has been played
 		if (!leaderCard.isPlayed()) {
-			throw new GameActionFailedException("This Leader Card hasn't been played yet");
+			throw new GameActionFailedException("This Leader Card has not been played yet");
 		}
 		// check if the leader card hasn't been already activated
 		if (((LeaderCardReward) leaderCard).isActivated()) {
@@ -63,13 +64,14 @@ public class ActionLeaderActivate extends ActionInformationsLeaderActivate imple
 			}
 		}
 		if (leaderCard == null) {
-			throw new GameActionFailedException("You don't have this Leader Card");
+			throw new GameActionFailedException("You do not have this Leader Card");
 		}
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.LEADER);
 		((LeaderCardReward) leaderCard).setActivated(true);
 		EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " activated his leader card " + leaderCard.getDisplayName());
 		if (Utils.sendActionReward(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward())) {
 			return;
 		}

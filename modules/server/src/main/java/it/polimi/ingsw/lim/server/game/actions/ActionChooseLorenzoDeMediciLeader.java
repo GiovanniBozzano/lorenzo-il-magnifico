@@ -2,14 +2,11 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseLorenzoDeMediciLeader;
-import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
-import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardModifier;
-import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
-import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
+import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.ArrayList;
@@ -55,19 +52,9 @@ public class ActionChooseLorenzoDeMediciLeader extends ActionInformationsChooseL
 		}
 		leaderCard.setPlayed(true);
 		this.player.getPlayerCardHandler().getLeaderCards().add(leaderCard);
-		if (leaderCard instanceof LeaderCardModifier) {
-			this.player.getActiveModifiers().add(((LeaderCardModifier) leaderCard).getModifier());
-		} else {
-			((LeaderCardReward) leaderCard).setActivated(true);
-			EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
-			eventGainResources.applyModifiers(this.player.getActiveModifiers());
-			this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-			if (Utils.sendActionReward(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward())) {
-				return;
-			}
-			if (Utils.sendCouncilPrivileges(this.player)) {
-				return;
-			}
+		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " played Lorenzo De Medici and chose to copy " + leaderCard.getDisplayName() + "'s effect");
+		if (Utils.activateLeaderCard(this.player, leaderCard)) {
+			return;
 		}
 		this.player.getRoom().getGameHandler().setExpectedAction(null);
 		this.player.getRoom().getGameHandler().sendGameUpdate(this.player);

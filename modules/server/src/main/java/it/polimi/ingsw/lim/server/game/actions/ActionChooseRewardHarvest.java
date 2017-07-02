@@ -14,6 +14,7 @@ import it.polimi.ingsw.lim.server.game.events.EventHarvest;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
+import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.ArrayList;
@@ -73,6 +74,7 @@ public class ActionChooseRewardHarvest extends ActionInformationsChooseRewardHar
 		resourceReward.addAll(this.player.getPersonalBonusTile().getHarvestInstantResources());
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.WORK);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " harvested");
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		if (Utils.sendCouncilPrivileges(this.player)) {
 			return;

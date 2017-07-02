@@ -9,6 +9,7 @@ import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
+import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.Collections;
@@ -71,6 +72,7 @@ public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard impleme
 		EventGainResources eventGainResources = new EventGainResources(this.player, Collections.singletonList(new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, 1)), ResourcesSource.LEADER_CARDS);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " discarded his leader card " + leaderCard.getDisplayName());
 		if (Utils.sendCouncilPrivileges(this.player)) {
 			return;
 		}

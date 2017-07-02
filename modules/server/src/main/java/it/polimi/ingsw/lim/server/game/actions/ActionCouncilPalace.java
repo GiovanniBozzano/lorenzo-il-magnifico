@@ -11,6 +11,7 @@ import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.player.Player;
+import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 public class ActionCouncilPalace extends ActionInformationsCouncilPalace implements IAction
@@ -66,6 +67,7 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformations(BoardPosition.COUNCIL_PALACE).getResourceAmounts(), ResourcesSource.COUNCIL_PALACE);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " chose to move to council palace with his " + this.getFamilyMemberType().name().toLowerCase() + " family memeber");
 		if (Utils.sendCouncilPrivileges(this.player)) {
 			return;
 		}

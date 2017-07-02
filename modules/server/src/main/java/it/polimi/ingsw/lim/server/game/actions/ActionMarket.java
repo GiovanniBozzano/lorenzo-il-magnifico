@@ -13,6 +13,7 @@ import it.polimi.ingsw.lim.server.game.events.EventPlaceFamilyMember;
 import it.polimi.ingsw.lim.server.game.events.EventUseServants;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
+import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 public class ActionMarket extends ActionInformationsMarket implements IAction
@@ -82,6 +83,7 @@ public class ActionMarket extends ActionInformationsMarket implements IAction
 		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformations(BoardPosition.getMarketPositions().get(this.getMarketSlot())).getResourceAmounts(), ResourcesSource.MARKET);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " started a business in the market with his " + this.getFamilyMemberType().name().toLowerCase() + " family member");
 		if (Utils.sendCouncilPrivileges(this.player)) {
 			return;
 		}

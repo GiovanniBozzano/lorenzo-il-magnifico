@@ -5,13 +5,11 @@ import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderPlay;
 import it.polimi.ingsw.lim.common.game.utils.CardAmount;
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
-import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
-import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardModifier;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
-import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
+import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IAction
@@ -29,7 +27,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 	{
 		// check if it is the player's turn
 		if (this.player != this.player.getRoom().getGameHandler().getTurnPlayer()) {
-			throw new GameActionFailedException("It's not your turn");
+			throw new GameActionFailedException("It is not your turn");
 		}
 		// check whether the server expects the player to make this action
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != null) {
@@ -44,7 +42,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			}
 		}
 		if (leaderCard == null) {
-			throw new GameActionFailedException("You don't have this Leader Card");
+			throw new GameActionFailedException("You do not have this Leader Card");
 		}
 		// check if the player's resources are enough
 		if (leaderCard.getConditionsOptions().isEmpty()) {
@@ -93,7 +91,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 				return;
 			}
 		}
-		throw new GameActionFailedException("You don't have the necessary resources to perform this action");
+		throw new GameActionFailedException("You do not have the necessary resources to perform this action");
 	}
 
 	@Override
@@ -108,7 +106,7 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			}
 		}
 		if (leaderCard == null) {
-			throw new GameActionFailedException("You don't have this Leader Card");
+			throw new GameActionFailedException("You do not have this Leader Card");
 		}
 		// check Lorenzo Il Magnifico
 		if (leaderCard.getIndex() == 14) {
@@ -117,20 +115,8 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward().createExpectedAction(this.player));
 			return;
 		}
-		if (leaderCard instanceof LeaderCardModifier) {
-			this.player.getActiveModifiers().add(((LeaderCardModifier) leaderCard).getModifier());
-		} else {
-			((LeaderCardReward) leaderCard).setActivated(true);
-			EventGainResources eventGainResources = new EventGainResources(this.player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
-			eventGainResources.applyModifiers(this.player.getActiveModifiers());
-			this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-			if (Utils.sendActionReward(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward())) {
-				return;
-			}
-			if (Utils.sendCouncilPrivileges(this.player)) {
-				return;
-			}
-		}
+		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " played his leader card " + leaderCard.getDisplayName());
+		Utils.activateLeaderCard(this.player, leaderCard);
 		this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
 	}
 }

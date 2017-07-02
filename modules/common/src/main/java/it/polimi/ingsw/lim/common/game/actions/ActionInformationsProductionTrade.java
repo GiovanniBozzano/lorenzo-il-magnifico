@@ -12,7 +12,7 @@ public class ActionInformationsProductionTrade extends ActionInformations
 
 	public ActionInformationsProductionTrade(Map<Integer, ResourceTradeOption> chosenDevelopmentCardsBuilding)
 	{
-		super(ActionType.PRODUCTION_START);
+		super(ActionType.PRODUCTION_TRADE);
 		this.chosenDevelopmentCardsBuilding = new HashMap<>(chosenDevelopmentCardsBuilding);
 	}
 

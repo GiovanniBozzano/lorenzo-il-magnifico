@@ -1181,6 +1181,11 @@ public class ControllerGame extends CustomController
 		this.expectedChooseRewardPickDevelopmentCardDialog.setDialogContainer(this.getStackPane());
 		this.expectedChooseRewardPickDevelopmentCardDialog.setOverlayClose(false);
 		this.expectedChooseRewardPickDevelopmentCardDialog.setPadding(new Insets(24, 24, 24, 24));
+		this.getStackPane().getChildren().remove(this.expectedProductionTradeDialog);
+		this.expectedProductionTradeDialog.setTransitionType(DialogTransition.CENTER);
+		this.expectedProductionTradeDialog.setDialogContainer(this.getStackPane());
+		this.expectedProductionTradeDialog.setOverlayClose(false);
+		this.expectedProductionTradeDialog.setPadding(new Insets(24, 24, 24, 24));
 		this.getStackPane().getChildren().remove(this.expectedChooseRewardTemporaryModifierDialog);
 		this.expectedChooseRewardTemporaryModifierDialog.setTransitionType(DialogTransition.CENTER);
 		this.expectedChooseRewardTemporaryModifierDialog.setDialogContainer(this.getStackPane());

@@ -323,10 +323,8 @@ public class GameHandler
 			for (FamilyMemberType familyMemberType : player.getFamilyMembersPositions().keySet()) {
 				player.getFamilyMembersPositions().put(familyMemberType, BoardPosition.NONE);
 			}
-			if (player.isOnline()) {
-				player.getConnection().sendGameLogMessage("*** " + this.currentRound.name() + " ROUND ***");
-			}
 		}
+		Connection.broadcastLogMessage(this.room, "*** " + this.currentRound.name() + " ROUND ***");
 		this.setupTurnOrder();
 		this.boardHandler.getCouncilPalaceOrder().clear();
 		int playerCounter = 0;
@@ -350,11 +348,7 @@ public class GameHandler
 			// the game is being started
 			this.currentPeriod = Period.FIRST;
 			this.currentRound = Round.FIRST;
-			for (Player player : this.turnOrder) {
-				if (player.isOnline()) {
-					player.getConnection().sendGameLogMessage("=== " + this.currentPeriod.name() + " PERIOD ===");
-				}
-			}
+			Connection.broadcastLogMessage(this.room, "=== " + this.currentPeriod.name() + " PERIOD ===");
 			return;
 		}
 		this.currentPeriod = Period.next(this.currentPeriod);
