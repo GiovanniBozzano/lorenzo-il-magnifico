@@ -3,13 +3,9 @@ package it.polimi.ingsw.lim.client.cli;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
-import it.polimi.ingsw.lim.common.enums.ActionType;
-import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.enums.ResourceType;
+import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionPickDevelopmentCard;
-import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -31,10 +27,11 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 	}
 
 	private final Map<Integer, FamilyMemberType> availableFamilyMemberTypes = new HashMap<>();
-	private final Map<Integer, DevelopmentCardInformations> availableDevelopmentCards = new HashMap<>();
+	private final Map<Integer, Row> availableRows = new HashMap<>();
 	private final Map<Integer, ResourceCostOption> availableResourceCostOptions = new HashMap<>();
 	private FamilyMemberType familyMemberType;
-	private DevelopmentCardInformations developmentCard;
+	private CardType cardType;
+	private Row row;
 	private int servants;
 	private ResourceCostOption resourceCostOption;
 
@@ -44,9 +41,10 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		this.showFamilyMembers();
 		this.askFamilyMember();
 		this.askDevelopmentCardsType();
+		this.showDevelopmentCards();
 		this.askDevelopmentCard();
 		this.askServants();
-		if (!this.developmentCard.getResourceCostOptions().isEmpty()) {
+		if (!GameStatus.getInstance().getDevelopmentCards().get(this.cardType).get(GameStatus.getInstance().getCurrentDevelopmentCards().get(this.cardType).get(this.row)).getResourceCostOptions().isEmpty()) {
 			this.showCostOptions();
 			this.askCostOption();
 		}
@@ -98,21 +96,21 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || !CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.containsKey(Integer.parseInt(input)));
-		this.showDevelopmentCards(CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.get(Integer.parseInt(input)));
+		this.cardType = CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.get(Integer.parseInt(input));
 	}
 
-	private void showDevelopmentCards(CardType cardType)
+	private void showDevelopmentCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Enter Development Card Choice...");
 		int index = 1;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
-			if ((((AvailableActionFamilyMember) availableAction).getFamilyMemberType()) == this.familyMemberType && (((AvailableActionPickDevelopmentCard) availableAction).getCardType()) == cardType) {
+			if ((((AvailableActionFamilyMember) availableAction).getFamilyMemberType()) == this.familyMemberType && (((AvailableActionPickDevelopmentCard) availableAction).getCardType()) == this.cardType) {
 				stringBuilder.append('\n');
 				stringBuilder.append(index);
 				stringBuilder.append(" ==============\n");
-				stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(cardType).get(GameStatus.getInstance().getCurrentDevelopmentCards().get(cardType).get((((AvailableActionPickDevelopmentCard) availableAction).getRow()))).getInformations());
-				this.availableDevelopmentCards.put(index, GameStatus.getInstance().getDevelopmentCards().get(cardType).get(GameStatus.getInstance().getCurrentDevelopmentCards().get(cardType).get((((AvailableActionPickDevelopmentCard) availableAction).getRow()))));
+				stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(this.cardType).get(GameStatus.getInstance().getCurrentDevelopmentCards().get(this.cardType).get(((AvailableActionPickDevelopmentCard) availableAction).getRow())).getInformations());
+				this.availableRows.put(index, ((AvailableActionPickDevelopmentCard) availableAction).getRow());
 				index++;
 			}
 		}
@@ -125,8 +123,8 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !this.availableDevelopmentCards.containsKey(Integer.parseInt(input)));
-		this.developmentCard = this.availableDevelopmentCards.get(Integer.parseInt(input));
+		while (!CommonUtils.isInteger(input) || !this.availableRows.containsKey(Integer.parseInt(input)));
+		this.row = this.availableRows.get(Integer.parseInt(input));
 	}
 
 	private void askServants()
@@ -142,26 +140,31 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 
 	private void showCostOptions()
 	{
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Cost Option Choice...");
-		int index = 1;
-		for (ResourceCostOption resourceCostOption : this.developmentCard.getResourceCostOptions()) {
-			stringBuilder.append('\n');
-			stringBuilder.append(index);
-			stringBuilder.append(" ==============\n");
-			if (!resourceCostOption.getRequiredResources().isEmpty()) {
-				stringBuilder.append("\nRequired resources:");
-				stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
+		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
+			if ((((AvailableActionPickDevelopmentCard) availableAction).getFamilyMemberType()) == this.familyMemberType && (((AvailableActionPickDevelopmentCard) availableAction).getCardType()) == this.cardType && (((AvailableActionPickDevelopmentCard) availableAction).getRow()) == this.row) {
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.append("Enter Cost Option Choice...");
+				int index = 1;
+				for (ResourceCostOption resourceCostOption : ((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions()) {
+					stringBuilder.append('\n');
+					stringBuilder.append(index);
+					stringBuilder.append(" ==============\n");
+					if (!resourceCostOption.getRequiredResources().isEmpty()) {
+						stringBuilder.append("\nRequired resources:");
+						stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
+					}
+					if (!resourceCostOption.getSpentResources().isEmpty()) {
+						stringBuilder.append("\nSpent resources:");
+						stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
+					}
+					stringBuilder.append("\n==============");
+					this.availableResourceCostOptions.put(index, resourceCostOption);
+					index++;
+				}
+				Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
+				break;
 			}
-			if (!resourceCostOption.getSpentResources().isEmpty()) {
-				stringBuilder.append("\nSpent resources:");
-				stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
-			}
-			stringBuilder.append("\n==============");
-			this.availableResourceCostOptions.put(index, resourceCostOption);
-			index++;
 		}
-		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
 	private void askCostOption()
