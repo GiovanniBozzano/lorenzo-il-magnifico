@@ -2701,7 +2701,15 @@ public class ControllerGame extends CustomController
 
 	void showEndGame(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
 	{
-		if (new ArrayList<>(playersScores.keySet()).get(0) == GameStatus.getInstance().getOwnPlayerIndex()) {
+		int winningPlayerIndex = new ArrayList<>(playersScores.keySet()).get(0);
+		int winningScore = new ArrayList<>(playersScores.values()).get(0);
+		for (Entry<Integer, Integer> playerScore : playersScores.entrySet()) {
+			if (playerScore.getValue() > winningScore) {
+				winningPlayerIndex = playerScore.getKey();
+				winningScore = playerScore.getValue();
+			}
+		}
+		if (winningPlayerIndex == GameStatus.getInstance().getOwnPlayerIndex()) {
 			this.endGameDialogTitle.setText("VICTORY");
 			this.endGameDialogTitle.setTextFill(Color.web("#2E7D32"));
 		} else {

@@ -66,6 +66,7 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 			this.player.getRoom().getGameHandler().getBoardHandler().getCouncilPalaceOrder().add(this.player);
 		}
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), BoardPosition.COUNCIL_PALACE);
+		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformations(BoardPosition.COUNCIL_PALACE).getResourceAmounts(), ResourcesSource.COUNCIL_PALACE);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());

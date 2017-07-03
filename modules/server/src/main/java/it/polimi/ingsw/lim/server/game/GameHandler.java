@@ -8,7 +8,6 @@ import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.database.Database;
@@ -449,7 +448,6 @@ public class GameHandler
 			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, eventPostVictoryPointsCalculation.getVictoryPoints());
 			playersScores.put(player, player.getPlayerResourceHandler().getResources().get(ResourceType.VICTORY_POINT));
 		}
-		playersScores = CommonUtils.sortMapByValue(playersScores);
 		Map<Integer, Integer> playerIndexesVictoryPointsRecord = new LinkedHashMap<>();
 		int index = 0;
 		for (Entry<Player, Integer> playerScore : playersScores.entrySet()) {
