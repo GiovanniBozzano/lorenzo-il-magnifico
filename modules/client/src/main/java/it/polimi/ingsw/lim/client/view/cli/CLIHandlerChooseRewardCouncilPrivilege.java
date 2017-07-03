@@ -59,6 +59,7 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 			}
 			while (!CommonUtils.isInteger(input) || !this.councilPrivilegeRewards.containsKey(Integer.parseInt(input)));
 			this.chosenCouncilPrivilegeRewards.add(Integer.parseInt(input));
+			this.chosenCouncilPrivilegeRewards.remove(Integer.parseInt(input));
 			Client.getLogger().log(Level.INFO, "{0} registered", new Object[] { CommonUtils.isInteger(input) });
 			index++;
 		}
