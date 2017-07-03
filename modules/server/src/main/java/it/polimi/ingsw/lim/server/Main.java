@@ -3,7 +3,7 @@ package it.polimi.ingsw.lim.server;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.LoggerFormatter;
-import it.polimi.ingsw.lim.server.cli.InterfaceHandlerCLI;
+import it.polimi.ingsw.lim.server.view.cli.InterfaceHandlerCLI;
 import javafx.application.Application;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;

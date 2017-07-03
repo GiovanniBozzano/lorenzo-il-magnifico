@@ -67,15 +67,11 @@ public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IA
 		}
 		for (LeaderCardConditionsOption leaderCardConditionsOption : leaderCard.getConditionsOptions()) {
 			boolean availableConditionOption = true;
-			if (leaderCardConditionsOption.getResourceAmounts() != null) {
-				if (!this.player.getPlayerResourceHandler().canAffordResources(leaderCardConditionsOption.getResourceAmounts())) {
-					availableConditionOption = false;
-				}
+			if (leaderCardConditionsOption.getResourceAmounts() != null && !this.player.getPlayerResourceHandler().canAffordResources(leaderCardConditionsOption.getResourceAmounts())) {
+				availableConditionOption = false;
 			}
-			if (leaderCardConditionsOption.getCardAmounts() != null) {
-				if (!this.player.getPlayerCardHandler().hasEnoughCards(leaderCardConditionsOption.getCardAmounts())) {
-					availableConditionOption = false;
-				}
+			if (availableConditionOption && leaderCardConditionsOption.getCardAmounts() != null && !this.player.getPlayerCardHandler().hasEnoughCards(leaderCardConditionsOption.getCardAmounts())) {
+				availableConditionOption = false;
 			}
 			if (availableConditionOption) {
 				return;

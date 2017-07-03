@@ -1,10 +1,11 @@
 package it.polimi.ingsw.lim.client;
 
-import it.polimi.ingsw.lim.client.cli.*;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.client.network.rmi.ConnectionHandlerRMI;
 import it.polimi.ingsw.lim.client.network.socket.ConnectionHandlerSocket;
+import it.polimi.ingsw.lim.client.view.IInterfaceHandler;
+import it.polimi.ingsw.lim.client.view.cli.*;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ConnectionType;
@@ -27,7 +28,6 @@ public class Client extends Instance
 		Client.CLI_HANDLERS.put(CLIStatus.LEADER_CARDS_CHOICE, new CLIHandlerLeaderCardsChoice());
 		Client.CLI_HANDLERS.put(CLIStatus.EXCOMMUNICATION_CHOICE, new CLIHandlerExcommunicationChoice());
 		Client.CLI_HANDLERS.put(CLIStatus.AVAILABLE_ACTIONS, new CLIHandlerAvailableActions());
-		Client.CLI_HANDLERS.put(CLIStatus.SHOW_DEVELOPMENT_CARDS, new CLIHandlerShowDevelopmentCards());
 		Client.CLI_HANDLERS.put(CLIStatus.HARVEST, new CLIHandlerHarvest());
 		Client.CLI_HANDLERS.put(CLIStatus.PRODUCTION_START, new CLIHandlerProductionStart());
 		Client.CLI_HANDLERS.put(CLIStatus.MARKET, new CLIHandlerMarket());
@@ -35,8 +35,17 @@ public class Client extends Instance
 		Client.CLI_HANDLERS.put(CLIStatus.LEADER_DISCARD, new CLIHandlerLeaderDiscard());
 		Client.CLI_HANDLERS.put(CLIStatus.LEADER_ACTIVATE, new CLIHandlerLeaderActivate());
 		Client.CLI_HANDLERS.put(CLIStatus.LEADER_PLAY, new CLIHandlerLeaderPlay());
-		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OWN_LEADERS, new CLIHandlerShowOwnLeaders());
+		Client.CLI_HANDLERS.put(CLIStatus.SHOW_BOARD_DEVELOPMENT_CARDS, new CLIHandlerShowBoardDevelopmentCards());
 		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OWN_BOARD, new CLIHandlerShowOwnBoard());
+		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OWN_LEADER_CARDS, new CLIHandlerShowOwnLeaderCards());
+		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OTHER_LEADER_CARDS, new CLIHandlerShowOtherLeaderCards());
+		Client.CLI_HANDLERS.put(CLIStatus.CHOOSE_LORENZO_DE_MEDICI_LEADER, new CLIHandlerChooseLorenzoDeMediciLeader());
+		Client.CLI_HANDLERS.put(CLIStatus.CHOOSE_REWARD_COUNCIL_PRIVILEGE, new CLIHandlerChooseRewardCouncilPrivilege());
+		Client.CLI_HANDLERS.put(CLIStatus.CHOOSE_REWARD_HARVEST, new CLIHandlerChooseRewardHarvest());
+		Client.CLI_HANDLERS.put(CLIStatus.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD, new CLIHandlerChooseRewardPickDevelopmentCard());
+		Client.CLI_HANDLERS.put(CLIStatus.CHOOSE_REWARD_PRODUCTION_START, new CLIHandlerChooseRewardProductionStart());
+		Client.CLI_HANDLERS.put(CLIStatus.CHOOSE_REWARD_TEMPORARY_MODIFIER, new CLIHandlerChooseRewardTemporaryModifier());
+		Client.CLI_HANDLERS.put(CLIStatus.PRODUCTION_TRADE, new CLIHandlerProductionTrade());
 		Client.CLI_HANDLERS.put(CLIStatus.GAME_ENDED, new CLIHandlerGameEnded());
 	}
 

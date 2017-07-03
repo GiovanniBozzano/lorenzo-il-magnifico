@@ -11,7 +11,6 @@ import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.ServerSettings;
 import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.enums.LeaderCardType;
 import it.polimi.ingsw.lim.server.enums.QueryRead;
@@ -34,6 +33,7 @@ import it.polimi.ingsw.lim.server.game.player.PlayerResourceHandler;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.QueryArgument;
+import it.polimi.ingsw.lim.server.utils.ServerSettings;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.io.Serializable;

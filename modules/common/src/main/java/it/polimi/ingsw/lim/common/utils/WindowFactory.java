@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.common.utils;
 
 import com.jfoenix.controls.JFXNodesList;
 import it.polimi.ingsw.lim.common.Instance;
-import it.polimi.ingsw.lim.common.gui.CustomController;
+import it.polimi.ingsw.lim.common.view.gui.CustomController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;

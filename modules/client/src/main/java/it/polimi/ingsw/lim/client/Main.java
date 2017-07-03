@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.client;
 
-import it.polimi.ingsw.lim.client.cli.InterfaceHandlerCLI;
+import it.polimi.ingsw.lim.client.view.cli.InterfaceHandlerCLI;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.LoggerFormatter;
@@ -33,6 +33,7 @@ public class Main extends Application
 		Client.getInstance().getInterfaceHandler().start();
 	}
 
+	@SuppressWarnings("squid:S2696")
 	@Override
 	public void start(Stage stage)
 	{

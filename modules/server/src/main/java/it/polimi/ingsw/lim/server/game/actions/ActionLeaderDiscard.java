@@ -38,11 +38,9 @@ public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard impleme
 		// check if the player has the leader card
 		LeaderCard leaderCard = null;
 		for (LeaderCard currentLeaderCard : this.player.getPlayerCardHandler().getLeaderCards()) {
-			if (this.getLeaderCardIndex() != currentLeaderCard.getIndex()) {
-				continue;
+			if (this.getLeaderCardIndex() == currentLeaderCard.getIndex()) {
+				leaderCard = currentLeaderCard;
 			}
-			leaderCard = currentLeaderCard;
-			break;
 		}
 		if (leaderCard == null) {
 			throw new GameActionFailedException("You don't have this Leader Card");
@@ -59,11 +57,9 @@ public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard impleme
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.LEADER);
 		LeaderCard leaderCard = null;
 		for (LeaderCard currentLeaderCard : this.player.getPlayerCardHandler().getLeaderCards()) {
-			if (this.getLeaderCardIndex() != currentLeaderCard.getIndex()) {
-				continue;
+			if (this.getLeaderCardIndex() == currentLeaderCard.getIndex()) {
+				leaderCard = currentLeaderCard;
 			}
-			leaderCard = currentLeaderCard;
-			break;
 		}
 		if (leaderCard == null) {
 			throw new GameActionFailedException("You don't have this Leader Card");

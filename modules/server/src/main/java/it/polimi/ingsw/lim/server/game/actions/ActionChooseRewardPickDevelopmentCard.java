@@ -83,10 +83,8 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 			throw new GameActionFailedException("This cost option is not present in the current card");
 		}
 		// check if the player has the requiredResources
-		if (this.getResourceCostOption() != null) {
-			if (!this.player.getPlayerResourceHandler().canAffordResources(this.getResourceCostOption().getRequiredResources())) {
-				throw new GameActionFailedException("You don't have the required resources to perform this action");
-			}
+		if (this.getResourceCostOption() != null && !this.player.getPlayerResourceHandler().canAffordResources(this.getResourceCostOption().getRequiredResources())) {
+			throw new GameActionFailedException("You don't have the required resources to perform this action");
 		}
 		// check if the family member and servants value is high enough
 		EventPickDevelopmentCard eventPickDevelopmentCard = new EventPickDevelopmentCard(this.player, this.getCardType(), this.getRow(), this.getResourceCostOption() == null ? null : this.getResourceCostOption().getSpentResources(), BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue() + effectiveServantsValue);

@@ -2,8 +2,8 @@ package it.polimi.ingsw.lim.server.game;
 
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.ServerSettings;
 import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.utils.ServerSettings;
 
 import java.util.ArrayList;
 import java.util.List;

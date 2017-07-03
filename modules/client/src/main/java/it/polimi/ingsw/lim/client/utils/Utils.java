@@ -21,6 +21,15 @@ public class Utils
 	public static final String SCENE_CONNECTION = "/fxml/SceneConnection.fxml";
 	public static final String SCENE_ROOM = "/fxml/SceneRoom.fxml";
 	public static final String SCENE_GAME = "/fxml/SceneGame.fxml";
+	private static final Map<Integer, String> BOARD_IMAGES = new HashMap<>();
+
+	static {
+		Utils.BOARD_IMAGES.put(2, "/images/game_board_2_players.png");
+		Utils.BOARD_IMAGES.put(3, "/images/game_board_3_players.png");
+		Utils.BOARD_IMAGES.put(4, "/images/game_board_4_players.png");
+		Utils.BOARD_IMAGES.put(5, "/images/game_board_5_players.png");
+	}
+
 	private static final Map<Integer, Map<FamilyMemberType, String>> DICES_FAMILY_MEMBER_TYPES_TEXTURES = new HashMap<>();
 
 	static {
@@ -149,8 +158,10 @@ public class Utils
 	public static void unsetEffect(Pane pane)
 	{
 		pane.setOnMouseEntered(event -> {
+			// Remove the effect.
 		});
 		pane.setOnMouseExited(event -> {
+			// Remove the effect.
 		});
 	}
 
@@ -167,6 +178,11 @@ public class Utils
 		} else {
 			textArea.appendText("\n[ME]: " + trimmedText);
 		}
+	}
+
+	public static Map<Integer, String> getBoardImages()
+	{
+		return Utils.BOARD_IMAGES;
 	}
 
 	public static Map<Integer, Map<FamilyMemberType, String>> getDicesFamilyMemberTypesTextures()

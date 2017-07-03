@@ -9,10 +9,8 @@ import java.rmi.RemoteException;
 
 public interface IAuthentication extends Remote
 {
-	@SuppressWarnings("squid:S1160")
 	AuthenticationInformations sendLogin(String version, String name, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException;
 
-	@SuppressWarnings("squid:S1160")
 	AuthenticationInformations sendRegistration(String version, String name, String password, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException;
 
 	void sendHeartbeat() throws RemoteException;

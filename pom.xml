@@ -9,6 +9,25 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.language>java</sonar.language>
 		<sonar.host.url>http://localhost:9000/</sonar.host.url>
+		<sonar.issue.ignore.multicriteria>c1,c2,c3,c4,c5,c6,c7,c8,c9</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria.c1.ruleKey>squid:S134</sonar.issue.ignore.multicriteria.c1.ruleKey>
+		<sonar.issue.ignore.multicriteria.c1.resourceKey>**/*</sonar.issue.ignore.multicriteria.c1.resourceKey>
+		<sonar.issue.ignore.multicriteria.c2.ruleKey>squid:S1067</sonar.issue.ignore.multicriteria.c2.ruleKey>
+		<sonar.issue.ignore.multicriteria.c2.resourceKey>**/*</sonar.issue.ignore.multicriteria.c2.resourceKey>
+		<sonar.issue.ignore.multicriteria.c3.ruleKey>squid:S1141</sonar.issue.ignore.multicriteria.c3.ruleKey>
+		<sonar.issue.ignore.multicriteria.c3.resourceKey>**/*</sonar.issue.ignore.multicriteria.c3.resourceKey>
+		<sonar.issue.ignore.multicriteria.c4.ruleKey>squid:S1160</sonar.issue.ignore.multicriteria.c4.ruleKey>
+		<sonar.issue.ignore.multicriteria.c4.resourceKey>**/*</sonar.issue.ignore.multicriteria.c4.resourceKey>
+		<sonar.issue.ignore.multicriteria.c5.ruleKey>squid:S1188</sonar.issue.ignore.multicriteria.c5.ruleKey>
+		<sonar.issue.ignore.multicriteria.c5.resourceKey>**/*</sonar.issue.ignore.multicriteria.c5.resourceKey>
+		<sonar.issue.ignore.multicriteria.c6.ruleKey>squid:S1192</sonar.issue.ignore.multicriteria.c6.ruleKey>
+		<sonar.issue.ignore.multicriteria.c6.resourceKey>**/*</sonar.issue.ignore.multicriteria.c6.resourceKey>
+		<sonar.issue.ignore.multicriteria.c7.ruleKey>squid:S3776</sonar.issue.ignore.multicriteria.c7.ruleKey>
+		<sonar.issue.ignore.multicriteria.c7.resourceKey>**/*</sonar.issue.ignore.multicriteria.c7.resourceKey>
+		<sonar.issue.ignore.multicriteria.c8.ruleKey>squid:S00104</sonar.issue.ignore.multicriteria.c8.ruleKey>
+		<sonar.issue.ignore.multicriteria.c8.resourceKey>**/*</sonar.issue.ignore.multicriteria.c8.resourceKey>
+		<sonar.issue.ignore.multicriteria.c9.ruleKey>squid:S00107</sonar.issue.ignore.multicriteria.c9.ruleKey>
+		<sonar.issue.ignore.multicriteria.c9.resourceKey>**/*</sonar.issue.ignore.multicriteria.c9.resourceKey>
 	</properties>
 	<modules>
 		<module>modules/client</module>

@@ -27,7 +27,7 @@ public class CardAmount implements Serializable
 		return this.amount;
 	}
 
-	public String getInformations()
+	private String getInformations()
 	{
 		return "- " + CommonUtils.getCardTypesNames().get(this.cardType) + ": " + this.amount;
 	}

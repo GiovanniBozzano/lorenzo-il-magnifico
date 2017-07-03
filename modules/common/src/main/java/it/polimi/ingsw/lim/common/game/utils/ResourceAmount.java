@@ -45,7 +45,7 @@ public class ResourceAmount implements Serializable
 		this.amount = amount <= 0 ? 0 : amount;
 	}
 
-	public String getInformations()
+	String getInformations()
 	{
 		return "- " + CommonUtils.getResourcesTypesNames().get(this.resourceType) + ": " + this.amount;
 	}

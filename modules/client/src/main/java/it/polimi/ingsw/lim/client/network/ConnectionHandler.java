@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Level;
 
-public abstract class ConnectionHandler extends Thread
+@SuppressWarnings("squid:S1172") public abstract class ConnectionHandler extends Thread
 {
 	private final ScheduledExecutorService heartbeat = Executors.newSingleThreadScheduledExecutor();
 

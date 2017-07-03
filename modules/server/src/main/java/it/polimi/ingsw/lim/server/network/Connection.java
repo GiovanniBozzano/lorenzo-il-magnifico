@@ -75,7 +75,7 @@ public abstract class Connection
 		}
 	}
 
-	public void disconnect(boolean flag, String message)
+	public void disconnect(@SuppressWarnings("squid:S1172") boolean flag, String message)
 	{
 		this.heartbeat.shutdownNow();
 		Server.getInstance().getConnections().remove(this);
