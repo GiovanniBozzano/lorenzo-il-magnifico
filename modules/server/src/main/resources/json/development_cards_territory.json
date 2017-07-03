@@ -35,7 +35,7 @@
 					}
 				]
 			},
-			"activationCost": 2,
+			"activationValue": 2,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -54,7 +54,7 @@
 				"actionReward": null,
 				"resourceAmounts": []
 			},
-			"activationCost": 3,
+			"activationValue": 3,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -84,7 +84,7 @@
 					}
 				]
 			},
-			"activationCost": 4,
+			"activationValue": 4,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -109,7 +109,7 @@
 					}
 				]
 			},
-			"activationCost": 5,
+			"activationValue": 5,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -139,7 +139,7 @@
 					}
 				]
 			},
-			"activationCost": 6,
+			"activationValue": 6,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -163,7 +163,7 @@
 				"actionReward": null,
 				"resourceAmounts": []
 			},
-			"activationCost": 5,
+			"activationValue": 5,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -193,7 +193,7 @@
 					}
 				]
 			},
-			"activationCost": 6,
+			"activationValue": 6,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -220,7 +220,7 @@
 					}
 				]
 			},
-			"activationCost": 1,
+			"activationValue": 1,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -245,7 +245,7 @@
 					}
 				]
 			},
-			"activationCost": 3,
+			"activationValue": 3,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -280,7 +280,7 @@
 					}
 				]
 			},
-			"activationCost": 4,
+			"activationValue": 4,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -310,7 +310,7 @@
 					}
 				]
 			},
-			"activationCost": 3,
+			"activationValue": 3,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -340,7 +340,7 @@
 					}
 				]
 			},
-			"activationCost": 4,
+			"activationValue": 4,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -370,7 +370,7 @@
 					}
 				]
 			},
-			"activationCost": 2,
+			"activationValue": 2,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -389,7 +389,7 @@
 				"actionReward": null,
 				"resourceAmounts": []
 			},
-			"activationCost": 5,
+			"activationValue": 5,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -419,7 +419,7 @@
 					}
 				]
 			},
-			"activationCost": 6,
+			"activationValue": 6,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -461,7 +461,7 @@
 					}
 				]
 			},
-			"activationCost": 1,
+			"activationValue": 1,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -491,7 +491,7 @@
 					}
 				]
 			},
-			"activationCost": 3,
+			"activationValue": 3,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -521,7 +521,7 @@
 					}
 				]
 			},
-			"activationCost": 5,
+			"activationValue": 5,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -551,7 +551,7 @@
 					}
 				]
 			},
-			"activationCost": 2,
+			"activationValue": 2,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -586,7 +586,7 @@
 					}
 				]
 			},
-			"activationCost": 6,
+			"activationValue": 6,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -616,7 +616,7 @@
 					}
 				]
 			},
-			"activationCost": 1,
+			"activationValue": 1,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -651,7 +651,7 @@
 					}
 				]
 			},
-			"activationCost": 4,
+			"activationValue": 4,
 			"harvestResources": [
 				{
 					"type": "STANDARD",
@@ -686,7 +686,7 @@
 					}
 				]
 			},
-			"activationCost": 2,
+			"activationValue": 2,
 			"harvestResources": [
 				{
 					"type": "STANDARD",

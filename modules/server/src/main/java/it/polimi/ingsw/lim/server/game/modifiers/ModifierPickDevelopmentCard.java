@@ -16,14 +16,14 @@ public class ModifierPickDevelopmentCard extends Modifier<EventPickDevelopmentCa
 {
 	private final int value;
 	private final CardType cardType;
-	private final List<List<ResourceAmount>> discoutChoices;
+	private final List<List<ResourceAmount>> discountChoices;
 
 	public ModifierPickDevelopmentCard(String description, int value, CardType cardType, List<List<ResourceAmount>> discountChoices)
 	{
 		super(EventPickDevelopmentCard.class, description);
 		this.value = value;
 		this.cardType = cardType;
-		this.discoutChoices = discountChoices;
+		this.discountChoices = discountChoices;
 	}
 
 	@Override
@@ -45,6 +45,6 @@ public class ModifierPickDevelopmentCard extends Modifier<EventPickDevelopmentCa
 
 	public List<List<ResourceAmount>> getDiscountChoices()
 	{
-		return this.discoutChoices;
+		return this.discountChoices;
 	}
 }

@@ -33,7 +33,10 @@ public abstract class DevelopmentCardInformations extends CardInformations
 					stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
 				}
 				if (!resourceCostOption.getSpentResources().isEmpty()) {
-					stringBuilder.append("\nSpent resources:\n");
+					if (!resourceCostOption.getRequiredResources().isEmpty()) {
+						stringBuilder.append('\n');
+					}
+					stringBuilder.append("Spent resources:\n");
 					stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
 				}
 				stringBuilder.append("\n==============");
@@ -50,7 +53,10 @@ public abstract class DevelopmentCardInformations extends CardInformations
 			stringBuilder.append(ResourceAmount.getResourcesInformations(this.reward.getResourceAmounts(), true));
 		}
 		if (this.reward.getActionRewardInformations() != null) {
-			stringBuilder.append("\nAction reward:\n| ");
+			if (!this.reward.getResourceAmounts().isEmpty()) {
+				stringBuilder.append('\n');
+			}
+			stringBuilder.append("Action reward:\n| ");
 			stringBuilder.append(this.reward.getActionRewardInformations().replace("\n", "\n| "));
 		}
 		return stringBuilder.toString();

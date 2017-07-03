@@ -252,15 +252,19 @@ public class Utils
 		if (resourceCostOption != null) {
 			if (discountChoice.isEmpty()) {
 				for (Modifier modifier : player.getActiveModifiers()) {
-					if (modifier instanceof ModifierPickDevelopmentCard && (((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty())) {
+					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty()) {
 						throw new GameActionFailedException("The discount you chose is not valid");
 					}
 				}
 			} else {
+				boolean validDiscountChoice = false;
 				for (Modifier modifier : player.getActiveModifiers()) {
-					if (modifier instanceof ModifierPickDevelopmentCard && !(((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().contains(discountChoice))) {
-						throw new GameActionFailedException("The discount you chose is not valid");
+					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices().contains(discountChoice)) {
+						validDiscountChoice = true;
 					}
+				}
+				if (!validDiscountChoice) {
+					throw new GameActionFailedException("The discount you chose is not valid");
 				}
 			}
 		}

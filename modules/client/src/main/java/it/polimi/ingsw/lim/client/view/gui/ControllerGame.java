@@ -2025,8 +2025,8 @@ public class ControllerGame extends CustomController
 		greyScaleEffect.setSaturation(-1);
 		for (Integer leaderCard : GameStatus.getInstance().getAvailableLeaderCards()) {
 			Pane pane = new Pane();
-			pane.setPrefWidth(this.territory1.getWidth() * 3);
-			pane.setPrefHeight(this.territory1.getHeight() * 3);
+			pane.setPrefWidth(this.building1.getWidth() * 3);
+			pane.setPrefHeight(this.building1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
@@ -2043,8 +2043,8 @@ public class ControllerGame extends CustomController
 			});
 			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}
-		this.leaderCardsDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());
-		this.leaderCardsDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsDialogLayout.getInsets().getTop() + this.leaderCardsDialogLayout.getInsets().getTop() + 20.0D);
+		this.leaderCardsDialogLayout.setPrefWidth(this.building1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());
+		this.leaderCardsDialogLayout.setPrefHeight(this.building1.getHeight() * 3 + this.leaderCardsDialogLayout.getInsets().getTop() + this.leaderCardsDialogLayout.getInsets().getTop() + 20.0D);
 		this.leaderCardsDialog.show();
 	}
 
@@ -2168,12 +2168,15 @@ public class ControllerGame extends CustomController
 							StringBuilder stringBuilder = new StringBuilder();
 							if (!resourceCostOption.getRequiredResources().isEmpty()) {
 								stringBuilder.append("REQUIRED RESOURCES:\n");
+								stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
 							}
-							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
 							if (!resourceCostOption.getSpentResources().isEmpty()) {
-								stringBuilder.append("\nSPENT RESOURCES:\n");
+								if (!resourceCostOption.getRequiredResources().isEmpty()) {
+									stringBuilder.append('\n');
+								}
+								stringBuilder.append("SPENT RESOURCES:\n");
+								stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
 							}
-							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
 							text.setText(stringBuilder.toString());
 							anchorPane.getChildren().add(text);
 							AnchorPane.setTopAnchor(text, 0.0);
@@ -2257,8 +2260,8 @@ public class ControllerGame extends CustomController
 				continue;
 			}
 			Pane pane = new Pane();
-			pane.setPrefWidth(this.territory1.getWidth() * 3);
-			pane.setPrefHeight(this.territory1.getHeight() * 3);
+			pane.setPrefWidth(this.building1.getWidth() * 3);
+			pane.setPrefHeight(this.building1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
@@ -2272,8 +2275,8 @@ public class ControllerGame extends CustomController
 			});
 			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}
-		this.leaderCardsDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());
-		this.leaderCardsDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsDialogLayout.getInsets().getTop() + this.leaderCardsDialogLayout.getInsets().getTop() + 20.0D);
+		this.leaderCardsDialogLayout.setPrefWidth(this.building1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());
+		this.leaderCardsDialogLayout.setPrefHeight(this.building1.getHeight() * 3 + this.leaderCardsDialogLayout.getInsets().getTop() + this.leaderCardsDialogLayout.getInsets().getTop() + 20.0D);
 		this.leaderCardsDialog.show();
 	}
 
@@ -2283,8 +2286,8 @@ public class ControllerGame extends CustomController
 		this.leaderCardsDialogHBox.getChildren().clear();
 		for (Integer leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
 			Pane pane = new Pane();
-			pane.setPrefWidth(this.territory1.getWidth() * 3);
-			pane.setPrefHeight(this.territory1.getHeight() * 3);
+			pane.setPrefWidth(this.building1.getWidth() * 3);
+			pane.setPrefHeight(this.building1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
@@ -2298,8 +2301,8 @@ public class ControllerGame extends CustomController
 			});
 			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}
-		this.leaderCardsDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());
-		this.leaderCardsDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsDialogLayout.getInsets().getTop() + this.leaderCardsDialogLayout.getInsets().getTop() + 20.0D);
+		this.leaderCardsDialogLayout.setPrefWidth(this.building1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());
+		this.leaderCardsDialogLayout.setPrefHeight(this.building1.getHeight() * 3 + this.leaderCardsDialogLayout.getInsets().getTop() + this.leaderCardsDialogLayout.getInsets().getTop() + 20.0D);
 		this.leaderCardsDialog.show();
 	}
 
@@ -2312,8 +2315,8 @@ public class ControllerGame extends CustomController
 				continue;
 			}
 			Pane pane = new Pane();
-			pane.setPrefWidth(this.territory1.getWidth() * 3);
-			pane.setPrefHeight(this.territory1.getHeight() * 3);
+			pane.setPrefWidth(this.building1.getWidth() * 3);
+			pane.setPrefHeight(this.building1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
@@ -2327,8 +2330,8 @@ public class ControllerGame extends CustomController
 			});
 			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}
-		this.leaderCardsDialogLayout.setPrefWidth(this.territory1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());
-		this.leaderCardsDialogLayout.setPrefHeight(this.territory1.getHeight() * 3 + this.leaderCardsDialogLayout.getInsets().getTop() + this.leaderCardsDialogLayout.getInsets().getTop() + 20.0D);
+		this.leaderCardsDialogLayout.setPrefWidth(this.building1.getWidth() * 3 * this.leaderCardsDialogHBox.getChildren().size() + this.leaderCardsDialogHBox.getSpacing() * (this.leaderCardsDialogHBox.getChildren().size() - 1) + this.leaderCardsDialogLayout.getInsets().getLeft() + this.leaderCardsDialogLayout.getInsets().getRight());
+		this.leaderCardsDialogLayout.setPrefHeight(this.building1.getHeight() * 3 + this.leaderCardsDialogLayout.getInsets().getTop() + this.leaderCardsDialogLayout.getInsets().getTop() + 20.0D);
 		this.leaderCardsDialog.show();
 	}
 
@@ -2343,8 +2346,8 @@ public class ControllerGame extends CustomController
 			int leaderCardsCount = 0;
 			for (Integer leaderCard : availableLeaderCards.getValue()) {
 				Pane pane = new Pane();
-				pane.setPrefWidth(this.territory1.getWidth() * 2);
-				pane.setPrefHeight(this.territory1.getHeight() * 2);
+				pane.setPrefWidth(this.building1.getWidth() * 2);
+				pane.setPrefHeight(this.building1.getHeight() * 2);
 				pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
@@ -2361,8 +2364,8 @@ public class ControllerGame extends CustomController
 			}
 			this.expectedChooseLorenzoDeMediciLeaderDialogVBox.getChildren().add(hBox);
 		}
-		this.expectedChooseLorenzoDeMediciLeaderDialogLayout.setPrefWidth(this.territory1.getWidth() * 2 * maximumCards + 20.0D * (maximumCards - 1) + this.expectedChooseLorenzoDeMediciLeaderDialogLayout.getInsets().getLeft() + this.expectedChooseLorenzoDeMediciLeaderDialogLayout.getInsets().getRight());
-		this.expectedChooseLorenzoDeMediciLeaderDialogLayout.setPrefHeight(this.territory1.getHeight() * 2 + this.expectedChooseLorenzoDeMediciLeaderDialogLayout.getInsets().getTop() + this.expectedChooseLorenzoDeMediciLeaderDialogLayout.getInsets().getTop() + 20.0D);
+		this.expectedChooseLorenzoDeMediciLeaderDialogLayout.setPrefWidth(this.building1.getWidth() * 2 * maximumCards + 20.0D * (maximumCards - 1) + this.expectedChooseLorenzoDeMediciLeaderDialogLayout.getInsets().getLeft() + this.expectedChooseLorenzoDeMediciLeaderDialogLayout.getInsets().getRight());
+		this.expectedChooseLorenzoDeMediciLeaderDialogLayout.setPrefHeight(this.building1.getHeight() * 2 + this.expectedChooseLorenzoDeMediciLeaderDialogLayout.getInsets().getTop() + this.expectedChooseLorenzoDeMediciLeaderDialogLayout.getInsets().getTop() + 20.0D);
 		this.expectedChooseLorenzoDeMediciLeaderDialog.show();
 	}
 
@@ -2511,12 +2514,15 @@ public class ControllerGame extends CustomController
 							StringBuilder stringBuilder = new StringBuilder();
 							if (!resourceCostOption.getRequiredResources().isEmpty()) {
 								stringBuilder.append("REQUIRED RESOURCES:\n");
+								stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
 							}
-							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
 							if (!resourceCostOption.getSpentResources().isEmpty()) {
-								stringBuilder.append("\nSPENT RESOURCES:\n");
+								if (!resourceCostOption.getRequiredResources().isEmpty()) {
+									stringBuilder.append('\n');
+								}
+								stringBuilder.append("SPENT RESOURCES:\n");
+								stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
 							}
-							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
 							text.setText(stringBuilder.toString());
 							anchorPane.getChildren().add(text);
 							AnchorPane.setTopAnchor(text, 0.0);
@@ -2634,12 +2640,15 @@ public class ControllerGame extends CustomController
 						StringBuilder stringBuilder = new StringBuilder();
 						if (!resourceTradeOption.getEmployedResources().isEmpty()) {
 							stringBuilder.append("EMPLOYED RESOURCES:\n");
+							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getEmployedResources(), true));
 						}
-						stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getEmployedResources(), true));
 						if (!resourceTradeOption.getProducedResources().isEmpty()) {
-							stringBuilder.append("\nPRODUCED RESOURCES:\n");
+							if (!resourceTradeOption.getEmployedResources().isEmpty()) {
+								stringBuilder.append('\n');
+							}
+							stringBuilder.append("PRODUCED RESOURCES:\n");
+							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getProducedResources(), true));
 						}
-						stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getProducedResources(), true));
 						text.setText(stringBuilder.toString());
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);

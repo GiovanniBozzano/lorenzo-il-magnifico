@@ -23,7 +23,7 @@ public class LeaderCardRewardInformations extends LeaderCardInformations
 		stringBuilder.append(this.getCommonInformations());
 		stringBuilder.append("ONCE PER ROUND ABILITY:");
 		if (!this.reward.getResourceAmounts().isEmpty()) {
-			stringBuilder.append("\n\nInstant resources:");
+			stringBuilder.append("\n\nInstant resources:\n");
 		}
 		stringBuilder.append(ResourceAmount.getResourcesInformations(this.reward.getResourceAmounts(), true));
 		if (this.reward.getActionRewardInformations() != null) {
