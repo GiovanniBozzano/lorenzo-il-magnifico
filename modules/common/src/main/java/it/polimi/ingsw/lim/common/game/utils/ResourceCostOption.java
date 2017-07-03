@@ -12,13 +12,17 @@ public class ResourceCostOption implements Serializable
 
 	public ResourceCostOption(List<ResourceAmount> requiredResources, List<ResourceAmount> spentResources)
 	{
-		this.requiredResources.addAll(requiredResources);
-		this.spentResources.addAll(spentResources);
+		for (ResourceAmount resourceAmount : requiredResources) {
+			this.requiredResources.add(new ResourceAmount(resourceAmount));
+		}
+		for (ResourceAmount resourceAmount : spentResources) {
+			this.spentResources.add(new ResourceAmount(resourceAmount));
+		}
 	}
 
 	public ResourceCostOption(ResourceCostOption resourceCostOption)
 	{
-		this(resourceCostOption.requiredResources, resourceCostOption.spentResources);
+		new ResourceCostOption(resourceCostOption.requiredResources, resourceCostOption.spentResources);
 	}
 
 	public List<ResourceAmount> getRequiredResources()

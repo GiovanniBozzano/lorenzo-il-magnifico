@@ -993,8 +993,8 @@ public class GameHandler
 								try {
 									new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, new ArrayList<>(), new ResourceCostOption(resourceCostOption), player).isLegal();
 									validFamilyMember = true;
-									if (!availableResourceCostOptions.contains(new ResourceCostOption(resourceCostOption))) {
-										availableResourceCostOptions.add(new ResourceCostOption(resourceCostOption));
+									if (!availableResourceCostOptions.contains(resourceCostOption)) {
+										availableResourceCostOptions.add(resourceCostOption);
 									}
 								} catch (GameActionFailedException exception) {
 									Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
@@ -1004,8 +1004,8 @@ public class GameHandler
 									try {
 										new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, discountChoice, new ResourceCostOption(resourceCostOption), player).isLegal();
 										validFamilyMember = true;
-										if (!availableResourceCostOptions.contains(new ResourceCostOption(new ResourceCostOption(resourceCostOption)))) {
-											availableResourceCostOptions.add(new ResourceCostOption(new ResourceCostOption(resourceCostOption)));
+										if (!availableResourceCostOptions.contains(resourceCostOption)) {
+											availableResourceCostOptions.add(resourceCostOption);
 										}
 										if (!availableDiscountChoises.contains(discountChoice)) {
 											availableDiscountChoises.add(discountChoice);

@@ -18,6 +18,11 @@ public class ResourceAmount implements Serializable
 		this.amount = amount;
 	}
 
+	public ResourceAmount(ResourceAmount resourceAmount)
+	{
+		this(resourceAmount.resourceType, resourceAmount.amount);
+	}
+
 	@Override
 	public boolean equals(Object resourceAmount)
 	{
