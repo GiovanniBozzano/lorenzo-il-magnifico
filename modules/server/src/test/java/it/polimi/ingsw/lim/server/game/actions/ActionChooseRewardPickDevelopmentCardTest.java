@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -47,7 +48,7 @@ public class ActionChooseRewardPickDevelopmentCardTest
 		Player player = new Player(new ConnectionRMI(null, null), room, 0);
 		player.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
 		player.getPlayerResourceHandler().addResource(ResourceType.SERVANT, 10);
-		player.setCurrentActionReward(new ActionRewardPickDevelopmentCard(null, new EnumMap<>(CardType.class), new ArrayList<>()));
+		player.setCurrentActionReward(new ActionRewardPickDevelopmentCard(null, 0, Collections.singletonList(CardType.BUILDING), new ArrayList<>()));
 		gameHandler.getTurnOrder().add(player);
 		gameHandler.setupRound();
 		Map<Row, DevelopmentCard> developmentCardsBuilding = new EnumMap<>(Row.class);

@@ -12,8 +12,12 @@ public class ResourceTradeOption implements Serializable
 
 	public ResourceTradeOption(List<ResourceAmount> employedResources, List<ResourceAmount> producedResources)
 	{
-		this.employedResources.addAll(employedResources);
-		this.producedResources.addAll(producedResources);
+		for (ResourceAmount resourceAmount : employedResources) {
+			this.employedResources.add(new ResourceAmount(resourceAmount));
+		}
+		for (ResourceAmount resourceAmount : producedResources) {
+			this.producedResources.add(new ResourceAmount(resourceAmount));
+		}
 	}
 
 	public List<ResourceAmount> getEmployedResources()

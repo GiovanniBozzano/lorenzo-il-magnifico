@@ -963,7 +963,7 @@ public class GameHandler
 		for (CardType cardType : this.cardsHandler.getCurrentDevelopmentCards().keySet()) {
 			List<List<ResourceAmount>> discountChoices = new ArrayList<>();
 			for (Modifier modifier : player.getActiveModifiers()) {
-				if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices() != null) {
+				if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty()) {
 					discountChoices.addAll(((ModifierPickDevelopmentCard) modifier).getDiscountChoices());
 				}
 			}

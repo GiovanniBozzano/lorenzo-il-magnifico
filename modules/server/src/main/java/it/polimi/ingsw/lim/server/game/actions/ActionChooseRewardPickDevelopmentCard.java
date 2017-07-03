@@ -7,6 +7,7 @@ import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
+import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardCharacter;
@@ -86,7 +87,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationsCho
 			throw new GameActionFailedException("You don't have the required resources to perform this action");
 		}
 		// check if the family member and servants value is high enough
-		EventPickDevelopmentCard eventPickDevelopmentCard = new EventPickDevelopmentCard(this.player, this.getCardType(), this.getRow(), this.getResourceCostOption() == null ? null : this.getResourceCostOption().getSpentResources(), BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue() + effectiveServantsValue);
+		EventPickDevelopmentCard eventPickDevelopmentCard = new EventPickDevelopmentCard(this.player, this.getCardType(), this.getRow(), this.getResourceCostOption() == null ? null : this.getResourceCostOption().getSpentResources(), ((ActionRewardPickDevelopmentCard) this.player.getCurrentActionReward()).getValue() + effectiveServantsValue);
 		eventPickDevelopmentCard.applyModifiers(this.player.getActiveModifiers());
 		this.effectiveResourceCost.addAll(eventPickDevelopmentCard.getResourceCost());
 		this.getBoardPositionReward = eventPickDevelopmentCard.isGetBoardPositionReward();

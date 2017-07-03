@@ -655,12 +655,13 @@
 					"type": "CARD",
 					"description": "You can perform an action\nat VALUE 7 to take a CARD of ANY TYPE\nwithout placing a Family Member\n(you can change the action value with\nservants and cards effects). Pay 3\nadditional coins if the tower is already\noccupied and take the bonus resources from\nthe third/fourth floor.",
 					"requestedAction": "CHOOSE_REWARD_PICK_DEVELOPMENT_CARD",
-					"maximumRows": {
-						"BUILDING": "FOURTH",
-						"CHARACTER": "FOURTH",
-						"TERRITORY": "FOURTH",
-						"VENTURE": "FOURTH"
-					},
+					"value": 7,
+					"cardTypes": [
+						"BUILDING",
+						"CHARACTER",
+						"TERRITORY",
+						"VENTURE"
+					],
 					"instantDiscountChoices": []
 				},
 				"resourceAmounts": [

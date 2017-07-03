@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.player.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventGainResources extends Event
@@ -14,7 +15,7 @@ public class EventGainResources extends Event
 	public EventGainResources(Player player, List<ResourceAmount> resourceAmounts, ResourcesSource resourcesSource)
 	{
 		super(player);
-		this.resourceAmounts = resourceAmounts;
+		this.resourceAmounts = new ArrayList<>(resourceAmounts);
 		this.resourcesSource = resourcesSource;
 	}
 
