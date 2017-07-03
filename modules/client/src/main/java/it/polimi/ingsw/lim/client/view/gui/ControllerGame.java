@@ -1313,7 +1313,7 @@ public class ControllerGame extends CustomController
 		this.developmentCardDialogPane.setPrefWidth(this.building1.getWidth() * 4);
 		this.developmentCardDialogPane.setPrefHeight(this.building1.getHeight() * 4);
 		this.developmentCardDialogScrollPane.setPrefHeight(this.building1.getHeight() * 4);
-		for (Integer playerIndex : GameStatus.getInstance().getCurrentPlayersData().keySet()) {
+		for (int playerIndex : GameStatus.getInstance().getCurrentPlayersData().keySet()) {
 			for (Pane pane : this.playersLeaderCardsHand.get(playerIndex)) {
 				pane.setPrefWidth(this.building1.getWidth() * 2.5);
 				pane.setPrefHeight(this.building1.getHeight() * 2.5);
@@ -1992,7 +1992,7 @@ public class ControllerGame extends CustomController
 		this.personalBonusTilesDialogHBox.getChildren().clear();
 		ColorAdjust greyScaleEffect = new ColorAdjust();
 		greyScaleEffect.setSaturation(-1);
-		for (Integer personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
+		for (int personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
 			Pane pane = new Pane();
 			pane.setPrefWidth(76.0D * this.ratio);
 			pane.setPrefHeight(650.0D * this.ratio);
@@ -2023,7 +2023,7 @@ public class ControllerGame extends CustomController
 		this.leaderCardsDialogHBox.getChildren().clear();
 		ColorAdjust greyScaleEffect = new ColorAdjust();
 		greyScaleEffect.setSaturation(-1);
-		for (Integer leaderCard : GameStatus.getInstance().getAvailableLeaderCards()) {
+		for (int leaderCard : GameStatus.getInstance().getAvailableLeaderCards()) {
 			Pane pane = new Pane();
 			pane.setPrefWidth(this.building1.getWidth() * 3);
 			pane.setPrefHeight(this.building1.getHeight() * 3);
@@ -2284,7 +2284,7 @@ public class ControllerGame extends CustomController
 	{
 		this.leaderCardsDialog.setOverlayClose(true);
 		this.leaderCardsDialogHBox.getChildren().clear();
-		for (Integer leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
+		for (int leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
 			Pane pane = new Pane();
 			pane.setPrefWidth(this.building1.getWidth() * 3);
 			pane.setPrefHeight(this.building1.getHeight() * 3);
@@ -2344,7 +2344,7 @@ public class ControllerGame extends CustomController
 			hBox.setAlignment(Pos.CENTER);
 			hBox.setSpacing(20.0D);
 			int leaderCardsCount = 0;
-			for (Integer leaderCard : availableLeaderCards.getValue()) {
+			for (int leaderCard : availableLeaderCards.getValue()) {
 				Pane pane = new Pane();
 				pane.setPrefWidth(this.building1.getWidth() * 2);
 				pane.setPrefHeight(this.building1.getHeight() * 2);
@@ -2689,7 +2689,7 @@ public class ControllerGame extends CustomController
 		actionsNodesList.addAnimatedNode(pickTradeCardsActionButton);
 		this.actionsVBox.getChildren().add(actionsNodesList);
 		this.selectableTradeCards.clear();
-		for (Integer availableCard : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().keySet()) {
+		for (int availableCard : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().keySet()) {
 			this.selectableTradeCards.add(this.playerDevelopmentCardsBuildingIndexes.getInverse(availableCard));
 		}
 		for (Pane pane : this.playersDevelopmentCards.get(GameStatus.getInstance().getOwnPlayerIndex()).get(CardType.BUILDING)) {

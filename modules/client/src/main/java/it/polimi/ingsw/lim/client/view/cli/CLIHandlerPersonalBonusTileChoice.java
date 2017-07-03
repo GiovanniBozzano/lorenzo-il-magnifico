@@ -32,7 +32,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Enter Personal Bonus Tile choice...");
 		int index = 1;
-		for (Integer personalBonusTile : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
+		for (int personalBonusTile : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
 			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getInformations()));
 			this.personalBonusTiles.put(index, personalBonusTile);
 			index++;
