@@ -28,4 +28,10 @@ public class ModifierPickDevelopmentCardReward extends Modifier<EventPickDevelop
 			event.setGetBoardPositionReward(false);
 		}
 	}
+
+	@Override
+	public void setEventClass()
+	{
+		super.setEventClass(EventPickDevelopmentCard.class);
+	}
 }

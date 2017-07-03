@@ -27,7 +27,7 @@ public class DevelopmentCardTerritoryInformations extends DevelopmentCardInforma
 		stringBuilder.append("\n\nHARVEST ACTIVATION VALUE: ");
 		stringBuilder.append(this.activationValue);
 		if (!this.harvestResources.isEmpty()) {
-			stringBuilder.append("\n\nHARVEST RESOURCES:");
+			stringBuilder.append("\n\nHARVEST RESOURCES:\n");
 			stringBuilder.append(ResourceAmount.getResourcesInformations(this.harvestResources, true));
 		}
 		return stringBuilder.toString();

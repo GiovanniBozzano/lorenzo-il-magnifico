@@ -9,7 +9,6 @@ import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformationsLobby;
-import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsLobbyRMI;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;

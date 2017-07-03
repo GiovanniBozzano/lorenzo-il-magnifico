@@ -8,8 +8,8 @@ import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.player.Player;
-import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -60,16 +60,14 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationsChoose
 			resourceReward.addAll(this.player.getRoom().getGameHandler().getBoardHandler().getMatchCouncilPrivilegeRewards().get(councilPalaceRewardIndex));
 		}
 		this.player.getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+		this.player.getPlayerResourceHandler().getResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.COUNCIL_PRIVILEGE);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " chose council privileges rewards");
-		if (this.player.getRoom().getGameHandler().getCurrentPhase() == Phase.LEADER) {
-			this.player.getPlayerResourceHandler().addResources(eventGainResources.getResourceAmounts());
-			this.player.getRoom().getGameHandler().setExpectedAction(null);
-			this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
+		if (Utils.checkLeaderPhase(this.player)) {
 			return;
 		}
-		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		this.player.getRoom().getGameHandler().nextTurn();
 	}
 }

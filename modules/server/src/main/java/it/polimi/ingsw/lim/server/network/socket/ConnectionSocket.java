@@ -91,136 +91,136 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public void sendHeartbeat()
+	public synchronized void sendHeartbeat()
 	{
 		new Packet(PacketType.HEARTBEAT).send(this.out);
 	}
 
-	void sendAuthenticationConfirmation(AuthenticationInformations authenticationInformations)
+	synchronized void sendAuthenticationConfirmation(AuthenticationInformations authenticationInformations)
 	{
 		new PacketAuthenticationConfirmation(authenticationInformations).send(this.out);
 	}
 
-	void sendAuthenticationFailure(String text)
+	synchronized void sendAuthenticationFailure(String text)
 	{
 		new PacketAuthenticationFailure(text).send(this.out);
 	}
 
 	@Override
-	public void sendRoomEntryOther(String name)
+	public synchronized void sendRoomEntryOther(String name)
 	{
 		new PacketRoomEntryOther(name).send(this.out);
 	}
 
 	@Override
-	public void sendRoomExitOther(String name)
+	public synchronized void sendRoomExitOther(String name)
 	{
 		new PacketRoomExitOther(name).send(this.out);
 	}
 
 	@Override
-	public void sendRoomTimer(int timer)
+	public synchronized void sendRoomTimer(int timer)
 	{
 		new PacketRoomTimer(timer).send(this.out);
 	}
 
 	@Override
-	public void sendDisconnectionLogMessage(String text)
+	public synchronized void sendDisconnectionLogMessage(String text)
 	{
 		new PacketDisconnectionLogMessage(text).send(this.out);
 	}
 
 	@Override
-	public void sendChatMessage(String text)
+	public synchronized void sendChatMessage(String text)
 	{
 		new PacketChatMessage(text.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "")).send(this.out);
 	}
 
 	@Override
-	public void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, List<ResourceAmount>> councilPrivilegeRewards, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex)
+	public synchronized void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, List<ResourceAmount>> councilPrivilegeRewards, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex)
 	{
 		new PacketGameStarted(excommunicationTiles, councilPrivilegeRewards, playersData, ownPlayerIndex).send(this.out);
 	}
 
 	@Override
-	public void sendGameLogMessage(String text)
+	public synchronized void sendGameLogMessage(String text)
 	{
 		new PacketGameLogMessage(text).send(this.out);
 	}
 
 	@Override
-	public void sendGameTimer(int timer)
+	public synchronized void sendGameTimer(int timer)
 	{
 		new PacketGameTimer(timer).send(this.out);
 	}
 
 	@Override
-	public void sendGameDisconnectionOther(int playerIndex)
+	public synchronized void sendGameDisconnectionOther(int playerIndex)
 	{
 		new PacketGameDisconnectionOther(playerIndex).send(this.out);
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles)
+	public synchronized void sendGamePersonalBonusTileChoiceRequest(List<Integer> availablePersonalBonusTiles)
 	{
 		new PacketGamePersonalBonusTileChoiceRequest(availablePersonalBonusTiles).send(this.out);
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex)
+	public synchronized void sendGamePersonalBonusTileChoiceOther(int choicePlayerIndex)
 	{
 		new PacketGamePersonalBonusTileChoiceOther(choicePlayerIndex).send(this.out);
 	}
 
 	@Override
-	public void sendGamePersonalBonusTileChosen(int choicePlayerIndex)
+	public synchronized void sendGamePersonalBonusTileChosen(int choicePlayerIndex)
 	{
 		new PacketGamePersonalBonusTileChosen(choicePlayerIndex).send(this.out);
 	}
 
 	@Override
-	public void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards)
+	public synchronized void sendGameLeaderCardChoiceRequest(List<Integer> availableLeaderCards)
 	{
 		new PacketGameLeaderCardChoiceRequest(availableLeaderCards).send(this.out);
 	}
 
 	@Override
-	public void sendGameExoommunicationChoiceOther()
+	public synchronized void sendGameExoommunicationChoiceOther()
 	{
 		new Packet(PacketType.GAME_EXCOMMUNICATION_CHOICE_OTHER).send(this.out);
 	}
 
 	@Override
-	public void sendGameExcommunicationChoiceRequest(Period period)
+	public synchronized void sendGameExcommunicationChoiceRequest(Period period)
 	{
 		new PacketGameExcommunicationChoiceRequest(period).send(this.out);
 	}
 
 	@Override
-	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<Serializable>> availableActions)
+	public synchronized void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<Serializable>> availableActions)
 	{
 		new PacketGameUpdate(gameInformations, playersInformations, ownLeaderCardsHand, availableActions).send(this.out);
 	}
 
 	@Override
-	public void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, ExpectedAction expectedAction)
+	public synchronized void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, ExpectedAction expectedAction)
 	{
 		new PacketGameUpdateExpectedAction(gameInformations, playersInformations, ownLeaderCardsHand, expectedAction).send(this.out);
 	}
 
 	@Override
-	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)
+	public synchronized void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)
 	{
 		new PacketGameUpdateOtherTurn(gameInformations, playersInformations, ownLeaderCardsHand, turnPlayerIndex).send(this.out);
 	}
 
-	void sendGameActionFailed(String text)
+	synchronized void sendGameActionFailed(String text)
 	{
 		new PacketGameActionFailed(text).send(this.out);
 	}
 
 	@Override
-	public void sendGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
+	public synchronized void sendGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
 	{
 		new PacketGameEnded(playersScores, playerIndexesVictoryPointsRecord).send(this.out);
 	}

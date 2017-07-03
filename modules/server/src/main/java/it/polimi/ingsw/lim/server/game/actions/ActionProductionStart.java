@@ -84,9 +84,11 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.FAMILY_MEMBER);
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), this.workSlotType == WorkSlotType.BIG ? BoardPosition.PRODUCTION_BIG : BoardPosition.PRODUCTION_SMALL);
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
-		EventGainResources eventGainResources = new EventGainResources(this.player, this.player.getPersonalBonusTile().getProductionInstantResources(), ResourcesSource.WORK);
-		eventGainResources.applyModifiers(this.player.getActiveModifiers());
-		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+		if (this.effectiveActionValue >= this.player.getPersonalBonusTile().getProductionActivationCost()) {
+			EventGainResources eventGainResources = new EventGainResources(this.player, this.player.getPersonalBonusTile().getProductionInstantResources(), ResourcesSource.WORK);
+			eventGainResources.applyModifiers(this.player.getActiveModifiers());
+			this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
+		}
 		this.player.setCurrentProductionValue(this.effectiveActionValue);
 		this.player.getRoom().getGameHandler().setExpectedAction(ActionType.PRODUCTION_TRADE);
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " started a production with his " + this.getFamilyMemberType().name().toLowerCase() + " family member");

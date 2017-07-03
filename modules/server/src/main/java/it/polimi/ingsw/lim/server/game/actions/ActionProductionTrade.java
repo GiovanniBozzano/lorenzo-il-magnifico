@@ -10,7 +10,6 @@ import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
 import it.polimi.ingsw.lim.server.game.player.Player;
-import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
@@ -78,9 +77,7 @@ public class ActionProductionTrade extends ActionInformationsProductionTrade imp
 		if (Utils.sendCouncilPrivileges(this.player)) {
 			return;
 		}
-		if (this.player.getRoom().getGameHandler().getCurrentPhase() == Phase.LEADER) {
-			this.player.getRoom().getGameHandler().setExpectedAction(null);
-			this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
+		if (Utils.checkLeaderPhase(this.player)) {
 			return;
 		}
 		this.player.getRoom().getGameHandler().nextTurn();

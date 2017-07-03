@@ -251,26 +251,16 @@ public class Utils
 	{
 		if (resourceCostOption != null) {
 			if (discountChoice.isEmpty()) {
-				boolean validDiscountChoice = true;
 				for (Modifier modifier : player.getActiveModifiers()) {
-					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && (((ModifierPickDevelopmentCard) modifier).getDiscountChoices() != null || !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty())) {
-						validDiscountChoice = false;
-						break;
+					if (modifier instanceof ModifierPickDevelopmentCard && (((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty())) {
+						throw new GameActionFailedException("The discount you chose is not valid");
 					}
-				}
-				if (!validDiscountChoice) {
-					throw new GameActionFailedException("The discount you chose is not valid");
 				}
 			} else {
-				boolean validDiscountChoice = false;
 				for (Modifier modifier : player.getActiveModifiers()) {
-					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices() != null && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices().contains(discountChoice)) {
-						validDiscountChoice = true;
-						break;
+					if (modifier instanceof ModifierPickDevelopmentCard && !(((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().contains(discountChoice))) {
+						throw new GameActionFailedException("The discount you chose is not valid");
 					}
-				}
-				if (!validDiscountChoice) {
-					throw new GameActionFailedException("The discount you chose is not valid");
 				}
 			}
 		}
@@ -320,7 +310,7 @@ public class Utils
 
 	public static boolean sendCouncilPrivileges(Player player)
 	{
-		int councilPrivilegesCount = player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE);
+		int councilPrivilegesCount = player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE) + player.getPlayerResourceHandler().getResources().get(ResourceType.COUNCIL_PRIVILEGE);
 		if (councilPrivilegesCount > 0) {
 			player.getRoom().getGameHandler().setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 			player.getRoom().getGameHandler().sendGameUpdateExpectedAction(player, new ExpectedActionChooseRewardCouncilPrivilege(councilPrivilegesCount));
@@ -348,13 +338,24 @@ public class Utils
 			((LeaderCardReward) leaderCard).setActivated(true);
 			EventGainResources eventGainResources = new EventGainResources(player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 			eventGainResources.applyModifiers(player.getActiveModifiers());
-			player.getPlayerResourceHandler().addResources(eventGainResources.getResourceAmounts());
+			player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 			if (Utils.sendActionReward(player, ((LeaderCardReward) leaderCard).getReward().getActionReward())) {
 				return true;
 			}
 			if (Utils.sendCouncilPrivileges(player)) {
 				return true;
 			}
+		}
+		return false;
+	}
+
+	public static boolean checkLeaderPhase(Player player)
+	{
+		if (player.getRoom().getGameHandler().getCurrentPhase() == Phase.LEADER) {
+			player.getPlayerResourceHandler().convertTemporaryResources();
+			player.getRoom().getGameHandler().setExpectedAction(null);
+			player.getRoom().getGameHandler().sendGameUpdate(player);
+			return true;
 		}
 		return false;
 	}

@@ -79,11 +79,11 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 		int index = 1;
 		for (ResourceTradeOption resourceTradeOption : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().get(chosenTradeCard)) {
 			if (!resourceTradeOption.getEmployedResources().isEmpty()) {
-				stringBuilder.append("\nEmployed resources:");
+				stringBuilder.append("\nEmployed resources:\n");
 				stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getEmployedResources(), true));
 			}
 			if (!resourceTradeOption.getProducedResources().isEmpty()) {
-				stringBuilder.append("\nProduced resources:");
+				stringBuilder.append("\nProduced resources:\n");
 				stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getProducedResources(), true));
 			}
 			availableResourceTradeOptions.put(index, resourceTradeOption);

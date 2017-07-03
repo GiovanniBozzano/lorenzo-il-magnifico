@@ -173,7 +173,7 @@ public class GameHandler
 
 	public void receivePersonalBonusTileChoice(Player player, int personalBonusTileIndex) throws GameActionFailedException
 	{
-		if (this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex) != player || !this.availablePersonalBonusTiles.contains(personalBonusTileIndex)) {
+		if (this.personalBonusTileChoicePlayerTurnIndex < 0 || this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex) != player || !this.availablePersonalBonusTiles.contains(personalBonusTileIndex)) {
 			throw new GameActionFailedException("You cannot do this!");
 		}
 		this.applyPersonalBonusTileChoice(player, personalBonusTileIndex);
@@ -629,12 +629,7 @@ public class GameHandler
 			this.turnPlayer.getActiveModifiers().remove(temporaryModifier);
 		}
 		this.turnPlayer.getTemporaryModifiers().clear();
-		for (ResourceType resourceType : this.turnPlayer.getPlayerResourceHandler().getTemporaryResources().keySet()) {
-			this.turnPlayer.getPlayerResourceHandler().addResource(resourceType, this.turnPlayer.getPlayerResourceHandler().getTemporaryResources().get(resourceType));
-		}
-		for (ResourceType resourceType : ResourceType.values()) {
-			this.turnPlayer.getPlayerResourceHandler().getTemporaryResources().put(resourceType, 0);
-		}
+		this.turnPlayer.getPlayerResourceHandler().convertTemporaryResources();
 		boolean endRound = true;
 		for (Player player : this.turnOrder) {
 			if (player.getAvailableTurns() > 0) {
@@ -796,6 +791,7 @@ public class GameHandler
 			if (this.timer == 0) {
 				this.expectedAction = null;
 				player.getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+				player.getPlayerResourceHandler().getResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
 				if (this.currentPhase == Phase.LEADER) {
 					this.timer = ServerSettings.getInstance().getGameActionTimer();
 					this.sendGameUpdate(player);

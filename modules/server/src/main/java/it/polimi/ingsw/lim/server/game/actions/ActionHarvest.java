@@ -95,7 +95,9 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 				resourceReward.addAll(developmentCardTerritory.getHarvestResources());
 			}
 		}
-		resourceReward.addAll(this.player.getPersonalBonusTile().getHarvestInstantResources());
+		if (this.effectiveActionValue >= this.player.getPersonalBonusTile().getHarvestActivationCost()) {
+			resourceReward.addAll(this.player.getPersonalBonusTile().getHarvestInstantResources());
+		}
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.WORK);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());

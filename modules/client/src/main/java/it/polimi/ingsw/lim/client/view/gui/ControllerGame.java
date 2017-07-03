@@ -1990,6 +1990,8 @@ public class ControllerGame extends CustomController
 	{
 		this.personalBonusTilesDialog.show();
 		this.personalBonusTilesDialogHBox.getChildren().clear();
+		ColorAdjust greyScaleEffect = new ColorAdjust();
+		greyScaleEffect.setSaturation(-1);
 		for (Integer personalBonusTileIndex : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
 			Pane pane = new Pane();
 			pane.setPrefWidth(76.0D * this.ratio);
@@ -2002,6 +2004,10 @@ public class ControllerGame extends CustomController
 			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
+				for (Node node : this.personalBonusTilesDialogHBox.getChildren()) {
+					node.setDisable(true);
+					node.setEffect(greyScaleEffect);
+				}
 				this.gameLogTextArea.appendText((this.gameLogTextArea.getText().length() < 1 ? "" : '\n') + "You have chosen a personal bonus tile");
 				Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(personalBonusTileIndex);
 			});
@@ -2165,7 +2171,7 @@ public class ControllerGame extends CustomController
 							}
 							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
 							if (!resourceCostOption.getSpentResources().isEmpty()) {
-								stringBuilder.append("SPENT RESOURCES:\n");
+								stringBuilder.append("\nSPENT RESOURCES:\n");
 							}
 							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
 							text.setText(stringBuilder.toString());
@@ -2508,7 +2514,7 @@ public class ControllerGame extends CustomController
 							}
 							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
 							if (!resourceCostOption.getSpentResources().isEmpty()) {
-								stringBuilder.append("SPENT RESOURCES:\n");
+								stringBuilder.append("\nSPENT RESOURCES:\n");
 							}
 							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
 							text.setText(stringBuilder.toString());
@@ -2625,7 +2631,16 @@ public class ControllerGame extends CustomController
 						AnchorPane anchorPane = new AnchorPane();
 						resourceTradeOptionsAnchorPanes.add(anchorPane);
 						Text text = new Text();
-						text.setText("EMPLOYED RESOURCES:\n" + ResourceAmount.getResourcesInformations(resourceTradeOption.getEmployedResources(), false) + "\nPRODUCED RESOURES:\n" + ResourceAmount.getResourcesInformations(resourceTradeOption.getProducedResources(), false));
+						StringBuilder stringBuilder = new StringBuilder();
+						if (!resourceTradeOption.getEmployedResources().isEmpty()) {
+							stringBuilder.append("EMPLOYED RESOURCES:\n");
+						}
+						stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getEmployedResources(), true));
+						if (!resourceTradeOption.getProducedResources().isEmpty()) {
+							stringBuilder.append("\nPRODUCED RESOURCES:\n");
+						}
+						stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getProducedResources(), true));
+						text.setText(stringBuilder.toString());
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);

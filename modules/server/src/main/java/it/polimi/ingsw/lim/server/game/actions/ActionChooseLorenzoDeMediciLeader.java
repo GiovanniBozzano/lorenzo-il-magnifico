@@ -56,6 +56,7 @@ public class ActionChooseLorenzoDeMediciLeader extends ActionInformationsChooseL
 		if (Utils.activateLeaderCard(this.player, leaderCard)) {
 			return;
 		}
+		this.player.getPlayerResourceHandler().convertTemporaryResources();
 		this.player.getRoom().getGameHandler().setExpectedAction(null);
 		this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
 	}

@@ -31,13 +31,13 @@ public class PersonalBonusTileInformations extends ObjectInformations
 		stringBuilder.append("Production activation cost: ");
 		stringBuilder.append(this.productionActivationCost);
 		if (!this.productionInstantResources.isEmpty()) {
-			stringBuilder.append("\n\nProduction bonus resources:");
+			stringBuilder.append("\n\nProduction bonus resources:\n");
 		}
 		stringBuilder.append(ResourceAmount.getResourcesInformations(this.productionInstantResources, true));
 		stringBuilder.append("\n\nHarvest activation cost: ");
 		stringBuilder.append(this.harvestActivationCost);
 		if (!this.harvestInstantResources.isEmpty()) {
-			stringBuilder.append("\n\nHarvest bonus resources:");
+			stringBuilder.append("\n\nHarvest bonus resources:\n");
 		}
 		stringBuilder.append(ResourceAmount.getResourcesInformations(this.harvestInstantResources, true));
 		return stringBuilder.toString();
@@ -46,25 +46,5 @@ public class PersonalBonusTileInformations extends ObjectInformations
 	public String getPlayerBoardTexturePath()
 	{
 		return this.playerBoardTexturePath;
-	}
-
-	public int getProductionActivationCost()
-	{
-		return this.productionActivationCost;
-	}
-
-	public List<ResourceAmount> getProductionInstantResources()
-	{
-		return this.productionInstantResources;
-	}
-
-	public int getHarvestActivationCost()
-	{
-		return this.harvestActivationCost;
-	}
-
-	public List<ResourceAmount> getHarvestInstantResources()
-	{
-		return this.harvestInstantResources;
 	}
 }

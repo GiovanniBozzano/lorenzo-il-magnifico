@@ -4,8 +4,8 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsRefuseReward;
 import it.polimi.ingsw.lim.server.game.player.Player;
-import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
+import it.polimi.ingsw.lim.server.utils.Utils;
 
 public class ActionRefuseReward extends ActionInformationsRefuseReward implements IAction
 {
@@ -33,12 +33,10 @@ public class ActionRefuseReward extends ActionInformationsRefuseReward implement
 	@Override
 	public void apply() throws GameActionFailedException
 	{
-		if (this.player.getRoom().getGameHandler().getCurrentPhase() == Phase.LEADER) {
-			this.player.getRoom().getGameHandler().setExpectedAction(null);
-			this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
+		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " refused to pick a card");
+		if (Utils.checkLeaderPhase(this.player)) {
 			return;
 		}
-		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " refused to pick a card");
 		this.player.getRoom().getGameHandler().nextTurn();
 	}
 }

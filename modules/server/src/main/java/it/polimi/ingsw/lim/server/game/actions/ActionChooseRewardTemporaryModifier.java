@@ -42,6 +42,12 @@ public class ActionChooseRewardTemporaryModifier extends ActionInformationsChoos
 		Modifier<EventPlaceFamilyMember> modifier = new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "")
 		{
 			@Override
+			public void setEventClass()
+			{
+				super.setEventClass(EventPlaceFamilyMember.class);
+			}
+
+			@Override
 			public void apply(EventPlaceFamilyMember event)
 			{
 				if (event.getFamilyMemberType() != ActionChooseRewardTemporaryModifier.this.getFamilyMemberType()) {
@@ -54,6 +60,7 @@ public class ActionChooseRewardTemporaryModifier extends ActionInformationsChoos
 		this.player.getActiveModifiers().add(modifier);
 		this.player.getRoom().getGameHandler().setExpectedAction(null);
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " chose a temporary modifier for his " + this.getFamilyMemberType().name().toLowerCase() + " family member");
+		this.player.getPlayerResourceHandler().convertTemporaryResources();
 		this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
 	}
 }

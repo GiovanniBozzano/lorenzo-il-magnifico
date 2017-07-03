@@ -32,6 +32,12 @@ public class ModifierPickDevelopmentCard extends Modifier<EventPickDevelopmentCa
 		event.setActionValue(event.getActionValue() + this.value);
 	}
 
+	@Override
+	public void setEventClass()
+	{
+		super.setEventClass(EventPickDevelopmentCard.class);
+	}
+
 	public CardType getCardType()
 	{
 		return this.cardType;

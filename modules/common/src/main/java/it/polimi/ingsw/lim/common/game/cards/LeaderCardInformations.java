@@ -29,11 +29,11 @@ public abstract class LeaderCardInformations extends CardInformations
 		stringBuilder.append("\n\nPLAY CONDITIONS:\n==============");
 		for (LeaderCardConditionsOption leaderCardConditionsOption : this.conditionsOptions) {
 			if (!leaderCardConditionsOption.getResourceAmounts().isEmpty()) {
-				stringBuilder.append("\nRequired resources:");
+				stringBuilder.append("\nRequired resources:\n");
 				stringBuilder.append(ResourceAmount.getResourcesInformations(leaderCardConditionsOption.getResourceAmounts(), true));
 			}
 			if (!leaderCardConditionsOption.getCardAmounts().isEmpty()) {
-				stringBuilder.append("\nRequired cards:");
+				stringBuilder.append("\nRequired cards:\n");
 				stringBuilder.append(CardAmount.getCardsInformations(leaderCardConditionsOption.getCardAmounts(), true));
 			}
 			stringBuilder.append("\n==============");

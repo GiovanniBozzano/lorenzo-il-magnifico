@@ -37,7 +37,7 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 	private void showResourceChoices()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Choose Council Privilege rewards");
+		stringBuilder.append("Choose Council Privilege rewards...\n");
 		int index = 1;
 		for (Entry<Integer, List<ResourceAmount>> councilPrivilegeReward : GameStatus.getInstance().getCurrentCouncilPrivilegeRewards().entrySet()) {
 			if (!this.councilPrivilegeRewards.containsValue(councilPrivilegeReward.getKey())) {

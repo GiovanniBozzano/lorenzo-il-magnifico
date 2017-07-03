@@ -21,4 +21,10 @@ public class ModifierProductionStart extends Modifier<EventProductionStart>
 	{
 		event.setActionValue(event.getActionValue() + this.value);
 	}
+
+	@Override
+	public void setEventClass()
+	{
+		super.setEventClass(EventProductionStart.class);
+	}
 }

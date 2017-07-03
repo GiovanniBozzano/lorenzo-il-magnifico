@@ -9,6 +9,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class PlayerResourceHandler
 {
@@ -54,11 +55,6 @@ public class PlayerResourceHandler
 		}
 	}
 
-	public boolean canAffordResource(ResourceType resourceType, int resourceAmount)
-	{
-		return this.resources.get(resourceType) >= resourceAmount;
-	}
-
 	public boolean canAffordResources(List<ResourceAmount> resourceAmounts)
 	{
 		for (ResourceAmount resourceAmount : resourceAmounts) {
@@ -80,20 +76,6 @@ public class PlayerResourceHandler
 	public void addResource(ResourceType resourceType, int amount)
 	{
 		this.resources.put(resourceType, this.resources.get(resourceType) + amount);
-		this.fixResourcesCap();
-	}
-
-	public void addResources(List<ResourceAmount> resourceAmounts)
-	{
-		for (ResourceAmount resourceAmount : resourceAmounts) {
-			if (resourceAmount instanceof ResourceAmountMultiplierCard) {
-				this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount() * this.player.getPlayerCardHandler().getDevelopmentCardsNumber(((ResourceAmountMultiplierCard) resourceAmount).getCardTypeMultiplier()));
-			} else if (resourceAmount instanceof ResourceAmountMultiplierResource) {
-				this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount() * this.resources.get(((ResourceAmountMultiplierResource) resourceAmount).getResourceTypeMultiplier()) / ((ResourceAmountMultiplierResource) resourceAmount).getResourceAmountDivider());
-			} else {
-				this.resources.put(resourceAmount.getResourceType(), this.resources.get(resourceAmount.getResourceType()) + resourceAmount.getAmount());
-			}
-		}
 		this.fixResourcesCap();
 	}
 
@@ -134,6 +116,16 @@ public class PlayerResourceHandler
 		}
 		if (this.temporaryResources.get(ResourceType.PRESTIGE_POINT) > 9) {
 			this.temporaryResources.put(ResourceType.PRESTIGE_POINT, 9);
+		}
+	}
+
+	public void convertTemporaryResources()
+	{
+		for (Entry<ResourceType, Integer> resource : this.temporaryResources.entrySet()) {
+			this.addResource(resource.getKey(), resource.getValue());
+		}
+		for (ResourceType resourceType : ResourceType.values()) {
+			this.temporaryResources.put(resourceType, 0);
 		}
 	}
 

@@ -39,6 +39,12 @@ public class CardsHandler
 		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(1, "/images/leader_cards/leader_card_1.png", "Ludovico Ariosto", "Io desidero intendere da voi Alessandro fratel, compar mio Bagno, S’in la Cort’è memoria\npiù di noi; Se più il Signor m’accusa; se compagno Per me si lieva.", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.CHARACTER, 5))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "You can place your Family Members in occupied action spaces.")
 		{
 			@Override
+			public void setEventClass()
+			{
+				super.setEventClass(EventPlaceFamilyMember.class);
+			}
+
+			@Override
 			public void apply(EventPlaceFamilyMember event)
 			{
 				event.setIgnoreOccupied(true);
@@ -46,6 +52,12 @@ public class CardsHandler
 		}));
 		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(2, "/images/leader_cards/leader_card_2.png", "Filippo Brunelleschi", "[…] sparuto de la persona […], ma di ingegno tanto elevato che ben si può dire che e’\nci fu donato dal cielo per dar nuova forma alla architettura.", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 5))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "You don't have to spend 3 coins when you place your Family\nMembers in a Tower that is already occupied.")
 		{
+			@Override
+			public void setEventClass()
+			{
+				super.setEventClass(EventPlaceFamilyMember.class);
+			}
+
 			@Override
 			public void apply(EventPlaceFamilyMember event)
 			{
@@ -62,6 +74,12 @@ public class CardsHandler
 		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(10, "/images/leader_cards/leader_card_10.png", "Pico Della Mirandola", "Ioannes Picus Mirandula merito cognomine phoenix appellatus est, quod in eum,\nDii superi, supra familiae claritatem, omnis corporis, ac animi vel rarissima dona\ncontulerint.", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.BUILDING, 2), new CardAmount(CardType.VENTURE, 4))), new ArrayList<>()))), new Modifier<EventPickDevelopmentCard>(EventPickDevelopmentCard.class, "When you take Development Cards, you get a discount of\n3 coins (if the card you are taking has coins in its cost.) This is not a discount on the\ncoins you must spend if you take a Development Card from a Tower that’s already\noccupied.")
 		{
 			@Override
+			public void setEventClass()
+			{
+				super.setEventClass(EventPickDevelopmentCard.class);
+			}
+
+			@Override
 			public void apply(EventPickDevelopmentCard event)
 			{
 				for (ResourceAmount resourceAmount : event.getResourceCost()) {
@@ -75,6 +93,12 @@ public class CardsHandler
 		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(11, "/images/leader_cards/leader_card_11.png", "Sisto IV", "[…] secretamente trattò, che per mezzo di una congiura fussero ammazzati Lorenzo\ne Giuliano de’ Medici fratelli, e si riordinasse poi quella Repubblica a sua volontà.", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 6), new ResourceAmount(ResourceType.SERVANT, 6), new ResourceAmount(ResourceType.STONE, 6), new ResourceAmount(ResourceType.WOOD, 6)))))), new Modifier<EventChurchSupport>(EventChurchSupport.class, "You gain 5 additional Victory Points when you support the\nChurch in a Vatican Report phase.")
 		{
 			@Override
+			public void setEventClass()
+			{
+				super.setEventClass(EventChurchSupport.class);
+			}
+
+			@Override
 			public void apply(EventChurchSupport event)
 			{
 				event.setVictoryPoints(event.getVictoryPoints() + 5);
@@ -82,6 +106,12 @@ public class CardsHandler
 		}));
 		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(12, "/images/leader_cards/leader_card_12.png", "Lucrezia Borgia", "Donna Lucretia, benché avvezza homai a mutar mariti secondo il capriccio et interesse\ndei suoi, […] si trattenne fin che il tempo unico medico di queste passioni le fece volger\nl’animo a più soavi pensieri.", new ArrayList<>(Arrays.asList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 6))), new ArrayList<>()), new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.CHARACTER, 6))), new ArrayList<>()), new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.TERRITORY, 6))), new ArrayList<>()), new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.VENTURE, 6))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "Your colored Family Members have a bonus of +2 on their value. (You can increase their\nvalue by spending servants or if you have Character\nCards with this effect).")
 		{
+			@Override
+			public void setEventClass()
+			{
+				super.setEventClass(EventPlaceFamilyMember.class);
+			}
+
 			@Override
 			public void apply(EventPlaceFamilyMember event)
 			{
@@ -94,6 +124,12 @@ public class CardsHandler
 		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(13, "/images/leader_cards/leader_card_13.png", "Sigismondo Malatesta", "Era a campo la maistà del re de Ragona. […] el fé levare de campo cum la soe gente e\ncum lo altre di fiorentini, cum gram danno e poco onore del re.", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.FAITH_POINT, 3), new ResourceAmount(ResourceType.MILITARY_POINT, 7)))))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "Your uncolored Family Member has a bonus of +3 on its value.\n(You can increase its value by spending servants or if you have Character Cards with\nthis effect).")
 		{
 			@Override
+			public void setEventClass()
+			{
+				super.setEventClass(EventPlaceFamilyMember.class);
+			}
+
+			@Override
 			public void apply(EventPlaceFamilyMember event)
 			{
 				if (event.getFamilyMemberType() == FamilyMemberType.NEUTRAL) {
@@ -104,6 +140,12 @@ public class CardsHandler
 		CardsHandler.LEADER_CARDS.add(new LeaderCardReward(14, "/images/leader_cards/leader_card_14.png", "Lorenzo de' Medici", "Vir ad omnia summa natus, et qui flantem reflantemque totiens fortunam usque adeo\nsit alterna velificatione moderatus.", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.VICTORY_POINT, 35)))))), new Reward(new ActionRewardLorenzoDeMediciLeader("Copy the ability of another Leader Card already played by\nanother player. Once you decide the ability to copy, it can’t be changed."), new ArrayList<>())));
 		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(15, "/images/leader_cards/leader_card_15.png", "Ludovico Il Moro", "Ludovicum Sfortiam Mediolanensium principem, cui Moro cognomen fuit, nequaquam\na suscedine oris, quod esset aequo pallidior ita vocatum ferunt, quod pro insigni gestabat\nMori arboris.", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Arrays.asList(new CardAmount(CardType.BUILDING, 2), new CardAmount(CardType.CHARACTER, 2), new CardAmount(CardType.TERRITORY, 2), new CardAmount(CardType.VENTURE, 2))), new ArrayList<>()))), new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "Your colored Family Members has a value of 5, regardless of\ntheir related dice. (You can increase their value by spending servants or if you have\nCharacter Cards with this effect).")
 		{
+			@Override
+			public void setEventClass()
+			{
+				super.setEventClass(EventPlaceFamilyMember.class);
+			}
+
 			@Override
 			public void apply(EventPlaceFamilyMember event)
 			{
@@ -116,6 +158,12 @@ public class CardsHandler
 		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(16, "/images/leader_cards/leader_card_16.png", "Cesare Borgia", "Cesarem Borgiam, qui sanguinario ingenio, immanique saevitia veteres tyrannos\naequasse censeri potest, viroso sanguine, execrabile semine progenitum ferunt.", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(Collections.singletonList(new CardAmount(CardType.BUILDING, 3))), new ArrayList<>(Arrays.asList(new ResourceAmount(ResourceType.COIN, 12), new ResourceAmount(ResourceType.FAITH_POINT, 2)))))), new Modifier<EventPickDevelopmentCard>(EventPickDevelopmentCard.class, "You don’t need to satisfy the Military Points requirement when\nyou take Territory Cards.")
 		{
 			@Override
+			public void setEventClass()
+			{
+				super.setEventClass(EventPickDevelopmentCard.class);
+			}
+
+			@Override
 			public void apply(EventPickDevelopmentCard event)
 			{
 				event.setIgnoreTerritoriesSlotLock(true);
@@ -123,6 +171,12 @@ public class CardsHandler
 		}));
 		CardsHandler.LEADER_CARDS.add(new LeaderCardModifier(17, "/images/leader_cards/leader_card_17.png", "Santa Rita", "Fu talmente abbracciata la santa astinenza, e l’aspro vestire dalla nostra Beata Rita,\nche chi la mirava, restava meravigliato, e quasi fuor di se stesso rimaneva.", new ArrayList<>(Collections.singletonList(new LeaderCardConditionsOption(new ArrayList<>(), new ArrayList<>(Collections.singletonList(new ResourceAmount(ResourceType.FAITH_POINT, 8)))))), new Modifier<EventGainResources>(EventGainResources.class, "Each time you receive wood, stone, coins, or servants as an\nimmediate effect from Development Cards (not from an action space), you receive the\nresources twice.")
 		{
+			@Override
+			public void setEventClass()
+			{
+				super.setEventClass(EventGainResources.class);
+			}
+
 			@Override
 			public void apply(EventGainResources event)
 			{
@@ -259,9 +313,17 @@ public class CardsHandler
 		Map<Period, List<DevelopmentCardCharacter>> initialize()
 		{
 			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
-				return DevelopmentCardsCharacterBuilder.GSON.fromJson(reader, new TypeToken<Map<Period, List<DevelopmentCardCharacter>>>()
+				Map<Period, List<DevelopmentCardCharacter>> developmentCardsCharacter = DevelopmentCardsCharacterBuilder.GSON.fromJson(reader, new TypeToken<Map<Period, List<DevelopmentCardCharacter>>>()
 				{
 				}.getType());
+				for (List<DevelopmentCardCharacter> periodDevelopmentCardsCharacter : developmentCardsCharacter.values()) {
+					for (DevelopmentCardCharacter developmentCardCharacter : periodDevelopmentCardsCharacter) {
+						if (developmentCardCharacter.getModifier() != null) {
+							developmentCardCharacter.getModifier().setEventClass();
+						}
+					}
+				}
+				return developmentCardsCharacter;
 			} catch (IOException exception) {
 				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}

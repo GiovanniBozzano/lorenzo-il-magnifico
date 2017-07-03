@@ -148,11 +148,11 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 					stringBuilder.append(index);
 					stringBuilder.append(" ==============\n");
 					if (!resourceCostOption.getRequiredResources().isEmpty()) {
-						stringBuilder.append("\nRequired resources:");
+						stringBuilder.append("\nRequired resources:\n");
 						stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
 					}
 					if (!resourceCostOption.getSpentResources().isEmpty()) {
-						stringBuilder.append("\nSpent resources:");
+						stringBuilder.append("\nSpent resources:\n");
 						stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
 					}
 					stringBuilder.append("\n==============");
