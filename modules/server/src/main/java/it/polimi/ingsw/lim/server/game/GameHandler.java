@@ -991,10 +991,10 @@ public class GameHandler
 						for (ResourceCostOption resourceCostOption : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions()) {
 							if (discountChoices.isEmpty()) {
 								try {
-									new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, new ArrayList<>(), resourceCostOption, player).isLegal();
+									new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, new ArrayList<>(), new ResourceCostOption(resourceCostOption), player).isLegal();
 									validFamilyMember = true;
-									if (!availableResourceCostOptions.contains(resourceCostOption)) {
-										availableResourceCostOptions.add(resourceCostOption);
+									if (!availableResourceCostOptions.contains(new ResourceCostOption(resourceCostOption))) {
+										availableResourceCostOptions.add(new ResourceCostOption(resourceCostOption));
 									}
 								} catch (GameActionFailedException exception) {
 									Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
@@ -1002,10 +1002,10 @@ public class GameHandler
 							} else {
 								for (List<ResourceAmount> discountChoice : discountChoices) {
 									try {
-										new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, discountChoice, resourceCostOption, player).isLegal();
+										new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, discountChoice, new ResourceCostOption(resourceCostOption), player).isLegal();
 										validFamilyMember = true;
-										if (!availableResourceCostOptions.contains(resourceCostOption)) {
-											availableResourceCostOptions.add(resourceCostOption);
+										if (!availableResourceCostOptions.contains(new ResourceCostOption(new ResourceCostOption(resourceCostOption)))) {
+											availableResourceCostOptions.add(new ResourceCostOption(new ResourceCostOption(resourceCostOption)));
 										}
 										if (!availableDiscountChoises.contains(discountChoice)) {
 											availableDiscountChoises.add(discountChoice);

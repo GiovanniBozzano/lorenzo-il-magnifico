@@ -36,10 +36,7 @@ public class DevelopmentCardBuildingInformations extends DevelopmentCardInformat
 					stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getEmployedResources(), true));
 				}
 				if (!resourceTradeOption.getProducedResources().isEmpty()) {
-					if (!resourceTradeOption.getEmployedResources().isEmpty()) {
-						stringBuilder.append('\n');
-					}
-					stringBuilder.append("Produced resources:\n");
+					stringBuilder.append("\nProduced resources:\n");
 					stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getProducedResources(), true));
 				}
 				stringBuilder.append("\n==============");

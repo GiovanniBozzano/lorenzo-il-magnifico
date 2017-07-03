@@ -1,18 +1,24 @@
 package it.polimi.ingsw.lim.common.game.utils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class ResourceCostOption implements Serializable
 {
-	private final List<ResourceAmount> requiredResources;
-	private final List<ResourceAmount> spentResources;
+	private final List<ResourceAmount> requiredResources = new ArrayList<>();
+	private final List<ResourceAmount> spentResources = new ArrayList<>();
 
 	public ResourceCostOption(List<ResourceAmount> requiredResources, List<ResourceAmount> spentResources)
 	{
-		this.requiredResources = requiredResources;
-		this.spentResources = spentResources;
+		this.requiredResources.addAll(requiredResources);
+		this.spentResources.addAll(spentResources);
+	}
+
+	public ResourceCostOption(ResourceCostOption resourceCostOption)
+	{
+		this(resourceCostOption.requiredResources, resourceCostOption.spentResources);
 	}
 
 	public List<ResourceAmount> getRequiredResources()
