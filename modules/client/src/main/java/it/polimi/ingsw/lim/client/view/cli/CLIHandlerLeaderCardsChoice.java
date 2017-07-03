@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.client.view.cli;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
@@ -32,12 +33,7 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 		stringBuilder.append("Enter Leader Card choice...");
 		int index = 1;
 		for (Integer leaderCard : GameStatus.getInstance().getAvailableLeaderCards()) {
-			stringBuilder.append('\n');
-			stringBuilder.append("============= ");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard));
-			stringBuilder.append(" =============\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
-			stringBuilder.append("\n=============================");
+			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations()));
 			this.leaderCards.put(index, leaderCard);
 			index++;
 		}

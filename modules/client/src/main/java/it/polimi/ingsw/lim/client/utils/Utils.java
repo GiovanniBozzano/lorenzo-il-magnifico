@@ -132,6 +132,11 @@ public class Utils
 	{
 	}
 
+	public static String createListElement(int index, String text)
+	{
+		return "\n=== " + index + " ========\n" + text;
+	}
+
 	public static void resizeChildrenNode(Pane pane, double widthRatio, double heightRatio)
 	{
 		for (Node child : pane.getChildren()) {

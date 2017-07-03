@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.client.view.cli;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
@@ -32,12 +33,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 		stringBuilder.append("Enter Personal Bonus Tile choice...");
 		int index = 1;
 		for (Integer personalBonusTile : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
-			stringBuilder.append('\n');
-			stringBuilder.append("============= ");
-			stringBuilder.append(index);
-			stringBuilder.append(" =============\n");
-			stringBuilder.append(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getInformations());
-			stringBuilder.append("\n=============================");
+			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getInformations()));
 			this.personalBonusTiles.put(index, personalBonusTile);
 			index++;
 		}

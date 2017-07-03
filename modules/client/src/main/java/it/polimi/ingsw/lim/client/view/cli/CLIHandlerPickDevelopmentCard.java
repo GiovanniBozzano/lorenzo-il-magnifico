@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.client.view.cli;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
@@ -20,10 +21,10 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 	private static final Map<Integer, CardType> CARD_TYPE_CHOICE = new HashMap<>();
 
 	static {
-		CARD_TYPE_CHOICE.put(1, CardType.BUILDING);
-		CARD_TYPE_CHOICE.put(2, CardType.CHARACTER);
-		CARD_TYPE_CHOICE.put(3, CardType.TERRITORY);
-		CARD_TYPE_CHOICE.put(4, CardType.VENTURE);
+		CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.put(1, CardType.BUILDING);
+		CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.put(2, CardType.CHARACTER);
+		CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.put(3, CardType.TERRITORY);
+		CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.put(4, CardType.VENTURE);
 	}
 
 	private final Map<Integer, FamilyMemberType> availableFamilyMemberTypes = new HashMap<>();
@@ -63,10 +64,7 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		int index = 1;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
 			if (!this.availableFamilyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
-				stringBuilder.append('\n');
-				stringBuilder.append(index);
-				stringBuilder.append(" ========\n");
-				stringBuilder.append(((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
+				stringBuilder.append(Utils.createListElement(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType().name()));
 				this.availableFamilyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
 				index++;
 			}

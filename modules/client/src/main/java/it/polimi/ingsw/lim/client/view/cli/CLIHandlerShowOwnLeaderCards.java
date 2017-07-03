@@ -17,8 +17,8 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 	private static final Map<Integer, Runnable> LEADER_CARDS_CHOICE = new HashMap<>();
 
 	static {
-		LEADER_CARDS_CHOICE.put(1, CLIHandlerShowOwnLeaderCards::showLeaderCardsHand);
-		LEADER_CARDS_CHOICE.put(2, CLIHandlerShowOwnLeaderCards::showLeaderCardsPlayed);
+		CLIHandlerShowOwnLeaderCards.LEADER_CARDS_CHOICE.put(1, CLIHandlerShowOwnLeaderCards::showLeaderCardsHand);
+		CLIHandlerShowOwnLeaderCards.LEADER_CARDS_CHOICE.put(2, CLIHandlerShowOwnLeaderCards::showLeaderCardsPlayed);
 	}
 
 	@Override

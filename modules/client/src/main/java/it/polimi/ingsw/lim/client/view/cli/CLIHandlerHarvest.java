@@ -1,7 +1,9 @@
 package it.polimi.ingsw.lim.client.view.cli;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
@@ -41,10 +43,7 @@ public class CLIHandlerHarvest implements ICLIHandler
 		int index = 1;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST)) {
 			if (!this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
-				stringBuilder.append('\n');
-				stringBuilder.append(index);
-				stringBuilder.append(" ========\n");
-				stringBuilder.append(((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
+				stringBuilder.append(Utils.createListElement(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType().name()));
 				this.familyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
 				index++;
 			}
@@ -70,6 +69,7 @@ public class CLIHandlerHarvest implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
 		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsHarvest(this.familyMemberTypes.get(this.familyMemberValue), Integer.parseInt(input)));
 	}
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.lim.client.view.cli;
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -76,12 +77,7 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Enter Action choice...");
 		for (Entry<Integer, CLIStatus> availableAction : this.availableActions.entrySet()) {
-			stringBuilder.append('\n');
-			stringBuilder.append("============= ");
-			stringBuilder.append(availableAction.getKey());
-			stringBuilder.append(" =============\n");
-			stringBuilder.append(CLIHandlerAvailableActions.ACTION_NAMES.get(availableAction.getValue()));
-			stringBuilder.append("\n=============================");
+			stringBuilder.append(Utils.createListElement(availableAction.getKey(), CLIHandlerAvailableActions.ACTION_NAMES.get(availableAction.getValue())));
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}

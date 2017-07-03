@@ -19,29 +19,30 @@ import java.util.logging.Level;
 public class CLIHandlerShowOwnBoard implements ICLIHandler
 {
 	private static final Map<Integer, Runnable> PLAYER_INFORMATION = new HashMap<>();
-	private static final Map<Integer, CardType> CARD_TYPE_CHOICE = new HashMap<>();
-
-	static {
-		CARD_TYPE_CHOICE.put(1, CardType.BUILDING);
-		CARD_TYPE_CHOICE.put(2, CardType.CHARACTER);
-		CARD_TYPE_CHOICE.put(3, CardType.TERRITORY);
-		CARD_TYPE_CHOICE.put(4, CardType.VENTURE);
-	}
 
 	static {
 		CLIHandlerShowOwnBoard.PLAYER_INFORMATION.put(1, CLIHandlerShowOwnBoard::showPlayerFamilyMembers);
 		CLIHandlerShowOwnBoard.PLAYER_INFORMATION.put(2, CLIHandlerShowOwnBoard::showPlayerResources);
 		CLIHandlerShowOwnBoard.PLAYER_INFORMATION.put(3, CLIHandlerShowOwnBoard::showPlayerDevelopmentCards);
-		Client.getInstance().getCliListener().shutdownNow();
-		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
-		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+	}
+
+	private static final Map<Integer, CardType> CARD_TYPE_CHOICE = new HashMap<>();
+
+	static {
+		CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.put(1, CardType.BUILDING);
+		CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.put(2, CardType.CHARACTER);
+		CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.put(3, CardType.TERRITORY);
+		CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.put(4, CardType.VENTURE);
 	}
 
 	@Override
 	public void execute()
 	{
 		this.askOwnInformation();
+		Client.getInstance().getCliListener().shutdownNow();
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
+		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
+		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
 	}
 
 	@Override

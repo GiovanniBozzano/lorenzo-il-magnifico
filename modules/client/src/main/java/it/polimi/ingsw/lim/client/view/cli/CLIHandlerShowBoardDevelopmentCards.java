@@ -19,10 +19,10 @@ public class CLIHandlerShowBoardDevelopmentCards implements ICLIHandler
 	private static final Map<Integer, CardType> CARD_TYPE_CHOICE = new HashMap<>();
 
 	static {
-		CARD_TYPE_CHOICE.put(1, CardType.BUILDING);
-		CARD_TYPE_CHOICE.put(2, CardType.CHARACTER);
-		CARD_TYPE_CHOICE.put(3, CardType.TERRITORY);
-		CARD_TYPE_CHOICE.put(4, CardType.VENTURE);
+		CLIHandlerShowBoardDevelopmentCards.CARD_TYPE_CHOICE.put(1, CardType.BUILDING);
+		CLIHandlerShowBoardDevelopmentCards.CARD_TYPE_CHOICE.put(2, CardType.CHARACTER);
+		CLIHandlerShowBoardDevelopmentCards.CARD_TYPE_CHOICE.put(3, CardType.TERRITORY);
+		CLIHandlerShowBoardDevelopmentCards.CARD_TYPE_CHOICE.put(4, CardType.VENTURE);
 	}
 
 	@Override

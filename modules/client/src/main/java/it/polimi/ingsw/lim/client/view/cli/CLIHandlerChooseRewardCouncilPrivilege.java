@@ -2,6 +2,7 @@ package it.polimi.ingsw.lim.client.view.cli;
 
 import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
@@ -40,10 +41,7 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 		int index = 1;
 		for (Entry<Integer, List<ResourceAmount>> councilPrivilegeReward : GameStatus.getInstance().getCurrentCouncilPrivilegeRewards().entrySet()) {
 			if (!this.councilPrivilegeRewards.containsValue(councilPrivilegeReward.getKey())) {
-				stringBuilder.append('\n');
-				stringBuilder.append(index);
-				stringBuilder.append(" ========");
-				stringBuilder.append(ResourceAmount.getResourcesInformations(councilPrivilegeReward.getValue(), false));
+				stringBuilder.append(Utils.createListElement(index, ResourceAmount.getResourcesInformations(councilPrivilegeReward.getValue(), false)));
 				this.councilPrivilegeRewards.put(index, councilPrivilegeReward.getKey());
 				index++;
 			}
