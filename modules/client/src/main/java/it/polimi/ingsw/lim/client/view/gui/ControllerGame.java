@@ -478,7 +478,7 @@ public class ControllerGame extends CustomController
 	@FXML private VBox expectedChooseLorenzoDeMediciLeaderDialogVBox;
 	@FXML private JFXDialog expectedChooseRewardCouncilPrivilegeDialog;
 	@FXML private Label expectedChooseRewardCouncilPrivilegeDialogLabel;
-	@FXML private Pane expectedChooseRewardCouncilPrivilegeDialogPane;
+	@FXML private VBox expectedChooseRewardCouncilPrivilegeDialogVBox;
 	@FXML private JFXDialog expectedChooseRewardServantsDialog;
 	@FXML private Label expectedChooseRewardServantsDialogLabel;
 	@FXML private JFXSlider expectedChooseRewardServantsDialogSlider;
@@ -2372,7 +2372,7 @@ public class ControllerGame extends CustomController
 	private void showExpectedChooseRewardCouncilPrivilege()
 	{
 		this.expectedChooseRewardCouncilPrivilegeDialogLabel.setText("Choose " + ((ExpectedActionChooseRewardCouncilPrivilege) GameStatus.getInstance().getCurrentExpectedAction()).getCouncilPrivilegesNumber() + " different Council Privilege rewards.");
-		this.expectedChooseRewardCouncilPrivilegeDialogPane.getChildren().clear();
+		this.expectedChooseRewardCouncilPrivilegeDialogVBox.getChildren().clear();
 		Map<Integer, Integer> selectedCouncilPrivilegesRewards = new HashMap<>();
 		for (int councilPrivilegeIndex = 0; councilPrivilegeIndex < ((ExpectedActionChooseRewardCouncilPrivilege) GameStatus.getInstance().getCurrentExpectedAction()).getCouncilPrivilegesNumber(); councilPrivilegeIndex++) {
 			HBox hBox = new HBox();
@@ -2402,7 +2402,7 @@ public class ControllerGame extends CustomController
 				hBox.setSpacing(20.0D);
 				hBox.setPadding(new Insets(20.0D, 20.0D, 20.0D, 20.0D));
 			}
-			this.expectedChooseRewardCouncilPrivilegeDialogPane.getChildren().add(hBox);
+			this.expectedChooseRewardCouncilPrivilegeDialogVBox.getChildren().add(hBox);
 		}
 		this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardCouncilPrivilege(new ArrayList<>(selectedCouncilPrivilegesRewards.values()))));
 		this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.setPrefWidth(((VBox) this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.getParent()).getWidth());

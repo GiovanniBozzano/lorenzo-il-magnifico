@@ -792,7 +792,7 @@
 							<Font name="Roboto Bold" size="12.0" />
 						</font>
 					</Label>
-					<Pane fx:id="expectedChooseRewardCouncilPrivilegeDialogPane" style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;" />
+					<VBox fx:id="expectedChooseRewardCouncilPrivilegeDialogVBox" style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;" />
 					<VBox>
 						<JFXButton fx:id="expectedChooseRewardCouncilPrivilegeDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
 							<font>
