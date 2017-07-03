@@ -458,9 +458,9 @@
 			],
 			"reward": {
 				"actionReward": {
+					"type": "HARVEST",
 					"description": "You can perform a HARVEST ACTION at\nVALUE 4 without placing a Family Member.\nYou can pay servants to increase the\naction value (if you have cards that modify\nthe Harvest value, calculate that bonus).",
 					"requestedAction": "CHOOSE_REWARD_HARVEST",
-					"type": "HARVEST",
 					"value": 4,
 					"applyModifiers": true
 				},
@@ -652,17 +652,16 @@
 			],
 			"reward": {
 				"actionReward": {
+					"type": "CARD",
 					"description": "You can perform an action\nat VALUE 7 to take a CARD of ANY TYPE\nwithout placing a Family Member\n(you can change the action value with\nservants and cards effects). Pay 3\nadditional coins if the tower is already\noccupied and take the bonus resources from\nthe third/fourth floor.",
 					"requestedAction": "CHOOSE_REWARD_PICK_DEVELOPMENT_CARD",
-					"type": "CARD",
-					"value": 7,
-					"cardTypes": [
-						"CHARACTER",
-						"TERRITORY",
-						"VENTURE",
-						"BUILDING"
-					],
-					"discountChoices": []
+					"maximumRows": {
+						"BUILDING": "FOURTH",
+						"CHARACTER": "FOURTH",
+						"TERRITORY": "FOURTH",
+						"VENTURE": "FOURTH"
+					},
+					"instantDiscountChoices": []
 				},
 				"resourceAmounts": [
 					{
@@ -806,9 +805,9 @@
 			],
 			"reward": {
 				"actionReward": {
+					"type": "PRODUCTION",
 					"description": "You can perform a PRODUCTION ACTION at\nVALUE 3 without placing a Family Member.\nYou can pay servants to increase the\naction value (if you have cards that modify\nthe Production value, calculate that\nbonus).",
 					"requestedAction": "CHOOSE_REWARD_PRODUCTION_START",
-					"type": "PRODUCTION",
 					"value": 3,
 					"applyModifiers": true
 				},

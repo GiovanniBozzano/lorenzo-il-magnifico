@@ -8,6 +8,7 @@ import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformationsLobby;
 import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsLobbyRMI;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
@@ -229,7 +230,7 @@ public class InterfaceHandlerGUI implements IInterfaceHandler
 	@Override
 	public void handleAuthenticationSuccess(AuthenticationInformations authenticationInformations)
 	{
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(((AuthenticationInformationsLobbyRMI) authenticationInformations).getRoomInformations().getRoomType(), ((AuthenticationInformationsLobbyRMI) authenticationInformations).getRoomInformations().getPlayerNames())));
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(((AuthenticationInformationsLobby) authenticationInformations).getRoomInformations().getRoomType(), ((AuthenticationInformationsLobby) authenticationInformations).getRoomInformations().getPlayerNames())));
 	}
 
 	@Override
