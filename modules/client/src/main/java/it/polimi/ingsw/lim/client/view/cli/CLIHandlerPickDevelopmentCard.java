@@ -28,7 +28,7 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 	private FamilyMemberType familyMemberType;
 	private CardType cardType;
 	private Row row;
-	private ResourceCostOption resourceCostOption;
+	private ResourceCostOption resourceCostOptionChoice;
 	private List<ResourceAmount> discountChoice;
 
 	@Override
@@ -95,7 +95,7 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
 			if (((AvailableActionFamilyMember) availableAction).getFamilyMemberType() == this.familyMemberType && !this.availableCardTypes.containsValue(((AvailableActionPickDevelopmentCard) availableAction).getCardType())) {
 				stringBuilder.append(Utils.createListElement(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType().name()));
-				this.availableCardTypes.put(index, (((AvailableActionPickDevelopmentCard) availableAction).getCardType()));
+				this.availableCardTypes.put(index, ((AvailableActionPickDevelopmentCard) availableAction).getCardType());
 				index++;
 			}
 		}
@@ -176,7 +176,7 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || !this.availableResourceCostOptions.containsKey(Integer.parseInt(input)));
-		this.resourceCostOption = this.availableResourceCostOptions.get(Integer.parseInt(input));
+		this.resourceCostOptionChoice = this.availableResourceCostOptions.get(Integer.parseInt(input));
 	}
 
 	private void showDiscountChoices()
@@ -222,6 +222,6 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPickDevelopmentCard(this.familyMemberType, Integer.parseInt(input), this.cardType, this.row, this.discountChoice, this.resourceCostOption));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPickDevelopmentCard(this.familyMemberType, Integer.parseInt(input), this.cardType, this.row, this.discountChoice, this.resourceCostOptionChoice));
 	}
 }
