@@ -1,18 +1,19 @@
 package it.polimi.ingsw.lim.common.game.utils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class ResourceTradeOption implements Serializable
 {
-	private final List<ResourceAmount> employedResources;
-	private final List<ResourceAmount> producedResources;
+	private final List<ResourceAmount> employedResources = new ArrayList<>();
+	private final List<ResourceAmount> producedResources = new ArrayList<>();
 
 	public ResourceTradeOption(List<ResourceAmount> employedResources, List<ResourceAmount> producedResources)
 	{
-		this.employedResources = employedResources;
-		this.producedResources = producedResources;
+		this.employedResources.addAll(employedResources);
+		this.producedResources.addAll(producedResources);
 	}
 
 	public List<ResourceAmount> getEmployedResources()
@@ -26,9 +27,28 @@ public class ResourceTradeOption implements Serializable
 	}
 
 	@Override
-	public boolean equals(Object resourceCostOption)
+	public boolean equals(Object resourceTradeOption)
 	{
-		return resourceCostOption instanceof ResourceTradeOption && this.employedResources.equals(((ResourceTradeOption) resourceCostOption).employedResources) && this.producedResources.equals(((ResourceTradeOption) resourceCostOption).producedResources);
+		if (!(resourceTradeOption instanceof ResourceTradeOption)) {
+			return false;
+		}
+		List<ResourceAmount> temporaryEmployedResources = new ArrayList<>();
+		temporaryEmployedResources.addAll(((ResourceTradeOption) resourceTradeOption).employedResources);
+		for (ResourceAmount resourceAmount : this.employedResources) {
+			if (!temporaryEmployedResources.contains(resourceAmount)) {
+				return false;
+			}
+			temporaryEmployedResources.remove(resourceAmount);
+		}
+		List<ResourceAmount> temporaryProducedResources = new ArrayList<>();
+		temporaryProducedResources.addAll(((ResourceTradeOption) resourceTradeOption).producedResources);
+		for (ResourceAmount resourceAmount : this.producedResources) {
+			if (!temporaryProducedResources.contains(resourceAmount)) {
+				return false;
+			}
+			temporaryProducedResources.remove(resourceAmount);
+		}
+		return true;
 	}
 
 	@Override

@@ -34,7 +34,26 @@ public class ResourceCostOption implements Serializable
 	@Override
 	public boolean equals(Object resourceCostOption)
 	{
-		return resourceCostOption instanceof ResourceCostOption && this.requiredResources.equals(((ResourceCostOption) resourceCostOption).requiredResources) && this.spentResources.equals(((ResourceCostOption) resourceCostOption).spentResources);
+		if (!(resourceCostOption instanceof ResourceCostOption)) {
+			return false;
+		}
+		List<ResourceAmount> temporaryRequiredResources = new ArrayList<>();
+		temporaryRequiredResources.addAll(((ResourceCostOption) resourceCostOption).requiredResources);
+		for (ResourceAmount resourceAmount : this.requiredResources) {
+			if (!temporaryRequiredResources.contains(resourceAmount)) {
+				return false;
+			}
+			temporaryRequiredResources.remove(resourceAmount);
+		}
+		List<ResourceAmount> temporarySpentResources = new ArrayList<>();
+		temporarySpentResources.addAll(((ResourceCostOption) resourceCostOption).spentResources);
+		for (ResourceAmount resourceAmount : this.spentResources) {
+			if (!temporarySpentResources.contains(resourceAmount)) {
+				return false;
+			}
+			temporarySpentResources.remove(resourceAmount);
+		}
+		return true;
 	}
 
 	@Override
