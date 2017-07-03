@@ -49,6 +49,7 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 						this.showDiscountChoices();
 						this.askDiscountChoice();
 					}
+					break;
 				}
 			}
 		}

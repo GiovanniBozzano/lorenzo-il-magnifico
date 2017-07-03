@@ -54,6 +54,7 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 							this.askDiscountChoice();
 						}
 					}
+					break;
 				}
 			}
 			this.askServants();
