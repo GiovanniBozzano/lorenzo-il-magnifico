@@ -5,6 +5,7 @@ import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationsPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
@@ -13,42 +14,45 @@ import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
 public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 {
-	private static final Map<Integer, CardType> CARD_TYPE_CHOICE = new HashMap<>();
-
-	static {
-		CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.put(1, CardType.BUILDING);
-		CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.put(2, CardType.CHARACTER);
-		CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.put(3, CardType.TERRITORY);
-		CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.put(4, CardType.VENTURE);
-	}
-
+	private final Map<Integer, CardType> availableCardTypes = new HashMap<>();
+	private final Map<Integer, List<ResourceAmount>> availableDiscountChoices = new HashMap<>();
 	private final Map<Integer, FamilyMemberType> availableFamilyMemberTypes = new HashMap<>();
 	private final Map<Integer, Row> availableRows = new HashMap<>();
 	private final Map<Integer, ResourceCostOption> availableResourceCostOptions = new HashMap<>();
 	private FamilyMemberType familyMemberType;
 	private CardType cardType;
 	private Row row;
-	private int servants;
 	private ResourceCostOption resourceCostOption;
+	private List<ResourceAmount> discountChoice;
 
 	@Override
 	public void execute()
 	{
 		this.showFamilyMembers();
 		this.askFamilyMember();
-		this.askDevelopmentCardsType();
+		this.showDevelopmentCardTypes();
+		this.askCardType();
 		this.showDevelopmentCards();
 		this.askDevelopmentCard();
-		this.askServants();
 		if (!GameStatus.getInstance().getDevelopmentCards().get(this.cardType).get(GameStatus.getInstance().getCurrentDevelopmentCards().get(this.cardType).get(this.row)).getResourceCostOptions().isEmpty()) {
 			this.showCostOptions();
 			this.askCostOption();
+			for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
+				if ((((AvailableActionPickDevelopmentCard) availableAction).getFamilyMemberType()) == this.familyMemberType && (((AvailableActionPickDevelopmentCard) availableAction).getCardType()) == this.cardType && (((AvailableActionPickDevelopmentCard) availableAction).getRow()) == this.row) {
+					if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices() != null) {
+						this.showDiscountChoices();
+						this.askDiscountChoice();
+					}
+				}
+			}
 		}
+		this.askServants();
 	}
 
 	@Override
@@ -82,19 +86,29 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		this.familyMemberType = this.availableFamilyMemberTypes.get(Integer.parseInt(input));
 	}
 
-	private void askDevelopmentCardsType()
+	private void showDevelopmentCardTypes()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Card Type...");
-		Client.getLogger().log(Level.INFO, "1 - BUILDING");
-		Client.getLogger().log(Level.INFO, "2 - CHARACTER");
-		Client.getLogger().log(Level.INFO, "3 - TERRITORY");
-		Client.getLogger().log(Level.INFO, "4 - VENTURE");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Enter Card Type Choice...");
+		int index = 1;
+		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
+			if (((AvailableActionFamilyMember) availableAction).getFamilyMemberType() == this.familyMemberType && !this.availableCardTypes.containsValue(((AvailableActionPickDevelopmentCard) availableAction).getCardType())) {
+				stringBuilder.append(Utils.createListElement(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType().name()));
+				this.availableCardTypes.put(index, (((AvailableActionPickDevelopmentCard) availableAction).getCardType()));
+				index++;
+			}
+		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
+	}
+
+	private void askCardType()
+	{
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.containsKey(Integer.parseInt(input)));
-		this.cardType = CLIHandlerPickDevelopmentCard.CARD_TYPE_CHOICE.get(Integer.parseInt(input));
+		while (!CommonUtils.isInteger(input) || !this.availableCardTypes.containsKey(Integer.parseInt(input)));
+		this.cardType = this.availableCardTypes.get(Integer.parseInt(input));
 	}
 
 	private void showDevelopmentCards()
@@ -123,17 +137,6 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !this.availableRows.containsKey(Integer.parseInt(input)));
 		this.row = this.availableRows.get(Integer.parseInt(input));
-	}
-
-	private void askServants()
-	{
-		Client.getLogger().log(Level.INFO, "Enter Servant Amount...");
-		String input;
-		do {
-			input = Client.getInstance().getCliScanner().nextLine();
-		}
-		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		this.servants = Integer.parseInt(input);
 	}
 
 	private void showCostOptions()
@@ -173,5 +176,51 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !this.availableResourceCostOptions.containsKey(Integer.parseInt(input)));
 		this.resourceCostOption = this.availableResourceCostOptions.get(Integer.parseInt(input));
+	}
+
+	private void showDiscountChoices()
+	{
+		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
+			if ((((AvailableActionPickDevelopmentCard) availableAction).getFamilyMemberType()) == this.familyMemberType && (((AvailableActionPickDevelopmentCard) availableAction).getCardType()) == this.cardType && (((AvailableActionPickDevelopmentCard) availableAction).getRow()) == this.row) {
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.append("Enter Discount Choice...");
+				int index = 1;
+				for (List<ResourceAmount> resourceAmount : ((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices()) {
+					if (!resourceAmount.isEmpty()) {
+						stringBuilder.append('\n');
+						stringBuilder.append(index);
+						stringBuilder.append(" ==============\n");
+						stringBuilder.append("\nDiscount resources:\n");
+						stringBuilder.append(ResourceAmount.getResourcesInformations(resourceAmount, true));
+						stringBuilder.append("\n==============");
+					}
+					this.availableDiscountChoices.put(index, resourceAmount);
+					index++;
+				}
+				Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
+				break;
+			}
+		}
+	}
+
+	private void askDiscountChoice()
+	{
+		String input;
+		do {
+			input = Client.getInstance().getCliScanner().nextLine();
+		}
+		while (!CommonUtils.isInteger(input) || !this.availableDiscountChoices.containsKey(Integer.parseInt(input)));
+		this.discountChoice = this.availableDiscountChoices.get(Integer.parseInt(input));
+	}
+
+	private void askServants()
+	{
+		Client.getLogger().log(Level.INFO, "Enter Servant Amount...");
+		String input;
+		do {
+			input = Client.getInstance().getCliScanner().nextLine();
+		}
+		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPickDevelopmentCard(this.familyMemberType, Integer.parseInt(input), this.cardType, this.row, this.discountChoice, this.resourceCostOption));
 	}
 }
