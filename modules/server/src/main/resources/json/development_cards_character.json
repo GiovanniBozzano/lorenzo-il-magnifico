@@ -263,12 +263,13 @@
 					"type": "CARD",
 					"description": "You can perform an action\nat VALUE 4 to take a CARD of ANY TYPE\nwithout placing a Family Member\n(you can change the action value with\nservants and cards effects). Pay 3\nadditional coins if the tower is already\noccupied and take the bonus resources from\nthe third/fourth floor.",
 					"requestedAction": "CHOOSE_REWARD_PICK_DEVELOPMENT_CARD",
-					"maximumRows": {
-						"BUILDING": "SECOND",
-						"CHARACTER": "SECOND",
-						"TERRITORY": "SECOND",
-						"VENTURE": "SECOND"
-					},
+					"value": 4,
+					"cardTypes": [
+						"BUILDING",
+						"CHARACTER",
+						"TERRITORY",
+						"VENTURE"
+					],
 					"instantDiscountChoices": []
 				},
 				"resourceAmounts": [
@@ -305,9 +306,10 @@
 					"description": "Perform an action at VALUE 6 to take a\nTERRITORY CARD without placing a Family\nMember (you can change the action\nvalue with servants and cards effects).\nPay 3 additional coins if the tower is\nalready occupied and take the bonus resources\nfrom the third/fourth floor.",
 					"requestedAction": "CHOOSE_REWARD_PICK_DEVELOPMENT_CARD",
 					"type": "CARD",
-					"maximumRows": {
-						"TERRITORY": "THIRD"
-					},
+					"value": 6,
+					"cardTypes": [
+						"TERRITORY"
+					],
 					"instantDiscountChoices": []
 				},
 				"resourceAmounts": [
@@ -342,9 +344,10 @@
 					"type": "CARD",
 					"description": "Perform an action at VALUE 6 to take a\nBUILDING CARD without placing a Family\nMember (you can change the action\nvalue with servants and cards effects).\nThe COST of the card you take is reduced\nby 1 WOOD AND 1 STONE. Pay 3 additional\ncoins if the tower is already occupied and\ntake the bonus resources from the third/\nfourth floor.",
 					"requestedAction": "CHOOSE_REWARD_PICK_DEVELOPMENT_CARD",
-					"maximumRows": {
-						"BUILDING": "THIRD"
-					},
+					"value": 6,
+					"cardTypes": [
+						"BUILDING"
+					],
 					"instantDiscountChoices": [
 						[
 							{
@@ -386,9 +389,10 @@
 					"type": "CARD",
 					"description": "Perform an action at VALUE 6 to take a\nCHARACTER CARD without placing a Family\nMember (you can change the action\nvalue with servants and cards effects).\nThe COST of the card you take is reduced\nby 2 COIN. Pay 3 additional coins if the\ntower is already occupied and take the\nbonus resources from the third/fourth\nfloor.",
 					"requestedAction": "CHOOSE_REWARD_PICK_DEVELOPMENT_CARD",
-					"maximumRows": {
-						"CHARACTER": "THIRD"
-					},
+					"value": 6,
+					"cardTypes": [
+						"CHARACTER"
+					],
 					"instantDiscountChoices": [
 						[
 							{
@@ -425,9 +429,10 @@
 					"type": "CARD",
 					"description": "Perform an action at VALUE 6 to take a\nVENTURE CARD without placing a Family\nMember (you can change the action\nvalue with servants and cards effects).\nPay 3 additional coins if the tower is\nalready occupied and take the bonus resources\nfrom the third/fourth floor.",
 					"requestedAction": "CHOOSE_REWARD_PICK_DEVELOPMENT_CARD",
-					"maximumRows": {
-						"VENTURE": "THIRD"
-					},
+					"value": 6,
+					"cardTypes": [
+						"VENTURE"
+					],
 					"instantDiscountChoices": []
 				},
 				"resourceAmounts": [
@@ -797,12 +802,13 @@
 					"type": "CARD",
 					"description": "You can perform an action\nat VALUE 7 to take a CARD of ANY TYPE\nwithout placing a Family Member\n(you can change the action value with\nservants and cards effects). Pay 3\nadditional coins if the tower is already\noccupied and take the bonus resources from\nthe third/fourth floor.",
 					"requestedAction": "CHOOSE_REWARD_PICK_DEVELOPMENT_CARD",
-					"maximumRows": {
-						"BUILDING": "FOURTH",
-						"CHARACTER": "FOURTH",
-						"TERRITORY": "FOURTH",
-						"VENTURE": "FOURTH"
-					},
+					"value": 7,
+					"cardTypes": [
+						"BUILDING",
+						"CHARACTER",
+						"TERRITORY",
+						"VENTURE"
+					],
 					"instantDiscountChoices": []
 				},
 				"resourceAmounts": [
