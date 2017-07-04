@@ -60,19 +60,19 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleRoomEntryOther(String name)
 	{
-		Client.getLogger().log(Level.INFO, "{0} connected", new Object[] { name });
+		Client.getLogger().log(Level.INFO, "\n\n{0} connected", new Object[] { name });
 	}
 
 	@Override
 	public void handleRoomExitOther(String name)
 	{
-		Client.getLogger().log(Level.INFO, "{0} disconnected", new Object[] { name });
+		Client.getLogger().log(Level.INFO, "\n\n{0} disconnected", new Object[] { name });
 	}
 
 	@Override
 	public void handleRoomTimer(int timer)
 	{
-		Client.getLogger().log(Level.INFO, "Game starts in: {0}", new Object[] { Integer.toString(timer) });
+		Client.getLogger().log(Level.INFO, "\nGame starts in: {0}", new Object[] { Integer.toString(timer) });
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleGameDisconnectionOther(int playerIndex)
 	{
-		Client.getLogger().log(Level.INFO, GameStatus.getInstance().getCurrentPlayersData().get(playerIndex).getUsername() + " disconnected\"");
+		Client.getLogger().log(Level.INFO, "\n\n{0} disconnected", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(playerIndex).getUsername() });
 	}
 
 	@Override
@@ -159,7 +159,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleGameUpdateLog()
 	{
-		Client.getLogger().log(Level.INFO, "Your turn...");
+		Client.getLogger().log(Level.INFO, "\n\nYour turn...");
 	}
 
 	@Override
@@ -183,7 +183,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleGameUpdateOtherTurnLog(int turnPlayerIndex)
 	{
-		Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() });
+		Client.getLogger().log(Level.INFO, "\n\n{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(turnPlayerIndex).getUsername() });
 	}
 
 	@Override
@@ -204,7 +204,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleConnectionError()
 	{
-		Client.getLogger().log(Level.INFO, "Could not connect to host");
+		Client.getLogger().log(Level.INFO, "\n\nCould not connect to host");
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
@@ -241,10 +241,10 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 			GameStatus.getInstance().updateGameStatus(authenticationInformations.getGameInformations(), authenticationInformations.getPlayersInformations(), authenticationInformations.getOwnLeaderCardsHand());
 			if (authenticationInformations.getTurnPlayerIndex() != authenticationInformations.getOwnPlayerIndex()) {
 				GameStatus.getInstance().setCurrentTurnPlayerIndex(authenticationInformations.getTurnPlayerIndex());
-				Client.getLogger().log(Level.INFO, "{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(authenticationInformations.getTurnPlayerIndex()).getUsername() });
+				Client.getLogger().log(Level.INFO, "\n\n{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(authenticationInformations.getTurnPlayerIndex()).getUsername() });
 			} else {
 				GameStatus.getInstance().setCurrentAvailableActions(authenticationInformations.getAvailableActions());
-				Client.getLogger().log(Level.INFO, "Your turn...");
+				Client.getLogger().log(Level.INFO, "\n\nYour turn...");
 			}
 		}
 	}
@@ -252,7 +252,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleGameActionFailed(String text)
 	{
-		Client.getLogger().log(Level.INFO, "Action Failed: {0} ", new Object[] { text });
+		Client.getLogger().log(Level.INFO, "\n\nAction Failed: {0}", new Object[] { text });
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
