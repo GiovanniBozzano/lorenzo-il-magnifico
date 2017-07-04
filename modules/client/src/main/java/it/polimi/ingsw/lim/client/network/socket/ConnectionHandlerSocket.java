@@ -178,6 +178,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			}
 			GameStatus.getInstance().setCurrentPlayerData(playersData);
 			GameStatus.getInstance().setOwnPlayerIndex(((AuthenticationInformationsGame) authenticationInformations).getOwnPlayerIndex());
+			Client.getInstance().setUsername(playersData.get(((AuthenticationInformationsGame) authenticationInformations).getOwnPlayerIndex()).getUsername());
 			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccessGameStarted((AuthenticationInformationsGame) authenticationInformations);
 		}
 	}

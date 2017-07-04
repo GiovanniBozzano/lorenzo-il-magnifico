@@ -7,9 +7,13 @@ import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.*;
+import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
+import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
+import it.polimi.ingsw.lim.common.game.cards.*;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
@@ -18,10 +22,9 @@ import it.polimi.ingsw.lim.server.enums.*;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.actions.*;
-import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
-import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
-import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
-import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
+import it.polimi.ingsw.lim.server.game.board.ExcommunicationTile;
+import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
+import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardModifier;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
@@ -50,6 +53,24 @@ public class Utils
 {
 	public static final String SCENE_MAIN = "/fxml/SceneMain.fxml";
 	public static final String SCENE_START = "/fxml/SceneStart.fxml";
+	private static final Map<Command, ICommandHandler> COMMAND_HANDLERS = new EnumMap<>(Command.class);
+
+	static {
+		Utils.COMMAND_HANDLERS.put(Command.KICK, Command::handleKickCommand);
+		Utils.COMMAND_HANDLERS.put(Command.SAY, Command::handleSayCommand);
+	}
+
+	private static final Map<QueryValueType, IQueryArgumentFiller> QUERY_ARGUMENTS_FILLERS = new EnumMap<>(QueryValueType.class);
+
+	static {
+		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.INTEGER, Utils::setStatementInteger);
+		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.LONG, Utils::setStatementLong);
+		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.FLOAT, Utils::setStatementFloat);
+		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.DOUBLE, Utils::setStatementDouble);
+		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.STRING, Utils::setStatementString);
+		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.BYTES, Utils::setStatementBytes);
+	}
+
 	private static final Map<ActionType, IActionTransformer> ACTIONS_TRANSFORMERS = new EnumMap<>(ActionType.class);
 
 	static {
@@ -109,15 +130,7 @@ public class Utils
 			commandArguments = command.replaceAll(commandType + " ", "");
 		}
 		try {
-			switch (Command.valueOf(commandType.toUpperCase(Locale.ENGLISH))) {
-				case SAY:
-					Command.handleSayCommand(commandArguments);
-					break;
-				case KICK:
-					Command.handleKickCommand(commandArguments);
-					break;
-				default:
-			}
+			Utils.COMMAND_HANDLERS.get(Command.valueOf(commandType.toUpperCase(Locale.ENGLISH))).execute(commandArguments);
 		} catch (IllegalArgumentException exception) {
 			Server.getDebugger().log(Level.OFF, "Command does not exist.", exception);
 			Server.getInstance().getInterfaceHandler().displayToLog("Command does not exist.");
@@ -198,6 +211,49 @@ public class Utils
 			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			throw new AuthenticationFailedException("Server error.");
 		}
+	}
+
+	public static AuthenticationInformations fillAuthenticationInformations()
+	{
+		Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuildingsInformations = new HashMap<>();
+		Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacterInformations = new HashMap<>();
+		Map<Integer, DevelopmentCardTerritoryInformations> developmentsCardTerritoryInformations = new HashMap<>();
+		Map<Integer, DevelopmentCardVentureInformations> developmentCardsVentureInformations = new HashMap<>();
+		for (Period period : Period.values()) {
+			for (DevelopmentCardBuilding developmentCardBuilding : CardsHandler.getDevelopmentCardsBuilding().get(period)) {
+				developmentCardsBuildingsInformations.put(developmentCardBuilding.getIndex(), developmentCardBuilding.getInformations());
+			}
+			for (DevelopmentCardCharacter developmentCardCharacter : CardsHandler.getDevelopmentCardsCharacter().get(period)) {
+				developmentCardsCharacterInformations.put(developmentCardCharacter.getIndex(), developmentCardCharacter.getInformations());
+			}
+			for (DevelopmentCardTerritory developmentCardTerritory : CardsHandler.getDevelopmentCardsTerritory().get(period)) {
+				developmentsCardTerritoryInformations.put(developmentCardTerritory.getIndex(), developmentCardTerritory.getInformations());
+			}
+			for (DevelopmentCardVenture developmentCardVenture : CardsHandler.getDevelopmentCardsVenture().get(period)) {
+				developmentCardsVentureInformations.put(developmentCardVenture.getIndex(), developmentCardVenture.getInformations());
+			}
+		}
+		Map<Integer, LeaderCardInformations> leaderCardsInformations = new HashMap<>();
+		for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
+			leaderCardsInformations.put(leaderCard.getIndex(), leaderCard.getInformations());
+		}
+		Map<Integer, ExcommunicationTileInformations> excommunicationTilesInformations = new HashMap<>();
+		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
+			excommunicationTilesInformations.put(excommunicationTile.getIndex(), new ExcommunicationTileInformations(excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
+		}
+		Map<Integer, PersonalBonusTileInformations> personalBonusTilesInformations = new HashMap<>();
+		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
+			personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getPlayerBoardTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
+		}
+		AuthenticationInformations authenticationInformations = new AuthenticationInformations();
+		authenticationInformations.setDevelopmentCardsBuildingInformations(developmentCardsBuildingsInformations);
+		authenticationInformations.setDevelopmentCardsCharacterInformations(developmentCardsCharacterInformations);
+		authenticationInformations.setDevelopmentCardsTerritoryInformations(developmentsCardTerritoryInformations);
+		authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
+		authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
+		authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
+		authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
+		return authenticationInformations;
 	}
 
 	public static <T extends DevelopmentCard> Map<Period, List<T>> deepCopyDevelopmentCards(Map<Period, List<T>> original)
@@ -421,28 +477,7 @@ public class Utils
 			return;
 		}
 		for (int index = 0; index < queryArguments.size(); index++) {
-			QueryArgument queryArgument = queryArguments.get(index);
-			switch (queryArguments.get(index).getValueType()) {
-				case INTEGER:
-					Utils.setStatementInteger(preparedStatement, queryArgument, index);
-					break;
-				case LONG:
-					Utils.setStatementLong(preparedStatement, queryArgument, index);
-					break;
-				case FLOAT:
-					Utils.setStatementFloat(preparedStatement, queryArgument, index);
-					break;
-				case DOUBLE:
-					Utils.setStatementDouble(preparedStatement, queryArgument, index);
-					break;
-				case STRING:
-					Utils.setStatementString(preparedStatement, queryArgument, index);
-					break;
-				case BYTES:
-					Utils.setStatementBytes(preparedStatement, queryArgument, index);
-					break;
-				default:
-			}
+			Utils.QUERY_ARGUMENTS_FILLERS.get(queryArguments.get(index).getValueType()).execute(preparedStatement, queryArguments.get(index), index);
 		}
 	}
 

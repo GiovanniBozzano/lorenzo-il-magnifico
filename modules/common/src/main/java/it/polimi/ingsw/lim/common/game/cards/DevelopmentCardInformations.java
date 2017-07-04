@@ -28,14 +28,7 @@ public abstract class DevelopmentCardInformations extends CardInformations
 			firstLine = false;
 			stringBuilder.append("RESOURCE COST OPTIONS:\n==============");
 			for (ResourceCostOption resourceCostOption : this.resourceCostOptions) {
-				if (!resourceCostOption.getRequiredResources().isEmpty()) {
-					stringBuilder.append("\nRequired resources:\n");
-					stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
-				}
-				if (!resourceCostOption.getSpentResources().isEmpty()) {
-					stringBuilder.append("\nSpent resources:\n");
-					stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
-				}
+				stringBuilder.append(resourceCostOption.getInformations(false));
 				stringBuilder.append("\n==============");
 			}
 		}

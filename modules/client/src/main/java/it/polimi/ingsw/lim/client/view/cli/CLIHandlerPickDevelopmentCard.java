@@ -142,7 +142,7 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		stringBuilder.append("Enter Resource Cost Option...");
 		int index = 1;
 		for (ResourceCostOption resourceCostOption : this.chosenDevelopmentCard.getResourceCostOptions()) {
-			stringBuilder.append(Utils.createListElement(index, (!resourceCostOption.getRequiredResources().isEmpty() ? "\nRequired resources:\n" + ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true) : "") + (!resourceCostOption.getSpentResources().isEmpty() ? "\nSpent resources:\n" + ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true) : "")));
+			stringBuilder.append(Utils.createListElement(index, resourceCostOption.getInformations(false)));
 			this.availableResourceCostOptions.put(index, resourceCostOption);
 			index++;
 		}
@@ -165,7 +165,7 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		stringBuilder.append("Enter Discount Choice...");
 		int index = 1;
 		for (List<ResourceAmount> resourceAmounts : this.chosenDevelopmentCard.getDiscountChoices()) {
-			stringBuilder.append(ResourceAmount.getResourcesInformations(resourceAmounts, true));
+			stringBuilder.append(Utils.createListElement(index, ResourceAmount.getResourcesInformations(resourceAmounts, true)));
 			this.availableDiscountChoices.put(index, resourceAmounts);
 			index++;
 		}

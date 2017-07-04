@@ -23,4 +23,18 @@ public class LeaderCardConditionsOption implements Serializable
 	{
 		return this.resourceAmounts;
 	}
+
+	public String getInformations()
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		if (!this.resourceAmounts.isEmpty()) {
+			stringBuilder.append("\nRequired resources:\n");
+			stringBuilder.append(ResourceAmount.getResourcesInformations(this.resourceAmounts, true));
+		}
+		if (!this.cardAmounts.isEmpty()) {
+			stringBuilder.append("\nRequired cards:\n");
+			stringBuilder.append(CardAmount.getCardsInformations(this.cardAmounts, true));
+		}
+		return stringBuilder.toString();
+	}
 }

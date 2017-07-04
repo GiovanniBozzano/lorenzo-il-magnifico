@@ -73,7 +73,7 @@ public class PlayerCardHandler
 		return null;
 	}
 
-	public int getDevelopmentCardsNumber(CardType cardType)
+	int getDevelopmentCardsNumber(CardType cardType)
 	{
 		return this.developmentCards.get(cardType).size();
 	}
@@ -103,14 +103,14 @@ public class PlayerCardHandler
 		return null;
 	}
 
-	public static Map<Integer, Integer> getDevelopmentCardsCharacterPrices()
+	static Map<Integer, Integer> getDevelopmentCardsCharacterPrices()
 	{
-		return DEVELOPMENT_CARDS_CHARACTER_PRICES;
+		return PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES;
 	}
 
-	public static Map<Integer, Integer> getDevelopmentCardsTerritoryPrices()
+	static Map<Integer, Integer> getDevelopmentCardsTerritoryPrices()
 	{
-		return DEVELOPMENT_CARDS_TERRITORY_PRICES;
+		return PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES;
 	}
 
 	public List<LeaderCard> getLeaderCards()

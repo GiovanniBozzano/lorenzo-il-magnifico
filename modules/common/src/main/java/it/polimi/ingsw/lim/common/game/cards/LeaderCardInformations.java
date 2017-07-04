@@ -1,8 +1,6 @@
 package it.polimi.ingsw.lim.common.game.cards;
 
-import it.polimi.ingsw.lim.common.game.utils.CardAmount;
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
-import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +26,7 @@ public abstract class LeaderCardInformations extends CardInformations
 		stringBuilder.append(this.description);
 		stringBuilder.append("\n\nPLAY CONDITIONS:\n==============");
 		for (LeaderCardConditionsOption leaderCardConditionsOption : this.conditionsOptions) {
-			if (!leaderCardConditionsOption.getResourceAmounts().isEmpty()) {
-				stringBuilder.append("\nRequired resources:\n");
-				stringBuilder.append(ResourceAmount.getResourcesInformations(leaderCardConditionsOption.getResourceAmounts(), true));
-			}
-			if (!leaderCardConditionsOption.getCardAmounts().isEmpty()) {
-				stringBuilder.append("\nRequired cards:\n");
-				stringBuilder.append(CardAmount.getCardsInformations(leaderCardConditionsOption.getCardAmounts(), true));
-			}
+			stringBuilder.append(leaderCardConditionsOption.getInformations());
 			stringBuilder.append("\n==============");
 		}
 		stringBuilder.append("\n\n");

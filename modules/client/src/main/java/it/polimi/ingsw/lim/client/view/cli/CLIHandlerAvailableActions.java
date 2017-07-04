@@ -19,17 +19,17 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 	private static final Map<CLIStatus, String> ACTION_NAMES = new EnumMap<>(CLIStatus.class);
 
 	static {
-		ACTION_NAMES.put(CLIStatus.SHOW_BOARD_DEVELOPMENT_CARDS, "Show Development Cards");
-		ACTION_NAMES.put(CLIStatus.SHOW_OWN_LEADER_CARDS, "Show Own Leader Cards");
-		ACTION_NAMES.put(CLIStatus.SHOW_OWN_LEADER_CARDS, "Show Other Leader Cards");
-		ACTION_NAMES.put(CLIStatus.COUNCIL_PALACE, "Council Palace");
-		ACTION_NAMES.put(CLIStatus.HARVEST, "Harvest");
-		ACTION_NAMES.put(CLIStatus.MARKET, "Market");
-		ACTION_NAMES.put(CLIStatus.PICK_DEVELOPMENT_CARD, "Pick Development Card");
-		ACTION_NAMES.put(CLIStatus.PRODUCTION_START, "Start Production");
-		ACTION_NAMES.put(CLIStatus.LEADER_ACTIVATE, "Activate Leader Card");
-		ACTION_NAMES.put(CLIStatus.LEADER_DISCARD, "Discard Leader Card");
-		ACTION_NAMES.put(CLIStatus.LEADER_PLAY, "Play Leader Card");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_BOARD_DEVELOPMENT_CARDS, "Show Development Cards");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_OWN_LEADER_CARDS, "Show Own Leader Cards");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_OWN_LEADER_CARDS, "Show Other Leader Cards");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.COUNCIL_PALACE, "Council Palace");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.HARVEST, "Harvest");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.MARKET, "Market");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.PICK_DEVELOPMENT_CARD, "Pick Development Card");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.PRODUCTION_START, "Start Production");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.LEADER_ACTIVATE, "Activate Leader Card");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.LEADER_DISCARD, "Discard Leader Card");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.LEADER_PLAY, "Play Leader Card");
 	}
 
 	private final Map<Integer, CLIStatus> availableActions = new HashMap<>();

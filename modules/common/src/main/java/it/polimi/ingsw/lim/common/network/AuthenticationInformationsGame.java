@@ -23,6 +23,17 @@ public class AuthenticationInformationsGame extends AuthenticationInformations
 	private int turnPlayerIndex;
 	private Map<ActionType, List<Serializable>> availableActions;
 
+	public AuthenticationInformationsGame(AuthenticationInformations authenticationInformations)
+	{
+		this.setDevelopmentCardsBuildingInformations(authenticationInformations.getDevelopmentCardsBuildingInformations());
+		this.setDevelopmentCardsCharacterInformations(authenticationInformations.getDevelopmentCardsCharacterInformations());
+		this.setDevelopmentCardsTerritoryInformations(authenticationInformations.getDevelopmentCardsTerritoryInformations());
+		this.setDevelopmentCardsVentureInformations(authenticationInformations.getDevelopmentCardsVentureInformations());
+		this.setLeaderCardsInformations(authenticationInformations.getLeaderCardsInformations());
+		this.setExcommunicationTilesInformations(authenticationInformations.getExcommunicationTilesInformations());
+		this.setPersonalBonusTilesInformations(authenticationInformations.getPersonalBonusTilesInformations());
+	}
+
 	public Map<Period, Integer> getExcommunicationTiles()
 	{
 		return this.excommunicationTiles;

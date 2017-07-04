@@ -2135,8 +2135,7 @@ public class ControllerGame extends CustomController
 					for (List<ResourceAmount> discountChoice : ((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices()) {
 						AnchorPane anchorPane = new AnchorPane();
 						discountChoicesAnchorPanes.add(anchorPane);
-						Text text = new Text();
-						text.setText(ResourceAmount.getResourcesInformations(discountChoice, false));
+						Text text = new Text(ResourceAmount.getResourcesInformations(discountChoice, false));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2164,20 +2163,7 @@ public class ControllerGame extends CustomController
 						for (ResourceCostOption resourceCostOption : ((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions()) {
 							AnchorPane anchorPane = new AnchorPane();
 							resourceCostOptionsAnchorPanes.add(anchorPane);
-							Text text = new Text();
-							StringBuilder stringBuilder = new StringBuilder();
-							if (!resourceCostOption.getRequiredResources().isEmpty()) {
-								stringBuilder.append("REQUIRED RESOURCES:\n");
-								stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
-							}
-							if (!resourceCostOption.getSpentResources().isEmpty()) {
-								if (!resourceCostOption.getRequiredResources().isEmpty()) {
-									stringBuilder.append('\n');
-								}
-								stringBuilder.append("SPENT RESOURCES:\n");
-								stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
-							}
-							text.setText(stringBuilder.toString());
+							Text text = new Text(resourceCostOption.getInformations(true));
 							anchorPane.getChildren().add(text);
 							AnchorPane.setTopAnchor(text, 0.0);
 							AnchorPane.setBottomAnchor(text, 0.0);
@@ -2380,8 +2366,7 @@ public class ControllerGame extends CustomController
 			for (Entry<Integer, List<ResourceAmount>> councilPalaceReward : GameStatus.getInstance().getCurrentCouncilPrivilegeRewards().entrySet()) {
 				AnchorPane anchorPane = new AnchorPane();
 				councilPalaceRewardsAnchorPanes.add(anchorPane);
-				Text text = new Text();
-				text.setText(ResourceAmount.getResourcesInformations(councilPalaceReward.getValue(), false));
+				Text text = new Text(ResourceAmount.getResourcesInformations(councilPalaceReward.getValue(), false));
 				int currentCouncilPrivilegeIndex = councilPrivilegeIndex;
 				AnchorPane.setTopAnchor(text, 0.0);
 				AnchorPane.setBottomAnchor(text, 0.0);
@@ -2455,8 +2440,7 @@ public class ControllerGame extends CustomController
 					for (List<ResourceAmount> instantDiscountChoice : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getInstantDiscountChoices()) {
 						AnchorPane anchorPane = new AnchorPane();
 						instantDiscountChoicesAnchorPanes.add(anchorPane);
-						Text text = new Text();
-						text.setText(ResourceAmount.getResourcesInformations(instantDiscountChoice, false));
+						Text text = new Text(ResourceAmount.getResourcesInformations(instantDiscountChoice, false));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2481,8 +2465,7 @@ public class ControllerGame extends CustomController
 					for (List<ResourceAmount> discountChoice : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getDiscountChoices()) {
 						AnchorPane anchorPane = new AnchorPane();
 						discountChoicesAnchorPanes.add(anchorPane);
-						Text text = new Text();
-						text.setText(ResourceAmount.getResourcesInformations(discountChoice, false));
+						Text text = new Text(ResourceAmount.getResourcesInformations(discountChoice, false));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2510,20 +2493,7 @@ public class ControllerGame extends CustomController
 						for (ResourceCostOption resourceCostOption : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getResourceCostOptions()) {
 							AnchorPane anchorPane = new AnchorPane();
 							resourceCostOptionsAnchorPanes.add(anchorPane);
-							Text text = new Text();
-							StringBuilder stringBuilder = new StringBuilder();
-							if (!resourceCostOption.getRequiredResources().isEmpty()) {
-								stringBuilder.append("REQUIRED RESOURCES:\n");
-								stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true));
-							}
-							if (!resourceCostOption.getSpentResources().isEmpty()) {
-								if (!resourceCostOption.getRequiredResources().isEmpty()) {
-									stringBuilder.append('\n');
-								}
-								stringBuilder.append("SPENT RESOURCES:\n");
-								stringBuilder.append(ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true));
-							}
-							text.setText(stringBuilder.toString());
+							Text text = new Text(resourceCostOption.getInformations(true));
 							anchorPane.getChildren().add(text);
 							AnchorPane.setTopAnchor(text, 0.0);
 							AnchorPane.setBottomAnchor(text, 0.0);
@@ -2636,20 +2606,7 @@ public class ControllerGame extends CustomController
 					for (ResourceTradeOption resourceTradeOption : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().get(tradeCard)) {
 						AnchorPane anchorPane = new AnchorPane();
 						resourceTradeOptionsAnchorPanes.add(anchorPane);
-						Text text = new Text();
-						StringBuilder stringBuilder = new StringBuilder();
-						if (!resourceTradeOption.getEmployedResources().isEmpty()) {
-							stringBuilder.append("EMPLOYED RESOURCES:\n");
-							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getEmployedResources(), true));
-						}
-						if (!resourceTradeOption.getProducedResources().isEmpty()) {
-							if (!resourceTradeOption.getEmployedResources().isEmpty()) {
-								stringBuilder.append('\n');
-							}
-							stringBuilder.append("PRODUCED RESOURCES:\n");
-							stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getProducedResources(), true));
-						}
-						text.setText(stringBuilder.toString());
+						Text text = new Text(resourceTradeOption.getInformations(true));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);

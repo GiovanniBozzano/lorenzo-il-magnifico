@@ -129,7 +129,7 @@ public class Client extends Instance
 
 	public static Map<CLIStatus, ICLIHandler> getCliHandlers()
 	{
-		return CLI_HANDLERS;
+		return Client.CLI_HANDLERS;
 	}
 
 	public CLIStatus getCliStatus()

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.lim.common.game.cards;
 
-import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.common.game.utils.RewardInformations;
@@ -28,17 +27,9 @@ public class DevelopmentCardBuildingInformations extends DevelopmentCardInformat
 		stringBuilder.append("\n\nPRODUCTION ACTIVATION COST: ");
 		stringBuilder.append(this.activationValue);
 		if (!this.resourceTradeOptions.isEmpty()) {
-			stringBuilder.append("\n\nRESOURCE TRADE OPTIONS:");
+			stringBuilder.append("\n\nRESOURCE TRADE OPTIONS:\n==============");
 			for (ResourceTradeOption resourceTradeOption : this.resourceTradeOptions) {
-				stringBuilder.append("\n==============");
-				if (!resourceTradeOption.getEmployedResources().isEmpty()) {
-					stringBuilder.append("\nEmployed resources:\n");
-					stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getEmployedResources(), true));
-				}
-				if (!resourceTradeOption.getProducedResources().isEmpty()) {
-					stringBuilder.append("\nProduced resources:\n");
-					stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getProducedResources(), true));
-				}
+				stringBuilder.append(resourceTradeOption.getInformations(false));
 				stringBuilder.append("\n==============");
 			}
 		}

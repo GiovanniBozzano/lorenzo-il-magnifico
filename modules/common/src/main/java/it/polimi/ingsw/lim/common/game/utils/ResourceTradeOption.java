@@ -20,16 +20,6 @@ public class ResourceTradeOption implements Serializable
 		}
 	}
 
-	public List<ResourceAmount> getEmployedResources()
-	{
-		return this.employedResources;
-	}
-
-	public List<ResourceAmount> getProducedResources()
-	{
-		return this.producedResources;
-	}
-
 	@Override
 	public boolean equals(Object resourceTradeOption)
 	{
@@ -59,5 +49,32 @@ public class ResourceTradeOption implements Serializable
 	public int hashCode()
 	{
 		return Objects.hash(super.hashCode(), this.employedResources, this.producedResources);
+	}
+
+	public String getInformations(boolean isFirstLine)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		if (!this.employedResources.isEmpty()) {
+			stringBuilder.append("\nEmployed resources:\n");
+			stringBuilder.append(ResourceAmount.getResourcesInformations(this.employedResources, true));
+		}
+		if (!this.producedResources.isEmpty()) {
+			if (!isFirstLine || !this.employedResources.isEmpty()) {
+				stringBuilder.append('\n');
+			}
+			stringBuilder.append("\nProduced cards:\n");
+			stringBuilder.append(ResourceAmount.getResourcesInformations(this.producedResources, true));
+		}
+		return stringBuilder.toString();
+	}
+
+	public List<ResourceAmount> getEmployedResources()
+	{
+		return this.employedResources;
+	}
+
+	public List<ResourceAmount> getProducedResources()
+	{
+		return this.producedResources;
 	}
 }

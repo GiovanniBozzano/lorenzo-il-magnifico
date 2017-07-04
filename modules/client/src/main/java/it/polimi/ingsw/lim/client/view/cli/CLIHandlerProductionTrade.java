@@ -6,7 +6,6 @@ import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionTrade;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionProductionTrade;
-import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
@@ -78,14 +77,7 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 		stringBuilder.append("Enter Resource Trade Option...");
 		int index = 1;
 		for (ResourceTradeOption resourceTradeOption : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().get(chosenTradeCard)) {
-			if (!resourceTradeOption.getEmployedResources().isEmpty()) {
-				stringBuilder.append("\nEmployed resources:\n");
-				stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getEmployedResources(), true));
-			}
-			if (!resourceTradeOption.getProducedResources().isEmpty()) {
-				stringBuilder.append("\nProduced resources:\n");
-				stringBuilder.append(ResourceAmount.getResourcesInformations(resourceTradeOption.getProducedResources(), true));
-			}
+			stringBuilder.append(Utils.createListElement(index, resourceTradeOption.getInformations(false)));
 			availableResourceTradeOptions.put(index, resourceTradeOption);
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });

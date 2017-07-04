@@ -10,7 +10,7 @@ public class ResourceCostOption implements Serializable
 	private final List<ResourceAmount> requiredResources = new ArrayList<>();
 	private final List<ResourceAmount> spentResources = new ArrayList<>();
 
-	public ResourceCostOption(List<ResourceAmount> requiredResources, List<ResourceAmount> spentResources)
+	private ResourceCostOption(List<ResourceAmount> requiredResources, List<ResourceAmount> spentResources)
 	{
 		for (ResourceAmount resourceAmount : requiredResources) {
 			this.requiredResources.add(new ResourceAmount(resourceAmount));
@@ -23,16 +23,6 @@ public class ResourceCostOption implements Serializable
 	public ResourceCostOption(ResourceCostOption resourceCostOption)
 	{
 		new ResourceCostOption(resourceCostOption.requiredResources, resourceCostOption.spentResources);
-	}
-
-	public List<ResourceAmount> getRequiredResources()
-	{
-		return this.requiredResources;
-	}
-
-	public List<ResourceAmount> getSpentResources()
-	{
-		return this.spentResources;
 	}
 
 	@Override
@@ -64,5 +54,32 @@ public class ResourceCostOption implements Serializable
 	public int hashCode()
 	{
 		return Objects.hash(super.hashCode(), this.requiredResources, this.spentResources);
+	}
+
+	public String getInformations(boolean isFirstLine)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		if (!this.requiredResources.isEmpty()) {
+			stringBuilder.append("Required resources:\n");
+			stringBuilder.append(ResourceAmount.getResourcesInformations(this.requiredResources, true));
+		}
+		if (!this.spentResources.isEmpty()) {
+			if (!isFirstLine || !this.requiredResources.isEmpty()) {
+				stringBuilder.append('\n');
+			}
+			stringBuilder.append("Spent resources:\n");
+			stringBuilder.append(ResourceAmount.getResourcesInformations(this.spentResources, true));
+		}
+		return stringBuilder.toString();
+	}
+
+	public List<ResourceAmount> getRequiredResources()
+	{
+		return this.requiredResources;
+	}
+
+	public List<ResourceAmount> getSpentResources()
+	{
+		return this.spentResources;
 	}
 }

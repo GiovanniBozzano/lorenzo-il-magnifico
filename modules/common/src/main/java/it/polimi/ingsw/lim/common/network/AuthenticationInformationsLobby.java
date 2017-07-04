@@ -6,6 +6,17 @@ public abstract class AuthenticationInformationsLobby extends AuthenticationInfo
 {
 	private RoomInformations roomInformations;
 
+	public AuthenticationInformationsLobby(AuthenticationInformations authenticationInformations)
+	{
+		this.setDevelopmentCardsBuildingInformations(authenticationInformations.getDevelopmentCardsBuildingInformations());
+		this.setDevelopmentCardsCharacterInformations(authenticationInformations.getDevelopmentCardsCharacterInformations());
+		this.setDevelopmentCardsTerritoryInformations(authenticationInformations.getDevelopmentCardsTerritoryInformations());
+		this.setDevelopmentCardsVentureInformations(authenticationInformations.getDevelopmentCardsVentureInformations());
+		this.setLeaderCardsInformations(authenticationInformations.getLeaderCardsInformations());
+		this.setExcommunicationTilesInformations(authenticationInformations.getExcommunicationTilesInformations());
+		this.setPersonalBonusTilesInformations(authenticationInformations.getPersonalBonusTilesInformations());
+	}
+
 	public RoomInformations getRoomInformations()
 	{
 		return this.roomInformations;

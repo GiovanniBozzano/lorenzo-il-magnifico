@@ -1,12 +1,8 @@
 package it.polimi.ingsw.lim.server.network.rmi;
 
-import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.game.RoomInformations;
-import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
-import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
-import it.polimi.ingsw.lim.common.game.cards.*;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsGameRMI;
 import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsLobbyRMI;
@@ -15,15 +11,14 @@ import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.board.ExcommunicationTile;
-import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
-import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Authentication extends UnicastRemoteObject implements IAuthentication
 {
@@ -82,36 +77,7 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 
 	private AuthenticationInformations finalizeAuthentication(String username, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException
 	{
-		Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuildingsInformations = new HashMap<>();
-		Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacterInformations = new HashMap<>();
-		Map<Integer, DevelopmentCardTerritoryInformations> developmentsCardTerritoryInformations = new HashMap<>();
-		Map<Integer, DevelopmentCardVentureInformations> developmentCardsVentureInformations = new HashMap<>();
-		for (Period period : Period.values()) {
-			for (DevelopmentCardBuilding developmentCardBuilding : CardsHandler.getDevelopmentCardsBuilding().get(period)) {
-				developmentCardsBuildingsInformations.put(developmentCardBuilding.getIndex(), developmentCardBuilding.getInformations());
-			}
-			for (DevelopmentCardCharacter developmentCardCharacter : CardsHandler.getDevelopmentCardsCharacter().get(period)) {
-				developmentCardsCharacterInformations.put(developmentCardCharacter.getIndex(), developmentCardCharacter.getInformations());
-			}
-			for (DevelopmentCardTerritory developmentCardTerritory : CardsHandler.getDevelopmentCardsTerritory().get(period)) {
-				developmentsCardTerritoryInformations.put(developmentCardTerritory.getIndex(), developmentCardTerritory.getInformations());
-			}
-			for (DevelopmentCardVenture developmentCardVenture : CardsHandler.getDevelopmentCardsVenture().get(period)) {
-				developmentCardsVentureInformations.put(developmentCardVenture.getIndex(), developmentCardVenture.getInformations());
-			}
-		}
-		Map<Integer, LeaderCardInformations> leaderCardsInformations = new HashMap<>();
-		for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
-			leaderCardsInformations.put(leaderCard.getIndex(), leaderCard.getInformations());
-		}
-		Map<Integer, ExcommunicationTileInformations> excommunicationTilesInformations = new HashMap<>();
-		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
-			excommunicationTilesInformations.put(excommunicationTile.getIndex(), new ExcommunicationTileInformations(excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
-		}
-		Map<Integer, PersonalBonusTileInformations> personalBonusTilesInformations = new HashMap<>();
-		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
-			personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getPlayerBoardTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
-		}
+		AuthenticationInformations authenticationInformations = Utils.fillAuthenticationInformations();
 		Room playerRoom = Room.getPlayerRoom(username);
 		if (playerRoom == null || playerRoom.isEndGame()) {
 			ConnectionRMI connectionRmi = new ConnectionRMI(username, serverSession);
@@ -137,27 +103,19 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 				}
 				playerUsernames.add(player.getUsername());
 			}
-			AuthenticationInformationsLobbyRMI authenticationInformations = new AuthenticationInformationsLobbyRMI();
-			authenticationInformations.setDevelopmentCardsBuildingInformations(developmentCardsBuildingsInformations);
-			authenticationInformations.setDevelopmentCardsCharacterInformations(developmentCardsCharacterInformations);
-			authenticationInformations.setDevelopmentCardsTerritoryInformations(developmentsCardTerritoryInformations);
-			authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
-			authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
-			authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
-			authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
-			authenticationInformations.setGameStarted(false);
-			authenticationInformations.setRoomInformations(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
-			authenticationInformations.setClientSession(clientSession);
-			return authenticationInformations;
+			AuthenticationInformationsLobbyRMI authenticationInformationsLobby = new AuthenticationInformationsLobbyRMI(authenticationInformations, clientSession);
+			authenticationInformationsLobby.setGameStarted(false);
+			authenticationInformationsLobby.setRoomInformations(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
+			return authenticationInformationsLobby;
 		} else {
 			ConnectionRMI connectionRmi = null;
-			for (Connection player : playerRoom.getPlayers()) {
-				if (player.getUsername().equals(username)) {
-					connectionRmi = new ConnectionRMI(username, serverSession, player.getPlayer());
+			for (Connection connection : playerRoom.getPlayers()) {
+				if (connection.getUsername().equals(username)) {
+					connectionRmi = new ConnectionRMI(username, serverSession, connection.getPlayer());
 					connectionRmi.getPlayer().setConnection(connectionRmi);
 					connectionRmi.getPlayer().setOnline(true);
-					playerRoom.getPlayers().set(playerRoom.getPlayers().indexOf(player), connectionRmi);
-					playerRoom.getPlayers().remove(player);
+					playerRoom.getPlayers().set(playerRoom.getPlayers().indexOf(connection), connectionRmi);
+					playerRoom.getPlayers().remove(connection);
 					break;
 				}
 			}
@@ -167,33 +125,25 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 			ClientSession clientSession = new ClientSession(connectionRmi);
 			this.clientSessions.add(clientSession);
 			Server.getInstance().getConnections().add(connectionRmi);
-			AuthenticationInformationsGameRMI authenticationInformations = new AuthenticationInformationsGameRMI();
-			authenticationInformations.setDevelopmentCardsBuildingInformations(developmentCardsBuildingsInformations);
-			authenticationInformations.setDevelopmentCardsCharacterInformations(developmentCardsCharacterInformations);
-			authenticationInformations.setDevelopmentCardsTerritoryInformations(developmentsCardTerritoryInformations);
-			authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
-			authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
-			authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
-			authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
-			authenticationInformations.setGameStarted(true);
-			authenticationInformations.setExcommunicationTiles(playerRoom.getGameHandler().getBoardHandler().getMatchExcommunicationTilesIndexes());
-			authenticationInformations.setCouncilPrivilegeRewards(playerRoom.getGameHandler().getBoardHandler().getMatchCouncilPrivilegeRewards());
-			authenticationInformations.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
-			authenticationInformations.setOwnPlayerIndex(connectionRmi.getPlayer().getIndex());
+			AuthenticationInformationsGameRMI authenticationInformationsGame = new AuthenticationInformationsGameRMI(authenticationInformations, clientSession);
+			authenticationInformationsGame.setGameStarted(true);
+			authenticationInformationsGame.setExcommunicationTiles(playerRoom.getGameHandler().getBoardHandler().getMatchExcommunicationTilesIndexes());
+			authenticationInformationsGame.setCouncilPrivilegeRewards(playerRoom.getGameHandler().getBoardHandler().getMatchCouncilPrivilegeRewards());
+			authenticationInformationsGame.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
+			authenticationInformationsGame.setOwnPlayerIndex(connectionRmi.getPlayer().getIndex());
 			if (playerRoom.getGameHandler().getCurrentPeriod() != null && playerRoom.getGameHandler().getCurrentRound() != null) {
-				authenticationInformations.setGameInitialized(true);
-				authenticationInformations.setGameInformations(playerRoom.getGameHandler().generateGameInformations());
-				authenticationInformations.setPlayersInformations(playerRoom.getGameHandler().generatePlayersInformations());
-				authenticationInformations.setOwnLeaderCardsHand(playerRoom.getGameHandler().generateLeaderCardsHand(connectionRmi.getPlayer()));
-				authenticationInformations.setTurnPlayerIndex(playerRoom.getGameHandler().getTurnPlayer().getIndex());
+				authenticationInformationsGame.setGameInitialized(true);
+				authenticationInformationsGame.setGameInformations(playerRoom.getGameHandler().generateGameInformations());
+				authenticationInformationsGame.setPlayersInformations(playerRoom.getGameHandler().generatePlayersInformations());
+				authenticationInformationsGame.setOwnLeaderCardsHand(playerRoom.getGameHandler().generateLeaderCardsHand(connectionRmi.getPlayer()));
+				authenticationInformationsGame.setTurnPlayerIndex(playerRoom.getGameHandler().getTurnPlayer().getIndex());
 				if (playerRoom.getGameHandler().getTurnPlayer().getIndex() != connectionRmi.getPlayer().getIndex()) {
-					authenticationInformations.setAvailableActions(playerRoom.getGameHandler().generateAvailableActions(connectionRmi.getPlayer()));
+					authenticationInformationsGame.setAvailableActions(playerRoom.getGameHandler().generateAvailableActions(connectionRmi.getPlayer()));
 				}
 			} else {
-				authenticationInformations.setGameInitialized(false);
+				authenticationInformationsGame.setGameInitialized(false);
 			}
-			authenticationInformations.setClientSession(clientSession);
-			return authenticationInformations;
+			return authenticationInformationsGame;
 		}
 	}
 

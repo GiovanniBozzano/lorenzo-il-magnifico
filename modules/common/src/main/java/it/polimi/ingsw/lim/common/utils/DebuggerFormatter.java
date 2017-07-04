@@ -20,7 +20,7 @@ public class DebuggerFormatter extends Formatter
 			return "";
 		}
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(DATE_FORMAT.format(new Date(logRecord.getMillis())));
+		stringBuilder.append(DebuggerFormatter.DATE_FORMAT.format(new Date(logRecord.getMillis())));
 		stringBuilder.append(" - ");
 		stringBuilder.append("[");
 		stringBuilder.append(logRecord.getLoggerName());

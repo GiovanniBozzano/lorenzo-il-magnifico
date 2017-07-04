@@ -16,9 +16,7 @@ public abstract class Event
 
 	public void applyModifiers(List<Modifier> modifiers)
 	{
-		for (Modifier modifier : modifiers) {
-			modifier.call(this);
-		}
+		modifiers.forEach(modifier -> modifier.call(this));
 	}
 
 	public Player getPlayer()

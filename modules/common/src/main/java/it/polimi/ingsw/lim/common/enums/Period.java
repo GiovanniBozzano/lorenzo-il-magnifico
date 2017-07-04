@@ -9,13 +9,13 @@ public enum Period
 	public static Period next(Period period)
 	{
 		if (period == null) {
-			return FIRST;
+			return Period.FIRST;
 		}
 		switch (period) {
 			case FIRST:
-				return SECOND;
+				return Period.SECOND;
 			case SECOND:
-				return THIRD;
+				return Period.THIRD;
 			default:
 				return null;
 		}

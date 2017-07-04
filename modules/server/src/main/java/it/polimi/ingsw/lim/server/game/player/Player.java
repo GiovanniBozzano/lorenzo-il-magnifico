@@ -94,12 +94,12 @@ public class Player
 
 	static Map<Integer, Integer> getTerritorySlotsConditions()
 	{
-		return TERRITORY_SLOTS_CONDITIONS;
+		return Player.TERRITORY_SLOTS_CONDITIONS;
 	}
 
 	static Map<Period, Integer> getExcommunicationConditions()
 	{
-		return EXCOMMUNICATION_CONDITIONS;
+		return Player.EXCOMMUNICATION_CONDITIONS;
 	}
 
 	public Connection getConnection()

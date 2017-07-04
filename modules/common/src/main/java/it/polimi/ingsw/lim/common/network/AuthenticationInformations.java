@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AuthenticationInformations implements Serializable
+public class AuthenticationInformations implements Serializable
 {
 	private Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuildingInformations;
 	private Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacterInformations;

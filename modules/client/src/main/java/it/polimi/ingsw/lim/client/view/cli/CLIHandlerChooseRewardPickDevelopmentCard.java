@@ -137,7 +137,7 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		stringBuilder.append("Enter Resource Cost Option...");
 		int index = 1;
 		for (ResourceCostOption resourceCostOption : this.chosenDevelopmentCard.getResourceCostOptions()) {
-			stringBuilder.append(Utils.createListElement(index, (!resourceCostOption.getRequiredResources().isEmpty() ? "\nRequired resources:\n" + ResourceAmount.getResourcesInformations(resourceCostOption.getRequiredResources(), true) : "") + (!resourceCostOption.getSpentResources().isEmpty() ? "\nSpent resources:\n" + ResourceAmount.getResourcesInformations(resourceCostOption.getSpentResources(), true) : "")));
+			stringBuilder.append(Utils.createListElement(index, resourceCostOption.getInformations(false)));
 			this.availableResourceCostOptions.put(index, resourceCostOption);
 			index++;
 		}
