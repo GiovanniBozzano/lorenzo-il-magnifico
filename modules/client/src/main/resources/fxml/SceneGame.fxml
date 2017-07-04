@@ -793,7 +793,7 @@
 						</font>
 					</Label>
 					<VBox fx:id="expectedChooseRewardCouncilPrivilegeDialogVBox" style="-fx-background-color: aliceblue; -fx-background-radius: 20.0; -fx-border-color: #757575; -fx-border-width: 2px;" />
-					<VBox>
+					<VBox alignment="CENTER">
 						<JFXButton fx:id="expectedChooseRewardCouncilPrivilegeDialogAcceptButton" style="-fx-background-color: #03A9F4;" text="Accept" textFill="WHITE">
 							<font>
 								<Font name="Roboto Bold" size="12.0" />

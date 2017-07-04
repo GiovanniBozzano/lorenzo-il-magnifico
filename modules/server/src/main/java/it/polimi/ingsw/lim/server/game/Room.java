@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.game;
 
+import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.network.Connection;
@@ -70,6 +71,8 @@ public class Room
 			}
 			return;
 		}
+		player.getPlayer().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+		player.getPlayer().getPlayerResourceHandler().getResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
 		if (this.gameHandler.getExcommunicationChoosingPlayers().contains(player.getPlayer())) {
 			this.gameHandler.applyExcommunicationChoice(player.getPlayer(), false);
 			return;

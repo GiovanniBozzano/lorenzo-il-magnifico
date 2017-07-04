@@ -2391,7 +2391,6 @@ public class ControllerGame extends CustomController
 		}
 		this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardCouncilPrivilege(new ArrayList<>(selectedCouncilPrivilegesRewards.values()))));
 		this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.setPrefWidth(((VBox) this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.getParent()).getWidth());
-		this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.requestLayout();
 		this.expectedChooseRewardCouncilPrivilegeDialog.show();
 	}
 
