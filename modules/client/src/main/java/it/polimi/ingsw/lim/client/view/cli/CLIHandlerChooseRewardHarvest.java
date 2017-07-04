@@ -23,6 +23,11 @@ public class CLIHandlerChooseRewardHarvest implements ICLIHandler
 		return new CLIHandlerChooseRewardHarvest();
 	}
 
+	/**
+	 * <p>Asks how many servants the player wants to use to increase the action
+	 * value and sends the new {@link ActionInformationChooseRewardHarvest} with
+	 * the chosen values.
+	 */
 	private void askServants()
 	{
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter Servants amount...");

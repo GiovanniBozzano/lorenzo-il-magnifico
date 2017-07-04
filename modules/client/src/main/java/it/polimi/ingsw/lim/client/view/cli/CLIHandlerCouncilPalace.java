@@ -36,6 +36,12 @@ public class CLIHandlerCouncilPalace implements ICLIHandler
 		return new CLIHandlerCouncilPalace();
 	}
 
+	/**
+	 * <p>Uses current available actions of the player to insert in a {@link
+	 * Integer} {@link FamilyMemberType} {@link Map} the available family
+	 * members to perform an {@link ActionInformationCouncilPalace} and prints
+	 * them and the corresponding choosing indexes on screen.
+	 */
 	private void showFamilyMembers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -51,6 +57,10 @@ public class CLIHandlerCouncilPalace implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Asks which {@link FamilyMemberType} the player wants to use to perform
+	 * the action and saves it.
+	 */
 	private void askFamilyMember()
 	{
 		String input;
@@ -61,6 +71,11 @@ public class CLIHandlerCouncilPalace implements ICLIHandler
 		this.familyMemberValue = Integer.parseInt(input);
 	}
 
+	/**
+	 * <p>Asks how many servants the player wants to use to increase the action
+	 * value and sends the new {@link ActionInformationCouncilPalace} with the
+	 * chosen values.
+	 */
 	private void askServants()
 	{
 		Client.getLogger().log(Level.INFO, "\n\nEnter Servant Amount...");
