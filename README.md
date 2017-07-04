@@ -64,4 +64,4 @@ Note: The Project is separated into modules: `Client`, `Server` and `Common`.
 - Andrea Delfi - andrea.delfi@mail.polimi.it
 
 ---
-> Cranio Creations - [WebSite](http://www.craniocreations.it/)
+> [Cranio Creations](http://www.craniocreations.it/)
