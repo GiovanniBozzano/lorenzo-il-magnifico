@@ -89,7 +89,8 @@ public class CommonUtils
 	}
 
 	/**
-	 * <p>Checks whether a string can be parsed as an integer or not.
+	 * <p>Checks whether a {@link String} can be parsed as an {@link Integer} or
+	 * not.
 	 *
 	 * @param string the string to be checked.
 	 *

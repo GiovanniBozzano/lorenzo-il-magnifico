@@ -37,9 +37,10 @@ public class CLIHandlerHarvest implements ICLIHandler
 	}
 
 	/**
-	 * <p>Uses current available actions of the player to insert in the map
-	 * (@familyMemberTypes) the available family members to perform the action
-	 * (@HARVEST) and print them and the corresponding choosing index on screen.
+	 * <p>Uses current available actions of the player to insert in a {@link
+	 * Integer} {@link FamilyMemberType} {@link Map} the available family
+	 * members to perform an {@link ActionInformationHarvest} and prints them
+	 * and the corresponding choosing indexes on screen.
 	 */
 	private void showFamilyMembers()
 	{
@@ -57,8 +58,8 @@ public class CLIHandlerHarvest implements ICLIHandler
 	}
 
 	/**
-	 * <p>Asks which family member the player wants to use to perform the action
-	 * and save it in (@familyMemberType).
+	 * <p>Asks which {@link FamilyMemberType} the player wants to use to perform
+	 * the action and saves it.
 	 */
 	private void askFamilyMember()
 	{
@@ -72,8 +73,8 @@ public class CLIHandlerHarvest implements ICLIHandler
 
 	/**
 	 * <p>Asks how many servants the player wants to use to increase the action
-	 * value and send the new (@GameAction) with the new(@ActionInformationHarvest)
-	 * with the chosen (@familyMemberType) and the decided amount of servants.
+	 * value and send the new {@link ActionInformationHarvest} with the chosen
+	 * values.
 	 */
 	private void askServants()
 	{
