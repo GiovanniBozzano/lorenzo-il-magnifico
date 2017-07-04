@@ -62,13 +62,13 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 			do {
 				input = Client.getInstance().getCliScanner().nextLine();
 			}
-			while (!input.equals("q") && !input.equals("Q") && (!CommonUtils.isInteger(input) || !this.availableTradeCards.containsKey(Integer.parseInt(input))));
+			while (!("q").equals(input) && !("Q").equals(input) && (!CommonUtils.isInteger(input) || !this.availableTradeCards.containsKey(Integer.parseInt(input))));
 			if (CommonUtils.isInteger(input)) {
 				this.chosenTradeCards.add(this.availableTradeCards.get(Integer.parseInt(input)));
 				this.availableTradeCards.remove(Integer.parseInt(input));
 				Client.getLogger().log(Level.INFO, "{0} registered", new Object[] { CommonUtils.isInteger(input) });
 			}
-		} while (!input.equals("q") && !input.equals("Q"));
+		} while (!("q").equals(input) && !("Q").equals(input));
 	}
 
 	private Map<Integer, ResourceTradeOption> showAvailableResourceTradeOptions(int chosenTradeCard)
