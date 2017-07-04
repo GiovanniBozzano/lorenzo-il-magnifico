@@ -29,9 +29,9 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 
 	/**
 	 * <p>Uses current available personal bonus tiles of the player to insert in
-	 * a {@link Integer} {@link Integer} {@link Map} their indexes to send a
-	 * PacketGamePersonalBonusTilePlayerChoice and prints the available personal
-	 * bonus tiles and the corresponding choosing indexes on screen.
+	 * a {@link Integer} {@link Integer} {@link Map} their indexes and prints
+	 * the available personal bonus tiles and the corresponding choosing indexes
+	 * on screen.
 	 */
 	private void showPersonalBonusTiles()
 	{
@@ -47,9 +47,8 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 	}
 
 	/**
-	 * <p>Asks which index the player wants to choose to get the corresponding
-	 * personal bonus tile and sends the new PacketGamePersonalBonusTilePlayerChoice
-	 * with the chosen value.
+	 * <p>Asks which Personal Bonus Tile index the player wants to choose and
+	 * sends it.
 	 */
 	private void askPersonalBonusTileIndex()
 	{
