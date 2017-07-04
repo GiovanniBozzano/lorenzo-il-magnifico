@@ -486,7 +486,7 @@ public class Utils
 	 *
 	 * @param preparedStatement the prepared statement to set.
 	 * @param queryArgument the argument to use to set the prepared statement.
-	 * @param index the index of the parepared statement argument to set.
+	 * @param index the index of the prepared statement argument to set.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
@@ -504,7 +504,7 @@ public class Utils
 	 *
 	 * @param preparedStatement the prepared statement to set.
 	 * @param queryArgument the argument to use to set the prepared statement.
-	 * @param index the index of the parepared statement argument to set.
+	 * @param index the index of the prepared statement argument to set.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
@@ -522,7 +522,7 @@ public class Utils
 	 *
 	 * @param preparedStatement the prepared statement to set.
 	 * @param queryArgument the argument to use to set the prepared statement.
-	 * @param index the index of the parepared statement argument to set.
+	 * @param index the index of the prepared statement argument to set.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
@@ -540,7 +540,7 @@ public class Utils
 	 *
 	 * @param preparedStatement the prepared statement to set.
 	 * @param queryArgument the argument to use to set the prepared statement.
-	 * @param index the index of the parepared statement argument to set.
+	 * @param index the index of the prepared statement argument to set.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
@@ -558,7 +558,7 @@ public class Utils
 	 *
 	 * @param preparedStatement the prepared statement to set.
 	 * @param queryArgument the argument to use to set the prepared statement.
-	 * @param index the index of the parepared statement argument to set.
+	 * @param index the index of the prepared statement argument to set.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
@@ -572,7 +572,7 @@ public class Utils
 	 *
 	 * @param preparedStatement the prepared statement to set.
 	 * @param queryArgument the argument to use to set the prepared statement.
-	 * @param index the index of the parepared statement argument to set.
+	 * @param index the index of the prepared statement argument to set.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
