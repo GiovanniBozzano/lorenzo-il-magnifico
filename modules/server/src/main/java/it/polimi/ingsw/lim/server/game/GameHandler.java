@@ -21,10 +21,7 @@ import it.polimi.ingsw.lim.server.game.board.ExcommunicationTile;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
-import it.polimi.ingsw.lim.server.game.events.EventFirstTurn;
-import it.polimi.ingsw.lim.server.game.events.EventPostVictoryPointsCalculation;
-import it.polimi.ingsw.lim.server.game.events.EventPreVictoryPointsCalculation;
-import it.polimi.ingsw.lim.server.game.events.EventVictoryPointsCalculation;
+import it.polimi.ingsw.lim.server.game.events.*;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
@@ -260,7 +257,9 @@ public class GameHandler
 			this.excommunicatedPlayers.get(this.currentPeriod).add(player);
 			player.getActiveModifiers().add(this.boardHandler.getMatchExcommunicationTiles().get(this.currentPeriod).getModifier());
 		} else {
-			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, PlayerResourceHandler.getFaithPointsPrices().get(player.getPlayerResourceHandler().getResources().get(ResourceType.FAITH_POINT)));
+			EventChurchSupport eventChurchSupport = new EventChurchSupport(player);
+			eventChurchSupport.applyModifiers(player.getActiveModifiers());
+			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, eventChurchSupport.getVictoryPoints() + PlayerResourceHandler.getFaithPointsPrices().get(player.getPlayerResourceHandler().getResources().get(ResourceType.FAITH_POINT)));
 			player.getPlayerResourceHandler().resetFaithPoints();
 		}
 		if (this.excommunicationChoosingPlayers.isEmpty()) {

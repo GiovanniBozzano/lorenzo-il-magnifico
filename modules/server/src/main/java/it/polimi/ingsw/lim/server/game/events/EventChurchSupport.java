@@ -4,12 +4,11 @@ import it.polimi.ingsw.lim.server.game.player.Player;
 
 public class EventChurchSupport extends Event
 {
-	private int victoryPoints;
+	private int victoryPoints = 0;
 
-	public EventChurchSupport(Player player, int victoryPoints)
+	public EventChurchSupport(Player player)
 	{
 		super(player);
-		this.victoryPoints = victoryPoints;
 	}
 
 	public int getVictoryPoints()
