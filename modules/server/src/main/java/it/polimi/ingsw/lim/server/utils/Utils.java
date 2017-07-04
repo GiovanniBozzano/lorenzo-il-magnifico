@@ -100,8 +100,8 @@ public class Utils
 	/**
 	 * <p>Checks online for the external IP address.
 	 *
-	 * @return a string representing the IP address if successful, otherwise
-	 * null.
+	 * @return a {@link String} representing the IP address if successful,
+	 * otherwise null.
 	 */
 	public static String getExternalIpAddress()
 	{
@@ -116,9 +116,9 @@ public class Utils
 	}
 
 	/**
-	 * <p>Executes the given command.
+	 * <p>Executes the given {@link Command}.
 	 *
-	 * @param command the command to execute.
+	 * @param command the {@link Command} to execute.
 	 */
 	public static void executeCommand(String command)
 	{
@@ -139,6 +139,15 @@ public class Utils
 		}
 	}
 
+	/**
+	 * Checks whether the authentication is valid or not.
+	 *
+	 * @param version the client version of the player.
+	 * @param username the player username.
+	 * @param password the player password.
+	 *
+	 * @throws AuthenticationFailedException if the authentication has failed.
+	 */
 	public static void checkLogin(String version, String username, String password) throws AuthenticationFailedException
 	{
 		if (!version.equals(CommonUtils.VERSION)) {
@@ -174,6 +183,15 @@ public class Utils
 		}
 	}
 
+	/**
+	 * Checks whether the registration is valid or not.
+	 *
+	 * @param version the client version of the player.
+	 * @param username the player username.
+	 * @param password the player password.
+	 *
+	 * @throws AuthenticationFailedException if the authentication has failed.
+	 */
 	public static void checkRegistration(String version, String username, String password) throws AuthenticationFailedException
 	{
 		if (!version.equals(CommonUtils.VERSION)) {
@@ -213,6 +231,11 @@ public class Utils
 		}
 	}
 
+	/**
+	 * Fills the basic game information for the loggin in player.
+	 *
+	 * @return an object representing basic game information.
+	 */
 	public static AuthenticationInformation fillAuthenticationInformation()
 	{
 		Map<Integer, DevelopmentCardBuildingInformation> developmentCardsBuildingsInformation = new HashMap<>();
@@ -256,6 +279,16 @@ public class Utils
 		return authenticationInformation;
 	}
 
+	/**
+	 * Creates a new copy of the given {@link Period} {@link DevelopmentCard}s
+	 * {@link Map}.
+	 *
+	 * @param original the original {@link Period} {@link DevelopmentCard}s
+	 * {@link Map}.
+	 *
+	 * @return the newly created {@link Period} {@link DevelopmentCard}s {@link
+	 * Map}.
+	 */
 	public static <T extends DevelopmentCard> Map<Period, List<T>> deepCopyDevelopmentCards(Map<Period, List<T>> original)
 	{
 		Map<Period, List<T>> copy = new EnumMap<>(Period.class);
@@ -267,6 +300,13 @@ public class Utils
 		return copy;
 	}
 
+	/**
+	 * Creates a new copy of the given {@link LeaderCard} {@link List}.
+	 *
+	 * @param original the original {@link LeaderCard} {@link List}.
+	 *
+	 * @return the newly created {@link LeaderCard} {@link List}.
+	 */
 	public static List<LeaderCard> deepCopyLeaderCards(List<LeaderCard> original)
 	{
 		List<LeaderCard> copy = new ArrayList<>();
@@ -274,6 +314,14 @@ public class Utils
 		return copy;
 	}
 
+	/**
+	 * Retrieves a {@link LeaderCard} from a given index, if it does exist.
+	 *
+	 * @param leaderCardIndex the {@link LeaderCard} index.
+	 *
+	 * @return the retrieved {@link LeaderCard} if it does exists, otherwise
+	 * null.
+	 */
 	public static LeaderCard getLeaderCardFromIndex(int leaderCardIndex)
 	{
 		for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
@@ -284,6 +332,16 @@ public class Utils
 		return null;
 	}
 
+	/**
+	 * Checks whether the chosen discount is valid or not.
+	 *
+	 * @param player the {@link Player} who performs the action.
+	 * @param cardType the {@link CardType} of the action.
+	 * @param discountChoice the chosen discount.
+	 * @param resourceCostOption the chosen {@link ResourceCostOption}.
+	 *
+	 * @throws GameActionFailedException if the discount is not valid.
+	 */
 	public static void checkValidDiscount(Player player, CardType cardType, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption) throws GameActionFailedException
 	{
 		if (resourceCostOption == null && !discountChoice.isEmpty()) {
@@ -292,6 +350,17 @@ public class Utils
 		Utils.checkValidDiscountInternal(player, cardType, discountChoice, resourceCostOption);
 	}
 
+	/**
+	 * Checks whether the chosen discounts are valid or not.
+	 *
+	 * @param player the {@link Player} who performs the action.
+	 * @param cardType the {@link CardType} of the action.
+	 * @param instantDiscountChoice the chosen instant discount.
+	 * @param discountChoice the chosen discount.
+	 * @param resourceCostOption the chosen {@link ResourceCostOption}.
+	 *
+	 * @throws GameActionFailedException if the discounts are not valid.
+	 */
 	public static void checkValidDiscount(Player player, CardType cardType, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption) throws GameActionFailedException
 	{
 		if (resourceCostOption == null && (!instantDiscountChoice.isEmpty() || !discountChoice.isEmpty())) {
@@ -303,6 +372,16 @@ public class Utils
 		Utils.checkValidDiscountInternal(player, cardType, discountChoice, resourceCostOption);
 	}
 
+	/**
+	 * Checks whether the chosen discount is valid or not.
+	 *
+	 * @param player the {@link Player} who performs the action.
+	 * @param cardType the {@link CardType} of the action.
+	 * @param discountChoice the chosen discount.
+	 * @param resourceCostOption the chosen {@link ResourceCostOption}.
+	 *
+	 * @throws GameActionFailedException if the discount is not valid.
+	 */
 	private static void checkValidDiscountInternal(Player player, CardType cardType, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption) throws GameActionFailedException
 	{
 		if (resourceCostOption != null) {
@@ -326,6 +405,12 @@ public class Utils
 		}
 	}
 
+	/**
+	 * Checks whether the {@link Player} has available production cards and acts
+	 * accordingly.
+	 *
+	 * @param player the {@link Player} who performs the action.
+	 */
 	public static void checkAvailableProductionCards(Player player)
 	{
 		Map<Integer, List<ResourceTradeOption>> availableCards = new HashMap<>();
@@ -357,6 +442,12 @@ public class Utils
 		player.getRoom().getGameHandler().sendGameUpdateExpectedAction(player, new ExpectedActionProductionTrade(availableCards));
 	}
 
+	/**
+	 * <p>Subtracts a discount from a {@link ResourceAmount} {@link List}.
+	 *
+	 * @param resourceAmounts the original {@link ResourceAmount} {@link List}.
+	 * @param discountChoice the discount to subtract.
+	 */
 	public static void subtractDiscount(List<ResourceAmount> resourceAmounts, List<ResourceAmount> discountChoice)
 	{
 		for (ResourceAmount effectiveResourceAmount : resourceAmounts) {
@@ -368,6 +459,15 @@ public class Utils
 		}
 	}
 
+	/**
+	 * <p>Checks if the {@link Player} has new council privileges and acts
+	 * accordingly.
+	 *
+	 * @param player the {@link Player} who performs the action.
+	 *
+	 * @return true if the {@link Player} has new council privileges, otherwise
+	 * false.
+	 */
 	public static boolean sendCouncilPrivileges(Player player)
 	{
 		int councilPrivilegesCount = player.getPlayerResourceHandler().getTemporaryResources().get(ResourceType.COUNCIL_PRIVILEGE) + player.getPlayerResourceHandler().getResources().get(ResourceType.COUNCIL_PRIVILEGE);
@@ -379,6 +479,14 @@ public class Utils
 		return false;
 	}
 
+	/**
+	 * <p>Activates an {@link ActionReward} if it does exist.
+	 *
+	 * @param player the {@link Player} who performs the action.
+	 * @param actionReward the {@link ActionReward} which has to be activated.
+	 *
+	 * @return true if the {@link ActionReward} exists, otherwise false.
+	 */
 	public static boolean sendActionReward(Player player, ActionReward actionReward)
 	{
 		if (actionReward != null && actionReward.getRequestedAction() != null) {
@@ -390,6 +498,14 @@ public class Utils
 		return false;
 	}
 
+	/**
+	 * <p>Activates the given {@link LeaderCard} accordingly.
+	 *
+	 * @param player the {@link Player} who performs the action.
+	 * @param leaderCard the {@link LeaderCard} which has to be activated.
+	 *
+	 * @return true if the {@link Phase} is the action goes on, otherwise false.
+	 */
 	public static boolean activateLeaderCard(Player player, LeaderCard leaderCard)
 	{
 		if (leaderCard instanceof LeaderCardModifier) {
@@ -409,6 +525,13 @@ public class Utils
 		return false;
 	}
 
+	/**
+	 * <p>Checks the current {@link Phase} and acts accordingly.
+	 *
+	 * @param player the {@link Player} who performs the action.
+	 *
+	 * @return true if the {@link Phase} is the leaders one, otherwise false.
+	 */
 	public static boolean checkLeaderPhase(Player player)
 	{
 		if (player.getRoom().getGameHandler().getCurrentPhase() == Phase.LEADER) {
@@ -421,10 +544,12 @@ public class Utils
 	}
 
 	/**
-	 * <p>Executes a read query on the database with a prepared statement.
+	 * <p>Executes a {@link QueryRead} on the database with a {@link
+	 * PreparedStatement}.
 	 *
-	 * @param query the query to execute.
-	 * @param queryArguments the arguments to fill the statement.
+	 * @param query the {@link QueryRead} to execute.
+	 * @param queryArguments the {@link QueryArgument} {@link List} to fill the
+	 * {@link PreparedStatement}.
 	 *
 	 * @return the rows returned by the query.
 	 *
@@ -443,11 +568,12 @@ public class Utils
 	}
 
 	/**
-	 * <p>Executes a write query on the database with a prepared statement.
+	 * <p>Executes a {@link QueryWrite} on the database with a {@link
+	 * PreparedStatement}.
 	 *
-	 * @param query the query to execute.
-	 * @param queryArguments the arguments to use to fill the prepared
-	 * statement.
+	 * @param query the {@link QueryWrite} to execute.
+	 * @param queryArguments the {@link QueryArgument} {@link List} to use to
+	 * fill the {@link PreparedStatement}.
 	 *
 	 * @throws SQLException if the query was not successful.
 	 */
@@ -463,11 +589,12 @@ public class Utils
 	}
 
 	/**
-	 * <p>Fills a prepared statement with the given arguments.
+	 * <p>Fills a {@link PreparedStatement} with the given {@link
+	 * QueryArgument}s.
 	 *
-	 * @param preparedStatement the prepared statement to fill.
-	 * @param queryArguments the arguments to use to fill the prepared
-	 * statement.
+	 * @param preparedStatement the {@link PreparedStatement} to fill.
+	 * @param queryArguments the {@link QueryArgument} to use to fill the {@link
+	 * PreparedStatement}.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
@@ -482,11 +609,14 @@ public class Utils
 	}
 
 	/**
-	 * <p>Sets the given prepared statement argument to the given integer.
+	 * <p>Sets the given {@link PreparedStatement} {@link QueryArgument} to the
+	 * given {@link Integer}.
 	 *
-	 * @param preparedStatement the prepared statement to set.
-	 * @param queryArgument the argument to use to set the prepared statement.
-	 * @param index the index of the prepared statement argument to set.
+	 * @param preparedStatement the {@link PreparedStatement} to set.
+	 * @param queryArgument the {@link QueryArgument} to use to set the {@link
+	 * PreparedStatement}.
+	 * @param index the index of the {@link PreparedStatement} {@link
+	 * QueryArgument} to set.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
@@ -500,11 +630,14 @@ public class Utils
 	}
 
 	/**
-	 * <p>Sets the given prepared statement argument to the given long.
+	 * <p>Sets the given {@link PreparedStatement} {@link QueryArgument} to the
+	 * given {@link Long}.
 	 *
-	 * @param preparedStatement the prepared statement to set.
-	 * @param queryArgument the argument to use to set the prepared statement.
-	 * @param index the index of the prepared statement argument to set.
+	 * @param preparedStatement the {@link PreparedStatement} to set.
+	 * @param queryArgument the {@link QueryArgument} to use to set the {@link
+	 * PreparedStatement}.
+	 * @param index the index of the {@link PreparedStatement} {@link
+	 * QueryArgument} to set.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
@@ -518,11 +651,14 @@ public class Utils
 	}
 
 	/**
-	 * <p>Sets the given prepared statement argument to the given float.
+	 * <p>Sets the given {@link PreparedStatement} {@link QueryArgument} to the
+	 * given {@link Float}.
 	 *
-	 * @param preparedStatement the prepared statement to set.
-	 * @param queryArgument the argument to use to set the prepared statement.
-	 * @param index the index of the prepared statement argument to set.
+	 * @param preparedStatement the {@link PreparedStatement} to set.
+	 * @param queryArgument the {@link QueryArgument} to use to set the {@link
+	 * PreparedStatement}.
+	 * @param index the index of the {@link PreparedStatement} {@link
+	 * QueryArgument} to set.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
@@ -536,11 +672,14 @@ public class Utils
 	}
 
 	/**
-	 * <p>Sets the given prepared statement argument to the given double.
+	 * <p>Sets the given {@link PreparedStatement} {@link QueryArgument} to the
+	 * given {@link Double}.
 	 *
-	 * @param preparedStatement the prepared statement to set.
-	 * @param queryArgument the argument to use to set the prepared statement.
-	 * @param index the index of the prepared statement argument to set.
+	 * @param preparedStatement the {@link PreparedStatement} to set.
+	 * @param queryArgument the {@link QueryArgument} to use to set the {@link
+	 * PreparedStatement}.
+	 * @param index the index of the {@link PreparedStatement} {@link
+	 * QueryArgument} to set.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
@@ -554,11 +693,14 @@ public class Utils
 	}
 
 	/**
-	 * <p>Sets the given prepared statement argument to the given string.
+	 * <p>Sets the given {@link PreparedStatement} {@link QueryArgument} to the
+	 * given {@link String}.
 	 *
-	 * @param preparedStatement the prepared statement to set.
-	 * @param queryArgument the argument to use to set the prepared statement.
-	 * @param index the index of the prepared statement argument to set.
+	 * @param preparedStatement the {@link PreparedStatement} to set.
+	 * @param queryArgument the {@link QueryArgument} to use to set the {@link
+	 * PreparedStatement}.
+	 * @param index the index of the {@link PreparedStatement} {@link
+	 * QueryArgument} to set.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
@@ -568,11 +710,14 @@ public class Utils
 	}
 
 	/**
-	 * <p>Sets the given prepared statement argument to the given bytes array.
+	 * <p>Sets the given {@link PreparedStatement} {@link QueryArgument} to the
+	 * given {@link Byte} array array.
 	 *
-	 * @param preparedStatement the prepared statement to set.
-	 * @param queryArgument the argument to use to set the prepared statement.
-	 * @param index the index of the prepared statement argument to set.
+	 * @param preparedStatement the {@link PreparedStatement} to set.
+	 * @param queryArgument the {@link QueryArgument} to use to set the {@link
+	 * PreparedStatement}.
+	 * @param index the index of the {@link PreparedStatement} {@link
+	 * QueryArgument} to set.
 	 *
 	 * @throws SQLException if the process was not successful.
 	 */
@@ -586,12 +731,12 @@ public class Utils
 	}
 
 	/**
-	 * <p>Uses SHA-512 to encrypt a string with the given salt.
+	 * <p>Uses SHA-512 to encrypt a {@link String} with the given salt.
 	 *
-	 * @param text the string to encrypt.
+	 * @param text the {@link String} to encrypt.
 	 * @param salt the salt to use.
 	 *
-	 * @return the encrypted string.
+	 * @return the encrypted {@link String}.
 	 *
 	 * @throws NoSuchAlgorithmException if the process was not successful.
 	 */
@@ -608,7 +753,7 @@ public class Utils
 	}
 
 	/**
-	 * <p>Generates a random salt made as a 16 bytes array.
+	 * <p>Generates a random salt made as a 16 {@link Byte} array.
 	 *
 	 * @return the generated salt.
 	 *
