@@ -25,7 +25,7 @@ public class CLIHandlerChooseRewardHarvest implements ICLIHandler
 
 	private void askServants()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Servants amount...");
+		Client.getLogger().log(Level.INFO, "\n\n\nEnter Servants amount...");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();

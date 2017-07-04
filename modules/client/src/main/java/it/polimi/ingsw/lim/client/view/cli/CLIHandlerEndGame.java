@@ -34,13 +34,16 @@ public class CLIHandlerEndGame implements ICLIHandler
 				winningScore = playerScore.getValue();
 			}
 		}
+		stringBuilder.append("\n\n\n");
 		if (winningPlayerIndex == GameStatus.getInstance().getOwnPlayerIndex()) {
 			stringBuilder.append("VICTORY");
 		} else {
 			stringBuilder.append("DEFEAT");
 		}
 		int index = 1;
+		stringBuilder.append('\n');
 		for (Entry<Integer, Integer> playerScore : GameStatus.getInstance().getPlayersScores().entrySet()) {
+			stringBuilder.append('\n');
 			stringBuilder.append(index);
 			stringBuilder.append(" - ");
 			stringBuilder.append(GameStatus.getInstance().getCurrentPlayersData().get(playerScore.getKey()).getUsername());
@@ -56,7 +59,7 @@ public class CLIHandlerEndGame implements ICLIHandler
 
 	private void askDisconnection()
 	{
-		Client.getLogger().log(Level.INFO, "Press ENTER to disconnect...");
+		Client.getLogger().log(Level.INFO, "\n\nPress ENTER to disconnect...");
 		Client.getInstance().getCliScanner().nextLine();
 		Client.getInstance().disconnect(false, true);
 	}

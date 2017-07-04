@@ -34,7 +34,7 @@ public class CLIHandlerShowOtherLeaderCards implements ICLIHandler
 	private void showOtherPlayers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Other Player...");
+		stringBuilder.append("\n\n\nEnter Other Player...");
 		int index = 1;
 		for (Entry<Integer, PlayerData> playerData : GameStatus.getInstance().getCurrentPlayersData().entrySet()) {
 			if (playerData.getKey() != GameStatus.getInstance().getOwnPlayerIndex()) {
@@ -58,7 +58,7 @@ public class CLIHandlerShowOtherLeaderCards implements ICLIHandler
 
 	private void askLeaderCardPosition()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Leader Cards ...");
+		Client.getLogger().log(Level.INFO, "\n\nEnter Leader Cards ...");
 		Client.getLogger().log(Level.INFO, "Leader Cards in hand: " + GameStatus.getInstance().getCurrentPlayersData().get(this.chosenOtherPlayer).getLeaderCardsInHandNumber());
 		Client.getLogger().log(Level.INFO, "1 - Played Leader Cards");
 		String input;
@@ -71,12 +71,12 @@ public class CLIHandlerShowOtherLeaderCards implements ICLIHandler
 	private void showLeaderCardsPlayed()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Played Leader Cards:");
+		stringBuilder.append("\nPlayed Leader Cards:");
 		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(this.chosenOtherPlayer).getLeaderCardsPlayed().entrySet()) {
-			stringBuilder.append("\n========\n");
+			stringBuilder.append("\n\n========\n");
 			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
 			if (!leaderCard.getValue()) {
-				Client.getLogger().log(Level.INFO, "\nThis card cannot be activated\n");
+				Client.getLogger().log(Level.INFO, "\n\nTHIS CARD CANNOT BE ACTIVATED\n");
 				Client.getLogger().log(Level.INFO, "====================================\n");
 			}
 		}

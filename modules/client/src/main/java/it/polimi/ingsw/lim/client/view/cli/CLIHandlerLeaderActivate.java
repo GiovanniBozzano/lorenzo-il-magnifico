@@ -32,7 +32,7 @@ public class CLIHandlerLeaderActivate implements ICLIHandler
 	private void showPlayedLeaderCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Leader Card...");
+		stringBuilder.append("\n\n\nEnter Leader Card...");
 		int index = 1;
 		for (int leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().keySet()) {
 			if (GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().get(leaderCard)) {

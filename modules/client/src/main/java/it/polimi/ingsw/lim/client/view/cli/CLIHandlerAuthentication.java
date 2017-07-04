@@ -47,19 +47,19 @@ public class CLIHandlerAuthentication implements ICLIHandler
 
 	private void askUsername()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Username...");
+		Client.getLogger().log(Level.INFO, "\n\n\nEnter Username...");
 		this.username = Client.getInstance().getCliScanner().nextLine();
 	}
 
 	private void askPassword()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Password...");
+		Client.getLogger().log(Level.INFO, "\n\nEnter Password...");
 		this.password = Client.getInstance().getCliScanner().nextLine();
 	}
 
 	private void askRoomType()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Room Type...");
+		Client.getLogger().log(Level.INFO, "\n\nEnter Room Type...");
 		Client.getLogger().log(Level.INFO, "1 - NORMAL");
 		Client.getLogger().log(Level.INFO, "2 - EXTENDED");
 		String input;
@@ -72,7 +72,7 @@ public class CLIHandlerAuthentication implements ICLIHandler
 
 	private void askAuthentication()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Authentication Type...");
+		Client.getLogger().log(Level.INFO, "\n\nEnter Authentication Type...");
 		Client.getLogger().log(Level.INFO, "1 - LOGIN");
 		Client.getLogger().log(Level.INFO, "2 - REGISTRATION");
 		String input;

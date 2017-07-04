@@ -37,9 +37,9 @@ public class CLIHandlerChooseRewardTemporaryModifier implements ICLIHandler
 	private void showFamilyMemberTypes()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Choose a Family Member...");
+		stringBuilder.append("\n\n\nEnter Family Member...");
 		for (Entry<Integer, FamilyMemberType> familyMemberType : CLIHandlerChooseRewardTemporaryModifier.FAMILY_MEMEBR_TYPES.entrySet()) {
-			stringBuilder.append('\n');
+			stringBuilder.append("\n\n");
 			stringBuilder.append(familyMemberType.getKey());
 			stringBuilder.append(" ");
 			stringBuilder.append(familyMemberType.getValue().name());

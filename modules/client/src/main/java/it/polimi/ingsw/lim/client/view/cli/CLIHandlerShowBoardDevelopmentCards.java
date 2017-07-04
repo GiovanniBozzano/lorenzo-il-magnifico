@@ -44,7 +44,7 @@ public class CLIHandlerShowBoardDevelopmentCards implements ICLIHandler
 	private void askDevelopmentCardsType()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Card Type...");
+		stringBuilder.append("\n\n\nEnter Card Type...");
 		for (Entry<Integer, CardType> cardType : CLIHandlerShowBoardDevelopmentCards.CARD_TYPE_CHOICE.entrySet()) {
 			stringBuilder.append(cardType.getKey());
 			stringBuilder.append(" - ");
@@ -63,7 +63,7 @@ public class CLIHandlerShowBoardDevelopmentCards implements ICLIHandler
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		for (Entry<Row, Integer> developmentCardInteger : GameStatus.getInstance().getCurrentDevelopmentCards().get(cardType).entrySet()) {
-			stringBuilder.append("ROW: ");
+			stringBuilder.append("\n\n\nROW: ");
 			stringBuilder.append(developmentCardInteger.getKey().name());
 			stringBuilder.append('\n');
 			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(cardType).get(developmentCardInteger.getValue()).getInformations());

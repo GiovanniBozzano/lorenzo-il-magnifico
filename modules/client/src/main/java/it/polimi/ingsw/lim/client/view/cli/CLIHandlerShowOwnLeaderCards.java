@@ -39,7 +39,7 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 
 	private void askLeaderCardPosition()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Leader Cards ...");
+		Client.getLogger().log(Level.INFO, "\n\n\nEnter Leader Cards ...");
 		Client.getLogger().log(Level.INFO, "1 - Leader Cards in your hand");
 		Client.getLogger().log(Level.INFO, "2 - Played Leader Cards");
 		String input;
@@ -53,13 +53,13 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 	private static void showLeaderCardsHand()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Leader Cards in hand:");
+		stringBuilder.append("\nLeader Cards in hand:");
 		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().entrySet()) {
-			stringBuilder.append("\n========\n");
+			stringBuilder.append("\n\n========\n");
 			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
 			if (!leaderCard.getValue()) {
-				Client.getLogger().log(Level.INFO, "\nThis card cannot be played\n");
-				Client.getLogger().log(Level.INFO, "=================================\n");
+				stringBuilder.append("\n\nTHIS CARD CANNOT BE PLAYED\n");
+				stringBuilder.append("=================================\n");
 			}
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
@@ -70,11 +70,11 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Played Leader Cards:");
 		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().entrySet()) {
-			stringBuilder.append("\n========\n");
+			stringBuilder.append("\n\n========\n");
 			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
 			if (!leaderCard.getValue()) {
-				Client.getLogger().log(Level.INFO, "\nThis card cannot be activated\n");
-				Client.getLogger().log(Level.INFO, "====================================\n");
+				stringBuilder.append("\n\nTHIS CARD CANNOT BE ACTIVATED\n");
+				stringBuilder.append("====================================\n");
 			}
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });

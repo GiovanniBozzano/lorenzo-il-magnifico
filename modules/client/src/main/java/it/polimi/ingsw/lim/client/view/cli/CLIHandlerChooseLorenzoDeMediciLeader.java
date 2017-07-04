@@ -33,7 +33,7 @@ public class CLIHandlerChooseLorenzoDeMediciLeader implements ICLIHandler
 	private void showLeaderCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Choose a Leader Card:");
+		stringBuilder.append("\n\n\nEnter Leader Card:");
 		int index = 1;
 		for (List<Integer> availableLeaderCards : ((ExpectedActionChooseLorenzoDeMediciLeader) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableLeaderCards().values()) {
 			for (int availableLeaderCard : availableLeaderCards) {

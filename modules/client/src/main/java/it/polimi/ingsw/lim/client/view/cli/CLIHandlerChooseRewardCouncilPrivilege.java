@@ -18,7 +18,7 @@ import java.util.logging.Level;
 
 public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 {
-	private final Map<Integer, Integer> councilPrivilegeRewards = new HashMap<>();
+	private final Map<Integer, Integer> availableCouncilPrivilegeRewards = new HashMap<>();
 	private final List<Integer> chosenCouncilPrivilegeRewards = new ArrayList<>();
 
 	@Override
@@ -37,12 +37,12 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 	private void showResourceChoices()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Choose Council Privilege rewards...\n");
+		stringBuilder.append("\n\n\nEnter Council Privilege rewards...");
 		int index = 1;
 		for (Entry<Integer, List<ResourceAmount>> councilPrivilegeReward : GameStatus.getInstance().getCurrentCouncilPrivilegeRewards().entrySet()) {
-			if (!this.councilPrivilegeRewards.containsValue(councilPrivilegeReward.getKey())) {
+			if (!this.availableCouncilPrivilegeRewards.containsValue(councilPrivilegeReward.getKey())) {
 				stringBuilder.append(Utils.createListElement(index, ResourceAmount.getResourcesInformations(councilPrivilegeReward.getValue(), false)));
-				this.councilPrivilegeRewards.put(index, councilPrivilegeReward.getKey());
+				this.availableCouncilPrivilegeRewards.put(index, councilPrivilegeReward.getKey());
 				index++;
 			}
 		}
@@ -57,9 +57,9 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 			do {
 				input = Client.getInstance().getCliScanner().nextLine();
 			}
-			while (!CommonUtils.isInteger(input) || !this.councilPrivilegeRewards.containsKey(Integer.parseInt(input)));
+			while (!CommonUtils.isInteger(input) || !this.availableCouncilPrivilegeRewards.containsKey(Integer.parseInt(input)));
 			this.chosenCouncilPrivilegeRewards.add(Integer.parseInt(input));
-			this.chosenCouncilPrivilegeRewards.remove(Integer.parseInt(input));
+			this.availableCouncilPrivilegeRewards.remove(Integer.parseInt(input));
 			Client.getLogger().log(Level.INFO, "{0} registered", new Object[] { CommonUtils.isInteger(input) });
 			index++;
 		}

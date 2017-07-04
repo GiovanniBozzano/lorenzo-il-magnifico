@@ -19,9 +19,10 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 	private static final Map<CLIStatus, String> ACTION_NAMES = new EnumMap<>(CLIStatus.class);
 
 	static {
-		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_BOARD_DEVELOPMENT_CARDS, "Show Development Cards");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_BOARD_DEVELOPMENT_CARDS, "Show Board Development Cards");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_OWN_BOARD, "Show Own Board");
 		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_OWN_LEADER_CARDS, "Show Own Leader Cards");
-		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_OWN_LEADER_CARDS, "Show Other Leader Cards");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_OTHER_LEADER_CARDS, "Show Other Leader Cards");
 		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.COUNCIL_PALACE, "Council Palace");
 		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.HARVEST, "Harvest");
 		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.MARKET, "Market");
@@ -38,7 +39,9 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 	public void execute()
 	{
 		this.availableActions.put(1, CLIStatus.SHOW_BOARD_DEVELOPMENT_CARDS);
-		this.availableActions.put(2, CLIStatus.SHOW_OWN_LEADER_CARDS);
+		this.availableActions.put(2, CLIStatus.SHOW_OWN_BOARD);
+		this.availableActions.put(3, CLIStatus.SHOW_OWN_LEADER_CARDS);
+		this.availableActions.put(4, CLIStatus.SHOW_OTHER_LEADER_CARDS);
 		this.showAvailableActions();
 		this.askAction();
 	}
@@ -52,7 +55,7 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 	private void showAvailableActions()
 	{
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE).isEmpty()) {
-			this.availableActions.put(3, CLIStatus.COUNCIL_PALACE);
+			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.COUNCIL_PALACE);
 		}
 		if (!GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST).isEmpty()) {
 			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.HARVEST);
@@ -76,7 +79,7 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.LEADER_PLAY);
 		}
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Action...");
+		stringBuilder.append("\n\n\nEnter Action...");
 		for (Entry<Integer, CLIStatus> availableAction : this.availableActions.entrySet()) {
 			stringBuilder.append(Utils.createListElement(availableAction.getKey(), CLIHandlerAvailableActions.ACTION_NAMES.get(availableAction.getValue())));
 		}

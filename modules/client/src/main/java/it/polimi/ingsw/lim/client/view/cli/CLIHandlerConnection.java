@@ -37,7 +37,7 @@ public class CLIHandlerConnection implements ICLIHandler
 
 	private void askConnectionType()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Connection Type...");
+		Client.getLogger().log(Level.INFO, "\n\n\nEnter Connection Type...");
 		Client.getLogger().log(Level.INFO, "1 - RMI");
 		Client.getLogger().log(Level.INFO, "2 - Socket");
 		String input;
@@ -50,13 +50,13 @@ public class CLIHandlerConnection implements ICLIHandler
 
 	private void askIPAddress()
 	{
-		Client.getLogger().log(Level.INFO, "Enter IP Address...");
+		Client.getLogger().log(Level.INFO, "\n\nEnter IP Address...");
 		this.ip = Client.getInstance().getCliScanner().nextLine();
 	}
 
 	private void askPort()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Port [default {0}]...", new Object[] { this.connectionType == ConnectionType.RMI ? "8080" : "8081" });
+		Client.getLogger().log(Level.INFO, "\n\nEnter Port [default {0}]...", new Object[] { this.connectionType == ConnectionType.RMI ? "8080" : "8081" });
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();

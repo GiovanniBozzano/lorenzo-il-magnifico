@@ -134,7 +134,7 @@ public class Utils
 
 	public static String createListElement(int index, String text)
 	{
-		return "\n=== " + index + " ========\n" + text;
+		return "\n\n=== " + index + " ========\n" + text;
 	}
 
 	public static void resizeChildrenNode(Pane pane, double widthRatio, double heightRatio)

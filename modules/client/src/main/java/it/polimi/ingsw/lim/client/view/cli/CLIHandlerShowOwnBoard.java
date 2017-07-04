@@ -53,7 +53,7 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 
 	private void askInformations()
 	{
-		Client.getLogger().log(Level.INFO, "Enter what you want to see...");
+		Client.getLogger().log(Level.INFO, "\n\n\nEnter what you want to see...");
 		Client.getLogger().log(Level.INFO, "1 - Own Family Members' Positions");
 		Client.getLogger().log(Level.INFO, "2 - Own Resources");
 		Client.getLogger().log(Level.INFO, "2 - Own Development Cards");
@@ -68,7 +68,7 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 	private static void showFamilyMemberTypes()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Family Members:");
+		stringBuilder.append("\n\nFamily Members:");
 		for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPosition : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getFamilyMembersPositions().entrySet()) {
 			stringBuilder.append('\n');
 			stringBuilder.append(familyMemberTypeBoardPosition.getKey().name());
@@ -81,7 +81,7 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 	private static void showResources()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Resources:");
+		stringBuilder.append("\n\nResources:");
 		for (Entry<ResourceType, Integer> resourceTypeAmount : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().entrySet()) {
 			stringBuilder.append('\n');
 			stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceTypeAmount.getKey()));
@@ -94,8 +94,9 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 	private static void showDevelopmentCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Card Type...");
+		stringBuilder.append("\n\nEnter Card Type...");
 		for (Entry<Integer, CardType> cardType : CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.entrySet()) {
+			stringBuilder.append('\n');
 			stringBuilder.append(cardType.getKey());
 			stringBuilder.append(" - ");
 			stringBuilder.append(CommonUtils.getCardTypesNames().get(cardType.getValue()));
@@ -107,10 +108,11 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.containsKey(Integer.parseInt(input)));
 		stringBuilder = new StringBuilder();
+		stringBuilder.append("\n\n");
 		stringBuilder.append(CommonUtils.getCardTypesNames().get(CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input))));
 		stringBuilder.append(" cards:");
 		for (int value : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getDevelopmentCards().get(CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input)))) {
-			stringBuilder.append("\n========\n");
+			stringBuilder.append("\n\n========\n");
 			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input))).get(value).getInformations());
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });

@@ -231,7 +231,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleAuthenticationSuccess(AuthenticationInformations authenticationInformations)
 	{
-		Client.getLogger().log(Level.INFO, "Waiting for other players...");
+		Client.getLogger().log(Level.INFO, "\n\nWaiting for other players...");
 	}
 
 	@Override

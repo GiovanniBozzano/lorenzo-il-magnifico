@@ -39,7 +39,7 @@ public class CLIHandlerCouncilPalace implements ICLIHandler
 	private void showFamilyMembers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Family Member Choice...");
+		stringBuilder.append("\n\n\nEnter Family Member Choice...");
 		int index = 1;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.COUNCIL_PALACE)) {
 			if (!this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
@@ -63,7 +63,7 @@ public class CLIHandlerCouncilPalace implements ICLIHandler
 
 	private void askServants()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Servant Amount...");
+		Client.getLogger().log(Level.INFO, "\n\nEnter Servant Amount...");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();

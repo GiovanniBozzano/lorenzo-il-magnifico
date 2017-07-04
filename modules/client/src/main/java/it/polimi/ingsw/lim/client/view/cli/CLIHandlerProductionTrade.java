@@ -43,7 +43,7 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 	private void showAvailableTradeCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Select Trade Cards...");
+		stringBuilder.append("\n\n\nSelect Trade Cards...");
 		int index = 1;
 		for (int availableTradeCard : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().keySet()) {
 			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getDevelopmentCardsBuilding().get(availableTradeCard).getInformations()));
@@ -55,7 +55,7 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 
 	private void askTradeCards()
 	{
-		Client.getLogger().log(Level.INFO, "\nTYPE Q TO END THE SELECTION");
+		Client.getLogger().log(Level.INFO, "\n\nTYPE Q TO END THE SELECTION");
 		String input;
 		do {
 			do {
@@ -74,10 +74,10 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 	{
 		Map<Integer, ResourceTradeOption> availableResourceTradeOptions = new HashMap<>();
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Resource Trade Option...");
+		stringBuilder.append("\n\nEnter Resource Trade Option...");
 		int index = 1;
 		for (ResourceTradeOption resourceTradeOption : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().get(chosenTradeCard)) {
-			stringBuilder.append(Utils.createListElement(index, resourceTradeOption.getInformations(false)));
+			stringBuilder.append(Utils.createListElement(index, resourceTradeOption.getInformations(true)));
 			availableResourceTradeOptions.put(index, resourceTradeOption);
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });

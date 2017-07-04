@@ -31,7 +31,7 @@ public class CLIHandlerExcommunicationChoice implements ICLIHandler
 
 	private void askExcommunicationChoice()
 	{
-		Client.getLogger().log(Level.INFO, "Enter your choice...");
+		Client.getLogger().log(Level.INFO, "\n\n\nEnter Excommunication choice...");
 		Client.getLogger().log(Level.INFO, "1 - Do not praise the SUN...");
 		Client.getLogger().log(Level.INFO, "2 - Praise the SUN...");
 		String input;

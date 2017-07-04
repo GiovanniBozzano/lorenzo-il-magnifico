@@ -32,7 +32,7 @@ public class CLIHandlerLeaderPlay implements ICLIHandler
 	private void showHandLeaderCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Leader Card...");
+		stringBuilder.append("\n\n\nEnter Leader Card...");
 		int index = 1;
 		for (int leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
 			if (GameStatus.getInstance().getCurrentOwnLeaderCardsHand().get(leaderCard)) {

@@ -39,7 +39,7 @@ public class CLIHandlerProductionStart implements ICLIHandler
 	private void showFamilyMembers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Family Member...");
+		stringBuilder.append("\n\n\nEnter Family Member...");
 		int index = 0;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PRODUCTION_START)) {
 			if (!this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
@@ -63,7 +63,7 @@ public class CLIHandlerProductionStart implements ICLIHandler
 
 	private void askServants()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Servants amount...");
+		Client.getLogger().log(Level.INFO, "\n\nEnter Servants amount...");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();

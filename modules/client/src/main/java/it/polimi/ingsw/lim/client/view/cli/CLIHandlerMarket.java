@@ -45,14 +45,11 @@ public class CLIHandlerMarket implements ICLIHandler
 	private void showMarketSlots()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Market Slot...");
+		stringBuilder.append("\n\n\nEnter Market Slot...");
 		int index = 1;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
 			if (!this.marketSlots.containsValue(((AvailableActionMarket) availableAction).getMarketSlot())) {
-				stringBuilder.append('\n');
-				stringBuilder.append(index);
-				stringBuilder.append(" ========");
-				stringBuilder.append(((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
+				stringBuilder.append(Utils.createListElement(index, ((AvailableActionMarket) availableAction).getMarketSlot().name()));
 				this.marketSlots.put(index, ((AvailableActionMarket) availableAction).getMarketSlot());
 				index++;
 			}
@@ -73,7 +70,7 @@ public class CLIHandlerMarket implements ICLIHandler
 	private void showFamilyMembers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Family Member...");
+		stringBuilder.append("\n\nEnter Family Member...");
 		int index = 1;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
 			if (this.marketSlots.get(this.marketSlot) == ((AvailableActionMarket) availableAction).getMarketSlot() && !this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
@@ -87,7 +84,6 @@ public class CLIHandlerMarket implements ICLIHandler
 
 	private void askFamilyMember()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Family Member Choice...");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
@@ -98,7 +94,7 @@ public class CLIHandlerMarket implements ICLIHandler
 
 	private void askServants()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Servants amount...");
+		Client.getLogger().log(Level.INFO, "\n\nEnter Servants amount...");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
