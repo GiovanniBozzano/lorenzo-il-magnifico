@@ -3,7 +3,9 @@ package it.polimi.ingsw.lim.common.enums;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Map;
-
+/**
+ * <p>This class is used to represent the type of board position
+ */
 public enum BoardPosition
 {
 	NONE,

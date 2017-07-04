@@ -36,6 +36,11 @@ public class CLIHandlerHarvest implements ICLIHandler
 		return new CLIHandlerHarvest();
 	}
 
+	/**
+	 * <p>Uses current available actions of the player to insert in the map
+	 * (@familyMemberTypes) the available family members to perform the action
+	 * (@HARVEST) and print them and the corresponding choosing index on screen.
+	 */
 	private void showFamilyMembers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -51,6 +56,10 @@ public class CLIHandlerHarvest implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Asks which family member the player wants to use to perform the action
+	 * and save it in (@familyMemberType).
+	 */
 	private void askFamilyMember()
 	{
 		String input;
@@ -61,6 +70,11 @@ public class CLIHandlerHarvest implements ICLIHandler
 		this.familyMemberType = this.familyMemberTypes.get(Integer.parseInt(input));
 	}
 
+	/**
+	 * <p>Asks how many servants the player wants to use to increase the action
+	 * value and send the new (@GameAction) with the new(@ActionInformationHarvest)
+	 * with the chosen (@familyMemberType) and the decided amount of servants.
+	 */
 	private void askServants()
 	{
 		Client.getLogger().log(Level.INFO, "\n\nEnter Servants amount...");

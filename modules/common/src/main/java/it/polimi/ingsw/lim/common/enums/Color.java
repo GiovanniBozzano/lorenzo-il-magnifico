@@ -1,5 +1,8 @@
 package it.polimi.ingsw.lim.common.enums;
 
+/**
+ * <p>This class is used to represent the color of the player
+ */
 public enum Color
 {
 	BLUE("#116DB5"),

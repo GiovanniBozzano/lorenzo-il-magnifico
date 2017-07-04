@@ -1,5 +1,9 @@
 package it.polimi.ingsw.lim.common.enums;
 
+/**
+ * <p>This class is used to represent the type of room, with a number of players
+ * and the corresponding string
+ */
 public enum RoomType
 {
 	NORMAL(4, "Normal"),
