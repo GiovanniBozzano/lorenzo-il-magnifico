@@ -37,6 +37,7 @@ public class Client extends Instance
 		Client.CLI_HANDLERS.put(CLIStatus.PICK_DEVELOPMENT_CARD, new CLIHandlerPickDevelopmentCard());
 		Client.CLI_HANDLERS.put(CLIStatus.PRODUCTION_START, new CLIHandlerProductionStart());
 		Client.CLI_HANDLERS.put(CLIStatus.SHOW_BOARD_DEVELOPMENT_CARDS, new CLIHandlerShowBoardDevelopmentCards());
+		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OTHER_BOARD, new CLIHandlerShowOtherBoard());
 		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OTHER_LEADER_CARDS, new CLIHandlerShowOtherLeaderCards());
 		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OWN_BOARD, new CLIHandlerShowOwnBoard());
 		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OWN_LEADER_CARDS, new CLIHandlerShowOwnLeaderCards());

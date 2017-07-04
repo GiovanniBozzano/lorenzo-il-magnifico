@@ -6,6 +6,7 @@ import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
+import it.polimi.ingsw.lim.common.cli.IInputHandler;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
@@ -20,14 +21,12 @@ import java.util.logging.Level;
 
 public class CLIHandlerShowOtherBoard implements ICLIHandler
 {
-	private final Map<Integer, Integer> availableOtherPlayers = new HashMap<>();
-	private static int CHOSEN_OTHER_PLAYER;
-	private static final Map<Integer, Runnable> PLAYER_INFORMATION = new HashMap<>();
+	private static final Map<Integer, IInputHandler> PLAYER_INFORMATION = new HashMap<>();
 
 	static {
-		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.put(1, CLIHandlerShowOtherBoard::showFamilyMemberTypes);
-		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.put(2, CLIHandlerShowOtherBoard::showResources);
-		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.put(3, CLIHandlerShowOtherBoard::showDevelopmentCards);
+		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.put(1, cliHandler -> ((CLIHandlerShowOtherBoard) cliHandler).showFamilyMemberTypes());
+		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.put(2, cliHandler -> ((CLIHandlerShowOtherBoard) cliHandler).showResources());
+		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.put(3, cliHandler -> ((CLIHandlerShowOtherBoard) cliHandler).showDevelopmentCards());
 	}
 
 	private static final Map<Integer, CardType> CARD_TYPE_CHOICE = new HashMap<>();
@@ -38,6 +37,9 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 		CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.put(3, CardType.TERRITORY);
 		CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.put(4, CardType.VENTURE);
 	}
+
+	private final Map<Integer, Integer> availableOtherPlayers = new HashMap<>();
+	private int chosenOtherPlayer;
 
 	@Override
 	public void execute()
@@ -52,9 +54,9 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 	}
 
 	@Override
-	public it.polimi.ingsw.lim.client.view.cli.CLIHandlerShowOtherBoard newInstance()
+	public CLIHandlerShowOtherBoard newInstance()
 	{
-		return new it.polimi.ingsw.lim.client.view.cli.CLIHandlerShowOtherBoard();
+		return new CLIHandlerShowOtherBoard();
 	}
 
 	private void showOtherPlayers()
@@ -79,7 +81,7 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || !this.availableOtherPlayers.containsKey(Integer.parseInt(input)));
-		CLIHandlerShowOtherBoard.CHOSEN_OTHER_PLAYER = this.availableOtherPlayers.get(Integer.parseInt(input));
+		this.chosenOtherPlayer = this.availableOtherPlayers.get(Integer.parseInt(input));
 	}
 
 	private void askInformation()
@@ -93,36 +95,36 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOtherBoard.PLAYER_INFORMATION.containsKey(Integer.parseInt(input)));
-		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.get(Integer.parseInt(input)).run();
+		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.get(Integer.parseInt(input)).execute(this);
 	}
 
-	private static void showFamilyMemberTypes()
+	private void showFamilyMemberTypes()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\nFamily Members:");
-		for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPosition : GameStatus.getInstance().getCurrentPlayersData().get(CLIHandlerShowOtherBoard.CHOSEN_OTHER_PLAYER).getFamilyMembersPositions().entrySet()) {
+		for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPosition : GameStatus.getInstance().getCurrentPlayersData().get(this.chosenOtherPlayer).getFamilyMembersPositions().entrySet()) {
 			stringBuilder.append('\n');
 			stringBuilder.append(familyMemberTypeBoardPosition.getKey().name());
-			stringBuilder.append(" ===");
+			stringBuilder.append(" === ");
 			stringBuilder.append(familyMemberTypeBoardPosition.getValue().name());
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
-	private static void showResources()
+	private void showResources()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\nResources:");
-		for (Entry<ResourceType, Integer> resourceTypeAmount : GameStatus.getInstance().getCurrentPlayersData().get(CLIHandlerShowOtherBoard.CHOSEN_OTHER_PLAYER).getResourceAmounts().entrySet()) {
+		for (Entry<ResourceType, Integer> resourceTypeAmount : GameStatus.getInstance().getCurrentPlayersData().get(this.chosenOtherPlayer).getResourceAmounts().entrySet()) {
 			stringBuilder.append('\n');
 			stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceTypeAmount.getKey()));
-			stringBuilder.append(" ===");
+			stringBuilder.append(" === ");
 			stringBuilder.append(resourceTypeAmount.getValue());
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
-	private static void showDevelopmentCards()
+	private void showDevelopmentCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\nEnter Card Type...");
@@ -142,7 +144,7 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 		stringBuilder.append("\n\n");
 		stringBuilder.append(CommonUtils.getCardTypesNames().get(CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input))));
 		stringBuilder.append(" cards:");
-		for (int value : GameStatus.getInstance().getCurrentPlayersData().get(CLIHandlerShowOtherBoard.CHOSEN_OTHER_PLAYER).getDevelopmentCards().get(CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input)))) {
+		for (int value : GameStatus.getInstance().getCurrentPlayersData().get(this.chosenOtherPlayer).getDevelopmentCards().get(CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input)))) {
 			stringBuilder.append("\n\n========\n");
 			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input))).get(value).getInformation());
 		}

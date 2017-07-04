@@ -72,7 +72,7 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPosition : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getFamilyMembersPositions().entrySet()) {
 			stringBuilder.append('\n');
 			stringBuilder.append(familyMemberTypeBoardPosition.getKey().name());
-			stringBuilder.append(" ===");
+			stringBuilder.append(" === ");
 			stringBuilder.append(familyMemberTypeBoardPosition.getValue().name());
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
@@ -85,7 +85,7 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		for (Entry<ResourceType, Integer> resourceTypeAmount : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().entrySet()) {
 			stringBuilder.append('\n');
 			stringBuilder.append(CommonUtils.getResourcesTypesNames().get(resourceTypeAmount.getKey()));
-			stringBuilder.append(" ===");
+			stringBuilder.append(" === ");
 			stringBuilder.append(resourceTypeAmount.getValue());
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
