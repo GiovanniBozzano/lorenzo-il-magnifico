@@ -56,7 +56,7 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter what you want to see...");
 		Client.getLogger().log(Level.INFO, "1 - Own Family Members' Positions");
 		Client.getLogger().log(Level.INFO, "2 - Own Resources");
-		Client.getLogger().log(Level.INFO, "2 - Own Development Cards");
+		Client.getLogger().log(Level.INFO, "3 - Own Development Cards");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
