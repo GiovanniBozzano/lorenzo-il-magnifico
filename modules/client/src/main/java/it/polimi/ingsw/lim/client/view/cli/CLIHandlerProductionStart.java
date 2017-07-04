@@ -20,7 +20,7 @@ import java.util.logging.Level;
 public class CLIHandlerProductionStart implements ICLIHandler
 {
 	private final Map<Integer, FamilyMemberType> familyMemberTypes = new HashMap<>();
-	private int familyMemberValue;
+	private FamilyMemberType familyMemberType;
 
 	@Override
 	public void execute()
@@ -36,6 +36,12 @@ public class CLIHandlerProductionStart implements ICLIHandler
 		return new CLIHandlerProductionStart();
 	}
 
+	/**
+	 * <p>Uses current available actions of the player to insert in a {@link
+	 * Integer} {@link FamilyMemberType} {@link Map} the available family
+	 * members to perform an {@link ActionInformationProductionStart} and prints
+	 * them and the corresponding choosing indexes on screen.
+	 */
 	private void showFamilyMembers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -51,6 +57,10 @@ public class CLIHandlerProductionStart implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Asks which {@link FamilyMemberType} the player wants to use to perform
+	 * the action and saves it.
+	 */
 	private void askFamilyMember()
 	{
 		String input;
@@ -58,9 +68,14 @@ public class CLIHandlerProductionStart implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || !this.familyMemberTypes.containsKey(Integer.parseInt(input)));
-		this.familyMemberValue = Integer.parseInt(input);
+		this.familyMemberType = this.familyMemberTypes.get(Integer.parseInt(input));
 	}
 
+	/**
+	 * <p>Asks how many servants the player wants to use to increase the action
+	 * value and sends the new {@link ActionInformationProductionStart} with the
+	 * chosen values.
+	 */
 	private void askServants()
 	{
 		Client.getLogger().log(Level.INFO, "\n\nEnter Servants amount...");
@@ -70,6 +85,6 @@ public class CLIHandlerProductionStart implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationProductionStart(this.familyMemberTypes.get(this.familyMemberValue), Integer.parseInt(input)));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationProductionStart(this.familyMemberType, Integer.parseInt(input)));
 	}
 }

@@ -73,7 +73,7 @@ public class CLIHandlerHarvest implements ICLIHandler
 
 	/**
 	 * <p>Asks how many servants the player wants to use to increase the action
-	 * value and send the new {@link ActionInformationHarvest} with the chosen
+	 * value and sends the new {@link ActionInformationHarvest} with the chosen
 	 * values.
 	 */
 	private void askServants()
