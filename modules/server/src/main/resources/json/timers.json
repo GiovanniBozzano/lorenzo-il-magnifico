@@ -1,6 +1,6 @@
 {
-	"roomTimer": 5,
-	"extendedRoomTimer": 5,
+	"roomTimer": 60,
+	"extendedRoomTimer": 60,
 	"personalBonusTileChoiceTimer": 60,
 	"leaderCardsChoiceTimer": 60,
 	"excommunicationChoiceTimer": 60,
