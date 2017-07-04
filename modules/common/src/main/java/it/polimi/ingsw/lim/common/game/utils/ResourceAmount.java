@@ -50,12 +50,12 @@ public class ResourceAmount implements Serializable
 		this.amount = amount <= 0 ? 0 : amount;
 	}
 
-	String getInformations()
+	String getInformation()
 	{
 		return "- " + CommonUtils.getResourcesTypesNames().get(this.resourceType) + ": " + this.amount;
 	}
 
-	public static String getResourcesInformations(List<ResourceAmount> resourceAmounts, boolean indented)
+	public static String getResourcesInformation(List<ResourceAmount> resourceAmounts, boolean indented)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		boolean firstLine = true;
@@ -68,7 +68,7 @@ public class ResourceAmount implements Serializable
 			if (indented) {
 				stringBuilder.append("    ");
 			}
-			stringBuilder.append(resourceAmount.getInformations());
+			stringBuilder.append(resourceAmount.getInformation());
 		}
 		return stringBuilder.toString();
 	}

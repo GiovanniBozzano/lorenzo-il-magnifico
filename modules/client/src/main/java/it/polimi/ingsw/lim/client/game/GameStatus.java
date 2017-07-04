@@ -2,12 +2,12 @@ package it.polimi.ingsw.lim.client.game;
 
 import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.common.enums.*;
-import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.GameInformation;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
-import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
-import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
+import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformation;
+import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformation;
 import it.polimi.ingsw.lim.common.game.cards.*;
-import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.player.PlayerInformation;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 
 import java.io.Serializable;
@@ -17,14 +17,14 @@ import java.util.Map.Entry;
 public class GameStatus
 {
 	private static final GameStatus INSTANCE = new GameStatus();
-	private final Map<Integer, DevelopmentCardInformations> developmentCardsBuilding = new HashMap<>();
-	private final Map<Integer, DevelopmentCardInformations> developmentCardsCharacter = new HashMap<>();
-	private final Map<Integer, DevelopmentCardInformations> developmentCardsTerritory = new HashMap<>();
-	private final Map<Integer, DevelopmentCardInformations> developmentCardsVenture = new HashMap<>();
-	private final Map<CardType, Map<Integer, DevelopmentCardInformations>> developmentCards = new EnumMap<>(CardType.class);
-	private final Map<Integer, LeaderCardInformations> leaderCards = new HashMap<>();
-	private final Map<Integer, ExcommunicationTileInformations> excommunicationTiles = new HashMap<>();
-	private final Map<Integer, PersonalBonusTileInformations> personalBonusTiles = new HashMap<>();
+	private final Map<Integer, DevelopmentCardInformation> developmentCardsBuilding = new HashMap<>();
+	private final Map<Integer, DevelopmentCardInformation> developmentCardsCharacter = new HashMap<>();
+	private final Map<Integer, DevelopmentCardInformation> developmentCardsTerritory = new HashMap<>();
+	private final Map<Integer, DevelopmentCardInformation> developmentCardsVenture = new HashMap<>();
+	private final Map<CardType, Map<Integer, DevelopmentCardInformation>> developmentCards = new EnumMap<>(CardType.class);
+	private final Map<Integer, LeaderCardInformation> leaderCards = new HashMap<>();
+	private final Map<Integer, ExcommunicationTileInformation> excommunicationTiles = new HashMap<>();
+	private final Map<Integer, PersonalBonusTileInformation> personalBonusTiles = new HashMap<>();
 	private final Map<Period, Integer> currentExcommunicationTiles = new EnumMap<>(Period.class);
 	private final Map<Integer, List<ResourceAmount>> currentCouncilPrivilegeRewards = new HashMap<>();
 	private final Map<Integer, PlayerData> currentPlayerData = new HashMap<>();
@@ -60,7 +60,7 @@ public class GameStatus
 		this.currentDevelopmentCards.put(CardType.VENTURE, this.currentDevelopmentCardsVenture);
 	}
 
-	public void setup(Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuilding, Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacter, Map<Integer, DevelopmentCardTerritoryInformations> developmentCardsTerritory, Map<Integer, DevelopmentCardVentureInformations> developmentCardsVenture, Map<Integer, LeaderCardInformations> leaderCards, Map<Integer, ExcommunicationTileInformations> excommunicationTiles, Map<Integer, PersonalBonusTileInformations> personalBonusTiles)
+	public void setup(Map<Integer, DevelopmentCardBuildingInformation> developmentCardsBuilding, Map<Integer, DevelopmentCardCharacterInformation> developmentCardsCharacter, Map<Integer, DevelopmentCardTerritoryInformation> developmentCardsTerritory, Map<Integer, DevelopmentCardVentureInformation> developmentCardsVenture, Map<Integer, LeaderCardInformation> leaderCards, Map<Integer, ExcommunicationTileInformation> excommunicationTiles, Map<Integer, PersonalBonusTileInformation> personalBonusTiles)
 	{
 		this.developmentCardsBuilding.clear();
 		this.developmentCardsBuilding.putAll(developmentCardsBuilding);
@@ -78,28 +78,28 @@ public class GameStatus
 		this.personalBonusTiles.putAll(personalBonusTiles);
 	}
 
-	public void updateGameStatus(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand)
+	public void updateGameStatus(GameInformation gameInformation, List<PlayerInformation> playersInformation, Map<Integer, Boolean> ownLeaderCardsHand)
 	{
-		this.setCurrentDevelopmentCardsBuilding(gameInformations.getDevelopmentCardsBuilding());
-		this.setCurrentDevelopmentCardsCharacter(gameInformations.getDevelopmentCardsCharacter());
-		this.setCurrentDevelopmentCardsTerritory(gameInformations.getDevelopmentCardsTerritory());
-		this.setCurrentDevelopmentCardsVenture(gameInformations.getDevelopmentCardsVenture());
-		this.setCurrentDices(gameInformations.getDices());
-		this.setCurrentTurnOrder(gameInformations.getTurnOrder());
-		this.setCurrentCouncilPalaceOrder(gameInformations.getCouncilPalaceOrder());
-		this.setCurrentExcommunicatedPlayers(gameInformations.getExcommunicatedPlayers());
+		this.setCurrentDevelopmentCardsBuilding(gameInformation.getDevelopmentCardsBuilding());
+		this.setCurrentDevelopmentCardsCharacter(gameInformation.getDevelopmentCardsCharacter());
+		this.setCurrentDevelopmentCardsTerritory(gameInformation.getDevelopmentCardsTerritory());
+		this.setCurrentDevelopmentCardsVenture(gameInformation.getDevelopmentCardsVenture());
+		this.setCurrentDices(gameInformation.getDices());
+		this.setCurrentTurnOrder(gameInformation.getTurnOrder());
+		this.setCurrentCouncilPalaceOrder(gameInformation.getCouncilPalaceOrder());
+		this.setCurrentExcommunicatedPlayers(gameInformation.getExcommunicatedPlayers());
 		this.setCurrentOwnLeaderCardsHand(ownLeaderCardsHand);
-		for (PlayerInformations playerInformations : playersInformations) {
-			if (this.currentPlayerData.get(playerInformations.getIndex()) != null) {
-				this.currentPlayerData.get(playerInformations.getIndex()).setPersonalBonusTile(playerInformations.getPersonalBonusTile());
-				this.currentPlayerData.get(playerInformations.getIndex()).setDevelopmentCardsBuilding(playerInformations.getDevelopmentCardsBuilding());
-				this.currentPlayerData.get(playerInformations.getIndex()).setDevelopmentCardsCharacter(playerInformations.getDevelopmentCardsCharacter());
-				this.currentPlayerData.get(playerInformations.getIndex()).setDevelopmentCardsTerritory(playerInformations.getDevelopmentCardsTerritory());
-				this.currentPlayerData.get(playerInformations.getIndex()).setDevelopmentCardsVenture(playerInformations.getDevelopmentCardsVenture());
-				this.currentPlayerData.get(playerInformations.getIndex()).setLeaderCardsPlayed(playerInformations.getLeaderCardsPlayed());
-				this.currentPlayerData.get(playerInformations.getIndex()).setLeaderCardsInHandNumber(playerInformations.getLeaderCardsInHandNumber());
-				this.currentPlayerData.get(playerInformations.getIndex()).setResourceAmounts(playerInformations.getResourceAmounts());
-				this.currentPlayerData.get(playerInformations.getIndex()).setFamilyMembersPositions(playerInformations.getFamilyMembersPositions());
+		for (PlayerInformation playerInformation : playersInformation) {
+			if (this.currentPlayerData.get(playerInformation.getIndex()) != null) {
+				this.currentPlayerData.get(playerInformation.getIndex()).setPersonalBonusTile(playerInformation.getPersonalBonusTile());
+				this.currentPlayerData.get(playerInformation.getIndex()).setDevelopmentCardsBuilding(playerInformation.getDevelopmentCardsBuilding());
+				this.currentPlayerData.get(playerInformation.getIndex()).setDevelopmentCardsCharacter(playerInformation.getDevelopmentCardsCharacter());
+				this.currentPlayerData.get(playerInformation.getIndex()).setDevelopmentCardsTerritory(playerInformation.getDevelopmentCardsTerritory());
+				this.currentPlayerData.get(playerInformation.getIndex()).setDevelopmentCardsVenture(playerInformation.getDevelopmentCardsVenture());
+				this.currentPlayerData.get(playerInformation.getIndex()).setLeaderCardsPlayed(playerInformation.getLeaderCardsPlayed());
+				this.currentPlayerData.get(playerInformation.getIndex()).setLeaderCardsInHandNumber(playerInformation.getLeaderCardsInHandNumber());
+				this.currentPlayerData.get(playerInformation.getIndex()).setResourceAmounts(playerInformation.getResourceAmounts());
+				this.currentPlayerData.get(playerInformation.getIndex()).setFamilyMembersPositions(playerInformation.getFamilyMembersPositions());
 			}
 		}
 	}
@@ -119,42 +119,42 @@ public class GameStatus
 		return GameStatus.INSTANCE;
 	}
 
-	public Map<Integer, DevelopmentCardInformations> getDevelopmentCardsBuilding()
+	public Map<Integer, DevelopmentCardInformation> getDevelopmentCardsBuilding()
 	{
 		return this.developmentCardsBuilding;
 	}
 
-	public Map<Integer, DevelopmentCardInformations> getDevelopmentCardsCharacter()
+	public Map<Integer, DevelopmentCardInformation> getDevelopmentCardsCharacter()
 	{
 		return this.developmentCardsCharacter;
 	}
 
-	public Map<Integer, DevelopmentCardInformations> getDevelopmentCardsTerritory()
+	public Map<Integer, DevelopmentCardInformation> getDevelopmentCardsTerritory()
 	{
 		return this.developmentCardsTerritory;
 	}
 
-	public Map<Integer, DevelopmentCardInformations> getDevelopmentCardsVenture()
+	public Map<Integer, DevelopmentCardInformation> getDevelopmentCardsVenture()
 	{
 		return this.developmentCardsVenture;
 	}
 
-	public Map<CardType, Map<Integer, DevelopmentCardInformations>> getDevelopmentCards()
+	public Map<CardType, Map<Integer, DevelopmentCardInformation>> getDevelopmentCards()
 	{
 		return this.developmentCards;
 	}
 
-	public Map<Integer, LeaderCardInformations> getLeaderCards()
+	public Map<Integer, LeaderCardInformation> getLeaderCards()
 	{
 		return this.leaderCards;
 	}
 
-	public Map<Integer, ExcommunicationTileInformations> getExcommunicationTiles()
+	public Map<Integer, ExcommunicationTileInformation> getExcommunicationTiles()
 	{
 		return this.excommunicationTiles;
 	}
 
-	public Map<Integer, PersonalBonusTileInformations> getPersonalBonusTiles()
+	public Map<Integer, PersonalBonusTileInformation> getPersonalBonusTiles()
 	{
 		return this.personalBonusTiles;
 	}

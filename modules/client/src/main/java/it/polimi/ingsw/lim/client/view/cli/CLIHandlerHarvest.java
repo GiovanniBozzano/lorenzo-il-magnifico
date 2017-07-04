@@ -8,7 +8,7 @@ import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsHarvest;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationHarvest;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
@@ -70,7 +70,7 @@ public class CLIHandlerHarvest implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsHarvest(this.familyMemberType, Integer.parseInt(input)));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationHarvest(this.familyMemberType, Integer.parseInt(input)));
 	}
 }
 

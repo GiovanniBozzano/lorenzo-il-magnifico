@@ -3,7 +3,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardProductionStart;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationChooseRewardProductionStart;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardProductionStart;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
@@ -13,7 +13,7 @@ import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
-public class ActionChooseRewardProductionStart extends ActionInformationsChooseRewardProductionStart implements IAction
+public class ActionChooseRewardProductionStart extends ActionInformationChooseRewardProductionStart implements IAction
 {
 	private final transient Player player;
 

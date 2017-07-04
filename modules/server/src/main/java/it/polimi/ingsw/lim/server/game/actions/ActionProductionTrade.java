@@ -3,7 +3,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionTrade;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationProductionTrade;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class ActionProductionTrade extends ActionInformationsProductionTrade implements IAction
+public class ActionProductionTrade extends ActionInformationProductionTrade implements IAction
 {
 	private final transient Player player;
 

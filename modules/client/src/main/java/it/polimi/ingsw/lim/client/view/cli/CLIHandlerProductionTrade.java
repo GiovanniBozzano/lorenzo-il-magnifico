@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionTrade;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationProductionTrade;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionProductionTrade;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -31,7 +31,7 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 				this.askResourceTradeOptions(chosenTradeCard, this.showAvailableResourceTradeOptions(chosenTradeCard));
 			}
 		}
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsProductionTrade(this.chosenResourceTradeOptions));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationProductionTrade(this.chosenResourceTradeOptions));
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 		stringBuilder.append("\n\n\nSelect Trade Cards...");
 		int index = 1;
 		for (int availableTradeCard : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().keySet()) {
-			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getDevelopmentCardsBuilding().get(availableTradeCard).getInformations()));
+			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getDevelopmentCardsBuilding().get(availableTradeCard).getInformation()));
 			this.availableTradeCards.put(index, availableTradeCard);
 			index++;
 		}
@@ -77,7 +77,7 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 		stringBuilder.append("\n\nEnter Resource Trade Option...");
 		int index = 1;
 		for (ResourceTradeOption resourceTradeOption : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().get(chosenTradeCard)) {
-			stringBuilder.append(Utils.createListElement(index, resourceTradeOption.getInformations(true)));
+			stringBuilder.append(Utils.createListElement(index, resourceTradeOption.getInformation(true)));
 			availableResourceTradeOptions.put(index, resourceTradeOption);
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });

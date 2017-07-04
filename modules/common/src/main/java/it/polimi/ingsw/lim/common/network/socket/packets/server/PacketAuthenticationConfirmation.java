@@ -1,21 +1,21 @@
 package it.polimi.ingsw.lim.common.network.socket.packets.server;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformation;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 
 public class PacketAuthenticationConfirmation extends Packet
 {
-	private final AuthenticationInformations authenticationInformations;
+	private final AuthenticationInformation authenticationInformation;
 
-	public PacketAuthenticationConfirmation(AuthenticationInformations authenticationInformations)
+	public PacketAuthenticationConfirmation(AuthenticationInformation authenticationInformation)
 	{
 		super(PacketType.AUTHENTICATION_CONFIRMATION);
-		this.authenticationInformations = authenticationInformations;
+		this.authenticationInformation = authenticationInformation;
 	}
 
-	public AuthenticationInformations getAuthenticationInformations()
+	public AuthenticationInformation getAuthenticationInformation()
 	{
-		return this.authenticationInformations;
+		return this.authenticationInformation;
 	}
 }

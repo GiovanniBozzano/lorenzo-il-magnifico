@@ -3,10 +3,10 @@ package it.polimi.ingsw.lim.server.network.socket;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.RoomInformations;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
-import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsLobbySocket;
+import it.polimi.ingsw.lim.common.game.RoomInformation;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformation;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformationGame;
+import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationLobbySocket;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.*;
@@ -143,7 +143,7 @@ class PacketListener extends Thread
 			}
 			this.connectionSocket.setUsername(trimmedUsername);
 		} while (this.connectionSocket.getUsername() == null);
-		AuthenticationInformations authenticationInformations = Utils.fillAuthenticationInformations();
+		AuthenticationInformation authenticationInformation = Utils.fillAuthenticationInformation();
 		Room playerRoom = Room.getPlayerRoom(this.connectionSocket.getUsername());
 		if (playerRoom == null || playerRoom.isEndGame()) {
 			Room targetRoom = null;
@@ -165,10 +165,10 @@ class PacketListener extends Thread
 				}
 				playerUsernames.add(player.getUsername());
 			}
-			AuthenticationInformationsLobbySocket authenticationInformationsLobby = new AuthenticationInformationsLobbySocket(authenticationInformations, this.connectionSocket.getUsername());
-			authenticationInformationsLobby.setGameStarted(false);
-			authenticationInformationsLobby.setRoomInformations(new RoomInformations(targetRoom.getRoomType(), playerUsernames));
-			this.connectionSocket.sendAuthenticationConfirmation(authenticationInformationsLobby);
+			AuthenticationInformationLobbySocket authenticationInformationLobby = new AuthenticationInformationLobbySocket(authenticationInformation, this.connectionSocket.getUsername());
+			authenticationInformationLobby.setGameStarted(false);
+			authenticationInformationLobby.setRoomInformation(new RoomInformation(targetRoom.getRoomType(), playerUsernames));
+			this.connectionSocket.sendAuthenticationConfirmation(authenticationInformationLobby);
 		} else {
 			for (Connection connection : playerRoom.getPlayers()) {
 				if (connection.getUsername().equals(this.connectionSocket.getUsername())) {
@@ -180,25 +180,25 @@ class PacketListener extends Thread
 					break;
 				}
 			}
-			AuthenticationInformationsGame authenticationInformationsGame = new AuthenticationInformationsGame(authenticationInformations);
-			authenticationInformationsGame.setGameStarted(true);
-			authenticationInformationsGame.setExcommunicationTiles(playerRoom.getGameHandler().getBoardHandler().getMatchExcommunicationTilesIndexes());
-			authenticationInformationsGame.setCouncilPrivilegeRewards(playerRoom.getGameHandler().getBoardHandler().getMatchCouncilPrivilegeRewards());
-			authenticationInformationsGame.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
-			authenticationInformationsGame.setOwnPlayerIndex(this.connectionSocket.getPlayer().getIndex());
+			AuthenticationInformationGame authenticationInformationGame = new AuthenticationInformationGame(authenticationInformation);
+			authenticationInformationGame.setGameStarted(true);
+			authenticationInformationGame.setExcommunicationTiles(playerRoom.getGameHandler().getBoardHandler().getMatchExcommunicationTilesIndexes());
+			authenticationInformationGame.setCouncilPrivilegeRewards(playerRoom.getGameHandler().getBoardHandler().getMatchCouncilPrivilegeRewards());
+			authenticationInformationGame.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
+			authenticationInformationGame.setOwnPlayerIndex(this.connectionSocket.getPlayer().getIndex());
 			if (playerRoom.getGameHandler().getCurrentPeriod() != null && playerRoom.getGameHandler().getCurrentRound() != null) {
-				authenticationInformationsGame.setGameInitialized(true);
-				authenticationInformationsGame.setGameInformations(playerRoom.getGameHandler().generateGameInformations());
-				authenticationInformationsGame.setPlayersInformations(playerRoom.getGameHandler().generatePlayersInformations());
-				authenticationInformationsGame.setOwnLeaderCardsHand(playerRoom.getGameHandler().generateLeaderCardsHand(this.connectionSocket.getPlayer()));
-				authenticationInformationsGame.setTurnPlayerIndex(playerRoom.getGameHandler().getTurnPlayer().getIndex());
+				authenticationInformationGame.setGameInitialized(true);
+				authenticationInformationGame.setGameInformation(playerRoom.getGameHandler().generateGameInformation());
+				authenticationInformationGame.setPlayersInformation(playerRoom.getGameHandler().generatePlayersInformation());
+				authenticationInformationGame.setOwnLeaderCardsHand(playerRoom.getGameHandler().generateLeaderCardsHand(this.connectionSocket.getPlayer()));
+				authenticationInformationGame.setTurnPlayerIndex(playerRoom.getGameHandler().getTurnPlayer().getIndex());
 				if (playerRoom.getGameHandler().getTurnPlayer().getIndex() != this.connectionSocket.getPlayer().getIndex()) {
-					authenticationInformationsGame.setAvailableActions(playerRoom.getGameHandler().generateAvailableActions(this.connectionSocket.getPlayer()));
+					authenticationInformationGame.setAvailableActions(playerRoom.getGameHandler().generateAvailableActions(this.connectionSocket.getPlayer()));
 				}
 			} else {
-				authenticationInformationsGame.setGameInitialized(false);
+				authenticationInformationGame.setGameInitialized(false);
 			}
-			this.connectionSocket.sendAuthenticationConfirmation(authenticationInformations);
+			this.connectionSocket.sendAuthenticationConfirmation(authenticationInformation);
 		}
 		return true;
 	}

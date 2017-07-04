@@ -99,7 +99,7 @@ public class ControllerRoom extends CustomController
 		this.gameRulesButton.setPrefWidth(((VBox) this.gameRulesButton.getParent()).getWidth());
 	}
 
-	void setRoomInformations(RoomType roomType, List<String> playerNames)
+	void setRoomInformation(RoomType roomType, List<String> playerNames)
 	{
 		this.playerNameLabel.setText(Client.getInstance().getUsername());
 		this.rulesListView.getItems().add("Room type: " + roomType.getDisplayName());

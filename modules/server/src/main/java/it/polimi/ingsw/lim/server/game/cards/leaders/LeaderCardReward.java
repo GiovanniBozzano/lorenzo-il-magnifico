@@ -1,9 +1,9 @@
 package it.polimi.ingsw.lim.server.game.cards.leaders;
 
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardRewardInformations;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformation;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardRewardInformation;
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
-import it.polimi.ingsw.lim.common.game.utils.RewardInformations;
+import it.polimi.ingsw.lim.common.game.utils.RewardInformation;
 import it.polimi.ingsw.lim.server.enums.LeaderCardType;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
@@ -22,9 +22,9 @@ public class LeaderCardReward extends LeaderCard
 	}
 
 	@Override
-	public LeaderCardInformations getInformations()
+	public LeaderCardInformation getInformation()
 	{
-		return new LeaderCardRewardInformations(this.getTexturePath(), this.getDisplayName(), this.getDescription(), this.getConditionsOptions(), new RewardInformations(this.reward.getActionReward() == null ? null : this.reward.getActionReward().getDescription(), this.reward.getResourceAmounts()));
+		return new LeaderCardRewardInformation(this.getTexturePath(), this.getDisplayName(), this.getDescription(), this.getConditionsOptions(), new RewardInformation(this.reward.getActionReward() == null ? null : this.reward.getActionReward().getDescription(), this.reward.getResourceAmounts()));
 	}
 
 	public Reward getReward()

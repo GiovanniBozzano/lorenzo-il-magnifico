@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseLorenzoDeMediciLeader;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationChooseLorenzoDeMediciLeader;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseLorenzoDeMediciLeader;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
@@ -37,7 +37,7 @@ public class CLIHandlerChooseLorenzoDeMediciLeader implements ICLIHandler
 		int index = 1;
 		for (List<Integer> availableLeaderCards : ((ExpectedActionChooseLorenzoDeMediciLeader) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableLeaderCards().values()) {
 			for (int availableLeaderCard : availableLeaderCards) {
-				stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getLeaderCards().get(availableLeaderCard).getInformations()));
+				stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getLeaderCards().get(availableLeaderCard).getInformation()));
 				this.copyableLeaderCards.put(index, availableLeaderCard);
 				index++;
 			}
@@ -52,6 +52,6 @@ public class CLIHandlerChooseLorenzoDeMediciLeader implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || !this.copyableLeaderCards.containsKey(Integer.parseInt(input)));
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseLorenzoDeMediciLeader(this.copyableLeaderCards.get(Integer.parseInt(input))));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseLorenzoDeMediciLeader(this.copyableLeaderCards.get(Integer.parseInt(input))));
 	}
 }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.common.network.rmi;
 
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformation;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -22,7 +22,7 @@ public interface IClientSession extends Remote
 
 	void sendGameExcommunicationPlayerChoice(boolean excommunicated) throws RemoteException, GameActionFailedException;
 
-	void sendGameAction(ActionInformations action) throws RemoteException, GameActionFailedException;
+	void sendGameAction(ActionInformation action) throws RemoteException, GameActionFailedException;
 
 	void sendGoodGame(int playerIndex) throws RemoteException, GameActionFailedException;
 }

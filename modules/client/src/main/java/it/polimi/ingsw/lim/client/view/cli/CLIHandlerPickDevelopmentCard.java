@@ -9,7 +9,7 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsPickDevelopmentCard;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
@@ -119,7 +119,7 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		int index = 1;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.PICK_DEVELOPMENT_CARD)) {
 			if ((((AvailableActionFamilyMember) availableAction).getFamilyMemberType()) == this.chosenFamilyMemberType && (((AvailableActionPickDevelopmentCard) availableAction).getCardType()) == this.chosenCardType) {
-				stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getDevelopmentCards().get(this.chosenCardType).get(GameStatus.getInstance().getCurrentDevelopmentCards().get(this.chosenCardType).get(((AvailableActionPickDevelopmentCard) availableAction).getRow())).getInformations()));
+				stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getDevelopmentCards().get(this.chosenCardType).get(GameStatus.getInstance().getCurrentDevelopmentCards().get(this.chosenCardType).get(((AvailableActionPickDevelopmentCard) availableAction).getRow())).getInformation()));
 				this.availableDevelopmentCards.put(index, (AvailableActionPickDevelopmentCard) availableAction);
 				index++;
 			}
@@ -143,7 +143,7 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		stringBuilder.append("\n\nEnter Resource Cost Option...");
 		int index = 1;
 		for (ResourceCostOption resourceCostOption : this.chosenDevelopmentCard.getResourceCostOptions()) {
-			stringBuilder.append(Utils.createListElement(index, resourceCostOption.getInformations(true)));
+			stringBuilder.append(Utils.createListElement(index, resourceCostOption.getInformation(true)));
 			this.availableResourceCostOptions.put(index, resourceCostOption);
 			index++;
 		}
@@ -166,7 +166,7 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		stringBuilder.append("\n\nEnter Discount Choice...");
 		int index = 1;
 		for (List<ResourceAmount> resourceAmounts : this.chosenDevelopmentCard.getDiscountChoices()) {
-			stringBuilder.append(Utils.createListElement(index, ResourceAmount.getResourcesInformations(resourceAmounts, true)));
+			stringBuilder.append(Utils.createListElement(index, ResourceAmount.getResourcesInformation(resourceAmounts, true)));
 			this.availableDiscountChoices.put(index, resourceAmounts);
 			index++;
 		}
@@ -192,6 +192,6 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPickDevelopmentCard(this.chosenFamilyMemberType, Integer.parseInt(input), this.chosenCardType, this.chosenDevelopmentCard.getRow(), this.chosenDiscountChoice, this.chosenResourceCostOption));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationPickDevelopmentCard(this.chosenFamilyMemberType, Integer.parseInt(input), this.chosenCardType, this.chosenDevelopmentCard.getRow(), this.chosenDiscountChoice, this.chosenResourceCostOption));
 	}
 }

@@ -30,7 +30,7 @@ public class ResourceAmountMultiplierResource extends ResourceAmount
 	}
 
 	@Override
-	public String getInformations()
+	public String getInformation()
 	{
 		return "- " + CommonUtils.getResourcesTypesNames().get(this.getResourceType()) + ": " + this.getAmount() + " x " + this.resourceAmountDivider + " " + CommonUtils.getResourcesTypesNames().get(this.resourceTypeMultiplier);
 	}

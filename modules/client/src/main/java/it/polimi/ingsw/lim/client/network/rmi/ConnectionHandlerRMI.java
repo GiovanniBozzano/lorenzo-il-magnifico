@@ -7,11 +7,11 @@ import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformation;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
-import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsGameRMI;
-import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationsLobbyRMI;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformation;
+import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationGameRMI;
+import it.polimi.ingsw.lim.common.network.rmi.AuthenticationInformationLobbyRMI;
 import it.polimi.ingsw.lim.common.network.rmi.IAuthentication;
 import it.polimi.ingsw.lim.common.network.rmi.IClientSession;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -202,7 +202,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 	}
 
 	@Override
-	public synchronized void sendGameAction(ActionInformations action)
+	public synchronized void sendGameAction(ActionInformation action)
 	{
 		super.sendGameAction(action);
 		this.rmiExecutor.execute(() -> {
@@ -235,24 +235,24 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 		});
 	}
 
-	private void finalizeAuthentication(String username, AuthenticationInformations authenticationInformations)
+	private void finalizeAuthentication(String username, AuthenticationInformation authenticationInformation)
 	{
-		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getPersonalBonusTilesInformations());
-		if (!authenticationInformations.isGameStarted()) {
-			this.clientSession = ((AuthenticationInformationsLobbyRMI) authenticationInformations).getClientSession();
+		GameStatus.getInstance().setup(authenticationInformation.getDevelopmentCardsBuildingInformation(), authenticationInformation.getDevelopmentCardsCharacterInformation(), authenticationInformation.getDevelopmentCardsTerritoryInformation(), authenticationInformation.getDevelopmentCardsVentureInformation(), authenticationInformation.getLeaderCardsInformation(), authenticationInformation.getExcommunicationTilesInformation(), authenticationInformation.getPersonalBonusTilesInformation());
+		if (!authenticationInformation.isGameStarted()) {
+			this.clientSession = ((AuthenticationInformationLobbyRMI) authenticationInformation).getClientSession();
 			Client.getInstance().setUsername(username);
-			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccess(authenticationInformations);
+			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccess(authenticationInformation);
 		} else {
-			this.clientSession = ((AuthenticationInformationsGameRMI) authenticationInformations).getClientSession();
-			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationsGameRMI) authenticationInformations).getExcommunicationTiles());
-			GameStatus.getInstance().setCurrentCouncilPrivilegeRewards(((AuthenticationInformationsGameRMI) authenticationInformations).getCouncilPrivilegeRewards());
+			this.clientSession = ((AuthenticationInformationGameRMI) authenticationInformation).getClientSession();
+			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationGameRMI) authenticationInformation).getExcommunicationTiles());
+			GameStatus.getInstance().setCurrentCouncilPrivilegeRewards(((AuthenticationInformationGameRMI) authenticationInformation).getCouncilPrivilegeRewards());
 			Map<Integer, PlayerData> playersData = new HashMap<>();
-			for (Entry<Integer, PlayerIdentification> entry : ((AuthenticationInformationsGameRMI) authenticationInformations).getPlayersIdentifications().entrySet()) {
+			for (Entry<Integer, PlayerIdentification> entry : ((AuthenticationInformationGameRMI) authenticationInformation).getPlayersIdentifications().entrySet()) {
 				playersData.put(entry.getKey(), new PlayerData(entry.getValue().getUsername(), entry.getValue().getColor()));
 			}
 			GameStatus.getInstance().setCurrentPlayerData(playersData);
-			GameStatus.getInstance().setOwnPlayerIndex(((AuthenticationInformationsGameRMI) authenticationInformations).getOwnPlayerIndex());
-			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccessGameStarted((AuthenticationInformationsGameRMI) authenticationInformations);
+			GameStatus.getInstance().setOwnPlayerIndex(((AuthenticationInformationGameRMI) authenticationInformation).getOwnPlayerIndex());
+			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccessGameStarted((AuthenticationInformationGameRMI) authenticationInformation);
 		}
 	}
 }

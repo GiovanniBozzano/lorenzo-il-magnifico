@@ -1,8 +1,8 @@
 package it.polimi.ingsw.lim.client.view;
 
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformation;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformationGame;
 import javafx.stage.Stage;
 
 public interface IInterfaceHandler
@@ -63,9 +63,9 @@ public interface IInterfaceHandler
 
 	void handleAuthenticationFailed(String text);
 
-	void handleAuthenticationSuccess(AuthenticationInformations authenticationInformations);
+	void handleAuthenticationSuccess(AuthenticationInformation authenticationInformation);
 
-	void handleAuthenticationSuccessGameStarted(AuthenticationInformationsGame authenticationInformations);
+	void handleAuthenticationSuccessGameStarted(AuthenticationInformationGame authenticationInformation);
 
 	void handleGameActionFailed(String text);
 }

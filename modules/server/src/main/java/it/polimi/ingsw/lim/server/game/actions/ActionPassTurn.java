@@ -1,11 +1,11 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsPassTurn;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationPassTurn;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.network.Connection;
 
-public class ActionPassTurn extends ActionInformationsPassTurn implements IAction
+public class ActionPassTurn extends ActionInformationPassTurn implements IAction
 {
 	private final transient Player player;
 

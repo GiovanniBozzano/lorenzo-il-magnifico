@@ -10,7 +10,7 @@ import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.player.Player;
-import it.polimi.ingsw.lim.server.game.utils.BoardPositionInformations;
+import it.polimi.ingsw.lim.server.game.utils.BoardPositionInformation;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,7 +21,7 @@ import java.util.logging.Level;
 
 public class BoardHandler
 {
-	private static final Map<BoardPosition, BoardPositionInformations> BOARD_POSITIONS_INFORMATIONS = new BoardPositionsInformationsBuilder("/json/board_positions_informations.json").initialize();
+	private static final Map<BoardPosition, BoardPositionInformation> BOARD_POSITIONS_INFORMATION = new BoardPositionsInformationBuilder("/json/board_positions_information.json").initialize();
 	private static final Map<Integer, List<ResourceAmount>> COUNCIL_PRIVILEGE_REWARDS = new CouncilPrivilegeRewardsBuilder("/json/council_privilege_rewards.json").initialize();
 	private final Map<Period, ExcommunicationTile> matchExcommunicationTiles;
 	private final Map<Integer, List<ResourceAmount>> matchCouncilPrivilegeRewards;
@@ -33,12 +33,12 @@ public class BoardHandler
 		this.matchCouncilPrivilegeRewards = new HashMap<>(matchCouncilPrivilegeRewards);
 	}
 
-	public static BoardPositionInformations getBoardPositionInformations(BoardPosition boardPosition)
+	public static BoardPositionInformation getBoardPositionInformation(BoardPosition boardPosition)
 	{
-		if (BoardHandler.BOARD_POSITIONS_INFORMATIONS.containsKey(boardPosition)) {
-			return BoardHandler.BOARD_POSITIONS_INFORMATIONS.get(boardPosition);
+		if (BoardHandler.BOARD_POSITIONS_INFORMATION.containsKey(boardPosition)) {
+			return BoardHandler.BOARD_POSITIONS_INFORMATION.get(boardPosition);
 		}
-		return new BoardPositionInformations(0, new ArrayList<>());
+		return new BoardPositionInformation(0, new ArrayList<>());
 	}
 
 	public Map<Period, Integer> getMatchExcommunicationTilesIndexes()
@@ -70,21 +70,21 @@ public class BoardHandler
 		return this.councilPalaceOrder;
 	}
 
-	private static class BoardPositionsInformationsBuilder
+	private static class BoardPositionsInformationBuilder
 	{
 		private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
-		private static final Gson GSON = BoardPositionsInformationsBuilder.GSON_BUILDER.create();
+		private static final Gson GSON = BoardPositionsInformationBuilder.GSON_BUILDER.create();
 		private final String jsonFile;
 
-		BoardPositionsInformationsBuilder(String jsonFile)
+		BoardPositionsInformationBuilder(String jsonFile)
 		{
 			this.jsonFile = jsonFile;
 		}
 
-		Map<BoardPosition, BoardPositionInformations> initialize()
+		Map<BoardPosition, BoardPositionInformation> initialize()
 		{
 			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
-				return BoardPositionsInformationsBuilder.GSON.fromJson(reader, new TypeToken<Map<BoardPosition, BoardPositionInformations>>()
+				return BoardPositionsInformationBuilder.GSON.fromJson(reader, new TypeToken<Map<BoardPosition, BoardPositionInformation>>()
 				{
 				}.getType());
 			} catch (IOException exception) {

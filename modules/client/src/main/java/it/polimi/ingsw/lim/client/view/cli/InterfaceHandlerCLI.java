@@ -6,8 +6,8 @@ import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.view.IInterfaceHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformation;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformationGame;
 import javafx.stage.Stage;
 
 import java.util.EnumMap;
@@ -229,21 +229,21 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	}
 
 	@Override
-	public void handleAuthenticationSuccess(AuthenticationInformations authenticationInformations)
+	public void handleAuthenticationSuccess(AuthenticationInformation authenticationInformation)
 	{
 		Client.getLogger().log(Level.INFO, "\n\nWaiting for other players...");
 	}
 
 	@Override
-	public void handleAuthenticationSuccessGameStarted(AuthenticationInformationsGame authenticationInformations)
+	public void handleAuthenticationSuccessGameStarted(AuthenticationInformationGame authenticationInformation)
 	{
-		if (authenticationInformations.isGameInitialized()) {
-			GameStatus.getInstance().updateGameStatus(authenticationInformations.getGameInformations(), authenticationInformations.getPlayersInformations(), authenticationInformations.getOwnLeaderCardsHand());
-			if (authenticationInformations.getTurnPlayerIndex() != authenticationInformations.getOwnPlayerIndex()) {
-				GameStatus.getInstance().setCurrentTurnPlayerIndex(authenticationInformations.getTurnPlayerIndex());
-				Client.getLogger().log(Level.INFO, "\n\n{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(authenticationInformations.getTurnPlayerIndex()).getUsername() });
+		if (authenticationInformation.isGameInitialized()) {
+			GameStatus.getInstance().updateGameStatus(authenticationInformation.getGameInformation(), authenticationInformation.getPlayersInformation(), authenticationInformation.getOwnLeaderCardsHand());
+			if (authenticationInformation.getTurnPlayerIndex() != authenticationInformation.getOwnPlayerIndex()) {
+				GameStatus.getInstance().setCurrentTurnPlayerIndex(authenticationInformation.getTurnPlayerIndex());
+				Client.getLogger().log(Level.INFO, "\n\n{0}'s turn...", new Object[] { GameStatus.getInstance().getCurrentPlayersData().get(authenticationInformation.getTurnPlayerIndex()).getUsername() });
 			} else {
-				GameStatus.getInstance().setCurrentAvailableActions(authenticationInformations.getAvailableActions());
+				GameStatus.getInstance().setCurrentAvailableActions(authenticationInformation.getAvailableActions());
 				Client.getLogger().log(Level.INFO, "\n\nYour turn...");
 			}
 		}

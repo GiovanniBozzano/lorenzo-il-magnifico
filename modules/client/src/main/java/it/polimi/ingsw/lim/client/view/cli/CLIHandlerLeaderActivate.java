@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderActivate;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationLeaderActivate;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class CLIHandlerLeaderActivate implements ICLIHandler
 		int index = 1;
 		for (int leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().keySet()) {
 			if (GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().get(leaderCard)) {
-				stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations()));
+				stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformation()));
 				this.leaderCards.put(index, leaderCard);
 				index++;
 			}
@@ -53,6 +53,6 @@ public class CLIHandlerLeaderActivate implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !this.leaderCards.containsKey(Integer.parseInt(input)));
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderActivate(Integer.parseInt(input)));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationLeaderActivate(Integer.parseInt(input)));
 	}
 }

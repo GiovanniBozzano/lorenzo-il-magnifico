@@ -723,7 +723,7 @@ public class ControllerGame extends CustomController
 			}
 		} else if (event.getButton() == MouseButton.SECONDARY && pane.getBackground() != null) {
 			this.developmentCardDialogPane.setBackground(pane.getBackground());
-			this.developmentCardDialogText.setText(this.getDevelopmentCardInformations(pane));
+			this.developmentCardDialogText.setText(this.getDevelopmentCardInformation(pane));
 			this.developmentCardDialog.show();
 		}
 	}
@@ -742,7 +742,7 @@ public class ControllerGame extends CustomController
 			}
 		} else if (event.getButton() == MouseButton.SECONDARY && (pane).getBackground() != null) {
 			this.developmentCardDialogPane.setBackground(pane.getBackground());
-			this.developmentCardDialogText.setText(this.getDevelopmentCardInformations(pane));
+			this.developmentCardDialogText.setText(this.getDevelopmentCardInformation(pane));
 			this.developmentCardDialog.show();
 		}
 	}
@@ -1229,7 +1229,7 @@ public class ControllerGame extends CustomController
 		}
 		for (Entry<Period, Integer> excommunicationTile : GameStatus.getInstance().getCurrentExcommunicationTiles().entrySet()) {
 			this.excommunicationTilesPanes.get(excommunicationTile.getKey()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getExcommunicationTiles().get(excommunicationTile.getValue()).getTexturePath()).toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getExcommunicationTiles().get(excommunicationTile.getValue()).getInformations());
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getExcommunicationTiles().get(excommunicationTile.getValue()).getInformation());
 			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(this.excommunicationTilesPanes.get(excommunicationTile.getKey()), tooltip);
@@ -1306,7 +1306,7 @@ public class ControllerGame extends CustomController
 				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getFamilyMemberTypesTextures().get(familyMemberType)).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				pane.setPrefSize(64.0D, 64.0D);
 				Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
-				pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardTemporaryModifier(familyMemberType)));
+				pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardTemporaryModifier(familyMemberType)));
 				this.expectedChooseRewardTemporaryModifierDialogHBox.getChildren().add(pane);
 			}
 		}
@@ -1610,7 +1610,7 @@ public class ControllerGame extends CustomController
 			leaderCardsActionNodesList.setRotate(90.0D);
 			actionsNodesList.addAnimatedNode(leaderCardsActionNodesList);
 		}
-		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_pass_turn.png", "Pass Turn", false, () -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPassTurn()), true);
+		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_pass_turn.png", "Pass Turn", false, () -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationPassTurn()), true);
 		actionsNodesList.setRotate(180.0D);
 		this.actionsVBox.getChildren().add(actionsNodesList);
 	}
@@ -1694,16 +1694,16 @@ public class ControllerGame extends CustomController
 		}
 	}
 
-	private String getDevelopmentCardInformations(Pane pane)
+	private String getDevelopmentCardInformation(Pane pane)
 	{
 		if (this.developmentCardsBuildingIndexes.containsKey(pane)) {
-			return GameStatus.getInstance().getDevelopmentCardsBuilding().get(this.developmentCardsBuildingIndexes.get(pane)).getInformations();
+			return GameStatus.getInstance().getDevelopmentCardsBuilding().get(this.developmentCardsBuildingIndexes.get(pane)).getInformation();
 		} else if (this.developmentCardsCharacterIndexes.containsKey(pane)) {
-			return GameStatus.getInstance().getDevelopmentCardsCharacter().get(this.developmentCardsCharacterIndexes.get(pane)).getInformations();
+			return GameStatus.getInstance().getDevelopmentCardsCharacter().get(this.developmentCardsCharacterIndexes.get(pane)).getInformation();
 		} else if (this.developmentCardsTerritoryIndexes.containsKey(pane)) {
-			return GameStatus.getInstance().getDevelopmentCardsTerritory().get(this.developmentCardsTerritoryIndexes.get(pane)).getInformations();
+			return GameStatus.getInstance().getDevelopmentCardsTerritory().get(this.developmentCardsTerritoryIndexes.get(pane)).getInformation();
 		} else if (this.developmentCardsVentureIndexes.containsKey(pane)) {
-			return GameStatus.getInstance().getDevelopmentCardsVenture().get(this.developmentCardsVentureIndexes.get(pane)).getInformations();
+			return GameStatus.getInstance().getDevelopmentCardsVenture().get(this.developmentCardsVentureIndexes.get(pane)).getInformation();
 		}
 		return null;
 	}
@@ -1904,7 +1904,7 @@ public class ControllerGame extends CustomController
 					this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index).setEffect(greyScaleEffect);
 				}
 				this.playersLeaderCardsHand.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-				Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
+				Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformation());
 				WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 				WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 				Tooltip.install(this.playersLeaderCardsPlayed.get(playerData.getKey()).get(index), tooltip);
@@ -1914,7 +1914,7 @@ public class ControllerGame extends CustomController
 				index = 0;
 				for (int leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
 					this.playersLeaderCardsHand.get(playerData.getKey()).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-					Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
+					Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformation());
 					WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 					WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 					Tooltip.install(this.playersLeaderCardsHand.get(playerData.getKey()).get(index), tooltip);
@@ -1998,7 +1998,7 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(650.0D * this.ratio);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getInformations());
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTileIndex).getInformation());
 			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(pane, tooltip);
@@ -2029,7 +2029,7 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.building1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformation());
 			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(pane, tooltip);
@@ -2064,7 +2064,7 @@ public class ControllerGame extends CustomController
 		JFXNodesList actionsNodesList = new JFXNodesList();
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action.png", "Actions", true);
 		this.actionsVBox.getChildren().add(actionsNodesList);
-		this.excommunicationDialogText.setText(GameStatus.getInstance().getExcommunicationTiles().get(GameStatus.getInstance().getCurrentExcommunicationTiles().get(period)).getInformations().replace("\n", " "));
+		this.excommunicationDialogText.setText(GameStatus.getInstance().getExcommunicationTiles().get(GameStatus.getInstance().getCurrentExcommunicationTiles().get(period)).getInformation().replace("\n", " "));
 		this.excommunicationDialogSupportButton.setPrefWidth(((VBox) this.excommunicationDialogSupportButton.getParent()).getWidth());
 		this.excommunicationDialogDoNotSupportButton.setPrefWidth(((VBox) this.excommunicationDialogDoNotSupportButton.getParent()).getWidth());
 		this.excommunicationDialog.show();
@@ -2077,7 +2077,7 @@ public class ControllerGame extends CustomController
 		this.servantsDialogSlider.setValue(0);
 		this.servantsDialogAcceptButton.setOnAction(event -> {
 			this.servantsDialog.close();
-			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsCouncilPalace(familyMemberType, (int) this.servantsDialogSlider.getValue()));
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationCouncilPalace(familyMemberType, (int) this.servantsDialogSlider.getValue()));
 		});
 		this.servantsDialog.show();
 	}
@@ -2088,7 +2088,7 @@ public class ControllerGame extends CustomController
 		this.servantsDialogSlider.setValue(0);
 		this.servantsDialogAcceptButton.setOnAction(event -> {
 			this.servantsDialog.close();
-			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsHarvest(familyMemberType, (int) this.servantsDialogSlider.getValue()));
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationHarvest(familyMemberType, (int) this.servantsDialogSlider.getValue()));
 		});
 		this.servantsDialog.show();
 	}
@@ -2099,7 +2099,7 @@ public class ControllerGame extends CustomController
 		this.servantsDialogSlider.setValue(0);
 		this.servantsDialogAcceptButton.setOnAction(event -> {
 			this.servantsDialog.close();
-			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsMarket(familyMemberType, (int) this.servantsDialogSlider.getValue(), marketSlot));
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationMarket(familyMemberType, (int) this.servantsDialogSlider.getValue(), marketSlot));
 		});
 		this.servantsDialog.show();
 	}
@@ -2135,7 +2135,7 @@ public class ControllerGame extends CustomController
 					for (List<ResourceAmount> discountChoice : ((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices()) {
 						AnchorPane anchorPane = new AnchorPane();
 						discountChoicesAnchorPanes.add(anchorPane);
-						Text text = new Text(ResourceAmount.getResourcesInformations(discountChoice, false));
+						Text text = new Text(ResourceAmount.getResourcesInformation(discountChoice, false));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2163,7 +2163,7 @@ public class ControllerGame extends CustomController
 						for (ResourceCostOption resourceCostOption : ((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions()) {
 							AnchorPane anchorPane = new AnchorPane();
 							resourceCostOptionsAnchorPanes.add(anchorPane);
-							Text text = new Text(resourceCostOption.getInformations(true));
+							Text text = new Text(resourceCostOption.getInformation(true));
 							anchorPane.getChildren().add(text);
 							AnchorPane.setTopAnchor(text, 0.0);
 							AnchorPane.setBottomAnchor(text, 0.0);
@@ -2189,7 +2189,7 @@ public class ControllerGame extends CustomController
 			}
 			this.pickDevelopmentCardDialogAcceptButton.setOnAction(childEvent -> {
 				this.pickDevelopmentCardDialog.close();
-				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsPickDevelopmentCard(familyMemberType, (int) this.pickDevelopmentCardDialogSlider.getValue(), this.selectedDevelopmentCardType, GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex), this.selectedDiscountChoice, this.selectedResourceCostOption));
+				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationPickDevelopmentCard(familyMemberType, (int) this.pickDevelopmentCardDialogSlider.getValue(), this.selectedDevelopmentCardType, GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex), this.selectedDiscountChoice, this.selectedResourceCostOption));
 			});
 			this.pickDevelopmentCardDialogAcceptButton.setPrefWidth(((VBox) this.pickDevelopmentCardDialogAcceptButton.getParent()).getWidth());
 			this.pickDevelopmentCardDialogCancelButton.setPrefWidth(((VBox) this.pickDevelopmentCardDialogCancelButton.getParent()).getWidth());
@@ -2232,7 +2232,7 @@ public class ControllerGame extends CustomController
 		this.servantsDialogSlider.setValue(0);
 		this.servantsDialogAcceptButton.setOnAction(event -> {
 			this.servantsDialog.close();
-			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsProductionStart(familyMemberType, (int) this.servantsDialogSlider.getValue()));
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationProductionStart(familyMemberType, (int) this.servantsDialogSlider.getValue()));
 		});
 		this.servantsDialog.show();
 	}
@@ -2250,14 +2250,14 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.building1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformation());
 			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
 				this.leaderCardsDialog.close();
-				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderActivate(leaderCard.getKey()));
+				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationLeaderActivate(leaderCard.getKey()));
 			});
 			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}
@@ -2276,14 +2276,14 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.building1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformation());
 			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
 				this.leaderCardsDialog.close();
-				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderDiscard(leaderCard));
+				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationLeaderDiscard(leaderCard));
 			});
 			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}
@@ -2305,14 +2305,14 @@ public class ControllerGame extends CustomController
 			pane.setPrefHeight(this.building1.getHeight() * 3);
 			pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 			pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
+			Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformation());
 			WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 			WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 			Tooltip.install(pane, tooltip);
 			Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 			pane.setOnMouseClicked(event -> {
 				this.leaderCardsDialog.close();
-				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsLeaderPlay(leaderCard.getKey()));
+				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationLeaderPlay(leaderCard.getKey()));
 			});
 			this.leaderCardsDialogHBox.getChildren().add(pane);
 		}
@@ -2336,12 +2336,12 @@ public class ControllerGame extends CustomController
 				pane.setPrefHeight(this.building1.getHeight() * 2);
 				pane.setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getLeaderCards().get(leaderCard).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
-				Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations());
+				Tooltip tooltip = new Tooltip(GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformation());
 				WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
 				WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
 				Tooltip.install(pane, tooltip);
 				Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
-				pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseLorenzoDeMediciLeader(leaderCard)));
+				pane.setOnMouseClicked(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseLorenzoDeMediciLeader(leaderCard)));
 				hBox.getChildren().add(pane);
 				leaderCardsCount++;
 			}
@@ -2366,7 +2366,7 @@ public class ControllerGame extends CustomController
 			for (Entry<Integer, List<ResourceAmount>> councilPalaceReward : GameStatus.getInstance().getCurrentCouncilPrivilegeRewards().entrySet()) {
 				AnchorPane anchorPane = new AnchorPane();
 				councilPalaceRewardsAnchorPanes.add(anchorPane);
-				Text text = new Text(ResourceAmount.getResourcesInformations(councilPalaceReward.getValue(), false));
+				Text text = new Text(ResourceAmount.getResourcesInformation(councilPalaceReward.getValue(), false));
 				int currentCouncilPrivilegeIndex = councilPrivilegeIndex;
 				AnchorPane.setTopAnchor(text, 0.0);
 				AnchorPane.setBottomAnchor(text, 0.0);
@@ -2389,7 +2389,7 @@ public class ControllerGame extends CustomController
 			}
 			this.expectedChooseRewardCouncilPrivilegeDialogVBox.getChildren().add(hBox);
 		}
-		this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardCouncilPrivilege(new ArrayList<>(selectedCouncilPrivilegesRewards.values()))));
+		this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardCouncilPrivilege(new ArrayList<>(selectedCouncilPrivilegesRewards.values()))));
 		this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.setPrefWidth(((VBox) this.expectedChooseRewardCouncilPrivilegeDialogAcceptButton.getParent()).getWidth());
 		this.expectedChooseRewardCouncilPrivilegeDialog.show();
 	}
@@ -2399,7 +2399,7 @@ public class ControllerGame extends CustomController
 		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Harvest action of value " + ((ExpectedActionChooseRewardHarvest) GameStatus.getInstance().getCurrentExpectedAction()).getValue() + ".");
 		this.expectedChooseRewardServantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		this.expectedChooseRewardServantsDialogSlider.setValue(0);
-		this.expectedChooseRewardServantsDialogAcceptButton.setOnAction(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardHarvest((int) this.servantsDialogSlider.getValue())));
+		this.expectedChooseRewardServantsDialogAcceptButton.setOnAction(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardHarvest((int) this.servantsDialogSlider.getValue())));
 		this.expectedChooseRewardServantsDialogAcceptButton.setPrefWidth(((VBox) this.expectedChooseRewardServantsDialogAcceptButton.getParent()).getWidth());
 		this.expectedChooseRewardServantsDialog.show();
 	}
@@ -2439,7 +2439,7 @@ public class ControllerGame extends CustomController
 					for (List<ResourceAmount> instantDiscountChoice : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getInstantDiscountChoices()) {
 						AnchorPane anchorPane = new AnchorPane();
 						instantDiscountChoicesAnchorPanes.add(anchorPane);
-						Text text = new Text(ResourceAmount.getResourcesInformations(instantDiscountChoice, false));
+						Text text = new Text(ResourceAmount.getResourcesInformation(instantDiscountChoice, false));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2464,7 +2464,7 @@ public class ControllerGame extends CustomController
 					for (List<ResourceAmount> discountChoice : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getDiscountChoices()) {
 						AnchorPane anchorPane = new AnchorPane();
 						discountChoicesAnchorPanes.add(anchorPane);
-						Text text = new Text(ResourceAmount.getResourcesInformations(discountChoice, false));
+						Text text = new Text(ResourceAmount.getResourcesInformation(discountChoice, false));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2492,7 +2492,7 @@ public class ControllerGame extends CustomController
 						for (ResourceCostOption resourceCostOption : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getResourceCostOptions()) {
 							AnchorPane anchorPane = new AnchorPane();
 							resourceCostOptionsAnchorPanes.add(anchorPane);
-							Text text = new Text(resourceCostOption.getInformations(true));
+							Text text = new Text(resourceCostOption.getInformation(true));
 							anchorPane.getChildren().add(text);
 							AnchorPane.setTopAnchor(text, 0.0);
 							AnchorPane.setBottomAnchor(text, 0.0);
@@ -2516,7 +2516,7 @@ public class ControllerGame extends CustomController
 					break;
 				}
 			}
-			this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardPickDevelopmentCard((int) this.expectedChooseRewardPickDevelopmentCardDialogSlider.getValue(), this.selectedDevelopmentCardType, GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex), this.selectedInstantRewardRow, this.selectedInstantDiscountChoice, this.selectedDiscountChoice, this.selectedResourceCostOption)));
+			this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardPickDevelopmentCard((int) this.expectedChooseRewardPickDevelopmentCardDialogSlider.getValue(), this.selectedDevelopmentCardType, GameStatus.getInstance().getDevelopmentCardRow(this.selectedDevelopmentCardType, this.selectedDevelopmentCardIndex), this.selectedInstantRewardRow, this.selectedInstantDiscountChoice, this.selectedDiscountChoice, this.selectedResourceCostOption)));
 			this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.setPrefWidth(((VBox) this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.getParent()).getWidth());
 			this.expectedChooseRewardPickDevelopmentCardDialogCancelButton.setPrefWidth(((VBox) this.expectedChooseRewardPickDevelopmentCardDialogCancelButton.getParent()).getWidth());
 			this.expectedChooseRewardPickDevelopmentCardDialogAcceptButton.requestLayout();
@@ -2532,7 +2532,7 @@ public class ControllerGame extends CustomController
 					Utils.setEffect(pane, ControllerGame.MOUSE_OVER_EFFECT);
 				}
 			}
-			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsRefuseReward());
+			Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationRefuseReward());
 		}, true);
 		actionsNodesList.setSpacing(10.0D);
 		actionsNodesList.setRotate(180.0D);
@@ -2555,7 +2555,7 @@ public class ControllerGame extends CustomController
 		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Production action of value " + ((ExpectedActionChooseRewardProductionStart) GameStatus.getInstance().getCurrentExpectedAction()).getValue() + ".");
 		this.expectedChooseRewardServantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		this.expectedChooseRewardServantsDialogSlider.setValue(0);
-		this.expectedChooseRewardServantsDialogAcceptButton.setOnAction(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardProductionStart((int) this.servantsDialogSlider.getValue())));
+		this.expectedChooseRewardServantsDialogAcceptButton.setOnAction(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardProductionStart((int) this.servantsDialogSlider.getValue())));
 		this.expectedChooseRewardServantsDialogAcceptButton.setPrefWidth(((VBox) this.expectedChooseRewardServantsDialogAcceptButton.getParent()).getWidth());
 		this.expectedChooseRewardServantsDialog.show();
 	}
@@ -2582,7 +2582,7 @@ public class ControllerGame extends CustomController
 		Map<Integer, ResourceTradeOption> selectedTradeOptions = new HashMap<>();
 		pickTradeCardsActionButton.setOnMouseClicked(event -> {
 			if (this.selectedTradeCardIndexes.isEmpty()) {
-				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsProductionTrade(selectedTradeOptions));
+				Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationProductionTrade(selectedTradeOptions));
 			} else {
 				this.expectedProductionTradeDialogAcceptButton.setDisable(true);
 				this.expectedProductionTradeDialogVBox.getChildren().clear();
@@ -2605,7 +2605,7 @@ public class ControllerGame extends CustomController
 					for (ResourceTradeOption resourceTradeOption : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().get(tradeCard)) {
 						AnchorPane anchorPane = new AnchorPane();
 						resourceTradeOptionsAnchorPanes.add(anchorPane);
-						Text text = new Text(resourceTradeOption.getInformations(true));
+						Text text = new Text(resourceTradeOption.getInformation(true));
 						anchorPane.getChildren().add(text);
 						AnchorPane.setTopAnchor(text, 0.0);
 						AnchorPane.setBottomAnchor(text, 0.0);
@@ -2635,7 +2635,7 @@ public class ControllerGame extends CustomController
 					this.expectedProductionTradeDialogVBox.getChildren().add(vBox);
 				}
 			}
-			this.expectedProductionTradeDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsProductionTrade(selectedTradeOptions)));
+			this.expectedProductionTradeDialogAcceptButton.setOnAction(childEvent -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationProductionTrade(selectedTradeOptions)));
 			this.expectedProductionTradeDialogAcceptButton.setPrefWidth(((VBox) this.expectedProductionTradeDialogAcceptButton.getParent()).getWidth());
 			this.expectedProductionTradeDialogCancelButton.setPrefWidth(((VBox) this.expectedProductionTradeDialogCancelButton.getParent()).getWidth());
 			this.expectedProductionTradeDialogAcceptButton.requestLayout();

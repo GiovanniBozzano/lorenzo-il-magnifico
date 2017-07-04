@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsPickDevelopmentCard;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -23,7 +23,7 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopmentCard implements IAction
+public class ActionPickDevelopmentCard extends ActionInformationPickDevelopmentCard implements IAction
 {
 	private final transient Player player;
 	private transient boolean columnOccupied = false;
@@ -129,7 +129,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 			throw new GameActionFailedException("You do not have enough resources to get the card");
 		}
 		// check the ActionValue
-		if (eventPickDevelopmentCard.getActionValue() < BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue()) {
+		if (eventPickDevelopmentCard.getActionValue() < BoardHandler.getBoardPositionInformation(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue()) {
 			throw new GameActionFailedException("The action value is too low to get this card");
 		}
 	}
@@ -145,7 +145,7 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		this.player.getPlayerResourceHandler().subtractResources(this.effectiveResourceCost);
 		List<ResourceAmount> resourceReward = new ArrayList<>(developmentCard.getReward().getResourceAmounts());
 		if (this.getBoardPositionReward) {
-			resourceReward.addAll(BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getResourceAmounts());
+			resourceReward.addAll(BoardHandler.getBoardPositionInformation(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getResourceAmounts());
 		}
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.DEVELOPMENT_CARDS);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());

@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.MarketSlot;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsMarket;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationMarket;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
@@ -16,7 +16,7 @@ import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
-public class ActionMarket extends ActionInformationsMarket implements IAction
+public class ActionMarket extends ActionInformationMarket implements IAction
 {
 	private final transient Player player;
 
@@ -69,7 +69,7 @@ public class ActionMarket extends ActionInformationsMarket implements IAction
 		eventUseServants.applyModifiers(this.player.getActiveModifiers());
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
-		if (effectiveFamilyMemberValue + effectiveServants < BoardHandler.getBoardPositionInformations(boardPosition).getValue()) {
+		if (effectiveFamilyMemberValue + effectiveServants < BoardHandler.getBoardPositionInformation(boardPosition).getValue()) {
 			throw new GameActionFailedException("The value of the selected Family Member is not enough to perform this action");
 		}
 	}
@@ -80,7 +80,7 @@ public class ActionMarket extends ActionInformationsMarket implements IAction
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.FAMILY_MEMBER);
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), BoardPosition.getMarketPositions().get(this.getMarketSlot()));
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
-		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformations(BoardPosition.getMarketPositions().get(this.getMarketSlot())).getResourceAmounts(), ResourcesSource.MARKET);
+		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformation(BoardPosition.getMarketPositions().get(this.getMarketSlot())).getResourceAmounts(), ResourcesSource.MARKET);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " started a business in the market with his " + this.getFamilyMemberType().name().toLowerCase() + " family member");

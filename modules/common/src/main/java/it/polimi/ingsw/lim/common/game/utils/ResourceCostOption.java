@@ -56,19 +56,19 @@ public class ResourceCostOption implements Serializable
 		return Objects.hash(super.hashCode(), this.requiredResources, this.spentResources);
 	}
 
-	public String getInformations(boolean isFirstLine)
+	public String getInformation(boolean isFirstLine)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		if (!this.requiredResources.isEmpty()) {
 			stringBuilder.append("Required resources:\n");
-			stringBuilder.append(ResourceAmount.getResourcesInformations(this.requiredResources, true));
+			stringBuilder.append(ResourceAmount.getResourcesInformation(this.requiredResources, true));
 		}
 		if (!this.spentResources.isEmpty()) {
 			if (!isFirstLine || !this.requiredResources.isEmpty()) {
 				stringBuilder.append('\n');
 			}
 			stringBuilder.append("Spent resources:\n");
-			stringBuilder.append(ResourceAmount.getResourcesInformations(this.spentResources, true));
+			stringBuilder.append(ResourceAmount.getResourcesInformation(this.spentResources, true));
 		}
 		return stringBuilder.toString();
 	}

@@ -6,9 +6,9 @@ import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.client.view.IInterfaceHandler;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformationsLobby;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformation;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformationGame;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformationLobby;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
@@ -226,22 +226,22 @@ public class InterfaceHandlerGUI implements IInterfaceHandler
 	}
 
 	@Override
-	public void handleAuthenticationSuccess(AuthenticationInformations authenticationInformations)
+	public void handleAuthenticationSuccess(AuthenticationInformation authenticationInformation)
 	{
-		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformations(((AuthenticationInformationsLobby) authenticationInformations).getRoomInformations().getRoomType(), ((AuthenticationInformationsLobby) authenticationInformations).getRoomInformations().getPlayerNames())));
+		WindowFactory.getInstance().setNewWindow(Utils.SCENE_ROOM, () -> Platform.runLater(() -> ((ControllerRoom) WindowFactory.getInstance().getCurrentWindow()).setRoomInformation(((AuthenticationInformationLobby) authenticationInformation).getRoomInformation().getRoomType(), ((AuthenticationInformationLobby) authenticationInformation).getRoomInformation().getPlayerNames())));
 	}
 
 	@Override
-	public void handleAuthenticationSuccessGameStarted(AuthenticationInformationsGame authenticationInformations)
+	public void handleAuthenticationSuccessGameStarted(AuthenticationInformationGame authenticationInformation)
 	{
-		if (authenticationInformations.isGameInitialized()) {
-			GameStatus.getInstance().updateGameStatus(authenticationInformations.getGameInformations(), authenticationInformations.getPlayersInformations(), authenticationInformations.getOwnLeaderCardsHand());
+		if (authenticationInformation.isGameInitialized()) {
+			GameStatus.getInstance().updateGameStatus(authenticationInformation.getGameInformation(), authenticationInformation.getPlayersInformation(), authenticationInformation.getOwnLeaderCardsHand());
 			WindowFactory.getInstance().setNewWindow(Utils.SCENE_GAME, () -> {
-				if (authenticationInformations.getTurnPlayerIndex() != authenticationInformations.getOwnPlayerIndex()) {
-					GameStatus.getInstance().setCurrentTurnPlayerIndex(authenticationInformations.getTurnPlayerIndex());
+				if (authenticationInformation.getTurnPlayerIndex() != authenticationInformation.getOwnPlayerIndex()) {
+					GameStatus.getInstance().setCurrentTurnPlayerIndex(authenticationInformation.getTurnPlayerIndex());
 					Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::setOtherTurn);
 				} else {
-					GameStatus.getInstance().setCurrentAvailableActions(authenticationInformations.getAvailableActions());
+					GameStatus.getInstance().setCurrentAvailableActions(authenticationInformation.getAvailableActions());
 					Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::setOwnTurn);
 				}
 			});

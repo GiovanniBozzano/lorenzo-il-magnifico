@@ -33,7 +33,7 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 		stringBuilder.append("\n\n\nEnter Leader Card...");
 		int index = 1;
 		for (int leaderCard : GameStatus.getInstance().getAvailableLeaderCards()) {
-			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformations()));
+			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformation()));
 			this.leaderCards.put(index, leaderCard);
 			index++;
 		}

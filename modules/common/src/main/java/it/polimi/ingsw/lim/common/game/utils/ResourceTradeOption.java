@@ -51,19 +51,19 @@ public class ResourceTradeOption implements Serializable
 		return Objects.hash(super.hashCode(), this.employedResources, this.producedResources);
 	}
 
-	public String getInformations(boolean isFirstLine)
+	public String getInformation(boolean isFirstLine)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		if (!this.employedResources.isEmpty()) {
 			stringBuilder.append("\nEmployed resources:\n");
-			stringBuilder.append(ResourceAmount.getResourcesInformations(this.employedResources, true));
+			stringBuilder.append(ResourceAmount.getResourcesInformation(this.employedResources, true));
 		}
 		if (!this.producedResources.isEmpty()) {
 			if (!isFirstLine || !this.employedResources.isEmpty()) {
 				stringBuilder.append('\n');
 			}
 			stringBuilder.append("\nProduced cards:\n");
-			stringBuilder.append(ResourceAmount.getResourcesInformations(this.producedResources, true));
+			stringBuilder.append(ResourceAmount.getResourcesInformation(this.producedResources, true));
 		}
 		return stringBuilder.toString();
 	}

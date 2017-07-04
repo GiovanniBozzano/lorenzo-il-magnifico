@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardCouncilPrivilege;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionChooseRewardCouncilPrivilege;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
@@ -41,7 +41,7 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 		int index = 1;
 		for (Entry<Integer, List<ResourceAmount>> councilPrivilegeReward : GameStatus.getInstance().getCurrentCouncilPrivilegeRewards().entrySet()) {
 			if (!this.availableCouncilPrivilegeRewards.containsValue(councilPrivilegeReward.getKey())) {
-				stringBuilder.append(Utils.createListElement(index, ResourceAmount.getResourcesInformations(councilPrivilegeReward.getValue(), false)));
+				stringBuilder.append(Utils.createListElement(index, ResourceAmount.getResourcesInformation(councilPrivilegeReward.getValue(), false)));
 				this.availableCouncilPrivilegeRewards.put(index, councilPrivilegeReward.getKey());
 				index++;
 			}
@@ -64,6 +64,6 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 			index++;
 		}
 		while (index < ((ExpectedActionChooseRewardCouncilPrivilege) GameStatus.getInstance().getCurrentExpectedAction()).getCouncilPrivilegesNumber());
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardCouncilPrivilege(this.chosenCouncilPrivilegeRewards));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardCouncilPrivilege(this.chosenCouncilPrivilegeRewards));
 	}
 }

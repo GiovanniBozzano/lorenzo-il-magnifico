@@ -6,11 +6,11 @@ import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.enums.RoomType;
-import it.polimi.ingsw.lim.common.game.GameInformations;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
+import it.polimi.ingsw.lim.common.game.GameInformation;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformation;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
-import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.player.PlayerInformation;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 
@@ -105,7 +105,7 @@ import java.util.logging.Level;
 		this.checkInitialization();
 	}
 
-	public synchronized void sendGameAction(ActionInformations action)
+	public synchronized void sendGameAction(ActionInformation action)
 	{
 		this.checkInitialization();
 	}
@@ -200,32 +200,32 @@ import java.util.logging.Level;
 		Client.getInstance().getInterfaceHandler().handleGameExcommunicationChoiceOther();
 	}
 
-	public void handleGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<Serializable>> availableActions)
+	public void handleGameUpdate(GameInformation gameInformation, List<PlayerInformation> playersInformation, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<Serializable>> availableActions)
 	{
 		if (GameStatus.getInstance().getCurrentTurnPlayerIndex() != GameStatus.getInstance().getOwnPlayerIndex()) {
 			Client.getInstance().getInterfaceHandler().handleGameUpdateLog();
 			GameStatus.getInstance().setCurrentTurnPlayerIndex(GameStatus.getInstance().getOwnPlayerIndex());
 		}
-		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
+		GameStatus.getInstance().updateGameStatus(gameInformation, playersInformation, ownLeaderCardsHand);
 		GameStatus.getInstance().setCurrentAvailableActions(availableActions);
 		Client.getInstance().getInterfaceHandler().handleGameUpdate();
 	}
 
-	public void handleGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, ExpectedAction expectedAction)
+	public void handleGameUpdateExpectedAction(GameInformation gameInformation, List<PlayerInformation> playersInformation, Map<Integer, Boolean> ownLeaderCardsHand, ExpectedAction expectedAction)
 	{
 		GameStatus.getInstance().setCurrentTurnPlayerIndex(GameStatus.getInstance().getOwnPlayerIndex());
-		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
+		GameStatus.getInstance().updateGameStatus(gameInformation, playersInformation, ownLeaderCardsHand);
 		GameStatus.getInstance().setCurrentExpectedAction(expectedAction);
 		Client.getInstance().getInterfaceHandler().handleGameUpdateExpectedAction();
 	}
 
-	public void handleGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)
+	public void handleGameUpdateOtherTurn(GameInformation gameInformation, List<PlayerInformation> playersInformation, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)
 	{
 		if (turnPlayerIndex != GameStatus.getInstance().getCurrentTurnPlayerIndex()) {
 			Client.getInstance().getInterfaceHandler().handleGameUpdateOtherTurnLog(turnPlayerIndex);
 			GameStatus.getInstance().setCurrentTurnPlayerIndex(turnPlayerIndex);
 		}
-		GameStatus.getInstance().updateGameStatus(gameInformations, playersInformations, ownLeaderCardsHand);
+		GameStatus.getInstance().updateGameStatus(gameInformation, playersInformation, ownLeaderCardsHand);
 		Client.getInstance().getInterfaceHandler().handleGameUpdateOther();
 	}
 

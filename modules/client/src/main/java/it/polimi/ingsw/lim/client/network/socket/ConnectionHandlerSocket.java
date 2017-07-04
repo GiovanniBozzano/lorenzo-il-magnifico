@@ -6,11 +6,11 @@ import it.polimi.ingsw.lim.client.game.player.PlayerData;
 import it.polimi.ingsw.lim.client.network.ConnectionHandler;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformations;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformation;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
-import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationsLobbySocket;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformation;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformationGame;
+import it.polimi.ingsw.lim.common.network.socket.AuthenticationInformationLobbySocket;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.client.*;
@@ -143,7 +143,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 	}
 
 	@Override
-	public synchronized void sendGameAction(ActionInformations action)
+	public synchronized void sendGameAction(ActionInformation action)
 	{
 		super.sendGameAction(action);
 		new PacketGameAction(action).send(this.out);
@@ -163,23 +163,23 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 		this.sendDisconnectionAcknowledgement();
 	}
 
-	void handleAuthenticationConfirmation(AuthenticationInformations authenticationInformations)
+	void handleAuthenticationConfirmation(AuthenticationInformation authenticationInformation)
 	{
-		GameStatus.getInstance().setup(authenticationInformations.getDevelopmentCardsBuildingInformations(), authenticationInformations.getDevelopmentCardsCharacterInformations(), authenticationInformations.getDevelopmentCardsTerritoryInformations(), authenticationInformations.getDevelopmentCardsVentureInformations(), authenticationInformations.getLeaderCardsInformations(), authenticationInformations.getExcommunicationTilesInformations(), authenticationInformations.getPersonalBonusTilesInformations());
-		if (!authenticationInformations.isGameStarted()) {
-			Client.getInstance().setUsername(((AuthenticationInformationsLobbySocket) authenticationInformations).getUsername());
-			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccess(authenticationInformations);
+		GameStatus.getInstance().setup(authenticationInformation.getDevelopmentCardsBuildingInformation(), authenticationInformation.getDevelopmentCardsCharacterInformation(), authenticationInformation.getDevelopmentCardsTerritoryInformation(), authenticationInformation.getDevelopmentCardsVentureInformation(), authenticationInformation.getLeaderCardsInformation(), authenticationInformation.getExcommunicationTilesInformation(), authenticationInformation.getPersonalBonusTilesInformation());
+		if (!authenticationInformation.isGameStarted()) {
+			Client.getInstance().setUsername(((AuthenticationInformationLobbySocket) authenticationInformation).getUsername());
+			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccess(authenticationInformation);
 		} else {
-			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationsGame) authenticationInformations).getExcommunicationTiles());
-			GameStatus.getInstance().setCurrentCouncilPrivilegeRewards(((AuthenticationInformationsGame) authenticationInformations).getCouncilPrivilegeRewards());
+			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationGame) authenticationInformation).getExcommunicationTiles());
+			GameStatus.getInstance().setCurrentCouncilPrivilegeRewards(((AuthenticationInformationGame) authenticationInformation).getCouncilPrivilegeRewards());
 			Map<Integer, PlayerData> playersData = new HashMap<>();
-			for (Entry<Integer, PlayerIdentification> entry : ((AuthenticationInformationsGame) authenticationInformations).getPlayersIdentifications().entrySet()) {
+			for (Entry<Integer, PlayerIdentification> entry : ((AuthenticationInformationGame) authenticationInformation).getPlayersIdentifications().entrySet()) {
 				playersData.put(entry.getKey(), new PlayerData(entry.getValue().getUsername(), entry.getValue().getColor()));
 			}
 			GameStatus.getInstance().setCurrentPlayerData(playersData);
-			GameStatus.getInstance().setOwnPlayerIndex(((AuthenticationInformationsGame) authenticationInformations).getOwnPlayerIndex());
-			Client.getInstance().setUsername(playersData.get(((AuthenticationInformationsGame) authenticationInformations).getOwnPlayerIndex()).getUsername());
-			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccessGameStarted((AuthenticationInformationsGame) authenticationInformations);
+			GameStatus.getInstance().setOwnPlayerIndex(((AuthenticationInformationGame) authenticationInformation).getOwnPlayerIndex());
+			Client.getInstance().setUsername(playersData.get(((AuthenticationInformationGame) authenticationInformation).getOwnPlayerIndex()).getUsername());
+			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccessGameStarted((AuthenticationInformationGame) authenticationInformation);
 		}
 	}
 

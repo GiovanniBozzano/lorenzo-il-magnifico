@@ -3,12 +3,12 @@ package it.polimi.ingsw.lim.server.network.socket;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.PacketType;
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.GameInformation;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
-import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.player.PlayerInformation;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformation;
 import it.polimi.ingsw.lim.common.network.socket.packets.Packet;
 import it.polimi.ingsw.lim.common.network.socket.packets.PacketChatMessage;
 import it.polimi.ingsw.lim.common.network.socket.packets.server.*;
@@ -96,9 +96,9 @@ public class ConnectionSocket extends Connection
 		new Packet(PacketType.HEARTBEAT).send(this.out);
 	}
 
-	synchronized void sendAuthenticationConfirmation(AuthenticationInformations authenticationInformations)
+	synchronized void sendAuthenticationConfirmation(AuthenticationInformation authenticationInformation)
 	{
-		new PacketAuthenticationConfirmation(authenticationInformations).send(this.out);
+		new PacketAuthenticationConfirmation(authenticationInformation).send(this.out);
 	}
 
 	synchronized void sendAuthenticationFailure(String text)
@@ -197,21 +197,21 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public synchronized void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<Serializable>> availableActions)
+	public synchronized void sendGameUpdate(GameInformation gameInformation, List<PlayerInformation> playersInformation, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<Serializable>> availableActions)
 	{
-		new PacketGameUpdate(gameInformations, playersInformations, ownLeaderCardsHand, availableActions).send(this.out);
+		new PacketGameUpdate(gameInformation, playersInformation, ownLeaderCardsHand, availableActions).send(this.out);
 	}
 
 	@Override
-	public synchronized void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, ExpectedAction expectedAction)
+	public synchronized void sendGameUpdateExpectedAction(GameInformation gameInformation, List<PlayerInformation> playersInformation, Map<Integer, Boolean> ownLeaderCardsHand, ExpectedAction expectedAction)
 	{
-		new PacketGameUpdateExpectedAction(gameInformations, playersInformations, ownLeaderCardsHand, expectedAction).send(this.out);
+		new PacketGameUpdateExpectedAction(gameInformation, playersInformation, ownLeaderCardsHand, expectedAction).send(this.out);
 	}
 
 	@Override
-	public synchronized void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)
+	public synchronized void sendGameUpdateOtherTurn(GameInformation gameInformation, List<PlayerInformation> playersInformation, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)
 	{
-		new PacketGameUpdateOtherTurn(gameInformations, playersInformations, ownLeaderCardsHand, turnPlayerIndex).send(this.out);
+		new PacketGameUpdateOtherTurn(gameInformation, playersInformation, ownLeaderCardsHand, turnPlayerIndex).send(this.out);
 	}
 
 	synchronized void sendGameActionFailed(String text)

@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsProductionStart;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationProductionStart;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.enums.WorkSlotType;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
@@ -18,7 +18,7 @@ import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
-public class ActionProductionStart extends ActionInformationsProductionStart implements IAction
+public class ActionProductionStart extends ActionInformationProductionStart implements IAction
 {
 	private final transient Player player;
 	private transient WorkSlotType workSlotType;
@@ -73,7 +73,7 @@ public class ActionProductionStart extends ActionInformationsProductionStart imp
 		EventProductionStart eventProductionStart = new EventProductionStart(this.player, effectiveFamilyMemberValue + effectiveServants);
 		eventProductionStart.applyModifiers(this.player.getActiveModifiers());
 		this.effectiveActionValue = eventProductionStart.getActionValue();
-		if (this.effectiveActionValue < (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformations(BoardPosition.PRODUCTION_BIG).getValue() : BoardHandler.getBoardPositionInformations(BoardPosition.PRODUCTION_SMALL).getValue())) {
+		if (this.effectiveActionValue < (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformation(BoardPosition.PRODUCTION_BIG).getValue() : BoardHandler.getBoardPositionInformation(BoardPosition.PRODUCTION_SMALL).getValue())) {
 			throw new GameActionFailedException("The value of the selected Family Member is not enough to perform this action");
 		}
 	}

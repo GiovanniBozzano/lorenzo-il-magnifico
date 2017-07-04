@@ -1,10 +1,10 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardBuildingInformations;
+import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardBuildingInformation;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
-import it.polimi.ingsw.lim.common.game.utils.RewardInformations;
+import it.polimi.ingsw.lim.common.game.utils.RewardInformation;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
 
 import java.util.List;
@@ -22,9 +22,9 @@ public class DevelopmentCardBuilding extends DevelopmentCard
 	}
 
 	@Override
-	public DevelopmentCardBuildingInformations getInformations()
+	public DevelopmentCardBuildingInformation getInformation()
 	{
-		return new DevelopmentCardBuildingInformations(this.getTexturePath(), this.getDisplayName(), this.getResourceCostOptions(), this.getReward() == null ? null : new RewardInformations(this.getReward().getActionReward() == null ? null : this.getReward().getActionReward().getDescription(), this.getReward().getResourceAmounts()), this.activationValue, this.resourceTradeOptions);
+		return new DevelopmentCardBuildingInformation(this.getTexturePath(), this.getDisplayName(), this.getResourceCostOptions(), this.getReward() == null ? null : new RewardInformation(this.getReward().getActionReward() == null ? null : this.getReward().getActionReward().getDescription(), this.getReward().getResourceAmounts()), this.activationValue, this.resourceTradeOptions);
 	}
 
 	public int getActivationValue()

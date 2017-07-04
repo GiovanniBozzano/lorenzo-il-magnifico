@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.cards.leaders;
 
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardModifierInformations;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformation;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardModifierInformation;
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.server.enums.LeaderCardType;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
@@ -21,9 +21,9 @@ public class LeaderCardModifier extends LeaderCard
 	}
 
 	@Override
-	public LeaderCardInformations getInformations()
+	public LeaderCardInformation getInformation()
 	{
-		return new LeaderCardModifierInformations(this.getTexturePath(), this.getDisplayName(), this.getDescription(), this.getConditionsOptions(), this.modifier.getDescription());
+		return new LeaderCardModifierInformation(this.getTexturePath(), this.getDisplayName(), this.getDescription(), this.getConditionsOptions(), this.modifier.getDescription());
 	}
 
 	public Modifier getModifier()

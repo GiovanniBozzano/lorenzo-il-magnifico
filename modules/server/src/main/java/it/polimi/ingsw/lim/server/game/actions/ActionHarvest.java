@@ -5,7 +5,7 @@ import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsHarvest;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationHarvest;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.enums.WorkSlotType;
@@ -23,7 +23,7 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionHarvest extends ActionInformationsHarvest implements IAction
+public class ActionHarvest extends ActionInformationHarvest implements IAction
 {
 	private final transient Player player;
 	private transient WorkSlotType workSlotType;
@@ -78,7 +78,7 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 		EventHarvest eventHarvest = new EventHarvest(this.player, effectiveFamilyMemberValue + effectiveServants);
 		eventHarvest.applyModifiers(this.player.getActiveModifiers());
 		this.effectiveActionValue = eventHarvest.getActionValue();
-		if (this.effectiveActionValue < (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformations(BoardPosition.HARVEST_BIG).getValue() : BoardHandler.getBoardPositionInformations(BoardPosition.HARVEST_SMALL).getValue())) {
+		if (this.effectiveActionValue < (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformation(BoardPosition.HARVEST_BIG).getValue() : BoardHandler.getBoardPositionInformation(BoardPosition.HARVEST_SMALL).getValue())) {
 			throw new GameActionFailedException("The value of the selected Family Member is not enough to perform this action");
 		}
 	}

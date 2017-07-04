@@ -66,7 +66,7 @@ public class CLIHandlerShowBoardDevelopmentCards implements ICLIHandler
 			stringBuilder.append("\n\n\nROW: ");
 			stringBuilder.append(developmentCardInteger.getKey().name());
 			stringBuilder.append('\n');
-			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(cardType).get(developmentCardInteger.getValue()).getInformations());
+			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(cardType).get(developmentCardInteger.getValue()).getInformation());
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}

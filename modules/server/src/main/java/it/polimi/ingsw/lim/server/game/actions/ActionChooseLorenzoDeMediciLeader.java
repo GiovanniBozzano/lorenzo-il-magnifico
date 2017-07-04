@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseLorenzoDeMediciLeader;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationChooseLorenzoDeMediciLeader;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
@@ -12,7 +12,7 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionChooseLorenzoDeMediciLeader extends ActionInformationsChooseLorenzoDeMediciLeader implements IAction
+public class ActionChooseLorenzoDeMediciLeader extends ActionInformationChooseLorenzoDeMediciLeader implements IAction
 {
 	private final transient Player player;
 

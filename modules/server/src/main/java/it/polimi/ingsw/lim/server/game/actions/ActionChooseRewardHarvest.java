@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardHarvest;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationChooseRewardHarvest;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardHarvest;
@@ -19,7 +19,7 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionChooseRewardHarvest extends ActionInformationsChooseRewardHarvest implements IAction
+public class ActionChooseRewardHarvest extends ActionInformationChooseRewardHarvest implements IAction
 {
 	private final transient Player player;
 

@@ -2,7 +2,7 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderDiscard;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationLeaderDiscard;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
@@ -14,7 +14,7 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.Collections;
 
-public class ActionLeaderDiscard extends ActionInformationsLeaderDiscard implements IAction
+public class ActionLeaderDiscard extends ActionInformationLeaderDiscard implements IAction
 {
 	private final transient Player player;
 

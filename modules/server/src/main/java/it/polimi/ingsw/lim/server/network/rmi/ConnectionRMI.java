@@ -2,10 +2,10 @@ package it.polimi.ingsw.lim.server.network.rmi;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.Period;
-import it.polimi.ingsw.lim.common.game.GameInformations;
+import it.polimi.ingsw.lim.common.game.GameInformation;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
-import it.polimi.ingsw.lim.common.game.player.PlayerInformations;
+import it.polimi.ingsw.lim.common.game.player.PlayerInformation;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.network.rmi.IServerSession;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
@@ -328,14 +328,14 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGameUpdate(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<Serializable>> availableActions)
+	public void sendGameUpdate(GameInformation gameInformation, List<PlayerInformation> playersInformation, Map<Integer, Boolean> ownLeaderCardsHand, Map<ActionType, List<Serializable>> availableActions)
 	{
 		this.rmiExecutor.execute(() -> {
 			if (this.serverSession == null) {
 				return;
 			}
 			try {
-				this.serverSession.sendGameUpdate(gameInformations, playersInformations, ownLeaderCardsHand, availableActions);
+				this.serverSession.sendGameUpdate(gameInformation, playersInformation, ownLeaderCardsHand, availableActions);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
@@ -344,14 +344,14 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGameUpdateExpectedAction(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, ExpectedAction expectedAction)
+	public void sendGameUpdateExpectedAction(GameInformation gameInformation, List<PlayerInformation> playersInformation, Map<Integer, Boolean> ownLeaderCardsHand, ExpectedAction expectedAction)
 	{
 		this.rmiExecutor.execute(() -> {
 			if (this.serverSession == null) {
 				return;
 			}
 			try {
-				this.serverSession.sendGameUpdateExpectedAction(gameInformations, playersInformations, ownLeaderCardsHand, expectedAction);
+				this.serverSession.sendGameUpdateExpectedAction(gameInformation, playersInformation, ownLeaderCardsHand, expectedAction);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);
@@ -360,14 +360,14 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
-	public void sendGameUpdateOtherTurn(GameInformations gameInformations, List<PlayerInformations> playersInformations, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)
+	public void sendGameUpdateOtherTurn(GameInformation gameInformation, List<PlayerInformation> playersInformation, Map<Integer, Boolean> ownLeaderCardsHand, int turnPlayerIndex)
 	{
 		this.rmiExecutor.execute(() -> {
 			if (this.serverSession == null) {
 				return;
 			}
 			try {
-				this.serverSession.sendGameUpdateOtherTurn(gameInformations, playersInformations, ownLeaderCardsHand, turnPlayerIndex);
+				this.serverSession.sendGameUpdateOtherTurn(gameInformation, playersInformation, ownLeaderCardsHand, turnPlayerIndex);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);

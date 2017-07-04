@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardProductionStart;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationChooseRewardProductionStart;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.logging.Level;
@@ -31,6 +31,6 @@ public class CLIHandlerChooseRewardProductionStart implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardProductionStart(Integer.parseInt(input)));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardProductionStart(Integer.parseInt(input)));
 	}
 }

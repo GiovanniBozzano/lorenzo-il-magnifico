@@ -2,12 +2,12 @@ package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsRefuseReward;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationRefuseReward;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
-public class ActionRefuseReward extends ActionInformationsRefuseReward implements IAction
+public class ActionRefuseReward extends ActionInformationRefuseReward implements IAction
 {
 	private final transient Player player;
 

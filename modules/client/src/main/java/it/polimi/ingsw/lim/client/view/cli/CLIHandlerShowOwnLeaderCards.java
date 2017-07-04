@@ -56,7 +56,7 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 		stringBuilder.append("\nLeader Cards in hand:");
 		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().entrySet()) {
 			stringBuilder.append("\n\n========\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformation());
 			if (!leaderCard.getValue()) {
 				stringBuilder.append("\n\nTHIS CARD CANNOT BE PLAYED\n");
 				stringBuilder.append("=================================\n");
@@ -71,7 +71,7 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 		stringBuilder.append("Played Leader Cards:");
 		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().entrySet()) {
 			stringBuilder.append("\n\n========\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformation());
 			if (!leaderCard.getValue()) {
 				stringBuilder.append("\n\nTHIS CARD CANNOT BE ACTIVATED\n");
 				stringBuilder.append("====================================\n");

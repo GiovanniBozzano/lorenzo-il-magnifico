@@ -27,12 +27,12 @@ public class CardAmount implements Serializable
 		return this.amount;
 	}
 
-	private String getInformations()
+	private String getInformation()
 	{
 		return "- " + CommonUtils.getCardTypesNames().get(this.cardType) + ": " + this.amount;
 	}
 
-	public static String getCardsInformations(List<CardAmount> cardAmounts, boolean indented)
+	public static String getCardsInformation(List<CardAmount> cardAmounts, boolean indented)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		boolean firstLine = true;
@@ -45,7 +45,7 @@ public class CardAmount implements Serializable
 			if (indented) {
 				stringBuilder.append("    ");
 			}
-			stringBuilder.append(cardAmount.getInformations());
+			stringBuilder.append(cardAmount.getInformation());
 		}
 		return stringBuilder.toString();
 	}

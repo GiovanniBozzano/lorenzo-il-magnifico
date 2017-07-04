@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderActivate;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationLeaderActivate;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
@@ -11,7 +11,7 @@ import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
-public class ActionLeaderActivate extends ActionInformationsLeaderActivate implements IAction
+public class ActionLeaderActivate extends ActionInformationLeaderActivate implements IAction
 {
 	private final transient Player player;
 

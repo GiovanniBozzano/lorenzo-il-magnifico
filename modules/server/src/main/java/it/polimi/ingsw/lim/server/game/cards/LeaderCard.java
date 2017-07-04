@@ -1,6 +1,6 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
-import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformations;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformation;
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.server.enums.LeaderCardType;
 
@@ -21,7 +21,7 @@ public abstract class LeaderCard extends Card
 		this.conditionsOptions = conditionsOptions;
 	}
 
-	public abstract LeaderCardInformations getInformations();
+	public abstract LeaderCardInformation getInformation();
 
 	public String getDescription()
 	{

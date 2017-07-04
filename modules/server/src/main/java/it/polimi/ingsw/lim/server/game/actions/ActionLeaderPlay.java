@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsLeaderPlay;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationLeaderPlay;
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
@@ -10,7 +10,7 @@ import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
-public class ActionLeaderPlay extends ActionInformationsLeaderPlay implements IAction
+public class ActionLeaderPlay extends ActionInformationLeaderPlay implements IAction
 {
 	private final transient Player player;
 

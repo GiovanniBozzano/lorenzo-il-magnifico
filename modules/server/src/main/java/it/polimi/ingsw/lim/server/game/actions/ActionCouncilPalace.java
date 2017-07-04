@@ -4,7 +4,7 @@ import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsCouncilPalace;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationCouncilPalace;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
@@ -15,7 +15,7 @@ import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
-public class ActionCouncilPalace extends ActionInformationsCouncilPalace implements IAction
+public class ActionCouncilPalace extends ActionInformationCouncilPalace implements IAction
 {
 	private final transient Player player;
 
@@ -53,7 +53,7 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 		eventUseServants.applyModifiers(this.player.getActiveModifiers());
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
-		if (effectiveFamilyMemberValue + effectiveServants < BoardHandler.getBoardPositionInformations(BoardPosition.COUNCIL_PALACE).getValue()) {
+		if (effectiveFamilyMemberValue + effectiveServants < BoardHandler.getBoardPositionInformation(BoardPosition.COUNCIL_PALACE).getValue()) {
 			throw new GameActionFailedException("The value of the selected Family Member is not enough to perform this action");
 		}
 	}
@@ -67,7 +67,7 @@ public class ActionCouncilPalace extends ActionInformationsCouncilPalace impleme
 		}
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), BoardPosition.COUNCIL_PALACE);
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
-		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformations(BoardPosition.COUNCIL_PALACE).getResourceAmounts(), ResourcesSource.COUNCIL_PALACE);
+		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformation(BoardPosition.COUNCIL_PALACE).getResourceAmounts(), ResourcesSource.COUNCIL_PALACE);
 		eventGainResources.applyModifiers(this.player.getActiveModifiers());
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " chose to move to council palace with his " + this.getFamilyMemberType().name().toLowerCase() + " family memeber");

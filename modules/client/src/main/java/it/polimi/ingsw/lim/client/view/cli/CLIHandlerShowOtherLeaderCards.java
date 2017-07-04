@@ -74,7 +74,7 @@ public class CLIHandlerShowOtherLeaderCards implements ICLIHandler
 		stringBuilder.append("\nPlayed Leader Cards:");
 		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(this.chosenOtherPlayer).getLeaderCardsPlayed().entrySet()) {
 			stringBuilder.append("\n\n========\n");
-			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
+			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformation());
 			if (!leaderCard.getValue()) {
 				Client.getLogger().log(Level.INFO, "\n\nTHIS CARD CANNOT BE ACTIVATED\n");
 				Client.getLogger().log(Level.INFO, "====================================\n");

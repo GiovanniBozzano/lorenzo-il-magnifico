@@ -44,7 +44,7 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 	{
 		this.showOtherPlayers();
 		this.askOtherPlayer();
-		this.askInformations();
+		this.askInformation();
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
@@ -82,7 +82,7 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 		CLIHandlerShowOtherBoard.CHOSEN_OTHER_PLAYER = this.availableOtherPlayers.get(Integer.parseInt(input));
 	}
 
-	private void askInformations()
+	private void askInformation()
 	{
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter what you want to see...");
 		Client.getLogger().log(Level.INFO, "1 - His Family Members' Positions");
@@ -144,7 +144,7 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 		stringBuilder.append(" cards:");
 		for (int value : GameStatus.getInstance().getCurrentPlayersData().get(CLIHandlerShowOtherBoard.CHOSEN_OTHER_PLAYER).getDevelopmentCards().get(CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input)))) {
 			stringBuilder.append("\n\n========\n");
-			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input))).get(value).getInformations());
+			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.get(Integer.parseInt(input))).get(value).getInformation());
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}

@@ -8,7 +8,7 @@ import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.enums.Row;
-import it.polimi.ingsw.lim.common.game.actions.ActionInformationsChooseRewardPickDevelopmentCard;
+import it.polimi.ingsw.lim.common.game.actions.ActionInformationChooseRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionChooseRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
@@ -103,7 +103,7 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		int index = 1;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD)) {
 			if ((((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getCardType()) == this.chosenCardType) {
-				stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getDevelopmentCards().get(this.chosenCardType).get(GameStatus.getInstance().getCurrentDevelopmentCards().get(this.chosenCardType).get(((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getRow())).getInformations()));
+				stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getDevelopmentCards().get(this.chosenCardType).get(GameStatus.getInstance().getCurrentDevelopmentCards().get(this.chosenCardType).get(((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getRow())).getInformation()));
 				this.availableDevelopmentCards.put(index, (AvailableActionChooseRewardPickDevelopmentCard) availableAction);
 				index++;
 			}
@@ -138,7 +138,7 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		stringBuilder.append("\n\nEnter Resource Cost Option...");
 		int index = 1;
 		for (ResourceCostOption resourceCostOption : this.chosenDevelopmentCard.getResourceCostOptions()) {
-			stringBuilder.append(Utils.createListElement(index, resourceCostOption.getInformations(true)));
+			stringBuilder.append(Utils.createListElement(index, resourceCostOption.getInformation(true)));
 			this.availableResourceCostOptions.put(index, resourceCostOption);
 			index++;
 		}
@@ -161,7 +161,7 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		stringBuilder.append("\n\nEnter Instant Discount Choice...");
 		int index = 1;
 		for (List<ResourceAmount> resourceAmounts : this.chosenDevelopmentCard.getInstantDiscountChoices()) {
-			stringBuilder.append(ResourceAmount.getResourcesInformations(resourceAmounts, true));
+			stringBuilder.append(ResourceAmount.getResourcesInformation(resourceAmounts, true));
 			this.availableInstantDiscountChoices.put(index, resourceAmounts);
 			index++;
 		}
@@ -184,7 +184,7 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		stringBuilder.append("\n\nEnter Discount Choice...");
 		int index = 1;
 		for (List<ResourceAmount> resourceAmounts : this.chosenDevelopmentCard.getDiscountChoices()) {
-			stringBuilder.append(ResourceAmount.getResourcesInformations(resourceAmounts, true));
+			stringBuilder.append(ResourceAmount.getResourcesInformation(resourceAmounts, true));
 			this.availableDiscountChoices.put(index, resourceAmounts);
 			index++;
 		}
@@ -209,6 +209,6 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsChooseRewardPickDevelopmentCard(Integer.parseInt(input), this.chosenCardType, this.chosenDevelopmentCard.getRow(), this.chosenInstantRewardRow, this.chosenInstantDiscountChoice, this.chosenDiscountChoice, this.chosenResourceCostOption));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardPickDevelopmentCard(Integer.parseInt(input), this.chosenCardType, this.chosenDevelopmentCard.getRow(), this.chosenInstantRewardRow, this.chosenInstantDiscountChoice, this.chosenDiscountChoice, this.chosenResourceCostOption));
 	}
 }

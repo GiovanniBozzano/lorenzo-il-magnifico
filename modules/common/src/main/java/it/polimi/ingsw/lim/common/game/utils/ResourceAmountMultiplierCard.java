@@ -29,7 +29,7 @@ public class ResourceAmountMultiplierCard extends ResourceAmount
 	}
 
 	@Override
-	public String getInformations()
+	public String getInformation()
 	{
 		return "- " + CommonUtils.getResourcesTypesNames().get(this.getResourceType()) + ": " + this.getAmount() + " x " + CommonUtils.getCardTypesNames().get(this.cardTypeMultiplier);
 	}

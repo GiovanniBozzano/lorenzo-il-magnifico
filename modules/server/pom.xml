@@ -49,6 +49,7 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+							<finalName>${project.artifactId}</finalName>
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<minimizeJar>true</minimizeJar>
 							<createDependencyReducedPom>false</createDependencyReducedPom>

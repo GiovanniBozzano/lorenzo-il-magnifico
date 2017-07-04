@@ -7,13 +7,13 @@ import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.*;
-import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformations;
-import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformations;
+import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformation;
+import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformation;
 import it.polimi.ingsw.lim.common.game.cards.*;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
-import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
+import it.polimi.ingsw.lim.common.network.AuthenticationInformation;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
@@ -74,23 +74,23 @@ public class Utils
 	private static final Map<ActionType, IActionTransformer> ACTIONS_TRANSFORMERS = new EnumMap<>(ActionType.class);
 
 	static {
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, (actionInformations, player) -> new ActionChooseLorenzoDeMediciLeader(((ActionInformationsChooseLorenzoDeMediciLeader) actionInformations).getLeaderCardIndex(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE, (actionInformations, player) -> new ActionChooseRewardCouncilPrivilege(((ActionInformationsChooseRewardCouncilPrivilege) actionInformations).getCouncilPrivilegeRewardIndexes(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD, (actionInformations, player) -> new ActionChooseRewardPickDevelopmentCard(((ActionInformationsChooseRewardPickDevelopmentCard) actionInformations).getServants(), ((ActionInformationsChooseRewardPickDevelopmentCard) actionInformations).getCardType(), ((ActionInformationsChooseRewardPickDevelopmentCard) actionInformations).getRow(), ((ActionInformationsChooseRewardPickDevelopmentCard) actionInformations).getInstantRewardRow(), ((ActionInformationsChooseRewardPickDevelopmentCard) actionInformations).getInstantDiscountChoice(), ((ActionInformationsChooseRewardPickDevelopmentCard) actionInformations).getDiscountChoice(), ((ActionInformationsChooseRewardPickDevelopmentCard) actionInformations).getResourceCostOption(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_HARVEST, (actionInformations, player) -> new ActionChooseRewardHarvest(((ActionInformationsChooseRewardHarvest) actionInformations).getServants(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_PRODUCTION_START, (actionInformations, player) -> new ActionChooseRewardProductionStart(((ActionInformationsChooseRewardProductionStart) actionInformations).getServants(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER, (actionInformations, player) -> new ActionChooseRewardTemporaryModifier(((ActionInformationsChooseRewardTemporaryModifier) actionInformations).getFamilyMemberType(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.COUNCIL_PALACE, (actionInformations, player) -> new ActionCouncilPalace(((ActionInformationsCouncilPalace) actionInformations).getFamilyMemberType(), ((ActionInformationsCouncilPalace) actionInformations).getServants(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.PICK_DEVELOPMENT_CARD, (actionInformations, player) -> new ActionPickDevelopmentCard(((ActionInformationsPickDevelopmentCard) actionInformations).getFamilyMemberType(), ((ActionInformationsPickDevelopmentCard) actionInformations).getServants(), ((ActionInformationsPickDevelopmentCard) actionInformations).getCardType(), ((ActionInformationsPickDevelopmentCard) actionInformations).getRow(), ((ActionInformationsPickDevelopmentCard) actionInformations).getDiscountChoice(), ((ActionInformationsPickDevelopmentCard) actionInformations).getResourceCostOption(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.HARVEST, (actionInformations, player) -> new ActionHarvest(((ActionInformationsHarvest) actionInformations).getFamilyMemberType(), ((ActionInformationsHarvest) actionInformations).getServants(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.LEADER_ACTIVATE, (actionInformations, player) -> new ActionLeaderActivate(((ActionInformationsLeaderActivate) actionInformations).getLeaderCardIndex(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.LEADER_DISCARD, (actionInformations, player) -> new ActionLeaderDiscard(((ActionInformationsLeaderDiscard) actionInformations).getLeaderCardIndex(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.LEADER_PLAY, (actionInformations, player) -> new ActionLeaderPlay(((ActionInformationsLeaderPlay) actionInformations).getLeaderCardIndex(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.MARKET, (actionInformations, player) -> new ActionMarket(((ActionInformationsMarket) actionInformations).getFamilyMemberType(), ((ActionInformationsMarket) actionInformations).getServants(), ((ActionInformationsMarket) actionInformations).getMarketSlot(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.PASS_TURN, (actionInformations, player) -> new ActionPassTurn(player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.PRODUCTION_START, (actionInformations, player) -> new ActionProductionStart(((ActionInformationsProductionStart) actionInformations).getFamilyMemberType(), ((ActionInformationsProductionStart) actionInformations).getServants(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.PRODUCTION_TRADE, (actionInformations, player) -> new ActionProductionTrade(((ActionInformationsProductionTrade) actionInformations).getChosenDevelopmentCardsBuilding(), player));
-		Utils.ACTIONS_TRANSFORMERS.put(ActionType.REFUSE_REWARD, (actionInformations, player) -> new ActionRefuseReward(player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, (actionInformation, player) -> new ActionChooseLorenzoDeMediciLeader(((ActionInformationChooseLorenzoDeMediciLeader) actionInformation).getLeaderCardIndex(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE, (actionInformation, player) -> new ActionChooseRewardCouncilPrivilege(((ActionInformationChooseRewardCouncilPrivilege) actionInformation).getCouncilPrivilegeRewardIndexes(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD, (actionInformation, player) -> new ActionChooseRewardPickDevelopmentCard(((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getServants(), ((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getCardType(), ((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getRow(), ((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getInstantRewardRow(), ((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getInstantDiscountChoice(), ((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getDiscountChoice(), ((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getResourceCostOption(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_HARVEST, (actionInformation, player) -> new ActionChooseRewardHarvest(((ActionInformationChooseRewardHarvest) actionInformation).getServants(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_PRODUCTION_START, (actionInformation, player) -> new ActionChooseRewardProductionStart(((ActionInformationChooseRewardProductionStart) actionInformation).getServants(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER, (actionInformation, player) -> new ActionChooseRewardTemporaryModifier(((ActionInformationChooseRewardTemporaryModifier) actionInformation).getFamilyMemberType(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.COUNCIL_PALACE, (actionInformation, player) -> new ActionCouncilPalace(((ActionInformationCouncilPalace) actionInformation).getFamilyMemberType(), ((ActionInformationCouncilPalace) actionInformation).getServants(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.PICK_DEVELOPMENT_CARD, (actionInformation, player) -> new ActionPickDevelopmentCard(((ActionInformationPickDevelopmentCard) actionInformation).getFamilyMemberType(), ((ActionInformationPickDevelopmentCard) actionInformation).getServants(), ((ActionInformationPickDevelopmentCard) actionInformation).getCardType(), ((ActionInformationPickDevelopmentCard) actionInformation).getRow(), ((ActionInformationPickDevelopmentCard) actionInformation).getDiscountChoice(), ((ActionInformationPickDevelopmentCard) actionInformation).getResourceCostOption(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.HARVEST, (actionInformation, player) -> new ActionHarvest(((ActionInformationHarvest) actionInformation).getFamilyMemberType(), ((ActionInformationHarvest) actionInformation).getServants(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.LEADER_ACTIVATE, (actionInformation, player) -> new ActionLeaderActivate(((ActionInformationLeaderActivate) actionInformation).getLeaderCardIndex(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.LEADER_DISCARD, (actionInformation, player) -> new ActionLeaderDiscard(((ActionInformationLeaderDiscard) actionInformation).getLeaderCardIndex(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.LEADER_PLAY, (actionInformation, player) -> new ActionLeaderPlay(((ActionInformationLeaderPlay) actionInformation).getLeaderCardIndex(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.MARKET, (actionInformation, player) -> new ActionMarket(((ActionInformationMarket) actionInformation).getFamilyMemberType(), ((ActionInformationMarket) actionInformation).getServants(), ((ActionInformationMarket) actionInformation).getMarketSlot(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.PASS_TURN, (actionInformation, player) -> new ActionPassTurn(player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.PRODUCTION_START, (actionInformation, player) -> new ActionProductionStart(((ActionInformationProductionStart) actionInformation).getFamilyMemberType(), ((ActionInformationProductionStart) actionInformation).getServants(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.PRODUCTION_TRADE, (actionInformation, player) -> new ActionProductionTrade(((ActionInformationProductionTrade) actionInformation).getChosenDevelopmentCardsBuilding(), player));
+		Utils.ACTIONS_TRANSFORMERS.put(ActionType.REFUSE_REWARD, (actionInformation, player) -> new ActionRefuseReward(player));
 	}
 
 	private Utils()
@@ -213,47 +213,47 @@ public class Utils
 		}
 	}
 
-	public static AuthenticationInformations fillAuthenticationInformations()
+	public static AuthenticationInformation fillAuthenticationInformation()
 	{
-		Map<Integer, DevelopmentCardBuildingInformations> developmentCardsBuildingsInformations = new HashMap<>();
-		Map<Integer, DevelopmentCardCharacterInformations> developmentCardsCharacterInformations = new HashMap<>();
-		Map<Integer, DevelopmentCardTerritoryInformations> developmentsCardTerritoryInformations = new HashMap<>();
-		Map<Integer, DevelopmentCardVentureInformations> developmentCardsVentureInformations = new HashMap<>();
+		Map<Integer, DevelopmentCardBuildingInformation> developmentCardsBuildingsInformation = new HashMap<>();
+		Map<Integer, DevelopmentCardCharacterInformation> developmentCardsCharacterInformation = new HashMap<>();
+		Map<Integer, DevelopmentCardTerritoryInformation> developmentsCardTerritoryInformation = new HashMap<>();
+		Map<Integer, DevelopmentCardVentureInformation> developmentCardsVentureInformation = new HashMap<>();
 		for (Period period : Period.values()) {
 			for (DevelopmentCardBuilding developmentCardBuilding : CardsHandler.getDevelopmentCardsBuilding().get(period)) {
-				developmentCardsBuildingsInformations.put(developmentCardBuilding.getIndex(), developmentCardBuilding.getInformations());
+				developmentCardsBuildingsInformation.put(developmentCardBuilding.getIndex(), developmentCardBuilding.getInformation());
 			}
 			for (DevelopmentCardCharacter developmentCardCharacter : CardsHandler.getDevelopmentCardsCharacter().get(period)) {
-				developmentCardsCharacterInformations.put(developmentCardCharacter.getIndex(), developmentCardCharacter.getInformations());
+				developmentCardsCharacterInformation.put(developmentCardCharacter.getIndex(), developmentCardCharacter.getInformation());
 			}
 			for (DevelopmentCardTerritory developmentCardTerritory : CardsHandler.getDevelopmentCardsTerritory().get(period)) {
-				developmentsCardTerritoryInformations.put(developmentCardTerritory.getIndex(), developmentCardTerritory.getInformations());
+				developmentsCardTerritoryInformation.put(developmentCardTerritory.getIndex(), developmentCardTerritory.getInformation());
 			}
 			for (DevelopmentCardVenture developmentCardVenture : CardsHandler.getDevelopmentCardsVenture().get(period)) {
-				developmentCardsVentureInformations.put(developmentCardVenture.getIndex(), developmentCardVenture.getInformations());
+				developmentCardsVentureInformation.put(developmentCardVenture.getIndex(), developmentCardVenture.getInformation());
 			}
 		}
-		Map<Integer, LeaderCardInformations> leaderCardsInformations = new HashMap<>();
+		Map<Integer, LeaderCardInformation> leaderCardsInformation = new HashMap<>();
 		for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
-			leaderCardsInformations.put(leaderCard.getIndex(), leaderCard.getInformations());
+			leaderCardsInformation.put(leaderCard.getIndex(), leaderCard.getInformation());
 		}
-		Map<Integer, ExcommunicationTileInformations> excommunicationTilesInformations = new HashMap<>();
+		Map<Integer, ExcommunicationTileInformation> excommunicationTilesInformation = new HashMap<>();
 		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
-			excommunicationTilesInformations.put(excommunicationTile.getIndex(), new ExcommunicationTileInformations(excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
+			excommunicationTilesInformation.put(excommunicationTile.getIndex(), new ExcommunicationTileInformation(excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
 		}
-		Map<Integer, PersonalBonusTileInformations> personalBonusTilesInformations = new HashMap<>();
+		Map<Integer, PersonalBonusTileInformation> personalBonusTilesInformation = new HashMap<>();
 		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
-			personalBonusTilesInformations.put(personalBonusTile.getIndex(), new PersonalBonusTileInformations(personalBonusTile.getTexturePath(), personalBonusTile.getPlayerBoardTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
+			personalBonusTilesInformation.put(personalBonusTile.getIndex(), new PersonalBonusTileInformation(personalBonusTile.getTexturePath(), personalBonusTile.getPlayerBoardTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
 		}
-		AuthenticationInformations authenticationInformations = new AuthenticationInformations();
-		authenticationInformations.setDevelopmentCardsBuildingInformations(developmentCardsBuildingsInformations);
-		authenticationInformations.setDevelopmentCardsCharacterInformations(developmentCardsCharacterInformations);
-		authenticationInformations.setDevelopmentCardsTerritoryInformations(developmentsCardTerritoryInformations);
-		authenticationInformations.setDevelopmentCardsVentureInformations(developmentCardsVentureInformations);
-		authenticationInformations.setLeaderCardsInformations(leaderCardsInformations);
-		authenticationInformations.setExcommunicationTilesInformations(excommunicationTilesInformations);
-		authenticationInformations.setPersonalBonusTilesInformations(personalBonusTilesInformations);
-		return authenticationInformations;
+		AuthenticationInformation authenticationInformation = new AuthenticationInformation();
+		authenticationInformation.setDevelopmentCardsBuildingInformation(developmentCardsBuildingsInformation);
+		authenticationInformation.setDevelopmentCardsCharacterInformation(developmentCardsCharacterInformation);
+		authenticationInformation.setDevelopmentCardsTerritoryInformation(developmentsCardTerritoryInformation);
+		authenticationInformation.setDevelopmentCardsVentureInformation(developmentCardsVentureInformation);
+		authenticationInformation.setLeaderCardsInformation(leaderCardsInformation);
+		authenticationInformation.setExcommunicationTilesInformation(excommunicationTilesInformation);
+		authenticationInformation.setPersonalBonusTilesInformation(personalBonusTilesInformation);
+		return authenticationInformation;
 	}
 
 	public static <T extends DevelopmentCard> Map<Period, List<T>> deepCopyDevelopmentCards(Map<Period, List<T>> original)
