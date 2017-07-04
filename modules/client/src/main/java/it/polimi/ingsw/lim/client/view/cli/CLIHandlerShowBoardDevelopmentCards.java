@@ -43,11 +43,14 @@ public class CLIHandlerShowBoardDevelopmentCards implements ICLIHandler
 
 	private void askDevelopmentCardsType()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Card Type...");
-		Client.getLogger().log(Level.INFO, "1 - BUILDING");
-		Client.getLogger().log(Level.INFO, "2 - CHARACTER");
-		Client.getLogger().log(Level.INFO, "3 - TERRITORY");
-		Client.getLogger().log(Level.INFO, "4 - VENTURE");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Enter Card Type...");
+		for (Entry<Integer, CardType> cardType : CLIHandlerShowBoardDevelopmentCards.CARD_TYPE_CHOICE.entrySet()) {
+			stringBuilder.append(cardType.getKey());
+			stringBuilder.append(" - ");
+			stringBuilder.append(CommonUtils.getCardTypesNames().get(cardType.getValue()));
+		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();

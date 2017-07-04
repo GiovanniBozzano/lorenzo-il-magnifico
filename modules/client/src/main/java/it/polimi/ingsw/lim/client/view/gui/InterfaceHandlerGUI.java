@@ -14,7 +14,6 @@ import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
-import java.util.Map;
 import java.util.logging.Level;
 
 public class InterfaceHandlerGUI implements IInterfaceHandler
@@ -47,7 +46,7 @@ public class InterfaceHandlerGUI implements IInterfaceHandler
 	@Override
 	public void stop()
 	{
-		Platform.runLater(() -> WindowFactory.getInstance().closeWindow());
+		WindowFactory.getInstance().closeWindow();
 	}
 
 	@Override
@@ -201,9 +200,9 @@ public class InterfaceHandlerGUI implements IInterfaceHandler
 	}
 
 	@Override
-	public void handleGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
+	public void handleGameEnded()
 	{
-		Platform.runLater(() -> ((ControllerGame) WindowFactory.getInstance().getCurrentWindow()).showEndGame(playersScores, playerIndexesVictoryPointsRecord));
+		Platform.runLater(((ControllerGame) WindowFactory.getInstance().getCurrentWindow())::showEndGame);
 	}
 
 	@Override

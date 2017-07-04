@@ -9,6 +9,7 @@ public abstract class Modifier<T extends Event>
 
 	protected Modifier(Class<T> eventClass, String description)
 	{
+		this.eventClass = eventClass;
 		this.description = description;
 	}
 

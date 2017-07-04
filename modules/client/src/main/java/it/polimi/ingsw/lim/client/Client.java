@@ -28,17 +28,18 @@ public class Client extends Instance
 		Client.CLI_HANDLERS.put(CLIStatus.LEADER_CARDS_CHOICE, new CLIHandlerLeaderCardsChoice());
 		Client.CLI_HANDLERS.put(CLIStatus.EXCOMMUNICATION_CHOICE, new CLIHandlerExcommunicationChoice());
 		Client.CLI_HANDLERS.put(CLIStatus.AVAILABLE_ACTIONS, new CLIHandlerAvailableActions());
-		Client.CLI_HANDLERS.put(CLIStatus.HARVEST, new CLIHandlerHarvest());
-		Client.CLI_HANDLERS.put(CLIStatus.PRODUCTION_START, new CLIHandlerProductionStart());
-		Client.CLI_HANDLERS.put(CLIStatus.MARKET, new CLIHandlerMarket());
 		Client.CLI_HANDLERS.put(CLIStatus.COUNCIL_PALACE, new CLIHandlerCouncilPalace());
-		Client.CLI_HANDLERS.put(CLIStatus.LEADER_DISCARD, new CLIHandlerLeaderDiscard());
+		Client.CLI_HANDLERS.put(CLIStatus.HARVEST, new CLIHandlerHarvest());
 		Client.CLI_HANDLERS.put(CLIStatus.LEADER_ACTIVATE, new CLIHandlerLeaderActivate());
+		Client.CLI_HANDLERS.put(CLIStatus.LEADER_DISCARD, new CLIHandlerLeaderDiscard());
 		Client.CLI_HANDLERS.put(CLIStatus.LEADER_PLAY, new CLIHandlerLeaderPlay());
+		Client.CLI_HANDLERS.put(CLIStatus.MARKET, new CLIHandlerMarket());
+		Client.CLI_HANDLERS.put(CLIStatus.PICK_DEVELOPMENT_CARD, new CLIHandlerPickDevelopmentCard());
+		Client.CLI_HANDLERS.put(CLIStatus.PRODUCTION_START, new CLIHandlerProductionStart());
 		Client.CLI_HANDLERS.put(CLIStatus.SHOW_BOARD_DEVELOPMENT_CARDS, new CLIHandlerShowBoardDevelopmentCards());
+		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OTHER_LEADER_CARDS, new CLIHandlerShowOtherLeaderCards());
 		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OWN_BOARD, new CLIHandlerShowOwnBoard());
 		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OWN_LEADER_CARDS, new CLIHandlerShowOwnLeaderCards());
-		Client.CLI_HANDLERS.put(CLIStatus.SHOW_OTHER_LEADER_CARDS, new CLIHandlerShowOtherLeaderCards());
 		Client.CLI_HANDLERS.put(CLIStatus.CHOOSE_LORENZO_DE_MEDICI_LEADER, new CLIHandlerChooseLorenzoDeMediciLeader());
 		Client.CLI_HANDLERS.put(CLIStatus.CHOOSE_REWARD_COUNCIL_PRIVILEGE, new CLIHandlerChooseRewardCouncilPrivilege());
 		Client.CLI_HANDLERS.put(CLIStatus.CHOOSE_REWARD_HARVEST, new CLIHandlerChooseRewardHarvest());
@@ -46,7 +47,7 @@ public class Client extends Instance
 		Client.CLI_HANDLERS.put(CLIStatus.CHOOSE_REWARD_PRODUCTION_START, new CLIHandlerChooseRewardProductionStart());
 		Client.CLI_HANDLERS.put(CLIStatus.CHOOSE_REWARD_TEMPORARY_MODIFIER, new CLIHandlerChooseRewardTemporaryModifier());
 		Client.CLI_HANDLERS.put(CLIStatus.PRODUCTION_TRADE, new CLIHandlerProductionTrade());
-		Client.CLI_HANDLERS.put(CLIStatus.GAME_ENDED, new CLIHandlerGameEnded());
+		Client.CLI_HANDLERS.put(CLIStatus.END_GAME, new CLIHandlerEndGame());
 	}
 
 	private CLIStatus cliStatus = CLIStatus.INTERFACE_CHOICE;

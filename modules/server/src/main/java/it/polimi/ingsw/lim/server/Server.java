@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.server;
 import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
-import it.polimi.ingsw.lim.common.utils.WindowFactory;
 import it.polimi.ingsw.lim.server.database.Database;
 import it.polimi.ingsw.lim.server.database.DatabaseSQLite;
 import it.polimi.ingsw.lim.server.enums.CLIStatus;
@@ -71,7 +70,6 @@ public class Server extends Instance
 					Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				}
 			}, 0L, 60L, TimeUnit.SECONDS);
-			WindowFactory.getInstance().disableWindow();
 			this.connectionHandler = new ConnectionHandler(rmiPort, socketPort);
 			this.connectionHandler.start();
 		});

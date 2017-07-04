@@ -45,6 +45,8 @@ public class GameStatus
 	private ExpectedAction currentExpectedAction;
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private final List<Integer> availableLeaderCards = new ArrayList<>();
+	private final Map<Integer, Integer> playersScores = new HashMap<>();
+	private final Map<Integer, Integer> playerIndexesVictoryPointsRecord = new HashMap<>();
 
 	private GameStatus()
 	{
@@ -355,5 +357,27 @@ public class GameStatus
 	{
 		this.availableLeaderCards.clear();
 		this.availableLeaderCards.addAll(availableLeaderCards);
+	}
+
+	public Map<Integer, Integer> getPlayersScores()
+	{
+		return this.playersScores;
+	}
+
+	public void setPlayersScores(Map<Integer, Integer> playersScores)
+	{
+		this.playersScores.clear();
+		this.playersScores.putAll(playersScores);
+	}
+
+	public Map<Integer, Integer> getPlayerIndexesVictoryPointsRecord()
+	{
+		return this.playerIndexesVictoryPointsRecord;
+	}
+
+	public void setPlayerIndexesVictoryPointsRecord(Map<Integer, Integer> playerIndexesVictoryPointsRecord)
+	{
+		this.playerIndexesVictoryPointsRecord.clear();
+		this.playerIndexesVictoryPointsRecord.putAll(playerIndexesVictoryPointsRecord);
 	}
 }

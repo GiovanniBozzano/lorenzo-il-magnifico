@@ -20,15 +20,16 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 
 	static {
 		ACTION_NAMES.put(CLIStatus.SHOW_BOARD_DEVELOPMENT_CARDS, "Show Development Cards");
-		ACTION_NAMES.put(CLIStatus.SHOW_OWN_LEADER_CARDS, "Show Leaders");
+		ACTION_NAMES.put(CLIStatus.SHOW_OWN_LEADER_CARDS, "Show Own Leader Cards");
+		ACTION_NAMES.put(CLIStatus.SHOW_OWN_LEADER_CARDS, "Show Other Leader Cards");
 		ACTION_NAMES.put(CLIStatus.COUNCIL_PALACE, "Council Palace");
 		ACTION_NAMES.put(CLIStatus.HARVEST, "Harvest");
 		ACTION_NAMES.put(CLIStatus.MARKET, "Market");
 		ACTION_NAMES.put(CLIStatus.PICK_DEVELOPMENT_CARD, "Pick Development Card");
 		ACTION_NAMES.put(CLIStatus.PRODUCTION_START, "Start Production");
-		ACTION_NAMES.put(CLIStatus.LEADER_ACTIVATE, "Activate Leader");
-		ACTION_NAMES.put(CLIStatus.LEADER_DISCARD, "Discard Leader");
-		ACTION_NAMES.put(CLIStatus.LEADER_PLAY, "Play Leader");
+		ACTION_NAMES.put(CLIStatus.LEADER_ACTIVATE, "Activate Leader Card");
+		ACTION_NAMES.put(CLIStatus.LEADER_DISCARD, "Discard Leader Card");
+		ACTION_NAMES.put(CLIStatus.LEADER_PLAY, "Play Leader Card");
 	}
 
 	private final Map<Integer, CLIStatus> availableActions = new HashMap<>();
@@ -75,7 +76,7 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 			this.availableActions.put(this.availableActions.size() + 1, CLIStatus.LEADER_PLAY);
 		}
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Action choice...");
+		stringBuilder.append("Enter Action...");
 		for (Entry<Integer, CLIStatus> availableAction : this.availableActions.entrySet()) {
 			stringBuilder.append(Utils.createListElement(availableAction.getKey(), CLIHandlerAvailableActions.ACTION_NAMES.get(availableAction.getValue())));
 		}

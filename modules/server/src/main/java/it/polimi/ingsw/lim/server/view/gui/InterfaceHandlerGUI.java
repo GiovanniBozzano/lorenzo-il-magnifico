@@ -27,7 +27,7 @@ public class InterfaceHandlerGUI implements IInterfaceHandler
 	@Override
 	public void stop()
 	{
-		Platform.runLater(() -> WindowFactory.getInstance().closeWindow());
+		WindowFactory.getInstance().closeWindow();
 	}
 
 	@Override

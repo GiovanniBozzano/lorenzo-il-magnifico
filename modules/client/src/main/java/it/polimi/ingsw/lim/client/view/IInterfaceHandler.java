@@ -5,8 +5,6 @@ import it.polimi.ingsw.lim.common.network.AuthenticationInformations;
 import it.polimi.ingsw.lim.common.network.AuthenticationInformationsGame;
 import javafx.stage.Stage;
 
-import java.util.Map;
-
 public interface IInterfaceHandler
 {
 	void start();
@@ -57,7 +55,7 @@ public interface IInterfaceHandler
 
 	void handleGameUpdateOther();
 
-	void handleGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord);
+	void handleGameEnded();
 
 	void handleConnectionError();
 

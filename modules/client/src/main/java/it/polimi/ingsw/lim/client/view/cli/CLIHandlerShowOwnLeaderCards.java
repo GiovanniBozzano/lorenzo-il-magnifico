@@ -14,17 +14,17 @@ import java.util.logging.Level;
 
 public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 {
-	private static final Map<Integer, Runnable> LEADER_CARDS_CHOICE = new HashMap<>();
+	private static final Map<Integer, Runnable> LEADER_CARDS_POSITIONS = new HashMap<>();
 
 	static {
-		CLIHandlerShowOwnLeaderCards.LEADER_CARDS_CHOICE.put(1, CLIHandlerShowOwnLeaderCards::showLeaderCardsHand);
-		CLIHandlerShowOwnLeaderCards.LEADER_CARDS_CHOICE.put(2, CLIHandlerShowOwnLeaderCards::showLeaderCardsPlayed);
+		CLIHandlerShowOwnLeaderCards.LEADER_CARDS_POSITIONS.put(1, CLIHandlerShowOwnLeaderCards::showLeaderCardsHand);
+		CLIHandlerShowOwnLeaderCards.LEADER_CARDS_POSITIONS.put(2, CLIHandlerShowOwnLeaderCards::showLeaderCardsPlayed);
 	}
 
 	@Override
 	public void execute()
 	{
-		this.askLeaderCardChoice();
+		this.askLeaderCardPosition();
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
@@ -37,23 +37,23 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 		return new CLIHandlerShowOwnLeaderCards();
 	}
 
-	private void askLeaderCardChoice()
+	private void askLeaderCardPosition()
 	{
 		Client.getLogger().log(Level.INFO, "Enter Leader Cards ...");
 		Client.getLogger().log(Level.INFO, "1 - Leader Cards in your hand");
-		Client.getLogger().log(Level.INFO, "2 - Your Played Leader Cards");
+		Client.getLogger().log(Level.INFO, "2 - Played Leader Cards");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnLeaderCards.LEADER_CARDS_CHOICE.containsKey(Integer.parseInt(input)));
-		CLIHandlerShowOwnLeaderCards.LEADER_CARDS_CHOICE.get(Integer.parseInt(input)).run();
+		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnLeaderCards.LEADER_CARDS_POSITIONS.containsKey(Integer.parseInt(input)));
+		CLIHandlerShowOwnLeaderCards.LEADER_CARDS_POSITIONS.get(Integer.parseInt(input)).run();
 	}
 
 	private static void showLeaderCardsHand()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Player Leader Cards in hand:");
+		stringBuilder.append("Leader Cards in hand:");
 		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().entrySet()) {
 			stringBuilder.append("\n========\n");
 			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());
@@ -68,7 +68,7 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 	private static void showLeaderCardsPlayed()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Player Leader Cards played:");
+		stringBuilder.append("Played Leader Cards:");
 		for (Entry<Integer, Boolean> leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().entrySet()) {
 			stringBuilder.append("\n========\n");
 			stringBuilder.append(GameStatus.getInstance().getLeaderCards().get(leaderCard.getKey()).getInformations());

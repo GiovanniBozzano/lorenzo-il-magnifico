@@ -32,7 +32,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void start()
 	{
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.CONNECTION);
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.PERSONAL_BONUS_TILE_CHOICE);
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 
 	@Override
@@ -138,7 +138,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.LEADER_CARDS_CHOICE);
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.EXCOMMUNICATION_CHOICE);
-		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
+		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 
 	@Override
@@ -168,7 +168,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 
 	@Override
@@ -177,7 +177,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(InterfaceHandlerCLI.EXPECTED_ACTION_HANDLERS.get(GameStatus.getInstance().getCurrentExpectedAction().getActionType()));
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 
 	@Override
@@ -189,19 +189,16 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 	@Override
 	public void handleGameUpdateOther()
 	{
-		Client.getInstance().getCliListener().shutdownNow();
-		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
-		Client.getInstance().setCliStatus(CLIStatus.GAME_ENDED);
-		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
+		// This method is empty because it is not implemented by the CLI.
 	}
 
 	@Override
-	public void handleGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
+	public void handleGameEnded()
 	{
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
-		Client.getInstance().setCliStatus(CLIStatus.GAME_ENDED);
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+		Client.getInstance().setCliStatus(CLIStatus.END_GAME);
+		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 
 	@Override
@@ -210,7 +207,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 		Client.getLogger().log(Level.INFO, "Could not connect to host");
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 
 	@Override
@@ -219,7 +216,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
 		Client.getInstance().setCliStatus(CLIStatus.AUTHENTICATION);
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 
 	@Override
@@ -228,7 +225,7 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 		Client.getLogger().log(Level.INFO, text);
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 
 	@Override
@@ -258,6 +255,6 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 		Client.getLogger().log(Level.INFO, "Action Failed: {0} ", new Object[] { text });
 		Client.getInstance().getCliListener().shutdownNow();
 		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 }

@@ -231,7 +231,9 @@ import java.util.logging.Level;
 
 	public void handleGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
 	{
-		Client.getInstance().getInterfaceHandler().handleGameEnded(playersScores, playerIndexesVictoryPointsRecord);
+		GameStatus.getInstance().setPlayersScores(playersScores);
+		GameStatus.getInstance().setPlayerIndexesVictoryPointsRecord(playerIndexesVictoryPointsRecord);
+		Client.getInstance().getInterfaceHandler().handleGameEnded();
 	}
 
 	private void checkInitialization()

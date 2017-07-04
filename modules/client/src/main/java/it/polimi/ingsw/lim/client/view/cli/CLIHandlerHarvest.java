@@ -20,7 +20,7 @@ import java.util.logging.Level;
 public class CLIHandlerHarvest implements ICLIHandler
 {
 	private final Map<Integer, FamilyMemberType> familyMemberTypes = new HashMap<>();
-	private int familyMemberValue;
+	private FamilyMemberType familyMemberType;
 
 	@Override
 	public void execute()
@@ -39,7 +39,7 @@ public class CLIHandlerHarvest implements ICLIHandler
 	private void showFamilyMembers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Family Member Choice...");
+		stringBuilder.append("Enter Family Member...");
 		int index = 1;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.HARVEST)) {
 			if (!this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
@@ -58,19 +58,19 @@ public class CLIHandlerHarvest implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || !this.familyMemberTypes.containsKey(Integer.parseInt(input)));
-		this.familyMemberValue = Integer.parseInt(input);
+		this.familyMemberType = this.familyMemberTypes.get(Integer.parseInt(input));
 	}
 
 	private void askServants()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Servant Amount...");
+		Client.getLogger().log(Level.INFO, "Enter Servants amount...");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsHarvest(this.familyMemberTypes.get(this.familyMemberValue), Integer.parseInt(input)));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationsHarvest(this.familyMemberType, Integer.parseInt(input)));
 	}
 }
 

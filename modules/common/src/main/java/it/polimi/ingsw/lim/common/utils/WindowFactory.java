@@ -121,7 +121,7 @@ public class WindowFactory
 	public void closeWindow()
 	{
 		if (this.currentWindow.get() != null) {
-			this.currentWindow.get().getStage().close();
+			Platform.runLater(this.currentWindow.get().getStage()::close);
 		}
 	}
 
@@ -178,17 +178,10 @@ public class WindowFactory
 		return this.currentWindow.get().getClass() == clazz;
 	}
 
-	public void disableWindow()
-	{
-		if (this.currentWindow.get() != null) {
-			this.currentWindow.get().getStage().getScene().getRoot().setDisable(true);
-		}
-	}
-
 	public void enableWindow()
 	{
 		if (this.currentWindow.get() != null) {
-			this.currentWindow.get().getStage().getScene().getRoot().setDisable(false);
+			Platform.runLater(() -> this.currentWindow.get().getStage().getScene().getRoot().setDisable(false));
 		}
 	}
 

@@ -45,7 +45,7 @@ public class CLIHandlerMarket implements ICLIHandler
 	private void showMarketSlots()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Enter Market Slot Choice...");
+		stringBuilder.append("Enter Market Slot...");
 		int index = 1;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
 			if (!this.marketSlots.containsValue(((AvailableActionMarket) availableAction).getMarketSlot())) {
@@ -98,7 +98,7 @@ public class CLIHandlerMarket implements ICLIHandler
 
 	private void askServants()
 	{
-		Client.getLogger().log(Level.INFO, "Enter Servant Amount...");
+		Client.getLogger().log(Level.INFO, "Enter Servants amount...");
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();

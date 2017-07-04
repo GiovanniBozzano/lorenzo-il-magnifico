@@ -2699,11 +2699,11 @@ public class ControllerGame extends CustomController
 		}
 	}
 
-	void showEndGame(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
+	void showEndGame()
 	{
-		int winningPlayerIndex = new ArrayList<>(playersScores.keySet()).get(0);
-		int winningScore = new ArrayList<>(playersScores.values()).get(0);
-		for (Entry<Integer, Integer> playerScore : playersScores.entrySet()) {
+		int winningPlayerIndex = new ArrayList<>(GameStatus.getInstance().getPlayersScores().keySet()).get(0);
+		int winningScore = new ArrayList<>(GameStatus.getInstance().getPlayersScores().values()).get(0);
+		for (Entry<Integer, Integer> playerScore : GameStatus.getInstance().getPlayersScores().entrySet()) {
 			if (playerScore.getValue() > winningScore) {
 				winningPlayerIndex = playerScore.getKey();
 				winningScore = playerScore.getValue();
@@ -2727,10 +2727,10 @@ public class ControllerGame extends CustomController
 		columnConstraints2.setHalignment(HPos.RIGHT);
 		gridPane.getColumnConstraints().add(columnConstraints2);
 		int index = 1;
-		for (Entry<Integer, Integer> playerScore : playersScores.entrySet()) {
+		for (Entry<Integer, Integer> playerScore : GameStatus.getInstance().getPlayersScores().entrySet()) {
 			RowConstraints rowConstraints = new RowConstraints();
 			gridPane.getRowConstraints().add(rowConstraints);
-			Label label = new Label(index + " - " + GameStatus.getInstance().getCurrentPlayersData().get(playerScore.getKey()).getUsername() + " - " + playerScore.getValue() + " Points " + " (Record: " + playerIndexesVictoryPointsRecord.get(playerScore.getKey()) + " Points)");
+			Label label = new Label(index + " - " + GameStatus.getInstance().getCurrentPlayersData().get(playerScore.getKey()).getUsername() + " - " + playerScore.getValue() + " Points (Record: " + GameStatus.getInstance().getPlayerIndexesVictoryPointsRecord().get(playerScore.getKey()) + " Points)");
 			label.setFont(CommonUtils.ROBOTO_BOLD);
 			if (playerScore.getKey() != GameStatus.getInstance().getOwnPlayerIndex()) {
 				VBox vBox = new VBox();
