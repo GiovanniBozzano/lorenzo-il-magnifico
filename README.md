@@ -62,3 +62,6 @@ Note: The Project is separated into modules: `Client`, `Server` and `Common`.
 - Giovanni Bozzano - giovanni.bozzano@mail.polimi.it
 - Manuel Candiani - manuel.candiani@mail.polimi.it
 - Andrea Delfi - andrea.delfi@mail.polimi.it
+
+---
+> Cranio Creations - [WebSite](http://www.craniocreations.it/)
