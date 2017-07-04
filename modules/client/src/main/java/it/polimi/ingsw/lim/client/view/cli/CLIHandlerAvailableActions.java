@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
+/**
+ * The player has to choose which action he wants to perform.
+ */
 public class CLIHandlerAvailableActions implements ICLIHandler
 {
 	private static final Map<CLIStatus, String> ACTION_NAMES = new EnumMap<>(CLIStatus.class);
@@ -22,6 +25,7 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_BOARD_DEVELOPMENT_CARDS, "Show Board Development Cards");
 		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_OWN_BOARD, "Show Own Board");
 		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_OWN_LEADER_CARDS, "Show Own Leader Cards");
+		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_OTHER_BOARD, "Show Other Board");
 		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.SHOW_OTHER_LEADER_CARDS, "Show Other Leader Cards");
 		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.COUNCIL_PALACE, "Council Palace");
 		CLIHandlerAvailableActions.ACTION_NAMES.put(CLIStatus.HARVEST, "Harvest");
@@ -41,7 +45,8 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 		this.availableActions.put(1, CLIStatus.SHOW_BOARD_DEVELOPMENT_CARDS);
 		this.availableActions.put(2, CLIStatus.SHOW_OWN_BOARD);
 		this.availableActions.put(3, CLIStatus.SHOW_OWN_LEADER_CARDS);
-		this.availableActions.put(4, CLIStatus.SHOW_OTHER_LEADER_CARDS);
+		this.availableActions.put(4, CLIStatus.SHOW_OTHER_BOARD);
+		this.availableActions.put(5, CLIStatus.SHOW_OTHER_LEADER_CARDS);
 		this.showAvailableActions();
 		this.askAction();
 	}
