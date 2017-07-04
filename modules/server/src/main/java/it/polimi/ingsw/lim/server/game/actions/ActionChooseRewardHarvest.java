@@ -42,7 +42,7 @@ public class ActionChooseRewardHarvest extends ActionInformationsChooseRewardHar
 		}
 		// check if the player has the servants he sent
 		if (this.player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
-			throw new GameActionFailedException("You don't have the number of servants you want to use");
+			throw new GameActionFailedException("You don't have the amount of servants you want to use");
 		}
 	}
 

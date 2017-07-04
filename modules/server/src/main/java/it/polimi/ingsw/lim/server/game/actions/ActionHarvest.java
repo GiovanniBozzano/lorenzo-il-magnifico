@@ -68,7 +68,7 @@ public class ActionHarvest extends ActionInformationsHarvest implements IAction
 		}
 		// check if the player has the servants he sent
 		if (this.player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
-			throw new GameActionFailedException("You do not have the number of servants you want to use");
+			throw new GameActionFailedException("You do not have the amount of servants you want to use");
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());

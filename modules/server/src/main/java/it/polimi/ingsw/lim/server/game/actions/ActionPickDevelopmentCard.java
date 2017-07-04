@@ -51,14 +51,14 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		if (this.player.getFamilyMembersPositions().get(this.getFamilyMemberType()) != BoardPosition.NONE) {
 			throw new GameActionFailedException("Selected Family Member has already been used");
 		}
-		// check if the card is already taken
+		// check if the card has been already taken
 		DevelopmentCard developmentCard = this.player.getRoom().getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).get(this.getRow());
 		if (developmentCard == null) {
 			throw new GameActionFailedException("This Development Card has already been taken");
 		}
 		// check if the player has developmentcard space available
 		if (!this.player.getPlayerCardHandler().canAddDevelopmentCard(this.getCardType())) {
-			throw new GameActionFailedException("You don't have enough space available on your board");
+			throw new GameActionFailedException("You don't have enough space available on your board to get another card of the current type");
 		}
 		// get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow()), this.player.getRoom().getGameHandler().getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
@@ -124,10 +124,11 @@ public class ActionPickDevelopmentCard extends ActionInformationsPickDevelopment
 		if (this.columnOccupied) {
 			this.effectiveResourceCost.add(new ResourceAmount(ResourceType.COIN, 3));
 		}
-		// prendo prezzo finale e controllo che il giocatore abbia le risorse necessarie
+		// check if the player has enough Resources
 		if (!this.player.getPlayerResourceHandler().canAffordResources(this.effectiveResourceCost)) {
 			throw new GameActionFailedException("You do not have enough resources to get the card");
 		}
+		// check the ActionValue
 		if (eventPickDevelopmentCard.getActionValue() < BoardHandler.getBoardPositionInformations(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getValue()) {
 			throw new GameActionFailedException("The action value is too low to get this card");
 		}
