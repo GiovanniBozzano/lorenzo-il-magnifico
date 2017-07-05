@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.common.enums;
 
 /**
- * <p>This class is used to represent the type(color) of the family member
+ * <p>This class is used to represent the type (color) of the family member.
  */
 public enum FamilyMemberType
 {

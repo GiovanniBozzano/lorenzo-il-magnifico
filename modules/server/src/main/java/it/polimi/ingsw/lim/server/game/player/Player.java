@@ -10,6 +10,10 @@ import it.polimi.ingsw.lim.server.network.Connection;
 
 import java.util.*;
 
+/**
+ * <p>This class represents the user game information. It is used to store game
+ * data concerning only this player.
+ */
 public class Player
 {
 	private static final Map<Integer, Integer> TERRITORY_SLOTS_CONDITIONS = new HashMap<>();

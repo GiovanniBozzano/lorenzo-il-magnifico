@@ -7,6 +7,10 @@ import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 
 import java.util.*;
 
+/**
+ * <p>This class handles a player's cards information. It is used to store game
+ * cards data concerning only this player.
+ */
 public class PlayerCardHandler
 {
 	private static final Map<Integer, Integer> DEVELOPMENT_CARDS_CHARACTER_PRICES = new HashMap<>();
@@ -90,16 +94,6 @@ public class PlayerCardHandler
 	public void addLeaderCard(LeaderCard leaderCard)
 	{
 		this.leaderCards.add(leaderCard);
-	}
-
-	public LeaderCard getLeaderCardFromIndex(int index) throws NoSuchElementException
-	{
-		for (LeaderCard leaderCard : this.leaderCards) {
-			if (leaderCard.getIndex() == index) {
-				return leaderCard;
-			}
-		}
-		throw new NoSuchElementException();
 	}
 
 	static Map<Integer, Integer> getDevelopmentCardsCharacterPrices()

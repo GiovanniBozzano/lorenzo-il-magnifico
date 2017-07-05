@@ -11,8 +11,10 @@ import java.util.Map;
 import java.util.logging.Level;
 
 /**
- * The player has to choose the RoomType in which he wants to enter (NORMAL =
- * 2/4 players, EXTENDED = 5 players).
+ * <p>This class represent a CLI status with the following purpose:
+ *
+ * <p>The player has to choose the RoomType in which he wants to enter (NORMAL =
+ * 2 to 4 players, EXTENDED = 5 players).
  */
 public class CLIHandlerAuthentication implements ICLIHandler
 {

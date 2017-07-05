@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * <p>This class handles a player's resources information. It is used to store
+ * game resources data concerning only this player.
+ */
 public class PlayerResourceHandler
 {
 	private static final Map<Integer, Integer> FAITH_POINTS_PRICES = new HashMap<>();

@@ -26,6 +26,10 @@ import java.io.Reader;
 import java.util.*;
 import java.util.logging.Level;
 
+/**
+ * <p>This class handles a match cards information. It is used to store game
+ * cards data.
+ */
 public class CardsHandler
 {
 	private static final Map<Period, List<DevelopmentCardBuilding>> DEVELOPMENT_CARDS_BUILDING = new DevelopmentCardsBuildingBuilder("/json/development_cards_building.json").initialize();

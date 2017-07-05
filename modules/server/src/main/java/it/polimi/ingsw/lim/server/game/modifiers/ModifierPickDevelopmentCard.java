@@ -7,6 +7,8 @@ import it.polimi.ingsw.lim.server.game.events.EventPickDevelopmentCard;
 import java.util.List;
 
 /**
+ * <p>This class represents a modifier with the following effect:
+ *
  * <p>Whenever you perform an action to take a {@code cardType} card (through a
  * Family Member or as an effect of another card), increase the value of the
  * action by {@code value}. In addition, the cost of the card you take is

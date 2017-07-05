@@ -1,5 +1,9 @@
 package it.polimi.ingsw.lim.server.game.cards;
 
+/**
+ * <p>This class represents a server side generic card. It is used to store
+ * common information.
+ */
 public abstract class Card
 {
 	private final int index;

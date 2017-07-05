@@ -42,6 +42,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+/**
+ * <p>This class handles all the game logic of a single match.
+ */
 public class GameHandler
 {
 	private final Room room;
@@ -72,6 +75,22 @@ public class GameHandler
 	private ScheduledExecutorService timerExecutor;
 	private int timer;
 
+	/**
+	 * <p>Creates the match and sets up all initial attributes:
+	 *
+	 * <p>The match {@link ExcommunicationTile}s are randomly chosen.
+	 *
+	 * <p>The Council Privilege rewards are chosen based on the number of {@link
+	 * Player}s.
+	 *
+	 * <p>The turn order is randomly initialized and resources are given
+	 * accordingly.
+	 *
+	 * <p>The available {@link PersonalBonusTile}s are randomly chosen based on
+	 * the number of {@link Player}s.
+	 *
+	 * @param room the {@link Room} on which hosts the match.
+	 */
 	public GameHandler(Room room)
 	{
 		this.room = room;
@@ -162,11 +181,23 @@ public class GameHandler
 		}
 	}
 
+	/**
+	 * <p>Starts the match by sending the first request.
+	 */
 	void start()
 	{
 		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex));
 	}
 
+	/**
+	 * <p>Receives a {@link PersonalBonusTile} choice and checks its regularity.
+	 *
+	 * @param player the {@link Player} who sent the choice.
+	 * @param personalBonusTileIndex the chosen {@link PersonalBonusTile}
+	 * index.
+	 *
+	 * @throws GameActionFailedException if the action is irregular.
+	 */
 	public void receivePersonalBonusTileChoice(Player player, int personalBonusTileIndex) throws GameActionFailedException
 	{
 		if (this.personalBonusTileChoicePlayerTurnIndex < 0 || this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex) != player || !this.availablePersonalBonusTiles.contains(personalBonusTileIndex)) {
@@ -175,6 +206,16 @@ public class GameHandler
 		this.applyPersonalBonusTileChoice(player, personalBonusTileIndex);
 	}
 
+	/**
+	 * <p>Applies a {@link PersonalBonusTile} choice.
+	 *
+	 * <p>If everyone chose his {@link PersonalBonusTile}, sets up the game for
+	 * the {@link LeaderCard} choice.
+	 *
+	 * @param player the {@link Player} who sent the choice.
+	 * @param personalBonusTileIndex the chosen {@link PersonalBonusTile}
+	 * index.
+	 */
 	void applyPersonalBonusTileChoice(Player player, int personalBonusTileIndex)
 	{
 		this.timerExecutor.shutdownNow();
@@ -199,6 +240,14 @@ public class GameHandler
 		this.sendGamePersonalBonusTileChoiceRequest(this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex));
 	}
 
+	/**
+	 * <p>Receives a {@link LeaderCard} choice and checks its regularity.
+	 *
+	 * @param player the {@link Player} who sent the choice.
+	 * @param leaderCardIndex the chosen {@link LeaderCard} index.
+	 *
+	 * @throws GameActionFailedException if the action is irregular.
+	 */
 	public void receiveLeaderCardChoice(Player player, int leaderCardIndex) throws GameActionFailedException
 	{
 		if (!this.leaderCardsChoosingPlayers.contains(player) || !this.availableLeaderCards.get(player).contains(leaderCardIndex)) {
@@ -207,6 +256,15 @@ public class GameHandler
 		this.applyLeaderCardChoice(player, leaderCardIndex);
 	}
 
+	/**
+	 * <p>Applies a {@link LeaderCard} choice.
+	 *
+	 * <p>If everyone chose all the {@link LeaderCard}s, sets up the game for
+	 * the first {@link Period} and {@link Round}.
+	 *
+	 * @param player the {@link Player} who sent the choice.
+	 * @param leaderCardIndex the chosen {@link LeaderCard} index.
+	 */
 	void applyLeaderCardChoice(Player player, int leaderCardIndex)
 	{
 		this.leaderCardsChoosingPlayers.remove(player);
@@ -242,6 +300,15 @@ public class GameHandler
 		}
 	}
 
+	/**
+	 * <p>Receives an excommunication choice and checks its regularity.
+	 *
+	 * @param player the {@link Player} who sent the choice.
+	 * @param excommunicated whether the {@link Player} chose to be
+	 * excommunicated or not.
+	 *
+	 * @throws GameActionFailedException if the action is irregular.
+	 */
 	public void receiveExcommunicationChoice(Player player, boolean excommunicated) throws GameActionFailedException
 	{
 		if (!this.excommunicationChoosingPlayers.contains(player)) {
@@ -250,6 +317,16 @@ public class GameHandler
 		this.applyExcommunicationChoice(player, excommunicated);
 	}
 
+	/**
+	 * <p>Applies an excommunication choice.
+	 *
+	 * <p>If everyone chose an outcome for the excommunication phase, sets up
+	 * the game for the next {@link Period}.
+	 *
+	 * @param player the {@link Player} who sent the choice.
+	 * @param excommunicated whether the {@link Player} chose to be
+	 * excommunicated or not.
+	 */
 	void applyExcommunicationChoice(Player player, boolean excommunicated)
 	{
 		this.excommunicationChoosingPlayers.remove(player);
@@ -269,6 +346,15 @@ public class GameHandler
 		}
 	}
 
+	/**
+	 * <p>Receives an {@link IAction}, checks its regularity and applies it.
+	 *
+	 * @param player the {@link Player} who sent the {@link IAction}.
+	 * @param actionInformation the {@link IAction} represented as a network
+	 * object.
+	 *
+	 * @throws GameActionFailedException if the action is irregular.
+	 */
 	public void receiveAction(Player player, ActionInformation actionInformation) throws GameActionFailedException
 	{
 		IAction action = Utils.getActionsTransformers().get(actionInformation.getActionType()).transform(actionInformation, player);
@@ -277,6 +363,13 @@ public class GameHandler
 		action.apply();
 	}
 
+	/**
+	 * <p>Applies a "Good Game" vote to the target {@link Player}.
+	 *
+	 * @param sender the {@link Player} who sent the vote.
+	 * @param receiverIndex the index of the {@link Player} targeted by the
+	 * vote.
+	 */
 	public void applyGoodGame(Player sender, int receiverIndex) throws GameActionFailedException
 	{
 		Player receiver = this.getPlayerFromIndex(receiverIndex);
@@ -295,6 +388,16 @@ public class GameHandler
 		});
 	}
 
+	/**
+	 * <p>Retrieves a {@link Player} in this match with his index.
+	 *
+	 * @param playerIndex the index of the requested {@link Player}.
+	 *
+	 * @return the requested {@link Player}.
+	 *
+	 * @throws NoSuchElementException if a {@link Player} with the given index
+	 * does not exist.
+	 */
 	private Player getPlayerFromIndex(int playerIndex) throws NoSuchElementException
 	{
 		for (Player player : this.turnOrder) {
@@ -305,6 +408,13 @@ public class GameHandler
 		throw new NoSuchElementException();
 	}
 
+	/**
+	 * <p>Sets up a new game {@link Round}.
+	 *
+	 * <p>This method is also used to track the general timing of the game
+	 * status. It sets up a new {@link Period}, if needed, and checks if the
+	 * game has ended.
+	 */
 	public void setupRound()
 	{
 		if (this.currentRound == null) {
@@ -353,6 +463,9 @@ public class GameHandler
 		this.sendGameUpdate(this.turnPlayer);
 	}
 
+	/**
+	 * <p>Sets up a new game {@link Period}.
+	 */
 	private void setupPeriod()
 	{
 		if (this.currentPeriod == null) {
@@ -377,6 +490,9 @@ public class GameHandler
 		this.checkedExcommunications = false;
 	}
 
+	/**
+	 * <p>Ends the game, calculating and saving the scores.
+	 */
 	private void endGame()
 	{
 		this.room.setEndGame(true);
@@ -540,6 +656,9 @@ public class GameHandler
 		}, 1L, 1L, TimeUnit.SECONDS);
 	}
 
+	/**
+	 * <p>Randomly sets new dices values.
+	 */
 	private void rollDices()
 	{
 		this.familyMemberTypeValues.put(FamilyMemberType.BLACK, this.randomGenerator.nextInt(6) + 1);
@@ -547,6 +666,10 @@ public class GameHandler
 		this.familyMemberTypeValues.put(FamilyMemberType.WHITE, this.randomGenerator.nextInt(6) + 1);
 	}
 
+	/**
+	 * <p>Randomly draws new {@link DevelopmentCard}s and puts the on the right
+	 * towers.
+	 */
 	private void drawCards()
 	{
 		for (Row row : Row.values()) {
@@ -561,6 +684,13 @@ public class GameHandler
 		}
 	}
 
+	/**
+	 * <p>Checks the excommunications and sets up the game for the
+	 * excommunication choices.
+	 *
+	 * <p>If a {@link Player} does not meet the faith points requirement, he is
+	 * automatically excommunicated.
+	 */
 	void calculateExcommunications()
 	{
 		for (Player player : this.turnOrder) {
@@ -610,6 +740,10 @@ public class GameHandler
 		}
 	}
 
+	/**
+	 * <p>Applies the right turn order by checking the current Council Palace
+	 * order.
+	 */
 	private void setupTurnOrder()
 	{
 		if (this.currentPeriod == Period.FIRST && this.currentRound == Round.FIRST) {
@@ -625,6 +759,10 @@ public class GameHandler
 		this.turnOrder.addAll(newTurnOrder);
 	}
 
+	/**
+	 * <p>Stops the current {@link Player} turn and sets up the game for the
+	 * next one.
+	 */
 	public void nextTurn()
 	{
 		this.timerExecutor.shutdownNow();
@@ -651,6 +789,14 @@ public class GameHandler
 		}
 	}
 
+	/**
+	 * <p>Switches to the next {@link Player} in the turn order.
+	 *
+	 * <p>If the new {@link Player} is offline or finished his available turns,
+	 * skips to the next one until no {@link Player} is left.
+	 *
+	 * @return true if the game goes on, otherwise false.
+	 */
 	private boolean switchPlayer()
 	{
 		int playerCounter = 0;
@@ -679,6 +825,12 @@ public class GameHandler
 		return true;
 	}
 
+	/**
+	 * <p>Sends a {@link PersonalBonusTile} choice request to the target {@link
+	 * Player}.
+	 *
+	 * @param player the target {@link Player}.
+	 */
 	private void sendGamePersonalBonusTileChoiceRequest(Player player)
 	{
 		player.getConnection().sendGamePersonalBonusTileChoiceRequest(this.availablePersonalBonusTiles);
@@ -705,6 +857,12 @@ public class GameHandler
 		this.sendGamePersonalBonusTileChoiceOther(player);
 	}
 
+	/**
+	 * <p>Informs {@link Player}s about the target {@link Player} {@link
+	 * PersonalBonusTile} choice request.
+	 *
+	 * @param player the request target {@link Player}.
+	 */
 	private void sendGamePersonalBonusTileChoiceOther(Player player)
 	{
 		for (Player otherPlayer : this.turnOrder) {
@@ -714,6 +872,9 @@ public class GameHandler
 		}
 	}
 
+	/**
+	 * <p>Sends everyone a {@link LeaderCard} choice request.
+	 */
 	private void sendLeaderCardsChoiceRequest()
 	{
 		for (Entry<Player, List<Integer>> playerAvailableLeaderCards : this.availableLeaderCards.entrySet()) {
@@ -748,6 +909,12 @@ public class GameHandler
 		}, 1L, 1L, TimeUnit.SECONDS);
 	}
 
+	/**
+	 * <p>Sends a game update to the target {@link Player}, meaning it is his
+	 * turn, and informs the others.
+	 *
+	 * @param player the target {@link Player}.
+	 */
 	public void sendGameUpdate(Player player)
 	{
 		this.timerExecutor.shutdownNow();
@@ -774,6 +941,13 @@ public class GameHandler
 		this.sendGameUpdateOtherTurn(player);
 	}
 
+	/**
+	 * <p>Sends a game update to the target {@link Player}, meaning it is his
+	 * turn and he has to perform an {@link ExpectedAction}, and informs the
+	 * others.
+	 *
+	 * @param player the target {@link Player}.
+	 */
 	public void sendGameUpdateExpectedAction(Player player, ExpectedAction expectedAction)
 	{
 		this.timer = ServerSettings.getInstance().getGameActionTimer();
@@ -807,6 +981,11 @@ public class GameHandler
 		this.sendGameUpdateOtherTurn(player);
 	}
 
+	/**
+	 * <p>Informs {@link Player}s about the target {@link Player} game action.
+	 *
+	 * @param player the game action target {@link Player}.
+	 */
 	private void sendGameUpdateOtherTurn(Player player)
 	{
 		for (Player otherPlayer : this.turnOrder) {
@@ -816,6 +995,22 @@ public class GameHandler
 		}
 	}
 
+	/**
+	 * <p>Generates the current game status as a client shareable object. The
+	 * generated object includes:
+	 *
+	 * <p>The current {@link DevelopmentCard}s available in the game towers.
+	 *
+	 * <p>The current dices values.
+	 *
+	 * <p>The current turn order.
+	 *
+	 * <p>The current Council Palace order.
+	 *
+	 * <p>The current excommunicated {@link Player}s.
+	 *
+	 * @return an object representing the current game status.
+	 */
 	public GameInformation generateGameInformation()
 	{
 		Map<Row, Integer> developmentCardsBuildingInformation = new EnumMap<>(Row.class);
@@ -870,6 +1065,23 @@ public class GameHandler
 		return new GameInformation(developmentCardsBuildingInformation, developmentCardsCharacterInformation, developmentCardsTerritoryInformation, developmentCardsVentureInformation, dices, turnOrderInformation, councilPalaceOrderInformation, excommunicatedPlayersIndexes);
 	}
 
+	/**
+	 * <p>Generates the current {@link Player}s statuses as client shareable
+	 * objects. The generated objects includes:
+	 *
+	 * <p>The {@link Player} {@link DevelopmentCard}s.
+	 *
+	 * <p>The {@link Player} played {@link LeaderCard}s.
+	 *
+	 * <p>The {@link Player} {@link LeaderCard}s in hand number.
+	 *
+	 * <p>The {@link Player} resources.
+	 *
+	 * <p>The {@link Player} {@link FamilyMemberType}s positions.
+	 *
+	 * @return a {@link List} of objects representing the {@link Player}s
+	 * statuses.
+	 */
 	public List<PlayerInformation> generatePlayersInformation()
 	{
 		List<PlayerInformation> playersInformation = new ArrayList<>();
@@ -904,6 +1116,14 @@ public class GameHandler
 		return playersInformation;
 	}
 
+	/**
+	 * <p>Generates the target {@link Player}s {@link LeaderCard}s hand.
+	 *
+	 * @param player the target {@link Player}.
+	 *
+	 * @return an {@link Integer} {@link Boolean} {@link Map} representing the
+	 * tuples [{@link LeaderCard} index - playable].
+	 */
 	public Map<Integer, Boolean> generateLeaderCardsHand(Player player)
 	{
 		Map<Integer, Boolean> leaderCardsHand = new HashMap<>();
@@ -922,6 +1142,14 @@ public class GameHandler
 		return leaderCardsHand;
 	}
 
+	/**
+	 * <p>Generates the target {@link Player}s available actions.
+	 *
+	 * @param player the target {@link Player}.
+	 *
+	 * @return an [{@link ActionType} - available action {@link List}] {@link
+	 * Map}.
+	 */
 	public Map<ActionType, List<Serializable>> generateAvailableActions(Player player)
 	{
 		Map<ActionType, List<Serializable>> availableActions = new EnumMap<>(ActionType.class);
@@ -1031,6 +1259,12 @@ public class GameHandler
 		return availableActions;
 	}
 
+	/**
+	 * <p>Gets the next {@link Player} in the turn order, cycling over it if it
+	 * is ended.
+	 *
+	 * @return the next {@link Player}.
+	 */
 	private Player getNextTurnPlayer()
 	{
 		int index = this.turnOrder.indexOf(this.turnPlayer);

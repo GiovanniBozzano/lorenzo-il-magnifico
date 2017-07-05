@@ -6,6 +6,9 @@ import it.polimi.ingsw.lim.server.enums.LeaderCardType;
 
 import java.util.List;
 
+/**
+ * <p>This class represents a server side leader card.
+ */
 public abstract class LeaderCard extends Card
 {
 	private final LeaderCardType leaderCardType;

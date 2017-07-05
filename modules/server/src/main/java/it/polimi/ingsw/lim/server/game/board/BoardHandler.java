@@ -19,6 +19,10 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
+/**
+ * <p>This class handles a match board information. It is used to store game
+ * board data.
+ */
 public class BoardHandler
 {
 	private static final Map<BoardPosition, BoardPositionInformation> BOARD_POSITIONS_INFORMATION = new BoardPositionsInformationBuilder("/json/board_positions_information.json").initialize();

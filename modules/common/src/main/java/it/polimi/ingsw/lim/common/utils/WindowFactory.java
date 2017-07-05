@@ -186,7 +186,7 @@ public class WindowFactory
 	}
 
 	/**
-	 * <p>Opens a new window
+	 * <p>Opens a new window.
 	 *
 	 * @param fxmlFileLocation the .fxml file location.
 	 */

@@ -120,7 +120,7 @@ public class Utils
 	}
 
 	/**
-	 * Checks whether the authentication is valid or not.
+	 * <p>Checks whether the authentication is valid or not.
 	 *
 	 * @param version the client version of the player.
 	 * @param username the player username.
@@ -164,7 +164,7 @@ public class Utils
 	}
 
 	/**
-	 * Checks whether the registration is valid or not.
+	 * <p>Checks whether the registration is valid or not.
 	 *
 	 * @param version the client version of the player.
 	 * @param username the player username.
@@ -212,7 +212,7 @@ public class Utils
 	}
 
 	/**
-	 * Fills the basic game information for the loggin in player.
+	 * <p>Fills the basic game information for the loggin in player.
 	 *
 	 * @return an object representing basic game information.
 	 */
@@ -260,8 +260,8 @@ public class Utils
 	}
 
 	/**
-	 * Creates a new copy of the given {@link Period} {@link DevelopmentCard}s
-	 * {@link Map}.
+	 * <p>Creates a new copy of the given {@link Period} {@link
+	 * DevelopmentCard}s {@link Map}.
 	 *
 	 * @param original the original {@link Period} {@link DevelopmentCard}s
 	 * {@link Map}.
@@ -280,7 +280,7 @@ public class Utils
 	}
 
 	/**
-	 * Retrieves a {@link LeaderCard} from a given index.
+	 * <p>Retrieves a {@link LeaderCard} from a given index.
 	 *
 	 * @param leaderCardIndex the {@link LeaderCard} index.
 	 *
@@ -299,7 +299,7 @@ public class Utils
 	}
 
 	/**
-	 * Checks whether the chosen discount is valid or not.
+	 * <p>Checks whether the chosen discount is valid or not.
 	 *
 	 * @param player the {@link Player} who performs the action.
 	 * @param cardType the {@link CardType} of the action.
@@ -317,7 +317,7 @@ public class Utils
 	}
 
 	/**
-	 * Checks whether the chosen discounts are valid or not.
+	 * <p>Checks whether the chosen discounts are valid or not.
 	 *
 	 * @param player the {@link Player} who performs the action.
 	 * @param cardType the {@link CardType} of the action.
@@ -339,7 +339,7 @@ public class Utils
 	}
 
 	/**
-	 * Checks whether the chosen discount is valid or not.
+	 * <p>Checks whether the chosen discount is valid or not.
 	 *
 	 * @param player the {@link Player} who performs the action.
 	 * @param cardType the {@link CardType} of the action.
@@ -372,8 +372,8 @@ public class Utils
 	}
 
 	/**
-	 * Checks whether the {@link Player} has available production cards and acts
-	 * accordingly.
+	 * <p>Checks whether the {@link Player} has available production cards and
+	 * acts accordingly.
 	 *
 	 * @param player the {@link Player} who performs the action.
 	 */
@@ -677,7 +677,7 @@ public class Utils
 
 	/**
 	 * <p>Sets the given {@link PreparedStatement} {@link QueryArgument} to the
-	 * given {@link Byte} array array.
+	 * given {@link Byte} array.
 	 *
 	 * @param preparedStatement the {@link PreparedStatement} to set.
 	 * @param queryArgument the {@link QueryArgument} to use to set the {@link

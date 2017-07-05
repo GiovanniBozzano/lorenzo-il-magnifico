@@ -25,7 +25,7 @@ public class CLIHandlerStart implements ICLIHandler
 
 	private void askRmiPort()
 	{
-		Server.getInstance().getInterfaceHandler().displayToLog("Enter RMI Port [default 8080]...");
+		Server.getInstance().getInterfaceHandler().displayToLog("\n\n\nEnter RMI Port [default 8080]...");
 		String input;
 		do {
 			input = Server.getInstance().getCliScanner().nextLine();
@@ -35,7 +35,7 @@ public class CLIHandlerStart implements ICLIHandler
 
 	private void askSocketPort()
 	{
-		Server.getInstance().getInterfaceHandler().displayToLog("Enter Socket Port [default 8081]...");
+		Server.getInstance().getInterfaceHandler().displayToLog("\n\nEnter Socket Port [default 8081]...");
 		String input;
 		do {
 			input = Server.getInstance().getCliScanner().nextLine();

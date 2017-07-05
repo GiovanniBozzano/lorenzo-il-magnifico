@@ -19,6 +19,10 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+/**
+ * <p>This class represents a user instance. It handles all the interactions
+ * with a single user.
+ */
 public abstract class Connection
 {
 	private final ScheduledExecutorService heartbeat = Executors.newSingleThreadScheduledExecutor();

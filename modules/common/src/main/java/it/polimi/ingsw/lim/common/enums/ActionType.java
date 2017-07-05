@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.common.enums;
 
 /**
- * <p>This class is used to represent the type of the action
+ * <p>This class is used to represent the type of the action.
  */
 public enum ActionType
 {

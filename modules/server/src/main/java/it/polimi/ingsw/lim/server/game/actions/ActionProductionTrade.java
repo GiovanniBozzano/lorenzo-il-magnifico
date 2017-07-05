@@ -39,7 +39,7 @@ public class ActionProductionTrade extends ActionInformationProductionTrade impl
 		if (this.player.getRoom().getGameHandler().getExpectedAction() != ActionType.PRODUCTION_TRADE) {
 			throw new GameActionFailedException("This action was not expected");
 		}
-		//ckeck trades' correctness
+		// check trades' correctness
 		List<ResourceAmount> employedResources = new ArrayList<>();
 		for (Entry<Integer, ResourceTradeOption> chosenDevelopmentCardBuilding : this.getChosenDevelopmentCardsBuilding().entrySet()) {
 			DevelopmentCardBuilding developmentCardBuilding = this.player.getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, chosenDevelopmentCardBuilding.getKey(), DevelopmentCardBuilding.class);

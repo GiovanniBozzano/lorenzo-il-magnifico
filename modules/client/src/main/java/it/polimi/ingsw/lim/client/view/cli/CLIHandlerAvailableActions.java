@@ -15,7 +15,9 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 
 /**
- * The player has to choose which action he wants to perform.
+ * <p>This class represent a CLI status with the following purpose:
+ *
+ * <p>The player has to choose which action he wants to perform.
  */
 public class CLIHandlerAvailableActions implements ICLIHandler
 {

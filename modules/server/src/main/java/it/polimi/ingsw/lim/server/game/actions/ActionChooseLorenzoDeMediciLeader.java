@@ -1,9 +1,11 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationChooseLorenzoDeMediciLeader;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
+import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Phase;
 import it.polimi.ingsw.lim.server.network.Connection;
@@ -45,7 +47,12 @@ public class ActionChooseLorenzoDeMediciLeader extends ActionInformationChooseLo
 	public void apply() throws GameActionFailedException
 	{
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.LEADER);
-		this.player.getPlayerCardHandler().getLeaderCards().remove(this.player.getPlayerCardHandler().getLeaderCardFromIndex(14));
+		for (LeaderCard leaderCard : new ArrayList<>(this.player.getPlayerCardHandler().getLeaderCards())) {
+			if (leaderCard instanceof LeaderCardReward && ((LeaderCardReward) leaderCard).getReward().getActionReward() != null && ((LeaderCardReward) leaderCard).getReward().getActionReward().getRequestedAction() == ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER) {
+				this.player.getPlayerCardHandler().getLeaderCards().remove(leaderCard);
+				break;
+			}
+		}
 		LeaderCard leaderCard = CardsHandler.getleaderCardFromIndex(this.getLeaderCardIndex());
 		if (leaderCard == null) {
 			throw new GameActionFailedException("Cannot select Lorenzo Il Magnifico from your cards");

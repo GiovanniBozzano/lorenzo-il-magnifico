@@ -1,5 +1,6 @@
 package it.polimi.ingsw.lim.server.game.actions;
 
+import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationLeaderPlay;
 import it.polimi.ingsw.lim.common.game.utils.LeaderCardConditionsOption;
@@ -46,7 +47,7 @@ public class ActionLeaderPlay extends ActionInformationLeaderPlay implements IAc
 		if (leaderCard.getConditionsOptions().isEmpty()) {
 			return;
 		}
-		if (leaderCard.getIndex() == 14) {
+		if (leaderCard instanceof LeaderCardReward && ((LeaderCardReward) leaderCard).getReward().getActionReward() != null && ((LeaderCardReward) leaderCard).getReward().getActionReward().getRequestedAction() == ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER) {
 			boolean availableCardsToCopy = false;
 			for (Player otherPlayer : this.player.getRoom().getGameHandler().getTurnOrder()) {
 				if (otherPlayer != this.player) {
@@ -94,8 +95,7 @@ public class ActionLeaderPlay extends ActionInformationLeaderPlay implements IAc
 		if (leaderCard == null) {
 			throw new GameActionFailedException("You do not have this Leader Card");
 		}
-		// check Lorenzo Il Magnifico
-		if (leaderCard.getIndex() == 14) {
+		if (leaderCard instanceof LeaderCardReward && ((LeaderCardReward) leaderCard).getReward().getActionReward() != null && ((LeaderCardReward) leaderCard).getReward().getActionReward().getRequestedAction() == ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER) {
 			this.player.setCurrentActionReward(((LeaderCardReward) leaderCard).getReward().getActionReward());
 			this.player.getRoom().getGameHandler().setExpectedAction(((LeaderCardReward) leaderCard).getReward().getActionReward().getRequestedAction());
 			this.player.getRoom().getGameHandler().sendGameUpdateExpectedAction(this.player, ((LeaderCardReward) leaderCard).getReward().getActionReward().createExpectedAction(this.player));

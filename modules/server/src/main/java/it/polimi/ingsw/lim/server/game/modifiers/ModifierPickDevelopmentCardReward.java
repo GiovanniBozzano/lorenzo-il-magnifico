@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * <p>This class represents a modifier with the following effect:
+ *
  * <p>You don’t take the bonuses when you take a {@code cardType} from the
  * {@code rows} floors of the towers (through a Family Member or as an effect of
  * another card).

@@ -8,6 +8,9 @@ import it.polimi.ingsw.lim.server.game.utils.Reward;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <p>This class represents a server side development card.
+ */
 public abstract class DevelopmentCard extends Card
 {
 	private final CardType cardType;

@@ -13,6 +13,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * <p>This class represents a game room. It is the container for both the
+ * pre-game phase and the match.
+ */
 public class Room
 {
 	private final RoomType roomType;
@@ -32,6 +36,16 @@ public class Room
 		}
 	}
 
+	/**
+	 * <p>Retrieves a {@link Connection}'s {@link Room}.
+	 *
+	 * @param connection the given {@link Connection}.
+	 *
+	 * @return the requested {@link Room}.
+	 *
+	 * @throws NoSuchElementException if a {@link Room} containing this {@link
+	 * Connection} does not exist.
+	 */
 	public static Room getPlayerRoom(Connection connection) throws NoSuchElementException
 	{
 		for (Room room : Server.getInstance().getRooms()) {
@@ -42,6 +56,17 @@ public class Room
 		throw new NoSuchElementException();
 	}
 
+	/**
+	 * <p>Retrieves a {@link Connection}'s {@link Room} with the user's
+	 * username.
+	 *
+	 * @param username the given username.
+	 *
+	 * @return the requested {@link Room}.
+	 *
+	 * @throws NoSuchElementException if a {@link Room} containing this username
+	 * does not exist.
+	 */
 	public static Room getPlayerRoom(String username) throws NoSuchElementException
 	{
 		for (Room room : Server.getInstance().getRooms()) {
@@ -54,10 +79,16 @@ public class Room
 		throw new NoSuchElementException();
 	}
 
-	public void handlePlayerDisconnection(Connection player)
+	/**
+	 * <p>Handles a user disconnection accordingly, acting automatically if he
+	 * is playing.
+	 *
+	 * @param connection the disconnecting user.
+	 */
+	public void handlePlayerDisconnection(Connection connection)
 	{
 		if (this.gameHandler == null) {
-			this.removePlayer(player);
+			this.removePlayer(connection);
 			if (this.players.isEmpty()) {
 				if (this.gameHandler != null) {
 					this.gameHandler.getTimerExecutor().shutdownNow();
@@ -65,49 +96,55 @@ public class Room
 				Server.getInstance().getRooms().remove(this);
 			} else {
 				for (Connection otherPlayer : this.players) {
-					if (otherPlayer != player && (otherPlayer.getPlayer() == null || otherPlayer.getPlayer().isOnline())) {
-						otherPlayer.sendRoomExitOther(player.getUsername());
+					if (otherPlayer != connection && (otherPlayer.getPlayer() == null || otherPlayer.getPlayer().isOnline())) {
+						otherPlayer.sendRoomExitOther(connection.getUsername());
 					}
 				}
 			}
 			return;
 		}
-		player.getPlayer().setOnline(false);
+		connection.getPlayer().setOnline(false);
 		if (this.endGame) {
 			return;
 		}
 		for (Connection otherPlayer : this.players) {
-			if (otherPlayer != player && otherPlayer.getPlayer().isOnline()) {
-				otherPlayer.sendGameDisconnectionOther(player.getPlayer().getIndex());
+			if (otherPlayer != connection && otherPlayer.getPlayer().isOnline()) {
+				otherPlayer.sendGameDisconnectionOther(connection.getPlayer().getIndex());
 			}
 		}
 		if (this.gameHandler.getCurrentPeriod() == null && this.gameHandler.getCurrentRound() == null) {
-			if (this.gameHandler.getPersonalBonusTileChoicePlayerTurnIndex() > 0 && this.gameHandler.getPersonalBonusTileChoicePlayerTurnIndex() < this.gameHandler.getTurnOrder().size() && this.gameHandler.getTurnOrder().get(this.gameHandler.getPersonalBonusTileChoicePlayerTurnIndex()).getIndex() == player.getPlayer().getIndex()) {
+			if (this.gameHandler.getPersonalBonusTileChoicePlayerTurnIndex() > 0 && this.gameHandler.getPersonalBonusTileChoicePlayerTurnIndex() < this.gameHandler.getTurnOrder().size() && this.gameHandler.getTurnOrder().get(this.gameHandler.getPersonalBonusTileChoicePlayerTurnIndex()).getIndex() == connection.getPlayer().getIndex()) {
 				int personalBonusTileIndex = this.gameHandler.getAvailablePersonalBonusTiles().get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailablePersonalBonusTiles().size()));
-				this.gameHandler.applyPersonalBonusTileChoice(player.getPlayer(), personalBonusTileIndex);
+				this.gameHandler.applyPersonalBonusTileChoice(connection.getPlayer(), personalBonusTileIndex);
 				return;
 			}
-			if (this.gameHandler.getLeaderCardsChoosingPlayers().contains(player.getPlayer())) {
-				int leaderCardIndex = this.gameHandler.getAvailableLeaderCards().get(player.getPlayer()).get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailableLeaderCards().get(player.getPlayer()).size()));
-				this.gameHandler.applyLeaderCardChoice(player.getPlayer(), leaderCardIndex);
+			if (this.gameHandler.getLeaderCardsChoosingPlayers().contains(connection.getPlayer())) {
+				int leaderCardIndex = this.gameHandler.getAvailableLeaderCards().get(connection.getPlayer()).get(this.gameHandler.getRandomGenerator().nextInt(this.gameHandler.getAvailableLeaderCards().get(connection.getPlayer()).size()));
+				this.gameHandler.applyLeaderCardChoice(connection.getPlayer(), leaderCardIndex);
 				return;
 			}
 			return;
 		}
-		player.getPlayer().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
-		player.getPlayer().getPlayerResourceHandler().getResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
-		if (this.gameHandler.getExcommunicationChoosingPlayers().contains(player.getPlayer())) {
-			this.gameHandler.applyExcommunicationChoice(player.getPlayer(), false);
+		connection.getPlayer().getPlayerResourceHandler().getTemporaryResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+		connection.getPlayer().getPlayerResourceHandler().getResources().put(ResourceType.COUNCIL_PRIVILEGE, 0);
+		if (this.gameHandler.getExcommunicationChoosingPlayers().contains(connection.getPlayer())) {
+			this.gameHandler.applyExcommunicationChoice(connection.getPlayer(), false);
 			return;
 		}
-		if (this.gameHandler.getTurnPlayer() == player.getPlayer()) {
+		if (this.gameHandler.getTurnPlayer() == connection.getPlayer()) {
 			this.gameHandler.nextTurn();
 		}
 	}
 
-	private void removePlayer(Connection player)
+	/**
+	 * <p>Removes a {@link Connection} from this {@link Room} and destroys the
+	 * {@link Room} if it empty.
+	 *
+	 * @param connection the {@link Connection} to remove.
+	 */
+	private void removePlayer(Connection connection)
 	{
-		this.players.remove(player);
+		this.players.remove(connection);
 		if (this.roomType == RoomType.NORMAL) {
 			if (this.gameHandler == null && this.players.size() < 2) {
 				if (this.timerExecutor != null) {
@@ -127,9 +164,15 @@ public class Room
 		}
 	}
 
-	public void addPlayer(Connection player)
+	/**
+	 * <p>Adds a {@link Connection} to this {@link Room} and starts the match if
+	 * needed.
+	 *
+	 * @param connection the {@link Connection} to add.
+	 */
+	public void addPlayer(Connection connection)
 	{
-		this.players.add(player);
+		this.players.add(connection);
 		if (this.gameHandler == null) {
 			if (this.roomType == RoomType.NORMAL) {
 				if (this.players.size() > 1 && this.timerExecutor == null) {
@@ -141,6 +184,9 @@ public class Room
 		}
 	}
 
+	/**
+	 * <p>Starts the countdown to the match starting.
+	 */
 	private void startTimer()
 	{
 		this.timerExecutor = Executors.newSingleThreadScheduledExecutor();
@@ -156,6 +202,9 @@ public class Room
 		}, 1L, 1L, TimeUnit.SECONDS);
 	}
 
+	/**
+	 * <p>Starts the match.
+	 */
 	private void startGame()
 	{
 		if (this.timerExecutor != null) {
@@ -165,6 +214,9 @@ public class Room
 		this.gameHandler.start();
 	}
 
+	/**
+	 * <p>Kills the services started in this {@link Room}.
+	 */
 	public void dispose()
 	{
 		if (this.timerExecutor != null) {
