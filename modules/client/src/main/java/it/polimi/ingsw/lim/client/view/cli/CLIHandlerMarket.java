@@ -1,14 +1,12 @@
 package it.polimi.ingsw.lim.client.view.cli;
 
 import it.polimi.ingsw.lim.client.Client;
-import it.polimi.ingsw.lim.client.enums.CLIStatus;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.MarketSlot;
-import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationMarket;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionMarket;
@@ -21,18 +19,18 @@ import java.util.logging.Level;
 
 public class CLIHandlerMarket implements ICLIHandler
 {
-	private final Map<Integer, FamilyMemberType> familyMemberTypes = new HashMap<>();
-	private final Map<Integer, MarketSlot> marketSlots = new HashMap<>();
-	private MarketSlot marketSlot;
-	private FamilyMemberType familyMemberType;
+	private final Map<Integer, MarketSlot> availableMarketSlots = new HashMap<>();
+	private final Map<Integer, FamilyMemberType> availableFamilyMemberTypes = new HashMap<>();
+	private MarketSlot chosenMarketSlot;
+	private FamilyMemberType chosenFamilyMemberType;
 
 	@Override
 	public void execute()
 	{
 		this.showMarketSlots();
 		this.askMarketSlot();
-		this.showFamilyMembers();
-		this.askFamilyMember();
+		this.showFamilyMemberTypes();
+		this.askFamilyMemberType();
 		this.askServants();
 	}
 
@@ -54,9 +52,9 @@ public class CLIHandlerMarket implements ICLIHandler
 		stringBuilder.append("\n\n\nEnter Market Slot...");
 		int index = 1;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
-			if (!this.marketSlots.containsValue(((AvailableActionMarket) availableAction).getMarketSlot())) {
+			if (!this.availableMarketSlots.containsValue(((AvailableActionMarket) availableAction).getMarketSlot())) {
 				stringBuilder.append(Utils.createListElement(index, ((AvailableActionMarket) availableAction).getMarketSlot().name()));
-				this.marketSlots.put(index, ((AvailableActionMarket) availableAction).getMarketSlot());
+				this.availableMarketSlots.put(index, ((AvailableActionMarket) availableAction).getMarketSlot());
 				index++;
 			}
 		}
@@ -73,8 +71,8 @@ public class CLIHandlerMarket implements ICLIHandler
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !this.marketSlots.containsKey(Integer.parseInt(input)));
-		this.marketSlot = this.marketSlots.get(Integer.parseInt(input));
+		while (!CommonUtils.isInteger(input) || !this.availableMarketSlots.containsKey(Integer.parseInt(input)));
+		this.chosenMarketSlot = this.availableMarketSlots.get(Integer.parseInt(input));
 	}
 
 	/**
@@ -83,15 +81,15 @@ public class CLIHandlerMarket implements ICLIHandler
 	 * members to perform an {@link ActionInformationMarket} and prints them
 	 * and the corresponding choosing indexes on screen.
 	 */
-	private void showFamilyMembers()
+	private void showFamilyMemberTypes()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\nEnter Family Member...");
 		int index = 1;
 		for (Serializable availableAction : GameStatus.getInstance().getCurrentAvailableActions().get(ActionType.MARKET)) {
-			if (((AvailableActionMarket) availableAction).getMarketSlot() == this.marketSlot && !this.familyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
+			if (((AvailableActionMarket) availableAction).getMarketSlot() == this.chosenMarketSlot && !this.availableFamilyMemberTypes.containsValue(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
 				stringBuilder.append(Utils.createListElement(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType().name()));
-				this.familyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
+				this.availableFamilyMemberTypes.put(index, ((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
 				index++;
 			}
 		}
@@ -102,14 +100,9 @@ public class CLIHandlerMarket implements ICLIHandler
 	 * <p>Asks which {@link FamilyMemberType} the player wants to use to perform
 	 * the action and saves it.
 	 */
-	private void askFamilyMember()
+	private void askFamilyMemberType()
 	{
-		String input;
-		do {
-			input = Client.getInstance().getCliScanner().nextLine();
-		}
-		while (!CommonUtils.isInteger(input) || !this.familyMemberTypes.containsKey(Integer.parseInt(input)));
-		this.familyMemberType = this.familyMemberTypes.get(Integer.parseInt(input));
+		this.chosenFamilyMemberType = Utils.cliAskFamilyMemberType(this.availableFamilyMemberTypes);
 	}
 
 	/**
@@ -119,13 +112,6 @@ public class CLIHandlerMarket implements ICLIHandler
 	 */
 	private void askServants()
 	{
-		Client.getLogger().log(Level.INFO, "\n\nEnter Servants amount...");
-		String input;
-		do {
-			input = Client.getInstance().getCliScanner().nextLine();
-		}
-		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationMarket(this.familyMemberType, Integer.parseInt(input), this.marketSlot));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationMarket(this.chosenFamilyMemberType, Utils.cliAskServants(), this.chosenMarketSlot));
 	}
 }

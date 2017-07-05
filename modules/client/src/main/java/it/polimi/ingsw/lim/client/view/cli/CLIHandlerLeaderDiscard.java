@@ -14,13 +14,13 @@ import java.util.logging.Level;
 
 public class CLIHandlerLeaderDiscard implements ICLIHandler
 {
-	private final Map<Integer, Integer> leaderCards = new HashMap<>();
+	private final Map<Integer, Integer> availableLeaderCards = new HashMap<>();
 
 	@Override
 	public void execute()
 	{
-		this.showHandLeaderCards();
-		this.askDiscardLeaderCardIndex();
+		this.showLeaderCards();
+		this.askLeaderCard();
 	}
 
 	@Override
@@ -29,27 +29,27 @@ public class CLIHandlerLeaderDiscard implements ICLIHandler
 		return new CLIHandlerLeaderDiscard();
 	}
 
-	private void showHandLeaderCards()
+	private void showLeaderCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\n\nEnter Leader Card...");
 		int index = 1;
 		for (int leaderCard : GameStatus.getInstance().getCurrentOwnLeaderCardsHand().keySet()) {
 			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformation()));
-			this.leaderCards.put(index, leaderCard);
+			this.availableLeaderCards.put(index, leaderCard);
 			index++;
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
-	private void askDiscardLeaderCardIndex()
+	private void askLeaderCard()
 	{
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !this.leaderCards.containsKey(Integer.parseInt(input)));
+		while (!CommonUtils.isInteger(input) || !this.availableLeaderCards.containsKey(Integer.parseInt(input)));
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationLeaderDiscard(this.leaderCards.get(Integer.parseInt(input))));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationLeaderDiscard(this.availableLeaderCards.get(Integer.parseInt(input))));
 	}
 }

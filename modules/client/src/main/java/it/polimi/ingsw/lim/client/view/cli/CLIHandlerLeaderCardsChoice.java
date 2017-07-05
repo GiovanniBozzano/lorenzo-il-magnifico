@@ -12,13 +12,13 @@ import java.util.logging.Level;
 
 public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 {
-	private final Map<Integer, Integer> leaderCards = new HashMap<>();
+	private final Map<Integer, Integer> availableLeaderCards = new HashMap<>();
 
 	@Override
 	public void execute()
 	{
 		this.showLeaderCards();
-		this.askLeaderCardsIndex();
+		this.askLeaderCard();
 	}
 
 	@Override
@@ -34,19 +34,19 @@ public class CLIHandlerLeaderCardsChoice implements ICLIHandler
 		int index = 1;
 		for (int leaderCard : GameStatus.getInstance().getAvailableLeaderCards()) {
 			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformation()));
-			this.leaderCards.put(index, leaderCard);
+			this.availableLeaderCards.put(index, leaderCard);
 			index++;
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
-	private void askLeaderCardsIndex()
+	private void askLeaderCard()
 	{
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !this.leaderCards.containsKey(Integer.parseInt(input)));
-		Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(this.leaderCards.get(Integer.parseInt(input)));
+		while (!CommonUtils.isInteger(input) || !this.availableLeaderCards.containsKey(Integer.parseInt(input)));
+		Client.getInstance().getConnectionHandler().sendGameLeaderCardPlayerChoice(this.availableLeaderCards.get(Integer.parseInt(input)));
 	}
 }

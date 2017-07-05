@@ -24,8 +24,8 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 	@Override
 	public void execute()
 	{
-		this.showResourceChoices();
-		this.askResourceChoice();
+		this.showCouncilPrivilegeRewards();
+		this.askCouncilPrivilegeRewards();
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 		return new CLIHandlerChooseRewardCouncilPrivilege();
 	}
 
-	private void showResourceChoices()
+	private void showCouncilPrivilegeRewards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\n\nEnter Council Privilege rewards...");
@@ -49,7 +49,7 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
-	private void askResourceChoice()
+	private void askCouncilPrivilegeRewards()
 	{
 		int index = 0;
 		do {

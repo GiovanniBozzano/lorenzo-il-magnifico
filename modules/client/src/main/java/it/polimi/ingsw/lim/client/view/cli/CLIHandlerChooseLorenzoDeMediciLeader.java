@@ -15,7 +15,7 @@ import java.util.logging.Level;
 
 public class CLIHandlerChooseLorenzoDeMediciLeader implements ICLIHandler
 {
-	private final Map<Integer, Integer> copyableLeaderCards = new HashMap<>();
+	private final Map<Integer, Integer> availableLeaderCards = new HashMap<>();
 
 	@Override
 	public void execute()
@@ -35,10 +35,10 @@ public class CLIHandlerChooseLorenzoDeMediciLeader implements ICLIHandler
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\n\nEnter Leader Card:");
 		int index = 1;
-		for (List<Integer> availableLeaderCards : ((ExpectedActionChooseLorenzoDeMediciLeader) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableLeaderCards().values()) {
-			for (int availableLeaderCard : availableLeaderCards) {
+		for (List<Integer> totalAvailableLeaderCards : ((ExpectedActionChooseLorenzoDeMediciLeader) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableLeaderCards().values()) {
+			for (int availableLeaderCard : totalAvailableLeaderCards) {
 				stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getLeaderCards().get(availableLeaderCard).getInformation()));
-				this.copyableLeaderCards.put(index, availableLeaderCard);
+				this.availableLeaderCards.put(index, availableLeaderCard);
 				index++;
 			}
 		}
@@ -51,7 +51,7 @@ public class CLIHandlerChooseLorenzoDeMediciLeader implements ICLIHandler
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !this.copyableLeaderCards.containsKey(Integer.parseInt(input)));
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseLorenzoDeMediciLeader(this.copyableLeaderCards.get(Integer.parseInt(input))));
+		while (!CommonUtils.isInteger(input) || !this.availableLeaderCards.containsKey(Integer.parseInt(input)));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseLorenzoDeMediciLeader(this.availableLeaderCards.get(Integer.parseInt(input))));
 	}
 }

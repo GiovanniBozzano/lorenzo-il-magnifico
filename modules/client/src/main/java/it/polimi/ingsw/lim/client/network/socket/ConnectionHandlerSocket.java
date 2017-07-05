@@ -34,26 +34,6 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 	private ObjectOutputStream out;
 	private PacketListener packetListener;
 
-	static void handleAuthenticationConfirmation(AuthenticationInformation authenticationInformation)
-	{
-		GameStatus.getInstance().setup(authenticationInformation.getDevelopmentCardsBuildingInformation(), authenticationInformation.getDevelopmentCardsCharacterInformation(), authenticationInformation.getDevelopmentCardsTerritoryInformation(), authenticationInformation.getDevelopmentCardsVentureInformation(), authenticationInformation.getLeaderCardsInformation(), authenticationInformation.getExcommunicationTilesInformation(), authenticationInformation.getPersonalBonusTilesInformation());
-		if (!authenticationInformation.isGameStarted()) {
-			Client.getInstance().setUsername(((AuthenticationInformationLobbySocket) authenticationInformation).getUsername());
-			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccess(authenticationInformation);
-		} else {
-			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationGame) authenticationInformation).getExcommunicationTiles());
-			GameStatus.getInstance().setCurrentCouncilPrivilegeRewards(((AuthenticationInformationGame) authenticationInformation).getCouncilPrivilegeRewards());
-			Map<Integer, PlayerData> playersData = new HashMap<>();
-			for (Entry<Integer, PlayerIdentification> entry : ((AuthenticationInformationGame) authenticationInformation).getPlayersIdentifications().entrySet()) {
-				playersData.put(entry.getKey(), new PlayerData(entry.getValue().getUsername(), entry.getValue().getColor()));
-			}
-			GameStatus.getInstance().setCurrentPlayerData(playersData);
-			GameStatus.getInstance().setOwnPlayerIndex(((AuthenticationInformationGame) authenticationInformation).getOwnPlayerIndex());
-			Client.getInstance().setUsername(playersData.get(((AuthenticationInformationGame) authenticationInformation).getOwnPlayerIndex()).getUsername());
-			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccessGameStarted((AuthenticationInformationGame) authenticationInformation);
-		}
-	}
-
 	@Override
 	public void run()
 	{
@@ -181,6 +161,26 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 			Thread.currentThread().interrupt();
 		}
 		new Packet(PacketType.DISCONNECTION_ACKNOWLEDGEMENT).send(this.out);
+	}
+
+	void handleAuthenticationConfirmation(AuthenticationInformation authenticationInformation)
+	{
+		GameStatus.getInstance().setup(authenticationInformation.getDevelopmentCardsBuildingInformation(), authenticationInformation.getDevelopmentCardsCharacterInformation(), authenticationInformation.getDevelopmentCardsTerritoryInformation(), authenticationInformation.getDevelopmentCardsVentureInformation(), authenticationInformation.getLeaderCardsInformation(), authenticationInformation.getExcommunicationTilesInformation(), authenticationInformation.getPersonalBonusTilesInformation());
+		if (!authenticationInformation.isGameStarted()) {
+			Client.getInstance().setUsername(((AuthenticationInformationLobbySocket) authenticationInformation).getUsername());
+			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccess(authenticationInformation);
+		} else {
+			GameStatus.getInstance().setCurrentExcommunicationTiles(((AuthenticationInformationGame) authenticationInformation).getExcommunicationTiles());
+			GameStatus.getInstance().setCurrentCouncilPrivilegeRewards(((AuthenticationInformationGame) authenticationInformation).getCouncilPrivilegeRewards());
+			Map<Integer, PlayerData> playersData = new HashMap<>();
+			for (Entry<Integer, PlayerIdentification> entry : ((AuthenticationInformationGame) authenticationInformation).getPlayersIdentifications().entrySet()) {
+				playersData.put(entry.getKey(), new PlayerData(entry.getValue().getUsername(), entry.getValue().getColor()));
+			}
+			GameStatus.getInstance().setCurrentPlayerData(playersData);
+			GameStatus.getInstance().setOwnPlayerIndex(((AuthenticationInformationGame) authenticationInformation).getOwnPlayerIndex());
+			Client.getInstance().setUsername(playersData.get(((AuthenticationInformationGame) authenticationInformation).getOwnPlayerIndex()).getUsername());
+			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccessGameStarted((AuthenticationInformationGame) authenticationInformation);
+		}
 	}
 
 	void handleGameActionFailed(String text)

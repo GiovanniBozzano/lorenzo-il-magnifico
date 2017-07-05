@@ -8,7 +8,6 @@ import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
-import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionFamilyMember;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionPickDevelopmentCard;
@@ -39,9 +38,9 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 	@Override
 	public void execute()
 	{
-		this.showFamilyMembers();
-		this.askFamilyMember();
-		this.showDevelopmentCardTypes();
+		this.showFamilyMemberTypes();
+		this.askFamilyMemberType();
+		this.showCardTypes();
 		this.askCardType();
 		this.showDevelopmentCards();
 		this.askDevelopmentCard();
@@ -62,7 +61,7 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		return new CLIHandlerPickDevelopmentCard();
 	}
 
-	private void showFamilyMembers()
+	private void showFamilyMemberTypes()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\n\nEnter Family Member...");
@@ -77,17 +76,12 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
-	private void askFamilyMember()
+	private void askFamilyMemberType()
 	{
-		String input;
-		do {
-			input = Client.getInstance().getCliScanner().nextLine();
-		}
-		while (!CommonUtils.isInteger(input) || !this.availableFamilyMemberTypes.containsKey(Integer.parseInt(input)));
-		this.chosenFamilyMemberType = this.availableFamilyMemberTypes.get(Integer.parseInt(input));
+		this.chosenFamilyMemberType = Utils.cliAskFamilyMemberType(this.availableFamilyMemberTypes);
 	}
 
-	private void showDevelopmentCardTypes()
+	private void showCardTypes()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\nEnter Card Type...");
@@ -185,13 +179,7 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 
 	private void askServants()
 	{
-		Client.getLogger().log(Level.INFO, "\n\nEnter Servants amount...");
-		String input;
-		do {
-			input = Client.getInstance().getCliScanner().nextLine();
-		}
-		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationPickDevelopmentCard(this.chosenFamilyMemberType, Integer.parseInt(input), this.chosenCardType, this.chosenDevelopmentCard.getRow(), this.chosenDiscountChoice, this.chosenResourceCostOption));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationPickDevelopmentCard(this.chosenFamilyMemberType, Utils.cliAskServants(), this.chosenCardType, this.chosenDevelopmentCard.getRow(), this.chosenDiscountChoice, this.chosenResourceCostOption));
 	}
 }

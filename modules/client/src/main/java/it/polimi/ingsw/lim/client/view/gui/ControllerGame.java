@@ -2130,12 +2130,7 @@ public class ControllerGame extends CustomController
 					for (List<ResourceAmount> discountChoice : ((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices()) {
 						AnchorPane anchorPane = new AnchorPane();
 						discountChoicesAnchorPanes.add(anchorPane);
-						Text text = new Text(ResourceAmount.getResourcesInformation(discountChoice, false));
-						anchorPane.getChildren().add(text);
-						AnchorPane.setTopAnchor(text, 0.0);
-						AnchorPane.setBottomAnchor(text, 0.0);
-						AnchorPane.setLeftAnchor(text, 0.0);
-						AnchorPane.setRightAnchor(text, 0.0);
+						Utils.addAnchorPaneChild(anchorPane, new Text(ResourceAmount.getResourcesInformation(discountChoice, false)));
 						anchorPane.setOnMouseClicked(childEvent -> {
 							this.selectedDiscountChoice.clear();
 							this.selectedDiscountChoice.addAll(discountChoice);
@@ -2158,12 +2153,7 @@ public class ControllerGame extends CustomController
 						for (ResourceCostOption resourceCostOption : ((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions()) {
 							AnchorPane anchorPane = new AnchorPane();
 							resourceCostOptionsAnchorPanes.add(anchorPane);
-							Text text = new Text(resourceCostOption.getInformation(true));
-							anchorPane.getChildren().add(text);
-							AnchorPane.setTopAnchor(text, 0.0);
-							AnchorPane.setBottomAnchor(text, 0.0);
-							AnchorPane.setLeftAnchor(text, 0.0);
-							AnchorPane.setRightAnchor(text, 0.0);
+							Utils.addAnchorPaneChild(anchorPane, new Text(resourceCostOption.getInformation(true)));
 							anchorPane.setOnMouseClicked(childEvent -> {
 								this.selectedResourceCostOption = resourceCostOption;
 								if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty() || !this.selectedDiscountChoice.isEmpty()) {
@@ -2361,12 +2351,8 @@ public class ControllerGame extends CustomController
 			for (Entry<Integer, List<ResourceAmount>> councilPalaceReward : GameStatus.getInstance().getCurrentCouncilPrivilegeRewards().entrySet()) {
 				AnchorPane anchorPane = new AnchorPane();
 				councilPalaceRewardsAnchorPanes.add(anchorPane);
-				Text text = new Text(ResourceAmount.getResourcesInformation(councilPalaceReward.getValue(), false));
+				Utils.addAnchorPaneChild(anchorPane, new Text(ResourceAmount.getResourcesInformation(councilPalaceReward.getValue(), false)));
 				int currentCouncilPrivilegeIndex = councilPrivilegeIndex;
-				AnchorPane.setTopAnchor(text, 0.0);
-				AnchorPane.setBottomAnchor(text, 0.0);
-				AnchorPane.setLeftAnchor(text, 0.0);
-				AnchorPane.setRightAnchor(text, 0.0);
 				anchorPane.setOnMouseClicked(childEvent -> {
 					selectedCouncilPrivilegesRewards.put(currentCouncilPrivilegeIndex, councilPalaceReward.getKey());
 					anchorPane.setEffect(ControllerGame.MOUSE_OVER_EFFECT);
@@ -2377,7 +2363,6 @@ public class ControllerGame extends CustomController
 					}
 				});
 				hBox.getChildren().add(anchorPane);
-				anchorPane.getChildren().add(text);
 				hBox.setAlignment(Pos.CENTER);
 				hBox.setSpacing(20.0D);
 				hBox.setPadding(new Insets(20.0D, 20.0D, 20.0D, 20.0D));
@@ -2434,12 +2419,7 @@ public class ControllerGame extends CustomController
 					for (List<ResourceAmount> instantDiscountChoice : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getInstantDiscountChoices()) {
 						AnchorPane anchorPane = new AnchorPane();
 						instantDiscountChoicesAnchorPanes.add(anchorPane);
-						Text text = new Text(ResourceAmount.getResourcesInformation(instantDiscountChoice, false));
-						anchorPane.getChildren().add(text);
-						AnchorPane.setTopAnchor(text, 0.0);
-						AnchorPane.setBottomAnchor(text, 0.0);
-						AnchorPane.setLeftAnchor(text, 0.0);
-						AnchorPane.setRightAnchor(text, 0.0);
+						Utils.addAnchorPaneChild(anchorPane, new Text(ResourceAmount.getResourcesInformation(instantDiscountChoice, false)));
 						anchorPane.setOnMouseClicked(childEvent -> {
 							this.selectedInstantDiscountChoice.clear();
 							this.selectedInstantDiscountChoice.addAll(instantDiscountChoice);
@@ -2459,12 +2439,7 @@ public class ControllerGame extends CustomController
 					for (List<ResourceAmount> discountChoice : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getDiscountChoices()) {
 						AnchorPane anchorPane = new AnchorPane();
 						discountChoicesAnchorPanes.add(anchorPane);
-						Text text = new Text(ResourceAmount.getResourcesInformation(discountChoice, false));
-						anchorPane.getChildren().add(text);
-						AnchorPane.setTopAnchor(text, 0.0);
-						AnchorPane.setBottomAnchor(text, 0.0);
-						AnchorPane.setLeftAnchor(text, 0.0);
-						AnchorPane.setRightAnchor(text, 0.0);
+						Utils.addAnchorPaneChild(anchorPane, new Text(ResourceAmount.getResourcesInformation(discountChoice, false)));
 						anchorPane.setOnMouseClicked(childEvent -> {
 							this.selectedDiscountChoice.clear();
 							this.selectedDiscountChoice.addAll(discountChoice);
@@ -2487,12 +2462,7 @@ public class ControllerGame extends CustomController
 						for (ResourceCostOption resourceCostOption : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getResourceCostOptions()) {
 							AnchorPane anchorPane = new AnchorPane();
 							resourceCostOptionsAnchorPanes.add(anchorPane);
-							Text text = new Text(resourceCostOption.getInformation(true));
-							anchorPane.getChildren().add(text);
-							AnchorPane.setTopAnchor(text, 0.0);
-							AnchorPane.setBottomAnchor(text, 0.0);
-							AnchorPane.setLeftAnchor(text, 0.0);
-							AnchorPane.setRightAnchor(text, 0.0);
+							Utils.addAnchorPaneChild(anchorPane, new Text(resourceCostOption.getInformation(true)));
 							anchorPane.setOnMouseClicked(childEvent -> {
 								this.selectedResourceCostOption = resourceCostOption;
 								if ((((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getInstantDiscountChoices().isEmpty() || !this.selectedInstantDiscountChoice.isEmpty()) && (((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty())) {
@@ -2600,12 +2570,7 @@ public class ControllerGame extends CustomController
 					for (ResourceTradeOption resourceTradeOption : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().get(tradeCard)) {
 						AnchorPane anchorPane = new AnchorPane();
 						resourceTradeOptionsAnchorPanes.add(anchorPane);
-						Text text = new Text(resourceTradeOption.getInformation(true));
-						anchorPane.getChildren().add(text);
-						AnchorPane.setTopAnchor(text, 0.0);
-						AnchorPane.setBottomAnchor(text, 0.0);
-						AnchorPane.setLeftAnchor(text, 0.0);
-						AnchorPane.setRightAnchor(text, 0.0);
+						Utils.addAnchorPaneChild(anchorPane, new Text(resourceTradeOption.getInformation(true)));
 						anchorPane.setOnMouseClicked(childEvent -> {
 							this.selectedDiscountChoice.clear();
 							selectedTradeOptions.put(tradeCard, resourceTradeOption);

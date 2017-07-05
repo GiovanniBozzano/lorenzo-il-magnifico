@@ -14,13 +14,13 @@ import java.util.logging.Level;
 
 public class CLIHandlerLeaderActivate implements ICLIHandler
 {
-	private final Map<Integer, Integer> leaderCards = new HashMap<>();
+	private final Map<Integer, Integer> availableLeaderCards = new HashMap<>();
 
 	@Override
 	public void execute()
 	{
-		this.showPlayedLeaderCards();
-		this.askActivateLeaderCardIndex();
+		this.showLeaderCards();
+		this.askLeaderCard();
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class CLIHandlerLeaderActivate implements ICLIHandler
 		return new CLIHandlerLeaderActivate();
 	}
 
-	private void showPlayedLeaderCards()
+	private void showLeaderCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\n\nEnter Leader Card...");
@@ -37,7 +37,7 @@ public class CLIHandlerLeaderActivate implements ICLIHandler
 		for (int leaderCard : GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().keySet()) {
 			if (GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getLeaderCardsPlayed().get(leaderCard)) {
 				stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getLeaderCards().get(leaderCard).getInformation()));
-				this.leaderCards.put(index, leaderCard);
+				this.availableLeaderCards.put(index, leaderCard);
 				index++;
 			}
 		}
@@ -45,13 +45,13 @@ public class CLIHandlerLeaderActivate implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
-	private void askActivateLeaderCardIndex()
+	private void askLeaderCard()
 	{
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !this.leaderCards.containsKey(Integer.parseInt(input)));
+		while (!CommonUtils.isInteger(input) || !this.availableLeaderCards.containsKey(Integer.parseInt(input)));
 		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
 		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationLeaderActivate(Integer.parseInt(input)));
 	}

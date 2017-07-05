@@ -6,7 +6,6 @@ import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.enums.Row;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationChooseRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.common.game.actions.AvailableActionChooseRewardPickDevelopmentCard;
@@ -45,7 +44,7 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 	@Override
 	public void execute()
 	{
-		this.showDevelopmentCardTypes();
+		this.showCardTypes();
 		this.askCardType();
 		this.showDevelopmentCards();
 		this.askDevelopmentCard();
@@ -71,7 +70,7 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		return new CLIHandlerChooseRewardPickDevelopmentCard();
 	}
 
-	private void showDevelopmentCardTypes()
+	private void showCardTypes()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\n\nEnter Card Type...");
@@ -203,12 +202,6 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 
 	private void askServants()
 	{
-		Client.getLogger().log(Level.INFO, "\n\nEnter Servants amount...");
-		String input;
-		do {
-			input = Client.getInstance().getCliScanner().nextLine();
-		}
-		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardPickDevelopmentCard(Integer.parseInt(input), this.chosenCardType, this.chosenDevelopmentCard.getRow(), this.chosenInstantRewardRow, this.chosenInstantDiscountChoice, this.chosenDiscountChoice, this.chosenResourceCostOption));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardPickDevelopmentCard(Utils.cliAskServants(), this.chosenCardType, this.chosenDevelopmentCard.getRow(), this.chosenInstantRewardRow, this.chosenInstantDiscountChoice, this.chosenDiscountChoice, this.chosenResourceCostOption));
 	}
 }

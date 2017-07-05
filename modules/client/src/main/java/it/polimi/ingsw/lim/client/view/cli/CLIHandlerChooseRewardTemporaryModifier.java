@@ -1,10 +1,10 @@
 package it.polimi.ingsw.lim.client.view.cli;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationChooseRewardTemporaryModifier;
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,12 +36,7 @@ public class CLIHandlerChooseRewardTemporaryModifier implements ICLIHandler
 
 	private static void askFamilyMemberType()
 	{
-		String input;
-		do {
-			input = Client.getInstance().getCliScanner().nextLine();
-		}
-		while (!CommonUtils.isInteger(input) || !CLIHandlerChooseRewardTemporaryModifier.FAMILY_MEMEBR_TYPES.containsKey(Integer.parseInt(input)));
-		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardTemporaryModifier(CLIHandlerChooseRewardTemporaryModifier.FAMILY_MEMEBR_TYPES.get(Integer.parseInt(input))));
+		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardTemporaryModifier(Utils.cliAskFamilyMemberType(CLIHandlerChooseRewardTemporaryModifier.FAMILY_MEMEBR_TYPES)));
 	}
 
 	@Override

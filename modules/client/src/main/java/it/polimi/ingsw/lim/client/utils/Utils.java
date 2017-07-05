@@ -1,19 +1,23 @@
 package it.polimi.ingsw.lim.client.utils;
 
 import it.polimi.ingsw.lim.client.Client;
+import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.common.enums.Color;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
+import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Effect;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class Utils
 {
@@ -132,6 +136,27 @@ public class Utils
 		return "\n\n=== " + index + " ========\n" + text;
 	}
 
+	public static FamilyMemberType cliAskFamilyMemberType(Map<Integer, FamilyMemberType> familyMemberTypes)
+	{
+		String input;
+		do {
+			input = Client.getInstance().getCliScanner().nextLine();
+		}
+		while (!CommonUtils.isInteger(input) || !familyMemberTypes.containsKey(Integer.parseInt(input)));
+		return familyMemberTypes.get(Integer.parseInt(input));
+	}
+
+	public static int cliAskServants()
+	{
+		Client.getLogger().log(Level.INFO, "\n\nEnter Servants amount...");
+		String input;
+		do {
+			input = Client.getInstance().getCliScanner().nextLine();
+		}
+		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
+		return Integer.parseInt(input);
+	}
+
 	public static void resizeChildrenNode(Pane pane, double widthRatio, double heightRatio)
 	{
 		for (Node child : pane.getChildren()) {
@@ -147,6 +172,15 @@ public class Utils
 			child.setLayoutX(child.getLayoutX() * widthRatio);
 			child.setLayoutY(child.getLayoutY() * heightRatio);
 		}
+	}
+
+	public static void addAnchorPaneChild(AnchorPane anchorPane, Node child)
+	{
+		anchorPane.getChildren().add(child);
+		AnchorPane.setTopAnchor(child, 0.0);
+		AnchorPane.setBottomAnchor(child, 0.0);
+		AnchorPane.setLeftAnchor(child, 0.0);
+		AnchorPane.setRightAnchor(child, 0.0);
 	}
 
 	public static void setEffect(Pane pane, Effect effect)

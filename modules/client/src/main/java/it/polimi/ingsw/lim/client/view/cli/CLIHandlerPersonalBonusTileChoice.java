@@ -12,13 +12,13 @@ import java.util.logging.Level;
 
 public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 {
-	private final Map<Integer, Integer> personalBonusTiles = new HashMap<>();
+	private final Map<Integer, Integer> availablePersonalBonusTiles = new HashMap<>();
 
 	@Override
 	public void execute()
 	{
 		this.showPersonalBonusTiles();
-		this.askPersonalBonusTileIndex();
+		this.askPersonalBonusTile();
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 		int index = 1;
 		for (int personalBonusTile : GameStatus.getInstance().getAvailablePersonalBonusTiles()) {
 			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getPersonalBonusTiles().get(personalBonusTile).getInformation()));
-			this.personalBonusTiles.put(index, personalBonusTile);
+			this.availablePersonalBonusTiles.put(index, personalBonusTile);
 			index++;
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
@@ -50,13 +50,13 @@ public class CLIHandlerPersonalBonusTileChoice implements ICLIHandler
 	 * <p>Asks which Personal Bonus Tile index the player wants to choose and
 	 * sends it.
 	 */
-	private void askPersonalBonusTileIndex()
+	private void askPersonalBonusTile()
 	{
 		String input;
 		do {
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
-		while (!CommonUtils.isInteger(input) || !this.personalBonusTiles.containsKey(Integer.parseInt(input)));
-		Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(this.personalBonusTiles.get(Integer.parseInt(input)));
+		while (!CommonUtils.isInteger(input) || !this.availablePersonalBonusTiles.containsKey(Integer.parseInt(input)));
+		Client.getInstance().getConnectionHandler().sendGamePersonalBonusTilePlayerChoice(this.availablePersonalBonusTiles.get(Integer.parseInt(input)));
 	}
 }
