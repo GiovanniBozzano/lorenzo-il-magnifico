@@ -23,7 +23,7 @@
 	- ✔ RMI
 	- ✔ Socket
 * File Configurations
-	- ✔ Development Cards
+	- ✔ Cards
 	- ✔ Game Board
 	- ✔ Timers
 * ✔ 5ᵗʰ Player
