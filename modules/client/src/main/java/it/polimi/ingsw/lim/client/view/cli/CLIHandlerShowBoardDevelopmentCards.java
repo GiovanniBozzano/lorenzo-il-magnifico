@@ -25,6 +25,18 @@ public class CLIHandlerShowBoardDevelopmentCards implements ICLIHandler
 		CLIHandlerShowBoardDevelopmentCards.CARD_TYPE_CHOICE.put(4, CardType.VENTURE);
 	}
 
+	private static void showDevelopmentCards(CardType cardType)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		for (Entry<Row, Integer> developmentCardInteger : GameStatus.getInstance().getCurrentDevelopmentCards().get(cardType).entrySet()) {
+			stringBuilder.append("\n\n\nROW: ");
+			stringBuilder.append(developmentCardInteger.getKey().name());
+			stringBuilder.append('\n');
+			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(cardType).get(developmentCardInteger.getValue()).getInformation());
+		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
+	}
+
 	@Override
 	public void execute()
 	{
@@ -56,18 +68,6 @@ public class CLIHandlerShowBoardDevelopmentCards implements ICLIHandler
 			input = Client.getInstance().getCliScanner().nextLine();
 		}
 		while (!CommonUtils.isInteger(input) || !CLIHandlerShowBoardDevelopmentCards.CARD_TYPE_CHOICE.containsKey(Integer.parseInt(input)));
-		this.showDevelopmentCards(CLIHandlerShowBoardDevelopmentCards.CARD_TYPE_CHOICE.get(Integer.parseInt(input)));
-	}
-
-	private void showDevelopmentCards(CardType cardType)
-	{
-		StringBuilder stringBuilder = new StringBuilder();
-		for (Entry<Row, Integer> developmentCardInteger : GameStatus.getInstance().getCurrentDevelopmentCards().get(cardType).entrySet()) {
-			stringBuilder.append("\n\n\nROW: ");
-			stringBuilder.append(developmentCardInteger.getKey().name());
-			stringBuilder.append('\n');
-			stringBuilder.append(GameStatus.getInstance().getDevelopmentCards().get(cardType).get(developmentCardInteger.getValue()).getInformation());
-		}
-		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
+		CLIHandlerShowBoardDevelopmentCards.showDevelopmentCards(CLIHandlerShowBoardDevelopmentCards.CARD_TYPE_CHOICE.get(Integer.parseInt(input)));
 	}
 }

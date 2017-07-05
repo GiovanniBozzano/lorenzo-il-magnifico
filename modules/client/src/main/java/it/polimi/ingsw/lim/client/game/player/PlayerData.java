@@ -8,7 +8,6 @@ public class PlayerData
 {
 	private final String username;
 	private final Color color;
-	private int personalBonusTile;
 	private final List<Integer> developmentCardsBuilding = new ArrayList<>();
 	private final List<Integer> developmentCardsCharacter = new ArrayList<>();
 	private final List<Integer> developmentCardsTerritory = new ArrayList<>();
@@ -16,9 +15,10 @@ public class PlayerData
 	private final Map<CardType, List<Integer>> developmentCards = new EnumMap<>(CardType.class);
 	// leaderCardsPlayed boolean = true if the card is a reward leaderCard type and it can be activated
 	private final Map<Integer, Boolean> leaderCardsPlayed = new HashMap<>();
-	private int leaderCardsInHandNumber;
 	private final Map<ResourceType, Integer> resourceAmounts = new EnumMap<>(ResourceType.class);
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
+	private int personalBonusTile;
+	private int leaderCardsInHandNumber;
 
 	public PlayerData(String username, Color color)
 	{

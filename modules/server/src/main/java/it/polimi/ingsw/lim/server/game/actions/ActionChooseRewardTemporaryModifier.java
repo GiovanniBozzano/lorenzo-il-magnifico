@@ -42,18 +42,18 @@ public class ActionChooseRewardTemporaryModifier extends ActionInformationChoose
 		Modifier<EventPlaceFamilyMember> modifier = new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "")
 		{
 			@Override
-			public void setEventClass()
-			{
-				super.setEventClass(EventPlaceFamilyMember.class);
-			}
-
-			@Override
 			public void apply(EventPlaceFamilyMember event)
 			{
 				if (event.getFamilyMemberType() != ActionChooseRewardTemporaryModifier.this.getFamilyMemberType()) {
 					return;
 				}
 				event.setFamilyMemberValue(6);
+			}
+
+			@Override
+			public void setEventClass()
+			{
+				super.setEventClass(EventPlaceFamilyMember.class);
 			}
 		};
 		this.player.getTemporaryModifiers().add(modifier);

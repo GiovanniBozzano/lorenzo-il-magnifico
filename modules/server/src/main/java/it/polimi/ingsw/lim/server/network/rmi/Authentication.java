@@ -54,6 +54,12 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 	}
 
 	@Override
+	public int hashCode()
+	{
+		return Objects.hash(super.hashCode(), this.clientSessions);
+	}
+
+	@Override
 	public boolean equals(Object object)
 	{
 		if (this == object) {
@@ -67,12 +73,6 @@ public class Authentication extends UnicastRemoteObject implements IAuthenticati
 		}
 		Authentication that = (Authentication) object;
 		return Objects.equals(this.clientSessions, that.clientSessions);
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(super.hashCode(), this.clientSessions);
 	}
 
 	private AuthenticationInformation finalizeAuthentication(String username, RoomType roomType, IServerSession serverSession) throws RemoteException, AuthenticationFailedException

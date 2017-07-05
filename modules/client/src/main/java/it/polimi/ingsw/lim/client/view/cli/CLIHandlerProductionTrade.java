@@ -21,6 +21,20 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 	private final List<Integer> chosenTradeCards = new ArrayList<>();
 	private final Map<Integer, ResourceTradeOption> chosenResourceTradeOptions = new HashMap<>();
 
+	private static Map<Integer, ResourceTradeOption> showAvailableResourceTradeOptions(int chosenTradeCard)
+	{
+		Map<Integer, ResourceTradeOption> availableResourceTradeOptions = new HashMap<>();
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("\n\nEnter Resource Trade Option...");
+		int index = 1;
+		for (ResourceTradeOption resourceTradeOption : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().get(chosenTradeCard)) {
+			stringBuilder.append(Utils.createListElement(index, resourceTradeOption.getInformation(true)));
+			availableResourceTradeOptions.put(index, resourceTradeOption);
+		}
+		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
+		return availableResourceTradeOptions;
+	}
+
 	@Override
 	public void execute()
 	{
@@ -28,7 +42,7 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 		this.askTradeCards();
 		if (!this.chosenTradeCards.isEmpty()) {
 			for (int chosenTradeCard : this.chosenTradeCards) {
-				this.askResourceTradeOptions(chosenTradeCard, this.showAvailableResourceTradeOptions(chosenTradeCard));
+				this.askResourceTradeOptions(chosenTradeCard, CLIHandlerProductionTrade.showAvailableResourceTradeOptions(chosenTradeCard));
 			}
 		}
 		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationProductionTrade(this.chosenResourceTradeOptions));
@@ -68,20 +82,6 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 				Client.getLogger().log(Level.INFO, "{0} registered", new Object[] { CommonUtils.isInteger(input) });
 			}
 		} while (!("q").equals(input) && !("Q").equals(input));
-	}
-
-	private Map<Integer, ResourceTradeOption> showAvailableResourceTradeOptions(int chosenTradeCard)
-	{
-		Map<Integer, ResourceTradeOption> availableResourceTradeOptions = new HashMap<>();
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("\n\nEnter Resource Trade Option...");
-		int index = 1;
-		for (ResourceTradeOption resourceTradeOption : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().get(chosenTradeCard)) {
-			stringBuilder.append(Utils.createListElement(index, resourceTradeOption.getInformation(true)));
-			availableResourceTradeOptions.put(index, resourceTradeOption);
-		}
-		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
-		return availableResourceTradeOptions;
 	}
 
 	private void askResourceTradeOptions(int chosenTradeCard, Map<Integer, ResourceTradeOption> availableResourceTradeOptions)

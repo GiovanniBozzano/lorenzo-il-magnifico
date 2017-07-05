@@ -18,21 +18,21 @@ public class ResourceAmountMultiplierResource extends ResourceAmount
 	}
 
 	@Override
-	public boolean equals(Object resourceAmount)
-	{
-		return resourceAmount instanceof ResourceAmountMultiplierResource && this.getResourceType() == ((ResourceAmountMultiplierResource) resourceAmount).getResourceType() && this.getAmount() == ((ResourceAmountMultiplierResource) resourceAmount).getAmount() && this.resourceTypeMultiplier == ((ResourceAmountMultiplierResource) resourceAmount).resourceTypeMultiplier && this.resourceAmountDivider == ((ResourceAmountMultiplierResource) resourceAmount).resourceAmountDivider;
-	}
-
-	@Override
 	public int hashCode()
 	{
 		return Objects.hash(super.hashCode(), this.getResourceType(), this.getAmount(), this.resourceTypeMultiplier, this.resourceAmountDivider);
 	}
 
 	@Override
+	public boolean equals(Object resourceAmount)
+	{
+		return resourceAmount instanceof ResourceAmountMultiplierResource && this.getResourceType() == ((ResourceAmountMultiplierResource) resourceAmount).getResourceType() && this.getAmount() == ((ResourceAmountMultiplierResource) resourceAmount).getAmount() && this.resourceTypeMultiplier == ((ResourceAmountMultiplierResource) resourceAmount).resourceTypeMultiplier && this.resourceAmountDivider == ((ResourceAmountMultiplierResource) resourceAmount).resourceAmountDivider;
+	}
+
+	@Override
 	public String getInformation()
 	{
-		return "- " + CommonUtils.getResourcesTypesNames().get(this.getResourceType()) + ": " + this.getAmount() + " x " + this.resourceAmountDivider + " " + CommonUtils.getResourcesTypesNames().get(this.resourceTypeMultiplier);
+		return "- " + CommonUtils.getResourcesTypesNames().get(this.getResourceType()) + ": " + this.getAmount() + " x " + this.resourceAmountDivider + ' ' + CommonUtils.getResourcesTypesNames().get(this.resourceTypeMultiplier);
 	}
 
 	public ResourceType getResourceTypeMultiplier()

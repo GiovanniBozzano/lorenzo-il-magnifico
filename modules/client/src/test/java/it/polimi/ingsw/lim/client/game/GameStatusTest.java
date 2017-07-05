@@ -29,7 +29,7 @@ public class GameStatusTest
 	private final Map<FamilyMemberType, Integer> currentDices = new EnumMap<>(FamilyMemberType.class);
 	private final Map<Integer, Integer> currentTurnOrder = new HashMap<>();
 	private final Map<Integer, Integer> currentCouncilPalaceOrder = new HashMap<>();
-	private final Map<Period, List<Integer>> currentExcommunicatedPlayers = new HashMap<>();
+	private final Map<Period, List<Integer>> currentExcommunicatedPlayers = new EnumMap<>(Period.class);
 
 	@Before
 	public void setUp()

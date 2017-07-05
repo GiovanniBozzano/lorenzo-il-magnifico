@@ -41,6 +41,11 @@ public class BoardHandler
 		return new BoardPositionInformation(0, new ArrayList<>());
 	}
 
+	public static Map<Integer, List<ResourceAmount>> getCouncilPrivilegeRewards()
+	{
+		return BoardHandler.COUNCIL_PRIVILEGE_REWARDS;
+	}
+
 	public Map<Period, Integer> getMatchExcommunicationTilesIndexes()
 	{
 		Map<Period, Integer> matchExcommunicationTilesIndexes = new EnumMap<>(Period.class);
@@ -48,11 +53,6 @@ public class BoardHandler
 			matchExcommunicationTilesIndexes.put(excommunicationTile.getKey(), excommunicationTile.getValue().getIndex());
 		}
 		return matchExcommunicationTilesIndexes;
-	}
-
-	public static Map<Integer, List<ResourceAmount>> getCouncilPrivilegeRewards()
-	{
-		return BoardHandler.COUNCIL_PRIVILEGE_REWARDS;
 	}
 
 	public Map<Period, ExcommunicationTile> getMatchExcommunicationTiles()
@@ -90,7 +90,7 @@ public class BoardHandler
 			} catch (IOException exception) {
 				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
-			return new HashMap<>();
+			return new EnumMap<>(BoardPosition.class);
 		}
 	}
 

@@ -23,16 +23,34 @@ public class ResourceAmount implements Serializable
 		this(resourceAmount.resourceType, resourceAmount.amount);
 	}
 
-	@Override
-	public boolean equals(Object resourceAmount)
+	public static String getResourcesInformation(List<ResourceAmount> resourceAmounts, boolean indented)
 	{
-		return resourceAmount instanceof ResourceAmount && this.resourceType == ((ResourceAmount) resourceAmount).resourceType && this.amount == ((ResourceAmount) resourceAmount).amount;
+		StringBuilder stringBuilder = new StringBuilder();
+		boolean firstLine = true;
+		for (ResourceAmount resourceAmount : resourceAmounts) {
+			if (!firstLine) {
+				stringBuilder.append('\n');
+			} else {
+				firstLine = false;
+			}
+			if (indented) {
+				stringBuilder.append("    ");
+			}
+			stringBuilder.append(resourceAmount.getInformation());
+		}
+		return stringBuilder.toString();
 	}
 
 	@Override
 	public int hashCode()
 	{
 		return Objects.hash(super.hashCode(), this.resourceType, this.amount);
+	}
+
+	@Override
+	public boolean equals(Object resourceAmount)
+	{
+		return resourceAmount instanceof ResourceAmount && this.resourceType == ((ResourceAmount) resourceAmount).resourceType && this.amount == ((ResourceAmount) resourceAmount).amount;
 	}
 
 	public ResourceType getResourceType()
@@ -53,23 +71,5 @@ public class ResourceAmount implements Serializable
 	String getInformation()
 	{
 		return "- " + CommonUtils.getResourcesTypesNames().get(this.resourceType) + ": " + this.amount;
-	}
-
-	public static String getResourcesInformation(List<ResourceAmount> resourceAmounts, boolean indented)
-	{
-		StringBuilder stringBuilder = new StringBuilder();
-		boolean firstLine = true;
-		for (ResourceAmount resourceAmount : resourceAmounts) {
-			if (!firstLine) {
-				stringBuilder.append('\n');
-			} else {
-				firstLine = false;
-			}
-			if (indented) {
-				stringBuilder.append("    ");
-			}
-			stringBuilder.append(resourceAmount.getInformation());
-		}
-		return stringBuilder.toString();
 	}
 }

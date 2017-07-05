@@ -17,15 +17,15 @@ public class ResourceAmountMultiplierCard extends ResourceAmount
 	}
 
 	@Override
-	public boolean equals(Object resourceAmount)
-	{
-		return resourceAmount instanceof ResourceAmountMultiplierCard && this.getResourceType() == ((ResourceAmountMultiplierCard) resourceAmount).getResourceType() && this.getAmount() == ((ResourceAmountMultiplierCard) resourceAmount).getAmount() && this.cardTypeMultiplier == ((ResourceAmountMultiplierCard) resourceAmount).cardTypeMultiplier;
-	}
-
-	@Override
 	public int hashCode()
 	{
 		return Objects.hash(super.hashCode(), this.getResourceType(), this.getAmount(), this.cardTypeMultiplier);
+	}
+
+	@Override
+	public boolean equals(Object resourceAmount)
+	{
+		return resourceAmount instanceof ResourceAmountMultiplierCard && this.getResourceType() == ((ResourceAmountMultiplierCard) resourceAmount).getResourceType() && this.getAmount() == ((ResourceAmountMultiplierCard) resourceAmount).getAmount() && this.cardTypeMultiplier == ((ResourceAmountMultiplierCard) resourceAmount).cardTypeMultiplier;
 	}
 
 	@Override

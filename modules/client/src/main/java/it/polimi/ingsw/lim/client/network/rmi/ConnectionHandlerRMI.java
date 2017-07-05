@@ -43,7 +43,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 	{
 		try {
 			this.serverSession = new ServerSession();
-			this.login = (IAuthentication) Naming.lookup("rmi://" + Client.getInstance().getIp() + ":" + Client.getInstance().getPort() + "/lorenzo-il-magnifico");
+			this.login = (IAuthentication) Naming.lookup("rmi://" + Client.getInstance().getIp() + ':' + Client.getInstance().getPort() + "/lorenzo-il-magnifico");
 		} catch (NotBoundException | MalformedURLException | RemoteException | IllegalArgumentException exception) {
 			Client.getDebugger().log(Level.OFF, "Could not connect to host.", exception);
 			Client.getInstance().getInterfaceHandler().handleConnectionError();

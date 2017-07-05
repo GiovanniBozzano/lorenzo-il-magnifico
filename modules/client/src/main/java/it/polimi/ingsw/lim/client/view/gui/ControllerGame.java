@@ -47,6 +47,109 @@ import java.util.Map.Entry;
 
 public class ControllerGame extends CustomController
 {
+	private static final DropShadow MOUSE_OVER_EFFECT = new DropShadow();
+	private static final DropShadow DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT = new DropShadow();
+	private static final DropShadow DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT = new DropShadow();
+	private static final DropShadow DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT = new DropShadow();
+	private static final DropShadow DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT = new DropShadow();
+	private static final Map<ActionType, IExpectedActionHandler> EXPECTED_ACTION_HANDLERS = new EnumMap<>(ActionType.class);
+
+	static {
+		ControllerGame.MOUSE_OVER_EFFECT.setOffsetY(0.0D);
+		ControllerGame.MOUSE_OVER_EFFECT.setOffsetX(0.0D);
+		ControllerGame.MOUSE_OVER_EFFECT.setColor(Color.BLACK);
+		ControllerGame.MOUSE_OVER_EFFECT.setWidth(40.0D);
+		ControllerGame.MOUSE_OVER_EFFECT.setHeight(40.0D);
+	}
+
+	static {
+		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setOffsetY(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setOffsetX(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setColor(Color.YELLOW);
+		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setWidth(40.0D);
+		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setHeight(40.0D);
+	}
+
+	static {
+		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setOffsetY(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setOffsetX(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setColor(Color.BLUE);
+		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setWidth(40.0D);
+		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setHeight(40.0D);
+	}
+
+	static {
+		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setOffsetY(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setOffsetX(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setColor(Color.GREEN);
+		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setWidth(40.0D);
+		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setHeight(40.0D);
+	}
+
+	static {
+		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setOffsetY(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setOffsetX(0.0D);
+		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setColor(Color.PURPLE);
+		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setWidth(40.0D);
+		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setHeight(40.0D);
+	}
+
+	static {
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, ControllerGame::showExpectedChooseLorenzoDeMediciLeader);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE, ControllerGame::showExpectedChooseRewardCouncilPrivilege);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_HARVEST, ControllerGame::showExpectedChooseRewardHarvest);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD, ControllerGame::showExpectedChooseRewardPickDevelopmentCard);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PRODUCTION_START, ControllerGame::showExpectedChooseRewardProductionStart);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER, ControllerGame::showExpectedChooseRewardTemporaryModifier);
+		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.PRODUCTION_TRADE, ControllerGame::showExpectedProductionTrade);
+	}
+
+	private final Map<Integer, Tab> playersTabs = new HashMap<>();
+	private final Map<Integer, Tab> leaderCardsTabs = new HashMap<>();
+	private final Map<Integer, Pane> playersBoards = new HashMap<>();
+	private final Map<FamilyMemberType, Pane> dices = new EnumMap<>(FamilyMemberType.class);
+	private final Map<Period, Pane> excommunicationTilesPanes = new EnumMap<>(Period.class);
+	private final Map<Period, List<Pane>> excommunicationTilesPlayersPanes = new EnumMap<>(Period.class);
+	private final Map<Integer, Pane> victoryPointsPanes = new HashMap<>();
+	private final Map<Integer, Pane> militaryPointsPanes = new HashMap<>();
+	private final Map<Integer, Pane> faithPointsPanes = new HashMap<>();
+	private final Map<Integer, Pane> prestigePointsPanes = new HashMap<>();
+	private final Map<Integer, Pane> councilPalacePositionsPanes = new HashMap<>();
+	private final Map<Integer, Pane> roundOrderPositionsPanes = new HashMap<>();
+	private final Map<Integer, Pane> harvestBigPositionsPanes = new HashMap<>();
+	private final Map<Integer, Pane> productionBigPositionsPanes = new HashMap<>();
+	private final Map<Row, Pane> developmentCardsBuildingPanes = new EnumMap<>(Row.class);
+	private final Map<Row, Pane> developmentCardsCharacterPanes = new EnumMap<>(Row.class);
+	private final Map<Row, Pane> developmentCardsTerritoryPanes = new EnumMap<>(Row.class);
+	private final Map<Row, Pane> developmentCardsVenturePanes = new EnumMap<>(Row.class);
+	private final Map<CardType, Map<Row, Pane>> developmentCardsPanes = new EnumMap<>(CardType.class);
+	private final Map<BoardPosition, Pane> boardPositionsPanes = new EnumMap<>(BoardPosition.class);
+	private final Map<CardType, List<Pane>> player1DevelopmentCards = new EnumMap<>(CardType.class);
+	private final Map<CardType, List<Pane>> player2DevelopmentCards = new EnumMap<>(CardType.class);
+	private final Map<CardType, List<Pane>> player3DevelopmentCards = new EnumMap<>(CardType.class);
+	private final Map<CardType, List<Pane>> player4DevelopmentCards = new EnumMap<>(CardType.class);
+	private final Map<CardType, List<Pane>> player5DevelopmentCards = new EnumMap<>(CardType.class);
+	private final Map<Integer, Map<CardType, List<Pane>>> playersDevelopmentCards = new HashMap<>();
+	private final Map<Integer, List<Pane>> playersLeaderCardsHand = new HashMap<>();
+	private final Map<Integer, List<Pane>> playersLeaderCardsPlayed = new HashMap<>();
+	private final Map<ResourceType, Label> player1Resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Label> player2Resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Label> player3Resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Label> player4Resources = new EnumMap<>(ResourceType.class);
+	private final Map<ResourceType, Label> player5Resources = new EnumMap<>(ResourceType.class);
+	private final Map<Integer, Map<ResourceType, Label>> playersResources = new HashMap<>();
+	private final Map<Pane, Integer> developmentCardsBuildingIndexes = new HashMap<>();
+	private final Map<Pane, Integer> developmentCardsCharacterIndexes = new HashMap<>();
+	private final Map<Pane, Integer> developmentCardsTerritoryIndexes = new HashMap<>();
+	private final Map<Pane, Integer> developmentCardsVentureIndexes = new HashMap<>();
+	private final BidirectionalMap<Pane, Integer> playerDevelopmentCardsBuildingIndexes = new BidirectionalMap<>();
+	private final Map<PlayerData, Integer> playersHarvestBigPositions = new HashMap<>();
+	private final Map<PlayerData, Integer> playersProductionBigPositions = new HashMap<>();
+	private final List<Pane> selectableDevelopmentCards = new ArrayList<>();
+	private final List<ResourceAmount> selectedInstantDiscountChoice = new ArrayList<>();
+	private final List<ResourceAmount> selectedDiscountChoice = new ArrayList<>();
+	private final List<Pane> selectableTradeCards = new ArrayList<>();
+	private final List<Integer> selectedTradeCardIndexes = new ArrayList<>();
 	@FXML private Pane gameBoard;
 	@FXML private Pane diceBlack;
 	@FXML private Pane diceWhite;
@@ -554,272 +657,64 @@ public class ControllerGame extends CustomController
 	@FXML private JFXDialog endGameDialog;
 	@FXML private Label endGameDialogTitle;
 	@FXML private VBox endGameDialogPlayersVBox;
-	private static final DropShadow MOUSE_OVER_EFFECT = new DropShadow();
-
-	static {
-		ControllerGame.MOUSE_OVER_EFFECT.setOffsetY(0.0D);
-		ControllerGame.MOUSE_OVER_EFFECT.setOffsetX(0.0D);
-		ControllerGame.MOUSE_OVER_EFFECT.setColor(Color.BLACK);
-		ControllerGame.MOUSE_OVER_EFFECT.setWidth(40.0D);
-		ControllerGame.MOUSE_OVER_EFFECT.setHeight(40.0D);
-	}
-
-	private static final DropShadow DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT = new DropShadow();
-
-	static {
-		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setOffsetY(0.0D);
-		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setOffsetX(0.0D);
-		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setColor(Color.YELLOW);
-		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setWidth(40.0D);
-		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setHeight(40.0D);
-	}
-
-	private static final DropShadow DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT = new DropShadow();
-
-	static {
-		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setOffsetY(0.0D);
-		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setOffsetX(0.0D);
-		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setColor(Color.BLUE);
-		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setWidth(40.0D);
-		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setHeight(40.0D);
-	}
-
-	private static final DropShadow DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT = new DropShadow();
-
-	static {
-		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setOffsetY(0.0D);
-		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setOffsetX(0.0D);
-		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setColor(Color.GREEN);
-		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setWidth(40.0D);
-		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setHeight(40.0D);
-	}
-
-	private static final DropShadow DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT = new DropShadow();
-
-	static {
-		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setOffsetY(0.0D);
-		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setOffsetX(0.0D);
-		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setColor(Color.PURPLE);
-		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setWidth(40.0D);
-		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setHeight(40.0D);
-	}
-
-	private static final Map<ActionType, IExpectedActionHandler> EXPECTED_ACTION_HANDLERS = new EnumMap<>(ActionType.class);
-
-	static {
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, ControllerGame::showExpectedChooseLorenzoDeMediciLeader);
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE, ControllerGame::showExpectedChooseRewardCouncilPrivilege);
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_HARVEST, ControllerGame::showExpectedChooseRewardHarvest);
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD, ControllerGame::showExpectedChooseRewardPickDevelopmentCard);
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_PRODUCTION_START, ControllerGame::showExpectedChooseRewardProductionStart);
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_TEMPORARY_MODIFIER, ControllerGame::showExpectedChooseRewardTemporaryModifier);
-		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.PRODUCTION_TRADE, ControllerGame::showExpectedProductionTrade);
-	}
-
-	private final Map<Integer, Tab> playersTabs = new HashMap<>();
-	private final Map<Integer, Tab> leaderCardsTabs = new HashMap<>();
-	private final Map<Integer, Pane> playersBoards = new HashMap<>();
-	private final Map<FamilyMemberType, Pane> dices = new EnumMap<>(FamilyMemberType.class);
-	private final Map<Period, Pane> excommunicationTilesPanes = new EnumMap<>(Period.class);
-	private final Map<Period, List<Pane>> excommunicationTilesPlayersPanes = new EnumMap<>(Period.class);
-	private final Map<Integer, Pane> victoryPointsPanes = new HashMap<>();
-	private final Map<Integer, Pane> militaryPointsPanes = new HashMap<>();
-	private final Map<Integer, Pane> faithPointsPanes = new HashMap<>();
-	private final Map<Integer, Pane> prestigePointsPanes = new HashMap<>();
-	private final Map<Integer, Pane> councilPalacePositionsPanes = new HashMap<>();
-	private final Map<Integer, Pane> roundOrderPositionsPanes = new HashMap<>();
-	private final Map<Integer, Pane> harvestBigPositionsPanes = new HashMap<>();
-	private final Map<Integer, Pane> productionBigPositionsPanes = new HashMap<>();
-	private final Map<Row, Pane> developmentCardsBuildingPanes = new EnumMap<>(Row.class);
-	private final Map<Row, Pane> developmentCardsCharacterPanes = new EnumMap<>(Row.class);
-	private final Map<Row, Pane> developmentCardsTerritoryPanes = new EnumMap<>(Row.class);
-	private final Map<Row, Pane> developmentCardsVenturePanes = new EnumMap<>(Row.class);
-	private final Map<CardType, Map<Row, Pane>> developmentCardsPanes = new EnumMap<>(CardType.class);
-	private final Map<BoardPosition, Pane> boardPositionsPanes = new EnumMap<>(BoardPosition.class);
-	private final Map<CardType, List<Pane>> player1DevelopmentCards = new EnumMap<>(CardType.class);
-	private final Map<CardType, List<Pane>> player2DevelopmentCards = new EnumMap<>(CardType.class);
-	private final Map<CardType, List<Pane>> player3DevelopmentCards = new EnumMap<>(CardType.class);
-	private final Map<CardType, List<Pane>> player4DevelopmentCards = new EnumMap<>(CardType.class);
-	private final Map<CardType, List<Pane>> player5DevelopmentCards = new EnumMap<>(CardType.class);
-	private final Map<Integer, Map<CardType, List<Pane>>> playersDevelopmentCards = new HashMap<>();
-	private final Map<Integer, List<Pane>> playersLeaderCardsHand = new HashMap<>();
-	private final Map<Integer, List<Pane>> playersLeaderCardsPlayed = new HashMap<>();
-	private final Map<ResourceType, Label> player1Resources = new EnumMap<>(ResourceType.class);
-	private final Map<ResourceType, Label> player2Resources = new EnumMap<>(ResourceType.class);
-	private final Map<ResourceType, Label> player3Resources = new EnumMap<>(ResourceType.class);
-	private final Map<ResourceType, Label> player4Resources = new EnumMap<>(ResourceType.class);
-	private final Map<ResourceType, Label> player5Resources = new EnumMap<>(ResourceType.class);
-	private final Map<Integer, Map<ResourceType, Label>> playersResources = new HashMap<>();
-	private final Map<Pane, Integer> developmentCardsBuildingIndexes = new HashMap<>();
-	private final Map<Pane, Integer> developmentCardsCharacterIndexes = new HashMap<>();
-	private final Map<Pane, Integer> developmentCardsTerritoryIndexes = new HashMap<>();
-	private final Map<Pane, Integer> developmentCardsVentureIndexes = new HashMap<>();
-	private final BidirectionalMap<Pane, Integer> playerDevelopmentCardsBuildingIndexes = new BidirectionalMap<>();
-	private final Map<PlayerData, Integer> playersHarvestBigPositions = new HashMap<>();
-	private final Map<PlayerData, Integer> playersProductionBigPositions = new HashMap<>();
 	private double ratio;
 	private boolean pickingDevelopmentCard = false;
 	private JFXButton pickDevelopmentCardActionButton;
-	private final List<Pane> selectableDevelopmentCards = new ArrayList<>();
 	private CardType selectedDevelopmentCardType;
 	private Integer selectedDevelopmentCardIndex;
 	private Row selectedInstantRewardRow;
-	private final List<ResourceAmount> selectedInstantDiscountChoice = new ArrayList<>();
-	private final List<ResourceAmount> selectedDiscountChoice = new ArrayList<>();
 	private ResourceCostOption selectedResourceCostOption;
 	private boolean pickingTradeCards = false;
-	private final List<Pane> selectableTradeCards = new ArrayList<>();
-	private final List<Integer> selectedTradeCardIndexes = new ArrayList<>();
 
-	@FXML
-	private void boardDevelopmentCardPaneMouseClicked(MouseEvent event)
+	private static void setActionButton(JFXNodesList nodesList, String imagePath, String tooltipText, boolean disabled)
 	{
-		Pane pane = (Pane) event.getSource();
-		if (event.getButton() == MouseButton.PRIMARY && this.pickingDevelopmentCard && this.selectableDevelopmentCards.contains(pane)) {
-			if (this.developmentCardsBuildingPanes.containsValue(pane)) {
-				if (this.selectedDevelopmentCardType == CardType.BUILDING && this.selectedDevelopmentCardIndex.equals(this.developmentCardsBuildingIndexes.get(pane))) {
-					this.resetSelectedDevelopmentCard(pane);
-				} else {
-					this.pickDevelopmentCardActionButton.setDisable(false);
-					this.selectedDevelopmentCardType = CardType.BUILDING;
-					this.selectedDevelopmentCardIndex = this.developmentCardsBuildingIndexes.get(pane);
-					this.resetDevelopmentCardsEffects();
-					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT);
-					Utils.unsetEffect(pane);
-				}
-			} else if (this.developmentCardsCharacterPanes.containsValue(pane)) {
-				if (this.selectedDevelopmentCardType == CardType.CHARACTER && this.selectedDevelopmentCardIndex.equals(this.developmentCardsCharacterIndexes.get(pane))) {
-					this.resetSelectedDevelopmentCard(pane);
-				} else {
-					this.pickDevelopmentCardActionButton.setDisable(false);
-					this.selectedDevelopmentCardType = CardType.CHARACTER;
-					this.selectedDevelopmentCardIndex = this.developmentCardsCharacterIndexes.get(pane);
-					this.resetDevelopmentCardsEffects();
-					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT);
-					Utils.unsetEffect(pane);
-				}
-			} else if (this.developmentCardsTerritoryPanes.containsValue(pane)) {
-				if (this.selectedDevelopmentCardType == CardType.TERRITORY && this.selectedDevelopmentCardIndex.equals(this.developmentCardsTerritoryIndexes.get(pane))) {
-					this.resetSelectedDevelopmentCard(pane);
-				} else {
-					this.pickDevelopmentCardActionButton.setDisable(false);
-					this.selectedDevelopmentCardType = CardType.TERRITORY;
-					this.selectedDevelopmentCardIndex = this.developmentCardsTerritoryIndexes.get(pane);
-					this.resetDevelopmentCardsEffects();
-					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT);
-					Utils.unsetEffect(pane);
-				}
-			} else {
-				if (this.selectedDevelopmentCardType == CardType.VENTURE && this.selectedDevelopmentCardIndex.equals(this.developmentCardsVentureIndexes.get(pane))) {
-					this.resetSelectedDevelopmentCard(pane);
-				} else {
-					this.pickDevelopmentCardActionButton.setDisable(false);
-					this.selectedDevelopmentCardType = CardType.VENTURE;
-					this.selectedDevelopmentCardIndex = this.developmentCardsVentureIndexes.get(pane);
-					this.resetDevelopmentCardsEffects();
-					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT);
-					Utils.unsetEffect(pane);
+		ControllerGame.setActionButton(nodesList, imagePath, tooltipText, disabled, null, false);
+	}
+
+	private static void setActionButton(JFXNodesList nodesList, String imagePath, String tooltipText, boolean disabled, Runnable runnable)
+	{
+		ControllerGame.setActionButton(nodesList, imagePath, tooltipText, disabled, runnable, false);
+	}
+
+	private static void setActionButton(JFXNodesList nodesList, String imagePath, String tooltipText, boolean disabled, Runnable runnable, boolean red)
+	{
+		JFXButton button = new JFXButton();
+		if (disabled) {
+			button.setDisable(true);
+		}
+		Tooltip tooltip = new Tooltip(tooltipText);
+		WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
+		WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
+		button.setTooltip(tooltip);
+		ImageView imageView = new ImageView(new Image(ControllerGame.class.getResource(imagePath).toString()));
+		button.setGraphic(imageView);
+		if (red) {
+			button.getStyleClass().add("animated-option-button-red");
+		} else {
+			button.getStyleClass().add("animated-option-button-green");
+		}
+		if (runnable != null) {
+			button.setOnMouseClicked(event -> runnable.run());
+		}
+		nodesList.addAnimatedNode(button);
+	}
+
+	private static List<FamilyMemberType> mapFamilyMemberTypes(JFXNodesList nodesList, String imagePath, String tooltipText, List<Serializable> availableActions, JFXNodesList[] nodesLists)
+	{
+		ControllerGame.setActionButton(nodesList, imagePath, tooltipText, false, () -> {
+			for (JFXNodesList otherNodesList : nodesLists) {
+				if (WindowFactory.isNodesListExpanded(otherNodesList)) {
+					otherNodesList.animateList();
 				}
 			}
-		} else if (event.getButton() == MouseButton.SECONDARY && pane.getBackground() != null) {
-			this.developmentCardDialogPane.setBackground(pane.getBackground());
-			this.developmentCardDialogText.setText(this.getDevelopmentCardInformation(pane));
-			this.developmentCardDialog.show();
-		}
-	}
-
-	@FXML
-	private void playerDevelopmentCardPaneMouseClicked(MouseEvent event)
-	{
-		Pane pane = (Pane) event.getSource();
-		if (event.getButton() == MouseButton.PRIMARY && this.pickingTradeCards && this.selectableTradeCards.contains(pane) && this.playersDevelopmentCards.get(GameStatus.getInstance().getOwnPlayerIndex()).get(CardType.BUILDING).contains(pane)) {
-			if (this.selectedTradeCardIndexes.contains(this.playerDevelopmentCardsBuildingIndexes.getDirect(pane))) {
-				this.resetSelectedTradeCards(pane);
-			} else {
-				this.selectedTradeCardIndexes.add(this.playerDevelopmentCardsBuildingIndexes.getDirect(pane));
-				pane.setEffect(ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT);
-				Utils.unsetEffect(pane);
+		});
+		List<FamilyMemberType> mappedFamilyMemberTypes = new ArrayList<>();
+		for (Serializable availableAction : availableActions) {
+			if (!mappedFamilyMemberTypes.contains(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
+				mappedFamilyMemberTypes.add(((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
 			}
-		} else if (event.getButton() == MouseButton.SECONDARY && (pane).getBackground() != null) {
-			this.developmentCardDialogPane.setBackground(pane.getBackground());
-			this.developmentCardDialogText.setText(this.getDevelopmentCardInformation(pane));
-			this.developmentCardDialog.show();
 		}
-	}
-
-	@FXML
-	private void handleChatTextAreaAction(ActionEvent event)
-	{
-		Utils.sendChatMessage((TextField) event.getSource(), this.chatTextArea);
-	}
-
-	@FXML
-	private void handlePlayersLeaderCardsButtonAction()
-	{
-		this.playersLeaderCardsDialog.show();
-	}
-
-	@FXML
-	public void handleDialogOkButtonAction()
-	{
-		this.dialog.close();
-		this.getStackPane().getScene().getRoot().requestFocus();
-	}
-
-	@FXML
-	private void handleExcommunicationDialogSupportButtonAction()
-	{
-		this.excommunicationDialog.close();
-		Client.getInstance().getConnectionHandler().sendGameExcommunicationPlayerChoice(false);
-	}
-
-	@FXML
-	private void handleExcommunicationDialogDoNotSupportButtonAction()
-	{
-		this.excommunicationDialog.close();
-		Client.getInstance().getConnectionHandler().sendGameExcommunicationPlayerChoice(true);
-	}
-
-	@FXML
-	private void handleServantsDialogCancelButtonAction()
-	{
-		this.servantsDialog.close();
-	}
-
-	@FXML
-	private void handlePickDevelopmentCardDialogCancelButtonAction()
-	{
-		this.pickDevelopmentCardDialog.close();
-	}
-
-	@FXML
-	private void handleExpectedChooseRewardPickDevelopmentCardDialogThirdRowAction()
-	{
-		this.selectedInstantRewardRow = Row.THIRD;
-	}
-
-	@FXML
-	private void handleExpectedChooseRewardPickDevelopmentCardDialogFourthRowAction()
-	{
-		this.selectedInstantRewardRow = Row.FOURTH;
-	}
-
-	@FXML
-	private void handleExpectedChooseRewardPickDevelopmentCardDialogCancelButtonAction()
-	{
-		this.expectedChooseRewardPickDevelopmentCardDialog.close();
-	}
-
-	@FXML
-	private void handleExpectedProductionTradeDialogCancelButtonAction()
-	{
-		this.expectedProductionTradeDialog.close();
-	}
-
-	@FXML
-	private void handleEndGameDialogDisconnectButtonAction()
-	{
-		Client.getInstance().disconnect(false, true);
+		return mappedFamilyMemberTypes;
 	}
 
 	@Override
@@ -1341,6 +1236,157 @@ public class ControllerGame extends CustomController
 		Client.getInstance().getBackgroundMediaPlayer().play();
 	}
 
+	@FXML
+	private void boardDevelopmentCardPaneMouseClicked(MouseEvent event)
+	{
+		Pane pane = (Pane) event.getSource();
+		if (event.getButton() == MouseButton.PRIMARY && this.pickingDevelopmentCard && this.selectableDevelopmentCards.contains(pane)) {
+			if (this.developmentCardsBuildingPanes.containsValue(pane)) {
+				if (this.selectedDevelopmentCardType == CardType.BUILDING && this.selectedDevelopmentCardIndex.equals(this.developmentCardsBuildingIndexes.get(pane))) {
+					this.resetSelectedDevelopmentCard(pane);
+				} else {
+					this.pickDevelopmentCardActionButton.setDisable(false);
+					this.selectedDevelopmentCardType = CardType.BUILDING;
+					this.selectedDevelopmentCardIndex = this.developmentCardsBuildingIndexes.get(pane);
+					this.resetDevelopmentCardsEffects();
+					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT);
+					Utils.unsetEffect(pane);
+				}
+			} else if (this.developmentCardsCharacterPanes.containsValue(pane)) {
+				if (this.selectedDevelopmentCardType == CardType.CHARACTER && this.selectedDevelopmentCardIndex.equals(this.developmentCardsCharacterIndexes.get(pane))) {
+					this.resetSelectedDevelopmentCard(pane);
+				} else {
+					this.pickDevelopmentCardActionButton.setDisable(false);
+					this.selectedDevelopmentCardType = CardType.CHARACTER;
+					this.selectedDevelopmentCardIndex = this.developmentCardsCharacterIndexes.get(pane);
+					this.resetDevelopmentCardsEffects();
+					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT);
+					Utils.unsetEffect(pane);
+				}
+			} else if (this.developmentCardsTerritoryPanes.containsValue(pane)) {
+				if (this.selectedDevelopmentCardType == CardType.TERRITORY && this.selectedDevelopmentCardIndex.equals(this.developmentCardsTerritoryIndexes.get(pane))) {
+					this.resetSelectedDevelopmentCard(pane);
+				} else {
+					this.pickDevelopmentCardActionButton.setDisable(false);
+					this.selectedDevelopmentCardType = CardType.TERRITORY;
+					this.selectedDevelopmentCardIndex = this.developmentCardsTerritoryIndexes.get(pane);
+					this.resetDevelopmentCardsEffects();
+					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT);
+					Utils.unsetEffect(pane);
+				}
+			} else {
+				if (this.selectedDevelopmentCardType == CardType.VENTURE && this.selectedDevelopmentCardIndex.equals(this.developmentCardsVentureIndexes.get(pane))) {
+					this.resetSelectedDevelopmentCard(pane);
+				} else {
+					this.pickDevelopmentCardActionButton.setDisable(false);
+					this.selectedDevelopmentCardType = CardType.VENTURE;
+					this.selectedDevelopmentCardIndex = this.developmentCardsVentureIndexes.get(pane);
+					this.resetDevelopmentCardsEffects();
+					pane.setEffect(ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT);
+					Utils.unsetEffect(pane);
+				}
+			}
+		} else if (event.getButton() == MouseButton.SECONDARY && pane.getBackground() != null) {
+			this.developmentCardDialogPane.setBackground(pane.getBackground());
+			this.developmentCardDialogText.setText(this.getDevelopmentCardInformation(pane));
+			this.developmentCardDialog.show();
+		}
+	}
+
+	@FXML
+	private void playerDevelopmentCardPaneMouseClicked(MouseEvent event)
+	{
+		Pane pane = (Pane) event.getSource();
+		if (event.getButton() == MouseButton.PRIMARY && this.pickingTradeCards && this.selectableTradeCards.contains(pane) && this.playersDevelopmentCards.get(GameStatus.getInstance().getOwnPlayerIndex()).get(CardType.BUILDING).contains(pane)) {
+			if (this.selectedTradeCardIndexes.contains(this.playerDevelopmentCardsBuildingIndexes.getDirect(pane))) {
+				this.resetSelectedTradeCards(pane);
+			} else {
+				this.selectedTradeCardIndexes.add(this.playerDevelopmentCardsBuildingIndexes.getDirect(pane));
+				pane.setEffect(ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT);
+				Utils.unsetEffect(pane);
+			}
+		} else if (event.getButton() == MouseButton.SECONDARY && (pane).getBackground() != null) {
+			this.developmentCardDialogPane.setBackground(pane.getBackground());
+			this.developmentCardDialogText.setText(this.getDevelopmentCardInformation(pane));
+			this.developmentCardDialog.show();
+		}
+	}
+
+	@FXML
+	private void handleChatTextAreaAction(ActionEvent event)
+	{
+		Utils.sendChatMessage((TextField) event.getSource(), this.chatTextArea);
+	}
+
+	@FXML
+	private void handlePlayersLeaderCardsButtonAction()
+	{
+		this.playersLeaderCardsDialog.show();
+	}
+
+	@FXML
+	public void handleDialogOkButtonAction()
+	{
+		this.dialog.close();
+		this.getStackPane().getScene().getRoot().requestFocus();
+	}
+
+	@FXML
+	private void handleExcommunicationDialogSupportButtonAction()
+	{
+		this.excommunicationDialog.close();
+		Client.getInstance().getConnectionHandler().sendGameExcommunicationPlayerChoice(false);
+	}
+
+	@FXML
+	private void handleExcommunicationDialogDoNotSupportButtonAction()
+	{
+		this.excommunicationDialog.close();
+		Client.getInstance().getConnectionHandler().sendGameExcommunicationPlayerChoice(true);
+	}
+
+	@FXML
+	private void handleServantsDialogCancelButtonAction()
+	{
+		this.servantsDialog.close();
+	}
+
+	@FXML
+	private void handlePickDevelopmentCardDialogCancelButtonAction()
+	{
+		this.pickDevelopmentCardDialog.close();
+	}
+
+	@FXML
+	private void handleExpectedChooseRewardPickDevelopmentCardDialogThirdRowAction()
+	{
+		this.selectedInstantRewardRow = Row.THIRD;
+	}
+
+	@FXML
+	private void handleExpectedChooseRewardPickDevelopmentCardDialogFourthRowAction()
+	{
+		this.selectedInstantRewardRow = Row.FOURTH;
+	}
+
+	@FXML
+	private void handleExpectedChooseRewardPickDevelopmentCardDialogCancelButtonAction()
+	{
+		this.expectedChooseRewardPickDevelopmentCardDialog.close();
+	}
+
+	@FXML
+	private void handleExpectedProductionTradeDialogCancelButtonAction()
+	{
+		this.expectedProductionTradeDialog.close();
+	}
+
+	@FXML
+	private void handleEndGameDialogDisconnectButtonAction()
+	{
+		Client.getInstance().disconnect(false, true);
+	}
+
 	private void generateAvailableActions()
 	{
 		this.actionsVBox.getChildren().clear();
@@ -1613,57 +1659,6 @@ public class ControllerGame extends CustomController
 		ControllerGame.setActionButton(actionsNodesList, "/images/icons/action_pass_turn.png", "Pass Turn", false, () -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationPassTurn()), true);
 		actionsNodesList.setRotate(180.0D);
 		this.actionsVBox.getChildren().add(actionsNodesList);
-	}
-
-	private static void setActionButton(JFXNodesList nodesList, String imagePath, String tooltipText, boolean disabled)
-	{
-		ControllerGame.setActionButton(nodesList, imagePath, tooltipText, disabled, null, false);
-	}
-
-	private static void setActionButton(JFXNodesList nodesList, String imagePath, String tooltipText, boolean disabled, Runnable runnable)
-	{
-		ControllerGame.setActionButton(nodesList, imagePath, tooltipText, disabled, runnable, false);
-	}
-
-	private static void setActionButton(JFXNodesList nodesList, String imagePath, String tooltipText, boolean disabled, Runnable runnable, boolean red)
-	{
-		JFXButton button = new JFXButton();
-		if (disabled) {
-			button.setDisable(true);
-		}
-		Tooltip tooltip = new Tooltip(tooltipText);
-		WindowFactory.setTooltipOpenDelay(tooltip, 250.0D);
-		WindowFactory.setTooltipVisibleDuration(tooltip, -1.0D);
-		button.setTooltip(tooltip);
-		ImageView imageView = new ImageView(new Image(ControllerGame.class.getResource(imagePath).toString()));
-		button.setGraphic(imageView);
-		if (red) {
-			button.getStyleClass().add("animated-option-button-red");
-		} else {
-			button.getStyleClass().add("animated-option-button-green");
-		}
-		if (runnable != null) {
-			button.setOnMouseClicked(event -> runnable.run());
-		}
-		nodesList.addAnimatedNode(button);
-	}
-
-	private static List<FamilyMemberType> mapFamilyMemberTypes(JFXNodesList nodesList, String imagePath, String tooltipText, List<Serializable> availableActions, JFXNodesList[] nodesLists)
-	{
-		ControllerGame.setActionButton(nodesList, imagePath, tooltipText, false, () -> {
-			for (JFXNodesList otherNodesList : nodesLists) {
-				if (WindowFactory.isNodesListExpanded(otherNodesList)) {
-					otherNodesList.animateList();
-				}
-			}
-		});
-		List<FamilyMemberType> mappedFamilyMemberTypes = new ArrayList<>();
-		for (Serializable availableAction : availableActions) {
-			if (!mappedFamilyMemberTypes.contains(((AvailableActionFamilyMember) availableAction).getFamilyMemberType())) {
-				mappedFamilyMemberTypes.add(((AvailableActionFamilyMember) availableAction).getFamilyMemberType());
-			}
-		}
-		return mappedFamilyMemberTypes;
 	}
 
 	private void resetSelectedDevelopmentCard(Pane pane)
@@ -2396,7 +2391,7 @@ public class ControllerGame extends CustomController
 
 	private void showExpectedChooseRewardHarvest()
 	{
-		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Harvest action of value " + ((ExpectedActionChooseRewardHarvest) GameStatus.getInstance().getCurrentExpectedAction()).getValue() + ".");
+		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Harvest action of value " + ((ExpectedActionChooseRewardHarvest) GameStatus.getInstance().getCurrentExpectedAction()).getValue() + '.');
 		this.expectedChooseRewardServantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		this.expectedChooseRewardServantsDialogSlider.setValue(0);
 		this.expectedChooseRewardServantsDialogAcceptButton.setOnAction(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardHarvest((int) this.servantsDialogSlider.getValue())));
@@ -2552,7 +2547,7 @@ public class ControllerGame extends CustomController
 
 	private void showExpectedChooseRewardProductionStart()
 	{
-		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Production action of value " + ((ExpectedActionChooseRewardProductionStart) GameStatus.getInstance().getCurrentExpectedAction()).getValue() + ".");
+		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Production action of value " + ((ExpectedActionChooseRewardProductionStart) GameStatus.getInstance().getCurrentExpectedAction()).getValue() + '.');
 		this.expectedChooseRewardServantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		this.expectedChooseRewardServantsDialogSlider.setValue(0);
 		this.expectedChooseRewardServantsDialogAcceptButton.setOnAction(event -> Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardProductionStart((int) this.servantsDialogSlider.getValue())));

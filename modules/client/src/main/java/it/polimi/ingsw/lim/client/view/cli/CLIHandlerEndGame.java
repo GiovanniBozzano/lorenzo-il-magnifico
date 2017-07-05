@@ -10,20 +10,7 @@ import java.util.logging.Level;
 
 public class CLIHandlerEndGame implements ICLIHandler
 {
-	@Override
-	public void execute()
-	{
-		this.showPlayersScores();
-		this.askDisconnection();
-	}
-
-	@Override
-	public CLIHandlerEndGame newInstance()
-	{
-		return new CLIHandlerEndGame();
-	}
-
-	private void showPlayersScores()
+	private static void showPlayersScores()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		int winningPlayerIndex = new ArrayList<>(GameStatus.getInstance().getPlayersScores().keySet()).get(0);
@@ -57,10 +44,23 @@ public class CLIHandlerEndGame implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
-	private void askDisconnection()
+	private static void askDisconnection()
 	{
 		Client.getLogger().log(Level.INFO, "\n\nPress ENTER to disconnect...");
 		Client.getInstance().getCliScanner().nextLine();
 		Client.getInstance().disconnect(false, true);
+	}
+
+	@Override
+	public void execute()
+	{
+		CLIHandlerEndGame.showPlayersScores();
+		CLIHandlerEndGame.askDisconnection();
+	}
+
+	@Override
+	public CLIHandlerEndGame newInstance()
+	{
+		return new CLIHandlerEndGame();
 	}
 }

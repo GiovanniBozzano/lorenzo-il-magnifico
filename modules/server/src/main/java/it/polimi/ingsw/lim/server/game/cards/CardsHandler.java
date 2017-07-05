@@ -209,6 +209,16 @@ public class CardsHandler
 		this.currentDevelopmentCards.put(CardType.VENTURE, this.currentDevelopmentCardsVenture);
 	}
 
+	public static LeaderCard getleaderCardFromIndex(int index)
+	{
+		for (LeaderCard leaderCard : CardsHandler.LEADER_CARDS) {
+			if (leaderCard.getIndex() == index) {
+				return leaderCard;
+			}
+		}
+		return null;
+	}
+
 	public void addDevelopmentCard(Row row, DevelopmentCardBuilding developmentCard)
 	{
 		this.currentDevelopmentCardsBuilding.put(row, developmentCard);
@@ -227,16 +237,6 @@ public class CardsHandler
 	public void addDevelopmentCard(Row row, DevelopmentCardVenture developmentCard)
 	{
 		this.currentDevelopmentCardsVenture.put(row, developmentCard);
-	}
-
-	public static LeaderCard getleaderCardFromIndex(int index)
-	{
-		for (LeaderCard leaderCard : CardsHandler.LEADER_CARDS) {
-			if (leaderCard.getIndex() == index) {
-				return leaderCard;
-			}
-		}
-		return null;
 	}
 
 	public static Map<Period, List<DevelopmentCardBuilding>> getDevelopmentCardsBuilding()
@@ -292,7 +292,7 @@ public class CardsHandler
 			} catch (IOException exception) {
 				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
-			return new HashMap<>();
+			return new EnumMap<>(Period.class);
 		}
 	}
 
@@ -327,7 +327,7 @@ public class CardsHandler
 			} catch (IOException exception) {
 				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
-			return new HashMap<>();
+			return new EnumMap<>(Period.class);
 		}
 	}
 
@@ -354,7 +354,7 @@ public class CardsHandler
 			} catch (IOException exception) {
 				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
-			return new HashMap<>();
+			return new EnumMap<>(Period.class);
 		}
 	}
 
@@ -381,7 +381,7 @@ public class CardsHandler
 			} catch (IOException exception) {
 				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
-			return new HashMap<>();
+			return new EnumMap<>(Period.class);
 		}
 	}
 }

@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.common.enums;
 /**
  * <p>This class is used to represent the type of the action
  */
-
 public enum ActionType
 {
 	CHOOSE_LORENZO_DE_MEDICI_LEADER,

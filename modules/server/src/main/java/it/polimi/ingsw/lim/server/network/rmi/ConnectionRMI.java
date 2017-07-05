@@ -45,6 +45,22 @@ public class ConnectionRMI extends Connection
 	}
 
 	@Override
+	public void sendChatMessage(String text)
+	{
+		this.rmiExecutor.execute(() -> {
+			if (this.serverSession == null) {
+				return;
+			}
+			try {
+				this.serverSession.sendChatMessage(text);
+			} catch (RemoteException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
+				this.disconnect(false, null);
+			}
+		});
+	}
+
+	@Override
 	public void disconnect(boolean notifyClient, String message)
 	{
 		super.disconnect(notifyClient, null);
@@ -144,22 +160,6 @@ public class ConnectionRMI extends Connection
 			}
 			try {
 				this.serverSession.sendDisconnectionLogMessage(text);
-			} catch (RemoteException exception) {
-				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
-				this.disconnect(false, null);
-			}
-		});
-	}
-
-	@Override
-	public void sendChatMessage(String text)
-	{
-		this.rmiExecutor.execute(() -> {
-			if (this.serverSession == null) {
-				return;
-			}
-			try {
-				this.serverSession.sendChatMessage(text);
 			} catch (RemoteException exception) {
 				Server.getDebugger().log(Level.OFF, DebuggerFormatter.RMI_ERROR, exception);
 				this.disconnect(false, null);

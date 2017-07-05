@@ -56,21 +56,21 @@ public class GameHandler
 	private final Map<FamilyMemberType, Integer> familyMemberTypeValues = new EnumMap<>(FamilyMemberType.class);
 	private final List<Player> turnOrder = new LinkedList<>();
 	private final Map<Period, List<Player>> excommunicatedPlayers = new EnumMap<>(Period.class);
+	private final Map<Player, Boolean> firstTurn = new HashMap<>();
+	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
+	private final Map<Player, List<Integer>> availableLeaderCards = new HashMap<>();
+	private final List<Player> leaderCardsChoosingPlayers = new ArrayList<>();
+	private final List<Player> excommunicationChoosingPlayers = new ArrayList<>();
+	private final Map<Player, List<Player>> sentGoodGames = new HashMap<>();
 	private Player turnPlayer;
 	private Period currentPeriod;
 	private Round currentRound;
 	private Phase currentPhase;
 	private boolean checkedExcommunications = false;
 	private ActionType expectedAction;
-	private final Map<Player, Boolean> firstTurn = new HashMap<>();
-	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private int personalBonusTileChoicePlayerTurnIndex;
-	private final Map<Player, List<Integer>> availableLeaderCards = new HashMap<>();
-	private final List<Player> leaderCardsChoosingPlayers = new ArrayList<>();
-	private final List<Player> excommunicationChoosingPlayers = new ArrayList<>();
 	private ScheduledExecutorService timerExecutor;
 	private int timer;
-	private final Map<Player, List<Player>> sentGoodGames = new HashMap<>();
 
 	public GameHandler(Room room)
 	{
@@ -145,7 +145,7 @@ public class GameHandler
 			}
 			this.availablePersonalBonusTiles.add(PersonalBonusTile.values()[index].getIndex());
 		}
-		List<LeaderCard> leaderCards = Utils.deepCopyLeaderCards(CardsHandler.getLeaderCards());
+		List<LeaderCard> leaderCards = new ArrayList<>(CardsHandler.getLeaderCards());
 		int startingCoins = 5;
 		for (Player player : this.turnOrder) {
 			player.getConnection().sendGameStarted(matchExcommunicationTilesIndexes, matchCouncilPrivilegeRewards, this.playersIdentifications, player.getIndex());
@@ -293,6 +293,16 @@ public class GameHandler
 				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 		});
+	}
+
+	private Player getPlayerFromIndex(int playerIndex)
+	{
+		for (Player player : this.turnOrder) {
+			if (player.getIndex() == playerIndex) {
+				return player;
+			}
+		}
+		return null;
 	}
 
 	public void setupRound()
@@ -580,9 +590,7 @@ public class GameHandler
 		this.timerExecutor.scheduleWithFixedDelay(() -> {
 			this.timer--;
 			if (this.timer == 0) {
-				List<Player> players = new ArrayList<>();
-				players.addAll(this.excommunicationChoosingPlayers);
-				for (Player player : players) {
+				for (Player player : this.excommunicationChoosingPlayers) {
 					this.applyExcommunicationChoice(player, false);
 				}
 			} else {
@@ -671,12 +679,6 @@ public class GameHandler
 		return true;
 	}
 
-	private Player getNextTurnPlayer()
-	{
-		int index = this.turnOrder.indexOf(this.turnPlayer);
-		return index + 1 >= this.turnOrder.size() ? this.turnOrder.get(0) : this.turnOrder.get(index + 1);
-	}
-
 	private void sendGamePersonalBonusTileChoiceRequest(Player player)
 	{
 		player.getConnection().sendGamePersonalBonusTileChoiceRequest(this.availablePersonalBonusTiles);
@@ -732,10 +734,8 @@ public class GameHandler
 		this.timerExecutor.scheduleWithFixedDelay(() -> {
 			this.timer--;
 			if (this.timer == 0) {
-				List<Player> players = new ArrayList<>();
-				players.addAll(this.leaderCardsChoosingPlayers);
-				for (Player player : players) {
-					int leaderCardIndex = this.getAvailableLeaderCards().get(player).get(this.getRandomGenerator().nextInt(this.getAvailableLeaderCards().get(player).size()));
+				for (Player player : this.leaderCardsChoosingPlayers) {
+					int leaderCardIndex = this.availableLeaderCards.get(player).get(this.randomGenerator.nextInt(this.availableLeaderCards.get(player).size()));
 					this.applyLeaderCardChoice(player, leaderCardIndex);
 				}
 			} else {
@@ -1031,14 +1031,10 @@ public class GameHandler
 		return availableActions;
 	}
 
-	private Player getPlayerFromIndex(int playerIndex)
+	private Player getNextTurnPlayer()
 	{
-		for (Player player : this.turnOrder) {
-			if (player.getIndex() == playerIndex) {
-				return player;
-			}
-		}
-		return null;
+		int index = this.turnOrder.indexOf(this.turnPlayer);
+		return index + 1 >= this.turnOrder.size() ? this.turnOrder.get(0) : this.turnOrder.get(index + 1);
 	}
 
 	public Room getRoom()

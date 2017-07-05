@@ -12,7 +12,6 @@ public abstract class Database
 	public static final String PREFIX = "lim_";
 	public static final String DATABASE_FILE = "database.db";
 	public static final String TABLE_PLAYERS = "players";
-	private static final String TABLE_PLAYERS_COLUMN_ID = "id";
 	public static final String TABLE_PLAYERS_COLUMN_USERNAME = "username";
 	@SuppressWarnings("squid:S2068") public static final String TABLE_PLAYERS_COLUMN_PASSWORD = "password";
 	public static final String TABLE_PLAYERS_COLUMN_SALT = "salt";
@@ -20,17 +19,10 @@ public abstract class Database
 	public static final String TABLE_PLAYERS_COLUMN_LOST_MATCHES = "lost_matches";
 	public static final String TABLE_PLAYERS_COLUMN_VICTORY_POINTS_RECORD = "victory_points_records";
 	public static final String TABLE_PLAYERS_COLUMN_GOOD_GAMES = "good_games";
+	private static final String TABLE_PLAYERS_COLUMN_ID = "id";
 	private Connection connection;
 
 	protected abstract Connection openConnection();
-
-	public Connection getConnection()
-	{
-		if (this.connection == null) {
-			this.connection = this.openConnection();
-		}
-		return this.connection;
-	}
 
 	public void closeConnection()
 	{
@@ -49,5 +41,13 @@ public abstract class Database
 		} catch (SQLException exception) {
 			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
+	}
+
+	public Connection getConnection()
+	{
+		if (this.connection == null) {
+			this.connection = this.openConnection();
+		}
+		return this.connection;
 	}
 }

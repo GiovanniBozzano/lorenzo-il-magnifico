@@ -21,8 +21,8 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public abstract class Connection
 {
-	private String username;
 	private final ScheduledExecutorService heartbeat = Executors.newSingleThreadScheduledExecutor();
+	private String username;
 	private Player player;
 
 	protected Connection()
@@ -51,7 +51,7 @@ public abstract class Connection
 	public static void broadcastChatMessage(String text)
 	{
 		for (Connection connection : Server.getInstance().getConnections()) {
-			if (connection.getUsername() != null && (connection.getPlayer() == null || connection.getPlayer().isOnline())) {
+			if (connection.username != null && (connection.player == null || connection.player.isOnline())) {
 				connection.sendChatMessage(text);
 			}
 		}
@@ -60,7 +60,7 @@ public abstract class Connection
 	public static void broadcastLogMessage(Room room, String text)
 	{
 		for (Connection connection : room.getPlayers()) {
-			if (connection.getPlayer().isOnline()) {
+			if (connection.player.isOnline()) {
 				connection.sendGameLogMessage(text);
 			}
 		}
@@ -69,11 +69,13 @@ public abstract class Connection
 	public static void broadcastLogMessageToOthers(Player player, String text)
 	{
 		for (Connection connection : player.getRoom().getPlayers()) {
-			if (connection.getPlayer() != player && connection.getPlayer().isOnline()) {
+			if (connection.player != player && connection.player.isOnline()) {
 				connection.sendGameLogMessage(text);
 			}
 		}
 	}
+
+	protected abstract void sendChatMessage(String text);
 
 	public void disconnect(@SuppressWarnings("squid:S1172") boolean flag, String message)
 	{
@@ -97,8 +99,6 @@ public abstract class Connection
 	public abstract void sendRoomTimer(int timer);
 
 	public abstract void sendDisconnectionLogMessage(String text);
-
-	protected abstract void sendChatMessage(String text);
 
 	public abstract void sendGameStarted(Map<Period, Integer> excommunicationTiles, Map<Integer, List<ResourceAmount>> councilPalaceRewards, Map<Integer, PlayerIdentification> playersData, int ownPlayerIndex);
 
@@ -144,7 +144,7 @@ public abstract class Connection
 		}
 		for (Connection otherConnection : room.getPlayers()) {
 			if (otherConnection != this) {
-				otherConnection.sendChatMessage("[" + this.getUsername() + "]: " + text);
+				otherConnection.sendChatMessage('[' + this.username + "]: " + text);
 			}
 		}
 	}
@@ -154,7 +154,7 @@ public abstract class Connection
 		if (this.player.getRoom().getGameHandler() == null) {
 			return;
 		}
-		this.player.getRoom().getGameHandler().receivePersonalBonusTileChoice(this.getPlayer(), personalBonusTileIndex);
+		this.player.getRoom().getGameHandler().receivePersonalBonusTileChoice(this.player, personalBonusTileIndex);
 	}
 
 	public void handleGameLeaderCardPlayerChoice(int leaderCardIndex) throws GameActionFailedException
@@ -162,7 +162,7 @@ public abstract class Connection
 		if (this.player.getRoom().getGameHandler() == null) {
 			return;
 		}
-		this.player.getRoom().getGameHandler().receiveLeaderCardChoice(this.getPlayer(), leaderCardIndex);
+		this.player.getRoom().getGameHandler().receiveLeaderCardChoice(this.player, leaderCardIndex);
 	}
 
 	public void handleGameExcommunicationPlayerChoice(boolean excommunicated) throws GameActionFailedException
@@ -170,7 +170,7 @@ public abstract class Connection
 		if (this.player.getRoom().getGameHandler() == null) {
 			return;
 		}
-		this.player.getRoom().getGameHandler().receiveExcommunicationChoice(this.getPlayer(), excommunicated);
+		this.player.getRoom().getGameHandler().receiveExcommunicationChoice(this.player, excommunicated);
 	}
 
 	public void handleGameAction(ActionInformation action) throws GameActionFailedException
@@ -178,7 +178,7 @@ public abstract class Connection
 		if (this.player.getRoom().getGameHandler() == null) {
 			return;
 		}
-		this.player.getRoom().getGameHandler().receiveAction(this.getPlayer(), action);
+		this.player.getRoom().getGameHandler().receiveAction(this.player, action);
 	}
 
 	public void handleGoodGame(int playerIndex) throws GameActionFailedException
@@ -189,6 +189,11 @@ public abstract class Connection
 		this.player.getRoom().getGameHandler().applyGoodGame(this.player, playerIndex);
 	}
 
+	protected ScheduledExecutorService getHeartbeat()
+	{
+		return this.heartbeat;
+	}
+
 	public String getUsername()
 	{
 		return this.username;
@@ -197,11 +202,6 @@ public abstract class Connection
 	public void setUsername(String username)
 	{
 		this.username = username;
-	}
-
-	protected ScheduledExecutorService getHeartbeat()
-	{
-		return this.heartbeat;
 	}
 
 	public Player getPlayer()

@@ -53,6 +53,12 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
+	public synchronized void sendChatMessage(String text)
+	{
+		new PacketChatMessage(text.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "")).send(this.out);
+	}
+
+	@Override
 	public synchronized void disconnect(boolean waitPacketListener, String text)
 	{
 		super.disconnect(waitPacketListener, text);
@@ -87,23 +93,13 @@ public class ConnectionSocket extends Connection
 				Thread.currentThread().interrupt();
 			}
 		}
-		Server.getInstance().getInterfaceHandler().displayToLog("Socket Player" + (this.getUsername() != null ? " " + this.getUsername() : "") + " disconnected.");
+		Server.getInstance().getInterfaceHandler().displayToLog("Socket Player" + (this.getUsername() != null ? ' ' + this.getUsername() : "") + " disconnected.");
 	}
 
 	@Override
 	public synchronized void sendHeartbeat()
 	{
 		new Packet(PacketType.HEARTBEAT).send(this.out);
-	}
-
-	synchronized void sendAuthenticationConfirmation(AuthenticationInformation authenticationInformation)
-	{
-		new PacketAuthenticationConfirmation(authenticationInformation).send(this.out);
-	}
-
-	synchronized void sendAuthenticationFailure(String text)
-	{
-		new PacketAuthenticationFailure(text).send(this.out);
 	}
 
 	@Override
@@ -128,12 +124,6 @@ public class ConnectionSocket extends Connection
 	public synchronized void sendDisconnectionLogMessage(String text)
 	{
 		new PacketDisconnectionLogMessage(text).send(this.out);
-	}
-
-	@Override
-	public synchronized void sendChatMessage(String text)
-	{
-		new PacketChatMessage(text.replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "")).send(this.out);
 	}
 
 	@Override
@@ -185,15 +175,15 @@ public class ConnectionSocket extends Connection
 	}
 
 	@Override
-	public synchronized void sendGameExoommunicationChoiceOther()
-	{
-		new Packet(PacketType.GAME_EXCOMMUNICATION_CHOICE_OTHER).send(this.out);
-	}
-
-	@Override
 	public synchronized void sendGameExcommunicationChoiceRequest(Period period)
 	{
 		new PacketGameExcommunicationChoiceRequest(period).send(this.out);
+	}
+
+	@Override
+	public synchronized void sendGameExoommunicationChoiceOther()
+	{
+		new Packet(PacketType.GAME_EXCOMMUNICATION_CHOICE_OTHER).send(this.out);
 	}
 
 	@Override
@@ -214,15 +204,25 @@ public class ConnectionSocket extends Connection
 		new PacketGameUpdateOtherTurn(gameInformation, playersInformation, ownLeaderCardsHand, turnPlayerIndex).send(this.out);
 	}
 
-	synchronized void sendGameActionFailed(String text)
-	{
-		new PacketGameActionFailed(text).send(this.out);
-	}
-
 	@Override
 	public synchronized void sendGameEnded(Map<Integer, Integer> playersScores, Map<Integer, Integer> playerIndexesVictoryPointsRecord)
 	{
 		new PacketGameEnded(playersScores, playerIndexesVictoryPointsRecord).send(this.out);
+	}
+
+	synchronized void sendAuthenticationConfirmation(AuthenticationInformation authenticationInformation)
+	{
+		new PacketAuthenticationConfirmation(authenticationInformation).send(this.out);
+	}
+
+	synchronized void sendAuthenticationFailure(String text)
+	{
+		new PacketAuthenticationFailure(text).send(this.out);
+	}
+
+	synchronized void sendGameActionFailed(String text)
+	{
+		new PacketGameActionFailed(text).send(this.out);
 	}
 
 	ObjectInputStream getIn()

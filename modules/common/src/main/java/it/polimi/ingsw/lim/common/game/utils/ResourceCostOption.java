@@ -26,21 +26,25 @@ public class ResourceCostOption implements Serializable
 	}
 
 	@Override
+	public int hashCode()
+	{
+		return Objects.hash(super.hashCode(), this.requiredResources, this.spentResources);
+	}
+
+	@Override
 	public boolean equals(Object resourceCostOption)
 	{
 		if (!(resourceCostOption instanceof ResourceCostOption)) {
 			return false;
 		}
-		List<ResourceAmount> temporaryRequiredResources = new ArrayList<>();
-		temporaryRequiredResources.addAll(((ResourceCostOption) resourceCostOption).requiredResources);
+		List<ResourceAmount> temporaryRequiredResources = new ArrayList<>(((ResourceCostOption) resourceCostOption).requiredResources);
 		for (ResourceAmount resourceAmount : this.requiredResources) {
 			if (!temporaryRequiredResources.contains(resourceAmount)) {
 				return false;
 			}
 			temporaryRequiredResources.remove(resourceAmount);
 		}
-		List<ResourceAmount> temporarySpentResources = new ArrayList<>();
-		temporarySpentResources.addAll(((ResourceCostOption) resourceCostOption).spentResources);
+		List<ResourceAmount> temporarySpentResources = new ArrayList<>(((ResourceCostOption) resourceCostOption).spentResources);
 		for (ResourceAmount resourceAmount : this.spentResources) {
 			if (!temporarySpentResources.contains(resourceAmount)) {
 				return false;
@@ -48,12 +52,6 @@ public class ResourceCostOption implements Serializable
 			temporarySpentResources.remove(resourceAmount);
 		}
 		return true;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(super.hashCode(), this.requiredResources, this.spentResources);
 	}
 
 	public String getInformation(boolean isFirstLine)

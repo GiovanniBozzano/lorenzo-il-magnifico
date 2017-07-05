@@ -18,14 +18,6 @@ public class ControllerMain extends CustomController
 	@FXML private Label connectionLabel;
 	@FXML private TextArea logTextArea;
 
-	@FXML
-	private void handleCommandTextFieldAction(ActionEvent event)
-	{
-		String command = ((TextField) event.getSource()).getText().replace(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
-		((TextField) event.getSource()).clear();
-		Utils.executeCommand(command);
-	}
-
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{
@@ -37,6 +29,14 @@ public class ControllerMain extends CustomController
 	public void setupGui()
 	{
 		this.getStackPane().getScene().getRoot().requestFocus();
+	}
+
+	@FXML
+	private void handleCommandTextFieldAction(ActionEvent event)
+	{
+		String command = ((TextField) event.getSource()).getText().replace(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
+		((TextField) event.getSource()).clear();
+		Utils.executeCommand(command);
 	}
 
 	Label getConnectionLabel()

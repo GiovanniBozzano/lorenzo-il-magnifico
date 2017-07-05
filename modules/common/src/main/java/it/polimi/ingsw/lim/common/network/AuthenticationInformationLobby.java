@@ -6,7 +6,7 @@ public abstract class AuthenticationInformationLobby extends AuthenticationInfor
 {
 	private RoomInformation roomInformation;
 
-	public AuthenticationInformationLobby(AuthenticationInformation authenticationInformation)
+	protected AuthenticationInformationLobby(AuthenticationInformation authenticationInformation)
 	{
 		this.setDevelopmentCardsBuildingInformation(authenticationInformation.getDevelopmentCardsBuildingInformation());
 		this.setDevelopmentCardsCharacterInformation(authenticationInformation.getDevelopmentCardsCharacterInformation());

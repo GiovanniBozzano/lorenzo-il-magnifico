@@ -21,35 +21,6 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 		CLIHandlerShowOwnLeaderCards.LEADER_CARDS_POSITIONS.put(2, CLIHandlerShowOwnLeaderCards::showLeaderCardsPlayed);
 	}
 
-	@Override
-	public void execute()
-	{
-		this.askLeaderCardPosition();
-		Client.getInstance().getCliListener().shutdownNow();
-		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
-		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
-		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
-	}
-
-	@Override
-	public CLIHandlerShowOwnLeaderCards newInstance()
-	{
-		return new CLIHandlerShowOwnLeaderCards();
-	}
-
-	private void askLeaderCardPosition()
-	{
-		Client.getLogger().log(Level.INFO, "\n\n\nEnter Leader Cards ...");
-		Client.getLogger().log(Level.INFO, "1 - Leader Cards in your hand");
-		Client.getLogger().log(Level.INFO, "2 - Played Leader Cards");
-		String input;
-		do {
-			input = Client.getInstance().getCliScanner().nextLine();
-		}
-		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnLeaderCards.LEADER_CARDS_POSITIONS.containsKey(Integer.parseInt(input)));
-		CLIHandlerShowOwnLeaderCards.LEADER_CARDS_POSITIONS.get(Integer.parseInt(input)).run();
-	}
-
 	private static void showLeaderCardsHand()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -78,5 +49,34 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 			}
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
+	}
+
+	private static void askLeaderCardPosition()
+	{
+		Client.getLogger().log(Level.INFO, "\n\n\nEnter Leader Cards ...");
+		Client.getLogger().log(Level.INFO, "1 - Leader Cards in your hand");
+		Client.getLogger().log(Level.INFO, "2 - Played Leader Cards");
+		String input;
+		do {
+			input = Client.getInstance().getCliScanner().nextLine();
+		}
+		while (!CommonUtils.isInteger(input) || !CLIHandlerShowOwnLeaderCards.LEADER_CARDS_POSITIONS.containsKey(Integer.parseInt(input)));
+		CLIHandlerShowOwnLeaderCards.LEADER_CARDS_POSITIONS.get(Integer.parseInt(input)).run();
+	}
+
+	@Override
+	public void execute()
+	{
+		CLIHandlerShowOwnLeaderCards.askLeaderCardPosition();
+		Client.getInstance().getCliListener().shutdownNow();
+		Client.getInstance().setCliListener(Executors.newSingleThreadExecutor());
+		Client.getInstance().setCliStatus(CLIStatus.AVAILABLE_ACTIONS);
+		Client.getInstance().getCliListener().execute(() -> Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance().execute());
+	}
+
+	@Override
+	public CLIHandlerShowOwnLeaderCards newInstance()
+	{
+		return new CLIHandlerShowOwnLeaderCards();
 	}
 }

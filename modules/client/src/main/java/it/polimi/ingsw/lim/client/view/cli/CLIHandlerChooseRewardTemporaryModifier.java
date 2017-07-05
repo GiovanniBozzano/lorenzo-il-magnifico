@@ -21,33 +21,20 @@ public class CLIHandlerChooseRewardTemporaryModifier implements ICLIHandler
 		CLIHandlerChooseRewardTemporaryModifier.FAMILY_MEMEBR_TYPES.put(3, FamilyMemberType.WHITE);
 	}
 
-	@Override
-	public void execute()
-	{
-		this.showFamilyMemberTypes();
-		this.askFamilyMemberType();
-	}
-
-	@Override
-	public CLIHandlerChooseRewardTemporaryModifier newInstance()
-	{
-		return new CLIHandlerChooseRewardTemporaryModifier();
-	}
-
-	private void showFamilyMemberTypes()
+	private static void showFamilyMemberTypes()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\n\nEnter Family Member...");
 		for (Entry<Integer, FamilyMemberType> familyMemberType : CLIHandlerChooseRewardTemporaryModifier.FAMILY_MEMEBR_TYPES.entrySet()) {
 			stringBuilder.append("\n\n");
 			stringBuilder.append(familyMemberType.getKey());
-			stringBuilder.append(" ");
+			stringBuilder.append(' ');
 			stringBuilder.append(familyMemberType.getValue().name());
 		}
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
-	private void askFamilyMemberType()
+	private static void askFamilyMemberType()
 	{
 		String input;
 		do {
@@ -55,6 +42,19 @@ public class CLIHandlerChooseRewardTemporaryModifier implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || !CLIHandlerChooseRewardTemporaryModifier.FAMILY_MEMEBR_TYPES.containsKey(Integer.parseInt(input)));
 		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardTemporaryModifier(CLIHandlerChooseRewardTemporaryModifier.FAMILY_MEMEBR_TYPES.get(Integer.parseInt(input))));
+	}
+
+	@Override
+	public void execute()
+	{
+		CLIHandlerChooseRewardTemporaryModifier.showFamilyMemberTypes();
+		CLIHandlerChooseRewardTemporaryModifier.askFamilyMemberType();
+	}
+
+	@Override
+	public CLIHandlerChooseRewardTemporaryModifier newInstance()
+	{
+		return new CLIHandlerChooseRewardTemporaryModifier();
 	}
 }
 

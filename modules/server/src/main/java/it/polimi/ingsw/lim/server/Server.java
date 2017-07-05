@@ -36,6 +36,8 @@ public class Server extends Instance
 		Server.CLI_HANDLERS.put(CLIStatus.MAIN, new CLIHandlerMain());
 	}
 
+	private final ConcurrentLinkedQueue<Connection> connections = new ConcurrentLinkedQueue<>();
+	private final ConcurrentLinkedQueue<Room> rooms = new ConcurrentLinkedQueue<>();
 	private CLIStatus cliStatus = CLIStatus.INTERFACE_CHOICE;
 	private int rmiPort;
 	private int socketPort;
@@ -45,36 +47,6 @@ public class Server extends Instance
 	private ScheduledExecutorService databaseKeeper = Executors.newSingleThreadScheduledExecutor();
 	private ConnectionHandler connectionHandler;
 	private IInterfaceHandler interfaceHandler;
-	private final ConcurrentLinkedQueue<Connection> connections = new ConcurrentLinkedQueue<>();
-	private final ConcurrentLinkedQueue<Room> rooms = new ConcurrentLinkedQueue<>();
-
-	/**
-	 * <p>Initializes RMI and Socket Servers and, if successful, opens the main
-	 * screen.
-	 *
-	 * @param rmiPort the port of the RMI Server.
-	 * @param socketPort the port of the Socket Server.
-	 */
-	public synchronized void setup(int rmiPort, int socketPort)
-	{
-		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		executorService.execute(() -> {
-			this.rmiPort = rmiPort;
-			this.socketPort = socketPort;
-			this.database = new DatabaseSQLite(Database.DATABASE_FILE);
-			this.database.createTables();
-			this.databaseKeeper.scheduleAtFixedRate(() -> {
-				try {
-					this.database.getConnection().prepareStatement("SELECT 1").executeQuery();
-				} catch (SQLException exception) {
-					Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-				}
-			}, 0L, 60L, TimeUnit.SECONDS);
-			this.connectionHandler = new ConnectionHandler(rmiPort, socketPort);
-			this.connectionHandler.start();
-		});
-		executorService.shutdown();
-	}
 
 	/**
 	 * <p>Disconnects all Clients, waiting for every thread to terminate
@@ -118,6 +90,34 @@ public class Server extends Instance
 				this.connectionHandler = null;
 			}
 			this.interfaceHandler.stop();
+		});
+		executorService.shutdown();
+	}
+
+	/**
+	 * <p>Initializes RMI and Socket Servers and, if successful, opens the main
+	 * screen.
+	 *
+	 * @param rmiPort the port of the RMI Server.
+	 * @param socketPort the port of the Socket Server.
+	 */
+	public synchronized void setup(int rmiPort, int socketPort)
+	{
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		executorService.execute(() -> {
+			this.rmiPort = rmiPort;
+			this.socketPort = socketPort;
+			this.database = new DatabaseSQLite(Database.DATABASE_FILE);
+			this.database.createTables();
+			this.databaseKeeper.scheduleAtFixedRate(() -> {
+				try {
+					this.database.getConnection().prepareStatement("SELECT 1").executeQuery();
+				} catch (SQLException exception) {
+					Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				}
+			}, 0L, 60L, TimeUnit.SECONDS);
+			this.connectionHandler = new ConnectionHandler(rmiPort, socketPort);
+			this.connectionHandler.start();
 		});
 		executorService.shutdown();
 	}

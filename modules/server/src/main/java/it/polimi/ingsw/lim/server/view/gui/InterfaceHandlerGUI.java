@@ -59,7 +59,7 @@ public class InterfaceHandlerGUI implements IInterfaceHandler
 			if (((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().getText().length() < 1) {
 				((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().appendText(text);
 			} else {
-				((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().appendText("\n" + text);
+				((ControllerMain) WindowFactory.getInstance().getCurrentWindow()).getLogTextArea().appendText('\n' + text);
 			}
 		});
 	}

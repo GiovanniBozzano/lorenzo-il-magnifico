@@ -10,8 +10,8 @@ public abstract class Instance
 	private static Logger debugger;
 	private static Logger logger;
 	private static Instance instance;
-	private ExecutorService cliListener = Executors.newSingleThreadExecutor();
 	private final Scanner cliScanner = new Scanner(System.in);
+	private ExecutorService cliListener = Executors.newSingleThreadExecutor();
 
 	public abstract void stop();
 

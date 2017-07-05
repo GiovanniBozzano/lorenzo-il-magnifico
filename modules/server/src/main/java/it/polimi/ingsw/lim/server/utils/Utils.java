@@ -54,13 +54,13 @@ public class Utils
 	public static final String SCENE_MAIN = "/fxml/SceneMain.fxml";
 	public static final String SCENE_START = "/fxml/SceneStart.fxml";
 	private static final Map<Command, ICommandHandler> COMMAND_HANDLERS = new EnumMap<>(Command.class);
+	private static final Map<QueryValueType, IQueryArgumentFiller> QUERY_ARGUMENTS_FILLERS = new EnumMap<>(QueryValueType.class);
+	private static final Map<ActionType, IActionTransformer> ACTIONS_TRANSFORMERS = new EnumMap<>(ActionType.class);
 
 	static {
 		Utils.COMMAND_HANDLERS.put(Command.KICK, Command::handleKickCommand);
 		Utils.COMMAND_HANDLERS.put(Command.SAY, Command::handleSayCommand);
 	}
-
-	private static final Map<QueryValueType, IQueryArgumentFiller> QUERY_ARGUMENTS_FILLERS = new EnumMap<>(QueryValueType.class);
 
 	static {
 		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.INTEGER, Utils::setStatementInteger);
@@ -70,8 +70,6 @@ public class Utils
 		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.STRING, Utils::setStatementString);
 		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.BYTES, Utils::setStatementBytes);
 	}
-
-	private static final Map<ActionType, IActionTransformer> ACTIONS_TRANSFORMERS = new EnumMap<>(ActionType.class);
 
 	static {
 		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, (actionInformation, player) -> new ActionChooseLorenzoDeMediciLeader(((ActionInformationChooseLorenzoDeMediciLeader) actionInformation).getLeaderCardIndex(), player));
@@ -98,24 +96,6 @@ public class Utils
 	}
 
 	/**
-	 * <p>Checks online for the external IP address.
-	 *
-	 * @return a {@link String} representing the IP address if successful,
-	 * otherwise null.
-	 */
-	public static String getExternalIpAddress()
-	{
-		try {
-			URL myIP = new URL("http://checkip.amazonaws.com");
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(myIP.openStream()));
-			return bufferedReader.readLine();
-		} catch (IOException exception) {
-			Server.getDebugger().log(Level.INFO, "Cannot retrieve IP address...", exception);
-		}
-		return null;
-	}
-
-	/**
 	 * <p>Executes the given {@link Command}.
 	 *
 	 * @param command the {@link Command} to execute.
@@ -127,7 +107,7 @@ public class Utils
 		String commandArguments = null;
 		if (command.contains(" ")) {
 			commandType = commandType.substring(0, commandType.indexOf(' '));
-			commandArguments = command.replaceAll(commandType + " ", "");
+			commandArguments = command.replaceAll(commandType + ' ', "");
 		}
 		try {
 			Utils.COMMAND_HANDLERS.get(Command.valueOf(commandType.toUpperCase(Locale.ENGLISH))).execute(commandArguments);
@@ -293,24 +273,9 @@ public class Utils
 	{
 		Map<Period, List<T>> copy = new EnumMap<>(Period.class);
 		for (Entry<Period, List<T>> entry : original.entrySet()) {
-			List<T> developmentCards = new ArrayList<>();
-			developmentCards.addAll(entry.getValue());
+			List<T> developmentCards = new ArrayList<>(entry.getValue());
 			copy.put(entry.getKey(), developmentCards);
 		}
-		return copy;
-	}
-
-	/**
-	 * Creates a new copy of the given {@link LeaderCard} {@link List}.
-	 *
-	 * @param original the original {@link LeaderCard} {@link List}.
-	 *
-	 * @return the newly created {@link LeaderCard} {@link List}.
-	 */
-	public static List<LeaderCard> deepCopyLeaderCards(List<LeaderCard> original)
-	{
-		List<LeaderCard> copy = new ArrayList<>();
-		copy.addAll(original);
 		return copy;
 	}
 
@@ -750,6 +715,24 @@ public class Utils
 			stringBuilder.append(Integer.toString((currentByte & 0xFF) + 0x100, 16).substring(1));
 		}
 		return stringBuilder.toString();
+	}
+
+	/**
+	 * <p>Checks online for the external IP address.
+	 *
+	 * @return a {@link String} representing the IP address if successful,
+	 * otherwise null.
+	 */
+	public static String getExternalIpAddress()
+	{
+		try {
+			URL myIP = new URL("http://checkip.amazonaws.com");
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(myIP.openStream()));
+			return bufferedReader.readLine();
+		} catch (IOException exception) {
+			Server.getDebugger().log(Level.INFO, "Cannot retrieve IP address...", exception);
+		}
+		return null;
 	}
 
 	/**

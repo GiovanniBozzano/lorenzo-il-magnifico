@@ -36,7 +36,7 @@ public enum PersonalBonusTile
 	public static PersonalBonusTile fromIndex(int index)
 	{
 		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
-			if (personalBonusTile.getIndex() == index) {
+			if (personalBonusTile.index == index) {
 				return personalBonusTile;
 			}
 		}

@@ -17,6 +17,12 @@ public class CLIHandlerStart implements ICLIHandler
 		Server.getInstance().setup(this.rmiPort, this.socketPort);
 	}
 
+	@Override
+	public CLIHandlerStart newInstance()
+	{
+		return new CLIHandlerStart();
+	}
+
 	private void askRmiPort()
 	{
 		Server.getInstance().getInterfaceHandler().displayToLog("Enter RMI Port [default 8080]...");
@@ -35,11 +41,5 @@ public class CLIHandlerStart implements ICLIHandler
 			input = Server.getInstance().getCliScanner().nextLine();
 		} while (!CommonUtils.isInteger(input));
 		this.socketPort = Integer.parseInt(input);
-	}
-
-	@Override
-	public CLIHandlerStart newInstance()
-	{
-		return new CLIHandlerStart();
 	}
 }

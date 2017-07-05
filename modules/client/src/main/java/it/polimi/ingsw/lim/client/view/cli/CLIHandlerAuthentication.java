@@ -17,13 +17,12 @@ import java.util.logging.Level;
 public class CLIHandlerAuthentication implements ICLIHandler
 {
 	private static final Map<Integer, RoomType> ROOM_TYPES = new HashMap<>();
+	private static final Map<Integer, IInputHandler> INPUT_HANDLERS_AUTHENTICATION_TYPE = new HashMap<>();
 
 	static {
 		CLIHandlerAuthentication.ROOM_TYPES.put(1, RoomType.NORMAL);
 		CLIHandlerAuthentication.ROOM_TYPES.put(2, RoomType.EXTENDED);
 	}
-
-	private static final Map<Integer, IInputHandler> INPUT_HANDLERS_AUTHENTICATION_TYPE = new HashMap<>();
 
 	static {
 		CLIHandlerAuthentication.INPUT_HANDLERS_AUTHENTICATION_TYPE.put(1, cliHandler -> Client.getInstance().getConnectionHandler().sendLogin(((CLIHandlerAuthentication) cliHandler).username, ((CLIHandlerAuthentication) cliHandler).password, ((CLIHandlerAuthentication) cliHandler).roomType));

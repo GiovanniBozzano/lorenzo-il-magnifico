@@ -25,9 +25,9 @@ import java.util.List;
 public class ActionChooseRewardPickDevelopmentCard extends ActionInformationChooseRewardPickDevelopmentCard implements IAction
 {
 	private final transient Player player;
+	private final transient List<ResourceAmount> effectiveResourceCost = new ArrayList<>();
 	private transient boolean columnOccupied = false;
 	private transient boolean getBoardPositionReward = true;
-	private final transient List<ResourceAmount> effectiveResourceCost = new ArrayList<>();
 
 	public ActionChooseRewardPickDevelopmentCard(int servants, CardType cardType, Row row, Row instantRewardRow, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption, Player player)
 	{

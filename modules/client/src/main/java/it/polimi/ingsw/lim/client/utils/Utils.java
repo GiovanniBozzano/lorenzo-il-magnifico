@@ -22,6 +22,11 @@ public class Utils
 	public static final String SCENE_ROOM = "/fxml/SceneRoom.fxml";
 	public static final String SCENE_GAME = "/fxml/SceneGame.fxml";
 	private static final Map<Integer, String> BOARD_IMAGES = new HashMap<>();
+	private static final Map<Integer, Map<FamilyMemberType, String>> DICES_FAMILY_MEMBER_TYPES_TEXTURES = new HashMap<>();
+	private static final Map<FamilyMemberType, String> FAMILY_MEMBER_TYPES_TEXTURES = new EnumMap<>(FamilyMemberType.class);
+	private static final Map<Color, Map<FamilyMemberType, String>> PLAYERS_FAMILY_MEMBER_TYPES_TEXTURES = new EnumMap<>(Color.class);
+	private static final Map<Color, String> PLAYERS_PLACEHOLDERS_TEXTURES = new EnumMap<>(Color.class);
+	private static final Map<Color, String> EXCOMMUNICATION_PLAYERS_PLACEHOLDERS_TEXTURES = new EnumMap<>(Color.class);
 
 	static {
 		Utils.BOARD_IMAGES.put(2, "/images/game_board_2_players.png");
@@ -29,8 +34,6 @@ public class Utils
 		Utils.BOARD_IMAGES.put(4, "/images/game_board_4_players.png");
 		Utils.BOARD_IMAGES.put(5, "/images/game_board_5_players.png");
 	}
-
-	private static final Map<Integer, Map<FamilyMemberType, String>> DICES_FAMILY_MEMBER_TYPES_TEXTURES = new HashMap<>();
 
 	static {
 		Map<FamilyMemberType, String> dice1FamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
@@ -65,15 +68,11 @@ public class Utils
 		Utils.DICES_FAMILY_MEMBER_TYPES_TEXTURES.put(6, dice6FamilyMemberTypes);
 	}
 
-	private static final Map<FamilyMemberType, String> FAMILY_MEMBER_TYPES_TEXTURES = new EnumMap<>(FamilyMemberType.class);
-
 	static {
 		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.BLACK, "/images/icons/family_member_type_black.png");
 		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.ORANGE, "/images/icons/family_member_type_orange.png");
 		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.WHITE, "/images/icons/family_member_type_white.png");
 	}
-
-	private static final Map<Color, Map<FamilyMemberType, String>> PLAYERS_FAMILY_MEMBER_TYPES_TEXTURES = new EnumMap<>(Color.class);
 
 	static {
 		Map<FamilyMemberType, String> bluePlayerFamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
@@ -108,8 +107,6 @@ public class Utils
 		Utils.PLAYERS_FAMILY_MEMBER_TYPES_TEXTURES.put(Color.YELLOW, yellowPlayerFamilyMemberTypes);
 	}
 
-	private static final Map<Color, String> PLAYERS_PLACEHOLDERS_TEXTURES = new EnumMap<>(Color.class);
-
 	static {
 		Utils.PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.BLUE, "/images/players/player_blue.png");
 		Utils.PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.GREEN, "/images/players/player_green.png");
@@ -117,8 +114,6 @@ public class Utils
 		Utils.PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.RED, "/images/players/player_red.png");
 		Utils.PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.YELLOW, "/images/players/player_yellow.png");
 	}
-
-	private static final Map<Color, String> EXCOMMUNICATION_PLAYERS_PLACEHOLDERS_TEXTURES = new EnumMap<>(Color.class);
 
 	static {
 		Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.BLUE, "/images/players/player_blue_excommunication.png");

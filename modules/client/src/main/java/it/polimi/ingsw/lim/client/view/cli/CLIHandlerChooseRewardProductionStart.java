@@ -11,24 +11,12 @@ import java.util.logging.Level;
 
 public class CLIHandlerChooseRewardProductionStart implements ICLIHandler
 {
-	@Override
-	public void execute()
-	{
-		this.askServants();
-	}
-
-	@Override
-	public CLIHandlerChooseRewardProductionStart newInstance()
-	{
-		return new CLIHandlerChooseRewardProductionStart();
-	}
-
 	/**
 	 * <p>Asks how many servants the player wants to use to increase the action
 	 * value and sends the new {@link ActionInformationChooseRewardProductionStart}
 	 * with the chosen values.
 	 */
-	private void askServants()
+	private static void askServants()
 	{
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter Servants amount...");
 		String input;
@@ -37,5 +25,17 @@ public class CLIHandlerChooseRewardProductionStart implements ICLIHandler
 		}
 		while (!CommonUtils.isInteger(input) || Integer.parseInt(input) > GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardProductionStart(Integer.parseInt(input)));
+	}
+
+	@Override
+	public void execute()
+	{
+		CLIHandlerChooseRewardProductionStart.askServants();
+	}
+
+	@Override
+	public CLIHandlerChooseRewardProductionStart newInstance()
+	{
+		return new CLIHandlerChooseRewardProductionStart();
 	}
 }

@@ -26,22 +26,60 @@ import java.util.logging.Level;
 
 public class WindowFactory
 {
-	private static final WindowFactory INSTANCE = new WindowFactory();
 	public static final Semaphore WINDOW_OPENING_SEMAPHORE = new Semaphore(1);
+	private static final WindowFactory INSTANCE = new WindowFactory();
 	private final ObjectProperty<CustomController> currentWindow = new SimpleObjectProperty<>(null);
 
 	private WindowFactory()
 	{
 	}
 
-	/**
-	 * <p>Opens a new window
-	 *
-	 * @param fxmlFileLocation the .fxml file location.
-	 */
-	public void setNewWindow(String fxmlFileLocation)
+	public static void setTooltipOpenDelay(Tooltip tooltip, double milliseconds)
 	{
-		this.setNewWindow(fxmlFileLocation, null, null);
+		try {
+			Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
+			fieldBehavior.setAccessible(true);
+			Object objectBehavior = fieldBehavior.get(tooltip);
+			Field fieldTimer = objectBehavior.getClass().getDeclaredField("activationTimer");
+			fieldTimer.setAccessible(true);
+			Timeline objectTimer = (Timeline) fieldTimer.get(objectBehavior);
+			objectTimer.getKeyFrames().clear();
+			objectTimer.getKeyFrames().add(new KeyFrame(new Duration(milliseconds)));
+		} catch (NoSuchFieldException | IllegalAccessException exception) {
+			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	public static void setTooltipVisibleDuration(Tooltip tooltip, double milliseconds)
+	{
+		try {
+			Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
+			fieldBehavior.setAccessible(true);
+			Object objectBehavior = fieldBehavior.get(tooltip);
+			Field fieldTimer = objectBehavior.getClass().getDeclaredField("hideTimer");
+			fieldTimer.setAccessible(true);
+			Timeline objectTimer = (Timeline) fieldTimer.get(objectBehavior);
+			objectTimer.getKeyFrames().clear();
+			if (milliseconds >= 0) {
+				objectTimer.getKeyFrames().add(new KeyFrame(new Duration(milliseconds)));
+			} else {
+				objectTimer.getKeyFrames().add(new KeyFrame(Duration.INDEFINITE));
+			}
+		} catch (NoSuchFieldException | IllegalAccessException exception) {
+			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	public static boolean isNodesListExpanded(JFXNodesList nodesList)
+	{
+		try {
+			Field fieldExpanded = nodesList.getClass().getDeclaredField("expanded");
+			fieldExpanded.setAccessible(true);
+			return fieldExpanded.getBoolean(nodesList);
+		} catch (NoSuchFieldException | IllegalAccessException exception) {
+			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+		}
+		return false;
 	}
 
 	public void setNewWindow(String fxmlFileLocation, Runnable postShowing)
@@ -125,54 +163,6 @@ public class WindowFactory
 		}
 	}
 
-	public static void setTooltipOpenDelay(Tooltip tooltip, double milliseconds)
-	{
-		try {
-			Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
-			fieldBehavior.setAccessible(true);
-			Object objectBehavior = fieldBehavior.get(tooltip);
-			Field fieldTimer = objectBehavior.getClass().getDeclaredField("activationTimer");
-			fieldTimer.setAccessible(true);
-			Timeline objectTimer = (Timeline) fieldTimer.get(objectBehavior);
-			objectTimer.getKeyFrames().clear();
-			objectTimer.getKeyFrames().add(new KeyFrame(new Duration(milliseconds)));
-		} catch (NoSuchFieldException | IllegalAccessException exception) {
-			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-		}
-	}
-
-	public static void setTooltipVisibleDuration(Tooltip tooltip, double milliseconds)
-	{
-		try {
-			Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
-			fieldBehavior.setAccessible(true);
-			Object objectBehavior = fieldBehavior.get(tooltip);
-			Field fieldTimer = objectBehavior.getClass().getDeclaredField("hideTimer");
-			fieldTimer.setAccessible(true);
-			Timeline objectTimer = (Timeline) fieldTimer.get(objectBehavior);
-			objectTimer.getKeyFrames().clear();
-			if (milliseconds >= 0) {
-				objectTimer.getKeyFrames().add(new KeyFrame(new Duration(milliseconds)));
-			} else {
-				objectTimer.getKeyFrames().add(new KeyFrame(Duration.INDEFINITE));
-			}
-		} catch (NoSuchFieldException | IllegalAccessException exception) {
-			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-		}
-	}
-
-	public static boolean isNodesListExpanded(JFXNodesList nodesList)
-	{
-		try {
-			Field fieldExpanded = nodesList.getClass().getDeclaredField("expanded");
-			fieldExpanded.setAccessible(true);
-			return fieldExpanded.getBoolean(nodesList);
-		} catch (NoSuchFieldException | IllegalAccessException exception) {
-			Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-		}
-		return false;
-	}
-
 	public boolean isWindowOpen(Class<? extends CustomController> clazz)
 	{
 		return this.currentWindow.get().getClass() == clazz;
@@ -193,5 +183,15 @@ public class WindowFactory
 	public CustomController getCurrentWindow()
 	{
 		return this.currentWindow.get();
+	}
+
+	/**
+	 * <p>Opens a new window
+	 *
+	 * @param fxmlFileLocation the .fxml file location.
+	 */
+	public void setNewWindow(String fxmlFileLocation)
+	{
+		this.setNewWindow(fxmlFileLocation, null, null);
 	}
 }

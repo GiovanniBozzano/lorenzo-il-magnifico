@@ -34,28 +34,6 @@ public class ControllerRoom extends CustomController
 	@FXML private JFXListView<String> playersListView;
 	@FXML private Label timerLabel;
 
-	@FXML
-	private void handleGameRulesButtonAction()
-	{
-		HostServices hostServices = Main.getApplication().getHostServices();
-		try {
-			File file = new File(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile().getPath().replace('\\', '/') + "/Lorenzo il Magnifico Rulebook.pdf");
-			if (file.exists()) {
-				hostServices.showDocument(file.getAbsolutePath());
-			} else {
-				hostServices.showDocument(CommonUtils.exportResource("/guide.pdf", "/Lorenzo il Magnifico Rulebook.pdf"));
-			}
-		} catch (URISyntaxException | IOException exception) {
-			Client.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
-		}
-	}
-
-	@FXML
-	private void handleChatTextAreaAction(ActionEvent event)
-	{
-		Utils.sendChatMessage((TextField) event.getSource(), this.chatTextArea);
-	}
-
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{
@@ -97,6 +75,28 @@ public class ControllerRoom extends CustomController
 	{
 		this.getStackPane().getScene().getRoot().requestFocus();
 		this.gameRulesButton.setPrefWidth(((VBox) this.gameRulesButton.getParent()).getWidth());
+	}
+
+	@FXML
+	private void handleGameRulesButtonAction()
+	{
+		HostServices hostServices = Main.getApplication().getHostServices();
+		try {
+			File file = new File(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile().getPath().replace('\\', '/') + "/Lorenzo il Magnifico Rulebook.pdf");
+			if (file.exists()) {
+				hostServices.showDocument(file.getAbsolutePath());
+			} else {
+				hostServices.showDocument(CommonUtils.exportResource("/guide.pdf", "/Lorenzo il Magnifico Rulebook.pdf"));
+			}
+		} catch (URISyntaxException | IOException exception) {
+			Client.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+		}
+	}
+
+	@FXML
+	private void handleChatTextAreaAction(ActionEvent event)
+	{
+		Utils.sendChatMessage((TextField) event.getSource(), this.chatTextArea);
 	}
 
 	void setRoomInformation(RoomType roomType, List<String> playerNames)

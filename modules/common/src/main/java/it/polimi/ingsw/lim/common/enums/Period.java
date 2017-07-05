@@ -8,13 +8,13 @@ public enum Period
 	FIRST,
 	SECOND,
 	THIRD;
+
 	/**
 	 * <p>Uses current period to determine the next one.
 	 *
 	 * @param period the current period.
 	 *
 	 * @return the next period.
-	 *
 	 */
 	public static Period next(Period period)
 	{

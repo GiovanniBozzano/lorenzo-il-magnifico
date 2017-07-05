@@ -6,15 +6,15 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 
 public class CLIHandlerMain implements ICLIHandler
 {
+	private static void askCommand()
+	{
+		Utils.executeCommand(Server.getInstance().getCliScanner().nextLine());
+	}
+
 	@Override
 	public void execute()
 	{
-		this.askCommand();
-	}
-
-	private void askCommand()
-	{
-		Utils.executeCommand(Server.getInstance().getCliScanner().nextLine());
+		CLIHandlerMain.askCommand();
 	}
 
 	@Override

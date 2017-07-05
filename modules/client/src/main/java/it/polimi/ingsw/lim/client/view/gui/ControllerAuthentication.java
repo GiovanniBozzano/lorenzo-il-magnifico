@@ -32,35 +32,6 @@ public class ControllerAuthentication extends CustomController
 	@FXML private Label dialogLabel;
 	@FXML private JFXButton dialogOkButton;
 
-	@FXML
-	public void handleLoginButtonAction()
-	{
-		String username = this.usernameTextField.getText().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
-		if (!username.matches(CommonUtils.REGEX_USERNAME)) {
-			return;
-		}
-		this.getStage().getScene().getRoot().setDisable(true);
-		Client.getInstance().getConnectionHandler().sendLogin(username, this.passwordTextField.getText(), this.normalRoomTypeRadioButton.isSelected() ? RoomType.NORMAL : RoomType.EXTENDED);
-	}
-
-	@FXML
-	public void handleRegisterButtonAction()
-	{
-		String username = this.usernameTextField.getText().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
-		if (!username.matches(CommonUtils.REGEX_USERNAME)) {
-			return;
-		}
-		this.getStage().getScene().getRoot().setDisable(true);
-		Client.getInstance().getConnectionHandler().sendRegistration(username, this.passwordTextField.getText(), this.normalRoomTypeRadioButton.isSelected() ? RoomType.NORMAL : RoomType.EXTENDED);
-	}
-
-	@FXML
-	public void handleDialogOkButtonAction()
-	{
-		this.dialog.close();
-		this.getStackPane().getScene().getRoot().requestFocus();
-	}
-
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{
@@ -90,6 +61,35 @@ public class ControllerAuthentication extends CustomController
 		this.dialogLayout.setPrefWidth(this.dialog.getWidth() - 20.0D);
 		this.dialogLayout.setMaxSize(this.dialog.getWidth() - 20.0D, this.dialog.getHeight() - 20.0D);
 		this.dialogOkButton.setPrefWidth(((VBox) this.dialogOkButton.getParent()).getWidth());
+	}
+
+	@FXML
+	public void handleLoginButtonAction()
+	{
+		String username = this.usernameTextField.getText().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
+		if (!username.matches(CommonUtils.REGEX_USERNAME)) {
+			return;
+		}
+		this.getStage().getScene().getRoot().setDisable(true);
+		Client.getInstance().getConnectionHandler().sendLogin(username, this.passwordTextField.getText(), this.normalRoomTypeRadioButton.isSelected() ? RoomType.NORMAL : RoomType.EXTENDED);
+	}
+
+	@FXML
+	public void handleRegisterButtonAction()
+	{
+		String username = this.usernameTextField.getText().replaceAll(CommonUtils.REGEX_REMOVE_TRAILING_SPACES, "");
+		if (!username.matches(CommonUtils.REGEX_USERNAME)) {
+			return;
+		}
+		this.getStage().getScene().getRoot().setDisable(true);
+		Client.getInstance().getConnectionHandler().sendRegistration(username, this.passwordTextField.getText(), this.normalRoomTypeRadioButton.isSelected() ? RoomType.NORMAL : RoomType.EXTENDED);
+	}
+
+	@FXML
+	public void handleDialogOkButtonAction()
+	{
+		this.dialog.close();
+		this.getStackPane().getScene().getRoot().requestFocus();
 	}
 
 	void showDialog(String message)

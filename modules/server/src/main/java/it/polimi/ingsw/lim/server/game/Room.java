@@ -31,6 +31,28 @@ public class Room
 		}
 	}
 
+	public static Room getPlayerRoom(Connection connection)
+	{
+		for (Room room : Server.getInstance().getRooms()) {
+			if (room.players.contains(connection)) {
+				return room;
+			}
+		}
+		return null;
+	}
+
+	public static Room getPlayerRoom(String username)
+	{
+		for (Room room : Server.getInstance().getRooms()) {
+			for (Connection player : room.players) {
+				if (player.getUsername().equals(username)) {
+					return room;
+				}
+			}
+		}
+		return null;
+	}
+
 	public void handlePlayerDisconnection(Connection player)
 	{
 		if (this.gameHandler == null) {
@@ -82,20 +104,6 @@ public class Room
 		}
 	}
 
-	public void addPlayer(Connection player)
-	{
-		this.players.add(player);
-		if (this.gameHandler == null) {
-			if (this.roomType == RoomType.NORMAL) {
-				if (this.players.size() > 1 && this.timerExecutor == null) {
-					this.startTimer();
-				}
-			} else if (this.players.size() >= this.getRoomType().getPlayersNumber()) {
-				this.startTimer();
-			}
-		}
-	}
-
 	private void removePlayer(Connection player)
 	{
 		this.players.remove(player);
@@ -114,6 +122,20 @@ public class Room
 				}
 				this.timerExecutor = null;
 				this.timer = ServerSettings.getInstance().getExtendedRoomTimer();
+			}
+		}
+	}
+
+	public void addPlayer(Connection player)
+	{
+		this.players.add(player);
+		if (this.gameHandler == null) {
+			if (this.roomType == RoomType.NORMAL) {
+				if (this.players.size() > 1 && this.timerExecutor == null) {
+					this.startTimer();
+				}
+			} else if (this.players.size() >= this.roomType.getPlayersNumber()) {
+				this.startTimer();
 			}
 		}
 	}
@@ -150,28 +172,6 @@ public class Room
 		if (this.gameHandler != null) {
 			this.gameHandler.getTimerExecutor().shutdownNow();
 		}
-	}
-
-	public static Room getPlayerRoom(Connection connection)
-	{
-		for (Room room : Server.getInstance().getRooms()) {
-			if (room.getPlayers().contains(connection)) {
-				return room;
-			}
-		}
-		return null;
-	}
-
-	public static Room getPlayerRoom(String username)
-	{
-		for (Room room : Server.getInstance().getRooms()) {
-			for (Connection player : room.getPlayers()) {
-				if (player.getUsername().equals(username)) {
-					return room;
-				}
-			}
-		}
-		return null;
 	}
 
 	public RoomType getRoomType()

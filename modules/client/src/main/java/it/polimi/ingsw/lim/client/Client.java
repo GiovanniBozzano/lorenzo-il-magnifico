@@ -60,31 +60,6 @@ public class Client extends Instance
 	private MediaPlayer backgroundMediaPlayer;
 
 	/**
-	 * <p>Tries to connect to an RMI or Socket Server and, if successful, opens
-	 * the lobby screen.
-	 *
-	 * @param connectionType the type of connection used.
-	 * @param ip the IP address of the Server.
-	 * @param port the port of the Server.
-	 */
-	public synchronized void setup(ConnectionType connectionType, String ip, int port)
-	{
-		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		executorService.execute(() -> {
-			this.ip = ip;
-			this.port = port;
-			this.username = null;
-			if (connectionType == ConnectionType.RMI) {
-				this.connectionHandler = new ConnectionHandlerRMI();
-			} else {
-				this.connectionHandler = new ConnectionHandlerSocket();
-			}
-			this.connectionHandler.start();
-		});
-		executorService.shutdown();
-	}
-
-	/**
 	 * <p>Disconnects from the Server and closes all windows.
 	 */
 	@Override
@@ -119,6 +94,31 @@ public class Client extends Instance
 			} else {
 				this.interfaceHandler.disconnect();
 			}
+		});
+		executorService.shutdown();
+	}
+
+	/**
+	 * <p>Tries to connect to an RMI or Socket Server and, if successful, opens
+	 * the lobby screen.
+	 *
+	 * @param connectionType the type of connection used.
+	 * @param ip the IP address of the Server.
+	 * @param port the port of the Server.
+	 */
+	public synchronized void setup(ConnectionType connectionType, String ip, int port)
+	{
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		executorService.execute(() -> {
+			this.ip = ip;
+			this.port = port;
+			this.username = null;
+			if (connectionType == ConnectionType.RMI) {
+				this.connectionHandler = new ConnectionHandlerRMI();
+			} else {
+				this.connectionHandler = new ConnectionHandlerSocket();
+			}
+			this.connectionHandler.start();
 		});
 		executorService.shutdown();
 	}

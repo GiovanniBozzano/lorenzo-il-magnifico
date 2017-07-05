@@ -38,7 +38,7 @@ import java.util.logging.Level;
 			Client.getDebugger().log(Level.INFO, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			Thread.currentThread().interrupt();
 		}
-		this.getHeartbeat().shutdownNow();
+		this.heartbeat.shutdownNow();
 	}
 
 	/**

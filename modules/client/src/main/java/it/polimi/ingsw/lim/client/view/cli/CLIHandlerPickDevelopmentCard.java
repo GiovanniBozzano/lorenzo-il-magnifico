@@ -30,11 +30,11 @@ public class CLIHandlerPickDevelopmentCard implements ICLIHandler
 	private final Map<Integer, AvailableActionPickDevelopmentCard> availableDevelopmentCards = new HashMap<>();
 	private final Map<Integer, ResourceCostOption> availableResourceCostOptions = new HashMap<>();
 	private final Map<Integer, List<ResourceAmount>> availableDiscountChoices = new HashMap<>();
+	private final List<ResourceAmount> chosenDiscountChoice = new ArrayList<>();
 	private FamilyMemberType chosenFamilyMemberType;
 	private CardType chosenCardType;
 	private AvailableActionPickDevelopmentCard chosenDevelopmentCard;
 	private ResourceCostOption chosenResourceCostOption;
-	private final List<ResourceAmount> chosenDiscountChoice = new ArrayList<>();
 
 	@Override
 	public void execute()

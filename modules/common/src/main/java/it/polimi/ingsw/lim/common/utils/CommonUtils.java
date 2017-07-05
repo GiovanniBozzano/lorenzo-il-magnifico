@@ -26,8 +26,6 @@ public class CommonUtils
 	public static final String VERSION = "1.0";
 	public static final String REGEX_REMOVE_TRAILING_SPACES = "^\\s+|\\s+$";
 	public static final String REGEX_USERNAME = "^[\\w\\-]{4,16}$";
-	private static final byte[] IV = { 120, 7, 71, 53, 82, 112, 20, 8, 1, 19, 68, 26, 35, 56, 118, 23 };
-	private static final byte[] CRYPT_KEY = { 55, 78, 54, 102, 106, 89, 70, 69, 112, 83, 71, 88, 80, 98, 55, 108 };
 	public static final Font ROBOTO_BLACK = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-Black.ttf"), 12);
 	public static final Font ROBOTO_BOLD = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-Bold.ttf"), 12);
 	public static final Font ROBOTO_BOLD_ITALIC = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-BoldItalic.ttf"), 12);
@@ -45,7 +43,10 @@ public class CommonUtils
 	public static final Font ROBOTO_CONDENSED_LIGHT = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/RobotoCondensed-Light.ttf"), 12);
 	public static final Font ROBOTO_CONDENSED_LIGHT_ITALIC = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/RobotoCondensed-LightItalic.ttf"), 12);
 	public static final Font ROBOTO_CONDENSED_REGULAR = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/RobotoCondensed-Regular.ttf"), 12);
+	private static final byte[] IV = { 120, 7, 71, 53, 82, 112, 20, 8, 1, 19, 68, 26, 35, 56, 118, 23 };
+	private static final byte[] CRYPT_KEY = { 55, 78, 54, 102, 106, 89, 70, 69, 112, 83, 71, 88, 80, 98, 55, 108 };
 	private static final Map<ResourceType, String> RESOURCES_TYPES_NAMES = new EnumMap<>(ResourceType.class);
+	private static final Map<CardType, String> CARD_TYPES_NAMES = new EnumMap<>(CardType.class);
 
 	static {
 		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.COIN, "Coins");
@@ -58,8 +59,6 @@ public class CommonUtils
 		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.VICTORY_POINT, "Victory points");
 		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.WOOD, "Wood");
 	}
-
-	private static final Map<CardType, String> CARD_TYPES_NAMES = new EnumMap<>(CardType.class);
 
 	static {
 		CommonUtils.CARD_TYPES_NAMES.put(CardType.BUILDING, "Buildings");

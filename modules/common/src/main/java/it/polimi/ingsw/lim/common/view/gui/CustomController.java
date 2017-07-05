@@ -20,6 +20,9 @@ public abstract class CustomController implements Initializable
 	private double xOffset;
 	private double yOffset;
 
+	@Override
+	public abstract void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle);
+
 	@FXML
 	private void handleStackPaneMousePressed(MouseEvent event)
 	{
@@ -38,7 +41,7 @@ public abstract class CustomController implements Initializable
 	@FXML
 	private void handleQuitImageViewMouseClicked()
 	{
-		this.getStage().getScene().getRoot().setDisable(true);
+		this.stage.getScene().getRoot().setDisable(true);
 		Instance.getInstance().stop();
 	}
 
@@ -72,11 +75,13 @@ public abstract class CustomController implements Initializable
 		this.stackPane.getScene().setCursor(Cursor.DEFAULT);
 	}
 
-	@Override
-	public abstract void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle);
-
 	@PostConstruct
 	public abstract void setupGui();
+
+	protected StackPane getStackPane()
+	{
+		return this.stackPane;
+	}
 
 	public Stage getStage()
 	{
@@ -96,10 +101,5 @@ public abstract class CustomController implements Initializable
 	public void setInitialized(boolean initialized)
 	{
 		this.initialized = initialized;
-	}
-
-	protected StackPane getStackPane()
-	{
-		return this.stackPane;
 	}
 }

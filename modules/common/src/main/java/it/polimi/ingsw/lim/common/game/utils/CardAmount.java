@@ -17,22 +17,7 @@ public class CardAmount implements Serializable
 		this.amount = amount;
 	}
 
-	public CardType getCardType()
-	{
-		return this.cardType;
-	}
-
-	public int getAmount()
-	{
-		return this.amount;
-	}
-
-	private String getInformation()
-	{
-		return "- " + CommonUtils.getCardTypesNames().get(this.cardType) + ": " + this.amount;
-	}
-
-	public static String getCardsInformation(List<CardAmount> cardAmounts, boolean indented)
+	static String getCardsInformation(List<CardAmount> cardAmounts, boolean indented)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		boolean firstLine = true;
@@ -48,5 +33,20 @@ public class CardAmount implements Serializable
 			stringBuilder.append(cardAmount.getInformation());
 		}
 		return stringBuilder.toString();
+	}
+
+	public CardType getCardType()
+	{
+		return this.cardType;
+	}
+
+	public int getAmount()
+	{
+		return this.amount;
+	}
+
+	private String getInformation()
+	{
+		return "- " + CommonUtils.getCardTypesNames().get(this.cardType) + ": " + this.amount;
 	}
 }

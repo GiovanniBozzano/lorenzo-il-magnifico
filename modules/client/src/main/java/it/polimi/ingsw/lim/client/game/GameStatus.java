@@ -28,7 +28,6 @@ public class GameStatus
 	private final Map<Period, Integer> currentExcommunicationTiles = new EnumMap<>(Period.class);
 	private final Map<Integer, List<ResourceAmount>> currentCouncilPrivilegeRewards = new HashMap<>();
 	private final Map<Integer, PlayerData> currentPlayerData = new HashMap<>();
-	private int ownPlayerIndex;
 	private final Map<Row, Integer> currentDevelopmentCardsBuilding = new EnumMap<>(Row.class);
 	private final Map<Row, Integer> currentDevelopmentCardsCharacter = new EnumMap<>(Row.class);
 	private final Map<Row, Integer> currentDevelopmentCardsTerritory = new EnumMap<>(Row.class);
@@ -40,13 +39,14 @@ public class GameStatus
 	private final Map<Period, List<Integer>> currentExcommunicatedPlayers = new EnumMap<>(Period.class);
 	// currentOwnLeaderCardsHand boolean = true if the card can be played
 	private final Map<Integer, Boolean> currentOwnLeaderCardsHand = new HashMap<>();
-	private int currentTurnPlayerIndex = -1;
 	private final Map<ActionType, List<Serializable>> currentAvailableActions = new EnumMap<>(ActionType.class);
-	private ExpectedAction currentExpectedAction;
 	private final List<Integer> availablePersonalBonusTiles = new ArrayList<>();
 	private final List<Integer> availableLeaderCards = new ArrayList<>();
 	private final Map<Integer, Integer> playersScores = new HashMap<>();
 	private final Map<Integer, Integer> playerIndexesVictoryPointsRecord = new HashMap<>();
+	private int ownPlayerIndex;
+	private int currentTurnPlayerIndex = -1;
+	private ExpectedAction currentExpectedAction;
 
 	private GameStatus()
 	{
@@ -184,12 +184,6 @@ public class GameStatus
 	public Map<Integer, PlayerData> getCurrentPlayersData()
 	{
 		return this.currentPlayerData;
-	}
-
-	public void setCurrentPlayerData(Map<Integer, PlayerData> currentPlayerData)
-	{
-		this.currentPlayerData.clear();
-		this.currentPlayerData.putAll(currentPlayerData);
 	}
 
 	public int getOwnPlayerIndex()
@@ -379,5 +373,11 @@ public class GameStatus
 	{
 		this.playerIndexesVictoryPointsRecord.clear();
 		this.playerIndexesVictoryPointsRecord.putAll(playerIndexesVictoryPointsRecord);
+	}
+
+	public void setCurrentPlayerData(Map<Integer, PlayerData> currentPlayerData)
+	{
+		this.currentPlayerData.clear();
+		this.currentPlayerData.putAll(currentPlayerData);
 	}
 }

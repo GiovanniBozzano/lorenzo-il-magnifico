@@ -22,14 +22,13 @@ import java.util.logging.Level;
 public class CLIHandlerShowOtherBoard implements ICLIHandler
 {
 	private static final Map<Integer, IInputHandler> PLAYER_INFORMATION = new HashMap<>();
+	private static final Map<Integer, CardType> CARD_TYPE_CHOICE = new HashMap<>();
 
 	static {
 		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.put(1, cliHandler -> ((CLIHandlerShowOtherBoard) cliHandler).showFamilyMemberTypes());
 		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.put(2, cliHandler -> ((CLIHandlerShowOtherBoard) cliHandler).showResources());
 		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.put(3, cliHandler -> ((CLIHandlerShowOtherBoard) cliHandler).showDevelopmentCards());
 	}
-
-	private static final Map<Integer, CardType> CARD_TYPE_CHOICE = new HashMap<>();
 
 	static {
 		CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.put(1, CardType.BUILDING);

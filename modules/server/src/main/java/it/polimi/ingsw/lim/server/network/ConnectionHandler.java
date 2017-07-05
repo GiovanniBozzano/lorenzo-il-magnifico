@@ -32,6 +32,16 @@ public class ConnectionHandler extends Thread
 		this.socketPort = socketPort;
 	}
 
+	private static void handleSetupError()
+	{
+		Server.getInstance().getDatabaseSaver().shutdown();
+		Server.getInstance().setDatabaseSaver(Executors.newSingleThreadExecutor());
+		Server.getInstance().getDatabaseKeeper().shutdownNow();
+		Server.getInstance().setDatabaseKeeper(Executors.newSingleThreadScheduledExecutor());
+		Server.getInstance().getDatabase().closeConnection();
+		Server.getInstance().getInterfaceHandler().setupError();
+	}
+
 	@Override
 	public void run()
 	{
@@ -73,16 +83,6 @@ public class ConnectionHandler extends Thread
 				ConnectionHandler.handleSetupError();
 			}
 		}
-	}
-
-	private static void handleSetupError()
-	{
-		Server.getInstance().getDatabaseSaver().shutdown();
-		Server.getInstance().setDatabaseSaver(Executors.newSingleThreadExecutor());
-		Server.getInstance().getDatabaseKeeper().shutdownNow();
-		Server.getInstance().setDatabaseKeeper(Executors.newSingleThreadScheduledExecutor());
-		Server.getInstance().getDatabase().closeConnection();
-		Server.getInstance().getInterfaceHandler().setupError();
 	}
 
 	public synchronized void end()

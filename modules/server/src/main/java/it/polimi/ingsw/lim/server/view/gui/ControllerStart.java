@@ -17,13 +17,6 @@ public class ControllerStart extends CustomController
 	@FXML private JFXTextField socketPortTextField;
 	@FXML private JFXButton startButton;
 
-	@FXML
-	private void handleStartButtonAction()
-	{
-		this.getStage().getScene().getRoot().setDisable(true);
-		Server.getInstance().setup(Integer.parseInt(this.rmiPortTextField.getText()), Integer.parseInt(this.socketPortTextField.getText()));
-	}
-
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resourceBundle)
 	{
@@ -46,5 +39,12 @@ public class ControllerStart extends CustomController
 	public void setupGui()
 	{
 		this.getStackPane().getScene().getRoot().requestFocus();
+	}
+
+	@FXML
+	private void handleStartButtonAction()
+	{
+		this.getStage().getScene().getRoot().setDisable(true);
+		Server.getInstance().setup(Integer.parseInt(this.rmiPortTextField.getText()), Integer.parseInt(this.socketPortTextField.getText()));
 	}
 }

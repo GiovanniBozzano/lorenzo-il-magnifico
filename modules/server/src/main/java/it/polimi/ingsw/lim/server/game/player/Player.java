@@ -13,6 +13,7 @@ import java.util.*;
 public class Player
 {
 	private static final Map<Integer, Integer> TERRITORY_SLOTS_CONDITIONS = new HashMap<>();
+	private static final Map<Period, Integer> EXCOMMUNICATION_CONDITIONS = new EnumMap<>(Period.class);
 
 	static {
 		Player.TERRITORY_SLOTS_CONDITIONS.put(0, 0);
@@ -23,15 +24,12 @@ public class Player
 		Player.TERRITORY_SLOTS_CONDITIONS.put(5, 18);
 	}
 
-	private static final Map<Period, Integer> EXCOMMUNICATION_CONDITIONS = new EnumMap<>(Period.class);
-
 	static {
 		Player.EXCOMMUNICATION_CONDITIONS.put(Period.FIRST, 3);
 		Player.EXCOMMUNICATION_CONDITIONS.put(Period.SECOND, 4);
 		Player.EXCOMMUNICATION_CONDITIONS.put(Period.THIRD, 5);
 	}
 
-	private Connection connection;
 	private final Room room;
 	private final int index;
 	private final PlayerCardHandler playerCardHandler = new PlayerCardHandler();
@@ -39,6 +37,7 @@ public class Player
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
 	private final List<Modifier> activeModifiers = new ArrayList<>();
 	private final List<Modifier> temporaryModifiers = new ArrayList<>();
+	private Connection connection;
 	private PersonalBonusTile personalBonusTile;
 	private int availableTurns = 4;
 	private boolean isOnline = true;
@@ -90,6 +89,16 @@ public class Player
 				this.playerResourceHandler.addResource(ResourceType.VICTORY_POINT, developmentCardVenture.getVictoryValue());
 			}
 		}
+	}
+
+	public void decreaseAvailableTurns()
+	{
+		this.availableTurns--;
+	}
+
+	public void resetAvailableTurns()
+	{
+		this.availableTurns = 4;
 	}
 
 	static Map<Integer, Integer> getTerritorySlotsConditions()
@@ -160,16 +169,6 @@ public class Player
 	public int getAvailableTurns()
 	{
 		return this.availableTurns;
-	}
-
-	public void decreaseAvailableTurns()
-	{
-		this.availableTurns--;
-	}
-
-	public void resetAvailableTurns()
-	{
-		this.availableTurns = 4;
 	}
 
 	public boolean isOnline()

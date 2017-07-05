@@ -21,21 +21,25 @@ public class ResourceTradeOption implements Serializable
 	}
 
 	@Override
+	public int hashCode()
+	{
+		return Objects.hash(super.hashCode(), this.employedResources, this.producedResources);
+	}
+
+	@Override
 	public boolean equals(Object resourceTradeOption)
 	{
 		if (!(resourceTradeOption instanceof ResourceTradeOption)) {
 			return false;
 		}
-		List<ResourceAmount> temporaryEmployedResources = new ArrayList<>();
-		temporaryEmployedResources.addAll(((ResourceTradeOption) resourceTradeOption).employedResources);
+		List<ResourceAmount> temporaryEmployedResources = new ArrayList<>(((ResourceTradeOption) resourceTradeOption).employedResources);
 		for (ResourceAmount resourceAmount : this.employedResources) {
 			if (!temporaryEmployedResources.contains(resourceAmount)) {
 				return false;
 			}
 			temporaryEmployedResources.remove(resourceAmount);
 		}
-		List<ResourceAmount> temporaryProducedResources = new ArrayList<>();
-		temporaryProducedResources.addAll(((ResourceTradeOption) resourceTradeOption).producedResources);
+		List<ResourceAmount> temporaryProducedResources = new ArrayList<>(((ResourceTradeOption) resourceTradeOption).producedResources);
 		for (ResourceAmount resourceAmount : this.producedResources) {
 			if (!temporaryProducedResources.contains(resourceAmount)) {
 				return false;
@@ -43,12 +47,6 @@ public class ResourceTradeOption implements Serializable
 			temporaryProducedResources.remove(resourceAmount);
 		}
 		return true;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return Objects.hash(super.hashCode(), this.employedResources, this.producedResources);
 	}
 
 	public String getInformation(boolean isFirstLine)

@@ -58,10 +58,9 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 	}
 
 	/**
-	 * <p>Uses current available actions of the player to insert in a {@link
-	 * Integer} {@link CLIStatus} {@link Map} the CLIStatus to perform the
-	 * action and prints the corresponding {@link String} and their choosing
-	 * indexes on screen.
+	 * <p>Uses current available actions of the player to insert them in a
+	 * {@link Integer} {@link CLIStatus} {@link Map} and prints the
+	 * corresponding {@link String} and their choosing indexes on screen.
 	 */
 	private void showAvailableActions()
 	{
@@ -98,8 +97,7 @@ public class CLIHandlerAvailableActions implements ICLIHandler
 	}
 
 	/**
-	 * <p>Asks which CLIStatus index the player wants to choose and
-	 * execute the corresponding CLIStatus.
+	 * <p>Asks which action the player wants to perform and starts executing it.
 	 */
 	private void askAction()
 	{
