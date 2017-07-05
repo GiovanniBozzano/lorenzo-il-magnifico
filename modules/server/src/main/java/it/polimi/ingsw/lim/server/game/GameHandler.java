@@ -295,14 +295,14 @@ public class GameHandler
 		});
 	}
 
-	private Player getPlayerFromIndex(int playerIndex)
+	private Player getPlayerFromIndex(int playerIndex) throws NoSuchElementException
 	{
 		for (Player player : this.turnOrder) {
 			if (player.getIndex() == playerIndex) {
 				return player;
 			}
 		}
-		return null;
+		throw new NoSuchElementException();
 	}
 
 	public void setupRound()

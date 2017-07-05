@@ -1700,7 +1700,7 @@ public class ControllerGame extends CustomController
 		} else if (this.developmentCardsVentureIndexes.containsKey(pane)) {
 			return GameStatus.getInstance().getDevelopmentCardsVenture().get(this.developmentCardsVentureIndexes.get(pane)).getInformation();
 		}
-		return null;
+		throw new NoSuchElementException();
 	}
 
 	void setOwnTurn()

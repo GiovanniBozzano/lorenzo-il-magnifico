@@ -280,21 +280,22 @@ public class Utils
 	}
 
 	/**
-	 * Retrieves a {@link LeaderCard} from a given index, if it does exist.
+	 * Retrieves a {@link LeaderCard} from a given index.
 	 *
 	 * @param leaderCardIndex the {@link LeaderCard} index.
 	 *
-	 * @return the retrieved {@link LeaderCard} if it does exists, otherwise
-	 * null.
+	 * @return the retrieved {@link LeaderCard}.
+	 *
+	 * @throws NoSuchElementException if the element does not exists.
 	 */
-	public static LeaderCard getLeaderCardFromIndex(int leaderCardIndex)
+	public static LeaderCard getLeaderCardFromIndex(int leaderCardIndex) throws NoSuchElementException
 	{
 		for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
 			if (leaderCard.getIndex() == leaderCardIndex) {
 				return leaderCard;
 			}
 		}
-		return null;
+		throw new NoSuchElementException();
 	}
 
 	/**

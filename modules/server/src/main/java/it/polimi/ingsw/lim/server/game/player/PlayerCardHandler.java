@@ -62,14 +62,14 @@ public class PlayerCardHandler
 		return cardList;
 	}
 
-	public <T> T getDevelopmentCardFromIndex(CardType cardType, int index, Class<T> cardClass)
+	public <T> T getDevelopmentCardFromIndex(CardType cardType, int index, Class<T> cardClass) throws NoSuchElementException
 	{
 		for (DevelopmentCard developmentCard : this.developmentCards.get(cardType)) {
 			if (developmentCard.getIndex() == index) {
 				return cardClass.cast(developmentCard);
 			}
 		}
-		return null;
+		throw new NoSuchElementException();
 	}
 
 	int getDevelopmentCardsNumber(CardType cardType)
@@ -92,14 +92,14 @@ public class PlayerCardHandler
 		this.leaderCards.add(leaderCard);
 	}
 
-	public LeaderCard getLeaderCardFromIndex(int index)
+	public LeaderCard getLeaderCardFromIndex(int index) throws NoSuchElementException
 	{
 		for (LeaderCard leaderCard : this.leaderCards) {
 			if (leaderCard.getIndex() == index) {
 				return leaderCard;
 			}
 		}
-		return null;
+		throw new NoSuchElementException();
 	}
 
 	static Map<Integer, Integer> getDevelopmentCardsCharacterPrices()

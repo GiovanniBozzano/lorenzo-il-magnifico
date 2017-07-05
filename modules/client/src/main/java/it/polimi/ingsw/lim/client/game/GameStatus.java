@@ -104,14 +104,14 @@ public class GameStatus
 		}
 	}
 
-	public Row getDevelopmentCardRow(CardType cardType, int index)
+	public Row getDevelopmentCardRow(CardType cardType, int index) throws NoSuchElementException
 	{
 		for (Entry<Row, Integer> developmentCard : this.currentDevelopmentCards.get(cardType).entrySet()) {
 			if (developmentCard.getValue() == index) {
 				return developmentCard.getKey();
 			}
 		}
-		return null;
+		throw new NoSuchElementException();
 	}
 
 	public static GameStatus getInstance()

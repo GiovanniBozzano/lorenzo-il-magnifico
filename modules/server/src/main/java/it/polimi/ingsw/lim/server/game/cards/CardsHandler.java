@@ -209,14 +209,14 @@ public class CardsHandler
 		this.currentDevelopmentCards.put(CardType.VENTURE, this.currentDevelopmentCardsVenture);
 	}
 
-	public static LeaderCard getleaderCardFromIndex(int index)
+	public static LeaderCard getleaderCardFromIndex(int index) throws NoSuchElementException
 	{
 		for (LeaderCard leaderCard : CardsHandler.LEADER_CARDS) {
 			if (leaderCard.getIndex() == index) {
 				return leaderCard;
 			}
 		}
-		return null;
+		throw new NoSuchElementException();
 	}
 
 	public void addDevelopmentCard(Row row, DevelopmentCardBuilding developmentCard)

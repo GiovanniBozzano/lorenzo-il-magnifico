@@ -6,6 +6,7 @@ import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public enum PersonalBonusTile
 {
@@ -33,14 +34,14 @@ public enum PersonalBonusTile
 		this.harvestInstantResources = harvestInstantResources;
 	}
 
-	public static PersonalBonusTile fromIndex(int index)
+	public static PersonalBonusTile fromIndex(int index) throws NoSuchElementException
 	{
 		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
 			if (personalBonusTile.index == index) {
 				return personalBonusTile;
 			}
 		}
-		return null;
+		throw new NoSuchElementException();
 	}
 
 	public int getIndex()

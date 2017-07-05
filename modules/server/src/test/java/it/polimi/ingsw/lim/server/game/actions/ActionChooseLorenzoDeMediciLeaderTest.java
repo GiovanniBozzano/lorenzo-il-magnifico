@@ -45,6 +45,8 @@ public class ActionChooseLorenzoDeMediciLeaderTest
 		Player player = new Player(new ConnectionRMI(null, null), room, 0);
 		player.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
 		player.setCurrentActionReward(new ActionRewardLorenzoDeMediciLeader(null));
+		LeaderCardReward leaderCardLorenzoDeMedici = new LeaderCardReward(14, null, null, null, new ArrayList<>(), new Reward(null, new ArrayList<>()));
+		player.getPlayerCardHandler().getLeaderCards().add(leaderCardLorenzoDeMedici);
 		Player otherPlayer = new Player(new ConnectionRMI(null, null), room, 1);
 		otherPlayer.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
 		LeaderCardReward leaderCard = new LeaderCardReward(0, null, null, null, new ArrayList<>(), new Reward(null, new ArrayList<>()));

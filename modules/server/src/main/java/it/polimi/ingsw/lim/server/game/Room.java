@@ -8,6 +8,7 @@ import it.polimi.ingsw.lim.server.utils.ServerSettings;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -31,17 +32,17 @@ public class Room
 		}
 	}
 
-	public static Room getPlayerRoom(Connection connection)
+	public static Room getPlayerRoom(Connection connection) throws NoSuchElementException
 	{
 		for (Room room : Server.getInstance().getRooms()) {
 			if (room.players.contains(connection)) {
 				return room;
 			}
 		}
-		return null;
+		throw new NoSuchElementException();
 	}
 
-	public static Room getPlayerRoom(String username)
+	public static Room getPlayerRoom(String username) throws NoSuchElementException
 	{
 		for (Room room : Server.getInstance().getRooms()) {
 			for (Connection player : room.players) {
@@ -50,7 +51,7 @@ public class Room
 				}
 			}
 		}
-		return null;
+		throw new NoSuchElementException();
 	}
 
 	public void handlePlayerDisconnection(Connection player)
