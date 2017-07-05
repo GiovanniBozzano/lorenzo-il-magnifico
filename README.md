@@ -15,15 +15,15 @@
 <br />
 
 ## Implemented Features
-* Advanced Game Rules
-* ✔ Interfaces
+* ✔ Advanced Game Rules
+* Interfaces
 	- ✔ GUI (main interface)
 	- ✔ CLI (secondary interface)
 * Network Types
 	- ✔ RMI
 	- ✔ Socket
 * File Configurations
-	- ✔ Development Cards
+	- ✔ Cards
 	- ✔ Game Board
 	- ✔ Timers
 * ✔ 5ᵗʰ Player
