@@ -16,7 +16,7 @@
 
 ## Implemented Features
 * ✔ Advanced Game Rules
-* ✔ Interfaces
+* Interfaces
 	- ✔ GUI (main interface)
 	- ✔ CLI (secondary interface)
 * Network Types
