@@ -15,7 +15,7 @@
 <br />
 
 ## Implemented Features
-* Advanced Game Rules
+* ✔ Advanced Game Rules
 * ✔ Interfaces
 	- ✔ GUI (main interface)
 	- ✔ CLI (secondary interface)
