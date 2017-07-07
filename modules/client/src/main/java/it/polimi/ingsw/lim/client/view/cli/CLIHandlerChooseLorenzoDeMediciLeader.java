@@ -30,6 +30,12 @@ public class CLIHandlerChooseLorenzoDeMediciLeader implements ICLIHandler
 		return new CLIHandlerChooseLorenzoDeMediciLeader();
 	}
 
+	/**
+	 * <p>Uses current leaders that can be chosen from the player to insert in
+	 * a {@link Integer} {@link Integer} {@link Map} their indexes and prints
+	 * the available leaders and the corresponding choosing indexes
+	 * on screen.
+	 */
 	private void showLeaderCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -45,6 +51,10 @@ public class CLIHandlerChooseLorenzoDeMediciLeader implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Asks which Leader index the player wants to choose and
+	 * sends it.
+	 */
 	private void askLeaderCard()
 	{
 		String input;

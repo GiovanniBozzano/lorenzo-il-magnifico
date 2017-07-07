@@ -70,6 +70,12 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		return new CLIHandlerChooseRewardPickDevelopmentCard();
 	}
 
+	/**
+	 * <p>Uses current available actions of the player to insert in a {@link
+	 * Integer} {@link CardType} {@link Map} the available card types to perform
+	 * an {@link ActionInformationChooseRewardPickDevelopmentCard} and prints
+	 * them and the corresponding choosing indexes on screen.
+	 */
 	private void showCardTypes()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -85,6 +91,10 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Asks which {@link CardType} the player wants to use to perform
+	 * the action and saves it.
+	 */
 	private void askCardType()
 	{
 		String input;
@@ -95,6 +105,14 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		this.chosenCardType = this.availableCardTypes.get(Integer.parseInt(input));
 	}
 
+	/**
+	 * <p>Uses current available actions of the player to insert in a {@link
+	 * Integer} {@link AvailableActionChooseRewardPickDevelopmentCard} {@link
+	 * Map} the available choose reward pick development card actions to perform
+	 * an {@link ActionInformationChooseRewardPickDevelopmentCard} with the
+	 * {@code chosenCardType} and prints them and the corresponding choosing
+	 * indexes on screen.
+	 */
 	private void showDevelopmentCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -110,6 +128,10 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Asks which {@link AvailableActionChooseRewardPickDevelopmentCard} the
+	 * player wants to use to perform the action and saves it.
+	 */
 	private void askDevelopmentCard()
 	{
 		String input;
@@ -120,6 +142,11 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		this.chosenDevelopmentCard = this.availableDevelopmentCards.get(Integer.parseInt(input));
 	}
 
+	/**
+	 * <p>Uses a {@link Integer} {@link Row} {@link Map} to ask which {@code
+	 * instantRewardRow} the player wants to choose to perform the action and
+	 * saves it.
+	 */
 	private void askInstantRewardRow()
 	{
 		Client.getLogger().log(Level.INFO, "\n\nEnter Instant Reward Row...");
@@ -131,6 +158,13 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		this.chosenInstantRewardRow = CLIHandlerChooseRewardPickDevelopmentCard.INSTANT_REWARD_ROWS.get(Integer.parseInt(input));
 	}
 
+	/**
+	 * <p>Uses the {@code chosenDevelopmentCard} to insert in a {@link
+	 * Integer} {@link ResourceCostOption} {@link Map} the
+	 * available resource cost options to perform the {@link
+	 * ActionInformationChooseRewardPickDevelopmentCard} and prints them
+	 * and the corresponding choosing indexes on screen.
+	 */
 	private void showResourceCostOptions()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -144,6 +178,10 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Asks which {@link ResourceCostOption} the player wants
+	 * to use to perform the action and saves it.
+	 */
 	private void askResourceCostOption()
 	{
 		String input;
@@ -154,6 +192,13 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		this.chosenResourceCostOption = this.availableResourceCostOptions.get(Integer.parseInt(input));
 	}
 
+	/**
+	 * <p>Uses the {@code chosenDevelopmentCard} to insert in a {@link
+	 * Integer} {@link List<ResourceAmount>} {@link Map} the
+	 * available instant discount choices to perform the {@link
+	 * ActionInformationChooseRewardPickDevelopmentCard} and prints them
+	 * and the corresponding choosing indexes on screen.
+	 */
 	private void showInstantDiscountChoices()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -167,6 +212,10 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Asks which {@link List<ResourceAmount>} the player wants
+	 * to use to perform the action and saves it.
+	 */
 	private void askInstantDiscountChoice()
 	{
 		String input;
@@ -177,6 +226,13 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		this.chosenInstantDiscountChoice.addAll(this.availableInstantDiscountChoices.get(Integer.parseInt(input)));
 	}
 
+	/**
+	 * <p>Uses the {@code chosenDevelopmentCard} to insert in a {@link
+	 * Integer} {@link List<ResourceAmount>} {@link Map} the
+	 * available discount choices to perform the {@link
+	 * ActionInformationChooseRewardPickDevelopmentCard} and prints them
+	 * and the corresponding choosing indexes on screen.
+	 */
 	private void showDiscountChoices()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -190,6 +246,10 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Asks which {@link List<ResourceAmount>} the player wants
+	 * to use to perform the action and saves it.
+	 */
 	private void askDiscountChoice()
 	{
 		String input;
@@ -200,6 +260,11 @@ public class CLIHandlerChooseRewardPickDevelopmentCard implements ICLIHandler
 		this.chosenDiscountChoice.addAll(this.availableDiscountChoices.get(Integer.parseInt(input)));
 	}
 
+	/**
+	 * <p>Asks how many servants the player wants to use to increase the action
+	 * value and sends the new {@link ActionInformationChooseRewardPickDevelopmentCard}
+	 * with the chosen values.
+	 */
 	private void askServants()
 	{
 		Client.getInstance().getConnectionHandler().sendGameAction(new ActionInformationChooseRewardPickDevelopmentCard(Utils.cliAskServants(), this.chosenCardType, this.chosenDevelopmentCard.getRow(), this.chosenInstantRewardRow, this.chosenInstantDiscountChoice, this.chosenDiscountChoice, this.chosenResourceCostOption));
