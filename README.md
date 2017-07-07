@@ -36,34 +36,24 @@
 	- Score Saves
 	
 ## 5ᵗʰ Player Rules
-
 * Setup: Each player chooses a color and receives:
 	- 1 Personal Board
 	- 3 Family Members of their color and the uncolored Family Member with the sticker of their color
-	- 3 Excommunication Cubes 
-	- **5** Marker Discs. Place 1 disc each on the 0 step of the Victory Points track, Military Points track, Faith Points track and 	**Prestige Point track** respectively. Place the last disc on the Turn Order track.
-	- **3** wood, **3** stone, **4** servants
-	- The first player receives 5 coins, second player receives 6 coins, third player receives 7 coins, fourth player receives 8 		coins, **fifth player receives 9 coins**
-	- 1 Personal Bonus Tile (in this type of game, standard side cannot be used). The new tile added is the following
-	<h1 align="center">
-	<img src="../master/images/new_tiles.png?raw=true" alt="Lorenzo il Magnifico" width="400">	
+	- 3 Excommunication cubes
+	- **5** Marker Discs. Place 1 disc each on the 0 step of the Victory Points track, Military Points track, Faith Points track and 	**Prestige Points track** respectively. Place the last disc on the Turn Order track.
+	- **3** Woods, **3** Stones, **4** Servants
+	- The first player receives 5 Coins, the second player receives 6 Coins, the third player receives 7 Coins, the fourth player receives 8 Coins **and the fifth player receives 9 Coins**
+	- 1 Personal Bonus Tile each (in this game mode, standard side cannot be used). The newly added tile is the following:
+	<img align="center" src="../master/images/new_personal_bonus_tile.png?raw=true" alt="New Personal Bonus Tile" width="400">
 	
 * There are **6** action spaces in the Market. 
 	- In addition to the 4 spaces available in the normal game, 2 more spaces are added. These are:
-		- **Receive 2 stone and 2 wood**
-		- **Receive 1 victory point and 1 prestige point**
-
+		- **Receive 2 Stones and 2 Woods**
+		- **Receive 1 Victory Point and 1 Prestige Point**
 * Council Privilege is a bonus of your choice between:
-	- 1 wood and 1 stone / 2 servants / 2 coins / 2 Military Points / 1 Faith Poin / **1 Prestige Point**
-
-* Harvest and Production Area 
-	- The second section gives a penalty of **-2** to the action value. To place a Family Member here, you must activate an action 		at value 1 or higher. 
-
-* Towers for Development Cards 
-	- If there are already Family Members in the same tower, pay **2** additional coins to the supply.
-
-* End of the Game and Final Scoring 
-	- **Prestige Strength: If there is a tie between first players, they all gain 2x Prestige Points. If there is a tie between 		second players, they all gain 1x Prestige Points, while first player keep gaining 2x Prestige Points.**
+	- 1 Wood and 1 Stone / 2 Servants / 2 Coins / 2 Military Points / 1 Faith Poin / **1 Prestige Point**
+* End of the game and final score
+	- **Prestige Strength: If there is a tie between first players, they all gain 2x Prestige Points. If there is a tie between 		second players, they all gain 1x Prestige Points, while first player keeps gaining 2x Prestige Points.**
 	
 ## Installation
 To clone and run this game, you will need [Git](https://git-scm.com/), [Maven](https://maven.apache.org/) and [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/) installed on your computer. From your command line:
@@ -92,6 +82,4 @@ Note: The Project is separated into modules: `Client`, `Server` and `Common`.
 - Giovanni Bozzano - giovanni.bozzano@mail.polimi.it
 - Manuel Candiani - manuel.candiani@mail.polimi.it
 - Andrea Delfi - andrea.delfi@mail.polimi.it
-
----
 > [Cranio Creations](http://www.craniocreations.it/)
