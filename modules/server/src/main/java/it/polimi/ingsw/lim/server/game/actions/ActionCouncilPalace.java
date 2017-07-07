@@ -42,7 +42,7 @@ public class ActionCouncilPalace extends ActionInformationCouncilPalace implemen
 		}
 		// get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.COUNCIL_PALACE, this.player.getRoom().getGameHandler().getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
-		eventPlaceFamilyMember.applyModifiers(this.player.getActiveModifiers());
+		eventPlaceFamilyMember.fire();
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		// check if the player has the servants he sent
 		if (this.player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT) < this.getServants()) {
@@ -50,7 +50,7 @@ public class ActionCouncilPalace extends ActionInformationCouncilPalace implemen
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
-		eventUseServants.applyModifiers(this.player.getActiveModifiers());
+		eventUseServants.fire();
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
 		if (effectiveFamilyMemberValue + effectiveServants < BoardHandler.getBoardPositionInformation(BoardPosition.COUNCIL_PALACE).getValue()) {
@@ -68,7 +68,7 @@ public class ActionCouncilPalace extends ActionInformationCouncilPalace implemen
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), BoardPosition.COUNCIL_PALACE);
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformation(BoardPosition.COUNCIL_PALACE).getResourceAmounts(), ResourcesSource.COUNCIL_PALACE);
-		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		eventGainResources.fire();
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " chose to move to council palace with his " + this.getFamilyMemberType().name().toLowerCase() + " family memeber");
 		if (Utils.sendCouncilPrivileges(this.player)) {

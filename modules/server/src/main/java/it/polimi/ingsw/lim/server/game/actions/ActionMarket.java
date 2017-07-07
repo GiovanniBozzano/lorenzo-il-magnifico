@@ -48,7 +48,7 @@ public class ActionMarket extends ActionInformationMarket implements IAction
 		// check if the board slot is occupied and get effective family member value
 		BoardPosition boardPosition = BoardPosition.getMarketPositions().get(this.getMarketSlot());
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), boardPosition, this.player.getRoom().getGameHandler().getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
-		eventPlaceFamilyMember.applyModifiers(this.player.getActiveModifiers());
+		eventPlaceFamilyMember.fire();
 		if (eventPlaceFamilyMember.isCancelled()) {
 			throw new GameActionFailedException("You cannot place Family Member in this slot due to a Malus");
 		}
@@ -66,7 +66,7 @@ public class ActionMarket extends ActionInformationMarket implements IAction
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
-		eventUseServants.applyModifiers(this.player.getActiveModifiers());
+		eventUseServants.fire();
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
 		if (effectiveFamilyMemberValue + effectiveServants < BoardHandler.getBoardPositionInformation(boardPosition).getValue()) {
@@ -81,7 +81,7 @@ public class ActionMarket extends ActionInformationMarket implements IAction
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), BoardPosition.getMarketPositions().get(this.getMarketSlot()));
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		EventGainResources eventGainResources = new EventGainResources(this.player, BoardHandler.getBoardPositionInformation(BoardPosition.getMarketPositions().get(this.getMarketSlot())).getResourceAmounts(), ResourcesSource.MARKET);
-		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		eventGainResources.fire();
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " started a business in the market with his " + this.getFamilyMemberType().name().toLowerCase() + " family member");
 		if (Utils.sendCouncilPrivileges(this.player)) {

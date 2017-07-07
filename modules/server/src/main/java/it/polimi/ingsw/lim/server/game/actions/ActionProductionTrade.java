@@ -6,6 +6,8 @@ import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationProductionTrade;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
+import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.enums.ResourcesSource;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardBuilding;
 import it.polimi.ingsw.lim.server.game.events.EventGainResources;
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.logging.Level;
 
 public class ActionProductionTrade extends ActionInformationProductionTrade implements IAction
 {
@@ -42,12 +46,14 @@ public class ActionProductionTrade extends ActionInformationProductionTrade impl
 		// check trades' correctness
 		List<ResourceAmount> employedResources = new ArrayList<>();
 		for (Entry<Integer, ResourceTradeOption> chosenDevelopmentCardBuilding : this.getChosenDevelopmentCardsBuilding().entrySet()) {
-			DevelopmentCardBuilding developmentCardBuilding = this.player.getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, chosenDevelopmentCardBuilding.getKey(), DevelopmentCardBuilding.class);
-			if (developmentCardBuilding == null) {
+			try {
+				DevelopmentCardBuilding developmentCardBuilding = this.player.getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, chosenDevelopmentCardBuilding.getKey(), DevelopmentCardBuilding.class);
+				if (!developmentCardBuilding.getResourceTradeOptions().contains(chosenDevelopmentCardBuilding.getValue())) {
+					throw new GameActionFailedException("This trade option is not present in the current card");
+				}
+			} catch (NoSuchElementException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 				throw new GameActionFailedException("You don't have this card");
-			}
-			if (!developmentCardBuilding.getResourceTradeOptions().contains(chosenDevelopmentCardBuilding.getValue())) {
-				throw new GameActionFailedException("This trade option is not present in the current card");
 			}
 			employedResources.addAll(chosenDevelopmentCardBuilding.getValue().getEmployedResources());
 		}
@@ -61,7 +67,12 @@ public class ActionProductionTrade extends ActionInformationProductionTrade impl
 	{
 		List<DevelopmentCardBuilding> developmentCardsBuilding = new ArrayList<>();
 		for (int index : this.getChosenDevelopmentCardsBuilding().keySet()) {
-			developmentCardsBuilding.add(this.player.getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, index, DevelopmentCardBuilding.class));
+			try {
+				developmentCardsBuilding.add(this.player.getPlayerCardHandler().getDevelopmentCardFromIndex(CardType.BUILDING, index, DevelopmentCardBuilding.class));
+			} catch (NoSuchElementException exception) {
+				Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				throw new GameActionFailedException("You don't have this card");
+			}
 		}
 		List<ResourceAmount> employedResources = new ArrayList<>();
 		List<ResourceAmount> producedResources = new ArrayList<>();
@@ -70,7 +81,7 @@ public class ActionProductionTrade extends ActionInformationProductionTrade impl
 			producedResources.addAll(this.getChosenDevelopmentCardsBuilding().get(developmentCardBuilding.getIndex()).getProducedResources());
 		}
 		EventGainResources eventGainResources = new EventGainResources(this.player, producedResources, ResourcesSource.WORK);
-		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		eventGainResources.fire();
 		this.player.getPlayerResourceHandler().subtractResources(employedResources);
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " finished trading for a production");

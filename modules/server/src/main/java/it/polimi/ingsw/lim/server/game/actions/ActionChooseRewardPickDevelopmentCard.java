@@ -76,7 +76,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationChoo
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
-		eventUseServants.applyModifiers(this.player.getActiveModifiers());
+		eventUseServants.fire();
 		int effectiveServantsValue = eventUseServants.getServants();
 		// check if the card contains cost option array
 		if ((this.getResourceCostOption() == null && !developmentCard.getResourceCostOptions().isEmpty()) || (this.getResourceCostOption() != null && !developmentCard.getResourceCostOptions().contains(this.getResourceCostOption()))) {
@@ -88,7 +88,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationChoo
 		}
 		// check if the family member and servants value is high enough
 		EventPickDevelopmentCard eventPickDevelopmentCard = new EventPickDevelopmentCard(this.player, this.getCardType(), this.getRow(), this.getResourceCostOption() == null ? null : this.getResourceCostOption().getSpentResources(), ((ActionRewardPickDevelopmentCard) this.player.getCurrentActionReward()).getValue() + effectiveServantsValue);
-		eventPickDevelopmentCard.applyModifiers(this.player.getActiveModifiers());
+		eventPickDevelopmentCard.fire();
 		this.effectiveResourceCost.addAll(eventPickDevelopmentCard.getResourceCost());
 		this.getBoardPositionReward = eventPickDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
@@ -123,7 +123,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationChoo
 			resourceReward.addAll(BoardHandler.getBoardPositionInformation(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getInstantRewardRow())).getResourceAmounts());
 		}
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.DEVELOPMENT_CARDS);
-		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		eventGainResources.fire();
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		if (developmentCard.getCardType() == CardType.CHARACTER && ((DevelopmentCardCharacter) developmentCard).getModifier() != null) {
 			this.player.getActiveModifiers().add(((DevelopmentCardCharacter) developmentCard).getModifier());

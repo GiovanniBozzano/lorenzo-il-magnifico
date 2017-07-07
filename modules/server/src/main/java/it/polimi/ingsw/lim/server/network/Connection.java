@@ -9,6 +9,7 @@ import it.polimi.ingsw.lim.common.game.actions.ExpectedAction;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformation;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.player.Player;
@@ -16,8 +17,10 @@ import it.polimi.ingsw.lim.server.game.player.Player;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.logging.Level;
 
 /**
  * <p>This class represents a user instance. It handles all the interactions
@@ -88,9 +91,10 @@ public abstract class Connection
 		if (this.player != null) {
 			this.player.setOnline(false);
 		}
-		Room room = Room.getPlayerRoom(this);
-		if (room != null) {
-			room.handlePlayerDisconnection(this);
+		try {
+			Room.getPlayerRoom(this).handlePlayerDisconnection(this);
+		} catch (NoSuchElementException exception) {
+			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 
@@ -134,22 +138,23 @@ public abstract class Connection
 
 	public void handleRoomTimerRequest()
 	{
-		Room room = Room.getPlayerRoom(this);
-		if (room != null) {
-			this.sendRoomTimer(room.getTimer());
+		try {
+			this.sendRoomTimer(Room.getPlayerRoom(this).getTimer());
+		} catch (NoSuchElementException exception) {
+			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 
 	public void handleChatMessage(String text)
 	{
-		Room room = Room.getPlayerRoom(this.username);
-		if (room == null) {
-			return;
-		}
-		for (Connection otherConnection : room.getPlayers()) {
-			if (otherConnection != this) {
-				otherConnection.sendChatMessage('[' + this.username + "]: " + text);
+		try {
+			for (Connection otherConnection : Room.getPlayerRoom(this.username).getPlayers()) {
+				if (otherConnection != this) {
+					otherConnection.sendChatMessage('[' + this.username + "]: " + text);
+				}
 			}
+		} catch (NoSuchElementException exception) {
+			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 
@@ -190,7 +195,12 @@ public abstract class Connection
 		if (this.player.getRoom().getGameHandler() == null) {
 			return;
 		}
-		this.player.getRoom().getGameHandler().applyGoodGame(this.player, playerIndex);
+		try {
+			this.player.getRoom().getGameHandler().applyGoodGame(this.player, playerIndex);
+		} catch (NoSuchElementException exception) {
+			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			throw new GameActionFailedException("The chosen Player does not exist");
+		}
 	}
 
 	protected ScheduledExecutorService getHeartbeat()

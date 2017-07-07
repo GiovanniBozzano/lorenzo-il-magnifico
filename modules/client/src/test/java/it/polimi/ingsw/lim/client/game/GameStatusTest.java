@@ -15,10 +15,7 @@ import java.util.*;
 
 public class GameStatusTest
 {
-	private final Map<Integer, DevelopmentCardBuildingInformation> developmentCardsBuildingInformation = new HashMap<>();
-	private final Map<Integer, DevelopmentCardCharacterInformation> developmentCardsCharacterInformation = new HashMap<>();
-	private final Map<Integer, DevelopmentCardTerritoryInformation> developmentCardsTerritoryInformation = new HashMap<>();
-	private final Map<Integer, DevelopmentCardVentureInformation> developmentCardsVentureInformation = new HashMap<>();
+	private final Map<CardType, Map<Integer, DevelopmentCardInformation>> developmentCardsInformation = new EnumMap<>(CardType.class);
 	private final Map<Integer, LeaderCardInformation> leaderCardsInformation = new HashMap<>();
 	private final Map<Integer, ExcommunicationTileInformation> excommunicationTilesInformation = new HashMap<>();
 	private final Map<Integer, PersonalBonusTileInformation> personalBonusTilesInformation = new HashMap<>();
@@ -34,10 +31,18 @@ public class GameStatusTest
 	@Before
 	public void setUp()
 	{
-		this.developmentCardsBuildingInformation.put(0, new DevelopmentCardBuildingInformation(null, null, new ArrayList<>(), new RewardInformation(null, new ArrayList<>()), 0, new ArrayList<>()));
-		this.developmentCardsCharacterInformation.put(0, new DevelopmentCardCharacterInformation(null, null, new ArrayList<>(), new RewardInformation(null, new ArrayList<>()), null));
-		this.developmentCardsTerritoryInformation.put(0, new DevelopmentCardTerritoryInformation(null, null, new ArrayList<>(), new RewardInformation(null, new ArrayList<>()), 0, new ArrayList<>()));
-		this.developmentCardsVentureInformation.put(0, new DevelopmentCardVentureInformation(null, null, new ArrayList<>(), new RewardInformation(null, new ArrayList<>()), 0));
+		Map<Integer, DevelopmentCardInformation> developmentCardsBuildingInformation = new HashMap<>();
+		developmentCardsBuildingInformation.put(0, new DevelopmentCardBuildingInformation(null, null, new ArrayList<>(), new RewardInformation(null, new ArrayList<>()), 0, new ArrayList<>()));
+		Map<Integer, DevelopmentCardInformation> developmentCardsCharacterInformation = new HashMap<>();
+		developmentCardsCharacterInformation.put(0, new DevelopmentCardCharacterInformation(null, null, new ArrayList<>(), new RewardInformation(null, new ArrayList<>()), null));
+		Map<Integer, DevelopmentCardInformation> developmentCardsTerritoryInformation = new HashMap<>();
+		developmentCardsTerritoryInformation.put(0, new DevelopmentCardTerritoryInformation(null, null, new ArrayList<>(), new RewardInformation(null, new ArrayList<>()), 0, new ArrayList<>()));
+		Map<Integer, DevelopmentCardInformation> developmentCardsVentureInformation = new HashMap<>();
+		developmentCardsVentureInformation.put(0, new DevelopmentCardVentureInformation(null, null, new ArrayList<>(), new RewardInformation(null, new ArrayList<>()), 0));
+		this.developmentCardsInformation.put(CardType.BUILDING, developmentCardsBuildingInformation);
+		this.developmentCardsInformation.put(CardType.CHARACTER, developmentCardsCharacterInformation);
+		this.developmentCardsInformation.put(CardType.TERRITORY, developmentCardsTerritoryInformation);
+		this.developmentCardsInformation.put(CardType.VENTURE, developmentCardsVentureInformation);
 		this.leaderCardsInformation.put(0, new LeaderCardModifierInformation(null, null, null, new ArrayList<>(), null));
 		this.excommunicationTilesInformation.put(0, new ExcommunicationTileInformation(null, null));
 		this.personalBonusTilesInformation.put(0, new PersonalBonusTileInformation(null, null, 0, new ArrayList<>(), 0, new ArrayList<>()));
@@ -54,11 +59,10 @@ public class GameStatusTest
 	@Test
 	public void testSetup()
 	{
-		GameStatus.getInstance().setup(this.developmentCardsBuildingInformation, this.developmentCardsCharacterInformation, this.developmentCardsTerritoryInformation, this.developmentCardsVentureInformation, this.leaderCardsInformation, this.excommunicationTilesInformation, this.personalBonusTilesInformation);
-		Assert.assertFalse(GameStatus.getInstance().getDevelopmentCardsBuilding().isEmpty());
-		Assert.assertFalse(GameStatus.getInstance().getDevelopmentCardsCharacter().isEmpty());
-		Assert.assertFalse(GameStatus.getInstance().getDevelopmentCardsTerritory().isEmpty());
-		Assert.assertFalse(GameStatus.getInstance().getDevelopmentCardsVenture().isEmpty());
+		GameStatus.getInstance().setup(this.developmentCardsInformation, this.leaderCardsInformation, this.excommunicationTilesInformation, this.personalBonusTilesInformation);
+		for (CardType cardType : CardType.values()) {
+			Assert.assertFalse(GameStatus.getInstance().getDevelopmentCards().get(cardType).isEmpty());
+		}
 		Assert.assertEquals(4, GameStatus.getInstance().getDevelopmentCards().size());
 		Assert.assertFalse(GameStatus.getInstance().getLeaderCards().isEmpty());
 		Assert.assertFalse(GameStatus.getInstance().getExcommunicationTiles().isEmpty());
@@ -76,10 +80,9 @@ public class GameStatusTest
 		ownLeaderCardsHand.put(0, false);
 		GameStatus.getInstance().updateGameStatus(new GameInformation(this.currentDevelopmentCardsBuilding, this.currentDevelopmentCardsCharacter, this.currentDevelopmentCardsTerritory, this.currentDevelopmentCardsVenture, this.currentDices, this.currentTurnOrder, this.currentCouncilPalaceOrder, this.currentExcommunicatedPlayers), Collections.singletonList(new PlayerInformation(0, 0, Collections.singletonList(0), Collections.singletonList(0), Collections.singletonList(0), Collections.singletonList(0), new HashMap<>(), 0, resourceAmounts, familyMemberTypesBoardPositions)), ownLeaderCardsHand);
 		Assert.assertEquals(Row.FIRST, GameStatus.getInstance().getDevelopmentCardRow(CardType.BUILDING, 0));
-		Assert.assertFalse(GameStatus.getInstance().getCurrentDevelopmentCardsBuilding().isEmpty());
-		Assert.assertFalse(GameStatus.getInstance().getCurrentDevelopmentCardsCharacter().isEmpty());
-		Assert.assertFalse(GameStatus.getInstance().getCurrentDevelopmentCardsTerritory().isEmpty());
-		Assert.assertFalse(GameStatus.getInstance().getCurrentDevelopmentCardsVenture().isEmpty());
+		for (CardType cardType : CardType.values()) {
+			Assert.assertFalse(GameStatus.getInstance().getCurrentDevelopmentCards().get(cardType).isEmpty());
+		}
 		Assert.assertFalse(GameStatus.getInstance().getCurrentDices().isEmpty());
 		Assert.assertFalse(GameStatus.getInstance().getCurrentTurnOrder().isEmpty());
 		Assert.assertFalse(GameStatus.getInstance().getCurrentCouncilPalaceOrder().isEmpty());

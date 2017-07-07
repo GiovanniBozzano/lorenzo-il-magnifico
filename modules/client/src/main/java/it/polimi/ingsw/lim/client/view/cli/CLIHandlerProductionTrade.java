@@ -4,6 +4,7 @@ import it.polimi.ingsw.lim.client.Client;
 import it.polimi.ingsw.lim.client.game.GameStatus;
 import it.polimi.ingsw.lim.client.utils.Utils;
 import it.polimi.ingsw.lim.common.cli.ICLIHandler;
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationProductionTrade;
 import it.polimi.ingsw.lim.common.game.actions.ExpectedActionProductionTrade;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
@@ -60,7 +61,7 @@ public class CLIHandlerProductionTrade implements ICLIHandler
 		stringBuilder.append("\n\n\nSelect Trade Cards...");
 		int index = 1;
 		for (int availableTradeCard : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().keySet()) {
-			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getDevelopmentCardsBuilding().get(availableTradeCard).getInformation()));
+			stringBuilder.append(Utils.createListElement(index, GameStatus.getInstance().getDevelopmentCards().get(CardType.BUILDING).get(availableTradeCard).getInformation()));
 			this.availableTradeCards.put(index, availableTradeCard);
 			index++;
 		}

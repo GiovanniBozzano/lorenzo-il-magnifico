@@ -101,7 +101,7 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n\nFamily Members:");
-		for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPosition : GameStatus.getInstance().getCurrentPlayersData().get(this.chosenOtherPlayer).getFamilyMembersPositions().entrySet()) {
+		for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPosition : GameStatus.getInstance().getCurrentPlayersData().get(this.chosenOtherPlayer).getFamilyMemberTypesPositions().entrySet()) {
 			stringBuilder.append('\n');
 			stringBuilder.append(familyMemberTypeBoardPosition.getKey().name());
 			stringBuilder.append(" === ");

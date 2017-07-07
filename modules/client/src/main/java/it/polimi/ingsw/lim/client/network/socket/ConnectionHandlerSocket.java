@@ -165,7 +165,7 @@ public class ConnectionHandlerSocket extends ConnectionHandler
 
 	void handleAuthenticationConfirmation(AuthenticationInformation authenticationInformation)
 	{
-		GameStatus.getInstance().setup(authenticationInformation.getDevelopmentCardsBuildingInformation(), authenticationInformation.getDevelopmentCardsCharacterInformation(), authenticationInformation.getDevelopmentCardsTerritoryInformation(), authenticationInformation.getDevelopmentCardsVentureInformation(), authenticationInformation.getLeaderCardsInformation(), authenticationInformation.getExcommunicationTilesInformation(), authenticationInformation.getPersonalBonusTilesInformation());
+		GameStatus.getInstance().setup(authenticationInformation.getDevelopmentCardsInformation(), authenticationInformation.getLeaderCardsInformation(), authenticationInformation.getExcommunicationTilesInformation(), authenticationInformation.getPersonalBonusTilesInformation());
 		if (!authenticationInformation.isGameStarted()) {
 			Client.getInstance().setUsername(((AuthenticationInformationLobbySocket) authenticationInformation).getUsername());
 			Client.getInstance().getInterfaceHandler().handleAuthenticationSuccess(authenticationInformation);

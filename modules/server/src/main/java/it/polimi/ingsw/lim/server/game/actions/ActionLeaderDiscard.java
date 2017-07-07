@@ -66,7 +66,7 @@ public class ActionLeaderDiscard extends ActionInformationLeaderDiscard implemen
 		}
 		this.player.getPlayerCardHandler().getLeaderCards().remove(leaderCard);
 		EventGainResources eventGainResources = new EventGainResources(this.player, Collections.singletonList(new ResourceAmount(ResourceType.COUNCIL_PRIVILEGE, 1)), ResourcesSource.LEADER_CARDS);
-		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		eventGainResources.fire();
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " discarded his leader card " + leaderCard.getDisplayName());
 		if (Utils.sendCouncilPrivileges(this.player)) {

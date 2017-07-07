@@ -9,7 +9,8 @@ import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.*;
 import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformation;
 import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformation;
-import it.polimi.ingsw.lim.common.game.cards.*;
+import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformation;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformation;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceCostOption;
 import it.polimi.ingsw.lim.common.game.utils.ResourceTradeOption;
@@ -218,10 +219,10 @@ public class Utils
 	 */
 	public static AuthenticationInformation fillAuthenticationInformation()
 	{
-		Map<Integer, DevelopmentCardBuildingInformation> developmentCardsBuildingsInformation = new HashMap<>();
-		Map<Integer, DevelopmentCardCharacterInformation> developmentCardsCharacterInformation = new HashMap<>();
-		Map<Integer, DevelopmentCardTerritoryInformation> developmentsCardTerritoryInformation = new HashMap<>();
-		Map<Integer, DevelopmentCardVentureInformation> developmentCardsVentureInformation = new HashMap<>();
+		Map<Integer, DevelopmentCardInformation> developmentCardsBuildingsInformation = new HashMap<>();
+		Map<Integer, DevelopmentCardInformation> developmentCardsCharacterInformation = new HashMap<>();
+		Map<Integer, DevelopmentCardInformation> developmentsCardTerritoryInformation = new HashMap<>();
+		Map<Integer, DevelopmentCardInformation> developmentCardsVentureInformation = new HashMap<>();
 		for (Period period : Period.values()) {
 			for (DevelopmentCardBuilding developmentCardBuilding : CardsHandler.getDevelopmentCardsBuilding().get(period)) {
 				developmentCardsBuildingsInformation.put(developmentCardBuilding.getIndex(), developmentCardBuilding.getInformation());
@@ -249,10 +250,10 @@ public class Utils
 			personalBonusTilesInformation.put(personalBonusTile.getIndex(), new PersonalBonusTileInformation(personalBonusTile.getTexturePath(), personalBonusTile.getPlayerBoardTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
 		}
 		AuthenticationInformation authenticationInformation = new AuthenticationInformation();
-		authenticationInformation.setDevelopmentCardsBuildingInformation(developmentCardsBuildingsInformation);
-		authenticationInformation.setDevelopmentCardsCharacterInformation(developmentCardsCharacterInformation);
-		authenticationInformation.setDevelopmentCardsTerritoryInformation(developmentsCardTerritoryInformation);
-		authenticationInformation.setDevelopmentCardsVentureInformation(developmentCardsVentureInformation);
+		authenticationInformation.setDevelopmentCardsInformation(CardType.BUILDING, developmentCardsBuildingsInformation);
+		authenticationInformation.setDevelopmentCardsInformation(CardType.CHARACTER, developmentCardsCharacterInformation);
+		authenticationInformation.setDevelopmentCardsInformation(CardType.TERRITORY, developmentsCardTerritoryInformation);
+		authenticationInformation.setDevelopmentCardsInformation(CardType.VENTURE, developmentCardsVentureInformation);
 		authenticationInformation.setLeaderCardsInformation(leaderCardsInformation);
 		authenticationInformation.setExcommunicationTilesInformation(excommunicationTilesInformation);
 		authenticationInformation.setPersonalBonusTilesInformation(personalBonusTilesInformation);
@@ -277,25 +278,6 @@ public class Utils
 			copy.put(entry.getKey(), developmentCards);
 		}
 		return copy;
-	}
-
-	/**
-	 * <p>Retrieves a {@link LeaderCard} from a given index.
-	 *
-	 * @param leaderCardIndex the {@link LeaderCard} index.
-	 *
-	 * @return the retrieved {@link LeaderCard}.
-	 *
-	 * @throws NoSuchElementException if the element does not exists.
-	 */
-	public static LeaderCard getLeaderCardFromIndex(int leaderCardIndex) throws NoSuchElementException
-	{
-		for (LeaderCard leaderCard : CardsHandler.getLeaderCards()) {
-			if (leaderCard.getIndex() == leaderCardIndex) {
-				return leaderCard;
-			}
-		}
-		throw new NoSuchElementException();
 	}
 
 	/**
@@ -479,7 +461,7 @@ public class Utils
 		} else {
 			((LeaderCardReward) leaderCard).setActivated(true);
 			EventGainResources eventGainResources = new EventGainResources(player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
-			eventGainResources.applyModifiers(player.getActiveModifiers());
+			eventGainResources.fire();
 			player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 			if (Utils.sendActionReward(player, ((LeaderCardReward) leaderCard).getReward().getActionReward())) {
 				return true;
@@ -706,7 +688,7 @@ public class Utils
 	 *
 	 * @throws NoSuchAlgorithmException if the process was not successful.
 	 */
-	private static String sha512Encrypt(String text, byte[] salt) throws NoSuchAlgorithmException
+	static String sha512Encrypt(String text, byte[] salt) throws NoSuchAlgorithmException
 	{
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
 		messageDigest.update(salt);
@@ -743,7 +725,7 @@ public class Utils
 	 *
 	 * @throws NoSuchAlgorithmException if the process was not successful.
 	 */
-	private static byte[] getSalt() throws NoSuchAlgorithmException
+	static byte[] getSalt() throws NoSuchAlgorithmException
 	{
 		byte[] salt = new byte[16];
 		SecureRandom.getInstance("SHA1PRNG").nextBytes(salt);

@@ -47,7 +47,7 @@ public class ActionProductionStart extends ActionInformationProductionStart impl
 		}
 		// check if the board slot is occupied and get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.PRODUCTION_SMALL, this.player.getRoom().getGameHandler().getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
-		eventPlaceFamilyMember.applyModifiers(this.player.getActiveModifiers());
+		eventPlaceFamilyMember.fire();
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
 			for (Player currentPlayer : this.player.getRoom().getGameHandler().getTurnOrder()) {
@@ -67,11 +67,11 @@ public class ActionProductionStart extends ActionInformationProductionStart impl
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
-		eventUseServants.applyModifiers(this.player.getActiveModifiers());
+		eventUseServants.fire();
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
 		EventProductionStart eventProductionStart = new EventProductionStart(this.player, effectiveFamilyMemberValue + effectiveServants);
-		eventProductionStart.applyModifiers(this.player.getActiveModifiers());
+		eventProductionStart.fire();
 		this.effectiveActionValue = eventProductionStart.getActionValue();
 		if (this.effectiveActionValue < (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformation(BoardPosition.PRODUCTION_BIG).getValue() : BoardHandler.getBoardPositionInformation(BoardPosition.PRODUCTION_SMALL).getValue())) {
 			throw new GameActionFailedException("The value of the selected Family Member is not enough to perform this action");
@@ -86,7 +86,7 @@ public class ActionProductionStart extends ActionInformationProductionStart impl
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		if (this.effectiveActionValue >= this.player.getPersonalBonusTile().getProductionActivationCost()) {
 			EventGainResources eventGainResources = new EventGainResources(this.player, this.player.getPersonalBonusTile().getProductionInstantResources(), ResourcesSource.WORK);
-			eventGainResources.applyModifiers(this.player.getActiveModifiers());
+			eventGainResources.fire();
 			this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		}
 		this.player.setCurrentProductionValue(this.effectiveActionValue);

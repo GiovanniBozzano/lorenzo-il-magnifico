@@ -213,7 +213,7 @@ public class CardsHandler
 		this.currentDevelopmentCards.put(CardType.VENTURE, this.currentDevelopmentCardsVenture);
 	}
 
-	public static LeaderCard getleaderCardFromIndex(int index) throws NoSuchElementException
+	public static LeaderCard getleaderCardFromIndex(int index)
 	{
 		for (LeaderCard leaderCard : CardsHandler.LEADER_CARDS) {
 			if (leaderCard.getIndex() == index) {

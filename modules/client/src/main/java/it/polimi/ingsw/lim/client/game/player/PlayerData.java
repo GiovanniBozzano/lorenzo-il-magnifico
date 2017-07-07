@@ -8,12 +8,7 @@ public class PlayerData
 {
 	private final String username;
 	private final Color color;
-	private final List<Integer> developmentCardsBuilding = new ArrayList<>();
-	private final List<Integer> developmentCardsCharacter = new ArrayList<>();
-	private final List<Integer> developmentCardsTerritory = new ArrayList<>();
-	private final List<Integer> developmentCardsVenture = new ArrayList<>();
 	private final Map<CardType, List<Integer>> developmentCards = new EnumMap<>(CardType.class);
-	// leaderCardsPlayed boolean = true if the card is a reward leaderCard type and it can be activated
 	private final Map<Integer, Boolean> leaderCardsPlayed = new HashMap<>();
 	private final Map<ResourceType, Integer> resourceAmounts = new EnumMap<>(ResourceType.class);
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions = new EnumMap<>(FamilyMemberType.class);
@@ -24,10 +19,16 @@ public class PlayerData
 	{
 		this.username = username;
 		this.color = color;
-		this.developmentCards.put(CardType.BUILDING, this.developmentCardsBuilding);
-		this.developmentCards.put(CardType.CHARACTER, this.developmentCardsCharacter);
-		this.developmentCards.put(CardType.TERRITORY, this.developmentCardsTerritory);
-		this.developmentCards.put(CardType.VENTURE, this.developmentCardsVenture);
+		this.developmentCards.put(CardType.BUILDING, new ArrayList<>());
+		this.developmentCards.put(CardType.CHARACTER, new ArrayList<>());
+		this.developmentCards.put(CardType.TERRITORY, new ArrayList<>());
+		this.developmentCards.put(CardType.VENTURE, new ArrayList<>());
+	}
+
+	public void setDevelopmentCards(CardType cardType, List<Integer> developmentCards)
+	{
+		this.developmentCards.get(cardType).clear();
+		this.developmentCards.get(cardType).addAll(developmentCards);
 	}
 
 	public String getUsername()
@@ -48,50 +49,6 @@ public class PlayerData
 	public void setPersonalBonusTile(int personalBonusTile)
 	{
 		this.personalBonusTile = personalBonusTile;
-	}
-
-	public List<Integer> getDevelopmentCardsBuilding()
-	{
-		return this.developmentCardsBuilding;
-	}
-
-	public void setDevelopmentCardsBuilding(List<Integer> developmentCardsBuilding)
-	{
-		this.developmentCardsBuilding.clear();
-		this.developmentCardsBuilding.addAll(developmentCardsBuilding);
-	}
-
-	public List<Integer> getDevelopmentCardsCharacter()
-	{
-		return this.developmentCardsCharacter;
-	}
-
-	public void setDevelopmentCardsCharacter(List<Integer> developmentCardsCharacter)
-	{
-		this.developmentCardsCharacter.clear();
-		this.developmentCardsCharacter.addAll(developmentCardsCharacter);
-	}
-
-	public List<Integer> getDevelopmentCardsTerritory()
-	{
-		return this.developmentCardsTerritory;
-	}
-
-	public void setDevelopmentCardsTerritory(List<Integer> developmentCardsTerritory)
-	{
-		this.developmentCardsTerritory.clear();
-		this.developmentCardsTerritory.addAll(developmentCardsTerritory);
-	}
-
-	public List<Integer> getDevelopmentCardsVenture()
-	{
-		return this.developmentCardsVenture;
-	}
-
-	public void setDevelopmentCardsVenture(List<Integer> developmentCardsVenture)
-	{
-		this.developmentCardsVenture.clear();
-		this.developmentCardsVenture.addAll(developmentCardsVenture);
 	}
 
 	public Map<CardType, List<Integer>> getDevelopmentCards()
@@ -131,12 +88,12 @@ public class PlayerData
 		this.resourceAmounts.putAll(resourceAmounts);
 	}
 
-	public Map<FamilyMemberType, BoardPosition> getFamilyMembersPositions()
+	public Map<FamilyMemberType, BoardPosition> getFamilyMemberTypesPositions()
 	{
 		return this.familyMembersPositions;
 	}
 
-	public void setFamilyMembersPositions(Map<FamilyMemberType, BoardPosition> familyMembersPositions)
+	public void setFamilyMemberTypesPositions(Map<FamilyMemberType, BoardPosition> familyMembersPositions)
 	{
 		this.familyMembersPositions.clear();
 		this.familyMembersPositions.putAll(familyMembersPositions);

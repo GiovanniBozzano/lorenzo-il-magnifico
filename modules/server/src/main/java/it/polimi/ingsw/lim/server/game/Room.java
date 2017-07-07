@@ -46,7 +46,7 @@ public class Room
 	 * @throws NoSuchElementException if a {@link Room} containing this {@link
 	 * Connection} does not exist.
 	 */
-	public static Room getPlayerRoom(Connection connection) throws NoSuchElementException
+	public static Room getPlayerRoom(Connection connection)
 	{
 		for (Room room : Server.getInstance().getRooms()) {
 			if (room.players.contains(connection)) {
@@ -67,7 +67,7 @@ public class Room
 	 * @throws NoSuchElementException if a {@link Room} containing this username
 	 * does not exist.
 	 */
-	public static Room getPlayerRoom(String username) throws NoSuchElementException
+	public static Room getPlayerRoom(String username)
 	{
 		for (Room room : Server.getInstance().getRooms()) {
 			for (Connection player : room.players) {

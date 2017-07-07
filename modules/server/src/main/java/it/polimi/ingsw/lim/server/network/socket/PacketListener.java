@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lim.server.network.socket;
 
 import it.polimi.ingsw.lim.common.enums.PacketType;
+import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.AuthenticationFailedException;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.RoomInformation;
@@ -18,10 +19,7 @@ import it.polimi.ingsw.lim.server.network.Connection;
 import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 class PacketListener extends Thread
@@ -144,63 +142,79 @@ class PacketListener extends Thread
 			this.connectionSocket.setUsername(trimmedUsername);
 		} while (this.connectionSocket.getUsername() == null);
 		AuthenticationInformation authenticationInformation = Utils.fillAuthenticationInformation();
-		Room playerRoom = Room.getPlayerRoom(this.connectionSocket.getUsername());
-		if (playerRoom == null || playerRoom.isEndGame()) {
-			Room targetRoom = null;
-			for (Room room : Server.getInstance().getRooms()) {
-				if (room.getGameHandler() == null && room.getRoomType() == ((PacketAuthentication) packet).getRoomType() && room.getPlayers().size() < ((PacketAuthentication) packet).getRoomType().getPlayersNumber()) {
-					targetRoom = room;
-					break;
-				}
-			}
-			if (targetRoom == null) {
-				targetRoom = new Room(((PacketAuthentication) packet).getRoomType());
-				Server.getInstance().getRooms().add(targetRoom);
-			}
-			targetRoom.addPlayer(this.connectionSocket);
-			List<String> playerUsernames = new ArrayList<>();
-			for (Connection player : targetRoom.getPlayers()) {
-				if (player != this.connectionSocket) {
-					player.sendRoomEntryOther(this.connectionSocket.getUsername());
-				}
-				playerUsernames.add(player.getUsername());
-			}
-			AuthenticationInformationLobbySocket authenticationInformationLobby = new AuthenticationInformationLobbySocket(authenticationInformation, this.connectionSocket.getUsername());
-			authenticationInformationLobby.setGameStarted(false);
-			authenticationInformationLobby.setRoomInformation(new RoomInformation(targetRoom.getRoomType(), playerUsernames));
-			this.connectionSocket.sendAuthenticationConfirmation(authenticationInformationLobby);
-		} else {
-			for (Connection connection : playerRoom.getPlayers()) {
-				if (connection.getUsername().equals(this.connectionSocket.getUsername())) {
-					this.connectionSocket.setPlayer(connection.getPlayer());
-					this.connectionSocket.getPlayer().setConnection(this.connectionSocket);
-					this.connectionSocket.getPlayer().setOnline(true);
-					playerRoom.getPlayers().set(playerRoom.getPlayers().indexOf(connection), this.connectionSocket);
-					playerRoom.getPlayers().remove(connection);
-					break;
-				}
-			}
-			AuthenticationInformationGame authenticationInformationGame = new AuthenticationInformationGame(authenticationInformation);
-			authenticationInformationGame.setGameStarted(true);
-			authenticationInformationGame.setExcommunicationTiles(playerRoom.getGameHandler().getBoardHandler().getMatchExcommunicationTilesIndexes());
-			authenticationInformationGame.setCouncilPrivilegeRewards(playerRoom.getGameHandler().getBoardHandler().getMatchCouncilPrivilegeRewards());
-			authenticationInformationGame.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
-			authenticationInformationGame.setOwnPlayerIndex(this.connectionSocket.getPlayer().getIndex());
-			if (playerRoom.getGameHandler().getCurrentPeriod() != null && playerRoom.getGameHandler().getCurrentRound() != null) {
-				authenticationInformationGame.setGameInitialized(true);
-				authenticationInformationGame.setGameInformation(playerRoom.getGameHandler().generateGameInformation());
-				authenticationInformationGame.setPlayersInformation(playerRoom.getGameHandler().generatePlayersInformation());
-				authenticationInformationGame.setOwnLeaderCardsHand(playerRoom.getGameHandler().generateLeaderCardsHand(this.connectionSocket.getPlayer()));
-				authenticationInformationGame.setTurnPlayerIndex(playerRoom.getGameHandler().getTurnPlayer().getIndex());
-				if (playerRoom.getGameHandler().getTurnPlayer().getIndex() != this.connectionSocket.getPlayer().getIndex()) {
-					authenticationInformationGame.setAvailableActions(playerRoom.getGameHandler().generateAvailableActions(this.connectionSocket.getPlayer()));
-				}
+		try {
+			Room playerRoom = Room.getPlayerRoom(this.connectionSocket.getUsername());
+			if (playerRoom.isEndGame()) {
+				authenticationInformation = this.handleNormalAuthentication(((PacketAuthentication) packet).getRoomType(), authenticationInformation);
 			} else {
-				authenticationInformationGame.setGameInitialized(false);
+				authenticationInformation = this.handleGameStartedAuthentication(playerRoom, authenticationInformation);
 			}
-			this.connectionSocket.sendAuthenticationConfirmation(authenticationInformation);
+		} catch (NoSuchElementException exception) {
+			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			authenticationInformation = this.handleNormalAuthentication(((PacketAuthentication) packet).getRoomType(), authenticationInformation);
 		}
+		this.connectionSocket.sendAuthenticationConfirmation(authenticationInformation);
 		return true;
+	}
+
+	private AuthenticationInformationLobbySocket handleNormalAuthentication(RoomType roomType, AuthenticationInformation authenticationInformation)
+	{
+		Room targetRoom = null;
+		for (Room room : Server.getInstance().getRooms()) {
+			if (room.getGameHandler() == null && room.getRoomType() == roomType && room.getPlayers().size() < roomType.getPlayersNumber()) {
+				targetRoom = room;
+				break;
+			}
+		}
+		if (targetRoom == null) {
+			targetRoom = new Room(roomType);
+			Server.getInstance().getRooms().add(targetRoom);
+		}
+		targetRoom.addPlayer(this.connectionSocket);
+		List<String> playerUsernames = new ArrayList<>();
+		for (Connection player : targetRoom.getPlayers()) {
+			if (player != this.connectionSocket) {
+				player.sendRoomEntryOther(this.connectionSocket.getUsername());
+			}
+			playerUsernames.add(player.getUsername());
+		}
+		AuthenticationInformationLobbySocket authenticationInformationLobby = new AuthenticationInformationLobbySocket(authenticationInformation, this.connectionSocket.getUsername());
+		authenticationInformationLobby.setGameStarted(false);
+		authenticationInformationLobby.setRoomInformation(new RoomInformation(targetRoom.getRoomType(), playerUsernames));
+		return authenticationInformationLobby;
+	}
+
+	private AuthenticationInformationGame handleGameStartedAuthentication(Room playerRoom, AuthenticationInformation authenticationInformation)
+	{
+		for (Connection connection : playerRoom.getPlayers()) {
+			if (connection.getUsername().equals(this.connectionSocket.getUsername())) {
+				this.connectionSocket.setPlayer(connection.getPlayer());
+				this.connectionSocket.getPlayer().setConnection(this.connectionSocket);
+				this.connectionSocket.getPlayer().setOnline(true);
+				playerRoom.getPlayers().set(playerRoom.getPlayers().indexOf(connection), this.connectionSocket);
+				playerRoom.getPlayers().remove(connection);
+				break;
+			}
+		}
+		AuthenticationInformationGame authenticationInformationGame = new AuthenticationInformationGame(authenticationInformation);
+		authenticationInformationGame.setGameStarted(true);
+		authenticationInformationGame.setExcommunicationTiles(playerRoom.getGameHandler().getBoardHandler().getMatchExcommunicationTilesIndexes());
+		authenticationInformationGame.setCouncilPrivilegeRewards(playerRoom.getGameHandler().getBoardHandler().getMatchCouncilPrivilegeRewards());
+		authenticationInformationGame.setPlayersIdentifications(playerRoom.getGameHandler().getPlayersIdentifications());
+		authenticationInformationGame.setOwnPlayerIndex(this.connectionSocket.getPlayer().getIndex());
+		if (playerRoom.getGameHandler().getCurrentPeriod() != null && playerRoom.getGameHandler().getCurrentRound() != null) {
+			authenticationInformationGame.setGameInitialized(true);
+			authenticationInformationGame.setGameInformation(playerRoom.getGameHandler().generateGameInformation());
+			authenticationInformationGame.setPlayersInformation(playerRoom.getGameHandler().generatePlayersInformation());
+			authenticationInformationGame.setOwnLeaderCardsHand(playerRoom.getGameHandler().generateLeaderCardsHand(this.connectionSocket.getPlayer()));
+			authenticationInformationGame.setTurnPlayerIndex(playerRoom.getGameHandler().getTurnPlayer().getIndex());
+			if (playerRoom.getGameHandler().getTurnPlayer().getIndex() != this.connectionSocket.getPlayer().getIndex()) {
+				authenticationInformationGame.setAvailableActions(playerRoom.getGameHandler().generateAvailableActions(this.connectionSocket.getPlayer()));
+			}
+		} else {
+			authenticationInformationGame.setGameInitialized(false);
+		}
+		return authenticationInformationGame;
 	}
 
 	synchronized void end()

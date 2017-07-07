@@ -1,12 +1,16 @@
 package it.polimi.ingsw.lim.server.game;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
+import it.polimi.ingsw.lim.common.enums.CardType;
+import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
+import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
+import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.network.rmi.ConnectionRMI;
 import it.polimi.ingsw.lim.server.view.cli.InterfaceHandlerCLI;
@@ -16,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.logging.ConsoleHandler;
@@ -78,6 +83,13 @@ public class GameHandlerTest
 	{
 		this.gameHandler.getExcommunicationChoosingPlayers().add(this.player);
 		this.gameHandler.receiveExcommunicationChoice(this.player, false);
+	}
+
+	@Test
+	public void testGenerateAvailableActions()
+	{
+		this.player.getActiveModifiers().add(new ModifierPickDevelopmentCard(null, 10, CardType.BUILDING, Collections.singletonList(Collections.singletonList(new ResourceAmount(ResourceType.COIN, 10)))));
+		this.gameHandler.generateAvailableActions(this.player);
 	}
 
 	@After
