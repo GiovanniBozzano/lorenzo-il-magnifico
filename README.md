@@ -44,7 +44,9 @@
 	- **5** Marker Discs. Place 1 disc each on the 0 step of the Victory Points track, Military Points track, Faith Points track and 	**Prestige Point track** respectively. Place the last disc on the Turn Order track.
 	- **3** wood, **3** stone, **4** servants
 	- The first player receives 5 coins, second player receives 6 coins, third player receives 7 coins, fourth player receives 8 		coins, **fifth player receives 9 coins**
-	- 1 Personal Bonus Tile (in this type of game, standard side cannot be used).
+	- 1 Personal Bonus Tile (in this type of game, standard side cannot be used). The new tile added is the following
+	<h1 align="center">
+	<img src="../master/images/new_tiles.png?raw=true" alt="Lorenzo il Magnifico" width="400">	
 	
 * There are **6** action spaces in the Market. 
 	- In addition to the 4 spaces available in the normal game, 2 more spaces are added. These are:
@@ -52,7 +54,7 @@
 		- **Receive 1 victory point and 1 prestige point**
 
 * Council Privilege is a bonus of your choice between:
-	- 1 wood and 1 stone / 2servants / 2 coins / 2 Military Points / 1 Faith Poin / **1 Prestige Point**
+	- 1 wood and 1 stone / 2 servants / 2 coins / 2 Military Points / 1 Faith Poin / **1 Prestige Point**
 
 * Harvest and Production Area 
 	- The second section gives a penalty of **-2** to the action value. To place a Family Member here, you must activate an action 		at value 1 or higher. 
