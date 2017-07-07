@@ -42,7 +42,7 @@
 	- 1 Personal Board	
 	- 3 Family Members of their color and the uncolored Family Member with the sticker of their color
 	- 3 Excommunication cubes
-	- **5** Marker Discs. Place 1 disc each on the 0 step of the Victory Points track, Military Points track, Faith Points track and 	**Prestige Points track** respectively. Place the last disc on the Turn Order track.	
+	- **5** Marker Discs. Place 1 disc each on the 0 step of the Victory Points track, Military Points track, Faith Points track and **Prestige Points track** respectively. Place the last disc on the Turn Order track.	
 	- **3** Woods, **3** Stones, **4** Servants
 	- The first player receives 5 Coins, the second player receives 6 Coins, the third player receives 7 Coins, the fourth player receives 8 Coins **and the fifth player receives 9 Coins**
 	- 1 Personal Bonus Tile each (in this game mode, standard side cannot be used).
@@ -55,7 +55,7 @@
 * Towers for Development Cards 
 	- If there are already Family Members in the same tower, pay **2** additional Coins to the supply.
 * End of the game and final score
-	- **Prestige Strength: If there is a tie between first players, they all gain 2x Prestige Points. If there is a tie between 		second players, they all gain 1x Prestige Points, while first player keeps gaining 2x Prestige Points.**
+	- **Prestige Strength: If there is a tie between first players, they all gain 2x Prestige Points. If there is a tie between second players, they all gain 1x Prestige Points, while first player keeps gaining 2x Prestige Points.**
 	
 ## Installation
 To clone and run this game, you will need [Git](https://git-scm.com/), [Maven](https://maven.apache.org/) and [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/) installed on your computer. From your command line:
