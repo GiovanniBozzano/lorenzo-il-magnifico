@@ -36,10 +36,10 @@
 	- Score Saves
 	
 ## 5ᵗʰ Player Rules
+<img src="../master/images/new_personal_bonus_tile.png?raw=true" alt="New Personal Bonus Tile" height="400" align="right">
+
 * Setup: Each player chooses a color and receives:
-	- 1 Personal Board
-	<img src="../master/images/new_personal_bonus_tile.png?raw=true" alt="New Personal Bonus Tile" height="400" align="right">
-	
+	- 1 Personal Board	
 	- 3 Family Members of their color and the uncolored Family Member with the sticker of their color
 	- 3 Excommunication cubes
 	- **5** Marker Discs. Place 1 disc each on the 0 step of the Victory Points track, Military Points track, Faith Points track and 	**Prestige Points track** respectively. Place the last disc on the Turn Order track.	
