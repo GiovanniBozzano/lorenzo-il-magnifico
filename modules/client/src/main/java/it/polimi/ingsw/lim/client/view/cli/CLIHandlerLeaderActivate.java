@@ -29,6 +29,12 @@ public class CLIHandlerLeaderActivate implements ICLIHandler
 		return new CLIHandlerLeaderActivate();
 	}
 
+	/**
+	 * <p>Uses current leaders of the player that are capable of being
+	 * activated to insert in a {@link Integer} {@link Integer} {@link Map}
+	 * their indexes and prints the available leaders and the corresponding
+	 * choosing indexes on screen.
+	 */
 	private void showLeaderCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -45,6 +51,10 @@ public class CLIHandlerLeaderActivate implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Asks which Leader index the player wants to choose and
+	 * sends it.
+	 */
 	private void askLeaderCard()
 	{
 		String input;
