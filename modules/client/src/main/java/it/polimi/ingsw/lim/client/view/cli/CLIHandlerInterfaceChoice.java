@@ -45,6 +45,10 @@ public class CLIHandlerInterfaceChoice implements ICLIHandler
 		return new CLIHandlerInterfaceChoice();
 	}
 
+	/**
+	 * <p>Asks which {@code interfaceType} the player wants to use to start the
+	 * game and set the corresponding interface to proceed.
+	 */
 	private void askInterfaceType()
 	{
 		Client.getLogger().log(Level.INFO, "Enter Interface Type...");

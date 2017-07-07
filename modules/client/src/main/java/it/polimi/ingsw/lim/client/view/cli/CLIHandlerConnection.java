@@ -35,6 +35,10 @@ public class CLIHandlerConnection implements ICLIHandler
 		return new CLIHandlerConnection();
 	}
 
+	/**
+	 * <p>Asks which {@code connectionType} the player wants to use to connect
+	 * to the server.
+	 */
 	private void askConnectionType()
 	{
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter Connection Type...");
@@ -48,12 +52,20 @@ public class CLIHandlerConnection implements ICLIHandler
 		this.connectionType = CLIHandlerConnection.CONNECTION_TYPES.get(Integer.parseInt(input));
 	}
 
+	/**
+	 * <p>Asks which {@code ip} the player wants to use to connect
+	 * to the server.
+	 */
 	private void askIPAddress()
 	{
 		Client.getLogger().log(Level.INFO, "\n\nEnter IP Address...");
 		this.ip = Client.getInstance().getCliScanner().nextLine();
 	}
 
+	/**
+	 * <p>Asks which {@code port} the player wants to use to connect
+	 * to the server.
+	 */
 	private void askPort()
 	{
 		Client.getLogger().log(Level.INFO, "\n\nEnter Port [default {0}]...", new Object[] { this.connectionType == ConnectionType.RMI ? "8080" : "8081" });
