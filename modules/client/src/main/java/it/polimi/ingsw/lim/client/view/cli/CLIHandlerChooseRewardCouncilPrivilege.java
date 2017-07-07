@@ -34,6 +34,12 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 		return new CLIHandlerChooseRewardCouncilPrivilege();
 	}
 
+	/**
+	 * <p>Uses current available actions of the player to insert in a {@link
+	 * Integer} {@link Integer} {@link Map} the available council privilege
+	 * rewards to perform an {@link ActionInformationChooseRewardCouncilPrivilege}
+	 * and prints them and the corresponding choosing indexes on screen.
+	 */
 	private void showCouncilPrivilegeRewards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -49,6 +55,10 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Asks which Council Privilege Rewards indexes the player wants to choose
+	 * and sends them.
+	 */
 	private void askCouncilPrivilegeRewards()
 	{
 		int index = 0;
