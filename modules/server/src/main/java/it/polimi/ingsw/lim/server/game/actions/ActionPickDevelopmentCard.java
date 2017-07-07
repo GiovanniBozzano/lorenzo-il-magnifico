@@ -122,7 +122,11 @@ public class ActionPickDevelopmentCard extends ActionInformationPickDevelopmentC
 			}
 		}
 		if (this.columnOccupied) {
-			this.effectiveResourceCost.add(new ResourceAmount(ResourceType.COIN, 3));
+			if (this.player.getRoom().getRoomType() == RoomType.EXTENDED) {
+				this.effectiveResourceCost.add(new ResourceAmount(ResourceType.COIN, 5));
+			} else {
+				this.effectiveResourceCost.add(new ResourceAmount(ResourceType.COIN, 3));
+			}
 		}
 		// check if the player has enough Resources
 		if (!this.player.getPlayerResourceHandler().canAffordResources(this.effectiveResourceCost)) {
