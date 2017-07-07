@@ -52,6 +52,8 @@
 		- **Receive 1 Victory Point and 1 Prestige Point**
 * Council Privilege is a bonus of your choice between:
 	- 1 Wood and 1 Stone / 2 Servants / 2 Coins / 2 Military Points / 1 Faith Poin / **1 Prestige Point**
+* Towers for Development Cards 
+	- If there are already Family Members in the same tower, pay **2** additional Coins to the supply.
 * End of the game and final score
 	- **Prestige Strength: If there is a tie between first players, they all gain 2x Prestige Points. If there is a tie between 		second players, they all gain 1x Prestige Points, while first player keeps gaining 2x Prestige Points.**
 	
