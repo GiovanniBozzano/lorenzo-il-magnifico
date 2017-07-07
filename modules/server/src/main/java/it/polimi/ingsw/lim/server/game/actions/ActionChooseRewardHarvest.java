@@ -50,12 +50,12 @@ public class ActionChooseRewardHarvest extends ActionInformationChooseRewardHarv
 	public void apply() throws GameActionFailedException
 	{
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
-		eventUseServants.applyModifiers(this.player.getActiveModifiers());
+		eventUseServants.fire();
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		List<ResourceAmount> resourceReward = new ArrayList<>();
 		if (((ActionRewardHarvest) this.player.getCurrentActionReward()).isApplyModifiers()) {
 			EventHarvest eventHarvest = new EventHarvest(this.player, ((ActionRewardHarvest) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
-			eventHarvest.applyModifiers(this.player.getActiveModifiers());
+			eventHarvest.fire();
 			for (DevelopmentCardTerritory developmentCardTerritory : this.player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
 				if (developmentCardTerritory.getActivationValue() > eventHarvest.getActionValue()) {
 					continue;
@@ -72,7 +72,7 @@ public class ActionChooseRewardHarvest extends ActionInformationChooseRewardHarv
 		}
 		resourceReward.addAll(this.player.getPersonalBonusTile().getHarvestInstantResources());
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.WORK);
-		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		eventGainResources.fire();
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " harvested");
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		if (Utils.sendCouncilPrivileges(this.player)) {

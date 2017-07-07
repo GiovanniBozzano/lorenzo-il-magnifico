@@ -52,7 +52,7 @@ public class ActionHarvest extends ActionInformationHarvest implements IAction
 		}
 		// check if the board slot is occupied and get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.HARVEST_SMALL, this.player.getRoom().getGameHandler().getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
-		eventPlaceFamilyMember.applyModifiers(this.player.getActiveModifiers());
+		eventPlaceFamilyMember.fire();
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		if (!eventPlaceFamilyMember.isIgnoreOccupied()) {
 			for (Player currentPlayer : this.player.getRoom().getGameHandler().getTurnOrder()) {
@@ -72,11 +72,11 @@ public class ActionHarvest extends ActionInformationHarvest implements IAction
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
-		eventUseServants.applyModifiers(this.player.getActiveModifiers());
+		eventUseServants.fire();
 		int effectiveServants = eventUseServants.getServants();
 		// check if the family member and servants value is high enough
 		EventHarvest eventHarvest = new EventHarvest(this.player, effectiveFamilyMemberValue + effectiveServants);
-		eventHarvest.applyModifiers(this.player.getActiveModifiers());
+		eventHarvest.fire();
 		this.effectiveActionValue = eventHarvest.getActionValue();
 		if (this.effectiveActionValue < (this.workSlotType == WorkSlotType.BIG ? BoardHandler.getBoardPositionInformation(BoardPosition.HARVEST_BIG).getValue() : BoardHandler.getBoardPositionInformation(BoardPosition.HARVEST_SMALL).getValue())) {
 			throw new GameActionFailedException("The value of the selected Family Member is not enough to perform this action");
@@ -99,7 +99,7 @@ public class ActionHarvest extends ActionInformationHarvest implements IAction
 			resourceReward.addAll(this.player.getPersonalBonusTile().getHarvestInstantResources());
 		}
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.WORK);
-		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		eventGainResources.fire();
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " harvested with his " + this.getFamilyMemberType().name().toLowerCase() + " family member");
 		if (Utils.sendCouncilPrivileges(this.player)) {

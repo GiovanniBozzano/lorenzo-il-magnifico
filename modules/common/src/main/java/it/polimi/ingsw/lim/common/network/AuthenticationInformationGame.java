@@ -1,34 +1,36 @@
 package it.polimi.ingsw.lim.common.network;
 
 import it.polimi.ingsw.lim.common.enums.ActionType;
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.GameInformation;
+import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformation;
 import it.polimi.ingsw.lim.common.game.player.PlayerIdentification;
 import it.polimi.ingsw.lim.common.game.player.PlayerInformation;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class AuthenticationInformationGame extends AuthenticationInformation
 {
-	private Map<Period, Integer> excommunicationTiles;
-	private Map<Integer, List<ResourceAmount>> councilPrivilegeRewards;
-	private Map<Integer, PlayerIdentification> playersIdentifications;
+	private final Map<Period, Integer> excommunicationTiles = new EnumMap<>(Period.class);
+	private final Map<Integer, List<ResourceAmount>> councilPrivilegeRewards = new HashMap<>();
+	private final Map<Integer, PlayerIdentification> playersIdentifications = new HashMap<>();
+	private final List<PlayerInformation> playersInformation = new ArrayList<>();
+	private final Map<Integer, Boolean> ownLeaderCardsHand = new HashMap<>();
+	private final Map<ActionType, List<Serializable>> availableActions = new EnumMap<>(ActionType.class);
 	private int ownPlayerIndex;
 	private boolean gameInitialized;
 	private GameInformation gameInformation;
-	private List<PlayerInformation> playersInformation;
-	private Map<Integer, Boolean> ownLeaderCardsHand;
 	private int turnPlayerIndex;
-	private Map<ActionType, List<Serializable>> availableActions;
 
 	public AuthenticationInformationGame(AuthenticationInformation authenticationInformation)
 	{
-		this.setDevelopmentCardsBuildingInformation(authenticationInformation.getDevelopmentCardsBuildingInformation());
-		this.setDevelopmentCardsCharacterInformation(authenticationInformation.getDevelopmentCardsCharacterInformation());
-		this.setDevelopmentCardsTerritoryInformation(authenticationInformation.getDevelopmentCardsTerritoryInformation());
-		this.setDevelopmentCardsVentureInformation(authenticationInformation.getDevelopmentCardsVentureInformation());
+		for (Entry<CardType, Map<Integer, DevelopmentCardInformation>> developmentCardsInformatioType : authenticationInformation.getDevelopmentCardsInformation().entrySet()) {
+			this.setDevelopmentCardsInformation(developmentCardsInformatioType.getKey(), developmentCardsInformatioType.getValue());
+		}
 		this.setLeaderCardsInformation(authenticationInformation.getLeaderCardsInformation());
 		this.setExcommunicationTilesInformation(authenticationInformation.getExcommunicationTilesInformation());
 		this.setPersonalBonusTilesInformation(authenticationInformation.getPersonalBonusTilesInformation());
@@ -41,7 +43,8 @@ public class AuthenticationInformationGame extends AuthenticationInformation
 
 	public void setExcommunicationTiles(Map<Period, Integer> excommunicationTiles)
 	{
-		this.excommunicationTiles = new EnumMap<>(excommunicationTiles);
+		this.excommunicationTiles.clear();
+		this.excommunicationTiles.putAll(excommunicationTiles);
 	}
 
 	public Map<Integer, List<ResourceAmount>> getCouncilPrivilegeRewards()
@@ -51,7 +54,8 @@ public class AuthenticationInformationGame extends AuthenticationInformation
 
 	public void setCouncilPrivilegeRewards(Map<Integer, List<ResourceAmount>> councilPrivilegeRewards)
 	{
-		this.councilPrivilegeRewards = councilPrivilegeRewards;
+		this.councilPrivilegeRewards.clear();
+		this.councilPrivilegeRewards.putAll(councilPrivilegeRewards);
 	}
 
 	public Map<Integer, PlayerIdentification> getPlayersIdentifications()
@@ -61,7 +65,8 @@ public class AuthenticationInformationGame extends AuthenticationInformation
 
 	public void setPlayersIdentifications(Map<Integer, PlayerIdentification> playersIdentifications)
 	{
-		this.playersIdentifications = new HashMap<>(playersIdentifications);
+		this.playersIdentifications.clear();
+		this.playersIdentifications.putAll(playersIdentifications);
 	}
 
 	public int getOwnPlayerIndex()
@@ -101,7 +106,8 @@ public class AuthenticationInformationGame extends AuthenticationInformation
 
 	public void setPlayersInformation(List<PlayerInformation> playersInformation)
 	{
-		this.playersInformation = new ArrayList<>(playersInformation);
+		this.playersInformation.clear();
+		this.playersInformation.addAll(playersInformation);
 	}
 
 	public Map<Integer, Boolean> getOwnLeaderCardsHand()
@@ -111,7 +117,8 @@ public class AuthenticationInformationGame extends AuthenticationInformation
 
 	public void setOwnLeaderCardsHand(Map<Integer, Boolean> ownLeaderCardsHand)
 	{
-		this.ownLeaderCardsHand = new HashMap<>(ownLeaderCardsHand);
+		this.ownLeaderCardsHand.clear();
+		this.ownLeaderCardsHand.putAll(ownLeaderCardsHand);
 	}
 
 	public int getTurnPlayerIndex()
@@ -131,6 +138,7 @@ public class AuthenticationInformationGame extends AuthenticationInformation
 
 	public void setAvailableActions(Map<ActionType, List<Serializable>> availableActions)
 	{
-		this.availableActions = new EnumMap<>(availableActions);
+		this.availableActions.clear();
+		this.availableActions.putAll(availableActions);
 	}
 }

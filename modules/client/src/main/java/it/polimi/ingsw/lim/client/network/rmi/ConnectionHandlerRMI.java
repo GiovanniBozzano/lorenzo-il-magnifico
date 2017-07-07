@@ -237,7 +237,7 @@ public class ConnectionHandlerRMI extends ConnectionHandler
 
 	private void finalizeAuthentication(String username, AuthenticationInformation authenticationInformation)
 	{
-		GameStatus.getInstance().setup(authenticationInformation.getDevelopmentCardsBuildingInformation(), authenticationInformation.getDevelopmentCardsCharacterInformation(), authenticationInformation.getDevelopmentCardsTerritoryInformation(), authenticationInformation.getDevelopmentCardsVentureInformation(), authenticationInformation.getLeaderCardsInformation(), authenticationInformation.getExcommunicationTilesInformation(), authenticationInformation.getPersonalBonusTilesInformation());
+		GameStatus.getInstance().setup(authenticationInformation.getDevelopmentCardsInformation(), authenticationInformation.getLeaderCardsInformation(), authenticationInformation.getExcommunicationTilesInformation(), authenticationInformation.getPersonalBonusTilesInformation());
 		if (!authenticationInformation.isGameStarted()) {
 			this.clientSession = ((AuthenticationInformationLobbyRMI) authenticationInformation).getClientSession();
 			Client.getInstance().setUsername(username);

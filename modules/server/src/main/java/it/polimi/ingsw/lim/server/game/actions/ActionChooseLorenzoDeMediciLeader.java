@@ -3,6 +3,8 @@ package it.polimi.ingsw.lim.server.game.actions;
 import it.polimi.ingsw.lim.common.enums.ActionType;
 import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.actions.ActionInformationChooseLorenzoDeMediciLeader;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
+import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
@@ -13,6 +15,8 @@ import it.polimi.ingsw.lim.server.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.logging.Level;
 
 public class ActionChooseLorenzoDeMediciLeader extends ActionInformationChooseLorenzoDeMediciLeader implements IAction
 {
@@ -39,7 +43,7 @@ public class ActionChooseLorenzoDeMediciLeader extends ActionInformationChooseLo
 			}
 		}
 		if (!availableLeaderCards.contains(this.getLeaderCardIndex())) {
-			throw new GameActionFailedException("Lorenzo Il Magnifico is not available for use");
+			throw new GameActionFailedException("Lorenzo De Medici is not available for use");
 		}
 	}
 
@@ -53,15 +57,17 @@ public class ActionChooseLorenzoDeMediciLeader extends ActionInformationChooseLo
 				break;
 			}
 		}
-		LeaderCard leaderCard = CardsHandler.getleaderCardFromIndex(this.getLeaderCardIndex());
-		if (leaderCard == null) {
-			throw new GameActionFailedException("Cannot select Lorenzo Il Magnifico from your cards");
-		}
-		leaderCard.setPlayed(true);
-		this.player.getPlayerCardHandler().getLeaderCards().add(leaderCard);
-		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " played Lorenzo De Medici and chose to copy " + leaderCard.getDisplayName() + "'s effect");
-		if (Utils.activateLeaderCard(this.player, leaderCard)) {
-			return;
+		try {
+			LeaderCard leaderCard = CardsHandler.getleaderCardFromIndex(this.getLeaderCardIndex());
+			leaderCard.setPlayed(true);
+			this.player.getPlayerCardHandler().getLeaderCards().add(leaderCard);
+			Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " played Lorenzo De Medici and chose to copy " + leaderCard.getDisplayName() + "'s effect");
+			if (Utils.activateLeaderCard(this.player, leaderCard)) {
+				return;
+			}
+		} catch (NoSuchElementException exception) {
+			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			throw new GameActionFailedException("Cannot select Lorenzo De Medici from your cards");
 		}
 		this.player.getPlayerResourceHandler().convertTemporaryResources();
 		this.player.getRoom().getGameHandler().setExpectedAction(null);

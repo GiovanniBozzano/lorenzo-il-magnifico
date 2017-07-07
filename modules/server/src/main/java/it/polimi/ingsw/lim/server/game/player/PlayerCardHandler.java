@@ -66,7 +66,7 @@ public class PlayerCardHandler
 		return cardList;
 	}
 
-	public <T> T getDevelopmentCardFromIndex(CardType cardType, int index, Class<T> cardClass) throws NoSuchElementException
+	public <T> T getDevelopmentCardFromIndex(CardType cardType, int index, Class<T> cardClass)
 	{
 		for (DevelopmentCard developmentCard : this.developmentCards.get(cardType)) {
 			if (developmentCard.getIndex() == index) {

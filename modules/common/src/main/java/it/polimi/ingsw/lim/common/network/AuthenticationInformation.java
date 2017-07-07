@@ -1,62 +1,41 @@
 package it.polimi.ingsw.lim.common.network;
 
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.game.board.ExcommunicationTileInformation;
 import it.polimi.ingsw.lim.common.game.board.PersonalBonusTileInformation;
-import it.polimi.ingsw.lim.common.game.cards.*;
+import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformation;
+import it.polimi.ingsw.lim.common.game.cards.LeaderCardInformation;
 
 import java.io.Serializable;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AuthenticationInformation implements Serializable
 {
-	private Map<Integer, DevelopmentCardBuildingInformation> developmentCardsBuildingInformation;
-	private Map<Integer, DevelopmentCardCharacterInformation> developmentCardsCharacterInformation;
-	private Map<Integer, DevelopmentCardTerritoryInformation> developmentCardsTerritoryInformation;
-	private Map<Integer, DevelopmentCardVentureInformation> developmentCardsVentureInformation;
-	private Map<Integer, LeaderCardInformation> leaderCardsInformation;
-	private Map<Integer, ExcommunicationTileInformation> excommunicationTilesInformation;
-	private Map<Integer, PersonalBonusTileInformation> personalBonusTilesInformation;
+	private final Map<CardType, Map<Integer, DevelopmentCardInformation>> developmentCardsInformation = new EnumMap<>(CardType.class);
+	private final Map<Integer, LeaderCardInformation> leaderCardsInformation = new HashMap<>();
+	private final Map<Integer, ExcommunicationTileInformation> excommunicationTilesInformation = new HashMap<>();
+	private final Map<Integer, PersonalBonusTileInformation> personalBonusTilesInformation = new HashMap<>();
 	private boolean gameStarted;
 
-	public Map<Integer, DevelopmentCardBuildingInformation> getDevelopmentCardsBuildingInformation()
+	public AuthenticationInformation()
 	{
-		return this.developmentCardsBuildingInformation;
+		this.developmentCardsInformation.put(CardType.BUILDING, new HashMap<>());
+		this.developmentCardsInformation.put(CardType.CHARACTER, new HashMap<>());
+		this.developmentCardsInformation.put(CardType.TERRITORY, new HashMap<>());
+		this.developmentCardsInformation.put(CardType.VENTURE, new HashMap<>());
 	}
 
-	public void setDevelopmentCardsBuildingInformation(Map<Integer, DevelopmentCardBuildingInformation> developmentCardsBuildingInformation)
+	public void setDevelopmentCardsInformation(CardType cardType, Map<Integer, DevelopmentCardInformation> developmentCardsInformation)
 	{
-		this.developmentCardsBuildingInformation = new HashMap<>(developmentCardsBuildingInformation);
+		this.developmentCardsInformation.get(cardType).clear();
+		this.developmentCardsInformation.get(cardType).putAll(developmentCardsInformation);
 	}
 
-	public Map<Integer, DevelopmentCardCharacterInformation> getDevelopmentCardsCharacterInformation()
+	public Map<CardType, Map<Integer, DevelopmentCardInformation>> getDevelopmentCardsInformation()
 	{
-		return this.developmentCardsCharacterInformation;
-	}
-
-	public void setDevelopmentCardsCharacterInformation(Map<Integer, DevelopmentCardCharacterInformation> developmentCardsCharacterInformation)
-	{
-		this.developmentCardsCharacterInformation = new HashMap<>(developmentCardsCharacterInformation);
-	}
-
-	public Map<Integer, DevelopmentCardTerritoryInformation> getDevelopmentCardsTerritoryInformation()
-	{
-		return this.developmentCardsTerritoryInformation;
-	}
-
-	public void setDevelopmentCardsTerritoryInformation(Map<Integer, DevelopmentCardTerritoryInformation> developmentCardsTerritoryInformation)
-	{
-		this.developmentCardsTerritoryInformation = new HashMap<>(developmentCardsTerritoryInformation);
-	}
-
-	public Map<Integer, DevelopmentCardVentureInformation> getDevelopmentCardsVentureInformation()
-	{
-		return this.developmentCardsVentureInformation;
-	}
-
-	public void setDevelopmentCardsVentureInformation(Map<Integer, DevelopmentCardVentureInformation> developmentCardsVentureInformation)
-	{
-		this.developmentCardsVentureInformation = new HashMap<>(developmentCardsVentureInformation);
+		return this.developmentCardsInformation;
 	}
 
 	public Map<Integer, LeaderCardInformation> getLeaderCardsInformation()
@@ -66,7 +45,8 @@ public class AuthenticationInformation implements Serializable
 
 	public void setLeaderCardsInformation(Map<Integer, LeaderCardInformation> leaderCardsInformation)
 	{
-		this.leaderCardsInformation = new HashMap<>(leaderCardsInformation);
+		this.leaderCardsInformation.clear();
+		this.leaderCardsInformation.putAll(leaderCardsInformation);
 	}
 
 	public Map<Integer, ExcommunicationTileInformation> getExcommunicationTilesInformation()
@@ -76,7 +56,8 @@ public class AuthenticationInformation implements Serializable
 
 	public void setExcommunicationTilesInformation(Map<Integer, ExcommunicationTileInformation> excommunicationTilesInformation)
 	{
-		this.excommunicationTilesInformation = new HashMap<>(excommunicationTilesInformation);
+		this.excommunicationTilesInformation.clear();
+		this.excommunicationTilesInformation.putAll(excommunicationTilesInformation);
 	}
 
 	public Map<Integer, PersonalBonusTileInformation> getPersonalBonusTilesInformation()
@@ -86,7 +67,8 @@ public class AuthenticationInformation implements Serializable
 
 	public void setPersonalBonusTilesInformation(Map<Integer, PersonalBonusTileInformation> personalBonusTilesInformation)
 	{
-		this.personalBonusTilesInformation = new HashMap<>(personalBonusTilesInformation);
+		this.personalBonusTilesInformation.clear();
+		this.personalBonusTilesInformation.putAll(personalBonusTilesInformation);
 	}
 
 	public boolean isGameStarted()

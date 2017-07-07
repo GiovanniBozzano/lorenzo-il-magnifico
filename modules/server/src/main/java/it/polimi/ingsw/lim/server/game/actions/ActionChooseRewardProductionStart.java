@@ -44,17 +44,17 @@ public class ActionChooseRewardProductionStart extends ActionInformationChooseRe
 	public void apply() throws GameActionFailedException
 	{
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
-		eventUseServants.applyModifiers(this.player.getActiveModifiers());
+		eventUseServants.fire();
 		if (((ActionRewardProductionStart) this.player.getCurrentActionReward()).isApplyModifiers()) {
 			EventProductionStart eventProductionStart = new EventProductionStart(this.player, ((ActionRewardProductionStart) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
-			eventProductionStart.applyModifiers(this.player.getActiveModifiers());
+			eventProductionStart.fire();
 			this.player.setCurrentProductionValue(eventProductionStart.getActionValue());
 		} else {
 			this.player.setCurrentProductionValue(((ActionRewardProductionStart) this.player.getCurrentActionReward()).getValue() + eventUseServants.getServants());
 		}
 		this.player.getPlayerResourceHandler().subtractResource(ResourceType.SERVANT, this.getServants());
 		EventGainResources eventGainResources = new EventGainResources(this.player, this.player.getPersonalBonusTile().getProductionInstantResources(), ResourcesSource.WORK);
-		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		eventGainResources.fire();
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		this.player.getRoom().getGameHandler().setExpectedAction(ActionType.PRODUCTION_TRADE);
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " started a production");

@@ -1,6 +1,11 @@
 package it.polimi.ingsw.lim.common.network;
 
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.game.RoomInformation;
+import it.polimi.ingsw.lim.common.game.cards.DevelopmentCardInformation;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 public abstract class AuthenticationInformationLobby extends AuthenticationInformation
 {
@@ -8,10 +13,9 @@ public abstract class AuthenticationInformationLobby extends AuthenticationInfor
 
 	protected AuthenticationInformationLobby(AuthenticationInformation authenticationInformation)
 	{
-		this.setDevelopmentCardsBuildingInformation(authenticationInformation.getDevelopmentCardsBuildingInformation());
-		this.setDevelopmentCardsCharacterInformation(authenticationInformation.getDevelopmentCardsCharacterInformation());
-		this.setDevelopmentCardsTerritoryInformation(authenticationInformation.getDevelopmentCardsTerritoryInformation());
-		this.setDevelopmentCardsVentureInformation(authenticationInformation.getDevelopmentCardsVentureInformation());
+		for (Entry<CardType, Map<Integer, DevelopmentCardInformation>> developmentCardsInformatioType : authenticationInformation.getDevelopmentCardsInformation().entrySet()) {
+			this.setDevelopmentCardsInformation(developmentCardsInformatioType.getKey(), developmentCardsInformatioType.getValue());
+		}
 		this.setLeaderCardsInformation(authenticationInformation.getLeaderCardsInformation());
 		this.setExcommunicationTilesInformation(authenticationInformation.getExcommunicationTilesInformation());
 		this.setPersonalBonusTilesInformation(authenticationInformation.getPersonalBonusTilesInformation());

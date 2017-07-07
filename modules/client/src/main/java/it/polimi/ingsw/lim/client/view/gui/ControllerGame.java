@@ -1692,13 +1692,13 @@ public class ControllerGame extends CustomController
 	private String getDevelopmentCardInformation(Pane pane)
 	{
 		if (this.developmentCardsBuildingIndexes.containsKey(pane)) {
-			return GameStatus.getInstance().getDevelopmentCardsBuilding().get(this.developmentCardsBuildingIndexes.get(pane)).getInformation();
+			return GameStatus.getInstance().getDevelopmentCards().get(CardType.BUILDING).get(this.developmentCardsBuildingIndexes.get(pane)).getInformation();
 		} else if (this.developmentCardsCharacterIndexes.containsKey(pane)) {
-			return GameStatus.getInstance().getDevelopmentCardsCharacter().get(this.developmentCardsCharacterIndexes.get(pane)).getInformation();
+			return GameStatus.getInstance().getDevelopmentCards().get(CardType.CHARACTER).get(this.developmentCardsCharacterIndexes.get(pane)).getInformation();
 		} else if (this.developmentCardsTerritoryIndexes.containsKey(pane)) {
-			return GameStatus.getInstance().getDevelopmentCardsTerritory().get(this.developmentCardsTerritoryIndexes.get(pane)).getInformation();
+			return GameStatus.getInstance().getDevelopmentCards().get(CardType.TERRITORY).get(this.developmentCardsTerritoryIndexes.get(pane)).getInformation();
 		} else if (this.developmentCardsVentureIndexes.containsKey(pane)) {
-			return GameStatus.getInstance().getDevelopmentCardsVenture().get(this.developmentCardsVentureIndexes.get(pane)).getInformation();
+			return GameStatus.getInstance().getDevelopmentCards().get(CardType.VENTURE).get(this.developmentCardsVentureIndexes.get(pane)).getInformation();
 		}
 		throw new NoSuchElementException();
 	}
@@ -1766,33 +1766,33 @@ public class ControllerGame extends CustomController
 		for (Row row : Row.values()) {
 			this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(null);
 			this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBorder(null);
-			Integer currentDevelopmentCardBuildingIndex = GameStatus.getInstance().getCurrentDevelopmentCardsBuilding().get(row);
+			Integer currentDevelopmentCardBuildingIndex = GameStatus.getInstance().getCurrentDevelopmentCards().get(CardType.BUILDING).get(row);
 			if (currentDevelopmentCardBuildingIndex != null) {
-				this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsBuilding().get(currentDevelopmentCardBuildingIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCards().get(CardType.BUILDING).get(currentDevelopmentCardBuildingIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.developmentCardsPanes.get(CardType.BUILDING).get(row).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 				this.developmentCardsBuildingIndexes.put(this.developmentCardsPanes.get(CardType.BUILDING).get(row), currentDevelopmentCardBuildingIndex);
 			}
 			this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBackground(null);
 			this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBorder(null);
-			Integer currentDevelopmentCardCharacterIndex = GameStatus.getInstance().getCurrentDevelopmentCardsCharacter().get(row);
+			Integer currentDevelopmentCardCharacterIndex = GameStatus.getInstance().getCurrentDevelopmentCards().get(CardType.CHARACTER).get(row);
 			if (currentDevelopmentCardCharacterIndex != null) {
-				this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsCharacter().get(currentDevelopmentCardCharacterIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCards().get(CardType.CHARACTER).get(currentDevelopmentCardCharacterIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.developmentCardsPanes.get(CardType.CHARACTER).get(row).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 				this.developmentCardsCharacterIndexes.put(this.developmentCardsPanes.get(CardType.CHARACTER).get(row), currentDevelopmentCardCharacterIndex);
 			}
 			this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBackground(null);
 			this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBorder(null);
-			Integer currentDevelopmentCardTerritoryIndex = GameStatus.getInstance().getCurrentDevelopmentCardsTerritory().get(row);
+			Integer currentDevelopmentCardTerritoryIndex = GameStatus.getInstance().getCurrentDevelopmentCards().get(CardType.TERRITORY).get(row);
 			if (currentDevelopmentCardTerritoryIndex != null) {
-				this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsTerritory().get(currentDevelopmentCardTerritoryIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCards().get(CardType.TERRITORY).get(currentDevelopmentCardTerritoryIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.developmentCardsPanes.get(CardType.TERRITORY).get(row).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 				this.developmentCardsTerritoryIndexes.put(this.developmentCardsPanes.get(CardType.TERRITORY).get(row), currentDevelopmentCardTerritoryIndex);
 			}
 			this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBackground(null);
 			this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBorder(null);
-			Integer currentDevelopmentCardVentureIndex = GameStatus.getInstance().getCurrentDevelopmentCardsVenture().get(row);
+			Integer currentDevelopmentCardVentureIndex = GameStatus.getInstance().getCurrentDevelopmentCards().get(CardType.VENTURE).get(row);
 			if (currentDevelopmentCardVentureIndex != null) {
-				this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsVenture().get(currentDevelopmentCardVentureIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+				this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCards().get(CardType.VENTURE).get(currentDevelopmentCardVentureIndex).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.developmentCardsPanes.get(CardType.VENTURE).get(row).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
 				this.developmentCardsVentureIndexes.put(this.developmentCardsPanes.get(CardType.VENTURE).get(row), currentDevelopmentCardVentureIndex);
 			}
@@ -1848,40 +1848,40 @@ public class ControllerGame extends CustomController
 			if (playerData.getKey() == GameStatus.getInstance().getOwnPlayerIndex()) {
 				this.playerDevelopmentCardsBuildingIndexes.clear();
 			}
-			for (int index = 0; index < playerData.getValue().getDevelopmentCardsBuilding().size(); index++) {
-				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsBuilding().get(playerData.getValue().getDevelopmentCardsBuilding().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			for (int index = 0; index < playerData.getValue().getDevelopmentCards().get(CardType.BUILDING).size(); index++) {
+				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCards().get(CardType.BUILDING).get(playerData.getValue().getDevelopmentCards().get(CardType.BUILDING).get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
-				this.developmentCardsBuildingIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index), playerData.getValue().getDevelopmentCardsBuilding().get(index));
+				this.developmentCardsBuildingIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index), playerData.getValue().getDevelopmentCards().get(CardType.BUILDING).get(index));
 				if (playerData.getKey() == GameStatus.getInstance().getOwnPlayerIndex()) {
-					this.playerDevelopmentCardsBuildingIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index), playerData.getValue().getDevelopmentCardsBuilding().get(index));
+					this.playerDevelopmentCardsBuildingIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.BUILDING).get(index), playerData.getValue().getDevelopmentCards().get(CardType.BUILDING).get(index));
 				}
 			}
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER)) {
 				pane.setBackground(null);
 				pane.setBorder(null);
 			}
-			for (int index = 0; index < playerData.getValue().getDevelopmentCardsCharacter().size(); index++) {
-				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsCharacter().get(playerData.getValue().getDevelopmentCardsCharacter().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			for (int index = 0; index < playerData.getValue().getDevelopmentCards().get(CardType.CHARACTER).size(); index++) {
+				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCards().get(CardType.CHARACTER).get(playerData.getValue().getDevelopmentCards().get(CardType.CHARACTER).get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
-				this.developmentCardsCharacterIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index), playerData.getValue().getDevelopmentCardsCharacter().get(index));
+				this.developmentCardsCharacterIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.CHARACTER).get(index), playerData.getValue().getDevelopmentCards().get(CardType.CHARACTER).get(index));
 			}
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY)) {
 				pane.setBackground(null);
 				pane.setBorder(null);
 			}
-			for (int index = 0; index < playerData.getValue().getDevelopmentCardsTerritory().size(); index++) {
-				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsTerritory().get(playerData.getValue().getDevelopmentCardsTerritory().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			for (int index = 0; index < playerData.getValue().getDevelopmentCards().get(CardType.TERRITORY).size(); index++) {
+				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCards().get(CardType.TERRITORY).get(playerData.getValue().getDevelopmentCards().get(CardType.TERRITORY).get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
-				this.developmentCardsTerritoryIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index), playerData.getValue().getDevelopmentCardsTerritory().get(index));
+				this.developmentCardsTerritoryIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.TERRITORY).get(index), playerData.getValue().getDevelopmentCards().get(CardType.TERRITORY).get(index));
 			}
 			for (Pane pane : this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE)) {
 				pane.setBackground(null);
 				pane.setBorder(null);
 			}
-			for (int index = 0; index < playerData.getValue().getDevelopmentCardsVenture().size(); index++) {
-				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCardsVenture().get(playerData.getValue().getDevelopmentCardsVenture().get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
+			for (int index = 0; index < playerData.getValue().getDevelopmentCards().get(CardType.VENTURE).size(); index++) {
+				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(GameStatus.getInstance().getDevelopmentCards().get(CardType.VENTURE).get(playerData.getValue().getDevelopmentCards().get(CardType.VENTURE).get(index)).getTexturePath()).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index).setBorder(new Border(new BorderStroke(Color.web("#757575"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0D))));
-				this.developmentCardsVentureIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index), playerData.getValue().getDevelopmentCardsVenture().get(index));
+				this.developmentCardsVentureIndexes.put(this.playersDevelopmentCards.get(playerData.getKey()).get(CardType.VENTURE).get(index), playerData.getValue().getDevelopmentCards().get(CardType.VENTURE).get(index));
 			}
 			for (Pane pane : this.playersLeaderCardsHand.get(playerData.getKey())) {
 				pane.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("/images/leader_cards/leader_card_background.png").toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
@@ -1931,7 +1931,7 @@ public class ControllerGame extends CustomController
 			if (GameStatus.getInstance().getCurrentPlayersData().size() == 5) {
 				this.prestigePointsPanes.get(playerData.getValue().getResourceAmounts().get(ResourceType.PRESTIGE_POINT)).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersPlaceholdersTextures().get(playerData.getValue().getColor())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 			}
-			for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPositionEntry : playerData.getValue().getFamilyMembersPositions().entrySet()) {
+			for (Entry<FamilyMemberType, BoardPosition> familyMemberTypeBoardPositionEntry : playerData.getValue().getFamilyMemberTypesPositions().entrySet()) {
 				if (this.boardPositionsPanes.containsKey(familyMemberTypeBoardPositionEntry.getValue())) {
 					this.boardPositionsPanes.get(familyMemberTypeBoardPositionEntry.getValue()).setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getPlayersFamilyMemberTypesTextures().get(playerData.getValue().getColor()).get(familyMemberTypeBoardPositionEntry.getKey())).toString()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 				} else if (familyMemberTypeBoardPositionEntry.getValue() == BoardPosition.HARVEST_BIG) {
@@ -2554,7 +2554,7 @@ public class ControllerGame extends CustomController
 				for (int tradeCard : this.selectedTradeCardIndexes) {
 					VBox vBox = new VBox();
 					vBox.setSpacing(10.0D);
-					Label label = new Label(GameStatus.getInstance().getDevelopmentCardsBuilding().get(tradeCard).getDisplayName());
+					Label label = new Label(GameStatus.getInstance().getDevelopmentCards().get(CardType.BUILDING).get(tradeCard).getDisplayName());
 					label.setFont(CommonUtils.ROBOTO_BOLD);
 					Pane pane = new Pane();
 					pane.setBackground(new Background(new BackgroundFill(Color.ALICEBLUE, new CornerRadii(20.0D), Insets.EMPTY)));

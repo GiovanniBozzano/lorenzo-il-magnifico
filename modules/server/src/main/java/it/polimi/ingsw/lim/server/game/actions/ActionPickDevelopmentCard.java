@@ -62,7 +62,7 @@ public class ActionPickDevelopmentCard extends ActionInformationPickDevelopmentC
 		}
 		// get effective family member value
 		EventPlaceFamilyMember eventPlaceFamilyMember = new EventPlaceFamilyMember(this.player, this.getFamilyMemberType(), BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow()), this.player.getRoom().getGameHandler().getFamilyMemberTypeValues().get(this.getFamilyMemberType()));
-		eventPlaceFamilyMember.applyModifiers(this.player.getActiveModifiers());
+		eventPlaceFamilyMember.fire();
 		int effectiveFamilyMemberValue = eventPlaceFamilyMember.getFamilyMemberValue();
 		// check whether you have another colored family member in the column
 		if (this.getFamilyMemberType() != FamilyMemberType.NEUTRAL) {
@@ -92,7 +92,7 @@ public class ActionPickDevelopmentCard extends ActionInformationPickDevelopmentC
 		}
 		// get effective servants value
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
-		eventUseServants.applyModifiers(this.player.getActiveModifiers());
+		eventUseServants.fire();
 		int effectiveServantsValue = eventUseServants.getServants();
 		// check if the card contains cost option array
 		if ((this.getResourceCostOption() == null && !developmentCard.getResourceCostOptions().isEmpty()) || (this.getResourceCostOption() != null && !developmentCard.getResourceCostOptions().contains(this.getResourceCostOption()))) {
@@ -104,7 +104,7 @@ public class ActionPickDevelopmentCard extends ActionInformationPickDevelopmentC
 		}
 		// check if the family member and servants value is high enough
 		EventPickDevelopmentCard eventPickDevelopmentCard = new EventPickDevelopmentCard(this.player, this.getCardType(), this.getRow(), this.getResourceCostOption() == null ? null : this.getResourceCostOption().getSpentResources(), effectiveFamilyMemberValue + effectiveServantsValue);
-		eventPickDevelopmentCard.applyModifiers(this.player.getActiveModifiers());
+		eventPickDevelopmentCard.fire();
 		this.effectiveResourceCost.addAll(eventPickDevelopmentCard.getResourceCost());
 		this.getBoardPositionReward = eventPickDevelopmentCard.isGetBoardPositionReward();
 		// if the card is a territory one, check whether the player has enough military points
@@ -148,7 +148,7 @@ public class ActionPickDevelopmentCard extends ActionInformationPickDevelopmentC
 			resourceReward.addAll(BoardHandler.getBoardPositionInformation(BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow())).getResourceAmounts());
 		}
 		EventGainResources eventGainResources = new EventGainResources(this.player, resourceReward, ResourcesSource.DEVELOPMENT_CARDS);
-		eventGainResources.applyModifiers(this.player.getActiveModifiers());
+		eventGainResources.fire();
 		this.player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
 		if (developmentCard.getCardType() == CardType.CHARACTER && ((DevelopmentCardCharacter) developmentCard).getModifier() != null) {
 			this.player.getActiveModifiers().add(((DevelopmentCardCharacter) developmentCard).getModifier());

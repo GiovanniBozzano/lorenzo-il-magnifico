@@ -203,7 +203,12 @@ public class GameHandler
 		if (this.personalBonusTileChoicePlayerTurnIndex < 0 || this.turnOrder.get(this.personalBonusTileChoicePlayerTurnIndex) != player || !this.availablePersonalBonusTiles.contains(personalBonusTileIndex)) {
 			throw new GameActionFailedException("You cannot do this!");
 		}
-		this.applyPersonalBonusTileChoice(player, personalBonusTileIndex);
+		try {
+			this.applyPersonalBonusTileChoice(player, personalBonusTileIndex);
+		} catch (NoSuchElementException exception) {
+			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			throw new GameActionFailedException("This Personal Bonus Tile does not exist");
+		}
 	}
 
 	/**
@@ -253,7 +258,12 @@ public class GameHandler
 		if (!this.leaderCardsChoosingPlayers.contains(player) || !this.availableLeaderCards.get(player).contains(leaderCardIndex)) {
 			throw new GameActionFailedException("You cannot do this!");
 		}
-		this.applyLeaderCardChoice(player, leaderCardIndex);
+		try {
+			this.applyLeaderCardChoice(player, leaderCardIndex);
+		} catch (NoSuchElementException exception) {
+			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			throw new GameActionFailedException("This Leader Card does not exist");
+		}
 	}
 
 	/**
@@ -268,7 +278,7 @@ public class GameHandler
 	void applyLeaderCardChoice(Player player, int leaderCardIndex)
 	{
 		this.leaderCardsChoosingPlayers.remove(player);
-		player.getPlayerCardHandler().addLeaderCard(Utils.getLeaderCardFromIndex(leaderCardIndex));
+		player.getPlayerCardHandler().addLeaderCard(CardsHandler.getleaderCardFromIndex(leaderCardIndex));
 		this.availableLeaderCards.get(player).remove((Integer) leaderCardIndex);
 		boolean finished = true;
 		for (List<Integer> playerAvailableLeaderCards : this.availableLeaderCards.values()) {
@@ -335,7 +345,7 @@ public class GameHandler
 			player.getActiveModifiers().add(this.boardHandler.getMatchExcommunicationTiles().get(this.currentPeriod).getModifier());
 		} else {
 			EventChurchSupport eventChurchSupport = new EventChurchSupport(player);
-			eventChurchSupport.applyModifiers(player.getActiveModifiers());
+			eventChurchSupport.fire();
 			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, eventChurchSupport.getVictoryPoints() + PlayerResourceHandler.getFaithPointsPrices().get(player.getPlayerResourceHandler().getResources().get(ResourceType.FAITH_POINT)));
 			player.getPlayerResourceHandler().resetFaithPoints();
 		}
@@ -369,11 +379,14 @@ public class GameHandler
 	 * @param sender the {@link Player} who sent the vote.
 	 * @param receiverIndex the index of the {@link Player} targeted by the
 	 * vote.
+	 *
+	 * @throws GameActionFailedException if the receiving {@link Player} is the
+	 * sending one or he has already received a vote by the same sender.
 	 */
 	public void applyGoodGame(Player sender, int receiverIndex) throws GameActionFailedException
 	{
 		Player receiver = this.getPlayerFromIndex(receiverIndex);
-		if (receiver == null || this.sentGoodGames.get(sender).contains(receiver) || sender == receiver) {
+		if (this.sentGoodGames.get(sender).contains(receiver) || sender == receiver) {
 			throw new GameActionFailedException("You cannot do this!");
 		}
 		this.sentGoodGames.get(sender).add(receiver);
@@ -394,11 +407,8 @@ public class GameHandler
 	 * @param playerIndex the index of the requested {@link Player}.
 	 *
 	 * @return the requested {@link Player}.
-	 *
-	 * @throws NoSuchElementException if a {@link Player} with the given index
-	 * does not exist.
 	 */
-	private Player getPlayerFromIndex(int playerIndex) throws NoSuchElementException
+	private Player getPlayerFromIndex(int playerIndex)
 	{
 		for (Player player : this.turnOrder) {
 			if (player.getIndex() == playerIndex) {
@@ -552,11 +562,11 @@ public class GameHandler
 		}
 		for (Player player : this.turnOrder) {
 			EventPreVictoryPointsCalculation eventPreVictoryPointsCalculation = new EventPreVictoryPointsCalculation(player);
-			eventPreVictoryPointsCalculation.applyModifiers(player.getActiveModifiers());
+			eventPreVictoryPointsCalculation.fire();
 			player.getPlayerResourceHandler().resetVictoryPoints();
 			player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, eventPreVictoryPointsCalculation.getVictoryPoints());
 			EventVictoryPointsCalculation eventVictoryPointsCalculation = new EventVictoryPointsCalculation(player);
-			eventPreVictoryPointsCalculation.applyModifiers(player.getActiveModifiers());
+			eventPreVictoryPointsCalculation.fire();
 			player.convertToVictoryPoints(eventVictoryPointsCalculation.isCountingCharacters(), eventVictoryPointsCalculation.isCountingTerritories(), eventVictoryPointsCalculation.isCountingVentures());
 			if (militaryPointsFirstPlayers.contains(player)) {
 				player.getPlayerResourceHandler().addResource(ResourceType.VICTORY_POINT, 5);
@@ -811,7 +821,7 @@ public class GameHandler
 		if (this.firstTurn.get(this.turnPlayer)) {
 			this.firstTurn.put(this.turnPlayer, false);
 			EventFirstTurn eventFirstTurn = new EventFirstTurn(this.turnPlayer);
-			eventFirstTurn.applyModifiers(this.turnPlayer.getActiveModifiers());
+			eventFirstTurn.fire();
 			if (eventFirstTurn.isCancelled()) {
 				return this.switchPlayer();
 			}

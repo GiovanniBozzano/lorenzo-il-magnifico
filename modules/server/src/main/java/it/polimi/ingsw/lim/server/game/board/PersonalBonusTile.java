@@ -34,7 +34,7 @@ public enum PersonalBonusTile
 		this.harvestInstantResources = harvestInstantResources;
 	}
 
-	public static PersonalBonusTile fromIndex(int index) throws NoSuchElementException
+	public static PersonalBonusTile fromIndex(int index)
 	{
 		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
 			if (personalBonusTile.index == index) {
