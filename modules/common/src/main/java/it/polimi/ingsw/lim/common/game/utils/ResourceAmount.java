@@ -7,6 +7,10 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * <p>This class represents an amount of resources. It is used to represent a
+ * condition or a reward.
+ */
 public class ResourceAmount implements Serializable
 {
 	private final ResourceType resourceType;

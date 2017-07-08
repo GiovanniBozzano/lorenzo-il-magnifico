@@ -1103,7 +1103,6 @@ public class ControllerGame extends CustomController
 				}
 			}
 		}
-		this.gameBoard.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource("/images/game_board_5_players.png").toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		this.gameBoard.setBackground(new Background(new BackgroundImage(new Image(this.getClass().getResource(Utils.getBoardImages().get(GameStatus.getInstance().getCurrentPlayersData().size())).toString()), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(100, 100, true, true, true, true))));
 		for (Entry<Integer, Tab> tab : this.playersTabs.entrySet()) {
 			if (!GameStatus.getInstance().getCurrentPlayersData().keySet().contains(tab.getKey())) {
@@ -1706,7 +1705,7 @@ public class ControllerGame extends CustomController
 	void setOwnTurn()
 	{
 		this.updateGame();
-		this.closeDilogs();
+		this.closeDialogs();
 		this.generateAvailableActions();
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getOwnPlayerIndex()));
 	}
@@ -1720,7 +1719,7 @@ public class ControllerGame extends CustomController
 	void setOtherTurn()
 	{
 		this.updateGame();
-		this.closeDilogs();
+		this.closeDialogs();
 		this.playersTabPane.getSelectionModel().select(this.playersTabs.get(GameStatus.getInstance().getCurrentTurnPlayerIndex()));
 		this.actionsVBox.getChildren().clear();
 		JFXNodesList actionsNodesList = new JFXNodesList();
@@ -1728,7 +1727,7 @@ public class ControllerGame extends CustomController
 		this.actionsVBox.getChildren().add(actionsNodesList);
 	}
 
-	private void closeDilogs()
+	private void closeDialogs()
 	{
 		this.dialog.close();
 		this.leaderCardsDialog.close();
@@ -2066,7 +2065,7 @@ public class ControllerGame extends CustomController
 		new AudioClip(this.getClass().getResource("/sounds/excommunication.mp3").toString()).play();
 	}
 
-	private void showCouncilPalace(FamilyMemberType familyMemberType)
+	void showCouncilPalace(FamilyMemberType familyMemberType)
 	{
 		this.servantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		this.servantsDialogSlider.setValue(0);
@@ -2077,7 +2076,7 @@ public class ControllerGame extends CustomController
 		this.servantsDialog.show();
 	}
 
-	private void showHarvest(FamilyMemberType familyMemberType)
+	void showHarvest(FamilyMemberType familyMemberType)
 	{
 		this.servantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		this.servantsDialogSlider.setValue(0);
@@ -2088,7 +2087,7 @@ public class ControllerGame extends CustomController
 		this.servantsDialog.show();
 	}
 
-	private void showMarket(MarketSlot marketSlot, FamilyMemberType familyMemberType)
+	void showMarket(MarketSlot marketSlot, FamilyMemberType familyMemberType)
 	{
 		this.servantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		this.servantsDialogSlider.setValue(0);
@@ -2099,7 +2098,7 @@ public class ControllerGame extends CustomController
 		this.servantsDialog.show();
 	}
 
-	private void showPickDevelopmentCard(FamilyMemberType familyMemberType)
+	void showPickDevelopmentCard(FamilyMemberType familyMemberType)
 	{
 		this.selectedDevelopmentCardType = null;
 		this.selectedDevelopmentCardIndex = null;
@@ -2211,7 +2210,7 @@ public class ControllerGame extends CustomController
 		}
 	}
 
-	private void showProductionStart(FamilyMemberType familyMemberType)
+	void showProductionStart(FamilyMemberType familyMemberType)
 	{
 		this.servantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
 		this.servantsDialogSlider.setValue(0);
@@ -2222,7 +2221,7 @@ public class ControllerGame extends CustomController
 		this.servantsDialog.show();
 	}
 
-	private void showLeaderActivate()
+	void showLeaderActivate()
 	{
 		this.leaderCardsDialog.setOverlayClose(true);
 		this.leaderCardsDialogHBox.getChildren().clear();
@@ -2251,7 +2250,7 @@ public class ControllerGame extends CustomController
 		this.leaderCardsDialog.show();
 	}
 
-	private void showLeaderDiscard()
+	void showLeaderDiscard()
 	{
 		this.leaderCardsDialog.setOverlayClose(true);
 		this.leaderCardsDialogHBox.getChildren().clear();
@@ -2277,7 +2276,7 @@ public class ControllerGame extends CustomController
 		this.leaderCardsDialog.show();
 	}
 
-	private void showLeaderPlay()
+	void showLeaderPlay()
 	{
 		this.leaderCardsDialog.setOverlayClose(true);
 		this.leaderCardsDialogHBox.getChildren().clear();
@@ -2306,7 +2305,7 @@ public class ControllerGame extends CustomController
 		this.leaderCardsDialog.show();
 	}
 
-	private void showExpectedChooseLorenzoDeMediciLeader()
+	void showExpectedChooseLorenzoDeMediciLeader()
 	{
 		this.expectedChooseLorenzoDeMediciLeaderDialogVBox.getChildren().clear();
 		int maximumCards = 1;
@@ -2340,7 +2339,7 @@ public class ControllerGame extends CustomController
 		this.expectedChooseLorenzoDeMediciLeaderDialog.show();
 	}
 
-	private void showExpectedChooseRewardCouncilPrivilege()
+	void showExpectedChooseRewardCouncilPrivilege()
 	{
 		this.expectedChooseRewardCouncilPrivilegeDialogLabel.setText("Choose " + ((ExpectedActionChooseRewardCouncilPrivilege) GameStatus.getInstance().getCurrentExpectedAction()).getCouncilPrivilegesNumber() + " different Council Privilege rewards.");
 		this.expectedChooseRewardCouncilPrivilegeDialogVBox.getChildren().clear();
@@ -2374,7 +2373,7 @@ public class ControllerGame extends CustomController
 		this.expectedChooseRewardCouncilPrivilegeDialog.show();
 	}
 
-	private void showExpectedChooseRewardHarvest()
+	void showExpectedChooseRewardHarvest()
 	{
 		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Harvest action of value " + ((ExpectedActionChooseRewardHarvest) GameStatus.getInstance().getCurrentExpectedAction()).getValue() + '.');
 		this.expectedChooseRewardServantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
@@ -2384,7 +2383,7 @@ public class ControllerGame extends CustomController
 		this.expectedChooseRewardServantsDialog.show();
 	}
 
-	private void showExpectedChooseRewardPickDevelopmentCard()
+	void showExpectedChooseRewardPickDevelopmentCard()
 	{
 		this.selectedDevelopmentCardType = null;
 		this.selectedDevelopmentCardIndex = null;
@@ -2515,7 +2514,7 @@ public class ControllerGame extends CustomController
 		}
 	}
 
-	private void showExpectedChooseRewardProductionStart()
+	void showExpectedChooseRewardProductionStart()
 	{
 		this.expectedChooseRewardServantsDialogLabel.setText("Choose the servants to spend for a bonus Production action of value " + ((ExpectedActionChooseRewardProductionStart) GameStatus.getInstance().getCurrentExpectedAction()).getValue() + '.');
 		this.expectedChooseRewardServantsDialogSlider.setMax(GameStatus.getInstance().getCurrentPlayersData().get(GameStatus.getInstance().getOwnPlayerIndex()).getResourceAmounts().get(ResourceType.SERVANT));
@@ -2525,12 +2524,12 @@ public class ControllerGame extends CustomController
 		this.expectedChooseRewardServantsDialog.show();
 	}
 
-	private void showExpectedChooseRewardTemporaryModifier()
+	void showExpectedChooseRewardTemporaryModifier()
 	{
 		this.expectedChooseRewardTemporaryModifierDialog.show();
 	}
 
-	private void showExpectedProductionTrade()
+	void showExpectedProductionTrade()
 	{
 		this.selectedTradeCardIndexes.clear();
 		this.pickingTradeCards = true;

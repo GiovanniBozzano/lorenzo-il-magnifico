@@ -6,6 +6,11 @@ import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.Objects;
 
+/**
+ * <p>This class represents an amount of resources, multiplied by the amount of
+ * Development Cards of the given {@link CardType}. It is used to represent a
+ * condition or a reward.
+ */
 public class ResourceAmountMultiplierCard extends ResourceAmount
 {
 	private final CardType cardTypeMultiplier;

@@ -1,33 +1,31 @@
 package it.polimi.ingsw.lim.common.game.player;
 
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
+import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.enums.FamilyMemberType;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PlayerInformation implements Serializable
 {
 	private final int index;
 	private final int personalBonusTile;
-	private final List<Integer> developmentCardsBuilding;
-	private final List<Integer> developmentCardsCharacter;
-	private final List<Integer> developmentCardsTerritory;
-	private final List<Integer> developmentCardsVenture;
+	private final Map<CardType, List<Integer>> developmentCards;
 	private final Map<Integer, Boolean> leaderCardsPlayed;
 	private final int leaderCardsInHandNumber;
 	private final Map<ResourceType, Integer> resourceAmounts;
 	private final Map<FamilyMemberType, BoardPosition> familyMembersPositions;
 
-	public PlayerInformation(int index, int personalBonusTile, List<Integer> developmentCardsBuilding, List<Integer> developmentCardsCharacter, List<Integer> developmentCardsTerritory, List<Integer> developmentCardsVenture, Map<Integer, Boolean> leaderCardsPlayed, int leaderCardsInHandNumber, Map<ResourceType, Integer> resourceAmounts, Map<FamilyMemberType, BoardPosition> familyMembersPositions)
+	public PlayerInformation(int index, int personalBonusTile, Map<CardType, List<Integer>> developmentCards, Map<Integer, Boolean> leaderCardsPlayed, int leaderCardsInHandNumber, Map<ResourceType, Integer> resourceAmounts, Map<FamilyMemberType, BoardPosition> familyMembersPositions)
 	{
 		this.index = index;
 		this.personalBonusTile = personalBonusTile;
-		this.developmentCardsBuilding = new LinkedList<>(developmentCardsBuilding);
-		this.developmentCardsCharacter = new LinkedList<>(developmentCardsCharacter);
-		this.developmentCardsTerritory = new LinkedList<>(developmentCardsTerritory);
-		this.developmentCardsVenture = new LinkedList<>(developmentCardsVenture);
+		this.developmentCards = new EnumMap<>(developmentCards);
 		this.leaderCardsPlayed = new HashMap<>(leaderCardsPlayed);
 		this.leaderCardsInHandNumber = leaderCardsInHandNumber;
 		this.resourceAmounts = new EnumMap<>(resourceAmounts);
@@ -44,24 +42,9 @@ public class PlayerInformation implements Serializable
 		return this.personalBonusTile;
 	}
 
-	public List<Integer> getDevelopmentCardsBuilding()
+	public Map<CardType, List<Integer>> getDevelopmentCards()
 	{
-		return this.developmentCardsBuilding;
-	}
-
-	public List<Integer> getDevelopmentCardsCharacter()
-	{
-		return this.developmentCardsCharacter;
-	}
-
-	public List<Integer> getDevelopmentCardsTerritory()
-	{
-		return this.developmentCardsTerritory;
-	}
-
-	public List<Integer> getDevelopmentCardsVenture()
-	{
-		return this.developmentCardsVenture;
+		return this.developmentCards;
 	}
 
 	public Map<Integer, Boolean> getLeaderCardsPlayed()

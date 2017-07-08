@@ -6,22 +6,26 @@ import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import java.io.Serializable;
 import java.util.List;
 
-public class CardAmount implements Serializable
+/**
+ * <p>This class represents an amount of Development Cards. It is used to
+ * represent a condition or a reward.
+ */
+public class DevelopmentCardAmount implements Serializable
 {
 	private final CardType cardType;
 	private final int amount;
 
-	public CardAmount(CardType cardType, int amount)
+	public DevelopmentCardAmount(CardType cardType, int amount)
 	{
 		this.cardType = cardType;
 		this.amount = amount;
 	}
 
-	static String getCardsInformation(List<CardAmount> cardAmounts, boolean indented)
+	static String getDevelopmentCardsInformation(List<DevelopmentCardAmount> developmentCardAmounts, boolean indented)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		boolean firstLine = true;
-		for (CardAmount cardAmount : cardAmounts) {
+		for (DevelopmentCardAmount developmentCardAmount : developmentCardAmounts) {
 			if (!firstLine) {
 				stringBuilder.append('\n');
 			} else {
@@ -30,7 +34,7 @@ public class CardAmount implements Serializable
 			if (indented) {
 				stringBuilder.append("    ");
 			}
-			stringBuilder.append(cardAmount.getInformation());
+			stringBuilder.append(developmentCardAmount.getInformation());
 		}
 		return stringBuilder.toString();
 	}

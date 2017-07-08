@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * <p>This class represents a single "resource trade" option.
+ */
 public class ResourceTradeOption implements Serializable
 {
 	private final List<ResourceAmount> employedResources = new ArrayList<>();

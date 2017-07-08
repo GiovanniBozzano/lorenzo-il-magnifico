@@ -19,10 +19,7 @@ public class GameStatusTest
 	private final Map<Integer, LeaderCardInformation> leaderCardsInformation = new HashMap<>();
 	private final Map<Integer, ExcommunicationTileInformation> excommunicationTilesInformation = new HashMap<>();
 	private final Map<Integer, PersonalBonusTileInformation> personalBonusTilesInformation = new HashMap<>();
-	private final Map<Row, Integer> currentDevelopmentCardsBuilding = new EnumMap<>(Row.class);
-	private final Map<Row, Integer> currentDevelopmentCardsCharacter = new EnumMap<>(Row.class);
-	private final Map<Row, Integer> currentDevelopmentCardsTerritory = new EnumMap<>(Row.class);
-	private final Map<Row, Integer> currentDevelopmentCardsVenture = new EnumMap<>(Row.class);
+	private final Map<CardType, Map<Row, Integer>> currentDevelopmentCards = new EnumMap<>(CardType.class);
 	private final Map<FamilyMemberType, Integer> currentDices = new EnumMap<>(FamilyMemberType.class);
 	private final Map<Integer, Integer> currentTurnOrder = new HashMap<>();
 	private final Map<Integer, Integer> currentCouncilPalaceOrder = new HashMap<>();
@@ -46,10 +43,11 @@ public class GameStatusTest
 		this.leaderCardsInformation.put(0, new LeaderCardModifierInformation(null, null, null, new ArrayList<>(), null));
 		this.excommunicationTilesInformation.put(0, new ExcommunicationTileInformation(null, null));
 		this.personalBonusTilesInformation.put(0, new PersonalBonusTileInformation(null, null, 0, new ArrayList<>(), 0, new ArrayList<>()));
-		this.currentDevelopmentCardsBuilding.put(Row.FIRST, 0);
-		this.currentDevelopmentCardsCharacter.put(Row.FIRST, 0);
-		this.currentDevelopmentCardsTerritory.put(Row.FIRST, 0);
-		this.currentDevelopmentCardsVenture.put(Row.FIRST, 0);
+		for (CardType cardType : CardType.values()) {
+			Map<Row, Integer> currentDevelopmentCardsType = new EnumMap<>(Row.class);
+			currentDevelopmentCardsType.put(Row.FIRST, 0);
+			this.currentDevelopmentCards.put(cardType, currentDevelopmentCardsType);
+		}
 		this.currentDices.put(FamilyMemberType.BLACK, 0);
 		this.currentTurnOrder.put(0, 0);
 		this.currentCouncilPalaceOrder.put(0, 0);
@@ -78,7 +76,11 @@ public class GameStatusTest
 		familyMemberTypesBoardPositions.put(FamilyMemberType.BLACK, BoardPosition.NONE);
 		Map<Integer, Boolean> ownLeaderCardsHand = new HashMap<>();
 		ownLeaderCardsHand.put(0, false);
-		GameStatus.getInstance().updateGameStatus(new GameInformation(this.currentDevelopmentCardsBuilding, this.currentDevelopmentCardsCharacter, this.currentDevelopmentCardsTerritory, this.currentDevelopmentCardsVenture, this.currentDices, this.currentTurnOrder, this.currentCouncilPalaceOrder, this.currentExcommunicatedPlayers), Collections.singletonList(new PlayerInformation(0, 0, Collections.singletonList(0), Collections.singletonList(0), Collections.singletonList(0), Collections.singletonList(0), new HashMap<>(), 0, resourceAmounts, familyMemberTypesBoardPositions)), ownLeaderCardsHand);
+		Map<CardType, List<Integer>> developmentCardsInformation = new EnumMap<>(CardType.class);
+		for (CardType cardType : CardType.values()) {
+			developmentCardsInformation.put(cardType, new ArrayList<>());
+		}
+		GameStatus.getInstance().updateGameStatus(new GameInformation(this.currentDevelopmentCards, this.currentDices, this.currentTurnOrder, this.currentCouncilPalaceOrder, this.currentExcommunicatedPlayers), Collections.singletonList(new PlayerInformation(0, 0, developmentCardsInformation, new HashMap<>(), 0, resourceAmounts, familyMemberTypesBoardPositions)), ownLeaderCardsHand);
 		Assert.assertEquals(Row.FIRST, GameStatus.getInstance().getDevelopmentCardRow(CardType.BUILDING, 0));
 		for (CardType cardType : CardType.values()) {
 			Assert.assertFalse(GameStatus.getInstance().getCurrentDevelopmentCards().get(cardType).isEmpty());

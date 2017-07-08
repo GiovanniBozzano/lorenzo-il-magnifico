@@ -1,6 +1,5 @@
-package it.polimi.common.utils;
+package it.polimi.ingsw.lim.common.utils;
 
-import it.polimi.ingsw.lim.common.utils.CommonUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

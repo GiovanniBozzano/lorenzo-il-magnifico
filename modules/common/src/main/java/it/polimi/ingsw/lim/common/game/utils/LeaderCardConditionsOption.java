@@ -3,20 +3,23 @@ package it.polimi.ingsw.lim.common.game.utils;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * <p>This class represents a single "Leader Card play" conditions option.
+ */
 public class LeaderCardConditionsOption implements Serializable
 {
-	private final List<CardAmount> cardAmounts;
+	private final List<DevelopmentCardAmount> developmentCardAmounts;
 	private final List<ResourceAmount> resourceAmounts;
 
-	public LeaderCardConditionsOption(List<CardAmount> cardAmounts, List<ResourceAmount> resourceAmounts)
+	public LeaderCardConditionsOption(List<DevelopmentCardAmount> developmentCardAmounts, List<ResourceAmount> resourceAmounts)
 	{
-		this.cardAmounts = cardAmounts;
+		this.developmentCardAmounts = developmentCardAmounts;
 		this.resourceAmounts = resourceAmounts;
 	}
 
-	public List<CardAmount> getCardAmounts()
+	public List<DevelopmentCardAmount> getDevelopmentCardAmounts()
 	{
-		return this.cardAmounts;
+		return this.developmentCardAmounts;
 	}
 
 	public List<ResourceAmount> getResourceAmounts()
@@ -31,9 +34,9 @@ public class LeaderCardConditionsOption implements Serializable
 			stringBuilder.append("\nRequired resources:\n");
 			stringBuilder.append(ResourceAmount.getResourcesInformation(this.resourceAmounts, true));
 		}
-		if (!this.cardAmounts.isEmpty()) {
+		if (!this.developmentCardAmounts.isEmpty()) {
 			stringBuilder.append("\nRequired cards:\n");
-			stringBuilder.append(CardAmount.getCardsInformation(this.cardAmounts, true));
+			stringBuilder.append(DevelopmentCardAmount.getDevelopmentCardsInformation(this.developmentCardAmounts, true));
 		}
 		return stringBuilder.toString();
 	}

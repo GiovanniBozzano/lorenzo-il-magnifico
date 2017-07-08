@@ -1023,26 +1023,17 @@ public class GameHandler
 	 */
 	public GameInformation generateGameInformation()
 	{
-		Map<Row, Integer> developmentCardsBuildingInformation = new EnumMap<>(Row.class);
-		Map<Row, Integer> developmentCardsCharacterInformation = new EnumMap<>(Row.class);
-		Map<Row, Integer> developmentCardsTerritoryInformation = new EnumMap<>(Row.class);
-		Map<Row, Integer> developmentCardsVentureInformation = new EnumMap<>(Row.class);
-		for (Row row : Row.values()) {
-			DevelopmentCard developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.BUILDING).get(row);
-			if (developmentCard != null) {
-				developmentCardsBuildingInformation.put(row, developmentCard.getIndex());
-			}
-			developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.CHARACTER).get(row);
-			if (developmentCard != null) {
-				developmentCardsCharacterInformation.put(row, developmentCard.getIndex());
-			}
-			developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.TERRITORY).get(row);
-			if (developmentCard != null) {
-				developmentCardsTerritoryInformation.put(row, developmentCard.getIndex());
-			}
-			developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(CardType.VENTURE).get(row);
-			if (developmentCard != null) {
-				developmentCardsVentureInformation.put(row, developmentCard.getIndex());
+		Map<CardType, Map<Row, Integer>> developmentCardsInformation = new EnumMap<>(CardType.class);
+		developmentCardsInformation.put(CardType.BUILDING, new EnumMap<>(Row.class));
+		developmentCardsInformation.put(CardType.CHARACTER, new EnumMap<>(Row.class));
+		developmentCardsInformation.put(CardType.TERRITORY, new EnumMap<>(Row.class));
+		developmentCardsInformation.put(CardType.VENTURE, new EnumMap<>(Row.class));
+		for (CardType cardType : CardType.values()) {
+			for (Row row : Row.values()) {
+				DevelopmentCard developmentCard = this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row);
+				if (developmentCard != null) {
+					developmentCardsInformation.get(cardType).put(row, developmentCard.getIndex());
+				}
 			}
 		}
 		Map<FamilyMemberType, Integer> dices = new EnumMap<>(FamilyMemberType.class);
@@ -1072,7 +1063,7 @@ public class GameHandler
 				excommunicatedPlayersIndexes.get(period.getKey()).add(player.getIndex());
 			}
 		}
-		return new GameInformation(developmentCardsBuildingInformation, developmentCardsCharacterInformation, developmentCardsTerritoryInformation, developmentCardsVentureInformation, dices, turnOrderInformation, councilPalaceOrderInformation, excommunicatedPlayersIndexes);
+		return new GameInformation(developmentCardsInformation, dices, turnOrderInformation, councilPalaceOrderInformation, excommunicatedPlayersIndexes);
 	}
 
 	/**
@@ -1096,22 +1087,27 @@ public class GameHandler
 	{
 		List<PlayerInformation> playersInformation = new ArrayList<>();
 		for (Player player : this.turnOrder) {
+			Map<CardType, List<Integer>> developmentCardsInformation = new EnumMap<>(CardType.class);
 			List<Integer> developmentCardsBuildingInformation = new ArrayList<>();
 			for (DevelopmentCardBuilding developmentCardBuilding : player.getPlayerCardHandler().getDevelopmentCards(CardType.BUILDING, DevelopmentCardBuilding.class)) {
 				developmentCardsBuildingInformation.add(developmentCardBuilding.getIndex());
 			}
+			developmentCardsInformation.put(CardType.BUILDING, developmentCardsBuildingInformation);
 			List<Integer> developmentCardsCharacterInformation = new ArrayList<>();
 			for (DevelopmentCardCharacter developmentCardCharacter : player.getPlayerCardHandler().getDevelopmentCards(CardType.CHARACTER, DevelopmentCardCharacter.class)) {
 				developmentCardsCharacterInformation.add(developmentCardCharacter.getIndex());
 			}
+			developmentCardsInformation.put(CardType.CHARACTER, developmentCardsCharacterInformation);
 			List<Integer> developmentCardsTerritoryInformation = new ArrayList<>();
 			for (DevelopmentCardTerritory developmentCardTerritory : player.getPlayerCardHandler().getDevelopmentCards(CardType.TERRITORY, DevelopmentCardTerritory.class)) {
 				developmentCardsTerritoryInformation.add(developmentCardTerritory.getIndex());
 			}
+			developmentCardsInformation.put(CardType.TERRITORY, developmentCardsTerritoryInformation);
 			List<Integer> developmentCardsVentureInformation = new ArrayList<>();
 			for (DevelopmentCardVenture developmentCardVenture : player.getPlayerCardHandler().getDevelopmentCards(CardType.VENTURE, DevelopmentCardVenture.class)) {
 				developmentCardsVentureInformation.add(developmentCardVenture.getIndex());
 			}
+			developmentCardsInformation.put(CardType.VENTURE, developmentCardsVentureInformation);
 			Map<Integer, Boolean> leaderCardsPlayed = new HashMap<>();
 			int leaderCardsInHandNumber = 0;
 			for (LeaderCard leaderCard : player.getPlayerCardHandler().getLeaderCards()) {
@@ -1121,7 +1117,7 @@ public class GameHandler
 					leaderCardsInHandNumber++;
 				}
 			}
-			playersInformation.add(new PlayerInformation(player.getIndex(), player.getPersonalBonusTile().getIndex(), developmentCardsBuildingInformation, developmentCardsCharacterInformation, developmentCardsTerritoryInformation, developmentCardsVentureInformation, leaderCardsPlayed, leaderCardsInHandNumber, player.getPlayerResourceHandler().getResources(), player.getFamilyMembersPositions()));
+			playersInformation.add(new PlayerInformation(player.getIndex(), player.getPersonalBonusTile().getIndex(), developmentCardsInformation, leaderCardsPlayed, leaderCardsInHandNumber, player.getPlayerResourceHandler().getResources(), player.getFamilyMembersPositions()));
 		}
 		return playersInformation;
 	}

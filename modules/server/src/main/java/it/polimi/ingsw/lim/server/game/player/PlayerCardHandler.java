@@ -1,7 +1,7 @@
 package it.polimi.ingsw.lim.server.game.player;
 
 import it.polimi.ingsw.lim.common.enums.CardType;
-import it.polimi.ingsw.lim.common.game.utils.CardAmount;
+import it.polimi.ingsw.lim.common.game.utils.DevelopmentCardAmount;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 
@@ -47,10 +47,10 @@ public class PlayerCardHandler
 		this.developmentCards.put(CardType.VENTURE, new ArrayList<>());
 	}
 
-	public boolean hasEnoughCards(List<CardAmount> cardAmounts)
+	public boolean hasEnoughCards(List<DevelopmentCardAmount> developmentCardAmounts)
 	{
-		for (CardAmount cardAmount : cardAmounts) {
-			if (this.developmentCards.get(cardAmount.getCardType()).size() < cardAmount.getAmount()) {
+		for (DevelopmentCardAmount developmentCardAmount : developmentCardAmounts) {
+			if (this.developmentCards.get(developmentCardAmount.getCardType()).size() < developmentCardAmount.getAmount()) {
 				return false;
 			}
 		}

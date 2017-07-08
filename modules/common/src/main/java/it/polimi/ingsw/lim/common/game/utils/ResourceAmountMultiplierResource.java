@@ -5,6 +5,11 @@ import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
 import java.util.Objects;
 
+/**
+ * <p>This class represents an amount of resources, multiplied every N resources
+ * of the given {@link ResourceType}. It is used to represent a condition or a
+ * reward.
+ */
 public class ResourceAmountMultiplierResource extends ResourceAmount
 {
 	private final ResourceType resourceTypeMultiplier;

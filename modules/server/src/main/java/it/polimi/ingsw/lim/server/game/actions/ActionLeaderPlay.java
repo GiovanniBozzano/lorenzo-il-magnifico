@@ -71,7 +71,7 @@ public class ActionLeaderPlay extends ActionInformationLeaderPlay implements IAc
 			if (leaderCardConditionsOption.getResourceAmounts() != null && !this.player.getPlayerResourceHandler().canAffordResources(leaderCardConditionsOption.getResourceAmounts())) {
 				availableConditionOption = false;
 			}
-			if (availableConditionOption && leaderCardConditionsOption.getCardAmounts() != null && !this.player.getPlayerCardHandler().hasEnoughCards(leaderCardConditionsOption.getCardAmounts())) {
+			if (availableConditionOption && leaderCardConditionsOption.getDevelopmentCardAmounts() != null && !this.player.getPlayerCardHandler().hasEnoughCards(leaderCardConditionsOption.getDevelopmentCardAmounts())) {
 				availableConditionOption = false;
 			}
 			if (availableConditionOption) {

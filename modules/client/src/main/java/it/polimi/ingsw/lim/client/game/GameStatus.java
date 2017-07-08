@@ -64,10 +64,9 @@ public class GameStatus
 
 	public void updateGameStatus(GameInformation gameInformation, List<PlayerInformation> playersInformation, Map<Integer, Boolean> ownLeaderCardsHand)
 	{
-		this.setCurrentDevelopmentCards(CardType.BUILDING, gameInformation.getDevelopmentCardsBuilding());
-		this.setCurrentDevelopmentCards(CardType.CHARACTER, gameInformation.getDevelopmentCardsCharacter());
-		this.setCurrentDevelopmentCards(CardType.TERRITORY, gameInformation.getDevelopmentCardsTerritory());
-		this.setCurrentDevelopmentCards(CardType.VENTURE, gameInformation.getDevelopmentCardsVenture());
+		for (Entry<CardType, Map<Row, Integer>> developmentCardsType : gameInformation.getDevelopmentCards().entrySet()) {
+			this.setCurrentDevelopmentCards(developmentCardsType.getKey(), developmentCardsType.getValue());
+		}
 		this.setCurrentDices(gameInformation.getDices());
 		this.setCurrentTurnOrder(gameInformation.getTurnOrder());
 		this.setCurrentCouncilPalaceOrder(gameInformation.getCouncilPalaceOrder());
@@ -76,10 +75,9 @@ public class GameStatus
 		for (PlayerInformation playerInformation : playersInformation) {
 			if (this.currentPlayerData.get(playerInformation.getIndex()) != null) {
 				this.currentPlayerData.get(playerInformation.getIndex()).setPersonalBonusTile(playerInformation.getPersonalBonusTile());
-				this.currentPlayerData.get(playerInformation.getIndex()).setDevelopmentCards(CardType.BUILDING, playerInformation.getDevelopmentCardsBuilding());
-				this.currentPlayerData.get(playerInformation.getIndex()).setDevelopmentCards(CardType.CHARACTER, playerInformation.getDevelopmentCardsCharacter());
-				this.currentPlayerData.get(playerInformation.getIndex()).setDevelopmentCards(CardType.TERRITORY, playerInformation.getDevelopmentCardsTerritory());
-				this.currentPlayerData.get(playerInformation.getIndex()).setDevelopmentCards(CardType.VENTURE, playerInformation.getDevelopmentCardsVenture());
+				for (CardType cardType : CardType.values()) {
+					this.currentPlayerData.get(playerInformation.getIndex()).setDevelopmentCards(cardType, playerInformation.getDevelopmentCards().get(cardType));
+				}
 				this.currentPlayerData.get(playerInformation.getIndex()).setLeaderCardsPlayed(playerInformation.getLeaderCardsPlayed());
 				this.currentPlayerData.get(playerInformation.getIndex()).setLeaderCardsInHandNumber(playerInformation.getLeaderCardsInHandNumber());
 				this.currentPlayerData.get(playerInformation.getIndex()).setResourceAmounts(playerInformation.getResourceAmounts());
@@ -98,7 +96,7 @@ public class GameStatus
 		throw new NoSuchElementException();
 	}
 
-	public void setDevelopmentCards(CardType cardType, Map<Integer, DevelopmentCardInformation> developmentCards)
+	private void setDevelopmentCards(CardType cardType, Map<Integer, DevelopmentCardInformation> developmentCards)
 	{
 		this.developmentCards.get(cardType).clear();
 		this.developmentCards.get(cardType).putAll(developmentCards);
@@ -125,7 +123,7 @@ public class GameStatus
 		return this.leaderCards;
 	}
 
-	public void setLeaderCards(Map<Integer, LeaderCardInformation> leaderCards)
+	private void setLeaderCards(Map<Integer, LeaderCardInformation> leaderCards)
 	{
 		this.leaderCards.clear();
 		this.leaderCards.putAll(leaderCards);
@@ -136,7 +134,7 @@ public class GameStatus
 		return this.excommunicationTiles;
 	}
 
-	public void setExcommunicationTiles(Map<Integer, ExcommunicationTileInformation> excommunicationTiles)
+	private void setExcommunicationTiles(Map<Integer, ExcommunicationTileInformation> excommunicationTiles)
 	{
 		this.excommunicationTiles.clear();
 		this.excommunicationTiles.putAll(excommunicationTiles);
@@ -147,7 +145,7 @@ public class GameStatus
 		return this.personalBonusTiles;
 	}
 
-	public void setPersonalBonusTiles(Map<Integer, PersonalBonusTileInformation> personalBonusTiles)
+	private void setPersonalBonusTiles(Map<Integer, PersonalBonusTileInformation> personalBonusTiles)
 	{
 		this.personalBonusTiles.clear();
 		this.personalBonusTiles.putAll(personalBonusTiles);
