@@ -50,18 +50,29 @@ public class CLIHandlerAuthentication implements ICLIHandler
 		return new CLIHandlerAuthentication();
 	}
 
+	/**
+	 * <p>Asks which {@code username} the player wants to use to login or
+	 * register and saves it.
+	 */
 	private void askUsername()
 	{
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter Username...");
 		this.username = Client.getInstance().getCliScanner().nextLine();
 	}
 
+	/**
+	 * <p>Asks which {@code password} the player wants to use to login or
+	 * register and saves it.
+	 */
 	private void askPassword()
 	{
 		Client.getLogger().log(Level.INFO, "\n\nEnter Password...");
 		this.password = Client.getInstance().getCliScanner().nextLine();
 	}
 
+	/**
+	 * <p>Asks which {@code roomType} the player wants to choose and saves it.
+	 */
 	private void askRoomType()
 	{
 		Client.getLogger().log(Level.INFO, "\n\nEnter Room Type...");
@@ -75,6 +86,10 @@ public class CLIHandlerAuthentication implements ICLIHandler
 		this.roomType = CLIHandlerAuthentication.ROOM_TYPES.get(Integer.parseInt(input));
 	}
 
+	/**
+	 * <p>Asks if the player wants to login or register and sends the
+	 * corresponding action with the chosen information.
+	 */
 	private void askAuthentication()
 	{
 		Client.getLogger().log(Level.INFO, "\n\nEnter Authentication Type...");

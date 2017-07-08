@@ -17,6 +17,11 @@ public class CLIHandlerExcommunicationChoice implements ICLIHandler
 		CLIHandlerExcommunicationChoice.EXCOMMUNICATION_CHOICES.put(2, Boolean.FALSE);
 	}
 
+	/**
+	 * <p>Uses a {@link Integer} {@link Boolean} {@link Map} to ask if the
+	 * player wants to praise the SUN and sends the corresponding action with
+	 * the chosen information.
+	 */
 	private static void askExcommunicationChoice()
 	{
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter Excommunication choice...");

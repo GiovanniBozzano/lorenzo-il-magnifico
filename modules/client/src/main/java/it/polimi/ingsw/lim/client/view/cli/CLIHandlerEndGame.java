@@ -44,6 +44,10 @@ public class CLIHandlerEndGame implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Asks if the player wants to disconnect and sends the
+	 * corresponding action with the chosen information.
+	 */
 	private static void askDisconnection()
 	{
 		Client.getLogger().log(Level.INFO, "\n\nPress ENTER to disconnect...");

@@ -25,6 +25,13 @@ public class CLIHandlerShowBoardDevelopmentCards implements ICLIHandler
 		CLIHandlerShowBoardDevelopmentCards.CARD_TYPE_CHOICE.put(4, CardType.VENTURE);
 	}
 
+	/**
+	 * <p>Uses the {@link Row} {@link Integer} {@link Map} of the current
+	 * development cards on the board and the chosen {@link CardType} to print
+	 * the corresponding development cards and their {@link Row} on screen.
+	 *
+	 * @param cardType the {@link CardType} of the action.
+	 */
 	private static void showDevelopmentCards(CardType cardType)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -53,6 +60,11 @@ public class CLIHandlerShowBoardDevelopmentCards implements ICLIHandler
 		return new CLIHandlerShowBoardDevelopmentCards();
 	}
 
+	/**
+	 * <p>Uses a {@link Integer} {@link CardType} {@link Map} to ask which
+	 * {@link CardType} the player wants to choose to perform a show development
+	 * cards action and sends it.
+	 */
 	private void askDevelopmentCardsType()
 	{
 		StringBuilder stringBuilder = new StringBuilder();

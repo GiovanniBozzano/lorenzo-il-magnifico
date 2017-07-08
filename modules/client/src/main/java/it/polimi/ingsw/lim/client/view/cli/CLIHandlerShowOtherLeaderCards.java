@@ -31,6 +31,13 @@ public class CLIHandlerShowOtherLeaderCards implements ICLIHandler
 		return new CLIHandlerShowOtherLeaderCards();
 	}
 
+	/**
+	 * <p>Uses the {@link Integer} {@link PlayerData} {@link Map} of the current
+	 * current players data to insert in a {@link
+	 * Integer} {@link Integer} {@link Map} the available other
+	 * players to perform a show other players action and prints them
+	 * and the corresponding choosing indexes on screen.
+	 */
 	private void showOtherPlayers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -46,6 +53,11 @@ public class CLIHandlerShowOtherLeaderCards implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Uses the {@link Integer} {@link Integer} {@link Map} to ask which
+	 * {@code chosenOtherPlayer} the currrent player wants to choose to perform
+	 * the action and saves it.
+	 */
 	private void askOtherPlayer()
 	{
 		String input;
@@ -56,6 +68,10 @@ public class CLIHandlerShowOtherLeaderCards implements ICLIHandler
 		this.chosenOtherPlayer = this.availableOtherPlayers.get(Integer.parseInt(input));
 	}
 
+	/**
+	 * <p>Asks which leader cards the player wants to see and sends the
+	 * corresponding action with the chosen information.
+	 */
 	private void askLeaderCardPosition()
 	{
 		Client.getLogger().log(Level.INFO, "\n\nEnter Leader Cards ...");
@@ -68,6 +84,11 @@ public class CLIHandlerShowOtherLeaderCards implements ICLIHandler
 		this.showLeaderCardsPlayed();
 	}
 
+	/**
+	 * <p>Uses the {@link Integer} {@link Boolean} {@link Map} of the played
+	 * leader cards of the {@code chosenOtherPlayer} to print the corresponding
+	 * leader cards and if they can be activated on screen.
+	 */
 	private void showLeaderCardsPlayed()
 	{
 		StringBuilder stringBuilder = new StringBuilder();

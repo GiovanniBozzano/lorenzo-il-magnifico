@@ -21,6 +21,11 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 		CLIHandlerShowOwnLeaderCards.LEADER_CARDS_POSITIONS.put(2, CLIHandlerShowOwnLeaderCards::showLeaderCardsPlayed);
 	}
 
+	/**
+	 * <p>Uses the {@link Integer} {@link Boolean} {@link Map} of the current
+	 * own leader cards hand of the player to print
+	 * the corresponding leader cards and if they can be played on screen.
+	 */
 	private static void showLeaderCardsHand()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -36,6 +41,11 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Uses the {@link Integer} {@link Boolean} {@link Map} of the played
+	 * leader cards of the player to print the corresponding leader cards and if
+	 * they can be activated on screen.
+	 */
 	private static void showLeaderCardsPlayed()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -51,6 +61,11 @@ public class CLIHandlerShowOwnLeaderCards implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Uses the {@link Integer} {@link Runnable} {@link Map} of leader cards
+	 * positions to ask which one the player wants to see and sends the
+	 * corresponding action with the chosen information.
+	 */
 	private static void askLeaderCardPosition()
 	{
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter Leader Cards ...");
