@@ -59,7 +59,7 @@
 	
 ## Installation
 To clone and run this game, you will need [Git](https://git-scm.com/), [Maven](https://maven.apache.org/) and [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/) installed on your computer. From your command line:
-```bash
+```
 # Clone this Repository
 $ git clone https://github.com/GiovanniBozzano/lorenzo-il-magnifico.git
 
