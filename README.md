@@ -63,7 +63,10 @@ To clone and run this game, you will need [Git](https://git-scm.com/), [Maven](h
 # Clone this Repository
 $ git clone https://github.com/GiovanniBozzano/lorenzo-il-magnifico.git
 
-# Go into the Repository
+# Run tests
+$ mvn test
+
+# Build
 $ mvn package
 
 # Run the Server
