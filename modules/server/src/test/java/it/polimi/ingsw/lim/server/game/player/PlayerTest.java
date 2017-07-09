@@ -18,7 +18,7 @@ public class PlayerTest
 		this.player = new Player(new ConnectionRMI(null, null), new Room(RoomType.NORMAL), 0);
 		this.player.getFamilyMembersPositions().put(FamilyMemberType.NEUTRAL, BoardPosition.HARVEST_SMALL);
 		this.player.getPlayerResourceHandler().getResources().put(ResourceType.MILITARY_POINT, Player.getTerritorySlotsConditions().get(5));
-		this.player.getPlayerResourceHandler().getResources().put(ResourceType.FAITH_POINT, Player.getExcommunicationConditions().get(Period.FIRST));
+		this.player.getPlayerResourceHandler().getResources().put(ResourceType.FAITH_POINT, Player.getExcommunicationsConditions().get(Period.FIRST));
 		this.player.getPlayerResourceHandler().addResource(ResourceType.COIN, 5);
 		this.player.getPlayerResourceHandler().addResource(ResourceType.SERVANT, 2);
 		this.player.getPlayerResourceHandler().addResource(ResourceType.STONE, 3);

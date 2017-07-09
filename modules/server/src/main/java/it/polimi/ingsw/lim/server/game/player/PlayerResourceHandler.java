@@ -1,15 +1,24 @@
 package it.polimi.ingsw.lim.server.game.player;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.lim.common.enums.ResourceType;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmountMultiplierCard;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmountMultiplierResource;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
+import it.polimi.ingsw.lim.server.Server;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 
 /**
  * <p>This class handles a player's resources information. It is used to store
@@ -17,27 +26,7 @@ import java.util.Map.Entry;
  */
 public class PlayerResourceHandler
 {
-	private static final Map<Integer, Integer> FAITH_POINTS_PRICES = new HashMap<>();
-
-	static {
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(0, 0);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(1, 1);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(2, 2);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(3, 3);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(4, 4);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(5, 5);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(6, 7);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(7, 9);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(8, 11);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(9, 13);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(10, 15);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(11, 17);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(12, 19);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(13, 22);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(14, 25);
-		PlayerResourceHandler.FAITH_POINTS_PRICES.put(15, 30);
-	}
-
+	private static final Map<Integer, Integer> FAITH_POINTS_REWARDS = new FaithPointsRewardsBuilder("/json/faith_points_rewards.json").initialize();
 	private final Player player;
 	private final Map<ResourceType, Integer> resources = new EnumMap<>(ResourceType.class);
 	private final Map<ResourceType, Integer> temporaryResources = new EnumMap<>(ResourceType.class);
@@ -163,7 +152,7 @@ public class PlayerResourceHandler
 
 	public static Map<Integer, Integer> getFaithPointsPrices()
 	{
-		return PlayerResourceHandler.FAITH_POINTS_PRICES;
+		return PlayerResourceHandler.FAITH_POINTS_REWARDS;
 	}
 
 	public Map<ResourceType, Integer> getResources()
@@ -174,5 +163,29 @@ public class PlayerResourceHandler
 	public Map<ResourceType, Integer> getTemporaryResources()
 	{
 		return this.temporaryResources;
+	}
+
+	private static class FaithPointsRewardsBuilder
+	{
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
+		private static final Gson GSON = FaithPointsRewardsBuilder.GSON_BUILDER.create();
+		private final String jsonFile;
+
+		FaithPointsRewardsBuilder(String jsonFile)
+		{
+			this.jsonFile = jsonFile;
+		}
+
+		Map<Integer, Integer> initialize()
+		{
+			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
+				return FaithPointsRewardsBuilder.GSON.fromJson(reader, new TypeToken<Map<Integer, Integer>>()
+				{
+				}.getType());
+			} catch (IOException exception) {
+				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+			return new HashMap<>();
+		}
 	}
 }

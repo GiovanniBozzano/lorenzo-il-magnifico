@@ -1,6 +1,11 @@
 package it.polimi.ingsw.lim.server.game.player;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.lim.common.enums.*;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
+import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
@@ -8,7 +13,11 @@ import it.polimi.ingsw.lim.server.game.cards.DevelopmentCardVenture;
 import it.polimi.ingsw.lim.server.game.modifiers.Modifier;
 import it.polimi.ingsw.lim.server.network.Connection;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * <p>This class represents the user game information. It is used to store game
@@ -16,8 +25,8 @@ import java.util.*;
  */
 public class Player
 {
-	private static final Map<Integer, Integer> TERRITORY_SLOTS_CONDITIONS = new HashMap<>();
-	private static final Map<Period, Integer> EXCOMMUNICATION_CONDITIONS = new EnumMap<>(Period.class);
+	private static final Map<Integer, Integer> TERRITORY_SLOTS_CONDITIONS = new TerritorySlotsConditionsBuilder("/json/territory_slots_conditions.json").initialize();
+	private static final Map<Period, Integer> EXCOMMUNICATIONS_CONDITIONS = new ExcommunicationsConditionsBuilder("/json/excommunications_conditions.json").initialize();
 
 	static {
 		Player.TERRITORY_SLOTS_CONDITIONS.put(0, 0);
@@ -26,9 +35,9 @@ public class Player
 		Player.TERRITORY_SLOTS_CONDITIONS.put(3, 7);
 		Player.TERRITORY_SLOTS_CONDITIONS.put(4, 12);
 		Player.TERRITORY_SLOTS_CONDITIONS.put(5, 18);
-		Player.EXCOMMUNICATION_CONDITIONS.put(Period.FIRST, 3);
-		Player.EXCOMMUNICATION_CONDITIONS.put(Period.SECOND, 4);
-		Player.EXCOMMUNICATION_CONDITIONS.put(Period.THIRD, 5);
+		Player.EXCOMMUNICATIONS_CONDITIONS.put(Period.FIRST, 3);
+		Player.EXCOMMUNICATIONS_CONDITIONS.put(Period.SECOND, 4);
+		Player.EXCOMMUNICATIONS_CONDITIONS.put(Period.THIRD, 5);
 	}
 
 	private final Room room;
@@ -73,17 +82,17 @@ public class Player
 
 	public boolean isExcommunicated(Period period)
 	{
-		return this.playerResourceHandler.getResources().get(ResourceType.FAITH_POINT) < Player.EXCOMMUNICATION_CONDITIONS.get(period);
+		return this.playerResourceHandler.getResources().get(ResourceType.FAITH_POINT) < Player.EXCOMMUNICATIONS_CONDITIONS.get(period);
 	}
 
 	public void convertToVictoryPoints(boolean countingCharacters, boolean countingTerritories, boolean countingVentures)
 	{
 		this.playerResourceHandler.addResource(ResourceType.VICTORY_POINT, (this.playerResourceHandler.getResources().get(ResourceType.COIN) + this.playerResourceHandler.getResources().get(ResourceType.SERVANT) + this.playerResourceHandler.getResources().get(ResourceType.STONE) + this.playerResourceHandler.getResources().get(ResourceType.WOOD)) / 5);
 		if (countingCharacters) {
-			this.playerResourceHandler.addResource(ResourceType.VICTORY_POINT, PlayerCardHandler.getDevelopmentCardsCharacterPrices().get(this.playerCardHandler.getDevelopmentCardsNumber(CardType.CHARACTER)));
+			this.playerResourceHandler.addResource(ResourceType.VICTORY_POINT, PlayerCardHandler.getDevelopmentCardsCharacterRewards().get(this.playerCardHandler.getDevelopmentCardsNumber(CardType.CHARACTER)));
 		}
 		if (countingTerritories) {
-			this.playerResourceHandler.addResource(ResourceType.VICTORY_POINT, PlayerCardHandler.getDevelopmentCardsTerritoryPrices().get(this.playerCardHandler.getDevelopmentCardsNumber(CardType.TERRITORY)));
+			this.playerResourceHandler.addResource(ResourceType.VICTORY_POINT, PlayerCardHandler.getDevelopmentCardsTerritoryRewards().get(this.playerCardHandler.getDevelopmentCardsNumber(CardType.TERRITORY)));
 		}
 		if (countingVentures) {
 			for (DevelopmentCardVenture developmentCardVenture : this.playerCardHandler.getDevelopmentCards(CardType.VENTURE, DevelopmentCardVenture.class)) {
@@ -107,9 +116,9 @@ public class Player
 		return Player.TERRITORY_SLOTS_CONDITIONS;
 	}
 
-	static Map<Period, Integer> getExcommunicationConditions()
+	static Map<Period, Integer> getExcommunicationsConditions()
 	{
-		return Player.EXCOMMUNICATION_CONDITIONS;
+		return Player.EXCOMMUNICATIONS_CONDITIONS;
 	}
 
 	public Connection getConnection()
@@ -200,5 +209,53 @@ public class Player
 	public void setCurrentProductionValue(int currentProductionValue)
 	{
 		this.currentProductionValue = currentProductionValue;
+	}
+
+	private static class TerritorySlotsConditionsBuilder
+	{
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
+		private static final Gson GSON = TerritorySlotsConditionsBuilder.GSON_BUILDER.create();
+		private final String jsonFile;
+
+		TerritorySlotsConditionsBuilder(String jsonFile)
+		{
+			this.jsonFile = jsonFile;
+		}
+
+		Map<Integer, Integer> initialize()
+		{
+			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
+				return TerritorySlotsConditionsBuilder.GSON.fromJson(reader, new TypeToken<Map<Integer, Integer>>()
+				{
+				}.getType());
+			} catch (IOException exception) {
+				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+			return new HashMap<>();
+		}
+	}
+
+	private static class ExcommunicationsConditionsBuilder
+	{
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
+		private static final Gson GSON = ExcommunicationsConditionsBuilder.GSON_BUILDER.create();
+		private final String jsonFile;
+
+		ExcommunicationsConditionsBuilder(String jsonFile)
+		{
+			this.jsonFile = jsonFile;
+		}
+
+		Map<Period, Integer> initialize()
+		{
+			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
+				return ExcommunicationsConditionsBuilder.GSON.fromJson(reader, new TypeToken<Map<Period, Integer>>()
+				{
+				}.getType());
+			} catch (IOException exception) {
+				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+			return new EnumMap<>(Period.class);
+		}
 	}
 }

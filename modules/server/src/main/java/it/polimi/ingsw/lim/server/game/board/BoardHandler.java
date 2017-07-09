@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.server.game.board;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
@@ -92,7 +91,7 @@ public class BoardHandler
 				{
 				}.getType());
 			} catch (IOException exception) {
-				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 			return new EnumMap<>(BoardPosition.class);
 		}
@@ -116,7 +115,7 @@ public class BoardHandler
 				{
 				}.getType());
 			} catch (IOException exception) {
-				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 			return new HashMap<>();
 		}

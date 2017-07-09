@@ -1,11 +1,20 @@
 package it.polimi.ingsw.lim.server.game.player;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.lim.common.enums.CardType;
 import it.polimi.ingsw.lim.common.game.utils.DevelopmentCardAmount;
+import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
+import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.cards.DevelopmentCard;
 import it.polimi.ingsw.lim.server.game.cards.LeaderCard;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * <p>This class handles a player's cards information. It is used to store game
@@ -13,26 +22,8 @@ import java.util.*;
  */
 public class PlayerCardHandler
 {
-	private static final Map<Integer, Integer> DEVELOPMENT_CARDS_CHARACTER_PRICES = new HashMap<>();
-	private static final Map<Integer, Integer> DEVELOPMENT_CARDS_TERRITORY_PRICES = new HashMap<>();
-
-	static {
-		PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES.put(0, 0);
-		PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES.put(1, 1);
-		PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES.put(2, 3);
-		PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES.put(3, 6);
-		PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES.put(4, 10);
-		PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES.put(5, 15);
-		PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES.put(6, 21);
-		PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES.put(0, 0);
-		PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES.put(1, 0);
-		PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES.put(2, 0);
-		PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES.put(3, 1);
-		PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES.put(4, 4);
-		PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES.put(5, 10);
-		PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES.put(6, 20);
-	}
-
+	private static final Map<Integer, Integer> DEVELOPMENT_CARDS_CHARACTER_REWARDS = new DevelopmentCardsVictoryPointsBuilder("/json/development_cards_character_rewards.json").initialize();
+	private static final Map<Integer, Integer> DEVELOPMENT_CARDS_TERRITORY_REWARDS = new DevelopmentCardsVictoryPointsBuilder("/json/development_cards_territory_rewards.json").initialize();
 	private final Map<CardType, List<DevelopmentCard>> developmentCards = new EnumMap<>(CardType.class);
 	private final List<LeaderCard> leaderCards = new ArrayList<>();
 
@@ -93,18 +84,42 @@ public class PlayerCardHandler
 		this.leaderCards.add(leaderCard);
 	}
 
-	static Map<Integer, Integer> getDevelopmentCardsCharacterPrices()
+	static Map<Integer, Integer> getDevelopmentCardsCharacterRewards()
 	{
-		return PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES;
+		return PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_REWARDS;
 	}
 
-	static Map<Integer, Integer> getDevelopmentCardsTerritoryPrices()
+	static Map<Integer, Integer> getDevelopmentCardsTerritoryRewards()
 	{
-		return PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES;
+		return PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_REWARDS;
 	}
 
 	public List<LeaderCard> getLeaderCards()
 	{
 		return this.leaderCards;
+	}
+
+	private static class DevelopmentCardsVictoryPointsBuilder
+	{
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
+		private static final Gson GSON = DevelopmentCardsVictoryPointsBuilder.GSON_BUILDER.create();
+		private final String jsonFile;
+
+		DevelopmentCardsVictoryPointsBuilder(String jsonFile)
+		{
+			this.jsonFile = jsonFile;
+		}
+
+		Map<Integer, Integer> initialize()
+		{
+			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
+				return DevelopmentCardsVictoryPointsBuilder.GSON.fromJson(reader, new TypeToken<Map<Integer, Integer>>()
+				{
+				}.getType());
+			} catch (IOException exception) {
+				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+			return new HashMap<>();
+		}
 	}
 }
