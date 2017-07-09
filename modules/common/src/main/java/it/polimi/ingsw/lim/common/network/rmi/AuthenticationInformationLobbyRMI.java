@@ -17,9 +17,4 @@ public class AuthenticationInformationLobbyRMI extends AuthenticationInformation
 	{
 		return this.clientSession;
 	}
-
-	public void setClientSession(IClientSession clientSession)
-	{
-		this.clientSession = clientSession;
-	}
 }

@@ -3,7 +3,6 @@ package it.polimi.ingsw.lim.server.game.player;
 import it.polimi.ingsw.lim.common.enums.*;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.network.rmi.ConnectionRMI;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,10 +47,5 @@ public class PlayerTest
 	{
 		this.player.convertToVictoryPoints(true, true, true);
 		//Assert.assertEquals(4, (int) this.player.getPlayerResourceHandler().getResources().get(ResourceType.VICTORY_POINT));
-	}
-
-	@After
-	public void tearDown()
-	{
 	}
 }

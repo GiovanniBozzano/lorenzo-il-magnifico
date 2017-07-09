@@ -32,9 +32,4 @@ public class LeaderCardRewardInformation extends LeaderCardInformation
 		}
 		return stringBuilder.toString();
 	}
-
-	public RewardInformation getReward()
-	{
-		return this.reward;
-	}
 }

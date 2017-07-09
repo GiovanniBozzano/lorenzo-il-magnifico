@@ -19,9 +19,4 @@ public class LeaderCardModifierInformation extends LeaderCardInformation
 	{
 		return this.getCommonInformation() + "PERMANENT ABILITY:\n" + this.modifier;
 	}
-
-	public String getModifier()
-	{
-		return this.modifier;
-	}
 }

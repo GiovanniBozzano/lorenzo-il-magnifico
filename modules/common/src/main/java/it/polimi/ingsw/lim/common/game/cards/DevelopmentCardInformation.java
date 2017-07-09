@@ -48,14 +48,4 @@ public abstract class DevelopmentCardInformation extends CardInformation
 		}
 		return stringBuilder.toString();
 	}
-
-	public List<ResourceCostOption> getResourceCostOptions()
-	{
-		return this.resourceCostOptions;
-	}
-
-	public RewardInformation getReward()
-	{
-		return this.reward;
-	}
 }

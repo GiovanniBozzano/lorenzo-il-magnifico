@@ -51,7 +51,7 @@
 		- **Receive 2 Stones and 2 Woods**
 		- **Receive 1 Victory Point and 1 Prestige Point**
 * Council Privilege is a bonus of your choice between:
-	- 1 Wood and 1 Stone / 2 Servants / 2 Coins / 2 Military Points / 1 Faith Poin / **1 Prestige Point**
+	- 1 Wood and 1 Stone / 2 Servants / 2 Coins / 2 Military Points / 1 Faith Points / **1 Prestige Point**
 * Towers for Development Cards 
 	- If there are already Family Members in the same tower, pay **2** additional Coins to the supply.
 * End of the game and final score

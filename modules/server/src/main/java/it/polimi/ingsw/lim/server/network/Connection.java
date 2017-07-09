@@ -41,12 +41,6 @@ public abstract class Connection
 		this.username = username;
 	}
 
-	protected Connection(String username, Player player)
-	{
-		this.username = username;
-		this.player = player;
-	}
-
 	public static void disconnectAll()
 	{
 		for (Connection connection : Server.getInstance().getConnections()) {
