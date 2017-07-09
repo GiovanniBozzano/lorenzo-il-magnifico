@@ -23,8 +23,11 @@
 	- ✔ RMI
 	- ✔ Socket
 * File Configurations
-	- ✔ Cards
+	- ✔ Development Cards
+	- ✔ Excommunication Tiles
+	- ✔ Personal Bonus Tiles
 	- ✔ Game Board
+	- ✔ Player Board
 	- ✔ Timers
 * ✔ 5ᵗʰ Player
 	- New Type of Points
