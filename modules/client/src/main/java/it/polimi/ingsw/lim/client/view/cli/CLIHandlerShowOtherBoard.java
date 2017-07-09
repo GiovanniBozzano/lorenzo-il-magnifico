@@ -28,9 +28,6 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.put(1, cliHandler -> ((CLIHandlerShowOtherBoard) cliHandler).showFamilyMemberTypes());
 		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.put(2, cliHandler -> ((CLIHandlerShowOtherBoard) cliHandler).showResources());
 		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.put(3, cliHandler -> ((CLIHandlerShowOtherBoard) cliHandler).showDevelopmentCards());
-	}
-
-	static {
 		CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.put(1, CardType.BUILDING);
 		CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.put(2, CardType.CHARACTER);
 		CLIHandlerShowOtherBoard.CARD_TYPE_CHOICE.put(3, CardType.TERRITORY);

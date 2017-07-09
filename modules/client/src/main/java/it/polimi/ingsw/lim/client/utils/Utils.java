@@ -37,9 +37,6 @@ public class Utils
 		Utils.BOARD_IMAGES.put(3, "/images/game_board_3_players.png");
 		Utils.BOARD_IMAGES.put(4, "/images/game_board_4_players.png");
 		Utils.BOARD_IMAGES.put(5, "/images/game_board_5_players.png");
-	}
-
-	static {
 		Map<FamilyMemberType, String> dice1FamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
 		dice1FamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/dices/dice_1_black.png");
 		dice1FamilyMemberTypes.put(FamilyMemberType.ORANGE, "/images/dices/dice_1_orange.png");
@@ -70,15 +67,9 @@ public class Utils
 		Utils.DICES_FAMILY_MEMBER_TYPES_TEXTURES.put(4, dice4FamilyMemberTypes);
 		Utils.DICES_FAMILY_MEMBER_TYPES_TEXTURES.put(5, dice5FamilyMemberTypes);
 		Utils.DICES_FAMILY_MEMBER_TYPES_TEXTURES.put(6, dice6FamilyMemberTypes);
-	}
-
-	static {
 		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.BLACK, "/images/icons/family_member_type_black.png");
 		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.ORANGE, "/images/icons/family_member_type_orange.png");
 		Utils.FAMILY_MEMBER_TYPES_TEXTURES.put(FamilyMemberType.WHITE, "/images/icons/family_member_type_white.png");
-	}
-
-	static {
 		Map<FamilyMemberType, String> bluePlayerFamilyMemberTypes = new EnumMap<>(FamilyMemberType.class);
 		bluePlayerFamilyMemberTypes.put(FamilyMemberType.BLACK, "/images/players/player_blue_family_member_type_black.png");
 		bluePlayerFamilyMemberTypes.put(FamilyMemberType.NEUTRAL, "/images/players/player_blue_family_member_type_neutral.png");
@@ -109,17 +100,11 @@ public class Utils
 		Utils.PLAYERS_FAMILY_MEMBER_TYPES_TEXTURES.put(Color.PURPLE, purplePlayerFamilyMemberTypes);
 		Utils.PLAYERS_FAMILY_MEMBER_TYPES_TEXTURES.put(Color.RED, redPlayerFamilyMemberTypes);
 		Utils.PLAYERS_FAMILY_MEMBER_TYPES_TEXTURES.put(Color.YELLOW, yellowPlayerFamilyMemberTypes);
-	}
-
-	static {
 		Utils.PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.BLUE, "/images/players/player_blue.png");
 		Utils.PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.GREEN, "/images/players/player_green.png");
 		Utils.PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.PURPLE, "/images/players/player_purple.png");
 		Utils.PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.RED, "/images/players/player_red.png");
 		Utils.PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.YELLOW, "/images/players/player_yellow.png");
-	}
-
-	static {
 		Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.BLUE, "/images/players/player_blue_excommunication.png");
 		Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.GREEN, "/images/players/player_green_excommunication.png");
 		Utils.EXCOMMUNICATION_PLAYERS_PLACEHOLDERS_TEXTURES.put(Color.PURPLE, "/images/players/player_purple_excommunication.png");

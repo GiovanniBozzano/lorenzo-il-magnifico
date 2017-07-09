@@ -6,7 +6,9 @@ import it.polimi.ingsw.lim.common.cli.IInputHandler;
 import it.polimi.ingsw.lim.common.enums.RoomType;
 import it.polimi.ingsw.lim.common.utils.CommonUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -18,15 +20,16 @@ import java.util.logging.Level;
  */
 public class CLIHandlerAuthentication implements ICLIHandler
 {
+	private static final List<String> DEVELOPERS_USERNAMES = new ArrayList<>();
 	private static final Map<Integer, RoomType> ROOM_TYPES = new HashMap<>();
 	private static final Map<Integer, IInputHandler> INPUT_HANDLERS_AUTHENTICATION_TYPE = new HashMap<>();
 
 	static {
+		CLIHandlerAuthentication.DEVELOPERS_USERNAMES.add("GioBozza");
+		CLIHandlerAuthentication.DEVELOPERS_USERNAMES.add("KiritoTBS");
+		CLIHandlerAuthentication.DEVELOPERS_USERNAMES.add("pluck12");
 		CLIHandlerAuthentication.ROOM_TYPES.put(1, RoomType.NORMAL);
 		CLIHandlerAuthentication.ROOM_TYPES.put(2, RoomType.EXTENDED);
-	}
-
-	static {
 		CLIHandlerAuthentication.INPUT_HANDLERS_AUTHENTICATION_TYPE.put(1, cliHandler -> Client.getInstance().getConnectionHandler().sendLogin(((CLIHandlerAuthentication) cliHandler).username, ((CLIHandlerAuthentication) cliHandler).password, ((CLIHandlerAuthentication) cliHandler).roomType));
 		CLIHandlerAuthentication.INPUT_HANDLERS_AUTHENTICATION_TYPE.put(2, cliHandler -> Client.getInstance().getConnectionHandler().sendRegistration(((CLIHandlerAuthentication) cliHandler).username, ((CLIHandlerAuthentication) cliHandler).password, ((CLIHandlerAuthentication) cliHandler).roomType));
 	}
@@ -58,17 +61,11 @@ public class CLIHandlerAuthentication implements ICLIHandler
 	{
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter Username...");
 		this.username = Client.getInstance().getCliScanner().nextLine();
-		String gigifacile = "gigifacile";
-		String developer1 = "GioBozza";
-		String developer2 = "kiritoTBS";
-		String developer3 = "pluck12";
-		String tutor = "rolando";
-		if(this.username.equals(gigifacile))
-			Client.getLogger().log(Level.INFO, "OMG, i can feel your power!\n");
-		if(this.username.equals(developer1) || this.username.equals(developer2) || this.username.equals(developer3))
-			Client.getLogger().log(Level.INFO, "This username is protected. Only developers are allowed!\n");
-		if(this.username.equals(tutor))
-			Client.getLogger().log(Level.INFO, "Le StAnZe DeVoNo SeGuIrE lE sPeCiFiChE\n");
+		if (this.username.equals("gigifacile")) {
+			Client.getLogger().log(Level.INFO, "OMG, I can feel your power!");
+		} else if (CLIHandlerAuthentication.DEVELOPERS_USERNAMES.contains(this.username)) {
+			Client.getLogger().log(Level.INFO, "With great power comes great responsibility!");
+		}
 	}
 
 	/**

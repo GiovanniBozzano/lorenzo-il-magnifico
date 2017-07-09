@@ -24,9 +24,6 @@ public class PlayerCardHandler
 		PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES.put(4, 10);
 		PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES.put(5, 15);
 		PlayerCardHandler.DEVELOPMENT_CARDS_CHARACTER_PRICES.put(6, 21);
-	}
-
-	static {
 		PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES.put(0, 0);
 		PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES.put(1, 0);
 		PlayerCardHandler.DEVELOPMENT_CARDS_TERRITORY_PRICES.put(2, 0);

@@ -61,18 +61,12 @@ public class Utils
 	static {
 		Utils.COMMAND_HANDLERS.put(Command.KICK, Command::handleKickCommand);
 		Utils.COMMAND_HANDLERS.put(Command.SAY, Command::handleSayCommand);
-	}
-
-	static {
 		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.INTEGER, Utils::setStatementInteger);
 		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.LONG, Utils::setStatementLong);
 		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.FLOAT, Utils::setStatementFloat);
 		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.DOUBLE, Utils::setStatementDouble);
 		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.STRING, Utils::setStatementString);
 		Utils.QUERY_ARGUMENTS_FILLERS.put(QueryValueType.BYTES, Utils::setStatementBytes);
-	}
-
-	static {
 		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, (actionInformation, player) -> new ActionChooseLorenzoDeMediciLeader(((ActionInformationChooseLorenzoDeMediciLeader) actionInformation).getLeaderCardIndex(), player));
 		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE, (actionInformation, player) -> new ActionChooseRewardCouncilPrivilege(((ActionInformationChooseRewardCouncilPrivilege) actionInformation).getCouncilPrivilegeRewardIndexes(), player));
 		Utils.ACTIONS_TRANSFORMERS.put(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD, (actionInformation, player) -> new ActionChooseRewardPickDevelopmentCard(((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getServants(), ((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getCardType(), ((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getRow(), ((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getInstantRewardRow(), ((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getInstantDiscountChoice(), ((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getDiscountChoice(), ((ActionInformationChooseRewardPickDevelopmentCard) actionInformation).getResourceCostOption(), player));

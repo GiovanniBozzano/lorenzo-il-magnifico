@@ -60,41 +60,26 @@ public class ControllerGame extends CustomController
 		ControllerGame.MOUSE_OVER_EFFECT.setColor(Color.BLACK);
 		ControllerGame.MOUSE_OVER_EFFECT.setWidth(40.0D);
 		ControllerGame.MOUSE_OVER_EFFECT.setHeight(40.0D);
-	}
-
-	static {
 		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setOffsetY(0.0D);
 		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setOffsetX(0.0D);
 		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setColor(Color.YELLOW);
 		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setWidth(40.0D);
 		ControllerGame.DEVELOPMENT_CARD_BUILDING_SELECTED_EFFECT.setHeight(40.0D);
-	}
-
-	static {
 		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setOffsetY(0.0D);
 		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setOffsetX(0.0D);
 		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setColor(Color.BLUE);
 		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setWidth(40.0D);
 		ControllerGame.DEVELOPMENT_CARD_CHARACTER_SELECTED_EFFECT.setHeight(40.0D);
-	}
-
-	static {
 		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setOffsetY(0.0D);
 		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setOffsetX(0.0D);
 		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setColor(Color.GREEN);
 		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setWidth(40.0D);
 		ControllerGame.DEVELOPMENT_CARD_TERRITORY_SELECTED_EFFECT.setHeight(40.0D);
-	}
-
-	static {
 		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setOffsetY(0.0D);
 		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setOffsetX(0.0D);
 		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setColor(Color.PURPLE);
 		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setWidth(40.0D);
 		ControllerGame.DEVELOPMENT_CARD_VENTURE_SELECTED_EFFECT.setHeight(40.0D);
-	}
-
-	static {
 		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_LORENZO_DE_MEDICI_LEADER, ControllerGame::showExpectedChooseLorenzoDeMediciLeader);
 		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE, ControllerGame::showExpectedChooseRewardCouncilPrivilege);
 		ControllerGame.EXPECTED_ACTION_HANDLERS.put(ActionType.CHOOSE_REWARD_HARVEST, ControllerGame::showExpectedChooseRewardHarvest);

@@ -56,8 +56,8 @@ public class CLIHandlerChooseRewardCouncilPrivilege implements ICLIHandler
 	}
 
 	/**
-	 * <p>Asks which Council Privilege Rewards indexes the player wants to choose
-	 * and sends them.
+	 * <p>Asks which Council Privilege Rewards indexes the player wants to
+	 * choose and sends them.
 	 */
 	private void askCouncilPrivilegeRewards()
 	{

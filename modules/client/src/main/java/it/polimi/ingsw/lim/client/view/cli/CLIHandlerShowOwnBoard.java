@@ -25,9 +25,6 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		CLIHandlerShowOwnBoard.PLAYER_INFORMATION.put(1, CLIHandlerShowOwnBoard::showFamilyMemberTypes);
 		CLIHandlerShowOwnBoard.PLAYER_INFORMATION.put(2, CLIHandlerShowOwnBoard::showResources);
 		CLIHandlerShowOwnBoard.PLAYER_INFORMATION.put(3, CLIHandlerShowOwnBoard::showDevelopmentCards);
-	}
-
-	static {
 		CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.put(1, CardType.BUILDING);
 		CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.put(2, CardType.CHARACTER);
 		CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.put(3, CardType.TERRITORY);

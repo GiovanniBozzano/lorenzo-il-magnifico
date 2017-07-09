@@ -58,9 +58,6 @@ public class CommonUtils
 		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.STONE, "Stone");
 		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.VICTORY_POINT, "Victory points");
 		CommonUtils.RESOURCES_TYPES_NAMES.put(ResourceType.WOOD, "Wood");
-	}
-
-	static {
 		CommonUtils.CARD_TYPES_NAMES.put(CardType.BUILDING, "Buildings");
 		CommonUtils.CARD_TYPES_NAMES.put(CardType.CHARACTER, "Characters");
 		CommonUtils.CARD_TYPES_NAMES.put(CardType.TERRITORY, "Territories");
