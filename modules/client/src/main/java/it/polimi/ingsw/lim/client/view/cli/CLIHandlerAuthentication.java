@@ -58,6 +58,17 @@ public class CLIHandlerAuthentication implements ICLIHandler
 	{
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter Username...");
 		this.username = Client.getInstance().getCliScanner().nextLine();
+		String gigifacile = "gigifacile";
+		String developer1 = "GioBozza";
+		String developer2 = "kiritoTBS";
+		String developer3 = "pluck12";
+		String tutor = "rolando";
+		if(this.username.equals(gigifacile))
+			Client.getLogger().log(Level.INFO, "OMG, i can feel your power!\n");
+		if(this.username.equals(developer1) || this.username.equals(developer2) || this.username.equals(developer3))
+			Client.getLogger().log(Level.INFO, "This username is protected. Only developers are allowed!\n");
+		if(this.username.equals(tutor))
+			Client.getLogger().log(Level.INFO, "Le StAnZe DeVoNo SeGuIrE lE sPeCiFiChE\n");
 	}
 
 	/**
