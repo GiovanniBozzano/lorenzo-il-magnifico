@@ -1,0 +1,157 @@
+[
+	{
+		"index": 0,
+		"texturePath": "/images/personal_bonus_tiles/personal_bonus_tile_0.png",
+		"playerBoardTexturePath": "/images/player_boards/player_board_0.png",
+		"productionActivationCost": 1,
+		"productionInstantResources": [
+			{
+				"resourceType": "COIN",
+				"amount": 2
+			},
+			{
+				"resourceType": "SERVANT",
+				"amount": 1
+			}
+		],
+		"harvestActivationCost": 1,
+		"harvestInstantResources": [
+			{
+				"resourceType": "MILITARY_POINT",
+				"amount": 1
+			},
+			{
+				"resourceType": "STONE",
+				"amount": 1
+			},
+			{
+				"resourceType": "WOOD",
+				"amount": 1
+			}
+		]
+	},
+	{
+		"index": 1,
+		"texturePath": "/images/personal_bonus_tiles/personal_bonus_tile_1.png",
+		"playerBoardTexturePath": "/images/player_boards/player_board_1.png",
+		"productionActivationCost": 1,
+		"productionInstantResources": [
+			{
+				"resourceType": "MILITARY_POINT",
+				"amount": 2
+			},
+			{
+				"resourceType": "SERVANT",
+				"amount": 1
+			}
+		],
+		"harvestActivationCost": 1,
+		"harvestInstantResources": [
+			{
+				"resourceType": "COIN",
+				"amount": 1
+			},
+			{
+				"resourceType": "STONE",
+				"amount": 1
+			},
+			{
+				"resourceType": "WOOD",
+				"amount": 1
+			}
+		]
+	},
+	{
+		"index": 2,
+		"texturePath": "/images/personal_bonus_tiles/personal_bonus_tile_2.png",
+		"playerBoardTexturePath": "/images/player_boards/player_board_2.png",
+		"productionActivationCost": 1,
+		"productionInstantResources": [
+			{
+				"resourceType": "COIN",
+				"amount": 1
+			},
+			{
+				"resourceType": "MILITARY_POINT",
+				"amount": 2
+			}
+		],
+		"harvestActivationCost": 1,
+		"harvestInstantResources": [
+			{
+				"resourceType": "SERVANT",
+				"amount": 1
+			},
+			{
+				"resourceType": "STONE",
+				"amount": 1
+			},
+			{
+				"resourceType": "WOOD",
+				"amount": 1
+			}
+		]
+	},
+	{
+		"index": 3,
+		"texturePath": "/images/personal_bonus_tiles/personal_bonus_tile_3.png",
+		"playerBoardTexturePath": "/images/player_boards/player_board_3.png",
+		"productionActivationCost": 1,
+		"productionInstantResources": [
+			{
+				"resourceType": "COIN",
+				"amount": 1
+			},
+			{
+				"resourceType": "SERVANT",
+				"amount": 2
+			}
+		],
+		"harvestActivationCost": 1,
+		"harvestInstantResources": [
+			{
+				"resourceType": "MILITARY_POINT",
+				"amount": 1
+			},
+			{
+				"resourceType": "STONE",
+				"amount": 1
+			},
+			{
+				"resourceType": "WOOD",
+				"amount": 1
+			}
+		]
+	},
+	{
+		"index": 4,
+		"texturePath": "/images/personal_bonus_tiles/personal_bonus_tile_4.png",
+		"playerBoardTexturePath": "/images/player_boards/player_board_4.png",
+		"productionActivationCost": 1,
+		"productionInstantResources": [
+			{
+				"resourceType": "MILITARY_POINT",
+				"amount": 1
+			},
+			{
+				"resourceType": "SERVANT",
+				"amount": 2
+			}
+		],
+		"harvestActivationCost": 1,
+		"harvestInstantResources": [
+			{
+				"resourceType": "COIN",
+				"amount": 1
+			},
+			{
+				"resourceType": "STONE",
+				"amount": 1
+			},
+			{
+				"resourceType": "WOOD",
+				"amount": 1
+			}
+		]
+	}
+]

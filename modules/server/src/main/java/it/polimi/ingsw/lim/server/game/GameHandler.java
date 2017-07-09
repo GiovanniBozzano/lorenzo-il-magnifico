@@ -94,28 +94,10 @@ public class GameHandler
 	public GameHandler(Room room)
 	{
 		this.room = room;
-		List<ExcommunicationTile> firstPeriodExcommunicationTiles = new ArrayList<>();
-		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
-			if (excommunicationTile.getPeriod() == Period.FIRST) {
-				firstPeriodExcommunicationTiles.add(excommunicationTile);
-			}
-		}
-		List<ExcommunicationTile> secondPeriodExcommunicationTiles = new ArrayList<>();
-		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
-			if (excommunicationTile.getPeriod() == Period.SECOND) {
-				secondPeriodExcommunicationTiles.add(excommunicationTile);
-			}
-		}
-		List<ExcommunicationTile> thirdPeriodExcommunicationTiles = new ArrayList<>();
-		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
-			if (excommunicationTile.getPeriod() == Period.THIRD) {
-				thirdPeriodExcommunicationTiles.add(excommunicationTile);
-			}
-		}
 		Map<Period, ExcommunicationTile> matchExcommunicationTiles = new EnumMap<>(Period.class);
-		matchExcommunicationTiles.put(Period.FIRST, firstPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(firstPeriodExcommunicationTiles.size())));
-		matchExcommunicationTiles.put(Period.SECOND, secondPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(secondPeriodExcommunicationTiles.size())));
-		matchExcommunicationTiles.put(Period.THIRD, thirdPeriodExcommunicationTiles.get(this.randomGenerator.nextInt(thirdPeriodExcommunicationTiles.size())));
+		matchExcommunicationTiles.put(Period.FIRST, BoardHandler.getExcommunicationTiles().get(Period.FIRST).get(this.randomGenerator.nextInt(BoardHandler.getExcommunicationTiles().get(Period.FIRST).size())));
+		matchExcommunicationTiles.put(Period.SECOND, BoardHandler.getExcommunicationTiles().get(Period.SECOND).get(this.randomGenerator.nextInt(BoardHandler.getExcommunicationTiles().get(Period.SECOND).size())));
+		matchExcommunicationTiles.put(Period.THIRD, BoardHandler.getExcommunicationTiles().get(Period.THIRD).get(this.randomGenerator.nextInt(BoardHandler.getExcommunicationTiles().get(Period.THIRD).size())));
 		Map<Integer, List<ResourceAmount>> matchCouncilPrivilegeRewards = new HashMap<>();
 		if (this.room.getRoomType() == RoomType.EXTENDED) {
 			matchCouncilPrivilegeRewards.putAll(BoardHandler.getCouncilPrivilegeRewards());
@@ -158,11 +140,11 @@ public class GameHandler
 		this.excommunicatedPlayers.put(Period.SECOND, new ArrayList<>());
 		this.excommunicatedPlayers.put(Period.THIRD, new ArrayList<>());
 		this.personalBonusTileChoicePlayerTurnIndex = this.turnOrder.size() - 1;
-		for (int index = 0; index < PersonalBonusTile.values().length; index++) {
+		for (int index = 0; index < BoardHandler.getPersonalBonusTiles().size(); index++) {
 			if (index == 4 && this.room.getRoomType() == RoomType.NORMAL) {
 				break;
 			}
-			this.availablePersonalBonusTiles.add(PersonalBonusTile.values()[index].getIndex());
+			this.availablePersonalBonusTiles.add(BoardHandler.getPersonalBonusTiles().get(index).getIndex());
 		}
 		List<LeaderCard> leaderCards = new ArrayList<>(CardsHandler.getLeaderCards());
 		int startingCoins = 5;
@@ -1222,7 +1204,7 @@ public class GameHandler
 						for (ResourceCostOption resourceCostOption : this.cardsHandler.getCurrentDevelopmentCards().get(cardType).get(row).getResourceCostOptions()) {
 							if (discountChoices.isEmpty()) {
 								try {
-									new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, new ArrayList<>(), new ResourceCostOption(resourceCostOption), player).isLegal();
+									new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, new ArrayList<>(), resourceCostOption, player).isLegal();
 									validFamilyMember = true;
 									if (!availableResourceCostOptions.contains(resourceCostOption)) {
 										availableResourceCostOptions.add(resourceCostOption);
@@ -1233,7 +1215,7 @@ public class GameHandler
 							} else {
 								for (List<ResourceAmount> discountChoice : discountChoices) {
 									try {
-										new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, discountChoice, new ResourceCostOption(resourceCostOption), player).isLegal();
+										new ActionPickDevelopmentCard(familyMemberType, player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, discountChoice, resourceCostOption, player).isLegal();
 										validFamilyMember = true;
 										if (!availableResourceCostOptions.contains(resourceCostOption)) {
 											availableResourceCostOptions.add(resourceCostOption);

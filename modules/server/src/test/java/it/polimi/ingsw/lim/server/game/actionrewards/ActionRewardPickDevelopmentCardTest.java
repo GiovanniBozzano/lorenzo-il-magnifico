@@ -10,7 +10,7 @@ import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
+import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.network.rmi.ConnectionRMI;
@@ -49,7 +49,7 @@ public class ActionRewardPickDevelopmentCardTest
 		gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD);
 		gameHandler.setTimerExecutor(Executors.newSingleThreadScheduledExecutor());
 		this.player = new Player(new ConnectionRMI(null, null), room, 0);
-		this.player.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
+		this.player.setPersonalBonusTile(BoardHandler.getPersonalBonusTiles().get(0));
 		this.player.getPlayerResourceHandler().addResource(ResourceType.COIN, 10);
 		this.player.getPlayerResourceHandler().addResource(ResourceType.STONE, 10);
 		this.player.getPlayerResourceHandler().addResource(ResourceType.WOOD, 10);

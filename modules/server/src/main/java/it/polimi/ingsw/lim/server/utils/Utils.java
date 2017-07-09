@@ -23,6 +23,7 @@ import it.polimi.ingsw.lim.server.enums.*;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionReward;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.actions.*;
+import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.board.ExcommunicationTile;
 import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
 import it.polimi.ingsw.lim.server.game.cards.*;
@@ -236,11 +237,13 @@ public class Utils
 			leaderCardsInformation.put(leaderCard.getIndex(), leaderCard.getInformation());
 		}
 		Map<Integer, ExcommunicationTileInformation> excommunicationTilesInformation = new HashMap<>();
-		for (ExcommunicationTile excommunicationTile : ExcommunicationTile.values()) {
-			excommunicationTilesInformation.put(excommunicationTile.getIndex(), new ExcommunicationTileInformation(excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
+		for (List<ExcommunicationTile> excommunicationTiles : BoardHandler.getExcommunicationTiles().values()) {
+			for (ExcommunicationTile excommunicationTile : excommunicationTiles) {
+				excommunicationTilesInformation.put(excommunicationTile.getIndex(), new ExcommunicationTileInformation(excommunicationTile.getTexturePath(), excommunicationTile.getModifier().getDescription()));
+			}
 		}
 		Map<Integer, PersonalBonusTileInformation> personalBonusTilesInformation = new HashMap<>();
-		for (PersonalBonusTile personalBonusTile : PersonalBonusTile.values()) {
+		for (PersonalBonusTile personalBonusTile : BoardHandler.getPersonalBonusTiles()) {
 			personalBonusTilesInformation.put(personalBonusTile.getIndex(), new PersonalBonusTileInformation(personalBonusTile.getTexturePath(), personalBonusTile.getPlayerBoardTexturePath(), personalBonusTile.getProductionActivationCost(), personalBonusTile.getProductionInstantResources(), personalBonusTile.getHarvestActivationCost(), personalBonusTile.getHarvestInstantResources()));
 		}
 		AuthenticationInformation authenticationInformation = new AuthenticationInformation();

@@ -3,11 +3,14 @@ package it.polimi.ingsw.lim.server.game.board;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.lim.common.Instance;
 import it.polimi.ingsw.lim.common.enums.BoardPosition;
 import it.polimi.ingsw.lim.common.enums.Period;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
+import it.polimi.ingsw.lim.server.game.modifiers.*;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.BoardPositionInformation;
 
@@ -25,6 +28,8 @@ import java.util.logging.Level;
 public class BoardHandler
 {
 	private static final Map<BoardPosition, BoardPositionInformation> BOARD_POSITIONS_INFORMATION = new BoardPositionsInformationBuilder("/json/board_positions_information.json").initialize();
+	private static final Map<Period, List<ExcommunicationTile>> EXCOMMUNICATION_TILES = new ExcommunicationTilesBuilder("/json/excommunication_tiles.json").initialize();
+	private static final List<PersonalBonusTile> PERSONAL_BONUS_TILES = new PersonalBonusTilesBuilder("/json/personal_bonus_tiles.json").initialize();
 	private static final Map<Integer, List<ResourceAmount>> COUNCIL_PRIVILEGE_REWARDS = new CouncilPrivilegeRewardsBuilder("/json/council_privilege_rewards.json").initialize();
 	private final Map<Period, ExcommunicationTile> matchExcommunicationTiles;
 	private final Map<Integer, List<ResourceAmount>> matchCouncilPrivilegeRewards;
@@ -42,6 +47,16 @@ public class BoardHandler
 			return BoardHandler.BOARD_POSITIONS_INFORMATION.get(boardPosition);
 		}
 		return new BoardPositionInformation(0, new ArrayList<>());
+	}
+
+	public static Map<Period, List<ExcommunicationTile>> getExcommunicationTiles()
+	{
+		return BoardHandler.EXCOMMUNICATION_TILES;
+	}
+
+	public static List<PersonalBonusTile> getPersonalBonusTiles()
+	{
+		return BoardHandler.PERSONAL_BONUS_TILES;
 	}
 
 	public static Map<Integer, List<ResourceAmount>> getCouncilPrivilegeRewards()
@@ -94,6 +109,63 @@ public class BoardHandler
 				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 			}
 			return new EnumMap<>(BoardPosition.class);
+		}
+	}
+
+	private static class ExcommunicationTilesBuilder
+	{
+		private static final RuntimeTypeAdapterFactory<Modifier> RUNTIME_TYPE_ADAPTER_FACTORY_MODIFIER = RuntimeTypeAdapterFactory.of(Modifier.class).registerSubtype(ModifierFirstTurn.class, "FIRST_TURN").registerSubtype(ModifierGainResources.class, "GAIN_RESOURCES").registerSubtype(ModifierHarvest.class, "HARVEST").registerSubtype(ModifierPickDevelopmentCardValue.class, "PICK_DEVELOPMENT_CARD_VALUE").registerSubtype(ModifierPlaceFamilyMemberCancel.class, "PLACE_FAMILY_MEMBER_CANCEL").registerSubtype(ModifierPlaceFamilyMemberValue.class, "PLACE_FAMILY_MEMBER_VALUE").registerSubtype(ModifierPostVictoryPointsCalculationBuildings.class, "POST_VICTORY_POINTS_CALCULATION_BUILDINGS").registerSubtype(ModifierPostVictoryPointsCalculationResources.class, "POST_VICTORY_POINTS_CALCULATION_RESOURCES").registerSubtype(ModifierPreVictoryPointsCalculation.class, "PRE_VICTORY_POINTS_CALCULATION").registerSubtype(ModifierProductionStart.class, "PRODUCTION_START").registerSubtype(ModifierUseServants.class, "USE_SERVANTS").registerSubtype(ModifierVictoryPointsCalculationCharacters.class, "VICTORY_POINTS_CALCULATION_CHARACTERS").registerSubtype(ModifierVictoryPointsCalculationTerritories.class, "VICTORY_POINTS_CALCULATION_TERRITORIES").registerSubtype(ModifierVictoryPointsCalculationVentures.class, "VICTORY_POINTS_CALCULATION_VENTURES");
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapterFactory(ExcommunicationTilesBuilder.RUNTIME_TYPE_ADAPTER_FACTORY_MODIFIER);
+		private static final Gson GSON = ExcommunicationTilesBuilder.GSON_BUILDER.create();
+		private final String jsonFile;
+
+		ExcommunicationTilesBuilder(String jsonFile)
+		{
+			this.jsonFile = jsonFile;
+		}
+
+		Map<Period, List<ExcommunicationTile>> initialize()
+		{
+			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
+				Map<Period, List<ExcommunicationTile>> excommunicationTiles = ExcommunicationTilesBuilder.GSON.fromJson(reader, new TypeToken<Map<Period, List<ExcommunicationTile>>>()
+				{
+				}.getType());
+				for (List<ExcommunicationTile> periodExcommunicationTiles : excommunicationTiles.values()) {
+					for (ExcommunicationTile excommunicationTile : periodExcommunicationTiles) {
+						if (excommunicationTile.getModifier() != null) {
+							excommunicationTile.getModifier().setEventClass();
+						}
+					}
+				}
+				return excommunicationTiles;
+			} catch (IOException exception) {
+				Instance.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+			return new EnumMap<>(Period.class);
+		}
+	}
+
+	private static class PersonalBonusTilesBuilder
+	{
+		private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
+		private static final Gson GSON = PersonalBonusTilesBuilder.GSON_BUILDER.create();
+		private final String jsonFile;
+
+		PersonalBonusTilesBuilder(String jsonFile)
+		{
+			this.jsonFile = jsonFile;
+		}
+
+		List<PersonalBonusTile> initialize()
+		{
+			try (Reader reader = new InputStreamReader(Server.getInstance().getClass().getResourceAsStream(this.jsonFile), "UTF-8")) {
+				return PersonalBonusTilesBuilder.GSON.fromJson(reader, new TypeToken<List<PersonalBonusTile>>()
+				{
+				}.getType());
+			} catch (IOException exception) {
+				Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			}
+			return new ArrayList<>();
 		}
 	}
 

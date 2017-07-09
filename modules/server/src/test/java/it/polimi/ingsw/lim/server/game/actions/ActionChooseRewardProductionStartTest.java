@@ -8,7 +8,7 @@ import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
 import it.polimi.ingsw.lim.server.game.actionrewards.ActionRewardProductionStart;
-import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
+import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.network.rmi.ConnectionRMI;
 import it.polimi.ingsw.lim.server.view.cli.InterfaceHandlerCLI;
@@ -40,7 +40,7 @@ public class ActionChooseRewardProductionStartTest
 		gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_PRODUCTION_START);
 		gameHandler.setTimerExecutor(Executors.newSingleThreadScheduledExecutor());
 		Player player = new Player(new ConnectionRMI(null, null), room, 0);
-		player.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
+		player.setPersonalBonusTile(BoardHandler.getPersonalBonusTiles().get(0));
 		player.setCurrentActionReward(new ActionRewardProductionStart(null, 10, true));
 		gameHandler.getTurnOrder().add(player);
 		gameHandler.setupRound();

@@ -1,0 +1,221 @@
+{
+	"FIRST": [
+		{
+			"index": 0,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_1_1.png",
+			"modifier": {
+				"type": "GAIN_RESOURCES",
+				"description": "Each time you gain Military\nPoints (from action spaces or from\nyour Cards), gain 1 fewer Military\nPoint (if you have more Cards that\ngive you Military Points, consider\neach Card a single source, so you gain\n-1 Military Point for each card).",
+				"resourceTypes": [
+					"MILITARY_POINT"
+				],
+				"value": -1
+			}
+		},
+		{
+			"index": 1,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_1_2.png",
+			"modifier": {
+				"type": "GAIN_RESOURCES",
+				"description": "Each time you receive coins (from\naction spaces or from your Cards),\nyou receive 1 fewer coin (if you\nhave more Cards that give you coins,\nconsider each Card a single source, so\nyou receive -1 coin for each card.)",
+				"resourceTypes": [
+					"SERVANT"
+				],
+				"value": -1
+			}
+		},
+		{
+			"index": 2,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_1_3.png",
+			"modifier": {
+				"type": "GAIN_RESOURCES",
+				"description": "Each time you receive servants\n(from action spaces or from your\nCards), you receive 1 fewer\nservant (if you have more Cards\nthat give you servants, consider each\nCard a single source, so you receive -1\nservant for each card.)",
+				"resourceTypes": [
+					"COIN"
+				],
+				"value": -1
+			}
+		},
+		{
+			"index": 3,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_1_4.png",
+			"modifier": {
+				"type": "GAIN_RESOURCES",
+				"description": "Each time you receive wood or\nstone (from action spaces or from your\nCards), you receive 1 fewer wood\nor stone (if you have more Cards\nthat give you wood and stone, consider\neach Card a single source, so you receive\n-1 wood/stone for each card).",
+				"resourceTypes": [
+					"STONE",
+					"WOOD"
+				],
+				"value": -1
+			}
+		},
+		{
+			"index": 4,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_1_5.png",
+			"modifier": {
+				"type": "HARVEST",
+				"description": "Each time you perform a Harvest\naction (through the action space or as\na Card effect), decrease its value by\n3. You may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects (if\nyou place in the second action space,\nyour action value is decreased by 6).",
+				"value": "-3"
+			}
+		},
+		{
+			"index": 5,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_1_6.png",
+			"modifier": {
+				"type": "PRODUCTION_START",
+				"description": "Each time you perform a\nProduction action (through the\naction space or as a Card effect),\ndecrease its value by 3. You may\nstill spend servants to increase the\naction value and you must apply\nyour Card’s effects (if you place\nin the large action space, your action\nvalue is decreased by 6).",
+				"value": -3
+			}
+		},
+		{
+			"index": 6,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_1_7.png",
+			"modifier": {
+				"type": "PLACE_FAMILY_MEMBER_VALUE",
+				"description": "All your colored Family Members\nreceive a -1 reduction of their\nvalue each time you place them\n(for example, if you roll a 5 on the\nblack die, your Family Member with\nthe black die symbol has a value of\n4). You may still spend servants to\nincrease their value and you must\napply your Card’s effects.",
+				"value": -1
+			}
+		}
+	],
+	"SECOND": [
+		{
+			"index": 7,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_2_1.png",
+			"modifier": {
+				"type": "PICK_DEVELOPMENT_CARD_VALUE",
+				"description": "Each time you take a Territory\nCard (through the action space or as\na Card effect), your action receives\na -4 reduction of its value.\nYou may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects.",
+				"cardType": "TERRITORY",
+				"value": -4
+			}
+		},
+		{
+			"index": 8,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_2_2.png",
+			"modifier": {
+				"type": "PICK_DEVELOPMENT_CARD_VALUE",
+				"description": "Each time you take a Building\nCard (through the action space or as\na Card effect), your action receives\na reduction of -4 of its value.\nYou may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects.",
+				"cardType": "BUILDING",
+				"value": -4
+			}
+		},
+		{
+			"index": 9,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_2_3.png",
+			"modifier": {
+				"type": "PICK_DEVELOPMENT_CARD_VALUE",
+				"description": "Each time you take a Character\nCard (through the action space or as\na Card effect), your action receives\na -4 reduction of its value.\nYou may still spend servants to\nincrease the action value,and you\nmust apply your Card’s effects.",
+				"cardType": "CHARACTER",
+				"value": -4
+			}
+		},
+		{
+			"index": 10,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_2_4.png",
+			"modifier": {
+				"type": "PICK_DEVELOPMENT_CARD_VALUE",
+				"description": "Each time you take a Venture\nCard (through the action space or as\na Card effect), your action receives\na -4 reduction of its value.\nYou may still spend servants to\nincrease the action value and you\nmust apply your Card’s effects.",
+				"cardType": "VENTURE",
+				"value": -4
+			}
+		},
+		{
+			"index": 11,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_2_5.png",
+			"modifier": {
+				"type": "PLACE_FAMILY_MEMBER_CANCEL",
+				"description": "You can’t place your Family\nMembers in the Market action\nspaces.",
+				"boardPositions": [
+					"MARKET_1",
+					"MARKET_2",
+					"MARKET_3",
+					"MARKET_4",
+					"MARKET_5",
+					"MARKET_6"
+				]
+			}
+		},
+		{
+			"index": 12,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_2_6.png",
+			"modifier": {
+				"type": "USE_SERVANTS",
+				"description": "You have to spend 2 servants to\nincrease your action value by 1\n(and 4 servants to increase it by 2,\nand so on...)."
+			}
+		},
+		{
+			"index": 13,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_2_7.png",
+			"modifier": {
+				"type": "FIRST_TURN",
+				"description": "Each round, you skip your first\nturn (when you have to place your\nfirst Family Member, you have to\npass). You start taking actions from\nthe second turn (in the appropriate\nturn order.) When all players have\ntaken all their turns, you may still\nplace your last Family Member."
+			}
+		}
+	],
+	"THIRD": [
+		{
+			"index": 14,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_3_1.png",
+			"modifier": {
+				"type": "VICTORY_POINTS_CALCULATION_CHARACTERS",
+				"description": "At the end of the game, you\ndon’t score points for any of your\nInfluenced Characters."
+			}
+		},
+		{
+			"index": 15,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_3_2.png",
+			"modifier": {
+				"type": "VICTORY_POINTS_CALCULATION_VENTURES",
+				"description": "At the end of the game, you\ndon’t score points for any of your\nEncouraged Ventures."
+			}
+		},
+		{
+			"index": 16,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_3_3.png",
+			"modifier": {
+				"type": "VICTORY_POINTS_CALCULATION_TERRITORIES",
+				"description": "At the end of the game, you\ndon’t score points for any of your\nConquered Territories.\n"
+			}
+		},
+		{
+			"index": 17,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_3_4.png",
+			"modifier": {
+				"type": "PRE_VICTORY_POINTS_CALCULATION",
+				"description": "At the end of the game, before\nthe Final Scoring, you lose\n1 Victory Point for every\n5 Victory Points you have (for\nexample, if you have 26 Victory\nPoints before the Final Scoring, you\nlose 5 Victory Points)."
+			}
+		},
+		{
+			"index": 18,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_3_5.png",
+			"modifier": {
+				"type": "POST_VICTORY_POINTS_CALCULATION_RESOURCES",
+				"description": "At the end of the game, you lose\n1 Victory Point for every Military\nPoint you have (for example, if\nyou end the game with 12 Military\nPoints, you lose 12 Victory Points).",
+				"resourceTypes": [
+					"MILITARY_POINT"
+				]
+			}
+		},
+		{
+			"index": 19,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_3_6.png",
+			"modifier": {
+				"type": "POST_VICTORY_POINTS_CALCULATION_BUILDINGS",
+				"description": "At the end of the game, you lose\n1 Victory Point for every wood\nand stone on your Building\nCards’ costs (for example, if all\nyour Building Cards cost 7 wood\nand 6 stone, you lose 13 Victory\nPoints)."
+			}
+		},
+		{
+			"index": 20,
+			"texturePath": "/images/excommunication_tiles/excommunication_tile_3_7.png",
+			"modifier": {
+				"type": "POST_VICTORY_POINTS_CALCULATION_RESOURCES",
+				"description": "At the end of the game, you lose\n1 Victory Point for every resource\n(wood, stone, coin, servant) in your\nsupply on your Personal Board\n(for example, if you end the game\nwith 3 wood, 1 stone, 4 coins, and\n2 servants, you lose 10 Victory\nPoints).",
+				"resourceTypes": [
+					"COIN",
+					"SERVANT",
+					"STONE",
+					"WOOD"
+				]
+			}
+		}
+	]
+}

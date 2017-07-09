@@ -66,7 +66,7 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 						if (this.instantDiscountChoices.isEmpty()) {
 							if (discountChoices.isEmpty()) {
 								try {
-									new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, Row.FOURTH, new ArrayList<>(), new ArrayList<>(), new ResourceCostOption(resourceCostOption), player).isLegal();
+									new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, Row.FOURTH, new ArrayList<>(), new ArrayList<>(), resourceCostOption, player).isLegal();
 									validCard = true;
 									if (!availableResourceCostOptions.contains(resourceCostOption)) {
 										availableResourceCostOptions.add(resourceCostOption);
@@ -77,7 +77,7 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 							} else {
 								for (List<ResourceAmount> discountChoice : discountChoices) {
 									try {
-										new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, Row.FOURTH, new ArrayList<>(), discountChoice, new ResourceCostOption(resourceCostOption), player).isLegal();
+										new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, Row.FOURTH, new ArrayList<>(), discountChoice, resourceCostOption, player).isLegal();
 										validCard = true;
 										if (!availableResourceCostOptions.contains(resourceCostOption)) {
 											availableResourceCostOptions.add(resourceCostOption);
@@ -94,7 +94,7 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 							if (discountChoices.isEmpty()) {
 								for (List<ResourceAmount> instantDiscountChoice : this.instantDiscountChoices) {
 									try {
-										new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, Row.FOURTH, instantDiscountChoice, new ArrayList<>(), new ResourceCostOption(resourceCostOption), player).isLegal();
+										new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, Row.FOURTH, instantDiscountChoice, new ArrayList<>(), resourceCostOption, player).isLegal();
 										validCard = true;
 										if (!availableResourceCostOptions.contains(resourceCostOption)) {
 											availableResourceCostOptions.add(resourceCostOption);
@@ -110,7 +110,7 @@ public class ActionRewardPickDevelopmentCard extends ActionReward
 								for (List<ResourceAmount> instantDiscountChoice : this.instantDiscountChoices) {
 									for (List<ResourceAmount> discountChoice : discountChoices) {
 										try {
-											new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, Row.FOURTH, instantDiscountChoice, discountChoice, new ResourceCostOption(resourceCostOption), player).isLegal();
+											new ActionChooseRewardPickDevelopmentCard(player.getPlayerResourceHandler().getResources().get(ResourceType.SERVANT), cardType, row, Row.FOURTH, instantDiscountChoice, discountChoice, resourceCostOption, player).isLegal();
 											validCard = true;
 											if (!availableResourceCostOptions.contains(resourceCostOption)) {
 												availableResourceCostOptions.add(resourceCostOption);

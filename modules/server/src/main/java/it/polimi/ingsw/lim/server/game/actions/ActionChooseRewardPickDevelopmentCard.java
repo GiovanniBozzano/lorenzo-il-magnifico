@@ -31,7 +31,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationChoo
 
 	public ActionChooseRewardPickDevelopmentCard(int servants, CardType cardType, Row row, Row instantRewardRow, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption, Player player)
 	{
-		super(servants, cardType, row, instantRewardRow, instantDiscountChoice, discountChoice, resourceCostOption);
+		super(servants, cardType, row, instantRewardRow, instantDiscountChoice, discountChoice, resourceCostOption == null ? null : new ResourceCostOption(resourceCostOption));
 		this.player = player;
 	}
 

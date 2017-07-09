@@ -7,7 +7,7 @@ import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
+import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.network.rmi.ConnectionRMI;
 import it.polimi.ingsw.lim.server.view.cli.InterfaceHandlerCLI;
@@ -39,7 +39,7 @@ public class ActionRefuseRewardTest
 		gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_PICK_DEVELOPMENT_CARD);
 		gameHandler.setTimerExecutor(Executors.newSingleThreadScheduledExecutor());
 		Player player = new Player(new ConnectionRMI(null, null), room, 0);
-		player.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
+		player.setPersonalBonusTile(BoardHandler.getPersonalBonusTiles().get(0));
 		gameHandler.getTurnOrder().add(player);
 		gameHandler.setupRound();
 		this.actionRefuseReward = new ActionRefuseReward(player);

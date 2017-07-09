@@ -6,7 +6,7 @@ import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
 import it.polimi.ingsw.lim.server.game.GameHandler;
 import it.polimi.ingsw.lim.server.game.Room;
-import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
+import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.leaders.LeaderCardReward;
 import it.polimi.ingsw.lim.server.game.player.Player;
 import it.polimi.ingsw.lim.server.game.utils.Reward;
@@ -40,7 +40,7 @@ public class ActionLeaderPlayTest
 		room.setGameHandler(gameHandler);
 		gameHandler.setTimerExecutor(Executors.newSingleThreadScheduledExecutor());
 		Player player = new Player(new ConnectionRMI(null, null), room, 0);
-		player.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
+		player.setPersonalBonusTile(BoardHandler.getPersonalBonusTiles().get(0));
 		LeaderCardReward leaderCard = new LeaderCardReward(0, null, null, null, new ArrayList<>(), new Reward(null, new ArrayList<>()));
 		player.getPlayerCardHandler().getLeaderCards().add(leaderCard);
 		gameHandler.getTurnOrder().add(player);

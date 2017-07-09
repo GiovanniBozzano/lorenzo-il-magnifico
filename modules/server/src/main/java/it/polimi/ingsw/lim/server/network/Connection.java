@@ -94,7 +94,7 @@ public abstract class Connection
 		try {
 			Room.getPlayerRoom(this).handlePlayerDisconnection(this);
 		} catch (NoSuchElementException exception) {
-			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 
@@ -141,7 +141,7 @@ public abstract class Connection
 		try {
 			this.sendRoomTimer(Room.getPlayerRoom(this).getTimer());
 		} catch (NoSuchElementException exception) {
-			Server.getDebugger().log(Level.SEVERE, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
+			Server.getDebugger().log(Level.OFF, DebuggerFormatter.EXCEPTION_MESSAGE, exception);
 		}
 	}
 

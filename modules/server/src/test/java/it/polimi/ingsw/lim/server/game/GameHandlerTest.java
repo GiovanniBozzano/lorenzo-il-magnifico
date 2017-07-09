@@ -8,7 +8,7 @@ import it.polimi.ingsw.lim.common.exceptions.GameActionFailedException;
 import it.polimi.ingsw.lim.common.game.utils.ResourceAmount;
 import it.polimi.ingsw.lim.common.utils.DebuggerFormatter;
 import it.polimi.ingsw.lim.server.Server;
-import it.polimi.ingsw.lim.server.game.board.PersonalBonusTile;
+import it.polimi.ingsw.lim.server.game.board.BoardHandler;
 import it.polimi.ingsw.lim.server.game.cards.CardsHandler;
 import it.polimi.ingsw.lim.server.game.modifiers.ModifierPickDevelopmentCard;
 import it.polimi.ingsw.lim.server.game.player.Player;
@@ -47,7 +47,7 @@ public class GameHandlerTest
 		this.gameHandler.setExpectedAction(ActionType.CHOOSE_REWARD_COUNCIL_PRIVILEGE);
 		this.gameHandler.setTimerExecutor(Executors.newSingleThreadScheduledExecutor());
 		this.player = new Player(new ConnectionRMI(null, null), room, 0);
-		this.player.setPersonalBonusTile(PersonalBonusTile.PERSONAL_BONUS_TILES_0);
+		this.player.setPersonalBonusTile(BoardHandler.getPersonalBonusTiles().get(0));
 		this.gameHandler.getTurnOrder().add(this.player);
 		this.gameHandler.setupRound();
 	}

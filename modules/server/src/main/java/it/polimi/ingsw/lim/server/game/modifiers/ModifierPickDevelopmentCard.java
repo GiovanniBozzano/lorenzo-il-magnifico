@@ -6,14 +6,6 @@ import it.polimi.ingsw.lim.server.game.events.EventPickDevelopmentCard;
 
 import java.util.List;
 
-/**
- * <p>This class represents a modifier with the following effect:
- *
- * <p>Whenever you perform an action to take a {@code cardType} card (through a
- * Family Member or as an effect of another card), increase the value of the
- * action by {@code value}. In addition, the cost of the card you take is
- * reduced by {@code discountChoices}.
- */
 public class ModifierPickDevelopmentCard extends Modifier<EventPickDevelopmentCard>
 {
 	private final int value;
@@ -31,7 +23,9 @@ public class ModifierPickDevelopmentCard extends Modifier<EventPickDevelopmentCa
 	@Override
 	public void apply(EventPickDevelopmentCard event)
 	{
-		event.setActionValue(event.getActionValue() + this.value);
+		if (event.getCardType() == this.cardType) {
+			event.setActionValue(event.getActionValue() + this.value);
+		}
 	}
 
 	@Override

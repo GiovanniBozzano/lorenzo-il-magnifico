@@ -32,7 +32,7 @@ public class ActionPickDevelopmentCard extends ActionInformationPickDevelopmentC
 
 	public ActionPickDevelopmentCard(FamilyMemberType familyMemberType, int servants, CardType cardType, Row row, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption, Player player)
 	{
-		super(familyMemberType, servants, cardType, row, discountChoice, resourceCostOption);
+		super(familyMemberType, servants, cardType, row, discountChoice, resourceCostOption == null ? null : new ResourceCostOption(resourceCostOption));
 		this.player = player;
 	}
 

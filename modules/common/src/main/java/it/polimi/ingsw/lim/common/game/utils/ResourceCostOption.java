@@ -25,7 +25,7 @@ public class ResourceCostOption implements Serializable
 
 	public ResourceCostOption(ResourceCostOption resourceCostOption)
 	{
-		new ResourceCostOption(resourceCostOption.requiredResources, resourceCostOption.spentResources);
+		this(resourceCostOption.requiredResources, resourceCostOption.spentResources);
 	}
 
 	@Override

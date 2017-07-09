@@ -61,7 +61,7 @@ public class CLIHandlerAuthentication implements ICLIHandler
 	{
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter Username...");
 		this.username = Client.getInstance().getCliScanner().nextLine();
-		if (this.username.equals("gigifacile")) {
+		if ("gigifacile".equals(this.username)) {
 			Client.getLogger().log(Level.INFO, "OMG, I can feel your power!");
 		} else if (CLIHandlerAuthentication.DEVELOPERS_USERNAMES.contains(this.username)) {
 			Client.getLogger().log(Level.INFO, "With great power comes great responsibility!");
