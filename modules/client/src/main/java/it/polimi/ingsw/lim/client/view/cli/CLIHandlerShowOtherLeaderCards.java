@@ -55,7 +55,7 @@ public class CLIHandlerShowOtherLeaderCards implements ICLIHandler
 
 	/**
 	 * <p>Uses the {@link Integer} {@link Integer} {@link Map} to ask which
-	 * {@code chosenOtherPlayer} the currrent player wants to choose to perform
+	 * {@code chosenOtherPlayer} the current player wants to choose to perform
 	 * the action and saves it.
 	 */
 	private void askOtherPlayer()

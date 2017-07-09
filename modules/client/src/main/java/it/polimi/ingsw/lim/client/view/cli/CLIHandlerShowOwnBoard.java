@@ -34,6 +34,12 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		CLIHandlerShowOwnBoard.CARD_TYPE_CHOICE.put(4, CardType.VENTURE);
 	}
 
+	/**
+	 * <p>Uses current player's {@code familyMemberTypePositions} to insert in a
+	 * {@link FamilyMemberType} {@link BoardPosition} {@link Map} the family
+	 * members and their positions on the board and prints them and the
+	 * corresponding information on screen.
+	 */
 	private static void showFamilyMemberTypes()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -47,6 +53,11 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Uses current player's {@code resourceAmounts} to insert in a {@link
+	 * ResourceType} {@link Integer} {@link Map} the resources and their amounts
+	 * and prints them and the corresponding information on screen.
+	 */
 	private static void showResources()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -60,6 +71,14 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Uses a {@link Integer} {@link CardType} {@link Map} to ask which
+	 * {@link CardType} the player wants to choose to perform a show development
+	 * cards action. Then uses the player data to get the {@link Map} of the
+	 * current development cards of the player and the chosen {@link CardType}
+	 * to print the corresponding development cards and their {@link Integer} on
+	 * screen.
+	 */
 	private static void showDevelopmentCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -87,6 +106,11 @@ public class CLIHandlerShowOwnBoard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Uses the {@link Integer} {@link Runnable} {@link Map} of player
+	 * information to ask which one the player wants to see and sends the
+	 * corresponding action with the chosen information.
+	 */
 	private static void askInformation()
 	{
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter what you want to see...");

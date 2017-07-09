@@ -58,6 +58,13 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 		return new CLIHandlerShowOtherBoard();
 	}
 
+	/**
+	 * <p>Uses the {@link Integer} {@link PlayerData} {@link Map} of the current
+	 * current players data to insert in a {@link
+	 * Integer} {@link Integer} {@link Map} the available other
+	 * players to perform a show other players action and prints them
+	 * and the corresponding choosing indexes on screen.
+	 */
 	private void showOtherPlayers()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -73,6 +80,11 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Uses the {@link Integer} {@link Integer} {@link Map} to ask which
+	 * {@code chosenOtherPlayer} the current player wants to choose to perform
+	 * the action and saves it.
+	 */
 	private void askOtherPlayer()
 	{
 		String input;
@@ -83,6 +95,11 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 		this.chosenOtherPlayer = this.availableOtherPlayers.get(Integer.parseInt(input));
 	}
 
+	/**
+	 * <p>Uses the {@link Integer} {@link Runnable} {@link Map} of player
+	 * information to ask which one the player wants to see and sends the
+	 * corresponding action with the chosen information.
+	 */
 	private void askInformation()
 	{
 		Client.getLogger().log(Level.INFO, "\n\n\nEnter what you want to see...");
@@ -97,6 +114,12 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 		CLIHandlerShowOtherBoard.PLAYER_INFORMATION.get(Integer.parseInt(input)).execute(this);
 	}
 
+	/**
+	 * <p>Uses {@code chosenOtherPlayer} {@code familyMemberTypePositions} to
+	 * insert in a {@link FamilyMemberType} {@link BoardPosition} {@link Map}
+	 * the family members and their positions on the board and prints them and
+	 * the corresponding information on screen.
+	 */
 	private void showFamilyMemberTypes()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -110,6 +133,11 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Uses {@code chosenOtherPlayer} {@code resourceAmounts} to insert in a
+	 * {@link ResourceType} {@link Integer} {@link Map} the resources and their
+	 * amounts and prints them and the corresponding information on screen.
+	 */
 	private void showResources()
 	{
 		StringBuilder stringBuilder = new StringBuilder();
@@ -123,6 +151,14 @@ public class CLIHandlerShowOtherBoard implements ICLIHandler
 		Client.getLogger().log(Level.INFO, "{0}", new Object[] { stringBuilder.toString() });
 	}
 
+	/**
+	 * <p>Uses a {@link Integer} {@link CardType} {@link Map} to ask which
+	 * {@link CardType} the player wants to choose to perform a show development
+	 * cards action. Then uses {@code chosenOtherPlayer} data to get the {@link
+	 * Map} of the current development cards of the player and the chosen {@link
+	 * CardType} to print the corresponding development cards and their {@link
+	 * Integer} on screen.
+	 */
 	private void showDevelopmentCards()
 	{
 		StringBuilder stringBuilder = new StringBuilder();

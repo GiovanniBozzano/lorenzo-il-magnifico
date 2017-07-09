@@ -35,10 +35,12 @@ public class InterfaceHandlerCLI implements IInterfaceHandler
 		Client.getInstance().getCliListener().execute(Client.getCliHandlers().get(Client.getInstance().getCliStatus()).newInstance()::execute);
 	}
 
+	/**
+	 * This method is empty because it is not implemented by the CLI.
+	 */
 	@Override
 	public void start(Stage stage)
 	{
-		// This method is empty because it is not implemented by the CLI.
 	}
 
 	@Override
