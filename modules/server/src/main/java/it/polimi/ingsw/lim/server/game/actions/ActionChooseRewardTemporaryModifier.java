@@ -37,7 +37,7 @@ public class ActionChooseRewardTemporaryModifier extends ActionInformationChoose
 	}
 
 	@Override
-	public void apply() throws GameActionFailedException
+	public void apply()
 	{
 		Modifier<EventPlaceFamilyMember> modifier = new Modifier<EventPlaceFamilyMember>(EventPlaceFamilyMember.class, "")
 		{

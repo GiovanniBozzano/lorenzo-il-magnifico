@@ -34,7 +34,7 @@ public class PlayerResourceHandler
 	PlayerResourceHandler(Player player, int resourcesServant, int resourcesStone, int resourcesWood)
 	{
 		this.player = player;
-		this.resources.put(ResourceType.COIN, 0);
+		/*this.resources.put(ResourceType.COIN, 0);
 		this.resources.put(ResourceType.COUNCIL_PRIVILEGE, 0);
 		this.resources.put(ResourceType.FAITH_POINT, 0);
 		this.resources.put(ResourceType.MILITARY_POINT, 0);
@@ -42,7 +42,16 @@ public class PlayerResourceHandler
 		this.resources.put(ResourceType.SERVANT, resourcesServant);
 		this.resources.put(ResourceType.STONE, resourcesStone);
 		this.resources.put(ResourceType.VICTORY_POINT, 0);
-		this.resources.put(ResourceType.WOOD, resourcesWood);
+		this.resources.put(ResourceType.WOOD, resourcesWood);*/
+		this.resources.put(ResourceType.COIN, 20);
+		this.resources.put(ResourceType.COUNCIL_PRIVILEGE, 0);
+		this.resources.put(ResourceType.FAITH_POINT, 5);
+		this.resources.put(ResourceType.MILITARY_POINT, 0);
+		this.resources.put(ResourceType.PRESTIGE_POINT, 0);
+		this.resources.put(ResourceType.SERVANT, 20);
+		this.resources.put(ResourceType.STONE, 20);
+		this.resources.put(ResourceType.VICTORY_POINT, 35);
+		this.resources.put(ResourceType.WOOD, 20);
 		for (ResourceType resourceType : ResourceType.values()) {
 			this.temporaryResources.put(resourceType, 0);
 		}
@@ -101,11 +110,11 @@ public class PlayerResourceHandler
 
 	private void fixTemporaryResourcesCap()
 	{
-		if (this.temporaryResources.get(ResourceType.FAITH_POINT) > 25) {
-			this.temporaryResources.put(ResourceType.FAITH_POINT, 25);
-		}
 		if (this.temporaryResources.get(ResourceType.FAITH_POINT) > 15) {
 			this.temporaryResources.put(ResourceType.FAITH_POINT, 15);
+		}
+		if (this.temporaryResources.get(ResourceType.MILITARY_POINT) > 25) {
+			this.temporaryResources.put(ResourceType.MILITARY_POINT, 25);
 		}
 		if (this.temporaryResources.get(ResourceType.PRESTIGE_POINT) > 9) {
 			this.temporaryResources.put(ResourceType.PRESTIGE_POINT, 9);

@@ -26,10 +26,10 @@ public abstract class DevelopmentCardInformation extends CardInformation
 		boolean firstLine = true;
 		if (!this.resourceCostOptions.isEmpty()) {
 			firstLine = false;
-			stringBuilder.append("RESOURCE COST OPTIONS:\n==============\n");
+			stringBuilder.append("RESOURCE COST OPTIONS:\n==============");
 			for (ResourceCostOption resourceCostOption : this.resourceCostOptions) {
-				stringBuilder.append(resourceCostOption.getInformation(false));
-				stringBuilder.append("\n==============\n");
+				stringBuilder.append(resourceCostOption.getInformation(true));
+				stringBuilder.append("\n==============");
 			}
 		}
 		if (this.reward.getActionRewardInformation() != null || !this.reward.getResourceAmounts().isEmpty()) {

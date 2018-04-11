@@ -84,7 +84,7 @@ public class ActionHarvest extends ActionInformationHarvest implements IAction
 	}
 
 	@Override
-	public void apply() throws GameActionFailedException
+	public void apply()
 	{
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.FAMILY_MEMBER);
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), this.workSlotType == WorkSlotType.BIG ? BoardPosition.HARVEST_BIG : BoardPosition.HARVEST_SMALL);

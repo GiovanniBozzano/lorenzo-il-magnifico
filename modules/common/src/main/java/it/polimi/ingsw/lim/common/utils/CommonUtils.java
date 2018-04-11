@@ -25,7 +25,7 @@ public class CommonUtils
 {
 	public static final String VERSION = "1.0";
 	public static final String REGEX_REMOVE_TRAILING_SPACES = "^\\s+|\\s+$";
-	public static final String REGEX_USERNAME = "^[\\w\\-]{4,16}$";
+	public static final String REGEX_USERNAME = "^[\\w\\-]{3,16}$";
 	public static final Font ROBOTO_BLACK = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-Black.ttf"), 12);
 	public static final Font ROBOTO_BOLD = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-Bold.ttf"), 12);
 	public static final Font ROBOTO_BOLD_ITALIC = Font.loadFont(CommonUtils.class.getResourceAsStream("/font/roboto/Roboto-BoldItalic.ttf"), 12);

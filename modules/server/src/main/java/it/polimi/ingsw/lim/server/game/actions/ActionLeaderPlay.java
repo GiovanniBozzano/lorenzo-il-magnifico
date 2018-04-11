@@ -106,6 +106,7 @@ public class ActionLeaderPlay extends ActionInformationLeaderPlay implements IAc
 		if (Utils.activateLeaderCard(this.player, leaderCard)) {
 			return;
 		}
+		player.getPlayerResourceHandler().convertTemporaryResources();
 		this.player.getRoom().getGameHandler().sendGameUpdate(this.player);
 	}
 }

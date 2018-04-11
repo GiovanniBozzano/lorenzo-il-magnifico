@@ -116,7 +116,7 @@ public class ActionChooseRewardPickDevelopmentCard extends ActionInformationChoo
 	}
 
 	@Override
-	public void apply() throws GameActionFailedException
+	public void apply()
 	{
 		DevelopmentCard developmentCard = this.player.getRoom().getGameHandler().getCardsHandler().getCurrentDevelopmentCards().get(this.getCardType()).get(this.getRow());
 		this.player.getPlayerCardHandler().addDevelopmentCard(developmentCard);

@@ -57,16 +57,19 @@ public class ResourceCostOption implements Serializable
 		return true;
 	}
 
-	public String getInformation(boolean isFirstLine)
+	public String getInformation(boolean newLine)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		if (!this.requiredResources.isEmpty()) {
+			if (newLine) {
+				stringBuilder.append("\n");
+			}
 			stringBuilder.append("Required resources:\n");
 			stringBuilder.append(ResourceAmount.getResourcesInformation(this.requiredResources, true));
 		}
 		if (!this.spentResources.isEmpty()) {
-			if (!isFirstLine || !this.requiredResources.isEmpty()) {
-				stringBuilder.append('\n');
+			if (!this.requiredResources.isEmpty() || newLine) {
+				stringBuilder.append("\n");
 			}
 			stringBuilder.append("Spent resources:\n");
 			stringBuilder.append(ResourceAmount.getResourcesInformation(this.spentResources, true));

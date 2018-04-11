@@ -139,7 +139,7 @@ public class ActionPickDevelopmentCard extends ActionInformationPickDevelopmentC
 	}
 
 	@Override
-	public void apply() throws GameActionFailedException
+	public void apply()
 	{
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.FAMILY_MEMBER);
 		this.player.getFamilyMembersPositions().put(this.getFamilyMemberType(), BoardPosition.getDevelopmentCardPosition(this.getCardType(), this.getRow()));

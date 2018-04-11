@@ -712,7 +712,7 @@ public class GameHandler
 		this.timerExecutor.scheduleWithFixedDelay(() -> {
 			this.timer--;
 			if (this.timer == 0) {
-				for (Player player : this.excommunicationChoosingPlayers) {
+				for (Player player : new ArrayList<>(this.excommunicationChoosingPlayers)) {
 					this.applyExcommunicationChoice(player, false);
 				}
 			} else {

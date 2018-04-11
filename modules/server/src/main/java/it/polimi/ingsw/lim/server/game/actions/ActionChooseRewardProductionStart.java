@@ -41,7 +41,7 @@ public class ActionChooseRewardProductionStart extends ActionInformationChooseRe
 	}
 
 	@Override
-	public void apply() throws GameActionFailedException
+	public void apply()
 	{
 		EventUseServants eventUseServants = new EventUseServants(this.player, this.getServants());
 		eventUseServants.fire();

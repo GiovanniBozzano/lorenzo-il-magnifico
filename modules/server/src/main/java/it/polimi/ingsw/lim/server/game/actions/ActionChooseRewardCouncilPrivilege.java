@@ -53,7 +53,7 @@ public class ActionChooseRewardCouncilPrivilege extends ActionInformationChooseR
 	}
 
 	@Override
-	public void apply() throws GameActionFailedException
+	public void apply()
 	{
 		List<ResourceAmount> resourceReward = new ArrayList<>();
 		for (int councilPalaceRewardIndex : this.getCouncilPrivilegeRewardIndexes()) {

@@ -290,7 +290,7 @@ public class Utils
 	public static void checkValidDiscount(Player player, CardType cardType, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption) throws GameActionFailedException
 	{
 		if (resourceCostOption == null && !discountChoice.isEmpty()) {
-			throw new GameActionFailedException("You chose a discount but the there is not cost");
+			throw new GameActionFailedException("You chose a discount but the there is no cost");
 		}
 		Utils.checkValidDiscountInternal(player, cardType, discountChoice, resourceCostOption);
 	}
@@ -309,7 +309,7 @@ public class Utils
 	public static void checkValidDiscount(Player player, CardType cardType, List<ResourceAmount> instantDiscountChoice, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption) throws GameActionFailedException
 	{
 		if (resourceCostOption == null && (!instantDiscountChoice.isEmpty() || !discountChoice.isEmpty())) {
-			throw new GameActionFailedException("You chose a discount but the there is not cost");
+			throw new GameActionFailedException("You chose a discount but the there is no cost");
 		}
 		if (resourceCostOption != null && ((instantDiscountChoice.isEmpty() && !((ActionRewardPickDevelopmentCard) player.getCurrentActionReward()).getInstantDiscountChoices().isEmpty()) || (!instantDiscountChoice.isEmpty() && !((ActionRewardPickDevelopmentCard) player.getCurrentActionReward()).getInstantDiscountChoices().contains(instantDiscountChoice)))) {
 			throw new GameActionFailedException("You had to choose a discount");
@@ -329,23 +329,57 @@ public class Utils
 	 */
 	private static void checkValidDiscountInternal(Player player, CardType cardType, List<ResourceAmount> discountChoice, ResourceCostOption resourceCostOption) throws GameActionFailedException
 	{
-		if (resourceCostOption != null) {
-			if (discountChoice.isEmpty()) {
-				for (Modifier modifier : player.getActiveModifiers()) {
-					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty()) {
-						throw new GameActionFailedException("The discount you chose is not valid");
+		if (resourceCostOption == null) {
+			return;
+		}
+		if (discountChoice.isEmpty()) {
+			for (Modifier modifier : player.getActiveModifiers()) {
+				if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && !((ModifierPickDevelopmentCard) modifier).getDiscountChoices().isEmpty()) {
+					throw new GameActionFailedException("You must choose a discount");
+				}
+			}
+		} else {
+			boolean validDiscountChoice = true;
+			for (Modifier modifier : player.getActiveModifiers()) {
+				validDiscountChoice = true;
+				if (!(modifier instanceof ModifierPickDevelopmentCard) || ((ModifierPickDevelopmentCard) modifier).getCardType() != cardType) {
+					validDiscountChoice = false;
+					continue;
+				}
+				for (List<ResourceAmount> playerDiscountChoice : ((ModifierPickDevelopmentCard) modifier).getDiscountChoices()) {
+					validDiscountChoice = true;
+					if (playerDiscountChoice.size() != discountChoice.size()) {
+						validDiscountChoice = false;
+						continue;
+					}
+					List<ResourceAmount> discountChoiceCopy = new ArrayList<>();
+					for (ResourceAmount resourceAmount : discountChoice) {
+						discountChoiceCopy.add(new ResourceAmount(resourceAmount));
+					}
+					for (ResourceAmount playerResourceAmount : playerDiscountChoice) {
+						boolean found = false;
+						for (ResourceAmount resourceAmount : discountChoiceCopy) {
+							if (playerResourceAmount.equals(resourceAmount)) {
+								found = true;
+								discountChoiceCopy.remove(resourceAmount);
+								break;
+							}
+						}
+						if (!found) {
+							validDiscountChoice = false;
+							break;
+						}
+					}
+					if (validDiscountChoice) {
+						break;
 					}
 				}
-			} else {
-				boolean validDiscountChoice = false;
-				for (Modifier modifier : player.getActiveModifiers()) {
-					if (modifier instanceof ModifierPickDevelopmentCard && ((ModifierPickDevelopmentCard) modifier).getCardType() == cardType && ((ModifierPickDevelopmentCard) modifier).getDiscountChoices().contains(discountChoice)) {
-						validDiscountChoice = true;
-					}
+				if (validDiscountChoice) {
+					break;
 				}
-				if (!validDiscountChoice) {
-					throw new GameActionFailedException("The discount you chose is not valid");
-				}
+			}
+			if (!validDiscountChoice) {
+				throw new GameActionFailedException("The discount you chose is not valid");
 			}
 		}
 	}
@@ -460,12 +494,7 @@ public class Utils
 			EventGainResources eventGainResources = new EventGainResources(player, ((LeaderCardReward) leaderCard).getReward().getResourceAmounts(), ResourcesSource.LEADER_CARDS);
 			eventGainResources.fire();
 			player.getPlayerResourceHandler().addTemporaryResources(eventGainResources.getResourceAmounts());
-			if (Utils.sendActionReward(player, ((LeaderCardReward) leaderCard).getReward().getActionReward())) {
-				return true;
-			}
-			if (Utils.sendCouncilPrivileges(player)) {
-				return true;
-			}
+			return Utils.sendActionReward(player, ((LeaderCardReward) leaderCard).getReward().getActionReward()) || Utils.sendCouncilPrivileges(player);
 		}
 		return false;
 	}

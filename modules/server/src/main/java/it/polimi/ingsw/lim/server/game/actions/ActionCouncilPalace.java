@@ -59,7 +59,7 @@ public class ActionCouncilPalace extends ActionInformationCouncilPalace implemen
 	}
 
 	@Override
-	public void apply() throws GameActionFailedException
+	public void apply()
 	{
 		this.player.getRoom().getGameHandler().setCurrentPhase(Phase.FAMILY_MEMBER);
 		if (!this.player.getRoom().getGameHandler().getBoardHandler().getCouncilPalaceOrder().contains(this.player)) {

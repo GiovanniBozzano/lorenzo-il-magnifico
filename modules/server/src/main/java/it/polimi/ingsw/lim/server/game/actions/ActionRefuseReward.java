@@ -31,7 +31,7 @@ public class ActionRefuseReward extends ActionInformationRefuseReward implements
 	}
 
 	@Override
-	public void apply() throws GameActionFailedException
+	public void apply()
 	{
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " refused to pick a card");
 		if (Utils.checkLeaderPhase(this.player)) {

@@ -29,7 +29,7 @@ public class ActionPassTurn extends ActionInformationPassTurn implements IAction
 	}
 
 	@Override
-	public void apply() throws GameActionFailedException
+	public void apply()
 	{
 		Connection.broadcastLogMessageToOthers(this.player, this.player.getConnection().getUsername() + " passed his turn");
 		this.player.getRoom().getGameHandler().nextTurn();

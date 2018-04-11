@@ -134,12 +134,11 @@ class PacketListener extends Thread
 					Utils.checkRegistration(((PacketRegistration) packet).getVersion(), trimmedUsername, ((PacketRegistration) packet).getPassword());
 					Server.getInstance().getInterfaceHandler().displayToLog("Socket Player registerd as: " + trimmedUsername);
 				}
+				this.connectionSocket.setUsername(trimmedUsername);
 			} catch (AuthenticationFailedException exception) {
 				Server.getDebugger().log(Level.INFO, "Socket Client failed authentication.", exception);
 				this.connectionSocket.sendAuthenticationFailure(exception.getLocalizedMessage());
-				return false;
 			}
-			this.connectionSocket.setUsername(trimmedUsername);
 		} while (this.connectionSocket.getUsername() == null);
 		AuthenticationInformation authenticationInformation = Utils.fillAuthenticationInformation();
 		try {

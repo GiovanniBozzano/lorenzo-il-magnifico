@@ -29,7 +29,7 @@ public class DevelopmentCardBuildingInformation extends DevelopmentCardInformati
 		if (!this.resourceTradeOptions.isEmpty()) {
 			stringBuilder.append("\n\nRESOURCE TRADE OPTIONS:\n==============");
 			for (ResourceTradeOption resourceTradeOption : this.resourceTradeOptions) {
-				stringBuilder.append(resourceTradeOption.getInformation(false));
+				stringBuilder.append(resourceTradeOption.getInformation(true));
 				stringBuilder.append("\n==============");
 			}
 		}

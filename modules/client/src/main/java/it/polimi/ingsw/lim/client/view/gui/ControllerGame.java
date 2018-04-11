@@ -2137,7 +2137,7 @@ public class ControllerGame extends CustomController
 						for (ResourceCostOption resourceCostOption : ((AvailableActionPickDevelopmentCard) availableAction).getResourceCostOptions()) {
 							AnchorPane anchorPane = new AnchorPane();
 							resourceCostOptionsAnchorPanes.add(anchorPane);
-							Utils.addAnchorPaneChild(anchorPane, new Text(resourceCostOption.getInformation(true)));
+							Utils.addAnchorPaneChild(anchorPane, new Text(resourceCostOption.getInformation(false)));
 							anchorPane.setOnMouseClicked(childEvent -> {
 								this.selectedResourceCostOption = resourceCostOption;
 								if (((AvailableActionPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty() || !this.selectedDiscountChoice.isEmpty()) {
@@ -2446,7 +2446,7 @@ public class ControllerGame extends CustomController
 						for (ResourceCostOption resourceCostOption : ((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getResourceCostOptions()) {
 							AnchorPane anchorPane = new AnchorPane();
 							resourceCostOptionsAnchorPanes.add(anchorPane);
-							Utils.addAnchorPaneChild(anchorPane, new Text(resourceCostOption.getInformation(true)));
+							Utils.addAnchorPaneChild(anchorPane, new Text(resourceCostOption.getInformation(false)));
 							anchorPane.setOnMouseClicked(childEvent -> {
 								this.selectedResourceCostOption = resourceCostOption;
 								if ((((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getInstantDiscountChoices().isEmpty() || !this.selectedInstantDiscountChoice.isEmpty()) && (((AvailableActionChooseRewardPickDevelopmentCard) availableAction).getDiscountChoices().isEmpty())) {
@@ -2554,7 +2554,7 @@ public class ControllerGame extends CustomController
 					for (ResourceTradeOption resourceTradeOption : ((ExpectedActionProductionTrade) GameStatus.getInstance().getCurrentExpectedAction()).getAvailableCards().get(tradeCard)) {
 						AnchorPane anchorPane = new AnchorPane();
 						resourceTradeOptionsAnchorPanes.add(anchorPane);
-						Utils.addAnchorPaneChild(anchorPane, new Text(resourceTradeOption.getInformation(true)));
+						Utils.addAnchorPaneChild(anchorPane, new Text(resourceTradeOption.getInformation(false)));
 						anchorPane.setOnMouseClicked(childEvent -> {
 							this.selectedDiscountChoice.clear();
 							selectedTradeOptions.put(tradeCard, resourceTradeOption);
